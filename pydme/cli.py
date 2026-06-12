@@ -414,10 +414,10 @@ def print_topic_help(cli: DMECLI, topic: str):
 
     print(f"\n{'='*60}")
     print(f"使用示例:")
-    print(f"  python dme_cli.py {topic} --help              # 查看主题帮助")
-    print(f"  python dme_cli.py {topic} <action>            # 执行直接动作")
-    print(f"  python dme_cli.py {topic} <subtopic> --help   # 查看子主题帮助")
-    print(f"  python dme_cli.py {topic} <subtopic> <action> # 执行子主题动作")
+    print(f"  pydme {topic} --help              # 查看主题帮助")
+    print(f"  pydme {topic} <action>            # 执行直接动作")
+    print(f"  pydme {topic} <subtopic> --help   # 查看子主题帮助")
+    print(f"  pydme {topic} <subtopic> <action> # 执行子主题动作")
     print(f"{'='*60}\n")
 
 
@@ -465,9 +465,9 @@ def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
 
     print(f"\n{'='*60}")
     print(f"使用示例:")
-    print(f"  python dme_cli.py {topic} {subtopic} --help")
-    print(f"  python dme_cli.py {topic} {subtopic} list --help")
-    print(f"  python dme_cli.py {topic} {subtopic} list --limit 10")
+    print(f"  pydme {topic} {subtopic} --help")
+    print(f"  pydme {topic} {subtopic} list --help")
+    print(f"  pydme {topic} {subtopic} list --limit 10")
     print(f"{'='*60}\n")
 
 
@@ -523,45 +523,45 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
 
     print(f"\n{'='*60}")
     print(f"使用示例:")
-    print(f"  python dme_cli.py {display_cmd}")
+    print(f"  pydme {display_cmd}")
     if params:
         param_str = ' '.join([f"--{p} <value>" for p in params.keys() if p != 'client'])
-        print(f"  python dme_cli.py {display_cmd} {param_str}")
+        print(f"  pydme {display_cmd} {param_str}")
     print(f"{'='*60}\n")
 
 
 def create_parser(cli: DMECLI) -> argparse.ArgumentParser:
     """创建命令行解析器"""
     parser = argparse.ArgumentParser(
-        prog='dme_cli',
+        prog='pydme',
         description='DME 运维命令行工具 - 用于存储设备的日常运维操作',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         add_help=False,  # 禁用内置的 --help，自定义处理
         epilog='''
 使用示例:
   # 查看所有动作主题
-  python dme_cli.py --help
+  pydme --help
 
   # 查看特定主题的所有动作
-  python dme_cli.py storage --help
+  pydme storage --help
 
   # 查看特定子主题的所有动作
-  python dme_cli.py storage disk --help
+  pydme storage disk --help
 
   # 查看特定动作的详细帮助
-  python dme_cli.py storage disk list --help
+  pydme storage disk list --help
 
   # 执行两级结构动作
-  python dme_cli.py storage list --limit 20
+  pydme storage list --limit 20
 
   # 执行三级结构动作
-  python dme_cli.py storage disk list --storage_id <id>
+  pydme storage disk list --storage_id <id>
 
   # 使用环境变量设置 DME 连接信息
   export DME_API_ENDPOINT=https://192.168.1.100:26335
   export DME_API_USERNAME=admin
   export DME_API_PASSWORD=password
-  python dme_cli.py storage list
+  pydme storage list
 
 格式:
   topic: 动作主题，如 storage, storagepool, lun, filesystem, host, task, system
