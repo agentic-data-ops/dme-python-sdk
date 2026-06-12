@@ -153,7 +153,7 @@ def vstore_modify(client: DMEAPIClient, vstore_id: str, name: str = None,
     if nas_capacity_quota_alarm_threshold is not None:
         payload['nas_capacity_quota_alarm_threshold'] = nas_capacity_quota_alarm_threshold
     
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"vstore_id": vstore_id})
     return response
 
 
@@ -191,15 +191,14 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
     支持分页查询，过滤。
     
     Args:
-        client: DME API 客户端
-        az: 可用分区 ID（1~64 个字符）
-        source: 存储设备的来源，取值范围：add（接入），record（录入），all（所有），默认查询接入设备
-        dc_id: 存储设备所属数据中心的 ID（1~32 个字符）
-        tag_ids: 标签过滤列表，最多支持 10 个标签 ID 组合过滤
-        start: 分页查询的起始位置，默认值：1，范围：1~10000
-        limit: 分页查询的个数，默认值：20，范围：1~1000
-        ext_attrs: 扩展属性过滤列表，最多支持 10 个扩展属性组合过滤
-                   例如：{"extAttr1":"value1","extAttr2":"value2"}
+        client: DME API 客户端。
+        az: 可用分区 ID (可选, 1~64个字符)。
+        source: 存储设备的来源 (可选)。可选值：add (接入), record (录入), all (所有)。默认查询接入设备。
+        dc_id: 存储设备所属数据中心的ID (可选, 1~32个字符)。
+        tag_ids: 标签过滤列表 (可选)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系。
+        start: 分页查询的起始位置 (可选, 1~10000, 默认值: 1)。
+        limit: 分页查询的个数 (可选, 1~1000, 默认值: 20)。
+        ext_attrs: 扩展属性过滤列表 (可选, 1~3000个字符)。最多支持10个扩展属性组合过滤，多个过滤条件之间为且关系。例如：{"extAttr1":"value1","extAttr2":"value2"}。
     
     Returns:
         响应数据，包含 total 和 datas 字段
@@ -261,26 +260,25 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
     通过离线方式添加存储设备信息到 DME 系统。
 
     Args:
-        client: DME API 客户端
-        name: 存储设备名称（必填，1~256 个字符）
-        sn: 存储设备序列号（必填，1~128 个字符）
-        ip: 存储设备 IP 地址（可选，支持 IPv4/IPv6）
-        vendor: 厂商（可选，0~128 个字符）
-        model: 产品型号（可选，0~128 个字符）
-        version: 版本信息（可选，0~64 个字符）
-        patch_version: 补丁版本信息（可选，0~64 个字符）
-        dc_id: 数据中心 ID（可选）
-        az: 可用分区 ID（可选）
-        location: 设备位置信息（可选，0~512 个字符）
-        maintenance_start: 维护开始时间（可选，Unix 时间戳毫秒）
-        maintenance_overtime: 维护过保时间（可选，Unix 时间戳毫秒）
-        total_capacity: 裸容量（可选，单位 MB）
-        total_effective_capacity: 可得容量（可选，单位 MB）
-        total_pool_capacity: 存储池总容量（可选，单位 MB）
-        used_capacity: 已用容量（可选，单位 MB）
-        free_capacity: 可用容量（可选，单位 MB）
-        subscription_capacity: 订阅容量（可选，单位 MB）
-        tag_ids: 标签 ID 列表（可选）
+        client: DME API 客户端。
+        name: 设备名称 (1~256个字符)。只能包含半角字母、半角数字、\"_\"、\"-\"、\".\"、中文字符。
+        sn: 设备序列号 (正则表达式为^[a-zA-Z0-9]{1,128}$)。
+        ip: 设备IP地址 (可选, 0~128个字符, 支持IPv4与IPv6格式, 也可为空字符串)。
+        dc_id: 所属数据中心ID (可选, 正则表达式为^[a-zA-Z0-9]{1,128}$)。
+        vendor: 厂商 (可选, 0~128个字符)。
+        model: 产品型号 (可选, 0~128个字符)。
+        version: 版本信息 (可选, 0~64个字符)。
+        patch_version: 补丁版本信息 (可选, 0~64个字符)。
+        location: 设备位置 (可选, 0~512个字符)。
+        maintenance_start: 维护开始时间 (可选, 格式是毫秒级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
+        maintenance_overtime: 维护过保时间 (可选, 格式是毫秒级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
+        total_capacity: 裸容量 (可选, 0~2147483647, 单位MB)。
+        total_effective_capacity: 可得容量 (可选, 0~2147483647, 单位MB)。
+        total_pool_capacity: 可用容量 (可选, 0~2147483647, 单位MB)。
+        used_capacity: 已用容量 (可选, 0~2147483647, 单位MB)。
+        free_capacity: 空闲容量 (可选, 0~2147483647, 单位MB)。
+        subscription_capacity: 已订阅容量 (可选, 0~2147483647, 单位MB)。
+        tag_ids: 标签ID列表 (可选, List<string>, 数组最大成员个数: 10, 数组最小成员个数: 0)。
     
     Returns:
         响应数据，包含 id（存储设备 ID）
@@ -382,13 +380,24 @@ def sync(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def bbu_list(client: DMEAPIClient, storage_id: str = None) -> dict:
+def bbu_list(client: DMEAPIClient, storage_id: str = None,
+             health_status: str = None, running_status: str = None,
+             enclosure_name: str = None, location: str = None,
+             zone_id: str = None, page_no: int = 1,
+             page_size: int = 20) -> dict:
     """
     查询存储设备的 BBU 信息列表
     
     Args:
-        client: DME API 客户端
-        storage_id: 存储设备 ID（可选，不指定则查询所有）
+        client: DME API 客户端。
+        storage_id: BBU所属存储设备的id (可选, 1~64个字符)。
+        health_status: 健康状态 (可选)。可选值：unknown (未知), normal (正常), faulty (故障), about_to_fail (即将故障), low_battery (电量不足)。
+        running_status: 运行状态 (可选)。可选值：unknown (未知), normal (正常), running (运行), online (在线), offline (离线), charging (正在充电), charging_completed (充电完成), discharging (正在放电)。
+        enclosure_name: 所属机框名称 (可选, 1~256个字符)。支持模糊匹配。
+        location: 位置 (可选, 1~256个字符)。支持模糊匹配。
+        zone_id: 所属Zone ID (可选, 1~255个字符)。仅OceanStor A800系列存储支持。
+        page_no: 分页查询的页码 (可选, 1~2147483647, 默认值: 1)。
+        page_size: 分页查询的每页大小 (可选, 1~1000, 默认值: 20)。
     
     Returns:
         BBU 信息列表
@@ -396,8 +405,22 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None) -> dict:
     url = "/rest/storagemgmt/v1/backup-powers/query"
     
     payload = {}
-    if storage_id:
+    if storage_id is not None:
         payload['storage_id'] = storage_id
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if running_status is not None:
+        payload['running_status'] = running_status
+    if enclosure_name is not None:
+        payload['enclosure_name'] = enclosure_name
+    if location is not None:
+        payload['location'] = location
+    if zone_id is not None:
+        payload['zone_id'] = zone_id
+    if page_no is not None:
+        payload['page_no'] = page_no
+    if page_size is not None:
+        payload['page_size'] = page_size
     
     response = client.post(url, body=payload)
     return response
@@ -441,20 +464,114 @@ def fan_list(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def disk_list(client: DMEAPIClient, storage_id: str) -> dict:
+def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
+              name: str = None, slot_number: str = None, bom_id: str = None,
+              health_status: str = None, physical_type: str = None,
+              new_physical_type: str = None, capacity: int = None,
+              role: str = None, disk_pool_name: str = None,
+              disk_pool_id: str = None, storage_pool_id: str = None,
+              bar_code: str = None, sn: str = None, speed: int = None,
+              storage_ip: str = None, management_ip: str = None,
+              node_name: str = None, virtual_disk: bool = None,
+              status: str = None, enclosure_name: str = None,
+              zone_id: str = None, sort_key: str = None,
+              sort_dir: str = None, page_no: int = 1,
+              page_size: int = 20) -> dict:
     """
     查询存储设备的硬盘信息列表
-    
+
     Args:
-        client: DME API 客户端
-        storage_id: 存储设备 ID
-    
+        client: DME API 客户端。
+        storage_id: 存储设备ID (1~36个字符, 满足uuid格式)。
+        ids: 端口ID列表 (可选, List<string>, 数组最大成员个数: 100, 数组最小成员个数: 0)。
+        name: 硬盘名称 (可选, 1~256个字符)。
+        slot_number: 槽位号，位置 (可选, 1~256个字符)。支持模糊搜索。
+        bom_id: BOM ID (可选, 1~256个字符)。
+        health_status: 健康状态 (可选)。可选值：unknown (未知), normal (正常), fault (故障), pre_fail (即将故障), degraded (降级), single_link (单链路), no_redundant_link (无冗余链路), subhealthy (亚健康), offline (离线)。
+        physical_type: 硬盘类型 (可选)。可选值：unknown (未知), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
+        new_physical_type: 真实的硬盘类型 (可选)。可选值：SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD。
+        capacity: 总容量 (可选, 最大值: 9223372036854775807, 单位: GB)。
+        role: 硬盘角色 (可选)。可选值：unknown (未知), free (空闲), member (成员), hotSpare (热备), cache (缓存), aggregate (聚合), broken (断开), foreign (外部), labelmaint (标签维护), maintenance (维护), shared (共享), spare (备用), unassigned (未分配), unsupported (不支持), remote (远程), mediator (中介)。
+        disk_pool_name: 所属硬盘域名称 (可选, 1~256个字符)。支持模糊搜索。
+        disk_pool_id: 硬盘池或硬盘域ID (可选, 1~64个字符)。仅华为存储设备，第三方设备支持该字段。
+        storage_pool_id: 存储池ID (可选, 1~64个字符)。
+        bar_code: 硬盘条码 (可选, 1~256个字符)。
+        sn: 硬盘序列号 (可选, 1~256个字符)。仅华为存储设备，第三方设备支持该字段。
+        speed: 转速 (可选, 最大值: 2147483647, 单位: RPM)。
+        storage_ip: 所属设备ip地址 (可选, 1~255个字符)。
+        management_ip: 管理设备ip地址 (可选, 1~256个字符)。
+        node_name: 所属节点名称 (可选, 1~256个字符)。
+        virtual_disk: 虚拟盘 (可选)。可选值：true, false。
+        status: 运行状态 (可选)。可选值：unknown (未知), normal (正常), abnormal (故障), online (在线), offline (离线)。
+        enclosure_name: 风扇所属存储设备的机框名称 (可选, 1~255个字符)。支持模糊搜索。
+        zone_id: 所属存储设备的Zone id (可选, 1~255个字符)。仅OceanStor A800存储支持。
+        sort_key: 排序字段 (可选)。可选值：capacity (总容量), speed (转速), remainLife (剩余寿命), name (硬盘名称), management_ip (管理设备ip地址), slot_number (位置)。
+        sort_dir: 排序方向 (可选)。可选值：asc (升序), desc (降序)。
+        page_no: 分页查询的页码 (可选, 1~2147483647, 默认值: 1)。
+        page_size: 分页查询的每页大小 (可选, 1~1000, 默认值: 20)。
+
     Returns:
-        硬盘信息列表
+        DiskQueryResponse 对象，包含：
+        - disks: 硬盘列表
+        - total: 硬盘的数量
     """
-    url = "/rest/storagemgmt/v1/storages/{storage_id}/disks"
-    
-    response = client.get(url, params={"storage_id": storage_id})
+    url = "/rest/storagemgmt/v2/storages/{storage_id}/disk"
+
+    payload = {}
+    if ids is not None:
+        payload['ids'] = ids
+    if name is not None:
+        payload['name'] = name
+    if slot_number is not None:
+        payload['slot_number'] = slot_number
+    if bom_id is not None:
+        payload['bom_id'] = bom_id
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if physical_type is not None:
+        payload['physical_type'] = physical_type
+    if new_physical_type is not None:
+        payload['new_physical_type'] = new_physical_type
+    if capacity is not None:
+        payload['capacity'] = capacity
+    if role is not None:
+        payload['role'] = role
+    if disk_pool_name is not None:
+        payload['disk_pool_name'] = disk_pool_name
+    if disk_pool_id is not None:
+        payload['disk_pool_id'] = disk_pool_id
+    if storage_pool_id is not None:
+        payload['storage_pool_id'] = storage_pool_id
+    if bar_code is not None:
+        payload['bar_code'] = bar_code
+    if sn is not None:
+        payload['sn'] = sn
+    if speed is not None:
+        payload['speed'] = speed
+    if storage_ip is not None:
+        payload['storage_ip'] = storage_ip
+    if management_ip is not None:
+        payload['management_ip'] = management_ip
+    if node_name is not None:
+        payload['node_name'] = node_name
+    if virtual_disk is not None:
+        payload['virtual_disk'] = virtual_disk
+    if status is not None:
+        payload['status'] = status
+    if enclosure_name is not None:
+        payload['enclosure_name'] = enclosure_name
+    if zone_id is not None:
+        payload['zone_id'] = zone_id
+    if sort_key is not None:
+        payload['sort_key'] = sort_key
+    if sort_dir is not None:
+        payload['sort_dir'] = sort_dir
+    if page_no is not None:
+        payload['page_no'] = page_no
+    if page_size is not None:
+        payload['page_size'] = page_size
+
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -645,24 +762,24 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
     修改存储设备（仅支持修改录入的离线存储设备信息）
 
     Args:
-        client: DME API 客户端
-        storage_id: 存储设备 ID（必填）
-        name: 存储设备名称（可选，1~256 个字符）
-        ip: 设备 IP 地址（可选，支持 IPv4/IPv6，也可为空字符串）
-        vendor: 厂商（可选，0~128 个字符）
-        model: 产品型号（可选，0~128 个字符）
-        version: 版本信息（可选，0~64 个字符）
-        patch_version: 补丁版本信息（可选，0~64 个字符）
-        location: 设备位置（可选，0~512 个字符）
-        maintenance_start: 维护开始时间（可选，Unix 时间戳毫秒）
-        maintenance_overtime: 维护过保时间（可选，Unix 时间戳毫秒）
-        total_capacity: 裸容量（可选，单位 MB，-1 表示无裸容量）
-        total_effective_capacity: 可得容量（可选，单位 MB，-1 表示无可得容量）
-        total_pool_capacity: 可用容量（可选，单位 MB，-1 表示无可用容量）
-        used_capacity: 已用容量（可选，单位 MB，-1 表示无已用容量）
-        free_capacity: 空闲容量（可选，单位 MB，-1 表示无空闲容量）
-        subscription_capacity: 订阅容量（可选，单位 MB，-1 表示无已订阅容量）
-        tag_ids: 标签 ID 列表（可选，空数组代表移除所有标签）
+        client: DME API 客户端。
+        storage_id: 存储设备 ID（必填）。
+        name: 设备名称 (可选, 1~256个字符)。只能包含半角字母、半角数字、"_"、"-"、"."、中文字符。
+        ip: 设备IP地址 (可选, 0~128个字符, 支持IPv4与IPv6格式, 也可为空字符串)。
+        vendor: 厂商 (可选, 0~128个字符)。
+        model: 产品型号 (可选, 0~128个字符)。
+        version: 版本信息 (可选, 0~64个字符)。
+        patch_version: 补丁版本信息 (可选, 0~64个字符)。
+        location: 设备位置 (可选, 0~512个字符)。
+        maintenance_start: 维护开始时间 (可选, 格式是毫秒级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
+        maintenance_overtime: 维护过保时间 (可选, 格式是毫秒级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
+        total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。存储设备中所有硬盘的物理容量之和，-1表示无裸容量。
+        total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。存储设备可写入的用户数据总量，-1表示无可得容量。
+        total_pool_capacity: 可用容量 (可选, -1~2147483647, 单位MB)。存储设备实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无可用容量。
+        used_capacity: 已用容量 (可选, -1~2147483647, 单位MB)。存储设备中所有存储池的已使用容量之和，-1表示无已用容量。
+        free_capacity: 空闲容量 (可选, -1~2147483647, 单位MB)。存储设备的可用容量与已用容量的差值，-1表示无空闲容量。
+        subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。存储设备中所有存储池的订阅容量之和，-1表示无已订阅容量。
+        tag_ids: 标签ID列表 (可选, string, 0~512个字符)。数组格式字符串，最多支持10个标签，空数组代表移除存储设备关联的所有标签。
 
     Returns:
         响应数据（修改成功返回空字典）
@@ -710,7 +827,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         import json
         payload['tag_ids'] = json.dumps(tag_ids) if isinstance(tag_ids, list) else tag_ids
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"storage_id": storage_id})
     # 修改接口返回空响应，返回空字典表示成功
     return response if response else {}
 
@@ -724,11 +841,11 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
     仅 Dorado 类型设备支持。
     
     Args:
-        client: DME API 客户端
-        storage_id: 存储设备 ID（必选，1~36 个字符，UUID 格式或 32 位十六进制）
-        create_type: 创建类型（可选），0：系统预置；1：用户定义；不传返回所有类型
-        template_type: 应用类型分类（可选），0：LUN 类型；1：NAS 类型；不传默认 LUN 类型
-        pool_id: 存储池 ID（可选），1~64 个字符，^[a-fA-F0-9]{32}$
+        client: DME API 客户端。
+        storage_id: 存储设备 id (1~36个字符, 满足uuid格式)。
+        create_type: 创建类型 (可选, 0~1)。可选值：0 (系统预置), 1 (用户定义)。不传返回所有类型。
+        template_type: 应用类型分类 (可选, 0~1)。可选值：0 (LUN类型), 1 (NAS类型)。不传默认LUN类型。
+        pool_id: 存储池id (可选, 1~64个字符, 字母和数字)。
     
     Returns:
         应用类型信息，包含 datas 列表，每个元素包含 id, name, block_size, 
@@ -1002,7 +1119,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
     if multi_path is not None:
         payload['multi_path'] = multi_path
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"initiator_id": initiator_id})
     return response
 
 
@@ -1675,7 +1792,7 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
     if resume_threshold is not None:
         payload['resume_threshold'] = resume_threshold
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"qos_policy_id": qos_policy_id})
     return response
 
 
@@ -2017,7 +2134,7 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
     if failback_mode is not None:
         payload['failback_mode'] = failback_mode
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"logic_port_id": logic_port_id})
     return response
 
 

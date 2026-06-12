@@ -1365,7 +1365,7 @@ def storage_host_modify(client: DMEAPIClient, storage_host_id: str,
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"storage_host_id": storage_host_id})
     return response
 
 
@@ -1620,7 +1620,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"storage_host_group_id": storage_host_group_id})
     return response
 
 
@@ -2114,7 +2114,7 @@ def physical_host_modify(client: DMEAPIClient, host_id: str,
     if project_id is not None:
         payload['project_id'] = project_id
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"host_id": host_id})
     return response
 
 
@@ -2187,7 +2187,7 @@ def physical_host_modify_access_info(client: DMEAPIClient, host_id: str,
     if special_mode_type is not None:
         payload['special_mode_type'] = special_mode_type
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"host_id": host_id})
     return response
 
 
@@ -2760,7 +2760,7 @@ def physical_host_group_modify(client: DMEAPIClient, hostgroup_id: str,
     if project_id is not None:
         payload['project_id'] = project_id
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"hostgroup_id": hostgroup_id})
     return response
 
 

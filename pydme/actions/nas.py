@@ -378,7 +378,7 @@ def dtree_modify(client: DMEAPIClient, dtree_id: str, name: str = None,
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"dtree_id": dtree_id})
     return response
 
 
@@ -664,7 +664,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"nfs_share_id": nfs_share_id})
     return response
 
 
@@ -1017,7 +1017,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
     if enable_lease is not None:
         payload['enable_lease'] = enable_lease
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"cifs_share_id": cifs_share_id})
     return response
 
 
@@ -1377,7 +1377,7 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"dataturbo_share_id": dataturbo_share_id})
     return response
 
 
@@ -1658,7 +1658,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"quota_id": quota_id})
     return response
 
 
@@ -2336,7 +2336,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
     if unix_permissions is not None:
         payload['unix_permissions'] = unix_permissions
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"file_system_id": file_system_id})
     return response
 
 
@@ -2783,7 +2783,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
     
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"namespace_id": namespace_id})
     return response
 
 
@@ -2970,7 +2970,7 @@ def account_unix_user_modify(client: DMEAPIClient, id: str, raw_id: int = None,
     if status_enable is not None:
         payload['status_enable'] = status_enable
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"id": id})
     return response
 
 
@@ -3419,7 +3419,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
     if max_survival_time is not None:
         payload['max_survival_time'] = max_survival_time
 
-    response = client.put(url, body=payload)
+    response = client.put(url, body=payload, params={"kv_cache_stores_id": kv_cache_stores_id})
     return response
 
 
