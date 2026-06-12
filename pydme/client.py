@@ -26,12 +26,14 @@ class BaseClient:
             "Accept": "application/json",
         },
         verify: bool = False,
+        timeout: int = 30,
         session_timeout: int = 900,
         enable_log=True,
     ):
         self.endpoint = endpoint
         self.headers = headers
         self.verify = verify
+        self.timeout = timeout
         self.session_timeout = session_timeout
         self.last_accessed = 0
         self.enable_log = enable_log
@@ -83,6 +85,7 @@ class BaseClient:
             params=query_params,
             json=body,
             verify=self.verify,
+            timeout=self.timeout,
         )
 
         code = resp.status_code
@@ -104,18 +107,20 @@ class StorageAPIClient(BaseClient):
         self,
         endpoint: str,
         passphrase: str,
-        headers={
-            "Content-Type": "application/json;charset=utf8",
-            "Accept": "application/json",
-        },
         verify=False,
+        timeout: int = 30,
         session_timeout: int = 900,
         enable_log=True,
     ):
+        headers = {
+            "Content-Type": "application/json;charset=utf8",
+            "Accept": "application/json",
+        }
         super().__init__(
             endpoint,
             headers,
             verify,
+            timeout=timeout,
             session_timeout=session_timeout,
             enable_log=enable_log,
         )
@@ -129,6 +134,7 @@ class StorageAPIClient(BaseClient):
             headers=self.headers,
             json=body,
             verify=self.verify,
+            timeout=self.timeout,
         )
         if response.status_code != 200:
             raise Exception(f"Login to storage failed: {self.host}:{self.port}")
@@ -145,6 +151,8 @@ class StorageAPIClient(BaseClient):
 
         deviceid = resp_body["data"]["deviceid"]
         self.base_url = f"{self.endpoint}/deviceManager/rest/{deviceid}"
+
+        self.last_accessed = time.time()
 
 
 class TASK_STATUS:
@@ -173,21 +181,27 @@ class DMEAPIClient(BaseClient):
         endpoint: str = os.getenv("DME_API_ENDPOINT"),
         username: str = os.getenv("DME_API_USERNAME"),
         password: str = os.getenv("DME_API_PASSWORD"),
-        headers={
-            "Content-Type": "application/json;charset=utf8",
-            "Accept": "application/json",
-        },
+        auth_token: str = os.getenv("DME_API_AUTH_TOKEN"),
         verify=False,
+        timeout: int = 30,
         session_timeout: int = 900,
         enable_log=True,
     ):
-        super().__init__(endpoint, headers, verify, session_timeout, enable_log)
+        headers = {
+            "Content-Type": "application/json;charset=utf8",
+            "Accept": "application/json",
+            "X-Auth-Token": auth_token or "",
+        }
+        super().__init__(endpoint, headers, verify, timeout=timeout, session_timeout=session_timeout, enable_log=enable_log)
+        self.base_url = self.endpoint
         self.username = username
         self.password = password
         self.storage_clients = {}
 
+        if auth_token:
+            self.last_accessed = time.time()
+
     def login(self):
-        self.base_url = self.endpoint
         path = "/rest/plat/smapp/v1/sessions"
         url = f"{self.base_url}{path}"
         body = {
@@ -200,9 +214,11 @@ class DMEAPIClient(BaseClient):
             headers=self.headers,
             json=body,
             verify=self.verify,
+            timeout=self.timeout,
         )
         if response.status_code == 200:
             self.headers["X-Auth-Token"] = response.json()["accessSession"]
+            self.last_accessed = time.time()
         else:
             raise Exception(response.text)
 
