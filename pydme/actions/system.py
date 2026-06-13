@@ -37,15 +37,13 @@ def login(client: DMEAPIClient) -> dict:
 
 def logout(client: DMEAPIClient) -> dict:
     """
-    注销会话
-    
-    退出当前登录会话。
-    
+    注销当前已经登录的三方会话或普通会话。
+
     Args:
         client: DME API 客户端
-    
+
     Returns:
-        响应数据
+        无
     """
     url = "/rest/plat/smapp/v1/sessions"
     
@@ -53,24 +51,30 @@ def logout(client: DMEAPIClient) -> dict:
     return response
 
 
-def reset_password(client: DMEAPIClient, user_name: str, new_password: str,
-                   is_initial_password: bool = False) -> dict:
+def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
+                   is_initial_password: bool = True) -> dict:
     """
-    重置密码
+    根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。
 
     Args:
         client: DME API 客户端
-        user_name: 用户名
-        new_password: 新密码
-        is_initial_password: 是否为初始密码，默认 False
+        user_name: 需要重置密码的用户名 (必选, string, 1~128个字符)
+        new_value: 新密码 (必选, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
+        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (必选, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。默认值：true
 
     Returns:
-        响应数据
+        无
     """
     url = "/rest/usm/v1/users/{user_name}/reset-credentials"
 
+    # 参数校验
+    if not user_name or len(user_name) > 128:
+        raise ValueError("user_name 是必选参数，1~128个字符")
+    if not new_value or len(new_value) < 8 or len(new_value) > 32:
+        raise ValueError("new_value 是必选参数，8~32个字符")
+
     payload = {
-        'newValue': new_password,
+        'newValue': new_value,
         'isInitialPassword': is_initial_password
     }
 
@@ -78,124 +82,169 @@ def reset_password(client: DMEAPIClient, user_name: str, new_password: str,
     return response
 
 
-def user_delete(client: DMEAPIClient, user_id: str) -> dict:
+def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     """
-    删除用户
+    删除用户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
-        user_id: 用户 ID
+        user_id: 用户ID (必选, integer, 11~2147483647)
 
     Returns:
-        响应数据
+        无
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
+
+    # 参数校验
+    if user_id is None:
+        raise ValueError("user_id 是必选参数")
 
     response = client.user_delete(url, params={"user_id": user_id})
     return response
 
 
-def user_create(client: DMEAPIClient, username: str, password: str,
-                role_ids: list, type: int = 1, description: str = None, name: str = None) -> dict:
+def user_create(client: DMEAPIClient, name: str, type: int,
+                value: str = None, description: str = None,
+                roles: list = None) -> dict:
     """
-    创建用户
+    创建用户。
 
     Args:
         client: DME API 客户端
-        username: 用户名
-        password: 密码
-        role_ids: 角色 ID 列表
-        type: 用户类型，默认 1（普通用户），0 为管理员
-        description: 用户描述（可选）
-        name: 用户名称（可选，默认同 username）
+        name: 用户名 (必选, string, 最多32个字符)。本地用户名不能小于6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名不能小于1个字符，大于32个字符，不能包含不可见字符和;特殊字符。
+        type: 用户类型 (必选, integer, 无)。0：本地用户；2：远端用户。
+        value: 密码 (可选, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。
+        description: 描述 (可选, string, 最多127个字符)
+        roles: 用户所属角色 (可选, List\<integer\>, 数组最大成员个数：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
 
     Returns:
-        响应数据，包含用户 ID
+        无
     """
     url = "/rest/usermgmt/v1/users"
 
+    # 参数校验
+    if not name:
+        raise ValueError("name 是必选参数")
+
     payload = {
-        'userName': username,
-        'password': password,
-        'roleIds': role_ids,
-        'type': type
+        'name': name,
+        'type': type,
     }
 
-    # name 字段
-    if name is not None:
-        payload['name'] = name
-    else:
-        payload['name'] = username
-
+    if value is not None:
+        payload['value'] = value
     if description is not None:
         payload['description'] = description
+    if roles is not None:
+        payload['roles'] = roles
 
     response = client.post(url, body=payload)
     return response
 
 
-def user_list(client: DMEAPIClient, start: int = 1, limit: int = 100) -> dict:
+def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
+              name: str = None) -> dict:
     """
-    批量查询用户信息
-    
+    批量查询用户信息。
+
     Args:
         client: DME API 客户端
-        start: 分页起始位置，默认 1
-        limit: 分页数量，默认 100
-    
+        page_no: 页数 (必选, integer, 最小值：1)。默认值：1
+        page_size: 页面大小 (必选, integer, 5~200)。默认值：10
+        name: 用户名搜索关键字 (可选, string, 最多32个字符)
+
     Returns:
-        用户列表
+        {
+            total: 总数 (integer, 最大值：5000),
+            datas: 用户数据 (List<UserData>, 数组最大成员个数：5000)。参数格式如下：[{
+                id: 用户ID (integer, 1~2147483647),
+                name: 用户名 (string, 6~32个字符),
+                description: 描述 (string, 最多127个字符),
+                type: 用户类型 (integer)。可选值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
+                roles: 角色ID列表 (List<integer>, 数组最大成员个数：50),
+            }, ...]
+        }
     """
     url = "/rest/usermgmt/v1/users"
     
-    response = client.get(url, params={'start': start, 'limit': limit})
+    response = client.get(url, params={
+        'page_no': page_no,
+        'page_size': page_size,
+        'name': name
+    })
     return response
 
 
-def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100) -> dict:
+def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
+              name: str = None) -> dict:
     """
-    批量查询角色信息
-    
+    批量查询角色信息。
+
     Args:
         client: DME API 客户端
-        page_no: 分页页码，默认 1
-        page_size: 每页数量，默认 100
-    
+        page_no: 页数 (必选, integer, 最小值：1)。默认值：1
+        page_size: 页面大小 (必选, integer, 5~100)。默认值：10
+        name: 角色名搜索关键字 (可选, string, 最多64个字符)
+
     Returns:
-        角色列表
+        {
+            total: 总数 (integer, 最大值：10),
+            datas: 角色数据 (List<RoleData>, 数组最大成员个数：5000)。参数格式如下：[{
+                id: 角色ID (integer, 1~2147483647),
+                name: 角色名称 (string, 最多64个字符),
+                description: 描述 (string, 最多127个字符),
+            }, ...]
+        }
     """
     url = "/rest/usermgmt/v1/roles"
     
-    response = client.get(url, params={'page_no': page_no, 'page_size': page_size})
+    response = client.get(url, params={
+        'page_no': page_no,
+        'page_size': page_size,
+        'name': name
+    })
     return response
 
 
-def user_show(client: DMEAPIClient, user_id: str) -> dict:
+def user_show(client: DMEAPIClient, user_id: int) -> dict:
     """
-    查询指定用户信息
-    
+    查询指定用户信息。
+
     Args:
         client: DME API 客户端
-        user_id: 用户 ID
-    
+        user_id: 用户ID (必选, integer, 1~2147483647)
+
     Returns:
-        用户详细信息
+        {
+            id: 用户ID (integer, 1~2147483647),
+            name: 用户名 (string, 最多32个字符),
+            type: 用户类型 (integer)。可选值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
+            description: 描述 (string, 最多127个字符),
+            roles: 用户所属角色 (List<integer>, 数组最大成员个数：50),
+        }
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
     
+    # 参数校验
+    if user_id is None:
+        raise ValueError("user_id 是必选参数")
+
     response = client.get(url, params={"user_id": user_id})
     return response
 
 
 def show(client: DMEAPIClient) -> dict:
     """
-    查询产品系统信息
-    
+    查询产品系统信息。
+
     Args:
         client: DME API 客户端
-    
+
     Returns:
-        产品系统信息
+        {
+            version: DME产品版本信息 (string, 最多128个字符),
+            sn: DME产品SN号 (string, 最多64个字符),
+        }
     """
     url = "/rest/productmgmt/v1/system-info"
     
@@ -203,19 +252,26 @@ def show(client: DMEAPIClient) -> dict:
     return response
 
 
-def certificate(client: DMEAPIClient) -> dict:
+def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dict:
     """
-    获取 DME 证书
-    
+    获取DME证书。
+
     Args:
         client: DME API 客户端
-    
+        service_type: 服务类型 (必选, string)。可选值：APIGWService (DME北向网关)
+
     Returns:
-        证书信息
+        {
+            cert: 证书文件Base64编码字符串 (string),
+        }
     """
-    url = "/rest/certmgmt/v1/certs?service_type=APIGWService"
-    
-    response = client.get(url)
+    url = "/rest/certmgmt/v1/certs"
+
+    # 参数校验
+    if service_type not in ["APIGWService"]:
+        raise ValueError(f"service_type 可选值：APIGWService")
+
+    response = client.get(url, params={'service_type': service_type})
     return response
 
 
@@ -930,20 +986,27 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
 def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = None,
          start: int = 1, limit: int = 512, is_sc: bool = False) -> dict:
     """
-    批量查询可用分区
-
-    查询可用分区列表。
+    批量查询可用分区。
 
     Args:
         client: DME API 客户端
-        az_name: 可用分区名称，支持模糊匹配（1~64 个字符）
-        operate_status: 可用分区运营状态，online 表示已上线
-        start: 分页的页号，从 1 开始，默认 1，范围 1~10000000
-        limit: 分页的大小，默认 512，范围 1~512
-        is_sc: 是否运营侧查询，默认 false
+        az_name: 可用分区名称，支持模糊匹配 (可选, string, 1~64个字符)
+        operate_status: 可用分区运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (可选, string, 1~16个字符)
+        start: 分页的页号，从1开始 (可选, int32, 1~10000000)。默认值：1
+        limit: 分页的大小 (可选, int32, 1~512)。默认值：512
+        is_sc: 是否运营侧查询 (可选, boolean, true,false)。默认值：false
 
     Returns:
-        响应数据，包含 total 和 az_list
+        {
+            total: 可用分区总数 (integer),
+            az_list: 可用分区列表 (List<GetAzResponse>)。参数格式如下：[{
+                id: 可用分区id (string),
+                name: 可用分区名称 (string),
+                description: 可用分区描述 (string),
+                operate_status: 可用分区的运营状态 (string)。默认值：offline,
+                site_urn: 站点urn (string, 1~64个字符),
+            }, ...]
+        }
     """
     url = "/rest/azmgmt/v1/availability-zones"
 
@@ -1078,7 +1141,7 @@ ACTIONS = {
     'user_list': {
         'func': user_list,
         'description': '批量查询用户信息',
-        'params': ['start', 'limit'],
+        'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'user'
     },
     'user_show': {
@@ -1090,7 +1153,7 @@ ACTIONS = {
     'user_create': {
         'func': user_create,
         'description': '创建用户',
-        'params': ['username', 'password', 'role_ids', 'type', 'description'],
+        'params': ['name', 'type', 'value', 'description', 'roles'],
         'subtopic': 'user'
     },
     'user_delete': {
@@ -1103,7 +1166,7 @@ ACTIONS = {
     'role_list': {
         'func': role_list,
         'description': '批量查询角色信息',
-        'params': ['page_no', 'page_size'],
+        'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
     # 子主题动作 - backup_server（三级结构）
