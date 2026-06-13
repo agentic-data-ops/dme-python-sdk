@@ -138,16 +138,33 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
 
 def lun_show(client: DMEAPIClient, volume_id: str) -> dict:
     """
-    查询指定 LUN
+    查询指定 LUN。
 
     Args:
         client: DME API 客户端
-        volume_id: LUN ID
+        volume_id: LUN id (必选, string, 1~64个字符)
 
     Returns:
-        LUN 详细信息
+        {
+            volume: LUN详细信息 (VolumeDetails对象)。属性格式如下：{
+                id: LUN的唯一标识 (string, 1~64个字符),
+                name: 名称 (string, 1~255个字符),
+                description: 描述信息 (string, 0~255个字符),
+                status: 状态 (string)。可选值：creating (创建中), normal (正常), mapping (映射中), unmapping (解除映射中), deleting (删除中), error (错误), expanding (扩容中), faulty (故障), write_protected (写保护),
+                attached: 映射状态 (boolean, true,false),
+                alloctype: 分配类型 (string)。可选值：thin (按需分配), thick (固定分配),
+                total_capacity: 总容量，单位GB (double),
+                storage_id: 存储设备id (string, 1~64个字符),
+                storage_name: 存储设备名称 (string, 1~64个字符),
+                pool_id: LUN所属存储池的id (string, 1~64个字符),
+                volume_wwn: LUN在存储设备上的wwn (string, 1~64个字符),
+            },
+        }
     """
     url = "/rest/blockservice/v1/volumes/{volume_id}"
+
+    if not volume_id:
+        raise ValueError("volume_id 是必选参数")
 
     response = client.get(url, params={"volume_id": volume_id})
     return response
@@ -223,9 +240,14 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         task_remarks: 异步任务备注信息（可选），最多 1024 个字符
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/customize"
+
+    if not storage_id:
+        raise ValueError("storage_id 是必选参数")
 
     payload = {
         'storage_id': storage_id
@@ -260,17 +282,22 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
 
 def lun_delete(client: DMEAPIClient, volume_ids: list, task_remarks: str = None) -> dict:
     """
-    批量删除 LUN
+    批量删除 LUN。
 
     Args:
         client: DME API 客户端
-        volume_ids: LUN ID 列表（最多 1000 个）
-        task_remarks: 异步任务备注信息（可选，最多 1024 个字符）
+        volume_ids: LUN ID 列表 (必选, List[string], 数组最大成员个数：1000)
+        task_remarks: 异步任务备注信息 (可选, string, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/delete"
+
+    if not volume_ids or len(volume_ids) == 0:
+        raise ValueError("volume_ids 是必选参数")
 
     payload = {
         'volume_ids': volume_ids
@@ -314,9 +341,14 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
         task_remarks: 异步任务备注信息（可选，最多 1024 个字符）
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/{volume_id}"
+
+    if not volume_id:
+        raise ValueError("volume_id 是必选参数")
 
     volume = {}
     if name is not None:
@@ -355,9 +387,14 @@ def lun_modify_name(client: DMEAPIClient, volumes: list) -> dict:
              }, ...]
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes"
+
+    if not volumes or len(volumes) == 0:
+        raise ValueError("volumes 是必选参数")
 
     payload = {
         'volumes': volumes
@@ -380,9 +417,14 @@ def lun_expand(client: DMEAPIClient, volumes: list, task_remarks: str = None) ->
         task_remarks: 异步任务备注信息（可选，最多 1024 个字符）
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/expand"
+
+    if not volumes or len(volumes) == 0:
+        raise ValueError("volumes 是必选参数")
 
     payload = {
         'volumes': volumes
