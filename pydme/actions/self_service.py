@@ -43,7 +43,9 @@ def lun_create(client: DMEAPIClient, volumes: list,
              }
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes"
 
