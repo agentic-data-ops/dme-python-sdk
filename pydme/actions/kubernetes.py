@@ -20,7 +20,14 @@ def cluster_list(client: DMEAPIClient, name: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含容器集群列表
+        {
+            total: 集群总数 (integer),
+            clusters: 容器集群列表。参数格式如下：[{
+                id: 集群ID (string),
+                name: 集群名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/dmecaasmgmt/v1/clusters/query-list"
     
@@ -49,7 +56,13 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含容器节点列表
+        {
+            nodes: 容器节点列表。参数格式如下：[{
+                id: 节点ID (string),
+                name: 节点名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/dmecaasmgmt/v1/nodes/query-list"
     
@@ -84,7 +97,13 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含容器组列表
+        {
+            pods: 容器组列表。参数格式如下：[{
+                name: 容器组名称 (string),
+                status: 状态 (string),
+                node: 所在节点 (string),
+            }, ...],
+        }
     """
     url = "/rest/dmecaasmgmt/v1/pods/query-list"
     
@@ -117,7 +136,9 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含命名空间列表
+        {
+            namespaces: 命名空间列表 (List<string>),
+        }
     """
     url = "/rest/dmecaasmgmt/v1/namespaces/query-list"
     
@@ -150,7 +171,13 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含持久卷声明列表
+        {
+            pvcs: 持久卷声明列表。参数格式如下：[{
+                name: PVC名称 (string),
+                status: 状态 (string),
+                capacity: 容量 (string),
+            }, ...],
+        }
     """
     url = "/rest/dmecaasmgmt/v1/pvcs/query-list"
     
@@ -185,7 +212,13 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含持久卷列表
+        {
+            pvs: 持久卷列表。参数格式如下：[{
+                name: PV名称 (string),
+                status: 状态 (string),
+                capacity: 容量 (string),
+            }, ...],
+        }
     """
     url = "/rest/dmecaasmgmt/v1/pvs/query-list"
     
