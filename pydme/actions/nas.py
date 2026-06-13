@@ -388,7 +388,9 @@ def dtree_modify(client: DMEAPIClient, dtree_id: str, name: str = None,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/dtrees/{dtree_id}"
 
