@@ -952,7 +952,7 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
     Returns:
         复制 Pair 列表
     """
-    url = "/rest/protection/v1/replication/lun-pairs/query"
+    url = "/rest/protection/v1/replication/pairs/query"
 
     payload = {
         'page_no': page_no,
@@ -1026,7 +1026,7 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/replication/lun-pairs"
+    url = "/rest/protection/v1/replication/pairs"
 
     payload = {
         'local_storage_id': local_storage_id,
@@ -1100,7 +1100,7 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/replication/lun-pairs/{pair_id}"
+    url = "/rest/protection/v1/replication/pairs/{pair_id}"
 
     payload = {}
 
@@ -1145,7 +1145,7 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/replication/lun-pairs/delete"
+    url = "/rest/protection/v1/replication/pairs/delete"
 
     payload = {
         'ids': ids
@@ -1171,7 +1171,7 @@ def replication_pair_sync(client: DMEAPIClient, ids: list) -> dict:
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/replication/lun-pairs/sync"
+    url = "/rest/protection/v1/replication/pairs/sync"
 
     payload = {
         'ids': ids
@@ -1194,7 +1194,7 @@ def replication_pair_split(client: DMEAPIClient, ids: list) -> dict:
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/replication/lun-pairs/split"
+    url = "/rest/protection/v1/replication/pairs/split"
 
     payload = {
         'ids': ids
@@ -1217,7 +1217,7 @@ def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/replication/lun-pairs/switch"
+    url = "/rest/protection/v1/replication/pairs/switch"
 
     payload = {
         'ids': ids
@@ -1241,7 +1241,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/replication/lun-pairs/{id}/switch-write-protection"
+    url = "/rest/protection/v1/replication/pairs/{id}/switch-write-protection"
 
     payload = {
         'operation_type': operation_type
