@@ -21,7 +21,15 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         server_type: 服务器类型过滤（可选）
     
     Returns:
-        服务器列表
+        {
+            total: 服务器总数 (integer),
+            servers: 服务器列表 (List<ServerInfo>)。参数格式如下：[{
+                id: 服务器ID (string),
+                name: 服务器名称 (string),
+                type: 服务器类型 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/servers/query"
     
@@ -48,7 +56,12 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
         server_id: 服务器 ID（注意：需要使用 device_id 字段，即带连字符的 UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
-        服务器概览信息
+        {
+            id: 服务器ID (string),
+            name: 服务器名称 (string),
+            status: 状态 (string),
+            type: 服务器类型 (string),
+        }
     """
     url = "/rest/servermgmt/v1/servers/{server_id}/summary"
     
