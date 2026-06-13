@@ -1265,6 +1265,40 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
     return response
 
 
+def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
+                   page_no: int = 1, page_size: int = 20) -> dict:
+    """
+    批量查询分布式存储设备的硬盘池。仅支持OceanStor Pacific和OceanStor A310存储。
+
+    Args:
+        client: DME API 客户端
+        storage_id: 存储设备id (可选, string, 1~64个字符)。非OceanStor Pacific或A310设备会报参数错误
+        page_no: 分页查询的页码 (可选, int32, 1~2147483647)。默认值：1
+        page_size: 分页查询的每页大小 (可选, int32, 1~1000)。默认值：20
+
+    Returns:
+        {
+            total: 总数 (int32),
+            disk_pools: 硬盘池列表。参数格式如下：[{
+                id: 硬盘池ID (string),
+                name: 硬盘池名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
+    """
+    url = "/rest/storagemgmt/v1/diskpools/query"
+
+    payload = {
+        'page_no': page_no,
+        'page_size': page_size
+    }
+    if storage_id is not None:
+        payload['storage_id'] = storage_id
+
+    response = client.post(url, body=payload)
+    return response
+
+
 def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                    storage_id: str = None, name: str = None, location: str = None,
                    health_status: list = None, zone_name: str = None,
@@ -3255,6 +3289,12 @@ ACTIONS = {
         'description': '批量查询硬盘域',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_domain'
+    },
+    'disk_pool_list': {
+        'func': disk_pool_list,
+        'description': '批量查询分布式存储设备的硬盘池',
+        'params': ['storage_id', 'page_no', 'page_size'],
+        'subtopic': 'disk_pool'
     },
     'enclosure_list': {
         'func': enclosure_list,
