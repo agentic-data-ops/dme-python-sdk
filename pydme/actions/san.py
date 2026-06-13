@@ -67,9 +67,16 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
         support_provisioning: 过滤查询可发放变更的LUN (可选)。可选值：true (仅查询可发放变更), false (查询全量)
     
     Returns:
-        LUN 列表，包含：
-        - total: 总数
-        - volumes: LUN 列表，包含 id, name, size, status, health_status 等
+        {
+            total: 总数 (integer),
+            volumes: LUN 列表 (List<VolumeInfo>)。参数格式如下：[{
+                id: LUN ID (string),
+                name: LUN名称 (string),
+                size: 容量 (integer),
+                status: 状态 (string),
+                health_status: 健康状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/blockservice/v1/volumes"
     
