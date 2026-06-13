@@ -178,30 +178,34 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
     return response
 
 
-def vstore_modify(client: DMEAPIClient, vstore_id: str, name: str = None,
+def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
                   san_capacity_quota: str = None, nas_capacity_quota: str = None,
                   description: str = None, nas_capacity_quota_alarm_switch: bool = None,
                   nas_capacity_quota_alarm_threshold: int = None) -> dict:
     """
-    修改指定租户
-    
-    修改存储设备上指定的租户。
-    
+    修改指定租户，该操作会修改存储设备上指定的租户。
+
     Args:
         client: DME API 客户端
-        vstore_id: 租户 ID（必选）
-        name: 租户名称（可选）
-        san_capacity_quota: SAN 容量配额（可选，单位：扇区）
-        nas_capacity_quota: NAS 容量配额（可选，单位：扇区）
-        description: 租户描述（可选）
-        nas_capacity_quota_alarm_switch: NAS 容量配额告警开关（可选，仅 A800 设备支持）
-        nas_capacity_quota_alarm_threshold: NAS 容量配额告警阈值（可选，仅 A800 设备支持）
-    
+        id: 租户的ID (必选, string, 1~64个字符)。需满足UUID格式或32位十六进制
+        name: 租户名称 (可选, string, 1~256个字符)。名称包含字母、数字、"_"、"-"、"."和中文字符
+        san_capacity_quota: SAN容量配额 (可选, string, 1~20个字符)
+        nas_capacity_quota: NAS容量配额 (可选, string, 1~20个字符)
+        description: 租户描述 (可选, string, 0~255个字符)
+        nas_capacity_quota_alarm_switch: NAS容量配额告警开关 (可选, boolean, true,false)。仅A800设备支持
+        nas_capacity_quota_alarm_threshold: NAS容量配额告警阈值 (可选, int32, 50~100)。仅A800设备支持
+
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
-    url = "/rest/fileservice/v1/vstores/{vstore_id}"
-    
+    url = "/rest/fileservice/v1/vstores/{id}"
+
+    # 参数校验
+    if not id:
+        raise ValueError("id 是必选参数")
+
     payload = {}
     if name is not None:
         payload['name'] = name
@@ -215,30 +219,34 @@ def vstore_modify(client: DMEAPIClient, vstore_id: str, name: str = None,
         payload['nas_capacity_quota_alarm_switch'] = nas_capacity_quota_alarm_switch
     if nas_capacity_quota_alarm_threshold is not None:
         payload['nas_capacity_quota_alarm_threshold'] = nas_capacity_quota_alarm_threshold
-    
-    response = client.put(url, body=payload, params={"vstore_id": vstore_id})
+
+    response = client.put(url, body=payload, params={"id": id})
     return response
 
 
-def vstore_delete(client: DMEAPIClient, vstore_ids: list) -> dict:
+def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除租户
-    
-    注：该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-    
+    批量删除租户，该操作会删除存储设备上指定的租户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+
     Args:
         client: DME API 客户端
-        vstore_ids: 租户 ID 列表（必选，1~100 个）
-    
+        ids: 租户的ID列表 (必选, List[string], 数组最大成员个数：100, 数组最小成员个数：1)
+
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/vstores/delete"
-    
+
+    # 参数校验
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数，至少需要1个租户ID")
+
     payload = {
-        'ids': vstore_ids
+        'ids': ids
     }
-    
+
     response = client.post(url, body=payload)
     return response
 
@@ -248,24 +256,31 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
          dc_id: str = None, tag_ids: str = None, start: int = 1, 
          limit: int = 20, ext_attrs: str = None) -> dict:
     """
-    批量查询存储设备
-    
-    支持分页查询，过滤。
-    
+    批量查询存储设备：支持分页查询，过滤。
+
     Args:
         client: DME API 客户端。
-        az: 可用分区 ID (可选, 1~64个字符)。
-        source: 存储设备的来源 (可选)。可选值：add (接入), record (录入), all (所有)。默认查询接入设备。
-        dc_id: 存储设备所属数据中心的ID (可选, 1~32个字符)。
-        tag_ids: 标签过滤列表 (可选)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系。
-        start: 分页查询的起始位置 (可选, 1~10000, 默认值: 1)。
-        limit: 分页查询的个数 (可选, 1~1000, 默认值: 20)。
-        ext_attrs: 扩展属性过滤列表 (可选, 1~3000个字符)。最多支持10个扩展属性组合过滤，多个过滤条件之间为且关系。例如：{"extAttr1":"value1","extAttr2":"value2"}。
-    
+        az: 可用分区 ID (可选, string, 1~64个字符)
+        source: 存储设备的来源 (可选, string)。可选值：add (接入), record (录入), all (所有)。默认查询接入设备
+        dc_id: 存储设备所属数据中心的ID (可选, string, 1~32个字符)
+        tag_ids: 标签过滤列表 (可选, string)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系
+        start: 分页查询的起始位置 (可选, int32, 1~10000)。默认值：1
+        limit: 分页查询的个数 (可选, int32, 1~1000)。默认值：20
+        ext_attrs: 扩展属性过滤列表 (可选, string, 1~3000个字符)。最多支持10个扩展属性组合过滤
+
     Returns:
-        响应数据，包含 total 和 datas 字段
-        - total: 存储设备总数
-        - datas: 存储设备列表，包含 id, pid, name, ip, status, sn, vendor, model 等信息
+        {
+            total: 存储设备总数 (int32),
+            datas: 存储设备列表 (List<StorageSummaryInfo>)。参数格式如下：[{
+                id: 存储设备ID (string),
+                name: 存储设备名称 (string),
+                ip: IP 地址 (string),
+                status: 运行状态 (string),
+                sn: 设备序列号 (string),
+                vendor: 厂商 (string),
+                model: 产品型号 (string),
+            }, ...]
+        }
     """
     url = "/rest/storagemgmt/v1/storages"
     
@@ -291,17 +306,28 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
 
 def show(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    查询指定存储设备
-    
+    查询指定存储设备。
+
     Args:
         client: DME API 客户端
-        storage_id: 存储设备 ID（必选，1~36 个字符，UUID 格式或 32 位十六进制）
-    
+        storage_id: 存储设备ID，必选 (必选, string, 1~36个字符)。需满足UUID格式或32位十六进制
+
     Returns:
-        存储设备详细信息，包含 id, name, ip, status, sn, vendor, model 等
+        {
+            id: 存储设备ID (string),
+            name: 存储设备名称 (string),
+            ip: IP 地址 (string),
+            status: 运行状态 (string),
+            sn: 设备序列号 (string),
+            vendor: 厂商 (string),
+            model: 产品型号 (string),
+        }
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/detail"
-    
+
+    if not storage_id:
+        raise ValueError("storage_id 是必选参数")
+
     response = client.get(url, params={"storage_id": storage_id})
     return response
 
