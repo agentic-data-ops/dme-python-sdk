@@ -3919,13 +3919,13 @@ ACTIONS = {
         'func': dpc_list,
         'description': '批量查询并行客户端列表',
         'params': ['ids', 'hostname', 'ip', 'mgmt_status', 'status', 'sn', 'storage_id', 'dpc_om_id', 'dpc_type', 'client_version', 'page_no', 'page_size'],
-        'subtopic': 'dpc'
+        'subtopic': 'dataturbo'
     },
     'dpc_show': {
         'func': dpc_show,
         'description': '查询并行客户端详情',
         'params': ['dpc_id'],
-        'subtopic': 'dpc'
+        'subtopic': 'dataturbo'
     },
     # kvcache 子主题动作
     'kvcache_list': {

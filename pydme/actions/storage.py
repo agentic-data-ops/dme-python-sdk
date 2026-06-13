@@ -1223,7 +1223,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def disk_pool_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
+def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
     批量查询硬盘域
@@ -3250,11 +3250,11 @@ ACTIONS = {
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
-    'disk_pool_list': {
-        'func': disk_pool_list,
+    'disk_domain_list': {
+        'func': disk_domain_list,
         'description': '批量查询硬盘域',
         'params': ['storage_id', 'page_no', 'page_size'],
-        'subtopic': 'disk_pool'
+        'subtopic': 'disk_domain'
     },
     'enclosure_list': {
         'func': enclosure_list,
