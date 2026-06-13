@@ -664,9 +664,17 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         page_size: 分页查询的每页大小 (可选, 1~1000, 默认值: 20)。
 
     Returns:
-        DiskQueryResponse 对象，包含：
-        - disks: 硬盘列表
-        - total: 硬盘的数量
+        {
+            total: 硬盘的数量 (integer),
+            disks: 硬盘列表 (List<DiskInfo>)。参数格式如下：[{
+                id: 硬盘ID (string),
+                name: 硬盘名称 (string),
+                health_status: 健康状态 (string),
+                physical_type: 硬盘类型 (string),
+                capacity: 总容量 (integer),
+                sn: 硬盘序列号 (string),
+            }, ...],
+        }
     """
     url = "/rest/storagemgmt/v2/storages/{storage_id}/disk"
 
