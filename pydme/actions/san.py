@@ -552,17 +552,21 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
 
 def lun_group_show(client: DMEAPIClient, group_id: str, storage_id: str = None) -> dict:
     """
-    查询指定 LUN 组详情
-
-    查询 LUN 组的详细信息。
+    查询指定 LUN 组详情。
 
     Args:
         client: DME API 客户端
-        group_id: LUN 组 ID
-        storage_id: 存储设备 ID（保留参数，实际不使用）
+        group_id: LUN 组 ID (必选, string)
+        storage_id: 存储设备 ID (可选, string)
 
     Returns:
-        LUN 组详细信息
+        {
+            id: LUN组ID (string),
+            name: LUN组名称 (string),
+            storage_id: 存储设备ID (string),
+            lun_count: LUN数量 (integer),
+            description: 描述 (string),
+        }
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}"
 
@@ -640,9 +644,14 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
              }
 
     Returns:
-        响应数据，包含新创建的 LUN 组 ID
+        {
+            id: LUN组ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/lun-groups"
+
+    if not storage_id or not name:
+        raise ValueError("storage_id 和 name 是必选参数")
 
     body_params = {
         'storage_id': storage_id,
@@ -679,9 +688,14 @@ def lun_group_delete(client: DMEAPIClient, lun_group_ids: list,
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/lun-groups/delete"
+
+    if not lun_group_ids or len(lun_group_ids) == 0:
+        raise ValueError("lun_group_ids 是必选参数")
 
     body_params = {
         'lun_group_ids': lun_group_ids
