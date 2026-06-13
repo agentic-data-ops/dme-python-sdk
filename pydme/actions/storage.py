@@ -367,16 +367,14 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         tag_ids: 标签ID列表 (可选, List<string>, 数组最大成员个数: 10, 数组最小成员个数: 0)。
     
     Returns:
-        响应数据，包含 id（存储设备 ID）
-
-    Raises:
-        ValueError: 必填参数缺失
+        {
+            id: 存储设备ID (string, 1~64个字符),
+        }
     """
-    # 验证必填参数
     if not name:
-        raise ValueError("参数 name 是必填的")
+        raise ValueError("name 是必选参数")
     if not sn:
-        raise ValueError("参数 sn 是必填的")
+        raise ValueError("sn 是必选参数")
 
     url = "/rest/storagemgmt/v2/storages/offline-storages"
 
@@ -426,16 +424,21 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
 
 def remove(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量移除存储设备
+    批量移除存储设备。
 
     Args:
         client: DME API 客户端
-        ids: 存储设备 ID 列表（1~100 个）
+        ids: 存储设备ID列表 (必选, List[string], 数组最大成员个数：100, 数组最小成员个数：1)
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务Id (string, 1~64个字符),
+        }
     """
     url = "/rest/storagemgmt/v2/storages/delete"
+
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数，至少需要1个存储设备ID")
 
     payload = {
         'ids': ids
@@ -447,21 +450,24 @@ def remove(client: DMEAPIClient, ids: list) -> dict:
 
 def sync(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    同步存储设备信息
-    
+    同步存储设备信息，该接口为异步消息。
+
     Args:
         client: DME API 客户端
-        storage_id: 存储设备 ID
-    
+        storage_id: 存储设备Id (必选, string, 1~64个字符)。通过批量查询存储设备接口获取
+
     Returns:
-        响应数据，包含 task_id（异步任务）
+        无
     """
     url = "/rest/storagemgmt/v1/storages/refresh"
-    
+
+    if not storage_id:
+        raise ValueError("storage_id 是必选参数")
+
     payload = {
         'id': storage_id
     }
-    
+
     response = client.post(url, body=payload)
     return response
 
