@@ -1110,13 +1110,10 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         tag_ids: 标签ID列表 (可选, string, 0~512个字符)。数组格式字符串，最多支持10个标签，空数组代表移除存储设备关联的所有标签。
 
     Returns:
-        响应数据（修改成功返回空字典）
-
-    Raises:
-        ValueError: 必填参数缺失
+        无
     """
     if not storage_id:
-        raise ValueError("参数 storage_id 是必填的")
+        raise ValueError("storage_id 是必选参数")
 
     url = "/rest/storagemgmt/v2/storages/offline-storages/{storage_id}"
 
