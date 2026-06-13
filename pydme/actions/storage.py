@@ -351,6 +351,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         sn: 设备序列号 (正则表达式为^[a-zA-Z0-9]{1,128}$)。
         ip: 设备IP地址 (可选, 0~128个字符, 支持IPv4与IPv6格式, 也可为空字符串)。
         dc_id: 所属数据中心ID (可选, 正则表达式为^[a-zA-Z0-9]{1,128}$)。
+        az: 可用分区 (可选, string)。
         vendor: 厂商 (可选, 0~128个字符)。
         model: 产品型号 (可选, 0~128个字符)。
         version: 版本信息 (可选, 0~64个字符)。
