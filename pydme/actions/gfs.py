@@ -28,7 +28,14 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
         page_size: 分页查询的个数，默认 100，范围 1~1000
 
     Returns:
-        Omni-Dataverse 列表
+        {
+            total: 总数 (integer),
+            gfs_groups: Omni-Dataverse 列表。参数格式如下：[{
+                id: ID (string),
+                name: 名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/gfs-groups/query"
 
