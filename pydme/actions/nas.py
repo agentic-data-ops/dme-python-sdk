@@ -105,23 +105,6 @@ def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
     return response
 
 
-def dpc_version_list(client: DMEAPIClient) -> dict:
-    """
-    查询并行客户端版本信息列表。
-
-    Args:
-        client: DME API 客户端
-
-    Returns:
-        {
-            versions: 版本列表 (List<string>),
-        }
-    """
-    url = "/rest/dpc-mgmt/v1/dpcs-versions"
-
-    response = client.get(url)
-    return response
-
 
 def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None,
                device_name: str = None, storage_id: str = None, zone_id: str = None,

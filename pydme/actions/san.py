@@ -1105,53 +1105,6 @@ def mapping_view_list(
     return response
 
 
-def query_host_lun_mapping(
-    client: DMEAPIClient,
-    storage_host_id: str = None,
-    storage_host_name: str = None,
-    lun_id: str = None,
-    lun_name: str = None,
-    storage_id: str = None
-) -> dict:
-    """
-    查询存储主机和 LUN 映射关系
-
-    根据存储主机/存储主机名称或 LUN 过滤查询映射关系。
-
-    Args:
-        client: DME API 客户端
-        storage_host_id: 存储主机 ID，和 storage_host_name 参数不支持同时下发
-        storage_host_name: 存储主机名称，支持模糊搜索，和 storage_host_id 参数不支持同时下发
-        lun_id: LUN ID，和 lun_name 参数不支持同时下发
-        lun_name: LUN 名称，支持模糊搜索，和 lun_id 参数不支持同时下发
-        storage_id: 存储设备 ID
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含映射关系列表
-    """
-    url = "/rest/blockservice/v1/storage-host-lun-mappings/query"
-
-    body_params = {}
-
-    if storage_id is not None:
-        body_params['storage_id'] = storage_id
-
-    if storage_host_id is not None:
-        body_params['storage_host_id'] = storage_host_id
-
-    if storage_host_name is not None:
-        body_params['storage_host_name'] = storage_host_name
-
-    if lun_id is not None:
-        body_params['lun_id'] = lun_id
-
-    if lun_name is not None:
-        body_params['lun_name'] = lun_name
-
-    response = client.post(url, body=body_params)
-    return response
 
 
 def mapping_view_query(
