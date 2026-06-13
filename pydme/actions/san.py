@@ -440,16 +440,24 @@ def lun_expand(client: DMEAPIClient, volumes: list, task_remarks: str = None) ->
 
 def lun_connection(client: DMEAPIClient, volume_ids: list) -> dict:
     """
-    查询指定 LUN ID 的连接信息
+    查询指定 LUN ID 的连接信息。
 
     Args:
         client: DME API 客户端
-        volume_ids: LUN ID 列表（最多 1000 个）
+        volume_ids: LUN ID 列表 (必选, List[string], 数组最大成员个数: 1000)
 
     Returns:
-        连接信息，包含 lun_id、lun_wwn、iscsi_targets、fc_targets 等
+        {
+            lun_id: LUN ID (string),
+            lun_wwn: LUN WWN (string),
+            iscsi_targets: iSCSI 目标列表 (List),
+            fc_targets: FC 目标列表 (List),
+        }
     """
     url = "/rest/blockservice/v1/volumes/connection-infos-query"
+
+    if not volume_ids or len(volume_ids) == 0:
+        raise ValueError("volume_ids 是必选参数")
 
     payload = {
         'lun_ids': volume_ids
@@ -493,7 +501,16 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
         support_provisioning: 是否支持发放 (可选)。可选值：true (支持), false (不支持)
 
     Returns:
-        响应数据，包含 LUN 组列表
+        {
+            total: LUN组总数 (integer),
+            lun_groups: LUN组列表 (List<LunGroupInfo>)。参数格式如下：[{
+                id: LUN组ID (string),
+                name: LUN组名称 (string),
+                storage_id: 存储设备ID (string),
+                lun_count: LUN数量 (integer),
+                attached: 映射状态 (boolean),
+            }, ...],
+        }
     """
     url = "/rest/blockservice/v1/lun-groups/query"
 
