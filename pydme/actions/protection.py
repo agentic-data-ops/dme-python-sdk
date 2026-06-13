@@ -93,7 +93,10 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
         description: 保护组描述
 
     Returns:
-        响应数据，包含 task_id
+        {
+            id: 保护组ID (string),
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/protection-groups"
 
