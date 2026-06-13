@@ -36,7 +36,16 @@ def dpc_list(client: DMEAPIClient, ids: list = None, hostname: str = None, ip: s
         page_size: 每页数据条数（可选），1~1000，默认 20
 
     Returns:
-        并行客户端列表
+        {
+            total: 并行客户端总数 (integer),
+            dpcs: 并行客户端列表 (List<DpcInfo>)。参数格式如下：[{
+                id: 并行客户端ID (string),
+                hostname: 主机名称 (string),
+                ip: 管理IP (string),
+                status: 业务状态 (string),
+                mgmt_status: 管理状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/dpc-mgmt/v1/dpcs/query"
 
@@ -72,16 +81,25 @@ def dpc_list(client: DMEAPIClient, ids: list = None, hostname: str = None, ip: s
 
 def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
     """
-    查询并行客户端详情
+    查询并行客户端详情。
 
     Args:
         client: DME API 客户端
-        dpc_id: 并行客户端 ID
+        dpc_id: 并行客户端 ID (必选, string)
 
     Returns:
-        并行客户端详细信息
+        {
+            id: 并行客户端ID (string),
+            hostname: 主机名称 (string),
+            ip: 管理IP (string),
+            status: 业务状态 (string),
+            mgmt_status: 管理状态 (string),
+        }
     """
     url = "/rest/dpc-mgmt/v1/dpcs/{dpc_id}"
+
+    if not dpc_id:
+        raise ValueError("dpc_id 是必选参数")
 
     response = client.get(url, params={"dpc_id": dpc_id})
     return response
@@ -89,13 +107,15 @@ def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
 
 def dpc_version_list(client: DMEAPIClient) -> dict:
     """
-    查询并行客户端版本信息列表
+    查询并行客户端版本信息列表。
 
     Args:
         client: DME API 客户端
 
     Returns:
-        并行客户端版本列表
+        {
+            versions: 版本列表 (List<string>),
+        }
     """
     url = "/rest/dpc-mgmt/v1/dpcs-versions"
 
@@ -138,7 +158,15 @@ def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None
         dc_name: 数据中心名称（可选），1~256 个字符
 
     Returns:
-        Dtree 列表
+        {
+            total: Dtree 总数 (integer),
+            dtrees: Dtree 列表 (List<DtreeInfo>)。参数格式如下：[{
+                id: Dtree ID (string),
+                name: Dtree 名称 (string),
+                path: 路径 (string),
+                fs_id: 文件系统ID (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/dtrees/query"
 
