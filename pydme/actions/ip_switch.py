@@ -19,7 +19,14 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 data_list 字段
+        {
+            total: 总数量 (integer),
+            data_list: 交换机列表。参数格式如下：[{
+                id: 交换机ID (string),
+                name: 交换机名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/switchmgmt/v1/switchs/query"
     
