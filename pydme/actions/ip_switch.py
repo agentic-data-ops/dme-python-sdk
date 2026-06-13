@@ -53,7 +53,9 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 frames 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 frames 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query"
     
@@ -78,7 +80,9 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 boards 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 boards 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query"
     
@@ -103,7 +107,9 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 subcards 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 subcards 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/subcards/query"
     
@@ -128,7 +134,9 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 powers 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 powers 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/powers/query"
     
@@ -153,7 +161,9 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 fans 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 fans 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/fans/query"
     
@@ -178,7 +188,9 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 ports 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 ports 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/ports/query"
     

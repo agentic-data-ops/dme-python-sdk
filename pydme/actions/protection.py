@@ -128,7 +128,9 @@ def group_modify(client: DMEAPIClient, pg_id: str, name: str = None,
         description: 保护组的描述
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/protection-groups/{pg_id}"
 
@@ -155,7 +157,9 @@ def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
         pg_ids: 保护组的 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/protection-groups/delete"
 
@@ -205,7 +209,9 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         },...]
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/protection-groups/{pg_id}/add-luns"
 
@@ -236,7 +242,9 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
         is_delay: 是否延迟执行。在远程复制，同步 + 异步的环形 3DC 情况下，此参数无效
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/protection-groups/{pg_id}/remove-luns"
 
@@ -333,7 +341,9 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         remote_resource_name_rule: 远端资源的名称策略，可选值：same_as_local, prefix_and_suffix, prefix_and_num
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups"
 
@@ -382,7 +392,9 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         isolation_threshold_time: 隔离阈值（毫秒），当 service_assurance_policy 为 service_continuity_preferred 时必选
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups/{group_id}"
 
@@ -419,7 +431,9 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
         is_self_adapt: 是否支持自适应删除成员 Pair，默认 false
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups/delete"
 
@@ -447,7 +461,9 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
         is_self_adapt: 是否自适应修改双活 Pair 运行状态
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups/{group_id}/add-pairs"
 
@@ -472,7 +488,9 @@ def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids:
         pair_ids: 双活 Pair ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups/{group_id}/remove-pairs"
 
@@ -494,7 +512,9 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
         priority_station_type: 站点类型，可选值：preferred（优先站点）, non_preferred（非优先站点）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups/pause"
 
@@ -517,7 +537,9 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
         priority_station_type: 站点类型，可选值：preferred（优先站点）, non_preferred（非优先站点）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups/force-startup"
 
@@ -539,7 +561,9 @@ def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
         ids: 双活一致性组 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/groups/switch-priority-site"
 
@@ -654,7 +678,9 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         recovery_policy: 恢复策略，可选值：automatic, manual
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs"
 
@@ -710,7 +736,9 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
         isolation_threshold_time: 隔离阈值（毫秒），当 service_assurance_policy 为 service_continuity_preferred 时必选
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/{pair_id}"
 
@@ -746,7 +774,9 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
         is_lun_service_interrupt: 是否中断 LUN 业务，当 delete_mode 为 preferred_only 或 non_preferred_only 时有效
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/delete"
 
@@ -772,7 +802,9 @@ def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
         ids: 双活 Pair ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/sync"
 
@@ -794,7 +826,9 @@ def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type
         priority_station_type: 站点类型，可选值：preferred, non_preferred
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/pause"
 
@@ -817,7 +851,9 @@ def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_stat
         priority_station_type: 站点类型，可选值：preferred, non_preferred
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/force-startup"
 
@@ -839,7 +875,9 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
         ids: 双活 Pair ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/switch-priority-site"
 
@@ -984,7 +1022,9 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         enable_compress: 链路压缩，当复制模式为异步模式时必选
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/lun-pairs"
 
@@ -1056,7 +1096,9 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         switch_to_async: 同步远程复制自动转换为异步远程复制的开关
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/lun-pairs/{pair_id}"
 
@@ -1099,7 +1141,9 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
         delete_mode: 删除模式，可选值：primary_only, secondary_only, dual_ends，默认 dual_ends
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/lun-pairs/delete"
 
@@ -1123,7 +1167,9 @@ def replication_pair_sync(client: DMEAPIClient, ids: list) -> dict:
         ids: 复制 Pair ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/lun-pairs/sync"
 
@@ -1144,7 +1190,9 @@ def replication_pair_split(client: DMEAPIClient, ids: list) -> dict:
         ids: 复制 Pair ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/lun-pairs/split"
 
@@ -1165,7 +1213,9 @@ def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
         ids: 复制 Pair ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/lun-pairs/switch"
 
@@ -1187,7 +1237,9 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
         operation_type: 操作类型，可选值：enable（开启）, disable（取消）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/lun-pairs/{id}/switch-write-protection"
 
@@ -1319,7 +1371,9 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
         is_consist_activate: 是否一致性激活，默认 false
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/lun-snapshots"
 
@@ -1344,7 +1398,9 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
         rollback_snapshots: 快照回滚的资源信息列表，每项包含 snapshot_id, target_type, target_id
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/lun-snapshots/batch-rollback"
 
@@ -1369,7 +1425,9 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
         is_auto_deactivate: 是否在删除前自动取消激活快照，默认 false
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/lun-snapshots/batch-delete"
 
@@ -1403,7 +1461,9 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
         creation_mode: 创建模式，可选值：new_snapshot
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups"
 
@@ -1431,7 +1491,9 @@ def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete
         is_delete_target_lun: 是否删除目标 LUN，仅 Dorado 6.1.2 及以上版本支持，默认 true
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/batch-delete"
 
@@ -1464,7 +1526,9 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
         target_snapshot_objects: 目标快照对象列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/{snapshot_cg_id}/activate"
 
@@ -1496,7 +1560,9 @@ def snapshot_group_deactivate(client: DMEAPIClient, snapshot_cg_ids: list) -> di
         snapshot_cg_ids: 快照一致性组 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/batch-deactivate"
 
@@ -1526,7 +1592,9 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
         target_snapshot_objects: 目标快照对象列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/{snapshot_cg_id}/rollback"
 
@@ -1575,7 +1643,9 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         clone_pairs: 克隆 Pair 列表，create_mode 为 manual 时必选
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/clone-consistency-groups"
 
@@ -1620,7 +1690,9 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
         clone_pairs: 克隆 Pair 列表，create_mode 为 manual 时必选
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/clone-consistency-groups/{clone_group_id}/synchronize"
 
@@ -1653,7 +1725,9 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
         is_recycle_dst_lun_data: 是否回收目标 LUN 数据
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/clone-consistency-groups/batch-delete"
 
@@ -1704,7 +1778,9 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         name_suffix: 远端资源名称后缀
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups"
 
@@ -1772,7 +1848,9 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         switch_to_async: 同步远程复制自动转换为异步远程复制的开关
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/{replication_group_id}"
 
@@ -1821,7 +1899,9 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
         delete_mode: 删除模式，可选值：primary_only, secondary_only, dual_ends，默认 dual_ends
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/delete"
 
@@ -1848,7 +1928,9 @@ def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: l
         pair_ids: 远程复制 Pair 的 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/{group_id}/add-pairs"
 
@@ -1870,7 +1952,9 @@ def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids
         pair_ids: 远程复制 Pair 的 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/{group_id}/remove-pairs"
 
@@ -1894,7 +1978,9 @@ def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
         ids: 一致性组的 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/sync"
 
@@ -1918,7 +2004,9 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
         ids: 一致性组的 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/split"
 
@@ -1942,7 +2030,9 @@ def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
         ids: 一致性组的 ID 列表
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/switch"
 
@@ -1964,7 +2054,9 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
         operation_type: 操作类型，可选值：enable（开启）, disable（取消）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/protection/v1/replication/groups/{id}/switch-write-protection"
 

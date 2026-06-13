@@ -81,7 +81,9 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
         attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（可选，true/false）
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }（异步任务）
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
@@ -109,7 +111,9 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
         attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（可选，true/false）
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }（异步任务）
     """
     url = "/rest/blockservice/v1/volumes/add-to-service-level"
 
@@ -134,7 +138,9 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
         volume_id: LUN ID
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }（异步任务）
     """
     url = "/rest/blockservice/v1/volumes/remove-service-level"
 
@@ -157,7 +163,9 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
         business_group_id: 业务群组 ID
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/bound"
 
@@ -180,7 +188,9 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
         business_group_id: 业务群组 ID
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/unbound"
 
@@ -218,7 +228,9 @@ def tier_list(client: DMEAPIClient, name: str = None,
         type: 存储类型，FILE/BLOCK/VIRTUAL_DATASTORE（可选）
 
     Returns:
-        响应数据，包含服务等级列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含服务等级列表
     """
     url = "/rest/service-policy/v1/service-levels"
 
@@ -263,7 +275,9 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
         page_size: 每页数量，10~1000，默认 200
 
     Returns:
-        响应数据，包含关联关系列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含关联关系列表
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -296,7 +310,9 @@ def project_list(client: DMEAPIClient, name: str = None,
         limit: 分页的大小，1~512，默认 20
 
     Returns:
-        响应数据，包含业务群组列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含业务群组列表
     """
     url = "/rest/projectmgmt/v1/projects"
 
@@ -326,7 +342,9 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
         page_size: 每页数量，10~1000，默认 200
 
     Returns:
-        响应数据，包含关联关系列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含关联关系列表
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 

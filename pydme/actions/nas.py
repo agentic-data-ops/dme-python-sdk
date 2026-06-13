@@ -610,7 +610,9 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v2/nfs-shares"
 
@@ -685,7 +687,9 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v2/nfs-shares/{nfs_share_id}"
 
@@ -734,7 +738,9 @@ def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/nfs-shares/delete"
 
@@ -933,7 +939,9 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/cifs-shares"
 
@@ -1016,7 +1024,9 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         enable_lease: 是否开启租约锁定开关
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/cifs-shares/{cifs_share_id}"
 
@@ -1084,7 +1094,9 @@ def cifs_share_delete(client: DMEAPIClient, cifs_share_ids: list, task_remarks: 
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/cifs-shares/delete"
 
@@ -1362,7 +1374,9 @@ def dataturbo_share_create(client: DMEAPIClient, charset: str, fs_id: str = None
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares"
 
@@ -1404,7 +1418,9 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}"
 
@@ -1443,7 +1459,9 @@ def dataturbo_share_delete(client: DMEAPIClient, dataturbo_share_ids: list,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/delete"
 
@@ -1620,7 +1638,9 @@ def quota_create(client: DMEAPIClient, parent_id: str, parent_type: str,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/quotas"
 
@@ -1673,7 +1693,9 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/quotas/{quota_id}"
 
@@ -1722,7 +1744,9 @@ def quota_delete(client: DMEAPIClient, quota_ids: list,
         task_remarks: 异步任务备注信息
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/quotas/delete"
 
@@ -1902,7 +1926,9 @@ def filesystem_delete(client: DMEAPIClient, filesystem_ids: list, task_remarks: 
         task_remarks: 异步任务备注信息（可选）
 
     Returns:
-        响应数据，包含 task_id（异步任务）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }（异步任务）
     """
     url = "/rest/fileservice/v1/filesystems/delete"
 
@@ -1932,7 +1958,9 @@ def filesystem_batch_modify(client: DMEAPIClient, filesystems: list, task_remark
         task_remarks: 异步任务备注信息（可选），0~1024 个字符
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/filesystems/modify"
 
@@ -2086,7 +2114,9 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         unix_permissions: 文件系统目录权限（可选），格式如0755
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/filesystems/customize-filesystems"
 
@@ -2319,7 +2349,9 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         unix_permissions: 文件系统目录权限（可选），格式如0755
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/filesystems/{file_system_id}"
 
@@ -2421,7 +2453,9 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         has_gfs: 是否包含所属全局命名空间的命名空间（可选），true：是；false：否；has_gfs 为 false 时不支持下发 gfs_id
     
     Returns:
-        响应数据，包含：
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含：
         - total: 命名空间数量
         - namespace_list: 命名空间列表，包含 id, raw_id, name, storage_id, vstore_id 等信息
     """
@@ -2621,7 +2655,9 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         task_remarks: 异步任务备注信息
     
     Returns:
-        响应数据，包含 task_id（异步任务 ID）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }（异步任务 ID）
     """
     url = "/rest/fileservice/v1/namespaces"
     
@@ -2772,7 +2808,9 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         task_remarks: 异步任务备注信息
     
     Returns:
-        响应数据，包含 task_id（异步任务 ID）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }（异步任务 ID）
     """
     url = "/rest/fileservice/v1/namespaces/{namespace_id}"
     
@@ -2836,7 +2874,9 @@ def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: st
         task_remarks: 异步任务备注信息（可选，0~1024 个字符）
     
     Returns:
-        响应数据，包含 task_id（异步任务 ID）
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }（异步任务 ID）
     """
     url = "/rest/fileservice/v1/namespaces/delete"
     

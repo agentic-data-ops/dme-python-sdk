@@ -1210,7 +1210,9 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
         storage_id: 存储设备 ID（必选，1~36 个字符，UUID 格式或 32 位十六进制）
     
     Returns:
-        响应数据，包含 total 和 controllers 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 controllers 字段
         - total: 控制器总数
         - controllers: 控制器列表，包含 id, name, status, type 等信息
     """
@@ -2545,7 +2547,9 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
         failback_mode: 回漂模式（可选）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/storagemgmt/v1/logic-ports/{logic_port_id}"
 
@@ -2606,7 +2610,9 @@ def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
         ids: 逻辑端口 ID 列表（必填，1~1000 个 ID）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/storagemgmt/v1/logic-ports/delete"
 
@@ -2627,7 +2633,9 @@ def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
         id: 逻辑端口 ID（必填，1~64 个字符）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/storagemgmt/v1/logic-ports/failback"
 
@@ -2662,7 +2670,9 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         page_size: 每页数量（可选，FC/SAS 端口支持，1~1000，默认 20）
 
     Returns:
-        响应数据，包含端口列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含端口列表
     """
     if port_type is not None and port_type.lower() == 'eth':
         # ETH 端口查询
@@ -2802,7 +2812,9 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
         bond_port_id: 绑定端口 id（必填，1~64 个字符）
 
     Returns:
-        响应数据，包含 total 和 eth_ports 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 eth_ports 字段
     """
     url = "/rest/storagemgmt/v1/bond-ports/{bond_port_id}/eth-ports"
 
@@ -2829,7 +2841,9 @@ def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
         page_size: 每页数量，1~1000，默认 100
 
     Returns:
-        响应数据，包含 VLAN 列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 VLAN 列表
     """
     url = "/rest/vlanmgmt/v1/vlans/query"
 
@@ -2862,7 +2876,9 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
         description: VLAN 描述（可选）
 
     Returns:
-        响应数据，包含新创建的 VLAN ID
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含新创建的 VLAN ID
     """
     url = "/rest/vlanmgmt/v1/vlans"
 
@@ -2890,7 +2906,9 @@ def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
         vlan_id: VLAN ID
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/vlanmgmt/v1/vlans/{vlan_id}"
 
@@ -2912,7 +2930,9 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
         description: VLAN 描述（可选）
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/vlanmgmt/v1/vlans/{vlan_id}"
 
@@ -2986,7 +3006,9 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
         port_type: 端口类型（可选，bond/eth/ib，不指定则返回所有类型）
 
     Returns:
-        响应数据，结构一致：{"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，结构一致：{"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
     """
     import concurrent.futures
 
@@ -3037,7 +3059,9 @@ def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> d
         failover_group_id: 漂移组 id（必填，1~64 个字符）
 
     Returns:
-        响应数据，包含 vlans 字段
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 vlans 字段
     """
     url = "/rest/storagemgmt/v1/failover-groups/{failover_group_id}/vlans"
 

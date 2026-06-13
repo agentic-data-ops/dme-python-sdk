@@ -225,7 +225,9 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
              }, ...]
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/gfs"
 
@@ -264,7 +266,9 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
              }, ...]
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/gfs/modify"
 
@@ -293,7 +297,9 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
         is_delete_child: 是否删除子命名空间，默认 true
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/gfs/delete"
 
@@ -470,7 +476,9 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
              }
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks"
 
@@ -581,7 +589,9 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         period_max_bandwidth: 指定时间段的带宽上限 (可选, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time 必须同时下发
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
 
@@ -621,7 +631,9 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
         ids: 数据迁移任务 ID 列表
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/delete"
 
@@ -643,7 +655,9 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
         operate_type: 操作类型，包含 operate_type 字段，取值 start(启动), stop(停止)
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/operate"
 

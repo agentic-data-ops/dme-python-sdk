@@ -64,7 +64,9 @@ def template_groups(client: DMEAPIClient) -> dict:
         client: DME API 客户端
     
     Returns:
-        响应数据，包含：
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含：
         - groups: 模板分组列表，包含 name（模板分组名称）
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
@@ -86,7 +88,9 @@ def template_show(client: DMEAPIClient, template_id: str,
         template_version_id: 模板版本 id（可选，1~64 个字符）
     
     Returns:
-        响应数据，包含：
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含：
         - template_version_id: 模板版本 id
     """
     url = "/rest/wfamgmt/v1/workflow/templates/{template_id}"
@@ -112,7 +116,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
         instance_id: 实例的 id（必选，1~64 个字符）
     
     Returns:
-        响应数据（无特定返回字段）
+        无
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/stop"
     
@@ -131,7 +135,9 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         instance_id: 查询实例的 id（必选，1~64 个字符）
     
     Returns:
-        响应数据，包含：
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含：
         - instance_id: 实例 id
         - template_id: 实例对应的模板 id
         - template_name: 实例对应的模板名称
@@ -168,7 +174,9 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
         params: 执行实例参数（可选），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
     
     Returns:
-        响应数据，包含：
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含：
         - instance_id: 实例 id
     """
     url = "/rest/wfamgmt/v1/workflow/instances"
@@ -200,7 +208,9 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
         step_id: 步骤 id（必选，1~64 个字符）
     
     Returns:
-        响应数据，包含：
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含：
         - logs: 步骤日志列表（最多 6000 条）
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"

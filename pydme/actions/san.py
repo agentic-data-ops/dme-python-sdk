@@ -807,7 +807,9 @@ def lun_group_remove_luns(client: DMEAPIClient, group_id: str,
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}/remove-luns"
 
@@ -836,7 +838,9 @@ def lun_group_show_luns(client: DMEAPIClient, group_id: str,
         health_status: 健康状态 (可选)。可选值：normal (正常), faulty (故障), write_protected (写保护)
 
     Returns:
-        响应数据，包含 LUN 列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 LUN 列表
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}/luns/query"
 
@@ -916,7 +920,9 @@ def mapping_view_create(
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/mapping-views"
 
@@ -1121,7 +1127,9 @@ def query_host_lun_mapping(
         storage_id: 存储设备 ID
 
     Returns:
-        响应数据，包含映射关系列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含映射关系列表
     """
     url = "/rest/blockservice/v1/storage-host-lun-mappings/query"
 
@@ -1164,7 +1172,9 @@ def mapping_view_query(
         storage_id: 存储设备 ID (必选, 1~64个字符)
 
     Returns:
-        响应数据，包含映射视图列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含映射视图列表
     """
     url = "/rest/blockservice/v1/volumes/mapping-view/query"
 
@@ -1189,7 +1199,9 @@ def physical_host_show_mapping_views(client: DMEAPIClient, host_id: str,
         storage_id: 存储设备 ID (必选, 1~64个字符)
 
     Returns:
-        响应数据，包含映射视图列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含映射视图列表
     """
     return mapping_view_query(
         client=client, type="host",
@@ -1208,7 +1220,9 @@ def physical_host_group_show_mapping_views(client: DMEAPIClient, host_group_id: 
         storage_id: 存储设备 ID (必选, 1~64个字符)
 
     Returns:
-        响应数据，包含映射视图列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含映射视图列表
     """
     return mapping_view_query(
         client=client, type="host_group",
@@ -1326,7 +1340,9 @@ def storage_host_list(client: DMEAPIClient, page_size: int = None, page_no: int 
         vstore_name: 租户名称 (可选)
 
     Returns:
-        响应数据，包含存储主机列表和总数
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含存储主机列表和总数
     """
     url = "/rest/hostmgmt/v1/storage-hosts/query"
 
@@ -1603,7 +1619,9 @@ def storage_host_group_list(client: DMEAPIClient, storage_id: str = None, name: 
         support_provisioning: 是否支持发放 (可选)。可选值：true, false
 
     Returns:
-        响应数据，包含存储主机组列表和总数
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含存储主机组列表和总数
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/query"
 
@@ -1774,7 +1792,9 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
         sort_dir: 排序方向（可选，asc/desc，默认 desc）
 
     Returns:
-        响应数据，包含 total 和 lun_mapping_list
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 
@@ -1814,7 +1834,9 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
         sort_dir: 排序方向（可选，asc/desc，默认 desc）
 
     Returns:
-        响应数据，包含 total 和 lun_mapping_list
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含 total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 
@@ -1849,7 +1871,9 @@ def port_group_list(client: DMEAPIClient, storage_id: str = None,
         page_size: 分页查询的每页大小 (可选, 1~1000, 默认20)
 
     Returns:
-        响应数据，包含端口组列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含端口组列表
     """
     url = "/rest/storagemgmt/v1/port-groups/query"
 
@@ -1880,7 +1904,9 @@ def port_group_create(client: DMEAPIClient, storage_id: str, name: str,
         port_ids: 关联到端口组的端口ID列表 (可选, 数组最大成员个数: 10; 只支持关联ROCE端口和逻辑端口, 只能关联其中一种)
 
     Returns:
-        响应数据，包含新创建的端口组 ID
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含新创建的端口组 ID
     """
     url = "/rest/storagemgmt/v1/port-groups"
 
@@ -1912,7 +1938,9 @@ def port_group_show_ports(client: DMEAPIClient, port_group_id: str,
         page_size: 分页查询的每页大小 (可选, 1~1000, 默认20)
 
     Returns:
-        响应数据，包含端口列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含端口列表
     """
     url = "/rest/storagemgmt/v1/port-groups/{port_group_id}/ports/query"
 
@@ -1949,7 +1977,9 @@ def port_group_show_relations(client: DMEAPIClient, page_no: int = 1,
         page_size: 分页查询的每页大小 (可选, 1~1000, 默认20)
 
     Returns:
-        响应数据，包含关联关系列表
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含关联关系列表
     """
     url = "/rest/storagemgmt/v1/port-groups/ports/relations/query"
 
@@ -2001,7 +2031,9 @@ def physical_host_list(client: DMEAPIClient, limit: int = None, start: int = Non
         project_id: 业务群组ID (可选, 1~64个字符)
 
     Returns:
-        响应数据，包含物理主机列表和总数
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含物理主机列表和总数
     """
     url = "/rest/hostmgmt/v1/hosts/summary"
 
@@ -2520,7 +2552,9 @@ def physical_host_map_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/host-mapping"
 
@@ -2553,7 +2587,9 @@ def physical_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: st
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/host-unmapping"
 
@@ -2584,7 +2620,9 @@ def storage_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: str
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/host-unmapping"
 
@@ -2624,7 +2662,9 @@ def physical_host_group_list(client: DMEAPIClient, limit: int = None, start: int
         managed_status: 纳管状态列表 (可选, 数组最大成员个数: 1000)。可选值：UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
 
     Returns:
-        响应数据，包含物理主机组列表和总数
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }，包含物理主机组列表和总数
     """
     url = "/rest/hostmgmt/v1/hostgroups/summary"
 
@@ -2909,7 +2949,9 @@ def physical_host_group_map_luns(client: DMEAPIClient, volume_ids: list, hostgro
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/hostgroup-mapping"
 
@@ -2942,7 +2984,9 @@ def physical_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostg
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/hostgroup-unmapping"
 
@@ -2973,7 +3017,9 @@ def storage_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostgr
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/hostgroup-unmapping"
 
