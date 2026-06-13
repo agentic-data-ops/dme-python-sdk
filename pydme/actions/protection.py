@@ -37,7 +37,14 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
         page_size: 每页显示的数量，默认 20
 
     Returns:
-        保护组列表
+        {
+            total: 保护组总数 (integer),
+            protection_groups: 保护组列表 (List<ProtectionGroupInfo>)。参数格式如下：[{
+                id: 保护组ID (string),
+                name: 保护组名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/protection-groups/query"
 
