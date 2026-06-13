@@ -1150,6 +1150,12 @@ ACTIONS = {
         'params': [],
         'subtopic': None
     },
+    'reset_password': {
+        'func': reset_password,
+        'description': '重置密码',
+        'params': ['user_name', 'new_value', 'is_initial_password'],
+        'subtopic': None
+    },
     # 子主题动作 - user（三级结构）
     'user_list': {
         'func': user_list,
