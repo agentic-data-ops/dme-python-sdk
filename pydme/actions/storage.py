@@ -107,7 +107,14 @@ def vstore_show(client: DMEAPIClient, id: str) -> dict:
         id: 租户id (必选, string, 1~256个字符)。需满足UUID格式或32位十六进制
 
     Returns:
-        租户详细信息，包含id, name, description, storage_id, status等字段
+        {
+            id: 所属租户的唯一标识 (string, 1~64个字符),
+            name: 所属租户名称 (string, 1~256个字符),
+            description: 租户描述 (string, 0~255个字符),
+            storage_id: 设备ID (string, 1~64个字符),
+            status: 所属租户状态 (string)。可选值：active (已激活), inactive (未激活),
+            running_status: 运行状态 (string)。可选值：normal (正常), initializing (初始化),
+        }
     """
     url = "/rest/fileservice/v1/vstores/{id}"
 
@@ -140,7 +147,9 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         associate_pool_ids: 关联存储池 ID 列表（可选，仅 A 系列设备支持）
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/vstores"
 

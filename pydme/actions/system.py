@@ -47,7 +47,7 @@ def logout(client: DMEAPIClient) -> dict:
     """
     url = "/rest/plat/smapp/v1/sessions"
     
-    response = client.user_delete(url)
+    response = client.delete(url)
     return response
 
 
@@ -99,7 +99,7 @@ def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     if user_id is None:
         raise ValueError("user_id 是必选参数")
 
-    response = client.user_delete(url, params={"user_id": user_id})
+    response = client.delete(url, params={"user_id": user_id})
     return response
 
 
@@ -115,7 +115,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         type: 用户类型 (必选, integer, 无)。0：本地用户；2：远端用户。
         value: 密码 (可选, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。
         description: 描述 (可选, string, 最多127个字符)
-        roles: 用户所属角色 (可选, List\<integer\>, 数组最大成员个数：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
+        roles: 用户所属角色 (可选, List[integer], 数组最大成员个数：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
 
     Returns:
         无
@@ -279,19 +279,22 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
                          name: str = None,
                          page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询备份服务器
-    
-    查询备份服务器列表，支持按地址和名称过滤。
-    
+    批量查询备份服务器。
+
     Args:
         client: DME API 客户端
-        address: 备份服务器地址（可选）
-        name: 备份服务器名称（可选）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
+        address: 备份服务器地址，支持IPv4地址，支持模糊匹配 (可选, string, 1~256个字符)
+        name: 备份服务器名称 (可选, string)
+        page_no: 分页查询的起始页码 (可选, int32)。默认值：1
+        page_size: 每页数量 (可选, int32, 1~1000)。默认值：20
+
     Returns:
-        备份服务器列表
+        {
+            total: 备份服务器总数 (int32),
+            backup_servers: 备份服务器列表 (List<BackupServerInfo>)。参数格式如下：[{
+                id: 备份服务器id (string, 1~64个字符),
+            }, ...]
+        }
     """
     url = "/rest/configmgmt/v1/backup-servers"
     
