@@ -43,7 +43,16 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含 total 和 vms 字段
+        {
+            total: 虚拟机总数 (integer),
+            vms: 虚拟机列表 (List<VmInfo>)。参数格式如下：[{
+                id: 虚拟机ID (string),
+                name: 虚拟机名称 (string),
+                status: 状态 (string),
+                cpu: CPU数量 (integer),
+                memory: 内存大小 (integer),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/vms/query"
     
