@@ -27,9 +27,14 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
         name: 模板名称，支持模糊匹配（可选，最多 255 个字符）
     
     Returns:
-        响应数据，包含：
-        - total: 模板数量（最大值：500）
-        - templates: 模板列表，包含 id, name, directory, path, group, description, isScheduled 等
+        {
+            total: 模板数量 (integer, 最大值：500),
+            templates: 模板列表。参数格式如下：[{
+                id: 模板ID (string),
+                name: 模板名称 (string),
+                description: 描述 (string),
+            }, ...],
+        }
     """
     url = "/rest/wfamgmt/v1/workflow/templates/query"
     
