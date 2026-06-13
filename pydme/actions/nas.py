@@ -470,7 +470,15 @@ def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = 
         scope: 资源所属范围（可选），可选值：local_scale（本地）、global_scale（全局）
 
     Returns:
-        NFS 共享列表
+        {
+            total: NFS 共享总数 (integer),
+            nfs_shares: NFS 共享列表。参数格式如下：[{
+                id: 共享ID (string),
+                name: 共享名称 (string),
+                path: 路径 (string),
+                fs_id: 文件系统ID (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/nfs-shares/query"
 
@@ -542,9 +550,18 @@ def nfs_share_show(client: DMEAPIClient, nfs_share_id: str) -> dict:
         nfs_share_id: NFS 共享 ID
 
     Returns:
-        NFS 共享详细信息
+        {
+            id: 共享ID (string),
+            name: 共享名称 (string),
+            path: 路径 (string),
+            fs_id: 文件系统ID (string),
+            export_ip: 导出IP (string),
+        }
     """
     url = "/rest/fileservice/v1/nfs-shares/{nfs_share_id}"
+
+    if not nfs_share_id:
+        raise ValueError("nfs_share_id 是必选参数")
 
     response = client.get(url, params={"nfs_share_id": nfs_share_id})
     return response
