@@ -219,16 +219,24 @@ def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None
 
 def dtree_show(client: DMEAPIClient, dtree_id: str) -> dict:
     """
-    查询指定 Dtree 详情
+    查询指定 Dtree 详情。
 
     Args:
         client: DME API 客户端
-        dtree_id: Dtree ID
+        dtree_id: Dtree ID (必选, string)
 
     Returns:
-        Dtree 详细信息
+        {
+            id: Dtree ID (string),
+            name: Dtree 名称 (string),
+            path: 路径 (string),
+            fs_id: 文件系统ID (string),
+        }
     """
     url = "/rest/fileservice/v1/dtrees/{dtree_id}"
+
+    if not dtree_id:
+        raise ValueError("dtree_id 是必选参数")
 
     response = client.get(url, params={"dtree_id": dtree_id})
     return response
@@ -287,9 +295,14 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
         task_remarks: 异步任务备注信息，0~1024个字符
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/dtrees"
+
+    if not storage_id or not create_dtrees_param:
+        raise ValueError("storage_id 和 create_dtrees_param 是必选参数")
 
     payload = {
         'storage_id': storage_id,
@@ -329,17 +342,22 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
 
 def dtree_delete(client: DMEAPIClient, dtree_ids: list, task_remarks: str = None) -> dict:
     """
-    批量删除 Dtree
+    批量删除 Dtree。
 
     Args:
         client: DME API 客户端
-        dtree_ids: 待删除 Dtree ID 列表
-        task_remarks: 异步任务备注信息
+        dtree_ids: 待删除 Dtree ID 列表 (必选, List[string])
+        task_remarks: 异步任务备注信息 (可选, string, 最多1024个字符)
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/fileservice/v1/dtrees/delete"
+
+    if not dtree_ids or len(dtree_ids) == 0:
+        raise ValueError("dtree_ids 是必选参数")
 
     payload = {
         'dtree_ids': dtree_ids
