@@ -229,7 +229,30 @@ When user ask to finish todo tasks, sequentially execute the unfinished todo tas
 - [x] 执行测试用例：test/todo.md
 - [ ] test/ 目录已移除 — 后续如需测试需重新搭建测试框架
 
-### Current Project Status
+
+### API reference clean task
+
+- [x] 处理文件中的格式问题：reference/dme-api-stormgmt.md — 已完成全部格式修复
+
+	该文件是通过PDF转换成的markdown，未正确将PDF中的表格转为Markdown格式，且未识别PDF表格中单元格内的换行
+	请遍历文件中的所有API章节，按如下方式处理：
+	- SLA在SLA项前添加行：**SLA**
+	- 将SLA项和描述转换为Markdown表格
+	- 将路径参数、查询参数、请求body参数、响应参数、内部对象属性、状态码表格内容转换为Markdown表格，请识别未被正确处理的单元格内的换行
+	- 删除请求header参数
+	- 格式化请求示例，按如下方式换行处理，并对请求body中的json格式进行格式化
+	<METHOD> <URL> HTTP/1.1
+	<HEADERS> （每个HEADER一行，请注意通过占位符<auth-token>替换X-Auth-Token的实际值）
+	<BODY>
+	- 格式化响应示例，按如下方式换行处理，并对响应body中的json格式进行格式化	
+	HTTP/1.1 <状态码>
+	<HEADERS>
+	<BODY>
+	- 状态码改为粗体：**状态码**
+	
+	注意不要使用脚本批量处理，请调用大模型理解能力，逐个API手动处理
+
+## Current Project Status
 
 **Package**: `pydme` (installable via `pip install -e .`)
 **Active Topics**: 15
