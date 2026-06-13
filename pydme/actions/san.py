@@ -2990,6 +2990,102 @@ def storage_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostgr
 
 
 # ============================================================================
+
+
+def physical_host_group_show_related(client: DMEAPIClient, hostgroup_id: str,
+                                       storage_ip: str = None,
+                                       storage_name: str = None) -> dict:
+    """
+    查询物理主机组关联的存储主机组列表。
+
+    Args:
+        client: DME API 客户端
+        hostgroup_id: 物理主机组ID (必选, string, 1~64个字符)
+        storage_ip: 存储设备IP (可选, string, 1~127个字符)
+        storage_name: 存储设备名称，支持模糊搜索 (可选, string, 1~256个字符)
+
+    Returns:
+        {
+            total: 查询的存储主机数 (integer),
+            strorage_host_group_list: 存储主机组列表 (List<StorageHostGroupResponse>)。参数格式如下：[{
+                host_group_id: 存储主机组ID (string),
+            }, ...],
+        }
+    """
+    url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/related-storage-hostgroups"
+
+    if not hostgroup_id:
+        raise ValueError("hostgroup_id 是必选参数")
+
+    query_params = {}
+    if storage_ip is not None:
+        query_params['storage_ip'] = storage_ip
+    if storage_name is not None:
+        query_params['storage_name'] = storage_name
+
+    response = client.get(url, params=query_params, path_params={"hostgroup_id": hostgroup_id})
+    return response
+
+
+def mapping_view_query_host_to_lun(client: DMEAPIClient, storage_id: str,
+                                     name: str = None, mapping_type: str = None,
+                                     host_info: dict = None, lun_info: dict = None,
+                                     sort_key: str = None, sort_dir: str = None,
+                                     page_size: int = 100, page_no: int = 1) -> dict:
+    """
+    查询存储主机和LUN映射关系。
+
+    Args:
+        client: DME API 客户端
+        storage_id: 存储设备ID (必选, string, 1~64个字符)
+        name: 映射视图名称，支持模糊搜索 (可选, string, 0~256个字符)
+        mapping_type: 查询主机映射类型 (可选, string)。可选值：all (和LUN存在映射关系的存储主机，包括直接映射和间接映射), match_mapping_view (与LUN直接映射的存储主机)
+        host_info: 存储主机信息 (可选, LunToHostQueryParam对象)
+        lun_info: LUN信息 (可选, HostToLunQueryParam对象)
+        sort_key: 排序字段 (可选, string)。可选值：host_name (存储主机名称), lun_name (LUN名称), capacity_usage (容量使用率), lun_raw_id, host_raw_id
+        sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)
+        page_size: 分页查询映射视图的个数 (可选, int32, 0~1000)。默认值：100
+        page_no: 分页查询映射视图的起始位置 (可选, int32)。默认值：1
+
+    Returns:
+        {
+            total: 映射视图数量 (int32),
+            mapping_views: 映射视图列表 (List<HostToLunMappingView>)。参数格式如下：[{
+                id: 映射视图ID (string),
+                name: 映射视图名称 (string),
+                host_info: 存储主机信息 (HostInfoRespParam对象),
+                lun_info: LUN信息 (LunInfoRespParam对象),
+            }, ...],
+        }
+    """
+    url = "/rest/blockservice/v1/mapping-views/query_for_host_to_lun"
+
+    if not storage_id:
+        raise ValueError("storage_id 是必选参数")
+
+    payload = {
+        'storage_id': storage_id,
+        'page_size': page_size,
+        'page_no': page_no
+    }
+    if name is not None:
+        payload['name'] = name
+    if mapping_type is not None:
+        payload['mapping_type'] = mapping_type
+    if host_info is not None:
+        payload['host_info'] = host_info
+    if lun_info is not None:
+        payload['lun_info'] = lun_info
+    if sort_key is not None:
+        payload['sort_key'] = sort_key
+    if sort_dir is not None:
+        payload['sort_dir'] = sort_dir
+
+    response = client.post(url, body=payload)
+    return response
+
+
+# ============================================================================
 # 动作列表，用于 CLI 帮助
 # ============================================================================
 
@@ -3407,5 +3503,17 @@ ACTIONS = {
         'description': '查询物理主机组关联的映射关系',
         'params': ['host_group_id', 'storage_id'],
         'subtopic': 'physical_host_group'
+    },
+    'show_related': {
+        'func': physical_host_group_show_related,
+        'description': '查询物理主机组关联的存储主机组列表',
+        'params': ['hostgroup_id', 'storage_ip', 'storage_name'],
+        'subtopic': 'physical_host_group'
+    },
+    'query_host_to_lun': {
+        'func': mapping_view_query_host_to_lun,
+        'description': '查询存储主机和LUN映射关系',
+        'params': ['storage_id', 'name', 'mapping_type', 'host_info', 'lun_info', 'sort_key', 'sort_dir', 'page_size', 'page_no'],
+        'subtopic': 'mapping_view'
     }
 }
