@@ -945,25 +945,27 @@ def mapping_view_create(
     return response
 
 
-def mapping_view_delete(client: DMEAPIClient, mapping_view_ids: list) -> dict:
+def mapping_view_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除映射视图
-
-    批量删除指定的映射视图。
+    批量删除映射视图。
 
     Args:
         client: DME API 客户端
-        mapping_view_ids: 映射视图 ID 列表
+        ids: 映射视图 ID 列表 (必选, List[string])
 
     Returns:
-        响应数据，包含 task_id
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/mapping-views/batch-delete"
 
-    body_params = {}
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数")
 
-    if mapping_view_ids is not None:
-        body_params['mapping_view_ids'] = mapping_view_ids
+    body_params = {
+        'ids': ids
+    }
 
     response = client.post(url, body=body_params)
     return response
