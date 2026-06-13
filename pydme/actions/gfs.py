@@ -18,8 +18,6 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
     """
     批量查询 Omni-Dataverse
 
-    批量查询 Omni-Dataverse，支持多种过滤条件。
-
     Args:
         client: DME API 客户端
         name: Omni-Dataverse 名称，支持模糊查询
@@ -84,8 +82,6 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
                         page_size: int = 100) -> dict:
     """
     查询 Omni-Dataverse 数据服务站点
-
-    查询 Omni-Dataverse 数据服务站点列表。
 
     Args:
         client: DME API 客户端

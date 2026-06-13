@@ -21,8 +21,6 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
     """
     批量查询保护组
 
-    批量查询保护组。
-
     Args:
         client: DME API 客户端
         name: 保护组名称，支持模糊搜索
@@ -78,8 +76,6 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
                  description: str = None) -> dict:
     """
     创建保护组
-
-    创建保护组，支持基于 LUN 或者 LUN 组创建保护组。
 
     Args:
         client: DME API 客户端
@@ -258,8 +254,6 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
     """
     批量查询双活一致性组
 
-    批量查询双活一致性组。
-
     Args:
         client: DME API 客户端
         page_no: 分页查询的页码，默认 1
@@ -314,8 +308,6 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
                             lun_ids: list = None, remote_resource_name_rule: str = None) -> dict:
     """
     创建双活一致性组
-
-    创建双活一致性组。该功能涉及到本端和远端，其中下发操作的设备端定义为本端，其对端设备定义为远端。
 
     Args:
         client: DME API 客户端
@@ -563,8 +555,6 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
                          remote_volume_name: str = None) -> dict:
     """
     批量查询 LUN 双活 Pair
-
-    批量查询 LUN 双活 Pair。
 
     Args:
         client: DME API 客户端
@@ -860,8 +850,6 @@ def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
     """
     批量查询双活域
 
-    批量查询双活域。
-
     Args:
         client: DME API 客户端
         storage_id: 设备 ID
@@ -896,8 +884,6 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           remote_volume_name: str = None) -> dict:
     """
     批量查询复制 Pair
-
-    批量查询复制 Pair。
 
     Args:
         client: DME API 客户端
@@ -1211,8 +1197,6 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
     """
     查询设备 Pairs
 
-    查询设备 Pairs 信息。
-
     Args:
         client: DME API 客户端
         storage_id: 存储设备 ID
@@ -1234,8 +1218,6 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
 def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
     """
     查询复制链路
-
-    查询复制链路信息。
 
     Args:
         client: DME API 客户端
@@ -1266,8 +1248,6 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
                   activated_time_to: int = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
     批量查询 LUN 快照
-
-    批量查询 LUN 快照信息。
 
     Args:
         client: DME API 客户端
@@ -1323,8 +1303,6 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
     """
     批量创建 LUN 快照
 
-    批量创建 LUN 快照。
-
     Args:
         client: DME API 客户端
         snapshots_info: LUN 快照创建信息列表，每项包含 name, source_type, source_id
@@ -1350,8 +1328,6 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
     """
     批量回滚 LUN 快照
 
-    批量回滚 LUN 快照。
-
     Args:
         client: DME API 客户端
         rollback_speed: 回滚速率，可选值：low, medium, high, highest
@@ -1375,8 +1351,6 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
                     is_auto_deactivate: bool = None) -> dict:
     """
     批量删除 LUN 快照
-
-    批量删除 LUN 快照。
 
     Args:
         client: DME API 客户端

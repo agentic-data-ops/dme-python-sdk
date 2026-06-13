@@ -38,8 +38,6 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
     """
     批量查询 LUN
     
-    批量查询 LUN 信息，支持分页和多种过滤条件。
-    
     Args:
         client: DME API 客户端
         limit: 分页查询的个数 (可选, 0~1000, 默认1000)
@@ -156,8 +154,6 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                   mapping: dict = None, task_remarks: str = None) -> dict:
     """
     自定义创建 LUN
-
-    自定义创建 LUN，支持常规模式和直通模式。
 
     Args:
         client: DME API 客户端
@@ -811,8 +807,6 @@ def mapping_view_create(
     """
     创建映射视图
 
-    创建映射视图，将 LUN 映射给主机、主机组或 VBS。
-
     Args:
         client: DME API 客户端
         storage_id: 存储设备 ID (必选, 1~64个字符)
@@ -1189,8 +1183,6 @@ def storage_host_batch_query(client: DMEAPIClient, ids: list) -> dict:
     """
     根据存储主机 ID 列表批量查询存储主机
 
-    根据存储主机 ID 列表批量查询存储主机。
-
     Args:
         client: DME API 客户端
         ids: ID 列表（必选，1~1000 个）
@@ -1219,8 +1211,6 @@ def storage_host_list(client: DMEAPIClient, page_size: int = None, page_no: int 
               vstore_name: str = None) -> dict:
     """
     批量查询存储主机
-
-    批量查询存储主机列表，支持多种过滤条件和分页。
 
     Args:
         client: DME API 客户端
@@ -1302,8 +1292,6 @@ def storage_host_modify(client: DMEAPIClient, storage_host_id: str,
                 hyper_metro_path_optimized: bool = None, task_remarks: str = None) -> dict:
     """
     修改存储主机
-
-    修改存储主机信息，包括主机名、主机 IP、主机操作系统、启动器等。
 
     Args:
         client: DME API 客户端
@@ -1399,8 +1387,6 @@ def storage_host_show_paths(client: DMEAPIClient, page_no: int = None, page_size
     """
     批量查询存储主机的路径信息
 
-    批量查询存储主机的路径信息（host-links）。
-
     Args:
         client: DME API 客户端
         page_no: 分页查询的页码 (可选, 1~2147483647, 默认1)
@@ -1448,8 +1434,6 @@ def storage_host_group_create(client: DMEAPIClient, storage_id: str, name: str,
                       task_remarks: str = None, vstore_id: str = None) -> dict:
     """
     创建存储主机组
-
-    创建存储主机组，可以包含现有主机或创建新主机。
 
     Args:
         client: DME API 客户端
@@ -1511,8 +1495,6 @@ def storage_host_group_list(client: DMEAPIClient, storage_id: str = None, name: 
                     support_provisioning: bool = None) -> dict:
     """
     批量查询存储主机组
-
-    批量查询存储主机组列表，支持多种过滤条件和分页。
 
     Args:
         client: DME API 客户端
@@ -1910,8 +1892,6 @@ def physical_host_list(client: DMEAPIClient, limit: int = None, start: int = Non
     """
     批量查询物理主机
 
-    批量查询物理主机列表，支持多种过滤条件和分页。
-
     Args:
         client: DME API 客户端
         limit: 分页查询的个数 (可选, 1~1000)
@@ -1973,8 +1953,6 @@ def physical_host_show(client: DMEAPIClient, host_id: str) -> dict:
     """
     查询指定物理主机
 
-    查询指定物理主机的详细信息。
-
     Args:
         client: DME API 客户端
         host_id: 物理主机 ID（必选）
@@ -1998,8 +1976,6 @@ def physical_host_create(client: DMEAPIClient, access_mode: str, type: str,
                 special_mode_type: str = None, save_public_key: bool = False) -> dict:
     """
     接入物理主机
-
-    接入物理主机或添加逻辑主机。
 
     Args:
         client: DME API 客户端
@@ -2076,8 +2052,6 @@ def physical_host_modify(client: DMEAPIClient, host_id: str,
     """
     修改物理主机基本信息
 
-    修改物理主机基本信息（仅支持接入模式为 NONE 的主机）。
-
     Args:
         client: DME API 客户端
         host_id: 物理主机 ID (必选)
@@ -2127,8 +2101,6 @@ def physical_host_modify_access_info(client: DMEAPIClient, host_id: str,
                 special_mode_type: str = None) -> dict:
     """
     修改物理主机接入信息
-
-    修改物理主机接入信息（如从 NONE 手动录入改为 ACCOUNT 账号密码接入）。
 
     Args:
         client: DME API 客户端
@@ -2217,8 +2189,6 @@ def physical_host_add_initiators(client: DMEAPIClient, host_id: str,
     """
     为物理主机添加启动器
 
-    为物理主机添加启动器（仅支持接入方式为 NONE 的主机）。
-
     Args:
         client: DME API 客户端
         host_id: 物理主机 ID (必选)
@@ -2245,8 +2215,6 @@ def physical_host_remove_initiators(client: DMEAPIClient, host_id: str,
     """
     从物理主机移除启动器
 
-    从物理主机移除启动器（仅支持接入方式为 NONE 的主机）。
-
     Args:
         client: DME API 客户端
         host_id: 物理主机 ID（必选）
@@ -2270,8 +2238,6 @@ def physical_host_show_initiators(client: DMEAPIClient, host_id: str,
                    status: str = None) -> dict:
     """
     查询指定物理主机的启动器
-
-    查询指定物理主机的启动器列表。
 
     Args:
         client: DME API 客户端
@@ -2313,8 +2279,6 @@ def physical_host_test(client: DMEAPIClient, storage_id: str,
          target_fcportgroups: list = None) -> dict:
     """
     检测存储设备和物理主机连通性
-
-    检测存储设备和物理主机之间的连通性。
 
     Args:
         client: DME API 客户端
@@ -2383,8 +2347,6 @@ def physical_host_query_sshkey(client: DMEAPIClient, ip: str,
                  port: int = None) -> dict:
     """
     查询指定物理主机 SSH 公钥
-
-    查询指定物理主机的 SSH 公钥信息。
 
     Args:
         client: DME API 客户端
@@ -2559,8 +2521,6 @@ def physical_host_group_list(client: DMEAPIClient, limit: int = None, start: int
     """
     批量查询物理主机组
 
-    批量查询物理主机组列表。
-
     Args:
         client: DME API 客户端
         limit: 分页查询的个数 (可选, 1~1000)
@@ -2667,8 +2627,6 @@ def physical_host_group_show(client: DMEAPIClient, hostgroup_id: str) -> dict:
     """
     查询指定物理主机组
 
-    查询指定物理主机组的详细信息。
-
     Args:
         client: DME API 客户端
         hostgroup_id: 物理主机组 ID（必选）
@@ -2725,8 +2683,6 @@ def physical_host_group_modify(client: DMEAPIClient, hostgroup_id: str,
     """
     修改物理主机组基本信息
 
-    修改物理主机组基本信息。
-
     Args:
         client: DME API 客户端
         hostgroup_id: 物理主机组 ID (必选)
@@ -2769,8 +2725,6 @@ def physical_host_group_delete(client: DMEAPIClient, hostgroup_id: str,
     """
     删除指定物理主机组
 
-    删除指定物理主机组，自动解除与物理主机的关系。
-
     Args:
         client: DME API 客户端
         hostgroup_id: 物理主机组 ID（必选）
@@ -2789,8 +2743,6 @@ def physical_host_group_add_hosts(client: DMEAPIClient, hostgroup_id: str,
              host_ids: list, sync_to_storage: bool = False) -> dict:
     """
     向物理主机组中增加物理主机
-
-    向物理主机组中增加物理主机。
 
     Args:
         client: DME API 客户端

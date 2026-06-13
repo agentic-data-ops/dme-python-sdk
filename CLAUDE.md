@@ -173,6 +173,27 @@ tuning: 调优属性 (可选), CustomizeLunTuning 对象。参数格式如下：
 在 `--help` 中出现 `--name`、`--type`、`--mode`、`--tag_ids` 等不应出现的参数名。
 修复方法：将 `格式：{` 替换为 `参数格式如下：{`，将 `格式：[{` 替换为 `参数格式如下：[{`。
 
+### Returns 格式约定
+
+`Returns:` 段直接输出 JSON 风格的格式内容，**不加任何前缀文字**，以 `{` 开头：
+
+```
+Returns:
+    {
+        total: 硬盘域数量 (int32),
+        disk_pools: 硬盘域列表 (List<DiskPoolInfo>)。参数格式如下：[{
+            id: 硬盘域id (1~64个字符),
+            ...
+        }, ...]
+    }
+```
+
+规则：
+- 入口标记：直接以 **`{`** 开头，不使用 `响应数据格式：{`、`返回 XXX 对象。` 等前缀
+- 嵌套列表：使用 `参数格式如下：[{` 标记
+- 所有字段行末添加 `,` 分隔
+- 其余规则与 Args 参数格式块一致（无引号、英文括号约束、枚举值格式、句号结尾等）
+
 ## Todo Tasks
 
 When user ask to finish todo tasks, sequentially execute the unfinished todo tasks step by step. When each task finished, update the todo task checkbox, and execute git commit and push.

@@ -265,8 +265,6 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
     """
     查询待办任务组列表
 
-    查询待办任务组列表，支持多种过滤条件和分页。
-
     Args:
         client: DME API 客户端
         group_id: 待办任务组 ID（可选）
@@ -348,8 +346,6 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
 def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     """
     确认执行定时待办任务组
-
-    确认执行定时待办任务组，以便待办任务组能够执行。
 
     Args:
         client: DME API 客户端
@@ -1023,8 +1019,6 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
                  page_size: int = 20) -> dict:
     """
     查询指定数据中心的设备列表信息
-    
-    查询指定数据中心下的设备列表，支持按设备类型过滤。
     
     Args:
         client: DME API 客户端

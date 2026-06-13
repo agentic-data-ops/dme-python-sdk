@@ -13,8 +13,6 @@ def list(client: DMEAPIClient, name: str = None,
     """
     批量查询交换机
     
-    查询光纤交换机列表。
-    
     Args:
         client: DME API 客户端
         name: 交换机名称（可选，支持模糊查询）
@@ -42,8 +40,6 @@ def sync(client: DMEAPIClient, switch_id: str) -> dict:
     """
     同步指定交换机
     
-    同步光纤交换机的配置信息。
-    
     Args:
         client: DME API 客户端
         switch_id: 交换机 ID（必选）
@@ -62,8 +58,6 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
                        page_size: int = 20) -> dict:
     """
     批量查询交换机端口
-    
-    查询光纤交换机端口列表。
     
     Args:
         client: DME API 客户端
@@ -97,8 +91,6 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     """
     批量查询交换机控制处理器
     
-    查询光纤交换机控制处理器列表。
-    
     Args:
         client: DME API 客户端
         switch_id: 交换机 ID（可选）
@@ -126,8 +118,6 @@ def fabric_list(client: DMEAPIClient, name: str = None,
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
     批量查询光纤网络
-    
-    查询光纤网络（Fabric）列表。
     
     Args:
         client: DME API 客户端
@@ -157,8 +147,6 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
     """
     查询指定光纤网络的端口列表
 
-    查询指定光纤网络的端口列表。
-
     Args:
         client: DME API 客户端
         fabric_id: 光纤网络 ID（必选）
@@ -183,8 +171,6 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
                   backup_type: str = "full") -> dict:
     """
     执行光纤网络配置文件备份
-    
-    备份指定光纤网络的配置文件。
     
     Args:
         client: DME API 客户端
@@ -213,8 +199,6 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
 def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询 VSAN 列表
-    
-    查询光纤 VSAN（Virtual Storage Area Network）列表。
     
     Args:
         client: DME API 客户端
@@ -299,7 +283,6 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     创建 zone
 
-    创建新的光纤 Zone。
     注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
 
     Args:
@@ -395,8 +378,6 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
     删除 zone
-    
-    删除指定的光纤 Zone。
     注：根据 DME API 文档，使用 DELETE 方法到 /zones/{zone_id}
     
     Args:
@@ -416,7 +397,6 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     """
     批量创建 zone
 
-    批量创建多个光纤 Zone。
     注：根据 DME API 文档，需要 is_active_zone 和 zone_list 参数。
 
     Args:
@@ -533,10 +513,9 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                  fcid_members: list = None, device_alias_members: list = None) -> dict:
     """
     创建别名
-    
-    创建新的光纤 Alias。
+
     注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
-    
+
     Args:
         client: DME API 客户端
         name: Alias 名称（必选）
@@ -585,10 +564,9 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
                  device_alias_members: dict = None) -> dict:
     """
     修改别名
-    
-    修改光纤 Alias 的配置信息。
+
     注：根据 DME API 文档，成员修改需要使用 {type}.added_members 和 {type}.removed_members 格式。
-    
+
     Args:
         client: DME API 客户端
         alias_id: Alias ID（必选）
@@ -625,10 +603,9 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
 def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     删除别名
-    
-    删除指定的光纤 Alias。
+
     注：根据 DME API 文档，使用 DELETE 方法到 /aliases/{alias_id}
-    
+
     Args:
         client: DME API 客户端
         alias_id: Alias ID（必选）

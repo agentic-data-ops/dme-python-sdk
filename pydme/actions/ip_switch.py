@@ -12,8 +12,6 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     """
     查询以太网交换机列表信息
     
-    查询以太网交换机列表。
-    
     Args:
         client: DME API 客户端
         name: 交换机名称（可选，支持模糊查询）
@@ -41,8 +39,6 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     """
     查询 IP 交换机机框列表信息
     
-    查询 IP 交换机上的机框列表。
-    
     Args:
         client: DME API 客户端
         ipswitch_id: IP 交换机 ID（必选）
@@ -67,8 +63,6 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询 IP 交换机单板列表信息
-    
-    查询 IP 交换机上的单板列表。
     
     Args:
         client: DME API 客户端
@@ -95,8 +89,6 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
     """
     查询 IP 交换机子卡列表信息
     
-    查询 IP 交换机上的子卡列表。
-    
     Args:
         client: DME API 客户端
         ipswitch_id: IP 交换机 ID（必选）
@@ -121,8 +113,6 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
 def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询 IP 交换机电源列表信息
-    
-    查询 IP 交换机上的电源列表。
     
     Args:
         client: DME API 客户端
@@ -149,8 +139,6 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
     """
     查询 IP 交换机风扇列表信息
     
-    查询 IP 交换机上的风扇列表。
-    
     Args:
         client: DME API 客户端
         ipswitch_id: IP 交换机 ID（必选）
@@ -175,8 +163,6 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
 def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询 IP 交换机端口列表信息
-    
-    查询 IP 交换机上的端口列表。
     
     Args:
         client: DME API 客户端

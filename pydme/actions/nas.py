@@ -20,8 +20,6 @@ def dpc_list(client: DMEAPIClient, ids: list = None, hostname: str = None, ip: s
     """
     批量查询并行客户端列表
 
-    批量查询并行客户端列表，包含 OceanStor A800 的 Dataturbo 客户端和 OceanStor Pacific/A310 的 DPC 信息。
-
     Args:
         client: DME API 客户端
         ids: 并行客户端 ID 列表（可选），List<string> 类型，数组最大成员个数 100，精确查询
@@ -76,8 +74,6 @@ def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
     """
     查询并行客户端详情
 
-    查询并行客户端详情，包含 OceanStor A800 的 Dataturbo 客户端和 OceanStor Pacific/A310 的 DPC 信息。
-
     Args:
         client: DME API 客户端
         dpc_id: 并行客户端 ID
@@ -94,8 +90,6 @@ def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
 def dpc_version_list(client: DMEAPIClient) -> dict:
     """
     查询并行客户端版本信息列表
-
-    查询并行客户端版本列表。
 
     Args:
         client: DME API 客户端
@@ -119,8 +113,6 @@ def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None
                dc_id: str = None, dc_name: str = None) -> dict:
     """
     查询 Dtree 列表
-
-    查询 Dtree 列表。
 
     Args:
         client: DME API 客户端
@@ -401,8 +393,6 @@ def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = 
                    zone_ip: str = None, scope: str = None) -> dict:
     """
     查询 NFS 共享列表
-
-    查询 NFS 共享列表。
 
     Args:
         client: DME API 客户端
@@ -713,8 +703,6 @@ def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
               dc_name: str = None) -> dict:
     """
     批量查询 CIFS 共享
-
-    批量查询 CIFS 共享，支持多种过滤条件。
 
     Args:
         client: DME API 客户端
@@ -1205,8 +1193,6 @@ def dataturbo_share_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
     """
     查询 DataTurbo 共享列表
 
-    查询 DataTurbo 共享列表，支持多种过滤条件。
-
     Args:
         client: DME API 客户端
         page_no: 分页页码（可选），1~10000000，默认 1
@@ -1458,8 +1444,6 @@ def quota_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
     """
     查询配额列表
 
-    查询配额列表，支持多种过滤条件。
-
     Args:
         client: DME API 客户端
         page_no: 分页查询页码（可选），最小值 1，默认 1
@@ -1709,8 +1693,6 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
                      tag_filters: list = None) -> dict:
     """
     批量查询文件系统
-
-    批量查询文件系统，返回文件系统概要信息列表。
 
     Args:
         client: DME API 客户端
@@ -2354,8 +2336,6 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
     """
     批量查询命名空间
     
-    批量查询命名空间信息，支持分页和多种过滤条件。
-    
     Args:
         client: DME API 客户端
         page_no: 分页查询页码（可选），1~10000000
@@ -2425,8 +2405,6 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
     """
     查询指定命名空间详情
     
-    查询指定命名空间的详细信息。
-    
     Args:
         client: DME API 客户端
         namespace_id: 命名空间 ID（必选，1~64 个字符）
@@ -2476,8 +2454,6 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
            task_remarks: str = None) -> dict:
     """
     批量创建命名空间
-    
-    批量创建命名空间，支持一次创建最多 500 个命名空间。
     
     Args:
         client: DME API 客户端
@@ -2653,8 +2629,6 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
     """
     修改指定命名空间
     
-    修改指定命名空间的配置参数。
-    
     Args:
         client: DME API 客户端
         namespace_id: 命名空间 ID（必选，1~64 个字符）
@@ -2790,8 +2764,6 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
 def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: str = None) -> dict:
     """
     批量删除命名空间
-    
-    批量删除命名空间，单次最多删除 100 个。
     
     Args:
         client: DME API 客户端

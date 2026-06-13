@@ -13,8 +13,6 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     """
     查询容器集群列表
     
-    查询容器集群列表，支持按名称过滤和分页。
-    
     Args:
         client: DME API 客户端
         name: 容器集群名称（可选，支持模糊查询）
@@ -42,8 +40,6 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
                name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询容器节点列表
-    
-    查询容器节点列表，支持按集群 ID 和名称过滤。
     
     Args:
         client: DME API 客户端
@@ -113,8 +109,6 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
     """
     查询容器命名空间列表
     
-    查询容器命名空间列表，支持按集群 ID 和名称过滤。
-    
     Args:
         client: DME API 客户端
         cluster_id: 容器集群 ID（可选）
@@ -146,8 +140,6 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询容器持久卷声明列表
-    
-    查询容器持久卷声明（PVC）列表，支持按集群 ID、命名空间和名称过滤。
     
     Args:
         client: DME API 客户端

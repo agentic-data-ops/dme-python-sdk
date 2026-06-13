@@ -17,8 +17,6 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     """
     查询虚拟机列表
     
-    查询虚拟机列表，支持多种过滤条件和分页。
-    
     Args:
         client: DME API 客户端
         site_id: 虚拟机所属站点 ID
@@ -121,8 +119,6 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                     sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询数据存储列表
-    
-    查询数据存储列表，支持多种过滤条件和分页。
     
     Args:
         client: DME API 客户端
@@ -285,8 +281,6 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询集群列表
-    
-    查询集群列表，支持多种过滤条件。
     
     Args:
         client: DME API 客户端

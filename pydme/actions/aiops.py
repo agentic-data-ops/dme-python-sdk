@@ -333,8 +333,6 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     r"""
     创建智能分析任务
 
-    创建智能分析任务,支持多种分析类型.
-
     Args:
         client: DME API 客户端
         object_ids: 入口分析对象 ID 列表(必选),数组大小:1~50
@@ -777,8 +775,6 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                         object_category: str = None) -> dict:
     """
     查询检查策略列表
-
-    查询检查策略列表，支持多种过滤条件和分页查询。
 
     Args:
         client: DME API 客户端

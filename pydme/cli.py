@@ -128,7 +128,8 @@ class DMECLI:
         """
         result = {
             'description': '',
-            'params': {}
+            'params': {},
+            'returns': ''
         }
 
         if not doc:
@@ -204,6 +205,25 @@ class DMECLI:
             # 保存最后一个参数
             if current_param and param_lines:
                 result['params'][current_param] = '\n'.join(param_lines)
+
+        # 提取返回信息
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith('Returns:'):
+                in_returns = True
+                rest = stripped[len('Returns:'):].strip()
+                if rest:
+                    result['returns'] = rest
+                continue
+
+            if in_returns:
+                if stripped.startswith(('Raises:', 'Note:', 'Example:')):
+                    break
+                if stripped:
+                    if result['returns']:
+                        result['returns'] += '\n' + stripped
+                    else:
+                        result['returns'] = stripped
 
         return result
 
@@ -520,6 +540,24 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
                     print(f"      {line}")
     else:
         print("  无参数")
+
+    returns = info['parsed'].get('returns', '')
+    if returns:
+        print(f"\n输出说明:")
+        print(f"{'-'*60}")
+        brace_depth = 1
+        for line in returns.split('\n'):
+            stripped = line.strip()
+            close_count = stripped.count('}')
+            open_count = stripped.count('{')
+            display_depth = brace_depth - close_count
+            if display_depth < 0:
+                display_depth = 0
+            indent = '    ' * display_depth
+            print(f"{indent}{stripped}")
+            brace_depth += open_count - close_count
+            if brace_depth < 0:
+                brace_depth = 0
 
     print(f"\n{'='*60}")
     print(f"使用示例:")

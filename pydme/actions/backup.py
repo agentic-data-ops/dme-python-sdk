@@ -15,8 +15,6 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     """
     查询备份集群列表
     
-    查询备份集群列表，支持按名称过滤和分页。
-    
     Args:
         client: DME API 客户端
         name: 备份集群名称（可选，支持模糊查询）
