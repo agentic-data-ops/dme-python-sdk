@@ -105,6 +105,106 @@ def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
     return response
 
 
+def dpc_client_list(client: DMEAPIClient, storage_id: str = None,
+                     process_id: str = None, name: str = None,
+                     manage_ip: str = None, version: str = None,
+                     status: str = None, switch_status: str = None,
+                     upgrade_flag: str = None, sort_key: str = None,
+                     sort_dir: str = None,
+                     page_no: int = 1, page_size: int = 10) -> dict:
+    """
+    批量查询DPC客户端。
+
+    Args:
+        client: DME API 客户端
+        storage_id: 存储ID (可选, string, 1~64个字符)
+        process_id: DPC客户端进程ID (可选, string, 1~64个字符)
+        name: DPC客户端名称，支持模糊搜索 (可选, string, 1~256个字符)
+        manage_ip: DPC客户端节点管理IP，支持模糊搜索 (可选, string, 1~256个字符)
+        version: DPC客户端版本，支持模糊搜索 (可选, string, 1~256个字符)
+        status: DPC客户端状态 (可选, string)。可选值：normal (正常), abnormal (异常), disabled (未启用)
+        switch_status: 节点FSA开关状态 (可选, string)。可选值：on (开启), off (关闭)
+        upgrade_flag: 升级标记 (可选, string)。可选值：required (需要升级), not_required (无需升级)
+        sort_key: 排序字段 (可选, string)。可选值：manage_ip (节点管理IP), dpc_mem (DPC客户端节点内存)
+        sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)
+        page_no: 分页页码 (可选, int32, 1~10000000)。默认值：1
+        page_size: 每页数据条数 (可选, int32, 1~1000)。默认值：10
+
+    Returns:
+        {
+            total: 总数 (integer),
+            data: DPC客户端数据 (List<DpcClient>)。参数格式如下：[{
+                id: ID (string),
+                storage_id: 存储ID (string),
+                process_id: DPC客户端进程ID (string),
+                name: DPC客户端名称 (string),
+                manage_ip: DPC客户端节点管理IP (string),
+                version: DPC客户端版本 (string),
+                status: DPC客户端状态 (string),
+                switch_status: 节点FSA开关状态 (string),
+                upgrade_flag: 升级标记 (string),
+                dpc_mem: DPC客户端节点内存 (int64),
+            }, ...],
+        }
+    """
+    url = "/rest/fileservice/v1/dpc-clients/query"
+
+    payload = {
+        'page_no': page_no,
+        'page_size': page_size
+    }
+    if storage_id is not None:
+        payload['storage_id'] = storage_id
+    if process_id is not None:
+        payload['process_id'] = process_id
+    if name is not None:
+        payload['name'] = name
+    if manage_ip is not None:
+        payload['manage_ip'] = manage_ip
+    if version is not None:
+        payload['version'] = version
+    if status is not None:
+        payload['status'] = status
+    if switch_status is not None:
+        payload['switch_status'] = switch_status
+    if upgrade_flag is not None:
+        payload['upgrade_flag'] = upgrade_flag
+    if sort_key is not None:
+        payload['sort_key'] = sort_key
+    if sort_dir is not None:
+        payload['sort_dir'] = sort_dir
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def dpc_client_show(client: DMEAPIClient, id: str) -> dict:
+    """
+    查询DPC客户端详情。
+
+    Args:
+        client: DME API 客户端
+        id: 查询DPC客户端ID (必选, string, 1~64个字符)
+
+    Returns:
+        {
+            id: ID (string),
+            storage_id: 存储ID (string),
+            process_id: DPC客户端进程ID (string),
+            name: DPC客户端名称 (string),
+            manage_ip: DPC客户端节点管理IP (string),
+            version: DPC客户端版本 (string),
+            status: DPC客户端状态 (string),
+        }
+    """
+    url = "/rest/fileservice/v1/dpc-clients/{id}"
+
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    response = client.get(url, params={"id": id})
+    return response
+
 
 def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None,
                device_name: str = None, storage_id: str = None, zone_id: str = None,
@@ -3914,7 +4014,7 @@ ACTIONS = {
         'params': ['namespace_ids', 'task_remarks'],
         'subtopic': 'namespace'
     },
-    # dpc 子主题动作
+    # dataturbo 子主题动作（原 dpc 子主题，重命名）
     'dpc_list': {
         'func': dpc_list,
         'description': '批量查询并行客户端列表',
@@ -3926,6 +4026,19 @@ ACTIONS = {
         'description': '查询并行客户端详情',
         'params': ['dpc_id'],
         'subtopic': 'dataturbo'
+    },
+    # dpc 子主题动作 (DPC客户端)
+    'list': {
+        'func': dpc_client_list,
+        'description': '批量查询DPC客户端',
+        'params': ['storage_id', 'process_id', 'name', 'manage_ip', 'version', 'status', 'switch_status', 'upgrade_flag', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
+        'subtopic': 'dpc'
+    },
+    'show': {
+        'func': dpc_client_show,
+        'description': '查询DPC客户端详情',
+        'params': ['id'],
+        'subtopic': 'dpc'
     },
     # kvcache 子主题动作
     'kvcache_list': {
