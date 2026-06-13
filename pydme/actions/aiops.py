@@ -203,7 +203,15 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         include_history: 开关参数,指定则同时查询历史告警
 
     Returns:
-        响应数据,包含告警列表
+        {
+            current_alarms: 当前告警列表 (List<AlarmInfo>)。参数格式如下：[{
+                alarm_id: 告警ID (string),
+                alarm_name: 告警名称 (string),
+                severity: 告警级别 (string),
+                status: 状态 (string),
+            }, ...],
+            total: 告警总数 (integer),
+        }
     """
     result = {
         'current_alarms': None,
