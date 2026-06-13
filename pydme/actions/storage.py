@@ -12,30 +12,83 @@ from pydme.client import DMEAPIClient
 # ============================================================================
 
 
-def vstore_list(client: DMEAPIClient, storage_id: str, name: str = None, page_no: int = 1, page_size: int = 100) -> dict:
+def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
+                page_no: int = 1, page_size: int = 100,
+                raw_id: str = None, vstore_id: str = None,
+                qos_id: str = None, is_associated_qos: bool = None,
+                storage_ip: str = None, storage_name: str = None,
+                zone_id: str = None, status: str = None,
+                nas_capacity_quota_alarm_switch: bool = None,
+                sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    批量查询存储设备租户信息
-
-    查询存储设备上的租户列表。
+    批量查询存储设备租户信息。
 
     Args:
         client: DME API 客户端
-        storage_id: 存储设备 ID（可选）
-        name: 租户名称（可选，支持模糊查询）
-        page_no: 分页查询的页码，默认 1，范围 1~10000000
-        page_size: 每页数量，1~1000，默认 100
+        raw_id: 所属租户在设备中的ID (可选, string, 1~256个字符)
+        vstore_id: 租户ID (可选, string, 1~64个字符)
+        qos_id: QoS策略ID (可选, string, 1~64个字符)
+        is_associated_qos: 租户是否已关联QoS (可选, boolean, true,false)
+        name: 所属租户名称，支持模糊查询 (可选, string, 1~256个字符)
+        storage_id: 存储设备ID (可选, string, 1~255个字符)
+        storage_ip: 存储设备IP (可选, string, 1~255个字符)
+        storage_name: 存储设备名称 (可选, string, 1~255个字符)
+        zone_id: Zone ID (可选, string, 1~64个字符)。仅OceanStor A系列存储支持。
+        status: 所属租户状态 (可选, string)。可选值：active (已激活), inactive (未激活)
+        nas_capacity_quota_alarm_switch: NAS容量配额告警开关 (可选, boolean, true,false)。仅OceanStor A系列存储支持。
+        sort_key: 排序字段 (可选, string)
+        sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)
+        page_no: 分页查询的起始位置 (可选, int32, 1~10000000)。默认值：1
+        page_size: 分页查询的个数 (可选, int32, 1~1000)。默认值：100
 
     Returns:
-        响应数据，包含 total 和 vstores 字段
+        {
+            total: 所属租户总数量 (integer),
+            vstores: 所属租户列表 (List<VstoreResp>, 数组最大成员个数：1000)。参数格式如下：[{
+                id: 所属租户的唯一标识 (string, 1~64个字符),
+                qos_id: QoS策略ID (string, 1~64个字符),
+                raw_id: 在设备中的所属租户ID (string, 1~64个字符),
+                storage_sn: 存储设备SN (string, 1~64个字符),
+                storage_id: 设备ID (string, 1~64个字符),
+                storage_ip: 设备IP (string, 1~255个字符),
+                storage_name: 设备名称 (string, 1~255个字符),
+                name: 所属租户名称 (string, 1~256个字符),
+                description: 租户描述 (string, 0~255个字符),
+                running_status: 运行状态 (string)。可选值：normal (正常), initializing (初始化),
+                status: 所属租户状态 (string)。可选值：active (已激活), inactive (未激活),
+                encrypt_option: 所属租户的加密选项 (boolean, true,false),
+            }, ...]
+        }
     """
     url = "/rest/fileservice/v1/vstores/query"
 
     payload = {}
-
-    if storage_id is not None:
-        payload['storage_id'] = storage_id
+    if raw_id is not None:
+        payload['raw_id'] = raw_id
+    if vstore_id is not None:
+        payload['id'] = vstore_id
+    if qos_id is not None:
+        payload['qos_id'] = qos_id
+    if is_associated_qos is not None:
+        payload['is_associated_qos'] = is_associated_qos
     if name is not None:
         payload['name'] = name
+    if storage_id is not None:
+        payload['storage_id'] = storage_id
+    if storage_ip is not None:
+        payload['storage_ip'] = storage_ip
+    if storage_name is not None:
+        payload['storage_name'] = storage_name
+    if zone_id is not None:
+        payload['zone_id'] = zone_id
+    if status is not None:
+        payload['status'] = status
+    if nas_capacity_quota_alarm_switch is not None:
+        payload['nas_capacity_quota_alarm_switch'] = nas_capacity_quota_alarm_switch
+    if sort_key is not None:
+        payload['sort_key'] = sort_key
+    if sort_dir is not None:
+        payload['sort_dir'] = sort_dir
     if page_no is not None:
         payload['page_no'] = page_no
     if page_size is not None:
@@ -45,39 +98,40 @@ def vstore_list(client: DMEAPIClient, storage_id: str, name: str = None, page_no
     return response
 
 
-def vstore_show(client: DMEAPIClient, vstore_id: str) -> dict:
+def vstore_show(client: DMEAPIClient, id: str) -> dict:
     """
-    查询租户详情
-    
-    查询指定租户的详细信息。
-    
+    查询租户详情。
+
     Args:
         client: DME API 客户端
-        vstore_id: 租户 ID（必选）
-    
+        id: 租户id (必选, string, 1~256个字符)。需满足UUID格式或32位十六进制
+
     Returns:
-        租户详细信息
+        租户详细信息，包含id, name, description, storage_id, status等字段
     """
-    url = "/rest/fileservice/v1/vstores/{vstore_id}"
-    
-    response = client.get(url, params={"vstore_id": vstore_id})
+    url = "/rest/fileservice/v1/vstores/{id}"
+
+    # 参数校验
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    response = client.get(url, params={"id": id})
     return response
 
 
-def vstore_create(client: DMEAPIClient, name: str, storage_id: str, san_capacity_quota: str = None,
+def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
+                  san_capacity_quota: str = None,
                   nas_capacity_quota: str = None, description: str = None,
                   nas_capacity_quota_alarm_switch: bool = None,
                   nas_capacity_quota_alarm_threshold: int = None,
                   associate_pool_ids: list = None) -> dict:
     """
-    创建租户
-
-    创建新的存储租户。
+    创建租户。OceanStor Dorado v3设备不支持该功能。
 
     Args:
         client: DME API 客户端
-        name: 租户名称（必选，1~256 个字符）
-        storage_id: 存储设备 ID（必选，1~36 个字符，UUID 格式）
+        storage_id: 存储设备ID (必选, string, 1~36个字符)。需满足UUID格式或32位十六进制
+        name: 租户名称 (必选, string, 1~256个字符)。仅包含字母、数字、"_"、"-"、"."和中文字符
         san_capacity_quota: SAN 容量配额（可选，单位：扇区）
         nas_capacity_quota: NAS 容量配额（可选，单位：扇区）
         description: 租户描述（可选，0~255 个字符）
