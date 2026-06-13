@@ -22,7 +22,14 @@ def cluster_list(client: DMEAPIClient, name: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        响应数据，包含备份集群列表
+        {
+            total: 集群总数 (integer),
+            clusters: 备份集群列表。参数格式如下：[{
+                id: 集群ID (string),
+                name: 集群名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/query"
     
@@ -49,7 +56,11 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
         cluster_id: 备份集群 ID（必选）
     
     Returns:
-        备份集群容量信息
+        {
+            total_capacity: 总容量 (integer),
+            used_capacity: 已用容量 (integer),
+            free_capacity: 空闲容量 (integer),
+        }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/{cluster_id}/capacity"
     
@@ -73,7 +84,14 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        租户配额列表
+        {
+            total: 配额总数 (integer),
+            quotas: 租户配额列表。参数格式如下：[{
+                tenant_id: 租户ID (string),
+                quota: 配额大小 (integer),
+                used: 已用配额 (integer),
+            }, ...],
+        }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/{cluster_id}/tenant-quotas/query"
     
