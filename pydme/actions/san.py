@@ -1023,7 +1023,14 @@ def mapping_view_list(
         sort_dir: 排序方向 (可选)。可选值：asc (升序), desc (降序)
 
     Returns:
-        响应数据，包含映射视图列表
+        {
+            total: 映射视图总数 (integer),
+            mapping_views: 映射视图列表 (List<MappingViewInfo>)。参数格式如下：[{
+                id: 映射视图ID (string),
+                name: 映射视图名称 (string),
+                storage_id: 存储设备ID (string),
+            }, ...],
+        }
     """
     url = "/rest/blockservice/v1/mapping-views/query"
 
