@@ -3017,13 +3017,15 @@ def physical_host_group_show_related(client: DMEAPIClient, hostgroup_id: str,
     if not hostgroup_id:
         raise ValueError("hostgroup_id 是必选参数")
 
-    query_params = {}
+    params = {
+        'hostgroup_id': hostgroup_id
+    }
     if storage_ip is not None:
-        query_params['storage_ip'] = storage_ip
+        params['storage_ip'] = storage_ip
     if storage_name is not None:
-        query_params['storage_name'] = storage_name
+        params['storage_name'] = storage_name
 
-    response = client.get(url, params=query_params, path_params={"hostgroup_id": hostgroup_id})
+    response = client.get(url, params=params)
     return response
 
 
