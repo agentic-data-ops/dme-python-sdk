@@ -1123,6 +1123,98 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
     return response
 
 
+def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
+                active_ip_address: str = None, standby_ip_address: str = None,
+                sync_status: list = None, role: str = None,
+                sort_key: str = None, sort_dir: str = None,
+                page_no: int = 1, page_size: int = 20) -> dict:
+    """
+    批量查询Region。
+
+    Args:
+        client: DME API 客户端
+        ids: Region的ID列表，支持精确匹配 (可选, List[string], 数组最大成员个数：100)
+        name: Region的名称，支持模糊搜索 (可选, string, 最多256个字符)
+        active_ip_address: Region主IP地址，支持模糊搜索 (可选, string, 最多256个字符)
+        standby_ip_address: Region备IP地址，支持模糊搜索 (可选, string, 最多256个字符)
+        sync_status: Region同步状态，精确过滤 (可选, List[string], 数组最大成员个数：3)。可选值：normal (正常), sync (同步中), failed (同步失败)
+        role: Region角色，精确过滤 (可选, string)。可选值：parent (上级Region), child (下级Region)
+        sort_key: 排序字段 (可选, string)。可选值：last_sync_time (最近同步时间)
+        sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)。默认值：desc
+        page_no: 分页查询的开始页 (可选, int32, 1~100)。默认值：1
+        page_size: 每页数量 (可选, int32, 1~100)。默认值：20
+
+    Returns:
+        {
+            total: 总数 (integer),
+            regions: Region列表。参数格式如下：[{
+                id: Region ID (string),
+                name: Region名称 (string),
+                role: Region角色 (string),
+                sync_status: 同步状态 (string),
+            }, ...],
+        }
+    """
+    url = "/rest/regionmgmt/v1/regions/query"
+
+    payload = {
+        'page_no': page_no,
+        'page_size': page_size
+    }
+    if ids is not None:
+        payload['ids'] = ids
+    if name is not None:
+        payload['name'] = name
+    if active_ip_address is not None:
+        payload['active_ip_address'] = active_ip_address
+    if standby_ip_address is not None:
+        payload['standby_ip_address'] = standby_ip_address
+    if sync_status is not None:
+        payload['sync_status'] = sync_status
+    if role is not None:
+        payload['role'] = role
+    if sort_key is not None:
+        payload['sort_key'] = sort_key
+    if sort_dir is not None:
+        payload['sort_dir'] = sort_dir
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def region_query(client: DMEAPIClient, region_id: str, request_url: str,
+                 request_method: str, request_body: str = None) -> dict:
+    """
+    查询下级Region资源信息。
+
+    Args:
+        client: DME API 客户端
+        region_id: 下级Region的ID (必选, string, 1~64个字符)
+        request_url: 查询下级相应资源北向接口URL (必选, string, 1~8192个字符)
+        request_method: 请求方式 (必选, string)。可选值：get (Get请求), post (Post请求)
+        request_body: 调用下级北向接口请求Body体 (可选, string, 1~20480个字符)
+
+    Returns:
+        无
+    """
+    url = "/rest/regionmgmt/v1/regions/{region_id}/resources/query"
+
+    if not region_id:
+        raise ValueError("region_id 是必选参数")
+    if not request_url:
+        raise ValueError("request_url 是必选参数")
+
+    payload = {
+        'request_url': request_url,
+        'request_method': request_method
+    }
+    if request_body is not None:
+        payload['request_body'] = request_body
+
+    response = client.post(url, body=payload, params={"region_id": region_id})
+    return response
+
+
 # 动作列表，用于 CLI 帮助
 ACTIONS = {
     # 直接动作（两级结构）
@@ -1366,5 +1458,18 @@ ACTIONS = {
         'description': '查询指定数据中心的设备列表信息',
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
+    },
+    # region 子主题动作
+    'region_list': {
+        'func': region_list,
+        'description': '批量查询Region',
+        'params': ['ids', 'name', 'active_ip_address', 'standby_ip_address', 'sync_status', 'role', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
+        'subtopic': 'region'
+    },
+    'region_query': {
+        'func': region_query,
+        'description': '查询下级Region资源信息',
+        'params': ['region_id', 'request_url', 'request_method', 'request_body'],
+        'subtopic': 'region'
     },
 }
