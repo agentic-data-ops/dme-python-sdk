@@ -763,7 +763,9 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        响应数据
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}/add-luns"
 
