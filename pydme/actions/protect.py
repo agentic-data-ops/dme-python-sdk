@@ -186,7 +186,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync"状态，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync"状态，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: 远端 LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
                         name_suffix: 远端 LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs: 手动配置的Active-active Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
@@ -199,7 +199,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: 远端 LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
                         name_suffix: 远端 LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs: 手动配置的Remote replication Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
@@ -231,9 +231,9 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
 def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
                       is_delay: bool = None) -> dict:
     """
-    移除Protection group中的成员 LUN
+    移除Protection groupmembers in LUN
 
-    RemoveProtection group中的成员 LUN。
+    RemoveProtection groupmembers in LUN。
 
     Args:
         client: DME API client
@@ -668,7 +668,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         lun_pairs: In manual create mode，Active-active Pair 的源 LUN、目标 LUN 的 ID 列表
         remote_storage_pool_id: 远端Storage pool ID，effective in auto-create mode
         remote_vstore_id: Remote device tenant ID，effective in auto-create mode
-        remote_resource_name_rule: LUN 的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
+        remote_resource_name_rule: LUN naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: 远端 LUN name prefix
         name_suffix: 远端 LUN name suffix
         speed: Sync速率，Optional值：low, medium, high, highest, custom
@@ -770,7 +770,7 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
     Args:
         client: DME API client
         ids: Active-active Pair 实例 ID 列表
-        delete_mode: 删除模式，Optional值：preferred_only, non_preferred_only, dual_ends
+        delete_mode: Delete mode，Optional值：preferred_only, non_preferred_only, dual_ends
         is_lun_service_interrupt: 是否中断 LUN 业务，当 delete_mode 为 preferred_only 或 non_preferred_only effective when
 
     Returns:
@@ -1013,13 +1013,13 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
         sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
-        sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
+        timing_value_in_sec: Timer duration（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        sync_schedule: Timer rule，当 sync_type 为 specified_time_policy 时Required
         rep_io_timeout: 远端 IO timeout（second(s)），when replication mode isSync模式effective when
-        sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
         switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
-        enable_compress: 链路压缩，when replication mode is异步模式时Required
+        enable_compress: Link compression，when replication mode isin async modeRequired
 
     Returns:
         {
@@ -1086,12 +1086,12 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
-        enable_compress: 链路压缩，when replication mode is异步模式时Required
+        enable_compress: Link compression，when replication mode isin async modeRequired
         sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
-        sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
+        timing_value_in_sec: Timer duration（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        sync_schedule: Timer rule，当 sync_type 为 specified_time_policy 时Required
         rep_io_timeout: 远端 IO timeout（second(s)），when replication mode isSync模式effective when
-        sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
         switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
 
@@ -1138,7 +1138,7 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
     Args:
         client: DME API client
         ids: 复制 Pair 实例 ID 列表
-        delete_mode: 删除模式，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
+        delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
 
     Returns:
         {
@@ -1234,7 +1234,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
     Args:
         client: DME API client
         id: 复制 Pair ID
-        operation_type: 操作类型，Optional值：enable (on), disable（取消）
+        operation_type: Operation type，Optional值：enable (on), disable（取消）
 
     Returns:
         {
@@ -1316,7 +1316,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         snapshot_ids: 快照 ID 列表
         storage_id: Storage device ID
         raw_id: 快照on the storage device ID
-        name: 快照名称，supports fuzzy search
+        name: Snapshot name，supports fuzzy search
         health_status: Health status，Optional值：normal, fault, write_protected
         running_status: Running status，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
         source_lun_name: 源 LUN 名称，supports fuzzy search
@@ -1838,12 +1838,12 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
-        enable_compress: 链路压缩，when replication mode is异步模式时Required
+        enable_compress: Link compression，when replication mode isin async modeRequired
         sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
-        sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
+        timing_value_in_sec: Timer duration（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        sync_schedule: Timer rule，当 sync_type 为 specified_time_policy 时Required
         rep_io_timeout: 远端 IO timeout（second(s)），when replication mode isSync模式effective when
-        sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
         switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
 
@@ -1896,7 +1896,7 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
         client: DME API client
         ids: Remote replicationConsistency group ID 列表
         is_self_adapt: supports自适应Remove member Pair，默认 false
-        delete_mode: 删除模式，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
+        delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
 
     Returns:
         {
@@ -2051,7 +2051,7 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
     Args:
         client: DME API client
         id: Consistency group的 ID
-        operation_type: 操作类型，Optional值：enable (on), disable（取消）
+        operation_type: Operation type，Optional值：enable (on), disable（取消）
 
     Returns:
         {
@@ -2319,7 +2319,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
     Args:
         client: DME API client
         fs_pair_id: Active-active pair ID (Optional, string)
-        name: 快照名称 (Optional, string, supports fuzzy search)
+        name: Snapshot name (Optional, string, supports fuzzy search)
         status: 快照状态 (Optional, string)
         local_fs_name: 本端Filesystem name (Optional, string)
         local_fs_id: 本端Filesystem ID (Optional, string)
@@ -2331,7 +2331,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
             total: Total count (integer),
             snapshots: Filesystem snapshot list。参数格式如下：[{
                 id: 快照ID (string),
-                name: 快照名称 (string),
+                name: Snapshot name (string),
                 status: 状态 (string),
             }, ...],
         }
@@ -2770,7 +2770,7 @@ ACTIONS = {
     },
     'group_remove_luns': {
         'func': group_remove_luns,
-        'description': '移除Protection group中的成员 LUN',
+        'description': '移除Protection groupmembers in LUN',
         'params': ['pg_id', 'lun_ids', 'is_delay'],
         'subtopic': 'group'
     },

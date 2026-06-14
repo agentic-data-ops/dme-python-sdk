@@ -244,7 +244,7 @@ def show(client: DMEAPIClient) -> dict:
 
     Returns:
         {
-            version: DME产品版本信息 (string, 最多128 characters),
+            version: DME产品Version info (string, 最多128 characters),
             sn: DME产品SN号 (string, 最多64 characters),
         }
     """
@@ -431,7 +431,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     """
     Batch query待办Task details
 
-    Batch queryPending item列表，支持过滤和分页。
+    Batch queryPending item列表，supports filtering和分页。
 
     Args:
         client: DME API client
@@ -623,7 +623,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         client: DME API client
         start: 分页Start position，默认 1
         limit: Page size, default 100
-        task_name: 任务名称过滤（Optional）
+        task_name: Task name过滤（Optional）
         status: 状态过滤（Optional，1-初始状态;2-Executing;3-成功;4-partial success;5-失败;6-超时）
         owner_id: Create task user ID 过滤（Optional）
         create_time_from: Creation time起始（Optional，UTC 毫second(s)数）
@@ -1000,7 +1000,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     Args:
         client: DME API client
         az_name: Availability zone名称，supports fuzzy match (Optional, string, 1~64 characters)
-        operate_status: Availability zone运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (Optional, string, 1~16 characters)
+        operate_status: Availability zone运营状态。对于未上线的az，其operate_status是null，因此暂时只supports filtering上线online的az (Optional, string, 1~16 characters)
         start: 分页的页号，从1开始 (Optional, int32, 1~10000000)。Default：1
         limit: 分页的大小 (Optional, int32, 1~512)。Default：512
         is_sc: 是否运营侧查询 (Optional, boolean, true,false)。Default：false

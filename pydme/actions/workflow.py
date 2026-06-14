@@ -56,9 +56,9 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
 
 def template_groups(client: DMEAPIClient) -> dict:
     """
-    Query all模板分组
+    Query allTemplate group
     
-    Query allWorkflow模板分组。
+    Query allWorkflowTemplate group。
     
     Args:
         client: DME API client
@@ -67,7 +67,7 @@ def template_groups(client: DMEAPIClient) -> dict:
         {
             task_id: Task ID (string, 1~64 characters),
         }，包含：
-        - groups: 模板分组列表，包含 name（模板分组名称）
+        - groups: Template group列表，包含 name（Template group名称）
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
     
@@ -168,9 +168,9 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     
     Args:
         client: DME API client
-        template_id: 模板 id（Optional，1~64  characters，满足正则）
-        template_version_id: Template version id（Optional，1~64  characters，满足正则）
-        instance_id: 实例的 id（Optional，1~64  characters，满足正则）
+        template_id: 模板 id（Optional，1~64  characters，satisfies regex）
+        template_version_id: Template version id（Optional，1~64  characters，satisfies regex）
+        instance_id: 实例的 id（Optional，1~64  characters，satisfies regex）
         params: Execute instance parameters（Optional），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
     
     Returns:
@@ -231,7 +231,7 @@ ACTIONS = {
     },
     'template_groups': {
         'func': template_groups,
-        'description': 'Query all模板分组',
+        'description': 'Query allTemplate group',
         'params': [],
         'subtopic': 'template'
     },

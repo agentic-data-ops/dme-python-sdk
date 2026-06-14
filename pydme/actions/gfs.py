@@ -184,7 +184,7 @@ def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = Non
     Args:
         client: DME API client
         id: Global namespace的 ID，与 name_locator cannot both be empty; takes precedence when both have values ID
-        name_locator: 名称定位器，format is：Global namespace的名称@Global data space name
+        name_locator: Name locator，format is：Global namespace的名称@Global data space name
 
     Returns:
         Global namespaceDetails
@@ -257,7 +257,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace的 ID (1~32 characters, Optional。与 name_locator cannot both be empty; takes precedence when both have values id)
-        name_locator: 名称定位器，format is：Global namespace的名称@Global data space name (3~507 characters, Optional。与 id cannot both be empty; takes precedence when both have values id)
+        name_locator: Name locator，format is：Global namespace的名称@Global data space name (3~507 characters, Optional。与 id cannot both be empty; takes precedence when both have values id)
         smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的模式为 smart_share 时该参数有效)。参数格式如下：[{
                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
@@ -293,7 +293,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace的 ID，与 name_locator cannot both be empty
-        name_locator: 名称定位器，format is：Global namespace的名称@Global data space name
+        name_locator: Name locator，format is：Global namespace的名称@Global data space name
         is_delete_child: 是否删除子Namespace，默认 true
 
     Returns:
@@ -334,7 +334,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
     Args:
         client: DME API client
         gfs_id: Global namespace ID (1~32 characters, Optional)
-        task_name: 任务名称，supports fuzzy search (1~256 characters, Optional)
+        task_name: Task name，supports fuzzy search (1~256 characters, Optional)
         task_id: Data migration task在device side的 ID (1~256 characters, Optional)
         target_storage_name: 目标站点名称 (1~256 characters, Optional)
         namespace_name: Namespace name，supports fuzzy search (1~256 characters, Optional)
@@ -432,7 +432,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
     Args:
         client: DME API client
         gfs_id: Global namespace ID (1~64 characters, Required)
-        task_name: 任务名称 (1~255 characters, Optional)
+        task_name: Task name (1~255 characters, Optional)
         task_mode: 任务模式 (Required)。Optional值：pre_fetch (预取缓存), tier (数据拉取)
         execute_mode: 执行模式 (Optional)。Optional值：interval (week(s)期性), one_time (只执行一次)。当 task_mode 为 pre_fetch this parameter is ineffective
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
@@ -453,9 +453,9 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         mtime_operator: 文件的修改时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 mtime、mtime_unit must be sent together
         mtime: 文件的修改时间间隔 (int32, 0~26304, Optional)。与 mtime_operator、mtime_unit must be sent together
         mtime_unit: 文件的修改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 mtime_operator、mtime must be sent together
-        ctime_operator: 文件的状态修改时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 ctime、ctime_unit must be sent together
-        ctime: 文件的状态修改时间间隔 (int32, 0~26304, Optional)。与 ctime_operator、ctime_unit must be sent together
-        ctime_unit: 文件的状态修改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 ctime_operator、ctime must be sent together
+        ctime_operator: file status modification改时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 ctime、ctime_unit must be sent together
+        ctime: file status modification改时间间隔 (int32, 0~26304, Optional)。与 ctime_operator、ctime_unit must be sent together
+        ctime_unit: file status modification改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 ctime_operator、ctime must be sent together
         crtime_operator: 文件的Creation time匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 crtime、crtime_unit must be sent together
         crtime: 文件的Creation time间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
         crtime_unit: 文件的Creation time间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
@@ -577,7 +577,7 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
     Args:
         client: DME API client
         id: Data migration task ID (1~32 characters, Required)
-        task_name: 任务名称 (1~255 characters, Optional)
+        task_name: Task name (1~255 characters, Optional)
         start_mode: Task execution模式 (Optional)。Optional值：manual (手动), auto (自动)
         start_time: 任务启动的 UTC Timestamp (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when
@@ -652,7 +652,7 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
     Args:
         client: DME API client
         ids: Data migration task ID 列表
-        operate_type: 操作类型，包含 operate_type 字段，取值 start(启动), stop(停止)
+        operate_type: Operation type，包含 operate_type 字段，取值 start(启动), stop(停止)
 
     Returns:
         {
