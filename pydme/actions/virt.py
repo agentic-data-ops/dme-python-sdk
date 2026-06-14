@@ -297,7 +297,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     
     Args:
         client: DME API client
-        site_id: 集群所属站点 ID
+        site_id: Cluster site ID
         dc_id: Data center ID
         name: Cluster name（supports fuzzy search）
         vr_type: Virtualization platform type
@@ -357,7 +357,7 @@ def site_list(client: DMEAPIClient) -> dict:
     """
     Query site list
     
-    Query all虚拟化站点列表。
+    Query allVirtualization site list。
     
     Args:
         client: DME API client
@@ -433,7 +433,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         page_size: 每页count，1~1000，默认 20
     
     Returns:
-        物理磁盘列表
+        Physical disk list
     """
     url = "/rest/vmmgmt/v1/vdisks/pdisks"
     

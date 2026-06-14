@@ -386,7 +386,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         name: Active-active consistency group名称
         description: Description
         recovery_policy: Active-active Pair Recovery policy，Optional值：automatic（自动）, manual（手动）
-        service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred（数据可靠优先）, service_continuity_preferred（Business continuity priority）
+        service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred（Data reliability first）, service_continuity_preferred（Business continuity priority）
         speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
@@ -428,7 +428,7 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
         client: DME API client
         ids: Active-active consistency group ID 列表
         delete_mode: 删除模型，Optional值：preferred_only（Preferred site deletion）, non_preferred_only（非Preferred site deletion）, dual_ends（Delete both sites）
-        is_self_adapt: supports自适应删除成员 Pair，默认 false
+        is_self_adapt: supportsAdaptive member deletion Pair，默认 false
 
     Returns:
         {
@@ -458,7 +458,7 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
         client: DME API client
         group_id: Active-active consistency group ID
         pair_ids: Active-active Pair ID 列表
-        is_self_adapt: 是否自适应修改Active-active Pair Running status
+        is_self_adapt: Adaptive modificationActive-active Pair Running status
 
     Returns:
         {
@@ -1368,7 +1368,7 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
     Args:
         client: DME API client
         snapshots_info: LUN 快照创建info list，Each item includes name, source_type, source_id
-        is_consist_activate: 是否一致性激活，默认 false
+        is_consist_activate: Consistency activation，默认 false
 
     Returns:
         {
@@ -1722,7 +1722,7 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
         client: DME API client
         ids: 克隆Consistency group ID 列表
         is_delete_dst_lun: Delete target LUN
-        is_recycle_dst_lun_data: 是否回收目标 LUN 数据
+        is_recycle_dst_lun_data: Reclaim target LUN 数据
 
     Returns:
         {
@@ -2250,8 +2250,8 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
     Args:
         client: DME API client
         ids: Active-active pair实例ID列表 (Required, List[string])
-        is_local_delete: 是否删除本端Configuration info (Optional, boolean, true,false)
-        is_online_delete: 是否在线删除 (Optional, boolean, true,false)
+        is_local_delete: Delete localConfiguration info (Optional, boolean, true,false)
+        is_online_delete: Online deletion (Optional, boolean, true,false)
 
     Returns:
         {
@@ -2287,7 +2287,7 @@ def fs_snapshot_create(client: DMEAPIClient, vstore_pair_id: str,
 
     Args:
         client: DME API client
-        vstore_pair_id: 文件名系统所属Active-active tenantPair的ID (Required, string)
+        vstore_pair_id: File systemActive-active tenantPair的ID (Required, string)
         fs_pairs: Snapshot parameter list (Required, List)
 
     Returns:

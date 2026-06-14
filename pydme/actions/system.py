@@ -22,7 +22,7 @@ def login(client: DMEAPIClient) -> dict:
         {
             task_id: Task ID (string, 1~64 characters),
         }，包含 accessSession
-        - accessSession: 会话 token，用于后续请求的 X-Auth-Token header
+        - accessSession: 会话 token，for subsequent requests X-Auth-Token header
     """
     client.login()
 
@@ -60,8 +60,8 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
     Args:
         client: DME API client
-        user_name: 需要重置密码的Username (Required, string, 1~128 characters)
-        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（重复次数为4，Consecutive character count1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        user_name: Password reset requiredUsername (Required, string, 1~128 characters)
+        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（重复次数为4，Consecutive character count1）。4. Password cannot containUsername和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，No initial modification required。Default：true
 
     Returns:
@@ -332,7 +332,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         name: Pending task group名称（Optional）
         creator_name: 创建人名称（Optional）
         is_finished: 是否Completed（Optional）
-        is_group: 是否群组任务（Optional）
+        is_group: Group task（Optional）
         start: 分页Start position（Optional，0~10000000）
         limit: 分页count（Optional，1~1000）
         status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已关闭）
@@ -423,7 +423,7 @@ def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     return response
 
 
-# ==================== 待办任务管理（todo_task Subtopic） ====================
+# ==================== Pending task management（todo_task Subtopic） ====================
 
 def todo_task_list(client: DMEAPIClient, service_type: str,
                status: list = None, page_no: int = None,
@@ -587,7 +587,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     Returns:
         Task details列表，包含：
         - id: 任务 ID
-        - name_en: 任务英文名称
+        - name_en: Task name in English
         - name_cn: Task name in Chinese
         - description: 任务描述
         - parent_id: 父任务 ID
@@ -599,7 +599,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - create_time: Task creation时间（UTC 毫second(s)数）
         - start_time: 任务Start time（UTC 毫second(s)数）
         - end_time: 任务End time（UTC 毫second(s)数）
-        - detail_en: 任务英文详情
+        - detail_en: Task details in English
         - detail_cn: Task details in Chinese
         - is_support_retry: supports重试
         - is_support_rollback: supports回滚
@@ -658,7 +658,7 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
     """
     Retry task
 
-    重试指定的任务，For retrying partially successful tasks。
+    Retry specified task，For retrying partially successful tasks。
 
     Args:
         client: DME API client
@@ -699,7 +699,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     while True:
         task_info = task_show(client, task_id)
 
-        # API 返回的是列表，获取根Task details
+        # API Returns a list，获取根Task details
         for task in task_info:
             if task["id"] == task_id:
                 root_task = task
@@ -711,7 +711,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         if status in [3, 4, 5, 6]:  # 成功、partial success、失败、超时
             return root_task
 
-        # 检查是否超时
+        # Check timeout
         elapsed = time.time() - start_time
         if elapsed >= timeout:
             return {
@@ -721,7 +721,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
                 'current_status': status
             }
 
-        # 等待后继续轮询
+        # Wait then continue polling
         time.sleep(poll_interval)
 
 
@@ -844,7 +844,7 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
         color: Tag color（Optional）
     
     Returns:
-        创建的标签信息
+        Created tag info
     """
     url = "/rest/tagmgmt/v1/tags"
     
@@ -978,7 +978,7 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
         resources: Resource list，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
-        取消关联结果
+        Disassociation result
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}/disassociate-resources"
     
@@ -1000,10 +1000,10 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     Args:
         client: DME API client
         az_name: Availability zone名称，supports fuzzy match (Optional, string, 1~64 characters)
-        operate_status: Availability zone运营状态。对于未上线的az，其operate_status是null，因此暂时只supports filtering上线online的az (Optional, string, 1~16 characters)
+        operate_status: Availability zone运营状态。For offlineaz，其operate_status是null，因此暂时只supports filtering上线online的az (Optional, string, 1~16 characters)
         start: Page number，从1开始 (Optional, int32, 1~10000000)。Default：1
         limit: Page size (Optional, int32, 1~512)。Default：512
-        is_sc: 是否运营侧查询 (Optional, boolean, true,false)。Default：false
+        is_sc: Operation-side query (Optional, boolean, true,false)。Default：false
 
     Returns:
         {
@@ -1106,7 +1106,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含设备列表
+        }，Includes device list
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/devices/query"
     

@@ -258,7 +258,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         client: DME API client
         id: Global namespace的 ID (1~32 characters, Optional。与 name_locator cannot both be empty; takes precedence when both have values id)
         name_locator: Name locator，format is：Global namespace name@Global data space name (3~507 characters, Optional。与 id cannot both be empty; takes precedence when both have values id)
-        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的模式为 smart_share 时该参数有效)。参数格式如下：[{
+        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的模式为 smart_share parameter effective when)。参数格式如下：[{
                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
@@ -336,7 +336,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         gfs_id: Global namespace ID (1~32 characters, Optional)
         task_name: Task name，supports fuzzy search (1~256 characters, Optional)
         task_id: Data migration task在device side的 ID (1~256 characters, Optional)
-        target_storage_name: 目标站点名称 (1~256 characters, Optional)
+        target_storage_name: Target site name (1~256 characters, Optional)
         namespace_name: Namespace name，supports fuzzy search (1~256 characters, Optional)
         namespace_id: Namespace ID (1~32 characters, Optional)
         namespace_raw_id: Namespace在device side ID (1~256 characters, Optional)
@@ -459,11 +459,11 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         crtime_operator: 文件的Creation time匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 crtime、crtime_unit must be sent together
         crtime: 文件的Creation time间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
         crtime_unit: 文件的Creation time间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
-        name_operator: 文件名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 name_filter must be sent together
+        name_operator: Filename matching rule (Optional)。Optional值：equal (相等), not_equal (不相等)。与 name_filter must be sent together
         name_filter: Filename matching expression list (1~1023 characters, Optional)。与 name_operator must be sent together
         size_operator: File size的匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 file_size must be sent together
         file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, Optional)。与 size_operator must be sent together
-        tag: object标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")
+        tag: objectTag matching rule (Optional, 格式: "key1:value1;key2:value2")
         file_paths: filter by file listfilter policy uploaded文件Identifier list (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置
         authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
         user_operator: Username匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
