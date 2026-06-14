@@ -143,7 +143,7 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         nas_capacity_quota: NAS 容量配额（可选，单位：扇区）
         description: 租户描述（可选，0~255 个字符）
         nas_capacity_quota_alarm_switch: NAS 容量配额告警开关（可选，仅 A800 设备支持）
-        nas_capacity_quota_alarm_threshold: NAS 容量配额告警阈值（可选，仅 A800 设备支持）
+        nas_capacity_quota_alarm_threshold: NAS 容量配额告警threshold（可选，仅 A800 设备支持）
         associate_pool_ids: Related storage池 ID 列表（可选，仅 A 系列设备支持）
 
     Returns:
@@ -193,7 +193,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
         nas_capacity_quota: NAS容量配额 (Optional, string, 1~20个字符)
         description: 租户描述 (Optional, string, 0~255 characters)
         nas_capacity_quota_alarm_switch: NAS容量配额告警开关 (Optional, boolean, true,false)。仅A800设备支持
-        nas_capacity_quota_alarm_threshold: NAS容量配额告警阈值 (Optional, int32, 50~100)。仅A800设备支持
+        nas_capacity_quota_alarm_threshold: NAS容量配额告警threshold (Optional, int32, 50~100)。仅A800设备支持
 
     Returns:
         {
@@ -357,8 +357,8 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         version: 版本信息 (可选, 0~64 characters)。
         patch_version: 补丁版本信息 (可选, 0~64 characters)。
         location: 设备位置 (可选, 0~512个字符)。
-        maintenance_start: 维护开始时间 (可选, 格式是毫秒级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
-        maintenance_overtime: 维护过保时间 (可选, 格式是毫秒级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
+        maintenance_start: 维护开始时间 (可选, 格式是毫second(s)级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
+        maintenance_overtime: 维护过保时间 (可选, 格式是毫second(s)级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
         total_capacity: 裸容量 (可选, 0~2147483647, 单位MB)。
         total_effective_capacity: 可得容量 (可选, 0~2147483647, 单位MB)。
         total_pool_capacity: Available capacity (可选, 0~2147483647, 单位MB)。
@@ -508,7 +508,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 zone_ip: 所属Zone IP地址 (1~255 characters)，仅OceanStor A800series storage only,
                 zone_name: 所属Zone名称 (1~255 characters)，仅OceanStor A800series storage only,
             }, ...],
-            total: BBU的数量 (int32),
+            total: BBU的count (int32),
         }
     """
     url = "/rest/storagemgmt/v1/backup-powers/query"
@@ -578,7 +578,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
 
     Returns:
         {
-            total: 风扇数量 (integer),
+            total: 风扇count (integer),
             fans: Fan list (List<StorageFanInfo>)。参数格式如下：[{
                 name: 名称 (1~128 characters),
                 location: 位置 (1~256 characters),
@@ -666,7 +666,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
 
     Returns:
         {
-            total: 硬盘的数量 (integer),
+            total: 硬盘的count (integer),
             disks: Disk list (List<DiskInfo>)。参数格式如下：[{
                 id: 硬盘ID (string),
                 name: 硬盘名称 (string),
@@ -755,7 +755,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
 
     Returns:
         {
-            total: 存储池数量 (int32),
+            total: 存储池count (int32),
             datas: Storage pool basic info list (List<StoragePoolBasicInfo>)。参数格式如下：[{
                 id: Storage pool ID (1~32个字符),
                 name: Storage pool name (1~31个字符),
@@ -771,14 +771,14 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 lun_subscribed_capacity: LUN的订阅容量，单位MB (number)，仅闪存存储支持,
                 filesystem_subscribed_capacity: 文件系统总订阅容量，单位MB (number)，仅OceanStor Dorado V6存储6.1.0及以上版本支持,
                 health_status: Health status。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知)。仅闪存存储及第三方存储支持,
-                running_status: Running status. Options：pre-copy (预拷贝), rebuilt (重构), online (在线), offline (离线), balancing (正在均衡), initializing (初始化中), deleting (删除中), unknown (未知)。仅闪存存储支持,
+                running_status: Running status. Options：pre-copy (预拷贝), rebuilt (重构), online (在线), offline (离线), balancing (正在均衡), initializing (Initializing), deleting (删除中), unknown (未知)。仅闪存存储支持,
                 pool_status: 存储池状态。可选值：normal (正常), fault (故障), write-protect (写保护), stopped (停止), fault-and-write-protect (故障且写保护), migrating-data (数据迁移), degraded (降级), rebuilding-data (数据重构), migrating-services (服务迁移), all-copies-failed (全副本故障), all-copies-failed-and-write-protect (全副本故障且写保护), deleting (删除中), deletion-failed (删除失败), unknown (未知)。仅分布式存储支持,
                 disk_types: Disk type列表 (List<string>)，仅闪存存储支持,
                 capacity_usage: 容量利用率,
                 redundancy_policy: 冗余策略。可选值：replication (副本), ec (EC)。仅FusionStorage、OceanStor 100D和OceanStor Pacific系列设备支持,
-                num_data_units: EC数据块个数 (integer)，仅当冗余策略为ec时有效,
+                num_data_units: EC数据块count (integer)，仅当冗余策略为ec时有效,
                 num_fault_tolerance: EC允许故障节点数 (integer)，仅当冗余策略为ec时有效,
-                num_parity_units: EC校验块个数 (integer)，仅当冗余策略为ec时有效,
+                num_parity_units: EC校验块count (integer)，仅当冗余策略为ec时有效,
                 cache_media_type: 存储池缓存类型。可选值：ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘), none (无缓存)。仅FusionStorage、OceanStor 100D、OceanStor A310和OceanStor Pacific系列设备支持,
                 zone_id: 所属Zone的ID (1~64 characters)，仅OceanStor A800series storage only,
                 zone_ip: 所属Zone的IP (1~256 characters)，仅OceanStor A800series storage only,
@@ -827,7 +827,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
         name: HyperScaleStorage pool name（可选，1~256 characters），supports fuzzy search
         local_pool_id: HyperScale存储池下本地Storage pool ID（可选，0~64 characters），支持过滤指定本地存储池关联的HyperScale存储池
         health_status: Health status(Optional). Options：normal (正常), faulty (故障), degraded (降级)
-        running_status: 运行状态(Optional). Options：pre_copy (预拷贝), rebuilding (重构), online (在线), offline (离线), balancing (正在均衡), initializing (初始化中), deleting (删除中)
+        running_status: 运行状态(Optional). Options：pre_copy (预拷贝), rebuilding (重构), online (在线), offline (离线), balancing (正在均衡), initializing (Initializing), deleting (删除中)
         storage_id: Storage device ID（可选，0~64 characters）
         description: HyperScale存储池描述（可选，0~256个字符）
         page_no: Page number（可选，1~10000，默认 1）
@@ -847,7 +847,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
                 storage_ip: Storage device IP (1~255 characters),
                 storage_name: Storage device name (1~127个字符),
                 health_status: Health status。可选值：normal (正常), faulty (故障), degraded (降级),
-                running_status: Running status. Options：pre_copy (预拷贝), rebuilding (重构), online (在线), offline (离线), balancing (正在均衡), initializing (初始化中), deleting (删除中),
+                running_status: Running status. Options：pre_copy (预拷贝), rebuilding (重构), online (在线), offline (离线), balancing (正在均衡), initializing (Initializing), deleting (删除中),
                 total_capacity: Total capacity，单位MB (number),
                 consumed_capacity: Used capacity，单位MB (number),
                 capacity_usage: 容量利用率 (number),
@@ -914,7 +914,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
 
     Returns:
         {
-            total: 节点的数量 (integer),
+            total: 节点的count (integer),
             nodes: Node list (List<StorageNodeBaseInfo>)。参数格式如下：[{
                 id: 节点id (1~64 characters),
                 name: 节点名称 (1~255 characters),
@@ -928,7 +928,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 node_sn: 序列号信息 (1~255 characters),
                 storage_id: Storage deviceid (1~64 characters),
                 storage_name: Storage device名称 (1~255 characters),
-                eos_time: 存储EOS时间 (int64)，格林威治时间1970年01月01日00时00分00秒起至现在的总毫秒数,
+                eos_time: 存储EOS时间 (int64)，格林威治时间1970year(s)01month(s)01日00时00分00second(s)起至现在的总毫second(s)数,
                 installation_status: 存储软件安装状态。可选值：installed (已安装存储软件), not_installed (未安装存储软件),
                 ip_address_list: Node IP address list (List<StorageNodeIpInfo>)。参数格式如下：[{
                     ip_address: 节点IP地址 (1~256 characters),
@@ -993,7 +993,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
 
     Returns:
         {
-            total: 电源的数量 (int32),
+            total: 电源的count (int32),
             storage_powers: Power list (List<StoragePowerInfo>)。参数格式如下：[{
                 name: 名称 (1~255 characters),
                 location: 位置 (1~255 characters),
@@ -1053,10 +1053,10 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 
     Args:
         client: DME API client
-        start_time: 开始时间戳（Required，13位数字毫秒时间戳，正则 ^([0-9]){13}$）
-        end_time: 结束时间戳（Required，13位数字毫秒时间戳，正则 ^([0-9]){13}$）
+        start_time: 开始时间戳（Required，13位数字毫second(s)时间戳，正则 ^([0-9]){13}$）
+        end_time: 结束时间戳（Required，13位数字毫second(s)时间戳，正则 ^([0-9]){13}$）
         storage_ids: 存储ID列表（Required，List<string>，max array members：300）
-        time_granularity: 时间粒度（Required). Options：HOUR (小时), DAY (天), MONTH (月)
+        time_granularity: 时间粒度（Required). Options：HOUR (hour(s)), DAY (day(s)), MONTH (month(s))
 
     Returns:
         {
@@ -1100,8 +1100,8 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         version: 版本信息 (可选, 0~64 characters)。
         patch_version: 补丁版本信息 (可选, 0~64 characters)。
         location: 设备位置 (可选, 0~512个字符)。
-        maintenance_start: 维护开始时间 (可选, 格式是毫秒级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
-        maintenance_overtime: 维护过保时间 (可选, 格式是毫秒级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
+        maintenance_start: 维护开始时间 (可选, 格式是毫second(s)级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
+        maintenance_overtime: 维护过保时间 (可选, 格式是毫second(s)级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
         total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。存储设备中所有硬盘的物理容量之和，-1表示无裸容量。
         total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。存储设备可写入的User data总量，-1表示无可得容量。
         total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。存储设备实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无Available capacity。
@@ -1236,12 +1236,12 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
 
     Returns:
         {
-            total: 硬盘域数量 (int32),
+            total: 硬盘域count (int32),
             disk_pools: Disk pool list (List<DiskPoolInfo>)。参数格式如下：[{
                     id: 硬盘域id (1~64 characters),
                     raw_id: 硬盘域在设备上的id (1~64 characters),
                     name: 硬盘域名称 (1~128 characters),
-                    running_status: Running status. Options：online (在线), offline (离线), pre_copy (预拷贝), reconstruction (重构), balancing (正在均衡), initializing (初始化中), deleting (删除中), unknown (未知),
+                    running_status: Running status. Options：online (在线), offline (离线), pre_copy (预拷贝), reconstruction (重构), balancing (正在均衡), initializing (Initializing), deleting (删除中), unknown (未知),
                     health_status: Health status。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知),
                     total_capacity: 总可用裸容量，单位MB (number),
                     spare_capacity: 总热备裸容量，单位MB (number),
@@ -1327,7 +1327,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
 
     Returns:
         {
-            total: 机框数量 (integer),
+            total: 机框count (integer),
             data: Enclosure list (List<EnclosureItem>)。参数格式如下：[{
                     id: 机框ID (1~64 characters),
                     raw_id: 机框在存储设备上ID (1~64 characters),
@@ -1877,7 +1877,7 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         alarm_status: Alarm status（可选，normal/event/alarm/invalid）
         io_policy_type: IO 策略类型（可选，total_perf_upper_limit/read_or_write_upper_limit）
         page_no: 页码（可选，默认 1）
-        page_size: 每页数量（可选，默认 10，最大 1000）
+        page_size: 每页count（可选，默认 10，最大 1000）
         sort_key: Sort field（可选，name/raw_id）
         sort_dir: 排序方式（可选，asc/desc）
     """
@@ -1972,8 +1972,8 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         min_iops: 最小 IOPS（可选）
         max_iops: 最大 IOPS（可选）
         burst_iops: 突发 IOPS（可选，需大于 max_iops）
-        burst_time: 最大突发持续时间秒（可选，1~999999999）
-        latency: IO 时延指标微秒（可选，500/1500）
+        burst_time: 最大突发durationsecond(s)（可选，1~999999999）
+        latency: IO 时延指标微second(s)（可选，500/1500）
         max_read_bandwidth: 最大Read bandwidth MB/s（可选）
         max_write_bandwidth: 最大Write bandwidth MB/s（可选）
         burst_read_bandwidth: 突发Read bandwidth MB/s（可选）
@@ -1984,13 +1984,13 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         burst_write_iops: 突发写 IOPS（可选）
         alarm_switch: 告警开关（可选，on/off）
         alarm_level: Alarm severity（可选，event/alarm）
-        alarm_threshold: 告警阈值%（可选，0~100）
-        resume_threshold: 恢复阈值%（可选，0~100）
+        alarm_threshold: 告警threshold%（可选，0~100）
+        resume_threshold: 恢复threshold%（可选，0~100）
         schedule_policy: 调度策略（可选，once/daily/weekly）
         schedule_start_date: 生效开始日期（可选，yyyy-MM-dd）
         start_time: 生效开始时间（可选，hh:mm）
-        duration: 生效持续时间秒（可选，1800~86400）
-        weekly_days: 周调度策略（可选，[0-6] 对应周日到周六）
+        duration: 生效durationsecond(s)（可选，1800~86400）
+        weekly_days: week(s)调度策略（可选，[0-6] 对应week(s)日到week(s)六）
     """
     url = "/rest/storagepolicy/v1/qos"
 
@@ -2108,8 +2108,8 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         min_iops: 最小 IOPS（可选）
         max_iops: 最大 IOPS（可选）
         burst_iops: 突发 IOPS（可选）
-        burst_time: 最大突发持续时间秒（可选）
-        latency: IO 时延指标微秒（可选）
+        burst_time: 最大突发durationsecond(s)（可选）
+        latency: IO 时延指标微second(s)（可选）
         max_read_bandwidth: 最大Read bandwidth MB/s（可选）
         max_write_bandwidth: 最大Write bandwidth MB/s（可选）
         burst_read_bandwidth: 突发Read bandwidth MB/s（可选）
@@ -2120,8 +2120,8 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         burst_write_iops: 突发写 IOPS（可选）
         alarm_switch: 告警开关（可选）
         alarm_level: Alarm severity（可选）
-        alarm_threshold: 告警阈值%（可选）
-        resume_threshold: 恢复阈值%（可选）
+        alarm_threshold: 告警threshold%（可选）
+        resume_threshold: 恢复threshold%（可选）
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}"
 
@@ -2321,12 +2321,12 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
 
     Returns:
         {
-            total: 逻辑端口的数量 (integer),
+            total: 逻辑端口的count (integer),
             logic_ports: Logic port list (List<StorageLogicPortResp>)。参数格式如下：[{
                 id: 逻辑Port ID (1~255 characters),
                 raw_id: 逻辑端口on the storage deviceID (1~255 characters),
                 name: 逻辑Port name (1~255 characters),
-                running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (初始化中), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
+                running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
                 operational_status: 是否激活状态。可选值：ACTIVATED (激活), NOT_ACTIVATED (未激活),
                 mgmt_ip: ipv4地址 (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP地址(IPV4) (1~64 characters),
@@ -2405,7 +2405,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             id: 逻辑Port ID (1~255 characters),
             raw_id: 逻辑端口on the storage deviceID (1~255 characters),
             name: 逻辑Port name (1~255 characters),
-            running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (初始化中), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
+            running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
             operational_status: 是否激活状态。可选值：ACTIVATED (激活), NOT_ACTIVATED (未激活),
             mgmt_ip: ipv4地址 (1~255 characters),
             ipv4_gateway: Logic port gatewayIP地址(IPV4) (1~64 characters),
@@ -2702,7 +2702,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         port_name: Port name（可选，仅 ETH 端口支持，1~255 个字符）
         zone_id: Storage device的 Zone ID（可选，仅 Bond 端口支持，1~36 个字符）
         page_no: Page number（可选，FC/SAS 端口支持，1~10000，默认 1）
-        page_size: 每页数量（可选，FC/SAS 端口支持，1~1000，默认 20）
+        page_size: 每页count（可选，FC/SAS 端口支持，1~1000，默认 20）
 
     Returns:
         {
@@ -2873,7 +2873,7 @@ def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
         name: VLAN 名称（supports fuzzy search）
         storage_id: Storage device ID
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 100
+        page_size: 每页count，1~1000，默认 100
 
     Returns:
         {
@@ -3000,7 +3000,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
 
     Returns:
         {
-            total: 漂移组数量 (int32),
+            total: 漂移组count (int32),
             failover_groups: Failover group list (List<FailoverGroupResp>)。参数格式如下：[{
                 id: 漂移组id (1~64 characters),
                 name: 漂移组名称 (1~64 characters),
@@ -3118,9 +3118,9 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
         name: zoneName (Optional,1~256 characters），exact match
         ip: zone ip地址Name (Optional,1~256 characters），exact match
         status: Zone状态列表（可选，List<string>，max array members：6). Options：OFFLINE (离线), NORMAL (正常), FAULT (故障), DEGRADED (降级), ABNORMAL (未管理), UNKNOWN (未知)
-        sync_status: Zone同步状态列表（可选，List<string>，max array members：5). Options：UNSYNC (未同步), SYNC (同步中), NORMAL (同步完成), FAILED (同步失败), UNKNOWN (未知)
+        sync_status: Zone同步状态列表（可选，List<string>，max array members：5). Options：UNSYNC (未同步), SYNC (Syncing), NORMAL (同步完成), FAILED (同步失败), UNKNOWN (未知)
         sn: Zone序列号（可选，1~128 characters），exact match
-        storage_ids: OceanStor A800集群id列表（可选，List<string>，max array members：100，最小成员个数：1），exact match
+        storage_ids: OceanStor A800集群id列表（可选，List<string>，max array members：100，最小成员count：1），exact match
 
     Returns:
         {
@@ -3131,7 +3131,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 name: Zone名称 (1~128 characters),
                 ip: Zone IP地址 (1~32个字符),
                 status: 状态 (1~32个字符)。可选值：OFFLINE (离线), NORMAL (正常), FAULT (故障), DEGRADED (降级), ABNORMAL (未管理),
-                sync_status: 同步状态 (1~32个字符)。可选值：UNSYNC (未同步), SYNC (同步中), NORMAL (同步完成), FAILED (同步失败),
+                sync_status: 同步状态 (1~32个字符)。可选值：UNSYNC (未同步), SYNC (Syncing), NORMAL (同步完成), FAILED (同步失败),
                 sn: Zone设备序列号 (1~64 characters),
                 wwn: Zone设备WWN号 (1~32个字符),
                 vendor: Zone厂商 (1~32个字符),
@@ -3140,10 +3140,10 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 location: Zone位置信息 (0~512个字符),
                 version: 版本信息 (0~64 characters),
                 patch_version: 补丁版本信息 (0~64 characters),
-                add_time: 接入设备时间 (0~32个字符)，UTC时间戳（精确到毫秒）,
-                last_sync_time: 上一次同步时间 (0~32个字符)，UTC时间戳（精确到毫秒）,
+                add_time: 接入设备时间 (0~32个字符)，UTC时间戳（精确到毫second(s)）,
+                last_sync_time: 上一次同步时间 (0~32个字符)，UTC时间戳（精确到毫second(s)）,
                 sync_process: 同步进度 (int32),
-                alarm_num: 告警数量 (number),
+                alarm_num: 告警count (number),
                 parent_id: 集群id,
                 zone_raw_id: zone raw id,
                 is_core_zone: 是否是核心控制节点所在的zone (boolean)。可选值：true, false,

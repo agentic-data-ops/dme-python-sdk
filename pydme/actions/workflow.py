@@ -21,14 +21,14 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     Args:
         client: DME API client
         page_no: 页索引号（Required，min：1）
-        page_size: 每页查询数量（Required，1~1000）
+        page_size: 每页查询count（Required，1~1000）
         directory_id: 目录 id（Optional，1~64 个字符）
         group: 模板所属分组名称，supports fuzzy match（Optional，最多 255 个字符）
         name: 模板名称，supports fuzzy match（Optional，最多 255 个字符）
     
     Returns:
         {
-            total: 模板数量 (integer, max：500),
+            total: 模板count (integer, max：500),
             templates: Template list。参数格式如下：[{
                 id: 模板ID (string),
                 name: 模板名称 (string),
@@ -145,8 +145,8 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
         - params: 执行实例参数
         - step_list: 实例的步骤列表
-        - start_time: 实例执行的开始时间（毫秒）
-        - end_time: 实例执行的结束时间（毫秒）
+        - start_time: 实例执行的开始时间（毫second(s)）
+        - end_time: 实例执行的结束时间（毫second(s)）
         - instance_type: 实例类型（PRECHECK/EXECUTION）
         - template_version_id: 实例对应的模板版本 id
     """

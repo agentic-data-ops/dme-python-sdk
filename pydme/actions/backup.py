@@ -19,7 +19,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: 备份集群名称（Optional，supports fuzzy search）
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {
@@ -81,7 +81,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
         cluster_id: 备份集群 ID（Required）
         quota_type: 配额类型（Optional）
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {

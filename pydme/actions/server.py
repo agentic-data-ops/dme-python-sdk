@@ -156,7 +156,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
         client: DME API client
         server_id: 服务器 ID（Optional）
         page_no: Page number，默认 1
-        page_size: 每页数量，5~1000，默认 20
+        page_size: 每页count，5~1000，默认 20
 
     Returns:
         网卡列表

@@ -389,7 +389,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         service_assurance_policy: 业务保障策略，Optional值：data_reliability_preferred（数据可靠优先）, service_continuity_preferred（业务连续优先）
         speed: 同步速率，Optional值：low, medium, high, highest, custom
         bandwidth: 自定义同步速率（MB/s），当 speed 为 custom 时Required
-        isolation_threshold_time: 隔离阈值（毫秒），当 service_assurance_policy 为 service_continuity_preferred 时Required
+        isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
 
     Returns:
         {
@@ -674,7 +674,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         speed: 同步速率，Optional值：low, medium, high, highest, custom
         bandwidth: 自定义同步速率（MB/s），当 speed 为 custom 时必传
         service_assurance_policy: 业务保障策略，Optional值：data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time: 隔离阈值（毫秒），当 service_assurance_policy 为 service_continuity_preferred 时必传
+        isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时必传
         recovery_policy: 恢复策略，Optional值：automatic, manual
 
     Returns:
@@ -733,7 +733,7 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
         bandwidth: 自定义速率（MB/s），当 speed 为 custom 时Required
         recovery_policy: 恢复策略，Optional值：automatic, manual
         service_assurance_policy: 业务保障策略，Optional值：data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time: 隔离阈值（毫秒），当 service_assurance_policy 为 service_continuity_preferred 时Required
+        isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
 
     Returns:
         {
@@ -1013,11 +1013,11 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         bandwidth: 自定义同步速率（MB/s），当 speed 为 custom 时Required
         recovery_policy: 恢复策略，Optional值：automatic, manual
         sync_type: 同步类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: 定时时长（秒），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO 超时时间（秒），当复制模式为同步模式时有效
+        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为同步模式时有效
         sync_snap_policy: 用户快照同步策略，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: 从端用户快照保留数量
+        user_snap_retention_num: 从端用户快照保留count
         switch_to_async: 同步远程复制自动转换为异步远程复制的开关
         enable_compress: 链路压缩，当复制模式为异步模式时Required
 
@@ -1088,11 +1088,11 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         recovery_policy: 恢复策略，Optional值：automatic, manual
         enable_compress: 链路压缩，当复制模式为异步模式时Required
         sync_type: 同步类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: 定时时长（秒），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO 超时时间（秒），当复制模式为同步模式时有效
+        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为同步模式时有效
         sync_snap_policy: 用户快照同步策略，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: 从端用户快照保留数量
+        user_snap_retention_num: 从端用户快照保留count
         switch_to_async: 同步远程复制自动转换为异步远程复制的开关
 
     Returns:
@@ -1321,10 +1321,10 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         running_status: 运行状态，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
         source_lun_name: 源 LUN 名称，supports fuzzy search
         parent_name: 父Object name，supports fuzzy search
-        activated_time_from: 查询激活时间的起始点（Unix 时间戳，单位秒）
-        activated_time_to: 查询激活时间的结束点（Unix 时间戳，单位秒）
+        activated_time_from: 查询激活时间的起始点（Unix 时间戳，单位second(s)）
+        activated_time_to: 查询激活时间的结束点（Unix 时间戳，单位second(s)）
         page_no: 分页查询的开始页，min为 1，Default为 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
 
     Returns:
         LUN 快照列表
@@ -1840,11 +1840,11 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         recovery_policy: 恢复策略，Optional值：automatic, manual
         enable_compress: 链路压缩，当复制模式为异步模式时Required
         sync_type: 同步类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: 定时时长（秒），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO 超时时间（秒），当复制模式为同步模式时有效
+        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为同步模式时有效
         sync_snap_policy: 用户快照同步策略，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: 从端用户快照保留数量
+        user_snap_retention_num: 从端用户快照保留count
         switch_to_async: 同步远程复制自动转换为异步远程复制的开关
 
     Returns:
@@ -2089,7 +2089,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
         speed: 同步速率 (Optional, string)。Optional值：low, medium, high, highest, custom
         bandwidth: 带宽 (Optional, integer, 1~1024)。当speed为custom时Required
         service_assurance_policy: 业务保障策略 (Optional, string)。Optional值：data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time: 隔离阈值 (Optional, int32, 10~30000)
+        isolation_threshold_time: 隔离threshold (Optional, int32, 10~30000)
 
     Returns:
         {
@@ -2144,7 +2144,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
         sort_key: Sort field (Optional, string)
         sort_dir: Sort direction (Optional, string)
         page_no: Page number (Optional, int32)
-        page_size: 每页数量 (Optional, int32)
+        page_size: 每页count (Optional, int32)
 
     Returns:
         {
@@ -2324,7 +2324,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
         local_fs_name: 本端Filesystem name (Optional, string)
         local_fs_id: 本端Filesystem ID (Optional, string)
         page_no: Page number (Optional, int32)
-        page_size: 每页数量 (Optional, int32)
+        page_size: 每页count (Optional, int32)
 
     Returns:
         {
@@ -2472,7 +2472,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
         health_status: Health status (Optional, string)
         running_status: 运行状态 (Optional, string)
         page_no: Page number (Optional, int32)
-        page_size: 每页数量 (Optional, int32)
+        page_size: 每页count (Optional, int32)
 
     Returns:
         {

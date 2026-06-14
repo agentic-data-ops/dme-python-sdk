@@ -40,7 +40,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
         sort_dir: Sort direction（asc, desc），默认 asc
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {
@@ -49,7 +49,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                 id: 虚拟机ID (string),
                 name: 虚拟机名称 (string),
                 status: 状态 (string),
-                cpu: CPU数量 (integer),
+                cpu: CPUcount (integer),
                 memory: 内存大小 (integer),
             }, ...],
         }
@@ -148,7 +148,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），默认 asc
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {
@@ -232,7 +232,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         status: 主机状态列表
         vr_type: Virtualization platform type
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {
@@ -302,7 +302,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
         name: 集群名称（supports fuzzy search）
         vr_type: Virtualization platform type
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {
@@ -430,7 +430,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         disk_type: 磁盘类型列表（Optional）
         status: 磁盘状态列表（Optional）
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         物理磁盘列表
@@ -474,7 +474,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
         disk_type: 磁盘类型列表（Optional）
         status: 磁盘状态列表（Optional）
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         虚拟磁盘列表

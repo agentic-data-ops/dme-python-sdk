@@ -198,7 +198,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 name: LUN name (1~247 characters, supports letters, digits, -._ and Chinese characters; final name is LUN name + suffix code + '-' + disk location),
                 description: LUN description (0~255 characters),
                 disk_location: Disk location for the LUN (1~255 characters),
-                count: 每个硬盘创建的LUN数量 (1~8),
+                count: 每个硬盘创建的LUNcount (1~8),
                 suffix_length: 后缀编码位数 (1~4, 默认4; 当count大于1时有效),
                 start_suffix: 后缀起始编码 (0~9999, 默认0; 当count大于1时有效),
              }, ...]

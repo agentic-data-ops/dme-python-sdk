@@ -24,7 +24,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
         volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
                 name: LUN名称 (1~255个字符, 支持字母数字._-和中文字符),
                 capacity: 容量GB (1~262144),
-                count: 创建数量 (1~500),
+                count: 创建count (1~500),
                 description: 描述 (0~255个字符),
                 start_suffix: 起始后缀编号 (0~9999),
                 suffix_length: 后缀长度规则 (1~4, 名称长度+后缀长度<=255),
@@ -222,7 +222,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
         available_zone_id: 可用区 ID（Optional）
         storage_array_id: Storage device ID（Optional）
         start: 查询的Start position，默认 0
-        limit: 每页数量，10~1000，默认 200
+        limit: 每页count，10~1000，默认 200
         sort_key: Sort field，name/total_capacity/created_at，默认 name
         sort_dir: Sort direction，asc/desc，默认 asc
         type: 存储类型，FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
@@ -272,7 +272,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
         client: DME API client
         tier_id: 服务等级 ID（Optional）
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，10~1000，默认 200
+        page_size: 每页count，10~1000，默认 200
 
     Returns:
         {
@@ -339,7 +339,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
         client: DME API client
         project_id: 业务群组 ID（Optional）
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，10~1000，默认 200
+        page_size: 每页count，10~1000，默认 200
 
     Returns:
         {

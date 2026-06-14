@@ -192,11 +192,11 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         dc_id: 数据中心 ID
         product_name: 产品名称
         alarm_name: Alarm name,supports fuzzy match
-        occur_utc_start: 告警发生开始时间(毫秒时间戳)
-        occur_utc_end: 告警发生结束时间(毫秒时间戳)
+        occur_utc_start: 告警发生开始时间(毫second(s)时间戳)
+        occur_utc_end: 告警发生结束时间(毫second(s)时间戳)
         fields: 指定返回的字段列表
         page_no: 分页查询的Start page,默认 1
-        page_size: 每页数量,1~1000,默认 100(Current alarm查询用)
+        page_size: 每页count,1~1000,默认 100(Current alarm查询用)
         cleared: 是否已清除,true/false(History alarm查询用)
         size: 返回的结果集最大条数,1~1000,默认 100(History alarm查询用)
         iterator: 迭代子,首次查询无需传入,后续查询使用上次返回的 iterator(History alarm查询用)
@@ -361,9 +361,9 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: 逻辑端口
             - CONTROLLER: 控制器
             - NAMESPACE: 命名空间
-        begin_time: 分析开始时间(Required),Unix 时间戳(毫秒),必须为整分钟时间点,支持最近七天内的诊断
-        end_time: 分析结束时间(Required),Unix 时间戳(毫秒),必须为整分钟时间点
-                  分析时间间隔范围必须大于 30 分钟,小于 24 小时
+        begin_time: 分析开始时间(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
+        end_time: 分析结束时间(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点
+                  分析时间间隔范围必须大于 30 minute(s),小于 24 hour(s)
         analysis_types: 智能分析类型列表(Required),数组大小:1~4,取值范围:
             - highLatency: 高时延
             - healthAnalysis: 健康快检
@@ -410,13 +410,13 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     """
     创建性能文件收集任务
 
-    收集范围为开始日期到结束日期的性能文件,只支持收集 7 天内的数据,
+    收集范围为开始日期到结束日期的性能文件,只支持收集 7 day(s)内的数据,
     每次传入的object乘以指标数不超过 2000.
 
     Args:
         client: DME API client
-        begin_time: 开始时间(Required,Unix 时间戳毫秒)
-        end_time: 结束时间(Required,Unix 时间戳毫秒)
+        begin_time: 开始时间(Required,Unix 时间戳毫second(s))
+        end_time: 结束时间(Required,Unix 时间戳毫second(s))
         object_type_id: Object type ID(Required,1~32 个字符)
         object_ids: object ID 列表(Required,最多 2000 个,ID 长度 1~32 位)
         indicator_ids: 指标 ID 列表(Required,最多 20 个,ID 长度 1~16 位)
@@ -490,12 +490,12 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         indicators: 监控指标列表(Optional,最多 100 个)
         ext_dimensions: 扩展维度信息列表(Optional,最多 100 个)
         interval: 间隔粒度(Optional)
-                  取值范围:ONE_MINUTE(1 分钟), MINUTE(5 分钟), HALF_HOUR(30 分钟),
-                  HOUR(1 小时), DAY(1 天), WEEK(1 周), MONTH(1 个月)
+                  取值范围:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
+                  HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
         range: 时间范围(Optional,默认 LAST_1_HOUR)
-               取值范围:LAST_5_MINUTE(最近 5 分钟), LAST_1_HOUR(最近 1 小时),
-               LAST_1_DAY(最近 1 天), LAST_1_WEEK(最近 1 周), LAST_1_MONTH(最近 1 个月),
-               LAST_1_QUARTER(最近 3 个月), HALF_1_YEAR(最近半年), LAST_1_YEAR(最近 1 年),
+               取值范围:LAST_5_MINUTE(最近 5 minute(s)), LAST_1_HOUR(最近 1 hour(s)),
+               LAST_1_DAY(最近 1 day(s)), LAST_1_WEEK(最近 1 week(s)), LAST_1_MONTH(最近 1 个month(s)),
+               LAST_1_QUARTER(最近 3 个month(s)), HALF_1_YEAR(最近半year(s)), LAST_1_YEAR(最近 1 year(s)),
                BEGIN_END_TIME(自行设置开始和结束时间), INVALID(无效值)
         begin_time: 查询开始时刻(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 end_time 小
         end_time: 查询结束时刻(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 begin_time 大
@@ -613,8 +613,8 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
         client: DME API client
         type: 数据类型（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
         object_id: 资源 ID（Required，1~256 个字符）
-        begin_time: 开始时间（Required），自 1970 年 1 月 1 日（00:00:00GMT）至当前时间的毫秒数
-        end_time: 结束时间（Required），自 1970 年 1 月 1 日（00:00:00GMT）至当前时间的毫秒数
+        begin_time: 开始时间（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
+        end_time: 结束时间（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
         object_type: Resource type（Required）
         indicator: Resource type所对应的指标（capacity_prediction 和 performance_prediction Required）
 
@@ -755,7 +755,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
         },包含:
         - task_id: 任务 ID
         - task_status: 任务状态,取值范围:
-            - executing: 执行中
+            - executing: Executing
             - failed: 失败
             - success: 成功
             - waiting: 等待
@@ -798,8 +798,8 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         client: DME API client
         policy_name: 策略名称（supports fuzzy search，1~256 个字符）
         exact_query: 名称是否exact match（true-exact match，false-fuzzy search），默认 false
-        status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-排队中）
-        policy_type: 策略类型（performance-性能阈值，capacity-容量阈值，availability-可用性，
+        status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-Queued）
+        policy_type: 策略类型（performance-性能threshold，capacity-容量threshold，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
                     performance_anomaly-性能异常，performance_prediction-性能预警，
                     capacity_prediction-容量预警，history_performance-History performance，
@@ -809,7 +809,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
         page_no: Page number，1~1000，默认 1
         page_size: Items per page，1~100，默认 20
-        sort_key: Sort field（last_check_time-最后检查时间，failed_count-检查不通过的object个数）
+        sort_key: Sort field（last_check_time-最后检查时间，failed_count-检查不通过的objectcount）
         sort_dir: 排序方式（asc-正序，desc-降序）
         administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）

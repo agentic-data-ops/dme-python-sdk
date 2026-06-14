@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: 需要重置密码的用户名 (Required, string, 1~128个字符)
-        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
+        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
         is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。Default：true
 
     Returns:
@@ -115,7 +115,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         client: DME API client
         name: 用户名 (Required, string, 最多32个字符)。本地用户名不能小于6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名不能小于1个字符，大于32个字符，不能包含不可见字符和;特殊字符。
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
-        value: 密码 (Optional, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。
+        value: 密码 (Optional, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符。远端用户不涉及。
         description: 描述 (Optional, string, 最多127个字符)
         roles: 用户所属角色 (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
 
@@ -288,7 +288,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
         address: 备份服务器地址，支持IPv4地址，supports fuzzy match (Optional, string, 1~256个字符)
         name: 备份服务器名称 (Optional, string)
         page_no: 分页查询的Start page (Optional, int32)。Default：1
-        page_size: 每页数量 (Optional, int32, 1~1000)。Default：20
+        page_size: 每页count (Optional, int32, 1~1000)。Default：20
 
     Returns:
         {
@@ -334,9 +334,9 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         is_finished: 是否Completed（Optional）
         is_group: 是否群组任务（Optional）
         start: 分页Start position（Optional，0~10000000）
-        limit: 分页个数（Optional，1~1000）
-        status: 待办任务组状态列表（Optional，1-Pending/2-执行中/3-Completed/4-已关闭）
-        todo_item_status: 待办项状态列表（Optional，0-待确认/1-未完成/2-执行中/3-Completed）
+        limit: 分页count（Optional，1~1000）
+        status: 待办任务组状态列表（Optional，1-Pending/2-Executing/3-Completed/4-已关闭）
+        todo_item_status: 待办项状态列表（Optional，0-待确认/1-未完成/2-Executing/3-Completed）
         start_time_from: 开始时间起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         start_time_to: 开始时间结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         end_time_from: 结束时间起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
@@ -436,9 +436,9 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: 业务类型（Required，wfa_execute_activity-自动化编排）
-        status: 待办项状态列表（Optional，1-未执行/2-执行中/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
+        status: 待办项状态列表（Optional，1-未执行/2-Executing/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
         page_no: 页索引号（Optional，默认 1）
-        page_size: 每页数量（Optional，1~10，默认 10）
+        page_size: 每页count（Optional，1~10，默认 10）
 
     Returns:
         {
@@ -592,13 +592,13 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - description: 任务描述
         - parent_id: 父任务 ID
         - seq_no: 任务序号
-        - status: 状态（1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
+        - status: 状态（1-初始状态;2-Executing;3-成功;4-部分成功;5-失败;6-超时）
         - progress: 任务进度
         - owner_name: 创建任务用户名称
         - owner_id: 创建任务用户 ID
-        - create_time: Task creation时间（UTC 毫秒数）
-        - start_time: 任务开始时间（UTC 毫秒数）
-        - end_time: 任务结束时间（UTC 毫秒数）
+        - create_time: Task creation时间（UTC 毫second(s)数）
+        - start_time: 任务开始时间（UTC 毫second(s)数）
+        - end_time: 任务结束时间（UTC 毫second(s)数）
         - detail_en: 任务英文详情
         - detail_cn: 任务中文详情
         - is_support_retry: 是否支持重试
@@ -624,10 +624,10 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: 分页Start position，默认 1
         limit: Page size, default 100
         task_name: 任务名称过滤（Optional）
-        status: 状态过滤（Optional，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
+        status: 状态过滤（Optional，1-初始状态;2-Executing;3-成功;4-部分成功;5-失败;6-超时）
         owner_id: 创建任务用户 ID 过滤（Optional）
-        create_time_from: 创建时间起始（Optional，UTC 毫秒数）
-        create_time_to: 创建时间结束（Optional，UTC 毫秒数）
+        create_time_from: 创建时间起始（Optional，UTC 毫second(s)数）
+        create_time_to: 创建时间结束（Optional，UTC 毫second(s)数）
     
     Returns:
         Task list
@@ -683,8 +683,8 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     Args:
         client: DME API client
         task_id: 任务 ID
-        timeout: 超时时间（秒），默认 300 秒
-        poll_interval: 轮询间隔（秒），默认 2 秒
+        timeout: timeout（second(s)），默认 300 second(s)
+        poll_interval: 轮询间隔（second(s)），默认 2 second(s)
 
     Returns:
         任务最终状态详情
@@ -1048,7 +1048,7 @@ def dc_list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: Data center name（Optional，supports fuzzy search）
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {
@@ -1101,7 +1101,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
                      取值：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
         page_no: 分页查询的Start page，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_size: 每页count，1~1000，默认 20
     
     Returns:
         {
@@ -1137,12 +1137,12 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         name: Region的名称，supports fuzzy search (Optional, string, 最多256个字符)
         active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256个字符)
         standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256个字符)
-        sync_status: Region同步状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (同步中), failed (同步失败)
+        sync_status: Region同步状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (同步失败)
         role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近同步时间)
         sort_dir: Sort direction (Optional, string)。Optional值：asc (升序), desc (降序)。Default：desc
         page_no: 分页查询的开始页 (Optional, int32, 1~100)。Default：1
-        page_size: 每页数量 (Optional, int32, 1~100)。Default：20
+        page_size: 每页count (Optional, int32, 1~100)。Default：20
 
     Returns:
         {
