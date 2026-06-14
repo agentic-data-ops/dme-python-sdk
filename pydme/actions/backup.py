@@ -59,7 +59,7 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
         {
             total_capacity: Total capacity (integer),
             used_capacity: Used capacity (integer),
-            free_capacity: 空闲容量 (integer),
+            free_capacity: Free capacity (integer),
         }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/{cluster_id}/capacity"

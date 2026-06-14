@@ -1,5 +1,5 @@
 """
-IP 交换机 (IPSwitch) 管理operations
+IP Switch (IPSwitch) 管理operations
 """
 
 import sys
@@ -22,7 +22,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
         {
             total: Total count (integer),
             data_list: Switch list。参数格式如下：[{
-                id: 交换机ID (string),
+                id: SwitchID (string),
                 name: Switch name (string),
                 status: 状态 (string),
             }, ...],
@@ -44,11 +44,11 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
 
 def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP 交换机Enclosure列表信息
+    查询 IP SwitchEnclosureList info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID（Required）
+        ipswitch_id: IP Switch ID（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -75,7 +75,7 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID（Required）
+        ipswitch_id: IP Switch ID（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -102,7 +102,7 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID（Required）
+        ipswitch_id: IP Switch ID（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -125,11 +125,11 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
 
 def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP 交换机Power supply列表信息
+    查询 IP SwitchPower supplyList info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID（Required）
+        ipswitch_id: IP Switch ID（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -152,11 +152,11 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP 交换机Fan列表信息
+    查询 IP SwitchFanList info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID（Required）
+        ipswitch_id: IP Switch ID（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -179,11 +179,11 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
 
 def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP Switch port列表信息
+    查询 IP Switch portList info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID（Required）
+        ipswitch_id: IP Switch ID（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -214,7 +214,7 @@ ACTIONS = {
     },
     'frame_list': {
         'func': frame_list,
-        'description': '查询 IP 交换机Enclosure列表信息',
+        'description': '查询 IP SwitchEnclosureList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'frame'
     },
@@ -232,19 +232,19 @@ ACTIONS = {
     },
     'power_list': {
         'func': power_list,
-        'description': '查询 IP 交换机Power supply列表信息',
+        'description': '查询 IP SwitchPower supplyList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'power'
     },
     'fan_list': {
         'func': fan_list,
-        'description': '查询 IP 交换机Fan列表信息',
+        'description': '查询 IP SwitchFanList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'port_list': {
         'func': port_list,
-        'description': '查询 IP Switch port列表信息',
+        'description': '查询 IP Switch portList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },

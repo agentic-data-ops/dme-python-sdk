@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: 需要重置密码的用户名 (Required, string, 1~128个字符)
-        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度cannot be less than8个字符、大于32个字符。2. Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度cannot be less than8个字符、大于32个字符。2. Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
 
     Returns:
@@ -69,7 +69,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     """
     url = "/rest/usm/v1/users/{user_name}/reset-credentials"
 
-    # 参数校验
+    # Parameter validation
     if not user_name or len(user_name) > 128:
         raise ValueError("user_name 是required parameter，1~128个字符")
     if not new_value or len(new_value) < 8 or len(new_value) > 32:
@@ -97,7 +97,7 @@ def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
 
-    # 参数校验
+    # Parameter validation
     if user_id is None:
         raise ValueError("user_id 是required parameter")
 
@@ -115,16 +115,16 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         client: DME API client
         name: 用户名 (Required, string, 最多32个字符)。本地用户名cannot be less than6个字符，大于32个字符，Cannot contain spaces、转义字符、Invisible and special characters。远端用户名cannot be less than1个字符，大于32个字符，Cannot contain invisible characters;特殊字符。
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
-        value: 密码 (Optional, string, 8~32个字符)。密码长度cannot be less than8个字符、大于32个字符。Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符。远端用户不涉及。
+        value: 密码 (Optional, string, 8~32个字符)。密码长度cannot be less than8个字符、大于32个字符。Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符。远端用户不涉及。
         description: 描述 (Optional, string, 最多127个字符)
-        roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，Filesystem组或用户自定义角色。
+        roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全管理员组，Filesystem组或用户自定义角色。
 
     Returns:
         无
     """
     url = "/rest/usermgmt/v1/users"
 
-    # 参数校验
+    # Parameter validation
     if not name:
         raise ValueError("name 是required parameter")
 
@@ -227,7 +227,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
     
-    # 参数校验
+    # Parameter validation
     if user_id is None:
         raise ValueError("user_id 是required parameter")
 
@@ -269,7 +269,7 @@ def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dic
     """
     url = "/rest/certmgmt/v1/certs"
 
-    # 参数校验
+    # Parameter validation
     if service_type not in ["APIGWService"]:
         raise ValueError(f"service_type Optional值：APIGWService")
 
@@ -314,7 +314,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     return response
 
 
-# ==================== Pending task group管理（todo_task_group 子主题） ====================
+# ==================== Pending task group管理（todo_task_group Subtopic） ====================
 
 def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str = None,
                creator_name: str = None, is_finished: bool = None,
@@ -423,7 +423,7 @@ def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     return response
 
 
-# ==================== 待办任务管理（todo_task 子主题） ====================
+# ==================== 待办任务管理（todo_task Subtopic） ====================
 
 def todo_task_list(client: DMEAPIClient, service_type: str,
                status: list = None, page_no: int = None,
@@ -431,7 +431,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     """
     Batch query待办Task details
 
-    Batch query待办项列表，支持过滤和分页。
+    Batch queryPending item列表，支持过滤和分页。
 
     Args:
         client: DME API client
@@ -443,7 +443,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含待办项列表和Total count
+        }，包含Pending item列表和Total count
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
 
@@ -463,16 +463,16 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
 def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
-    查询待办项详情信息
+    查询Pending item详情信息
 
-    Query待办项的Details。
+    QueryPending item的Details。
 
     Args:
         client: DME API client
-        item_id: 待办项 ID（Required）
+        item_id: Pending item ID（Required）
 
     Returns:
-        待办项Details
+        Pending itemDetails
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}"
 
@@ -484,11 +484,11 @@ def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
     """
     Execute pending task
 
-    执行指定的待办项。
+    执行指定的Pending item。
 
     Args:
         client: DME API client
-        item_id: 待办项 ID（Required）
+        item_id: Pending item ID（Required）
 
     Returns:
         执行结果，包含 task_id
@@ -504,11 +504,11 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
     """
     Review pending task
 
-    对待办项进行审核（批准或拒绝）。
+    对Pending item进行审核（批准或拒绝）。
 
     Args:
         client: DME API client
-        item_id: 待办项 ID（Required）
+        item_id: Pending item ID（Required）
         is_approval: 是否批准（Required，true-批准/false-拒绝）
         suggestion: 审核建议（Optional，0-63 字符）
 
@@ -531,11 +531,11 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
     """
     Cancel review pending item
 
-    撤销对指定待办项的审核。
+    撤销对指定Pending item的审核。
 
     Args:
         client: DME API client
-        item_id: 待办项 ID（Required）
+        item_id: Pending item ID（Required）
 
     Returns:
         撤销结果
@@ -550,11 +550,11 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     """
     Close pending task
 
-    关闭指定的待办项，需要提供关闭原因。
+    关闭指定的Pending item，需要提供关闭原因。
 
     Args:
         client: DME API client
-        item_id: 待办项 ID（Required）
+        item_id: Pending item ID（Required）
         reason: 关闭原因（Required，0-63 字符）
 
     Returns:
@@ -570,7 +570,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     return response
 
 
-# ==================== 任务管理（task 子主题） ====================
+# ==================== 任务管理（task Subtopic） ====================
 
 import time
 
@@ -725,7 +725,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         time.sleep(poll_interval)
 
 
-# ==================== 标签类型管理（tag_type 子主题） ====================
+# ==================== Tag type管理（tag_type Subtopic） ====================
 
 def tag_type_create(client: DMEAPIClient, name: str, description: str = None) -> dict:
     """
@@ -737,7 +737,7 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
         description: Tag type description（Optional）
     
     Returns:
-        创建的标签类型信息
+        创建的Tag type信息
     """
     url = "/rest/tagmgmt/v1/tag-types"
     
@@ -755,7 +755,7 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
 def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                          name: str = None) -> dict:
     """
-    Batch query标签类型
+    Batch queryTag type
     
     Args:
         client: DME API client
@@ -764,7 +764,7 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         name: Tag type name过滤（Optional）
     
     Returns:
-        标签类型列表
+        Tag type列表
     """
     url = "/rest/tagmgmt/v1/tag-types/query"
     
@@ -787,12 +787,12 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
     
     Args:
         client: DME API client
-        tag_type_id: 标签类型 ID（Required）
+        tag_type_id: Tag type ID（Required）
         name: Tag type name（Optional）
         description: Tag type description（Optional）
     
     Returns:
-        修改后的标签类型信息
+        修改后的Tag type信息
     """
     url = "/rest/tagmgmt/v1/tag-types/{tag_type_id}"
     
@@ -809,11 +809,11 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
 
 def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     """
-    Batch delete标签类型
+    Batch deleteTag type
     
     Args:
         client: DME API client
-        tag_type_ids: 标签类型 ID 列表（Required）
+        tag_type_ids: Tag type ID 列表（Required）
     
     Returns:
         批量Deletion result
@@ -828,7 +828,7 @@ def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     return response
 
 
-# ==================== 标签管理（tag 子主题） ====================
+# ==================== 标签管理（tag Subtopic） ====================
 
 def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
                 tag_type_name: str = None, description: str = None, color: str = None) -> dict:
@@ -838,7 +838,7 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
     Args:
         client: DME API client
         name: 标签名称（Required）
-        tag_type_id: 标签类型 ID（Required）
+        tag_type_id: Tag type ID（Required）
         tag_type_name: Tag type name（API 需要）
         description: 标签描述（Optional）
         color: 标签颜色（Optional）
@@ -874,7 +874,7 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: 分页Start position，默认 1
         limit: Page size, default 100
         name: 标签名称过滤（Optional）
-        tag_type_id: 标签类型 ID 过滤（Optional）
+        tag_type_id: Tag type ID 过滤（Optional）
     
     Returns:
         标签列表
@@ -990,7 +990,7 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     return response
 
 
-# ==================== AZ management（az 子主题） ====================
+# ==================== AZ management（az Subtopic） ====================
 
 def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = None,
          start: int = 1, limit: int = 512, is_sc: bool = False) -> dict:
@@ -1035,7 +1035,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     return response
 
 
-# ==================== Data center管理（dc 子主题） ====================
+# ==================== Data center管理（dc Subtopic） ====================
 
 def dc_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
@@ -1380,7 +1380,7 @@ ACTIONS = {
     },
     'tag_type_list': {
         'func': tag_type_list,
-        'description': 'Batch query标签类型',
+        'description': 'Batch queryTag type',
         'params': ['start', 'limit', 'name'],
         'subtopic': 'tag_type'
     },
@@ -1392,7 +1392,7 @@ ACTIONS = {
     },
     'tag_type_delete': {
         'func': tag_type_delete,
-        'description': 'Batch delete标签类型',
+        'description': 'Batch deleteTag type',
         'params': ['tag_type_ids'],
         'subtopic': 'tag_type'
     },

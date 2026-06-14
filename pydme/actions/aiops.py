@@ -270,7 +270,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
     }
 
     print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -300,7 +300,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     }
 
     print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -330,7 +330,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
     }
 
     print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -350,10 +350,10 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - STORAGE_DEVICE: Storage device
             - LUN: LUN
             - FILE_SYSTEM: Filesystem
-            - VBS_CLIENT: VBS 客户端
+            - VBS_CLIENT: VBS Client
             - DATATURBO: DPC
             - STORAGE_POOL: Storage pool
-            - IP_CLIENT: IP 客户端
+            - IP_CLIENT: IP Client
             - HOST_GROUP: Storage host组
             - FC_PORT: FC 端口
             - ETH_PORT: 以太端口
@@ -395,7 +395,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     }
 
     print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -660,7 +660,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
                            storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤Switch port）,
                            storage_file_system（Filesystem）, controller（控制器）, replication_cg（Remote replicationConsistency group）,
-                           volume（LUN）, tier（Service level）, datastore（数据存储）, virtual_machine（Virtual machine）,
+                           volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
         object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
@@ -775,7 +775,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
     }
 
     print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -796,10 +796,10 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
 
     Args:
         client: DME API client
-        policy_name: 策略名称（supports fuzzy search，1~256 个字符）
+        policy_name: Policy name（supports fuzzy search，1~256 个字符）
         exact_query: 名称是否exact match（true-exact match，false-fuzzy search），默认 false
         status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-Queued）
-        policy_type: 策略类型（performance-性能threshold，capacity-容量threshold，availability-可用性，
+        policy_type: Policy type（performance-性能threshold，capacity-容量threshold，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
                     performance_anomaly-性能异常，performance_prediction-性能预警，
                     capacity_prediction-容量预警，history_performance-History performance，
@@ -814,7 +814,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
         object_category: object分类（Storage-Storage device，IPSwitch-Ethernet switch，FCSwitch-Fibre Channel switch，
-                       Virtualization-虚拟化，Server-服务器，HCI-超融合，Client-客户端）
+                       Virtualization-虚拟化，Server-Server，HCI-超融合，Client-Client）
 
     Returns:
         {
@@ -966,8 +966,8 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         object_native_id: object nativeId（1~384 个字符）
         object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
         policy_id: 策略 ID（exact match，1~64 个字符）
-        policy_name: 策略名称（supports fuzzy search，1~256 个字符）
-        policy_types: 策略类型列表（最多 30 个）
+        policy_name: Policy name（supports fuzzy search，1~256 个字符）
+        policy_types: Policy type列表（最多 30 个）
         cause: 异常原因（supports fuzzy search，1~768 个字符）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，单位 ms）
@@ -1063,7 +1063,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
             - host_group: 主机组
             - lun: LUN
             - vm: Virtual machine
-            - datastore: 数据存储
+            - datastore: Datastore
             - application: 应用
             - switch_port: Switch port
             - storage_pool: Storage pool
@@ -1098,7 +1098,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
         payload["page_no"] = page_no
 
     print(f"请求 URL: {url}")
-    print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -1119,7 +1119,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - lun: LUN
             - host_group: 主机组
             - vm: Virtual machine
-            - datastore: 数据存储（仅 FC_SAN）
+            - datastore: Datastore（仅 FC_SAN）
             - application: 应用（仅 FC_SAN）
             - switch_port: Switch port（仅 FC_SAN）
             - storage_pool: Storage pool
@@ -1151,7 +1151,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         ip_san_url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         ip_san_payload = {"entry_objects": entry_objects}
         print(f"请求 URL: {ip_san_url}")
-        print(f"请求负载：{json.dumps(ip_san_payload, ensure_ascii=False, indent=2)}")
+        print(f"Request load：{json.dumps(ip_san_payload, ensure_ascii=False, indent=2)}")
         ip_san_response = client.post(ip_san_url, body=ip_san_payload)
         result['ip_san'] = ip_san_response
 
@@ -1159,7 +1159,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         fc_san_url = "/rest/topomgmt/v1/topo-data/host-storage/query"
         fc_san_payload = {"entry_objects": entry_objects}
         print(f"请求 URL: {fc_san_url}")
-        print(f"请求负载：{json.dumps(fc_san_payload, ensure_ascii=False, indent=2)}")
+        print(f"Request load：{json.dumps(fc_san_payload, ensure_ascii=False, indent=2)}")
         fc_san_response = client.post(fc_san_url, body=fc_san_payload)
         result['fc_san'] = fc_san_response
 
@@ -1170,7 +1170,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         payload = {"entry_objects": entry_objects}
         print(f"请求 URL: {url}")
-        print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+        print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
         response = client.post(url, body=payload)
         return response
 
@@ -1178,7 +1178,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         url = "/rest/topomgmt/v1/topo-data/host-storage/query"
         payload = {"entry_objects": entry_objects}
         print(f"请求 URL: {url}")
-        print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+        print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
         response = client.post(url, body=payload)
         return response
 
@@ -1194,7 +1194,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     Query topology VM and virtual disk list，或查询 BMS Physical disk list below
 
     via specified entryobject查询虚拟化资源，包括Virtual machine和Virtual disk列表，
-    或者查询 BMS（裸金属服务器）physical disk list under。
+    或者查询 BMS（裸金属Server）physical disk list under。
 
     Args:
         client: DME API client
@@ -1204,7 +1204,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
             - host: 主机
             - storage: Storage device
             - lun: LUN
-            - datastore: 数据存储
+            - datastore: Datastore
             - switch_port: Switch port
             - storage_pool: Storage pool
         host_id: 主机 ID（Required）
@@ -1237,7 +1237,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
         payload["page_no"] = page_no
 
     print(f"请求 URL: {url}")
-    print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -1262,7 +1262,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - eth_port: 以太网端口
             - ib_port: InfiniBand 端口
             - logic_port: Logic port
-            - ip_client: IP 客户端
+            - ip_client: IP Client
             - dtree: Dtree
             - lun: LUN
             - k8s_application: K8s 应用
@@ -1273,7 +1273,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - k8s_cluster: K8s 集群
             - k8s_node: K8s 节点
             - k8s_vc_job: K8s VC 任务
-            - dturbo_client: DataTurbo 客户端
+            - dturbo_client: DataTurbo Client
             - enclosures: 机柜
             - eth_switch: Ethernet switch
             - storage_zone: 存储区域
@@ -1305,7 +1305,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
         payload["filter"] = filter
 
     print(f"请求 URL: {url}")
-    print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response

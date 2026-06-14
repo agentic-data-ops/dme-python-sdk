@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, name: str = None, 
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query交换机
+    Batch querySwitch
     
     Args:
         client: DME API client
@@ -23,9 +23,9 @@ def list(client: DMEAPIClient, name: str = None,
         {
             total: Total count (integer),
             fcswitches: Switch list (List<FcSwitchInfo>)。参数格式如下：[{
-                id: 交换机ID (string),
+                id: SwitchID (string),
                 name: Switch name (string),
-                status: 运行状态 (string),
+                status: Running status (string),
             }, ...],
         }
     """
@@ -45,11 +45,11 @@ def list(client: DMEAPIClient, name: str = None,
 
 def sync(client: DMEAPIClient, switch_id: str) -> dict:
     """
-    Sync指定交换机
+    Sync指定Switch
     
     Args:
         client: DME API client
-        switch_id: 交换机 ID（Required）
+        switch_id: Switch ID（Required）
     
     Returns:
         {
@@ -70,7 +70,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     
     Args:
         client: DME API client
-        switch_id: 交换机 ID（Optional）
+        switch_id: Switch ID（Optional）
         port_name: Port name（Optional）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
@@ -104,7 +104,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     
     Args:
         client: DME API client
-        switch_id: 交换机 ID（Optional）
+        switch_id: Switch ID（Optional）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -313,10 +313,10 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         name: Zone 名称（Required）
         fabric_wwn: Fibre Channel network WWN（条件Required，fabric 创建 zone 时需要）
         vsan_wwn: VSAN WWN（条件Required，vsan 创建 zone 时需要）
-        wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
+        wwn_members: WWN Member list（Optional），格式：["<wwn>",...]
         port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
-        fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
-        fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
+        fwwn_members: FWWN Member list（Optional），格式：["<fwwn>",...]
+        fcid_members: FCID Member list（Optional），格式：["<fcid>",...]
         alias_members: Alias member list（Optional），格式：["<alias>",...]
         device_alias_members: Device alias member list（Optional），格式：["<deviceAlias>",...]
 
@@ -337,7 +337,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
 
-    # 成员列表
+    # Member list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -434,10 +434,10 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
         zones: Zone 配置列表，每个元素应包含:
             - fabric_wwn: Fibre Channel network WWN（Required）
             - name: Zone 名称（Required）
-            - wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
+            - wwn_members: WWN Member list（Optional），格式：["<wwn>",...]
             - port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
-            - fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
-            - fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
+            - fwwn_members: FWWN Member list（Optional），格式：["<fwwn>",...]
+            - fcid_members: FCID Member list（Optional），格式：["<fcid>",...]
             - alias_members: Alias member list（Optional），格式：["<alias>",...]
             - device_alias_members: Device alias member list（Optional），格式：["<deviceAlias>",...]
 
@@ -556,10 +556,10 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         name: Alias 名称（Required）
         fabric_wwn: Fibre Channel network WWN（条件Required，fabric Alias creation requires）
         vsan_wwn: VSAN WWN（条件Required，vsan Alias creation requires）
-        wwn_members: WWN 成员列表（Optional，思科交换机 PWWN 成员）
+        wwn_members: WWN Member list（Optional，思科Switch PWWN 成员）
         port_members: Port member list（Optional）
-        fwwn_members: FWWN 成员列表（Optional）
-        fcid_members: FCID 成员列表（Optional）
+        fwwn_members: FWWN Member list（Optional）
+        fcid_members: FCID Member list（Optional）
         device_alias_members: Device alias member list（Optional）
     
     Returns:
@@ -579,7 +579,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
     
-    # 成员列表
+    # Member list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -715,7 +715,7 @@ ACTIONS = {
     },
     'sync': {
         'func': sync,
-        'description': 'Sync交换机配置',
+        'description': 'SyncSwitch配置',
         'params': ['switch_id'],
         'subtopic': None
     },
@@ -727,7 +727,7 @@ ACTIONS = {
     },
     'controller_list': {
         'func': controller_list,
-        'description': '查询交换机控制器列表',
+        'description': '查询Switch控制器列表',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },

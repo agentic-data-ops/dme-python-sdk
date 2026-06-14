@@ -363,7 +363,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
 # Action list for CLI help
 # No direct actions for this topic，All actions are under subtopics
 ACTIONS = {
-    # tier 子主题
+    # tier Subtopic
     'tier_list': {
         'func': tier_list,
         'description': 'Batch queryService level',
@@ -376,7 +376,7 @@ ACTIONS = {
         'params': ['tier_id', 'page_no', 'page_size'],
         'subtopic': 'tier'
     },
-    # project 子主题
+    # project Subtopic
     'project_list': {
         'func': project_list,
         'description': 'Batch queryProject group',
@@ -389,7 +389,7 @@ ACTIONS = {
         'params': ['project_id', 'page_no', 'page_size'],
         'subtopic': 'project'
     },
-    # lun 子主题
+    # lun Subtopic
     'lun_create': {
         'func': lun_create,
         'description': 'ServiceBatch create LUN',

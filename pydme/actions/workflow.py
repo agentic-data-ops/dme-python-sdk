@@ -8,7 +8,7 @@ import os
 from pydme.client import DMEAPIClient
 
 
-# ==================== template 子主题 ====================
+# ==================== template Subtopic ====================
 
 def template_list(client: DMEAPIClient, page_no: int, page_size: int,
                   directory_id: str = None, group: str = None,
@@ -103,7 +103,7 @@ def template_show(client: DMEAPIClient, template_id: str,
     return response
 
 
-# ==================== instance 子主题 ====================
+# ==================== instance Subtopic ====================
 
 def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """

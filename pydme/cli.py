@@ -900,7 +900,7 @@ def main():
                 traceback.print_exc()
             return
         else:
-            # 是子主题，显示子主题帮助
+            # 是Subtopic，显示Subtopic帮助
             print_subtopic_help(cli, args.topic, args.subtopic)
             return
 

@@ -1,5 +1,5 @@
 """
-服务器管理 (Server) operations
+Server管理 (Server) operations
 """
 
 import sys
@@ -22,11 +22,11 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Returns:
         {
-            total: 服务器Total count (integer),
+            total: ServerTotal count (integer),
             servers: Server list (List<ServerInfo>)。参数格式如下：[{
-                id: 服务器ID (string),
-                name: 服务器名称 (string),
-                type: 服务器类型 (string),
+                id: ServerID (string),
+                name: Server名称 (string),
+                type: Server类型 (string),
                 status: 状态 (string),
             }, ...],
         }
@@ -53,14 +53,14 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     
     Args:
         client: DME API client
-        server_id: 服务器 ID（注意：需要使用 device_id 字段，with hyphens UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
+        server_id: Server ID（注意：需要使用 device_id 字段，with hyphens UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
         {
-            id: 服务器ID (string),
-            name: 服务器名称 (string),
+            id: ServerID (string),
+            name: Server名称 (string),
             status: 状态 (string),
-            type: 服务器类型 (string),
+            type: Server类型 (string),
         }
     """
     url = "/rest/servermgmt/v1/servers/{server_id}/summary"
@@ -76,7 +76,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
 
     Args:
         client: DME API client
-        server_id: 服务器 ID
+        server_id: Server ID
         start: 分页Start position，默认 1
         limit: Page size, default 100
 
@@ -102,7 +102,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
     
     Args:
         client: DME API client
-        server_id: 服务器 ID
+        server_id: Server ID
         start: 分页Start position，默认 1
         limit: Page size, default 100
     
@@ -128,7 +128,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
     
     Args:
         client: DME API client
-        server_id: 服务器 ID
+        server_id: Server ID
         start: 分页Start position，默认 1
         limit: Page size, default 100
     
@@ -154,7 +154,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
 
     Args:
         client: DME API client
-        server_id: 服务器 ID（Optional）
+        server_id: Server ID（Optional）
         page_no: Page number，默认 1
         page_size: 每页count，5~1000，默认 20
 
@@ -182,7 +182,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
     
     Args:
         client: DME API client
-        server_id: 服务器 ID
+        server_id: Server ID
         start: 分页Start position，默认 1
         limit: Page size, default 100
     
@@ -208,7 +208,7 @@ def power_list(client: DMEAPIClient, server_id: str,
     
     Args:
         client: DME API client
-        server_id: 服务器 ID
+        server_id: Server ID
         start: 分页Start position，默认 1
         limit: Page size, default 100
     
@@ -234,7 +234,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
     
     Args:
         client: DME API client
-        server_id: 服务器 ID
+        server_id: Server ID
         start: 分页Start position，默认 1
         limit: Page size, default 100
     
@@ -260,7 +260,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     
     Args:
         client: DME API client
-        server_id: 服务器 ID
+        server_id: Server ID
         start: 分页Start position，默认 1
         limit: Page size, default 100
     

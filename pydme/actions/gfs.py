@@ -216,7 +216,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         gfs_group_name: Global data space名称 (1~255个字符, Optional。与 gfs_group_id cannot both be empty; takes precedence when both have values gfs_group_id)
         gfs_mode: Global namespace模式 (Optional)。Optional值：smart_share。Default：smart_share
         single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (只有一个成员可写入)
-        smart_share_members: SmartShare 成员列表 (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
+        smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
                 id: Namespace ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
@@ -258,7 +258,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         client: DME API client
         id: Global namespace的 ID (1~32个字符, Optional。与 name_locator cannot both be empty; takes precedence when both have values id)
         name_locator: 名称定位器，格式为：Global namespace的名称@Global data space name (3~507个字符, Optional。与 id cannot both be empty; takes precedence when both have values id)
-        smart_share_members: SmartShare 成员列表 (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的模式为 smart_share 时该参数有效)。参数格式如下：[{
+        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的模式为 smart_share 时该参数有效)。参数格式如下：[{
                 id: Namespace ID 或Filesystem ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
@@ -468,8 +468,8 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         authentication_type: 认证类型 (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
         user_operator: 用户名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
         user_name: 用户名 (1~255个字符, Optional)。与 authentication_type、user_operator must be sent together
-        group_operator: 用户组名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
-        group_name: 用户组名 (1~255个字符, Optional)。与 authentication_type、group_operator must be sent together
+        group_operator: User group名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
+        group_name: User group名 (1~255个字符, Optional)。与 authentication_type、group_operator must be sent together
         files_filter: 按文件列表过滤请求参数 (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
                 file_id: 按文件列表过滤策略上传的文件 ID (1~63个字符, Required),
                 file_name: 按文件列表过滤策略上传的文件名称 (1~1023个字符, Required),

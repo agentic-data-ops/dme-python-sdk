@@ -36,7 +36,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         is_template: 是否是模板（true/false）
         os_type: OS type list（Windows, Linux, Other）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: 数据存储Data center ID（仅 vCenter 场景支持）
+        datacenter_id: DatastoreData center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
         sort_dir: Sort direction（asc, desc），默认 asc
         page_no: Page queryStart page，默认 1
@@ -131,12 +131,12 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     
     Args:
         client: DME API client
-        site_id: 数据存储所在的站点 ID
-        cluster_id: 数据存储所关联的集群 ID
-        host_id: 数据存储所关联的主机 ID
-        dc_id: 数据存储所在Data center ID
-        name: 数据存储名称（supports fuzzy search）
-        status: 数据存储状态列表
+        site_id: Datastore所在的站点 ID
+        cluster_id: Datastore所关联的集群 ID
+        host_id: Datastore所关联的主机 ID
+        dc_id: Datastore所在Data center ID
+        name: Datastore名称（supports fuzzy search）
+        status: Datastore状态列表
                 取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
         storage_type: 数据Storage class型列表
@@ -144,7 +144,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: 是否支持精简模式（仅 FusionCompute 场景支持）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: 数据存储所属的 vCenter Data center ID（仅 vCenter 场景支持）
+        datacenter_id: Datastore所属的 vCenter Data center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），默认 asc
         page_no: Page queryStart page，默认 1
@@ -193,15 +193,15 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
     """
     QueryDatastore details
     
-    查询数据存储的Details。
+    查询Datastore的Details。
     
     Args:
         client: DME API client
-        datastore_id: 数据存储 ID（Required）
+        datastore_id: Datastore ID（Required）
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        数据存储Details
+        DatastoreDetails
     """
     url = "/rest/vmmgmt/v1/datastores/{datastore_id}"
     
@@ -538,7 +538,7 @@ ACTIONS = {
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
-    # 数据存储管理
+    # Datastore管理
     'datastore_list': {
         'func': datastore_list,
         'description': 'Query datastore list',
