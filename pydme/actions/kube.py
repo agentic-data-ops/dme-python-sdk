@@ -86,12 +86,12 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     """
      queryPod list
     
-     queryPod（Pod） list， support按 cluster ID、Namespace和 name filter。
+     Query pod list， supports filtering by cluster ID, namespace and name。
     
     Args:
         client: DME API client
         cluster_id: Container cluster ID（Optional）
-        namespace: 容器Namespace（Optional）
+        namespace: Container namespace（Optional）
         name: Pod name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
         page_size: per pagecount，1~1000，default 20
@@ -101,7 +101,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
             pods: Pod list。 parameter format：[{
                 name: Pod name (string),
                 status:  status (string),
-                node: 所在 node (string),
+                node: Node (string),
             }, ...],
         }
     """
@@ -165,8 +165,8 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
     Args:
         client: DME API client
         cluster_id: Container cluster ID（Optional）
-        namespace: 容器Namespace（Optional）
-        name: Persistent volume声明 name（Optional，supports fuzzy search）
+        namespace: Container namespace（Optional）
+        name: Persistent volume claim name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
         page_size: per pagecount，1~1000，default 20
     
@@ -266,7 +266,7 @@ ACTIONS = {
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
-    # Persistent volume声明management 
+    # Persistent volume claimmanagement 
     'pvc_list': {
         'func': pvc_list,
         'description': 'Query containerPVC list',

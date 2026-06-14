@@ -22,7 +22,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
         client: DME API client
         page_no: Page index（Required，min：1）
         page_size: per page querycount（Required，1~1000）
-        directory_id: 目录 id（Optional，1~64  characters）
+        directory_id: Directory ID（Optional，1~64  characters）
         group: Template group name，supports fuzzy match（Optional， max 255  characters）
         name:  template name，supports fuzzy match（Optional， max 255  characters）
     
@@ -80,7 +80,7 @@ def template_show(client: DMEAPIClient, template_id: str,
     """
      query templateDetails
     
-    Query template的Details。
+    Query template details.
     
     Args:
         client: DME API client
@@ -109,14 +109,14 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """
      stopinstance
     
-     stopExecuting的Workflowinstance。
+     Stop executing workflow instance。
     
     Args:
         client: DME API client
-        instance_id: instance的 id（Required，1~64  characters）
+        instance_id: Instance ID（Required，1~64  characters）
     
     Returns:
-        无
+        N/A
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/stop"
     
@@ -132,7 +132,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     
     Args:
         client: DME API client
-        instance_id:  queryinstance的 id（Required，1~64  characters）
+        instance_id:  queryInstance ID（Required，1~64  characters）
     
     Returns:
         {
@@ -170,7 +170,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
         client: DME API client
         template_id:  template id（Optional，1~64  characters，satisfies regex）
         template_version_id: Template version id（Optional，1~64  characters，satisfies regex）
-        instance_id: instance的 id（Optional，1~64  characters，satisfies regex）
+        instance_id: Instance ID（Optional，1~64  characters，satisfies regex）
         params: Execute instance parameters（Optional）， format：{"key1": "value1", "key2": "value2"}， max 100 个 parameter
     
     Returns:

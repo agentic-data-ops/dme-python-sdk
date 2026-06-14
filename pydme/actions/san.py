@@ -199,14 +199,14 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 description: LUN description (0~255 characters),
                 disk_location: Disk location for the LUN (1~255 characters),
                 count: created per diskLUNcount (1~8),
-                suffix_length: Suffix encoding digits (1~4, default4; 当countgreater than1effective when),
-                start_suffix: Suffix start encoding (0~9999, default0; 当countgreater than1effective when),
+                suffix_length: Suffix encoding digits (1~4, default 4; effective when count > 1),
+                start_suffix: Suffix start encoding (0~9999, default 0; effective when count > 1),
              }, ...]
         pool_id: Storage pool ID (Conditionally required), 1~64 characters; required when storage mode is not pass-through; obtained via QueryResource type API, Resource type name is SYS_StoragePool
-        vstore_id:  tenant ID(Optional），1~64  characters；当 device为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
+        vstore_id:  Tenant ID (Optional)，1~64  characters；for OceanStor V300R006C00, V500R007C00, Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
-        initial_distribute_policy: Initial capacity allocation policy(Optional），only supports华为 V3/V5  device，Dorado  series not support；
-                                  Options：automatic（ auto）、highest_performance（High-performance tier）、performance（ performance tier）、capacity（ capacity层）；default automatic
+        initial_distribute_policy: Initial capacity allocation policy(Optional），Huawei V3/V5 and Dorado series onlyries not support；
+                                  Options: automatic, highest_performance, performancermance tier）、capacity（ capacity层）；default automatic
         prefetch_policy: 预取 policy(Optional），Affects disk read；
                         Options：no_prefetch（ no prefetch）、constant_prefetch（Fixed prefetch）、variable_prefetch（Variable prefetch）、intelligent_prefetch（Smart prefetch）；default intelligent_prefetch
         prefetch_value: 预取 policy值(Optional），0~1024； sent prefetch_policy required when value is fixed or variable prefetch；Fixed prefetchvalue range 0~1024KB，Variable prefetch value range 0~1024 倍
@@ -225,8 +225,8 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
         mapping: Mapping info (Optional), LunMapping object, If present, creates for host or host group LUN。 parameter format：{
-                host_id: Host ID (1~64 characters; 与hostgroup_idone of, cannot coexist),
-                hostgroup_id: Host group ID (1~64 characters; 与host_idone of, cannot coexist),
+                host_id: Host ID (1~64 characters; one of with hostgroup_id, cannot coexist),
+                hostgroup_id: Host group ID (1~64 characters; one of with host_id, cannot coexist),
                 host_type:  mappingHost type。Options：storage_host (Storage host), host ( host)。defaulthost,
                 start_host_lun_id: 起始 hostLUN ID (1~4096),
                 mapping_view: Mapping view request info (LunMappingRequestobject)。 format：{

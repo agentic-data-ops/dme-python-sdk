@@ -239,7 +239,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
         client: DME API client
         pg_id: Protection group ID
         lun_ids: to be removedProtection group member LUN ID list
-        is_delay: Deferred execution. 在Remote replication, Sync + Async ring 3DC  case, 此 parameter无效
+        is_delay: Deferred execution. 在Remote replication, Sync + Async ring 3DC  case, 此 parameterN/A效
 
     Returns:
         {

@@ -55,7 +55,7 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 frames  field
+        }，includes total and frames fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query"
     
@@ -82,7 +82,7 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 boards  field
+        }，includes total and boards fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query"
     
@@ -109,7 +109,7 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 subcards  field
+        }，includes total and subcards fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/subcards/query"
     
@@ -136,7 +136,7 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 powers  field
+        }，includes total and powers fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/powers/query"
     
@@ -163,7 +163,7 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 fans  field
+        }，includes total and fans fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/fans/query"
     
@@ -190,7 +190,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 ports  field
+        }，includes total and ports fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/ports/query"
     

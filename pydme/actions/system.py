@@ -22,14 +22,14 @@ def login(client: DMEAPIClient) -> dict:
         {
             task_id: Task ID (string, 1~64 characters),
         }，includes  accessSession
-        - accessSession: 会话 token，for subsequent requests X-Auth-Token header
+        - accessSession: session token，for subsequent requests X-Auth-Token header
     """
     client.login()
 
     accessSession = client.headers.get("X-Auth-Token", "")
     if accessSession:
-        print(f"\n登录 success！")
-        print(f"\n提示：Configure env vars to reuse auth token，Avoid duplicate login：")
+        print('\nLogin successful!')
+        print('\nTip: Configure env vars to reuse auth token to avoid duplicate login:')
         print("  export DME_API_AUTH_TOKEN='<accessSession>'")
 
     return {
@@ -45,7 +45,7 @@ def logout(client: DMEAPIClient) -> dict:
         client: DME API client
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/plat/smapp/v1/sessions"
     
@@ -56,7 +56,7 @@ def logout(client: DMEAPIClient) -> dict:
 def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
                    is_initial_password: bool = True) -> dict:
     """
-     based on specifiedUsernameReset specified user password，Reset without original password，因此，Third-party user executing this API must have security roleAdmin role。
+     Reset specified user password by username，Reset without original password. Third-party user executing this API must have security admin role.ng this API must have security roleAdmin role。
 
     Args:
         client: DME API client
@@ -65,7 +65,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，No initial modification required。Default：true
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/usm/v1/users/{user_name}/reset-credentials"
 
@@ -93,7 +93,7 @@ def user_delete(client: DMEAPIClient, user_id: int) -> dict:
         user_id: user ID (Required, integer, 11~2147483647)
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
 
@@ -114,13 +114,13 @@ def user_create(client: DMEAPIClient, name: str, type: int,
     Args:
         client: DME API client
         name: Username (Required, string,  max32 characters)。local Usernamecannot be less than6 characters，greater than32 characters，Cannot contain spaces、转义 character、Invisible and special characters。remote Usernamecannot be less than1 characters，greater than32 characters，Cannot contain invisible characters;特殊 character。
-        type: User type (Required, integer, 无)。0：Local user；2：Remote user。
+        type: User type (Required, integer, N/A)。0：Local user；2：Remote user。
         value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、greater than32 characters。Password must contain at least2 letters，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user not involve。
         description:  description (Optional, string,  max127 characters)
         roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全Admin组，FilesystemGroup or custom user role。
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/usermgmt/v1/users"
 
@@ -1195,7 +1195,7 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
         request_body: Call lower-level northbound API requestBody体 (Optional, string, 1~20480 characters)
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/regionmgmt/v1/regions/{region_id}/resources/query"
 

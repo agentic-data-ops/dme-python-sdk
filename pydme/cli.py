@@ -900,19 +900,19 @@ def main():
                 traceback.print_exc()
             return
         else:
-            # 是Subtopic，显示Subtopic帮助
+            # is subtopic, show subtopic help
             print_subtopic_help(cli, args.topic, args.subtopic)
             return
 
     # 4.  specified了 <topic> <subtopic> <action>，Show action help or execute action
     if args.subtopic and args.action:
         # try to combine as action_key（Three-level structure：<topic> <subtopic> <action>）
-        #  try first subtopic_action  format（Supports action names with spaces，如 "frame list"）
+        #  try subtopic_action format first (supports spaces in action names)，如 "frame list"）
         action_key = f"{args.subtopic}_{args.action}"
         
-        # if not found，尝试 subtopic action  format（space-separated）
+        # if not found, try subtopic action format (space-separated)
         if action_key not in actions_info:
-            #  try to subtopic 和 action Combine into space-separated format
+            #  try to combine subtopic and action into space-separated format
             space_action_key = f"{args.subtopic} {args.action}"
             if space_action_key in actions_info:
                 action_key = space_action_key

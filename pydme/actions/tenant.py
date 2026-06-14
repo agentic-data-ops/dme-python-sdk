@@ -1,7 +1,7 @@
 """
 Tenant self-service (Self Service) operations
 
-Tenant self-service用于management Service level和Project group。
+Tenant self-service for managing service level and project group.
 """
 
 import sys
@@ -21,7 +21,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: 待create  LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format：[{
+        volumes: LUN basic parameter list to create (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format：[{
                 name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
                 capacity:  capacityGB (1~262144),
                 count: create count (1~500),
@@ -34,12 +34,12 @@ def lun_create(client: DMEAPIClient, volumes: list,
         project_id: Project group ID（Optional，0~64  characters）
         availability_zone: Availability zone ID（Optional，0~64  characters）
         scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。 parameter format：{
-                affinity: Enable affinity。Optional值：true ( enable), false (disabled)。defaultdisabled,
+                affinity: Enable affinity. Options: true (enable), false (disable). Default: disabled,
                 affinity_volume: to be associated LUN ID (Optional, 0~64 characters),
              }
         mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。 parameter format：{
-                host_id: Host ID (Optional, 0~64 characters, 与hostgroup_idone of),
-                hostgroup_id: Host group ID (Optional, 0~64 characters, 与host_idone of),
+                host_id: Host ID (Optional, 0~64 characters, one of with hostgroup_id),
+                hostgroup_id: Host group ID (Optional, 0~64 characters, one of with host_id),
              }
 
     Returns:

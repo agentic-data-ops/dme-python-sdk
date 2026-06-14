@@ -53,7 +53,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     
     Args:
         client: DME API client
-        server_id: Server ID（ note： need use device_id  field，with hyphens UUID  format，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
+        server_id: Server ID (use device_id field, UUID format with hyphens，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
         {
@@ -72,7 +72,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
 def cpu_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server所有 CPU  list
+    Query all CPU list on server
 
     Args:
         client: DME API client
@@ -124,7 +124,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
 def disk_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server disk集合
+    Query disk collection on server
     
     Args:
         client: DME API client
@@ -159,7 +159,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
         page_size: per pagecount，5~1000，default 20
 
     Returns:
-        网卡 list
+        NIC list
     """
     url = "/rest/servermgmt/v1/network-adapters/query"
 
@@ -230,7 +230,7 @@ def power_list(client: DMEAPIClient, server_id: str,
 def raid_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server RAID 卡 details
+    Query RAID card details on server
     
     Args:
         client: DME API client
@@ -297,7 +297,7 @@ ACTIONS = {
     # subtopic actions - cpu (three-level structure)
     'cpu_list': {
         'func': cpu_list,
-        'description': 'Query on server所有 CPU  list',
+        'description': 'Query all CPU list on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
@@ -311,7 +311,7 @@ ACTIONS = {
     # subtopic actions - disk (three-level structure)
     'disk_list': {
         'func': disk_list,
-        'description': 'Query on server disk集合',
+        'description': 'Query disk collection on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },
@@ -339,7 +339,7 @@ ACTIONS = {
     # subtopic actions - raid_card (three-level structure)
     'raid_card_list': {
         'func': raid_card_list,
-        'description': 'Query on server RAID 卡 details',
+        'description': 'Query RAID card details on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },

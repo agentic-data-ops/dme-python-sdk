@@ -2174,8 +2174,8 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format：{
-                type: WORM保护 mode (Optional). Options：none_mode (无default policy), enterprise_mode (Enterprise compliance), compliance_mode ( legal compliance), advance_mode ( high security compliance), audit_log (Audit log), non_worm (非WORM),
-                min_protect_period: Min protection period (Optional, default0),
+                type: WORM保护 mode (Optional). Options：none_mode (N/Adefault policy), enterprise_mode (Enterprise compliance), compliance_mode ( legal compliance), advance_mode ( high security compliance), audit_log (Audit log), non_worm (非WORM),
+                min_protect_period: Min protection period (Optional, default 0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
                 max_protect_period_unit: Max protection period unit (Optional, defaultyear). Options：minute, hour, day, month, year,
@@ -2414,7 +2414,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
              }
         worm: FilesystemWorm parameter (Optional).  parameter format：{
                 type: WORMProtection compliance mode (Optional). Options：none_mode, enterprise_mode, compliance_mode, advance_mode, audit_log, non_worm,
-                min_protect_period: Min protection period (Optional, 0~4294967295, default0; 4294967295is indefinite),
+                min_protect_period: Min protection period (Optional, 0~4294967295, default 0; 4294967295is indefinite),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 1~4294967295, default70; 4294967295is indefinite),
                 max_protect_period_unit: Max protection period unit (Optional, defaultyear). Options：minute, hour, day, month, year,
@@ -2666,7 +2666,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         rdc: Data redundancy copies, Options：redundancy_2, redundancy_3, redundancy_4
         worm: WORM  config (Optional).  parameter format：{
                 worm_mode: WORM policy mode (Optional). Options：non_worm (None type), enterprise_mode ( enterprise), compliance_mode (法规级),
-                min_protect_period: Min protection period (Optional, 0~4294967295, default0; 4294967295is indefinite),
+                min_protect_period: Min protection period (Optional, 0~4294967295, default 0; 4294967295is indefinite),
                 min_protect_period_unit:  minretention periodunit  (Optional, defaultyear). Options：day, year, month, hour, minute,
                 max_protect_period: Max protection period (Optional, 1~4294967295, default70; 4294967295is indefinite),
                 max_protect_period_unit:  maxretention periodunit  (Optional, defaultyear). Options：day, year, month, hour, minute, infinite,

@@ -458,7 +458,7 @@ def sync(client: DMEAPIClient, storage_id: str) -> dict:
         storage_id: Storage deviceId (Required, string, 1~64 characters). obtained via Batch query storage devices API
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/storagemgmt/v1/storages/refresh"
 
@@ -1104,14 +1104,14 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  need和 Maintenance start timemust appear together and value greater thanStart time. 
         total_capacity: Raw capacity (Optional, -1~2147483647, in MB). Storage devicesum of all disk physical capacities, -1Indicates no raw capacity. 
         total_effective_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage device writableUser data总量, -1Indicates no available capacity. 
-        total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage deviceActual available disk physical space (扣除RAID、metadata consumption) , -1表示无Available capacity. 
-        used_capacity: Used capacity (Optional, -1~2147483647, in MB). Storage device all inStorage poolsum of used capacity, -1表示无Used capacity. 
-        free_capacity: Free capacity (Optional, -1~2147483647, in MB). Storage device的Available capacity与Used capacity的差值, -1表示无Free capacity. 
+        total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage deviceActual available disk physical space (扣除RAID、metadata consumption) , -1表示N/AAvailable capacity. 
+        used_capacity: Used capacity (Optional, -1~2147483647, in MB). Storage device all inStorage poolsum of used capacity, -1表示N/AUsed capacity. 
+        free_capacity: Free capacity (Optional, -1~2147483647, in MB). Storage device的Available capacity与Used capacity的差值, -1表示N/AFree capacity. 
         subscription_capacity: 订阅 capacity (Optional, -1~2147483647, in MB). Storage device all inStorage poolsum of subscribed capacity, -1Indicates no subscribed capacity. 
         tag_ids:  tagID list (Optional, string, 0~512 characters). 数组 formatstring, supports up to10个 tag,  empty array meansRemove storage deviceall associated tags. 
 
     Returns:
-        无
+        N/A
     """
     if not storage_id:
         raise ValueError("storage_id is required")
@@ -1213,7 +1213,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  total 和 controllers  field
+        }, includes total and controllers fields
         - total: ControllerTotal count
         - controllers: Controller list, includes  id, name, status, type 等 info
     """
@@ -2344,7 +2344,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 ddns_status: 动态DNS enable status. Options: INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
                 failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
                 failover_group_name: Failover group name (1~255 characters),
-                support_protocol: Logic portSupported data access protocols. Options: NONE (无 protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+                support_protocol: Logic portSupported data access protocols. Options: NONE (N/A protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
                 logical_type:  logical type. Options: SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
                 listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters). Options: NO ( disable), YES ( open),
                 management_access: Management access method (1~255 characters),
@@ -2423,7 +2423,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             ddns_status: 动态DNS enable status. Options: INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
             failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
             failover_group_name: Failover group name (1~255 characters),
-            support_protocol: Logic portSupported data access protocols. Options: NONE (无 protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+            support_protocol: Logic portSupported data access protocols. Options: NONE (N/A protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
             logical_type:  logical type. Options: SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
             listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters). Options: NO ( disable), YES ( open),
             management_access: Management access method (1~255 characters),

@@ -21,7 +21,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         client: DME API client
         site_id: Virtual machine site ID
         cluster_id: Virtual machine cluster ID（HCS  scenario not support）
-        dc_id: Data center ID（仅 FusionCompute Scenario support）
+        dc_id: Data center ID（FusionCompute only）
         cluster_name: Virtual machineCluster name（supports fuzzy search，HCS  scenario not support）
         host_id: Virtual machinePhysical hostUnique identifier
         host_name: Virtual machineHost name（supports fuzzy search）
@@ -33,10 +33,10 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                      recycling, deactivated, active, saving, deleted, other, uploading,
                      pending_delete, queued, importing, killed, storage_migrating,
                      building, error
-        is_template:  whether是 template（true/false）
+        is_template:  whether template（true/false）
         os_type: OS type list（Windows, Linux, Other）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: DatastoreData center ID（仅 vCenter Scenario support）
+        datacenter_id: Datastore data center ID（vCenter only）
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
         sort_dir: Sort direction（asc, desc），default asc
         page_no: Page queryStart page，default 1
@@ -100,7 +100,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
     QueryVirtual machine details
     
-     queryVirtual machine的Details。
+     Query virtual machine details.
     
     Args:
         client: DME API client
@@ -134,7 +134,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         site_id: Datastore located site ID
         cluster_id: Datastoreassociated clusters ID
         host_id: Datastoreassociated hosts ID
-        dc_id: Datastore所在Data center ID
+        dc_id: Datastore data center ID
         name: Datastore name（supports fuzzy search）
         status: Datastorestatus list
                  value：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
@@ -142,9 +142,9 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         storage_type:  dataStorage class型 list
                        value：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: supports精简 mode（仅 FusionCompute Scenario support）
+        allocate_type: supports精简 mode（FusionCompute only）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: Datastore的 vCenter Data center ID（仅 vCenter Scenario support）
+        datacenter_id: Datastore的 vCenter Data center ID（vCenter only）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），default asc
         page_no: Page queryStart page，default 1
