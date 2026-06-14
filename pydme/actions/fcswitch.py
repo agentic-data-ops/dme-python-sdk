@@ -317,7 +317,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
         fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
-        alias_members: 别名成员列表（Optional），格式：["<alias>",...]
+        alias_members: Alias member list（Optional），格式：["<alias>",...]
         device_alias_members: Device alias member list（Optional），格式：["<deviceAlias>",...]
 
     Returns:
@@ -371,7 +371,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
         wwn_members: WWN 成员修改（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
         alias_members: 别名成员修改（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
         fwwn_members: FWWN 成员修改（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: 端口成员修改（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
+        port_members: Port member modification（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fcid_members: FCID 成员修改（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
         device_alias_members: Device alias member modification（Optional），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
 
@@ -438,7 +438,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
             - port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
             - fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
             - fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
-            - alias_members: 别名成员列表（Optional），格式：["<alias>",...]
+            - alias_members: Alias member list（Optional），格式：["<alias>",...]
             - device_alias_members: Device alias member list（Optional），格式：["<deviceAlias>",...]
 
     Returns:
@@ -610,7 +610,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
         name: Alias 名称（Optional）
         wwn_members: WWN 成员修改（Optional，格式：{'added_members': [...], 'removed_members': [...]}）
         fwwn_members: FWWN 成员修改（Optional）
-        port_members: 端口成员修改（Optional）
+        port_members: Port member modification（Optional）
         fcid_members: FCID 成员修改（Optional）
         device_alias_members: Device alias member modification（Optional）
     
@@ -662,7 +662,7 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
 
 def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) -> dict:
     """
-    查询别名的成员
+    Query alias members
 
     查询 Alias 中包含的成员，支持查询端口成员和 WWN 成员。
 
@@ -817,7 +817,7 @@ ACTIONS = {
     },
     'alias_show_members': {
         'func': alias_show_members,
-        'description': '查询别名的成员',
+        'description': 'Query alias members',
         'params': ['alias_id', 'type'],
         'subtopic': 'alias'
     },

@@ -681,7 +681,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                         anonymous_user_id: 匿名用户ID (可选),
                         access_protocol: 访问协议 (可选)。可选值：nfsv3_and_nfsv4 (NFSv3和NFSv4), nfsv3 (仅NFSv3), nfsv4 (仅NFSv4),
                      }, ...],
-                file_name_extension_filters: File extension过滤规则列表 (可选)。参数格式如下：[{
+                file_name_extension_filters: File extensionFilter rule list (可选)。参数格式如下：[{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *must be at the last character),
                         rule_type: 规则允许/拒绝 (可选, 默认reject)。可选值：reject, permit,
@@ -727,7 +727,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
         description: Description
         character_encoding: 字符编码，可选值：utf-8, zh, gbk 等
         audit_items: 审计事件列表 (可选)。参数格式如下：[{
-                audititem: 审计事件类型。可选值：none (无操作), all (所有操作), open (打开), create (创建), read (读), write (写), close (关闭), delete (删除), rename (重命名), get_security (获取安全属性), set_security (设置安全属性), get_attr (获取属性), set_attr (设置属性),
+                audititem: Audit event type。可选值：none (无操作), all (所有操作), open (打开), create (创建), read (读), write (写), close (关闭), delete (删除), rename (重命名), get_security (获取安全属性), set_security (设置安全属性), get_attr (获取属性), set_attr (设置属性),
              }, ...]
         show_snapshot_enable: 是否显示快照
         nfs_share_client_addition: 需要新增的 NFS Share client list (可选)。参数格式如下：[{
@@ -739,7 +739,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 write_mode: 写入模式 (可选)。可选值：synchronization (Sync), asynchronization (异步),
                 permission_constraint: 权限限制 (Required)。可选值：all_squash, no_all_squash,
                 root_permission_constraint: root权限限制 (Required)。可选值：root_squash, no_root_squash,
-                source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
+                source_port_verification: Source port verification (可选)。可选值：secure (安全), insecure (不安全),
                 anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
              }, ...]
         nfs_share_client_modification: 需要修改的 NFS Share client list (可选)。参数格式如下：[{
@@ -751,16 +751,16 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 write_mode: 写入模式 (可选)。可选值：synchronization (Sync), asynchronization (异步),
                 permission_constraint: 权限限制 (Required)。可选值：all_squash, no_all_squash,
                 root_permission_constraint: root权限限制 (Required)。可选值：root_squash, no_root_squash,
-                source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
+                source_port_verification: Source port verification (可选)。可选值：secure (安全), insecure (不安全),
                 anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
              }, ...]
         nfs_share_client_deletion: 需要删除的 NFS Share client list (可选)。参数格式如下：[{
                 nfs_share_client_id_in_storage: Client on storageID (Required, 1~32字符),
                 name: 客户端IPor hostname or netgroup name (可选, 1~32000字符),
              }, ...]
-        file_name_ex_filters: 扩展名过滤规则列表 (可选)。参数格式如下：[{
+        file_name_ex_filters: 扩展名Filter rule list (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
-                param: 扩展名过滤规则。属性格式如下：{
+                param: Extension filter rule。属性格式如下：{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, 修改时Required),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *只能位于最后),
                         rule_type: 规则允许/拒绝 (可选, 默认reject)。可选值：reject (拒绝), permit (允许),
@@ -998,24 +998,24 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                 show_previous_versions_enabled: Show previous versions enabled (Optional),
                 show_snapshot_enabled: Show snapshot enabled (Optional),
                 user_and_user_group_info: User and user group list (Optional)。参数格式如下：[{
-                        user_or_user_group_id_in_storage: 用户或用户组在存储上的id (可选, 1~64字符, 变更时Required),
-                        user_or_user_group_name: 用户名或用户组名 (可选, 1~255字符; 用户组名称加前缀@),
+                        user_or_user_group_id_in_storage: user or user group on storageid (可选, 1~64字符, 变更时Required),
+                        user_or_user_group_name: Username or group name (可选, 1~255字符; Group name with prefix@),
                         domain_type: 域类型 (可选, 默认local)。可选值：ad_domain, ldap_domain, local, nis_domain,
                         permission: 权限 (可选, 默认read)。可选值：read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
                      }, ...],
                 ip_addresses_and_segments: IP地址和IP地址段列表 (可选)。参数格式如下：[{
-                        ip_or_segments_id_in_storage: IP地址(段)在存储上的ID (可选, 1~64字符, 变更时Required),
+                        ip_or_segments_id_in_storage: IP地址(段)on storageID (可选, 1~64字符, 变更时Required),
                         ip_addresses_or_segments: IP地址(段) (可选, 1~128字符, 最多32条),
                      }, ...],
-                file_name_extension_filters: File extension过滤规则列表 (可选)。参数格式如下：[{
+                file_name_extension_filters: File extensionFilter rule list (可选)。参数格式如下：[{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*),
                         rule_type: 规则类型 (可选, 默认reject)。可选值：reject, permit,
                         fileoperations: Operation type list (可选),
                      }, ...],
                 smb3_encryption_enable: 是否开启SMB3加密功能 (可选),
-                unencrypted_access: 是否允许未加密客户端访问 (可选),
-                enable_lease: 是否开启租约锁定开关 (可选),
+                unencrypted_access: Allow unencrypted client access (可选),
+                enable_lease: Enable lease locking (可选),
              }
         fs_id: Filesystem的 ID，与 namespace_id mutually exclusive
         namespace_id: Namespace的 ID，与 fs_id mutually exclusive
@@ -1070,7 +1070,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         ip_control_enabled: IP 访问控制特性开关
         abe_enabled: ABE 功能开关
         audititem_list: 支持审计的事件列表 (可选)。参数格式如下：[{
-                audititem: 审计事件类型 (默认none)。可选值：none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
+                audititem: Audit event type (默认none)。可选值：none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
              }, ...]
         apply_default_acl: 是否添加默认 ACL
         file_extension_filter_enabled: 是否开启File extension过滤特性
@@ -1079,8 +1079,8 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         user_and_user_group_info: 用户和User group list (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
                 param: 用户和用户组信息object (可选)。属性格式如下：{
-                        user_or_user_group_id_in_storage: 用户或用户组在存储上的id (可选, 1~64字符, 变更时Required),
-                        user_or_user_group_name: 用户名或用户组名 (可选, 1~255字符; 用户组名称加前缀@),
+                        user_or_user_group_id_in_storage: user or user group on storageid (可选, 1~64字符, 变更时Required),
+                        user_or_user_group_name: Username or group name (可选, 1~255字符; Group name with prefix@),
                         domain_type: 域类型 (可选, 默认local)。可选值：ad_domain, ldap_domain, local, nis_domain,
                         permission: 权限 (可选, 默认read)。可选值：read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
                 }
@@ -1088,13 +1088,13 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         ip_and_segments: IP地址和IP地址段列表 (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
                 param: IP地址和IP地址段信息object (可选)。属性格式如下：{
-                        ip_or_segments_id_in_storage: IP地址(段)在存储上的ID (可选, 1~64字符, 变更时Required),
+                        ip_or_segments_id_in_storage: IP地址(段)on storageID (可选, 1~64字符, 变更时Required),
                         ip_addresses_or_segments: IP地址(段) (可选, 1~128字符, 最多32条),
                 }
              }, ...]
-        file_name_ex_filters: 扩展名过滤规则列表 (可选)。参数格式如下：[{
+        file_name_ex_filters: 扩展名Filter rule list (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
-                param: 扩展名过滤规则object (可选)。属性格式如下：{
+                param: Extension filter ruleobject (可选)。属性格式如下：{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *must be at the last character),
                         rule_type: 规则类型 (可选, 默认reject)。可选值：reject (拒绝), permit (允许),
@@ -1103,8 +1103,8 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
              }, ...]
         task_remarks: Async taskRemark，0~1024 个字符
         smb3_encryption_enable: 是否开启 SMB3 加密功能
-        unencrypted_access: 是否允许未加密客户端访问
-        enable_lease: 是否开启租约锁定开关
+        unencrypted_access: Allow unencrypted client access
+        enable_lease: Enable lease locking
 
     Returns:
         {
@@ -1765,11 +1765,11 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
     Args:
         client: DME API 客户端
         quota_id: 配额 ID
-        space_soft_quota: 空间软配额（可选），单位 Byte，-1 field is invalid；当空间硬配额和空间软配额when both valid，空间硬配额需大于空间软配额
-        space_hard_quota: 空间硬配额（可选），单位 Byte，-1 field is invalid；当空间硬配额和空间软配额when both valid，空间硬配额需大于空间软配额
+        space_soft_quota: 空间软配额（可选），单位 Byte，-1 field is invalid；When both space hard/soft quotas arewhen both valid，Hard quota must exceed soft quota
+        space_hard_quota: 空间硬配额（可选），单位 Byte，-1 field is invalid；When both space hard/soft quotas arewhen both valid，Hard quota must exceed soft quota
         space_advisory_quota: 空间建议配额（可选），单位 Byte，-1 field is invalid；仅 OceanStor Pacific 设备支持；当空间建议配额和空间硬配额或空间软配额when both valid，空间建议配额需小于空间硬配额或空间软配额
-        file_soft_quota: 文件数软配额（可选），-1 field is invalid；当文件数硬配额和文件数软配额when both valid，文件数硬配额需大于文件数软配额
-        file_hard_quota: 文件数硬配额（可选），-1 field is invalid；当文件数硬配额和文件数软配额when both valid，文件数硬配额需大于文件数软配额
+        file_soft_quota: 文件数软配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
+        file_hard_quota: 文件数硬配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific 设备支持；当文件数建议配额和文件数硬配额或文件数软配额when both valid，文件数建议配额需小于文件数硬配额或文件数软配额
         snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：不统计快照空间；仅 OceanStor Pacific 设备支持
         soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；not sent或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
@@ -1905,7 +1905,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         zone_id: 所属 zone 的 ID（可选），1~256 个字符；仅 OceanStor A800 系列Filesystem支持搜索，传入集群ID代表查询全局Filesystem
         product_name: Filesystem所属设备产品名称（可选），1~256 个字符，支持fuzzy search
         description: FilesystemDescription（可选），1~255 个字符
-        tag_filters: 标签过滤列表（可选），List<TagFilters> 类型，max array members 11。参数格式如下：[{
+        tag_filters: Tag filter list（可选），List<TagFilters> 类型，max array members 11。参数格式如下：[{
                         tag_ids: 标签 ID 列表（可选），max array members 10，多个标签之间为或关系,
                         tag_type_id: 标签类型 ID（可选），正则 ^[a-fA-F0-9]{32}$,
                         operator: 过滤条件（Required），可选值：contain（包含）、not_contain（不包含）,
@@ -2106,7 +2106,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         automatic_update_time: 是否更新访问时间（可选）
         atime_update_mode: Atime 更新Frequency，hour/day/close（可选）
         schedule_name: 定时 HyperCDP 计划名称（可选）
-        quota_switch: 是否启用配额（可选）
+        quota_switch: Enable quota（可选）
         vaai_switch: VAAI 开关（可选）
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
         capacity_threshold: 总空间容量告警threshold 50-99（可选）
@@ -2350,7 +2350,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
         automatic_update_time: 文件被读取后是否更新访问时间，true开启/false关闭（可选）
         atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
-        quota_switch: 是否启用配额，true启用/falsedisabled（可选）
+        quota_switch: Enable quota，true启用/falsedisabled（可选）
         vaai_switch: VAAI 开关，启用后不能关闭，true启用/false未启用（可选）
         owning_controller: 归属控制器，2~16个字符（可选）
         snapshot_expired_enabled: 是否开启删除旧的只读快照，true开启/false关闭（可选）

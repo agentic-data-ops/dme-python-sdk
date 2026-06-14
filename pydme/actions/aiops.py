@@ -179,7 +179,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
                 cleared: bool = None, size: int = 100, iterator: str = None,
                 include_history: bool = None) -> dict:
     """
-    查询告警信息
+    Query alarm info
 
     查询Current alarm,Optional择是否同时查询History alarm.
 
@@ -339,7 +339,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
 def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: str,
                          begin_time: int, end_time: int, analysis_types: list) -> dict:
     r"""
-    创建智能分析任务
+    Create intelligent analysis task
 
     Args:
         client: DME API client
@@ -440,7 +440,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
 
 def performance_download_collect_result(client: DMEAPIClient, task_id: str) -> dict:
     """
-    下载性能文件
+    Download performance file
 
     Args:
         client: DME API client
@@ -532,7 +532,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
 
 def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     """
-    显示监控指标Details
+    Display monitoring metricsDetails
 
     Args:
         client: DME API client
@@ -555,7 +555,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
 def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
     """
-    列出监控Object type支持的监控指标
+    列出监控Object typeSupported monitoring metrics
 
     Args:
         client: DME API client
@@ -572,7 +572,7 @@ def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
 
 def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> dict:
     """
-    获取所有监控Object type
+    Get all monitoringObject type
 
     Args:
         client: DME API client
@@ -813,7 +813,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         sort_dir: 排序方式（asc-正序，desc-降序）
         administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
-        object_category: object分类（Storage-Storage device，IPSwitch-以太网交换机，FCSwitch-Fibre Channel switch，
+        object_category: object分类（Storage-Storage device，IPSwitch-Ethernet switch，FCSwitch-Fibre Channel switch，
                        Virtualization-虚拟化，Server-服务器，HCI-超融合，Client-客户端）
 
     Returns:
@@ -859,7 +859,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
 
 def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
     """
-    执行检查策略
+    Execute check policy
 
     执行指定的检查策略。
 
@@ -880,7 +880,7 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
 
 def check_policy_enable(client: DMEAPIClient, policy_id: str) -> dict:
     """
-    启用检查策略
+    Enable check policy
 
     启用指定的检查策略。
 
@@ -901,7 +901,7 @@ def check_policy_enable(client: DMEAPIClient, policy_id: str) -> dict:
 
 def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
     """
-    禁用检查策略
+    Disable check policy
 
     禁用指定的检查策略。
 
@@ -922,7 +922,7 @@ def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
 
 def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
     """
-    删除检查策略
+    Delete check policy
 
     Delete的检查策略。
 
@@ -1106,7 +1106,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 
 def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type: str = None) -> dict:
     r"""
-    查询 SAN 路径拓扑结构
+    查询 SAN Path topology
 
     via specified entryobject查询 SAN 网络中从主机到Storage pool之间的拓扑结构。
     支持 IP_SAN 和 FC_SAN 两种类型。
@@ -1191,7 +1191,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
               vm_name: str = None, page_size: int = 20, page_no: int = 1) -> dict:
     r"""
-    Query topology VM and virtual disk list，或查询 BMS 下物理磁盘列表
+    Query topology VM and virtual disk list，或查询 BMS Physical disk list below
 
     via specified entryobject查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
     或者查询 BMS（裸金属服务器）下的物理磁盘列表。
@@ -1275,7 +1275,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - k8s_vc_job: K8s VC 任务
             - dturbo_client: DataTurbo 客户端
             - enclosures: 机柜
-            - eth_switch: 以太网交换机
+            - eth_switch: Ethernet switch
             - storage_zone: 存储区域
             - service_network: 服务网络
             - db_instance: 数据库实例
@@ -1318,7 +1318,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 ACTIONS = {
     'alarm_list': {
         'func': alarm_list,
-        'description': '查询告警信息(Current alarm,Optional择是否包含History alarm)',
+        'description': 'Query alarm info(Current alarm,Optional择是否包含History alarm)',
         'params': ['alarm_id', 'severity', 'mo_dn', 'alarm_group_id', 'dc_id',
                    'product_name', 'alarm_name', 'occur_utc_start', 'occur_utc_end',
                    'fields', 'page_no', 'page_size', 'cleared', 'size', 'iterator', 'include_history'],
@@ -1344,7 +1344,7 @@ ACTIONS = {
     },
     'diagnose_task_create': {
         'func': diagnose_task_create,
-        'description': '创建智能分析任务',
+        'description': 'Create intelligent analysis task',
         'params': ['object_ids', 'object_type', 'begin_time', 'end_time', 'analysis_types'],
         'subtopic': 'diagnose_task'
     },
@@ -1363,7 +1363,7 @@ ACTIONS = {
     },
     'performance_download_collect_result': {
         'func': performance_download_collect_result,
-        'description': '下载性能文件',
+        'description': 'Download performance file',
         'params': ['task_id'],
         'subtopic': 'performance'
     },
@@ -1375,19 +1375,19 @@ ACTIONS = {
     },
     'performance_show_indicators': {
         'func': performance_show_indicators,
-        'description': '显示监控指标Details',
+        'description': 'Display monitoring metricsDetails',
         'params': ['indicators'],
         'subtopic': 'performance'
     },
     'performance_list_indicators': {
         'func': performance_list_indicators,
-        'description': '列出监控Object type支持的监控指标',
+        'description': '列出监控Object typeSupported monitoring metrics',
         'params': ['obj_type_id'],
         'subtopic': 'performance'
     },
     'performance_list_object_types': {
         'func': performance_list_object_types,
-        'description': '获取所有监控Object type',
+        'description': 'Get all monitoringObject type',
         'params': ['filter'],
         'subtopic': 'performance'
     },
@@ -1413,32 +1413,32 @@ ACTIONS = {
     },
     'check_policy_execute': {
         'func': check_policy_execute,
-        'description': '执行检查策略',
+        'description': 'Execute check policy',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     'check_policy_enable': {
         'func': check_policy_enable,
-        'description': '启用检查策略',
+        'description': 'Enable check policy',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     'check_policy_disable': {
         'func': check_policy_disable,
-        'description': '禁用检查策略',
+        'description': 'Disable check policy',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     'check_policy_delete': {
         'func': check_policy_delete,
-        'description': '删除检查策略',
+        'description': 'Delete check policy',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     # topology subtopic actions
     'topology_query_san_path': {
         'func': topology_query_san_path,
-        'description': '查询 SAN 路径拓扑结构（支持 IP_SAN 和 FC_SAN）',
+        'description': '查询 SAN Path topology（支持 IP_SAN 和 FC_SAN）',
         'params': ['entry_objects', 'san_type'],
         'subtopic': 'topology'
     },
@@ -1450,7 +1450,7 @@ ACTIONS = {
     },
     'topology_query_vms': {
         'func': topology_query_vms,
-        'description': 'Query topology VM and virtual disk list，或查询 BMS 下物理磁盘列表',
+        'description': 'Query topology VM and virtual disk list，或查询 BMS Physical disk list below',
         'params': ['entry_objects', 'host_id', 'vm_name', 'page_size', 'page_no'],
         'subtopic': 'topology'
     },

@@ -191,7 +191,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
 
 def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None) -> dict:
     """
-    Query数据存储详情
+    QueryDatastore details
     
     查询数据存储的Details。
     
@@ -218,7 +218,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                status: list = None, vr_type: str = None,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询主机列表
+    Query host list
     
     查询Physical host列表，supports multiple filter criteria。
     
@@ -293,7 +293,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
                   name: str = None, vr_type: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询集群列表
+    Query cluster list
     
     Args:
         client: DME API client
@@ -355,7 +355,7 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
 
 def site_list(client: DMEAPIClient) -> dict:
     """
-    查询站点列表
+    Query site list
     
     Query all虚拟化站点列表。
     
@@ -427,8 +427,8 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         site_id: 物理盘所属站点 ID（Optional）
         host_id: 物理盘Host ID（Optional）
         name: 物理盘名称（Optional）
-        disk_type: 磁盘类型列表（Optional）
-        status: 磁盘状态列表（Optional）
+        disk_type: Disk type list（Optional）
+        status: Disk status list（Optional）
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -471,8 +471,8 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
         site_id: 虚拟磁盘所属站点 ID（Optional）
         vm_id: 虚拟磁盘所属虚拟机 ID（Optional）
         name: 虚拟磁盘名称（Optional）
-        disk_type: 磁盘类型列表（Optional）
-        status: 磁盘状态列表（Optional）
+        disk_type: Disk type list（Optional）
+        status: Disk status list（Optional）
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -503,7 +503,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
 
 def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
-    Query虚拟磁盘信息
+    QueryVirtual disk info
     
     查询虚拟磁盘的Details。
     
@@ -549,14 +549,14 @@ ACTIONS = {
     },
     'datastore_show': {
         'func': datastore_show,
-        'description': 'Query数据存储详情',
+        'description': 'QueryDatastore details',
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
     # 主机管理
     'host_list': {
         'func': host_list,
-        'description': '查询主机列表',
+        'description': 'Query host list',
         'params': ['site_id', 'cluster_id', 'dc_id', 'host_name', 'ip_address',
                    'status', 'vr_type', 'page_no', 'page_size'],
         'subtopic': 'host'
@@ -576,7 +576,7 @@ ACTIONS = {
     # 集群管理
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询集群列表',
+        'description': 'Query cluster list',
         'params': ['site_id', 'dc_id', 'name', 'vr_type', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
@@ -589,7 +589,7 @@ ACTIONS = {
     # 站点管理
     'site_list': {
         'func': site_list,
-        'description': '查询站点列表',
+        'description': 'Query site list',
         'params': [],
         'subtopic': 'site'
     },
@@ -615,7 +615,7 @@ ACTIONS = {
     },
     'vdisk_show': {
         'func': vdisk_show,
-        'description': 'Query虚拟磁盘信息',
+        'description': 'QueryVirtual disk info',
         'params': ['virtual_disk_id'],
         'subtopic': 'vdisk'
     },

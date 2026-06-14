@@ -263,7 +263,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
         az: Availability zone ID (Optional, string, 1~64 characters)
         source: Storage device的来源 (Optional, string)。可选值：add (接入), record (录入), all (所有)。默认查询接入设备
         dc_id: Storage deviceData center的ID (Optional, string, 1~32个字符)
-        tag_ids: 标签过滤列表 (Optional, string)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系
+        tag_ids: Tag filter list (Optional, string)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系
         start: Page queryStart position (Optional, int32, 1~10000)。Default：1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
         ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000个字符)。最多支持10个扩展属性组合过滤

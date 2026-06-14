@@ -10,7 +10,7 @@ from pydme.client import DMEAPIClient
 
 def login(client: DMEAPIClient) -> dict:
     """
-    认证用户登录
+    Auth user login
 
     强制调用 client.login() 完成认证，然后从 header 获取 accessSession，
     提示用户可配置环境变量复用认证密钥，Avoid duplicate login。
@@ -117,7 +117,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
         value: 密码 (Optional, string, 8~32个字符)。密码长度cannot be less than8个字符、大于32个字符。Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符。远端用户不涉及。
         description: 描述 (Optional, string, 最多127个字符)
-        roles: 用户所属角色 (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，Filesystem组或用户自定义角色。
+        roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，Filesystem组或用户自定义角色。
 
     Returns:
         无
@@ -222,7 +222,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
             name: 用户名 (string, 最多32个字符),
             type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (Third-party system access user), 2 (远端用户),
             description: 描述 (string, 最多127个字符),
-            roles: 用户所属角色 (List<integer>, max array members：50),
+            roles: User role (List<integer>, max array members：50),
         }
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
@@ -336,7 +336,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         start: 分页Start position（Optional，0~10000000）
         limit: 分页count（Optional，1~1000）
         status: Pending task group状态列表（Optional，1-Pending/2-Executing/3-Completed/4-已关闭）
-        todo_item_status: 待办项状态列表（Optional，0-待确认/1-未完成/2-Executing/3-Completed）
+        todo_item_status: Pending item status list（Optional，0-待确认/1-未完成/2-Executing/3-Completed）
         start_time_from: Start time起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         start_time_to: Start time结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         end_time_from: End time起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
@@ -408,7 +408,7 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
 
 def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     """
-    确认执行定时Pending task group
+    Confirm scheduled executionPending task group
 
     Args:
         client: DME API client
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: 业务类型（Required，wfa_execute_activity-自动化编排）
-        status: 待办项状态列表（Optional，1-未执行/2-Executing/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
+        status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
         page_no: 页索引号（Optional，默认 1）
         page_size: 每页count（Optional，1~10，默认 10）
 
@@ -482,7 +482,7 @@ def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
 
 def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
     """
-    执行待办任务
+    Execute pending task
 
     执行指定的待办项。
 
@@ -502,7 +502,7 @@ def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
 def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
           suggestion: str = None) -> dict:
     """
-    审核待办任务
+    Review pending task
 
     对待办项进行审核（批准或拒绝）。
 
@@ -548,7 +548,7 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
 
 def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     """
-    关闭待办任务
+    Close pending task
 
     关闭指定的待办项，需要提供关闭原因。
 
@@ -729,12 +729,12 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
 
 def tag_type_create(client: DMEAPIClient, name: str, description: str = None) -> dict:
     """
-    创建标签类型
+    Create tag type
     
     Args:
         client: DME API client
         name: Tag type name（Required）
-        description: 标签类型描述（Optional）
+        description: Tag type description（Optional）
     
     Returns:
         创建的标签类型信息
@@ -783,13 +783,13 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
                      description: str = None) -> dict:
     """
-    修改标签类型
+    Modify tag type
     
     Args:
         client: DME API client
         tag_type_id: 标签类型 ID（Required）
         name: Tag type name（Optional）
-        description: 标签类型描述（Optional）
+        description: Tag type description（Optional）
     
     Returns:
         修改后的标签类型信息
@@ -833,7 +833,7 @@ def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
 def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
                 tag_type_name: str = None, description: str = None, color: str = None) -> dict:
     """
-    创建标签
+    Create tag
     
     Args:
         client: DME API client
@@ -898,7 +898,7 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
                 description: str = None, color: str = None) -> dict:
     """
-    修改标签
+    Modify tag
     
     Args:
         client: DME API client
@@ -948,7 +948,7 @@ def tag_delete(client: DMEAPIClient, tag_ids: list) -> dict:
 
 def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     """
-    标签关联资源
+    Associate tag with resource
     
     Args:
         client: DME API client
@@ -970,7 +970,7 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
 
 def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     """
-    标签取消关联资源
+    Disassociate tag from resource
     
     Args:
         client: DME API client
@@ -1220,7 +1220,7 @@ ACTIONS = {
     # 直接动作（两级结构）
     'login': {
         'func': login,
-        'description': '认证用户登录',
+        'description': 'Auth user login',
         'params': ['username', 'password', 'grant_type'],
         'subtopic': None
     },
@@ -1305,7 +1305,7 @@ ACTIONS = {
     },
     'todo_task_group_confirm': {
         'func': todo_task_group_confirm,
-        'description': '确认执行定时Pending task group',
+        'description': 'Confirm scheduled executionPending task group',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
@@ -1324,13 +1324,13 @@ ACTIONS = {
     },
     'todo_task_execute': {
         'func': todo_task_execute,
-        'description': '执行待办任务',
+        'description': 'Execute pending task',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
     'todo_task_audit': {
         'func': todo_task_audit,
-        'description': '审核待办任务',
+        'description': 'Review pending task',
         'params': ['item_id', 'is_approval', 'suggestion'],
         'subtopic': 'todo_task'
     },
@@ -1342,7 +1342,7 @@ ACTIONS = {
     },
     'todo_task_close': {
         'func': todo_task_close,
-        'description': '关闭待办任务',
+        'description': 'Close pending task',
         'params': ['item_id', 'reason'],
         'subtopic': 'todo_task'
     },
@@ -1374,7 +1374,7 @@ ACTIONS = {
     # subtopic actions - tag_type (three-level structure)
     'tag_type_create': {
         'func': tag_type_create,
-        'description': '创建标签类型',
+        'description': 'Create tag type',
         'params': ['name', 'description'],
         'subtopic': 'tag_type'
     },
@@ -1386,7 +1386,7 @@ ACTIONS = {
     },
     'tag_type_modify': {
         'func': tag_type_modify,
-        'description': '修改标签类型',
+        'description': 'Modify tag type',
         'params': ['tag_type_id', 'name', 'description'],
         'subtopic': 'tag_type'
     },
@@ -1399,7 +1399,7 @@ ACTIONS = {
     # subtopic actions - tag (three-level structure)
     'tag_create': {
         'func': tag_create,
-        'description': '创建标签',
+        'description': 'Create tag',
         'params': ['name', 'tag_type_id', 'tag_type_name', 'description', 'color'],
         'subtopic': 'tag'
     },
@@ -1411,7 +1411,7 @@ ACTIONS = {
     },
     'tag_modify': {
         'func': tag_modify,
-        'description': '修改标签',
+        'description': 'Modify tag',
         'params': ['tag_id', 'name', 'description', 'color'],
         'subtopic': 'tag'
     },
@@ -1423,13 +1423,13 @@ ACTIONS = {
     },
     'tag_bind': {
         'func': tag_bind,
-        'description': '标签关联资源',
+        'description': 'Associate tag with resource',
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
     'tag_unbind': {
         'func': tag_unbind,
-        'description': '标签取消关联资源',
+        'description': 'Disassociate tag from resource',
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
