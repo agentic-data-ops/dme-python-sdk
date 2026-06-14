@@ -258,7 +258,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         client: DME API client
         id: Global namespace ID (1~32 characters, Optional. cannot both be empty with name_locator; takes precedence when both have values id)
         name_locator: Name locator format:: global_namespace_name@global_data_space_name (3~507 characters, Optional. cannot both be empty with id; takes precedence when both have values id)
-        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. 当Global namespace的 mode为 smart_share parameter effective when). 参数格式如下：[{
+        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. When global namespace mode is smart_share parameter effective when). 参数格式如下：[{
                 id: Namespace ID or filesystem ID (1~64 characters, Required),
                 pull_mode: Read data mode (Optional). Options: no_cache (forwarded read), on_demand (read on demand),
                 cache_time: Cache duration (int32, Optional, Default: 8). When unit is hour: 1-4320, when day: 1-180,
