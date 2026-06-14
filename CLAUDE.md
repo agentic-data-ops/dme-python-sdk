@@ -20,18 +20,19 @@ pydme/
     ├── __init__.py    # Auto-imports all action modules
     ├── aiops.py       # AIOps (alerts/performance/health/topology)
     ├── backup.py      # Backup management
-    ├── fc_switch.py   # FC switch management
+    ├── fcswitch.py    # FC switch management
     ├── gfs.py         # Global file system
-    ├── ip_switch.py   # IP switch management
-    ├── kubernetes.py  # Kubernetes management
-    ├── nas.py         # NAS (NFS/CIFS/filesystem/quota)
-    ├── protection.py  # Protection (snapshot/dual-active/replication)
+    ├── integrate.py   # Third-party system integration (CMDB)
+    ├── ipswitch.py    # IP switch management
+    ├── kube.py        # Kubernetes management
+    ├── nas.py         # NAS (NFS/CIFS/filesystem/quota/DPC)
+    ├── protect.py     # Protection (snapshot/dual-active/replication)
     ├── san.py         # SAN (LUN/mapping view/host)
-    ├── self_service.py# Tenant self service
     ├── server.py      # Server management
     ├── storage.py     # Storage device management
-    ├── system.py      # System management
-    ├── virtualization.py # Virtualization services
+    ├── system.py      # System management (user/task/region/cert)
+    ├── tenant.py      # Tenant self service
+    ├── virt.py        # Virtualization services
     └── workflow.py    # Workflow management
 ```
 
@@ -276,36 +277,69 @@ When user ask to finish todo tasks, sequentially execute the unfinished todo tas
 ## Current Project Status
 
 **Package**: `pydme` (installable via `pip install -e .`)
-**Active Topics**: 15
-**Total Actions**: 395
+**Active Topics**: 16
+**Total Actions**: 423
+**Total Functions**: 428
 
-**Topic Structure**:
-1. system (37 actions) - System management (用户/标签/任务/证书)
-2. san (64 actions) - Storage area network
-3. storage (60 actions) - Storage device management
-4. nas (59 actions) - Network attached storage
-5. protection (54 actions) - Protection management
-6. aiops (25 actions) - AIOps intelligent operations
-7. fc_switch (19 actions) - FC fiber switch management
-8. gfs (14 actions) - Global file system
-9. virtualization (14 actions) - Virtualization services
-10. server (10 actions) - Server management
-11. self_service (10 actions) - Tenant self service
-12. ip_switch (7 actions) - IP switch management
-13. workflow (7 actions) - Workflow management
-14. kubernetes (6 actions) - Kubernetes management
-15. backup (3 actions) - Data backup management
+### Topic Structure
+
+| # | Topic | Actions | File | Description |
+|---|-------|---------|------|-------------|
+| 1 | **protect** | 75 | `protect.py` | Protection (group/hypermetro/replication/snapshot/clone) |
+| 2 | **san** | 66 | `san.py` | Storage area network (LUN/mapping/host/port_group) |
+| 3 | **nas** | 61 | `nas.py` | Network attached storage (NFS/CIFS/DPC/quota/filesystem) |
+| 4 | **storage** | 60 | `storage.py` | Storage device management (vstore/disk/pool/license) |
+| 5 | **system** | 40 | `system.py` | System management (user/task/tag/region/cert/az/dc) |
+| 6 | **aiops** | 26 | `aiops.py` | AIOps (alarm/performance/topology/health/diagnose) |
+| 7 | **fcswitch** | 19 | `fcswitch.py` | FC fiber switch (port/zone/vsan/alias) |
+| 8 | **gfs** | 14 | `gfs.py` | Global file system (namespace/migration) |
+| 9 | **virt** | 14 | `virt.py` | Virtualization services (vm/datastore/host) |
+| 10 | **server** | 10 | `server.py` | Server management (fan/disk/PCIe/power/NIC) |
+| 11 | **tenant** | 10 | `tenant.py` | Tenant self service (LUN/tier/project) |
+| 12 | **ipswitch** | 7 | `ipswitch.py` | IP switch (frame/board/port/power/fan) |
+| 13 | **workflow** | 7 | `workflow.py` | Workflow management (template/instance) |
+| 14 | **kube** | 6 | `kube.py` | Kubernetes management (cluster/node/pod) |
+| 15 | **integrate** | 5 | `integrate.py` | Third-party integration (CMDB systems/hosts/apps) |
+| 16 | **backup** | 3 | `backup.py` | Data backup management (cluster/capacity/quota) |
+
+### CLI Command Pattern
+
+```
+pydme <topic> <subtopic> <action> [--param value ...]
+```
+
+Examples:
+```
+pydme san lun list --limit 100
+pydme system user create --name admin --type 0
+pydme protect group list
+pydme nas nfs_share create --name share1
+pydme system region list
+pydme nas dpc list
+pydme san physical_host_group show_related --hostgroup_id xxx
+```
+
+### Reference Documents
+
+- `reference/dme-api-reference.md` — Structured API definitions (517 APIs, organized by topic)
+- `reference/dme-api-stormgmt.md` — Original raw reference document
+- `plans/101-gen-actions-for-not-impl-apis.md` — Plan for unimplemented APIs (32 remaining)
 
 **Documentation**:
 - `CLAUDE.md` — Development guide and task tracking (this file)
 - `README.md` — Installation, CLI, and SDK usage documentation
 
-**Recent Changes**:
-- **Package restructuring**: Migrated from `scripts/` flat layout to `pydme/` installable package with `pyproject.toml`
-- **system.py expansion**: Grew from 8 to 37 actions — significantly expanded system management capabilities
-- **nas.py account subtopic**: Added 13 UNIX user/group management actions (create/list/show/modify/batch_delete/add_group/remove_group) plus dataturbo_admin_list
-- **nas.py kvcache subtopic**: Added 4 KV Cache management actions (list/batch_create/modify/batch_delete)
-- **gfs.py parameter update**: Updated namespace_create/modify/list and migration_task_create/modify/list parameter docs with proper constraint format and types
-- **storage.py account cleanup**: Renamed 9 account functions to match ACTIONS keys, added create_local_user/create_unix_user/create_windows_user actions, removed 3 orphaned functions
-- **Parameter format refactoring**: Unified structured parameter docstring format across all action modules
-- **Removed obsolete files**: `scripts/util/`, `SKILL.md`, `param-doc-format.md`, `test/` directory
+### Recent Changes
+
+- **Topic module renaming** (6 files): `virtualization→virt`, `kubernetes→kube`, `fc_switch→fcswitch`, `ip_switch→ipswitch`, `protection→protect`, `self_service→tenant`
+- **New `integrate` topic**: Created `integrate.py` with 5 CMDB actions for third-party system integration
+- **protect expansion**: Added 20 new actions — fs_hypermetro_pair(5), fs_snapshot(3), vstore_hypermetro_pair(6), hypermetro_domain(5), hypermetro_pair(1)
+- **system region**: Added `region_list` and `region_query` actions
+- **nas dpc**: Added `dpc_client_list` and `dpc_client_show` under new dpc subtopic
+- **storage disk**: Added `disk_pool_list` for distributed disk pools; renamed existing `disk_pool_list→disk_domain_list`
+- **san**: Added `physical_host_group show_related` and `mapping_view query_host_to_lun`
+- **replication_pair upgrade**: URI updated from `lun-pairs` to `pairs` (8 functions)
+- **Subtopic rename**: nas `dpc` subtopic → `dataturbo` (existing DPC parallel client actions)
+- **Docstring format unification**: All Returns sections converted to JSON-style format
+- **Obsolete function cleanup**: Removed 3 unused functions not registered in ACTIONS
+- **Scripts cleanup**: Removed `scripts/` directory with temporary processing tools
