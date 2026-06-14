@@ -485,10 +485,10 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client. 
         storage_id: BBU storage device ID (Optional, 1~64 characters). 
         health_status: Health status (Optional). Options: unknown, normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery). 
-        running_status: Running status (Optional). Options: unknown, normal, running, online, offline, charging ( charging), charging_completed (充电 completed), discharging ( discharging). 
+        running_status: Running status (Optional). Options: unknown, normal, running, online, offline, charging, charging_completed, discharging. 
         enclosure_name: Enclosure name (Optional, 1~256 characters). supports fuzzy match. 
         location: location (Optional, 1~256 characters). supports fuzzy match. 
-        zone_id: Zone ID (Optional, 1~255 characters). OceanStor A800 series only storage only. 
+        zone_id: Zone ID (Optional, 1~255 characters). OceanStor A800 series only. 
         page_no: Page number (Optional, 1~2147483647, Default: 1). 
         page_size: Page size (Optional, 1~1000, Default: 20). 
     
@@ -497,9 +497,9 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
             backup_powers: BBU list (List<StorageBackupPowerInfo>). 参数格式如下：[{
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
-                health_status: Health status. Options: unknown, normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
-                running_status: Running status. Options: unknown, normal, running, online, offline, charging ( charging), charging_completed (充电 completed), discharging ( discharging),
-                charge_times:  discharge count (int64),
+                health_status: Health status. Options: unknown, normal, faulty, about_to_fail, low_battery,
+                running_status: Running status. Options: unknown, normal, running, online, offline, charging, charging_completed, discharging,
+                charge_times: Discharge count (int64),
                 firmware_version: Firmware version (1~255 characters),
                 manufactured_date: Manufacture date (1~255 characters),
                 enclosure_id: Enclosure ID on storage device (1~255 characters),
@@ -567,18 +567,18 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
     Args:
         client: DME API client
         storage_id: Storage deviceID(Optional, 1~64 characters) 
-        health_status: Health status(Optional). Options: unknown, normal, faulty ( fault)
-        running_status: Running status(Optional). Options: unknown, normal, running, not_running, spin_down, online, offline
+        health_status: Health status (Optional). Options: unknown, normal, faulty
+        running_status: Running status (Optional). Options: unknown, normal, running, not_running, spin_down, online, offline
         run_level: Running level(Optional). Options: low, normal, high
         enclosure_name: EnclosureName (Optional,1~256 characters) , supports fuzzy match
         location: location(Optional, 1~256 characters) , supports fuzzy match
-        zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only storage only
-        page_no: Page number(Optional, 1~2147483647, default 1) 
-        page_size: Page size(Optional, 1~1000, default 20) 
+        zone_id: Zone ID (Optional, 1~255 characters), OceanStor A800 series only
+        page_no: Page number (Optional, 1~2147483647, default 1)
+        page_size: Page size (Optional, 1~1000, default 20) 
 
     Returns:
         {
-            total: Fancount (integer),
+            total: Fan count (integer),
             fans: Fan list (List<StorageFanInfo>). 参数格式如下：[{
                 name:  name (1~128 characters),
                 location: location (1~256 characters),
