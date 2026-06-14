@@ -1770,9 +1770,9 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         space_advisory_quota: 空间建议配额（可选），单位 Byte，-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，空间建议配额需小于空间硬配额或空间软配额
         file_soft_quota: 文件数软配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_hard_quota: 文件数硬配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
-        file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，文件数建议配额需小于文件数硬配额或文件数软配额
+        file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，Advisory quota must be less than hard or soft quota
         snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：Exclude snapshot space；仅 OceanStor Pacific Device support
-        soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；not sent或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
+        soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；not sent或取值 0 soft quota reached, warning only；仅 OceanStor Pacific 支持
         task_remarks: Async taskRemark
 
     Returns:
@@ -2103,7 +2103,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         zone_id: 所属 zone 的 ID（可选）
         task_remarks: Async taskRemark（可选）
         gfs_group_id: Global data space的 ID（可选）
-        automatic_update_time: 是否更新访问时间（可选）
+        automatic_update_time: Update access time（可选）
         atime_update_mode: Atime 更新Frequency，hour/day/close（可选）
         schedule_name: 定时 HyperCDP 计划名称（可选）
         quota_switch: Enable quota（可选）
@@ -2348,7 +2348,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         capacity: Filesystem容量，单位 GB，1~33554432（可选）
         capacity_threshold: Total space capacity alarmthreshold 50-99（可选）
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
-        automatic_update_time: 文件被读取后是否更新访问时间，true开启/false关闭（可选）
+        automatic_update_time: Update access time after file read，true开启/false关闭（可选）
         atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（not enabled）（可选）
         quota_switch: Enable quota，true启用/falsedisabled（可选）
         vaai_switch: VAAI 开关，启用后不能关闭，true启用/falsenot enabled（可选）
@@ -3213,7 +3213,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         vstore_name: 所属Tenant name，支持fuzzy search过滤 (1~256 characters, Optional)
         name: User group名称，支持fuzzy search过滤 (1~256 characters, Optional)
         raw_id: User groupon the storage device ID (1~256 characters, Optional)
-        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800 存储下的认证User group支持通过该字段过滤
+        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800 存储下的认证User groupsupports filtering by this field
         sort_key: sort by specified field (可选)。Options：name (User group名), raw_id (User groupon the storage device ID), create_time (Creation time)。Default：create_time
         storage_id: Storage device ID (1~36 characters, Optional)
         sort_dir: 指定Sort direction (可选)。Options：asc (升序), desc (降序)。Default：desc
@@ -3377,7 +3377,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         name: Username称，支持fuzzy search过滤 (1~256 characters, Optional)
         primary_group_name: 主组名称，支持fuzzy search过滤 (1~256 characters, Optional)
         raw_id: 用户on the storage device ID (1~255 characters, Optional)
-        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800 存储下的auth user支持通过该字段过滤
+        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800 存储下的auth usersupports filtering by this field
         user_status: User status (可选)。Options：enable (启用), disable (禁用)
         sort_key: sort by specified field (可选)。Options：name (Username), raw_id (用户on the storage device ID), primary_group_name (主组名), create_time (Creation time)。Default：create_time
         storage_id: Storage device ID (1~36 characters, Optional)

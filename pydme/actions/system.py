@@ -29,7 +29,7 @@ def login(client: DMEAPIClient) -> dict:
     accessSession = client.headers.get("X-Auth-Token", "")
     if accessSession:
         print(f"\n登录成功！")
-        print(f"\n提示：配置环境变量复用认证密钥，Avoid duplicate login：")
+        print(f"\n提示：Configure env vars to reuse auth token，Avoid duplicate login：")
         print("  export DME_API_AUTH_TOKEN='<accessSession>'")
 
     return {
@@ -117,7 +117,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         type: User type (Required, integer, 无)。0：Local user；2：Remote user。
         value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user不涉及。
         description: 描述 (Optional, string, 最多127 characters)
-        roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全Admin组，Filesystem组或用户自定义角色。
+        roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全Admin组，FilesystemGroup or custom user role。
 
     Returns:
         无
@@ -186,7 +186,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
         page_size: Page size (Required, integer, 5~100)。Default：10
-        name: 角色名搜索关键字 (Optional, string, 最多64 characters)
+        name: Role name search keyword (Optional, string, 最多64 characters)
 
     Returns:
         {
@@ -678,7 +678,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     """
     Wait for task completion
 
-    轮询查询任务状态，Until task completes or times out。
+    Poll task status，Until task completes or times out。
 
     Args:
         client: DME API client
@@ -1192,7 +1192,7 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
         region_id: 下级Region的ID (Required, string, 1~64 characters)
         request_url: Query sub-levelCorresponding resource northbound APIURL (Required, string, 1~8192 characters)
         request_method: 请求方式 (Required, string)。Optional值：get (Get请求), post (Post请求)
-        request_body: 调用下级北向接口请求Body体 (Optional, string, 1~20480 characters)
+        request_body: Call lower-level northbound API requestBody体 (Optional, string, 1~20480 characters)
 
     Returns:
         无

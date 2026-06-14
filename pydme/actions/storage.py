@@ -932,7 +932,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 installation_status: Storage software installation status。Options：installed (已安装存储软件), not_installed (未安装存储软件),
                 ip_address_list: Node IP address list (List<StorageNodeIpInfo>)。参数格式如下：[{
                     ip_address: Node IP地址 (1~256 characters),
-                    usage: Node IP地址用途列表 (List<string>)。Options：storage_frontend (存储前端网络IP), storage_backend (存储后端网络IP), management_external_float (管理外部网络浮动IP), management_internal_float (管理内部网络浮动IP), management_external (管理外部网络IP), management_internal (管理内部网络IP), replication (复制网络IP), quorum (仲裁网络IP), iscsi (ISCSI网络IP),
+                    usage: Node IP地址用途列表 (List<string>)。Options：storage_frontend (存储前端网络IP), storage_backend (存储后端网络IP), management_external_float (Management external network floatingIP), management_internal_float (Management internal network floatingIP), management_external (管理外部网络IP), management_internal (管理内部网络IP), replication (复制网络IP), quorum (仲裁网络IP), iscsi (ISCSI网络IP),
                 }, ...],
             }, ...]
         }
@@ -1107,7 +1107,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage deviceActual available disk physical space（扣除RAID、元数据等消耗），-1表示无Available capacity。
         used_capacity: Used capacity (可选, -1~2147483647, 单位MB)。Storage device中所有Storage poolsum of used capacity，-1表示无Used capacity。
         free_capacity: Free capacity (可选, -1~2147483647, 单位MB)。Storage device的Available capacity与Used capacity的差值，-1表示无Free capacity。
-        subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的订阅容量之和，-1表示无已订阅容量。
+        subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的订阅容量之和，-1Indicates no subscribed capacity。
         tag_ids: 标签ID列表 (Optional, string, 0~512 characters)。数组格式string，supports up to10个标签，空数组代表Remove storage device关联的所有标签。
 
     Returns:
@@ -1272,7 +1272,7 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
 
     Args:
         client: DME API client
-        storage_id: Storage deviceid (Optional, string, 1~64 characters)。非OceanStor Pacific或A310设备会报参数错误
+        storage_id: Storage deviceid (Optional, string, 1~64 characters)。非OceanStor Pacific或A310Device reports parameter error
         page_no: Page number (Optional, int32, 1~2147483647)。Default：1
         page_size: Page size (Optional, int32, 1~1000)。Default：20
 
@@ -3173,7 +3173,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
 
 # Action list for CLI help
 # 格式：action_key: {func, description, params, subtopic}
-# subtopic 表示该动作属于哪个Subtopic，None 表示Direct action
+# subtopic Indicates which subtopic the action belongs toSubtopic，None 表示Direct action
 
 ACTIONS = {
     # Direct action（Two-level structure：<topic> <action>）

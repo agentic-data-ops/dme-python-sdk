@@ -364,7 +364,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点,支持最近七day(s)内的诊断
         end_time: 分析End time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
-        analysis_types: 智能分析类型列表(Required),Array size:1~4,value range:
+        analysis_types: Intelligent analysis type list(Required),Array size:1~4,value range:
             - highLatency: 高时延
             - healthAnalysis: 健康快检
             - IOInterrupt: IO 中断
@@ -378,7 +378,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             task_id: Task ID (string, 1~64 characters),
         }，包含:
         - total: 智能分析任务Total count
-        - data: 智能分析任务响应结果列表，Each item includes:
+        - data: Intelligent analysis task response result list，Each item includes:
             - id: 任务 ID
             - analysis_type: 分析类型
             - error_msg: Error message
@@ -464,7 +464,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Query historyPerformance data
 
     根据传入参数中的"range"Enum values or from start toEnd time范围内的查询数据.
-    有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应Timestamp.
+    With aggregated data,返回结果序列是平均值序列,并包含max,min以及对应Timestamp.
 
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
@@ -743,7 +743,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
     r"""
     Query performance diagnosis task status
 
-    By task ID 查询诊断任务状态.
+    By task ID Query diagnosis task status.
 
     Args:
         client: DME API client
@@ -956,7 +956,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
     """
     Query check policy exception results
 
-    查询检查策略的异常检查结果，supports multiple filter criteria和Pagination。
+    Query check policy exception results，supports multiple filter criteria和Pagination。
 
     Args:
         client: DME API client
