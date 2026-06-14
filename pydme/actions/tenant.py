@@ -38,13 +38,13 @@ def lun_create(client: DMEAPIClient, volumes: list,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64个字符),
              }
         mapping: 映射信息 (Optional, ServiceVolumeMapping 对象, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
-                host_id: 主机ID (Optional, 0~64个字符, 与hostgroup_id二选其一),
-                hostgroup_id: 主机组ID (Optional, 0~64个字符, 与host_id二选其一),
+                host_id: Host ID (Optional, 0~64个字符, 与hostgroup_id二选其一),
+                hostgroup_id: Host group ID (Optional, 0~64个字符, 与host_id二选其一),
              }
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/blockservice/v1/volumes"
@@ -82,7 +82,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }（异步任务）
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
@@ -112,7 +112,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }（异步任务）
     """
     url = "/rest/blockservice/v1/volumes/add-to-service-level"
@@ -139,7 +139,7 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }（异步任务）
     """
     url = "/rest/blockservice/v1/volumes/remove-service-level"
@@ -164,7 +164,7 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/bound"
@@ -189,7 +189,7 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/unbound"
@@ -217,10 +217,10 @@ def tier_list(client: DMEAPIClient, name: str = None,
 
     Args:
         client: DME API client
-        name: 服务等级名称（Optional，supports fuzzy search）
+        name: Service level name（Optional，supports fuzzy search）
         project_id: 业务群组 ID（Optional）
         available_zone_id: 可用区 ID（Optional）
-        storage_array_id: 存储设备 ID（Optional）
+        storage_array_id: Storage device ID（Optional）
         start: 查询的起始位置，默认 0
         limit: 每页数量，10~1000，默认 200
         sort_key: 排序字段，name/total_capacity/created_at，默认 name
@@ -229,7 +229,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含服务等级列表
     """
     url = "/rest/service-policy/v1/service-levels"
@@ -276,7 +276,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含关联关系列表
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
@@ -311,7 +311,7 @@ def project_list(client: DMEAPIClient, name: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含业务群组列表
     """
     url = "/rest/projectmgmt/v1/projects"
@@ -343,7 +343,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含关联关系列表
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"

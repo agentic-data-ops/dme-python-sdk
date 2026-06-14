@@ -96,7 +96,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
         site_role: 数据服务站点角色，包含 site_role 字段，取值范围：ORDINARY(普通站点)，METASTORE(元数据服务站点)
         gfs_group_id: Omni-Dataverse id
         storage_name: 根据存储名称查询数据服务站点，supports fuzzy search
-        storage_pool_name: 根据存储池名称查询数据服务站点，supports fuzzy search
+        storage_pool_name: 根据Storage pool name查询数据服务站点，supports fuzzy search
         account_name: 根据账户名称查询数据服务站点，supports fuzzy search
         page_no: 分页查询的页码，默认 1，范围 1~10000
         page_size: 分页查询的个数，默认 100，范围 1~1000
@@ -211,7 +211,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
 
     Args:
         client: DME API client
-        name: 全局命名空间名称 (1~255个字符, Required)
+        name: 全局Namespace name (1~255个字符, Required)
         gfs_group_id: 全局数据空间 ID (1~32个字符, Optional。与 gfs_group_name 不能同时为空，都有值时优先使用 gfs_group_id)
         gfs_group_name: 全局数据空间名称 (1~255个字符, Optional。与 gfs_group_id 不能同时为空，都有值时优先使用 gfs_group_id)
         gfs_mode: 全局命名空间模式 (Optional)。Optional值：smart_share。默认值：smart_share
@@ -226,7 +226,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/gfs"
@@ -267,7 +267,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/gfs/modify"
@@ -298,7 +298,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/gfs/delete"
@@ -337,7 +337,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         task_name: 任务名称，supports fuzzy search (1~256个字符, Optional)
         task_id: 数据迁移任务在设备侧的 ID (1~256个字符, Optional)
         target_storage_name: 目标站点名称 (1~256个字符, Optional)
-        namespace_name: 命名空间名称，supports fuzzy search (1~256个字符, Optional)
+        namespace_name: Namespace name，supports fuzzy search (1~256个字符, Optional)
         namespace_id: 命名空间 ID (1~32个字符, Optional)
         namespace_raw_id: 命名空间在设备侧 ID (1~256个字符, Optional)
         local_path: 命名空间下的路径，supports fuzzy search (1~256个字符, Optional, 默认值: "/")
@@ -477,7 +477,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks"
@@ -590,7 +590,7 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
@@ -632,7 +632,7 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/delete"
@@ -656,7 +656,7 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/operate"

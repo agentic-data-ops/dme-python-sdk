@@ -694,7 +694,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v2/nfs-shares"
@@ -771,7 +771,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v2/nfs-shares/{nfs_share_id}"
@@ -822,7 +822,7 @@ def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/nfs-shares/delete"
@@ -1023,7 +1023,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/cifs-shares"
@@ -1108,7 +1108,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/cifs-shares/{cifs_share_id}"
@@ -1502,7 +1502,7 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}"
@@ -1543,7 +1543,7 @@ def dataturbo_share_delete(client: DMEAPIClient, dataturbo_share_ids: list,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/dpc-shares/delete"
@@ -1777,7 +1777,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/quotas/{quota_id}"
@@ -1828,7 +1828,7 @@ def quota_delete(client: DMEAPIClient, quota_ids: list,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/quotas/delete"
@@ -1875,22 +1875,22 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
                   nfs_count, cifs_count, dpc_count, dtree_count, name, allocate_pool_quota,
                   fs_raw_id, create_time, total_capacity_in_byte, available_capacity_in_byte,
                   alloc_capacity_in_byte, protection_capacity_in_byte, max_file_count, used_file_count
-        name: 文件系统名称（可选），1~256 个字符，与 fs_raw_id 互斥，支持模糊匹配
+        name: Filesystem name（可选），1~256 个字符，与 fs_raw_id 互斥，支持模糊匹配
         is_associated_qos: 文件系统是否已关联 QoS（可选），true：是；false：否
         qos_id: QoS 策略 ID（可选），1~256 个字符
         storage_name: 文件系统所属设备名称（可选），1~256 个字符，与 storage_id 互斥，支持模糊匹配
-        manufacturer: 存储设备厂商（可选），1~64 个字符；可选值：huawei（Huawei）、dell_emc（DELL EMC）、
+        manufacturer: Storage device vendor（可选），1~64 个字符；可选值：huawei（Huawei）、dell_emc（DELL EMC）、
                      fujitsu（FUJITSU）、hitachi（Hitachi）、hpe（HPE）、ibm（IBM）、netapp（NetApp）、
                      pure（PURE）、panji（Panji）、third_part（非华为存储设备）
-        storage_pool_name: 文件系统所属存储池名称（可选），1~256 个字符，与 storage_pool_id 互斥，支持模糊匹配
+        storage_pool_name: 文件系统所属Storage pool name（可选），1~256 个字符，与 storage_pool_id 互斥，支持模糊匹配
         storage_pool_id: 存储池 ID（可选），1~255 个字符，与 storage_pool_name 互斥
-        tier_name: 文件系统所属服务等级名称（可选），1~256 个字符，与 tier_id 互斥，支持模糊匹配
+        tier_name: 文件系统所属Service level name（可选），1~256 个字符，与 tier_id 互斥，支持模糊匹配
         tier_id: 服务等级 ID（可选），1~256 个字符，与 tier_name 互斥，精确匹配
         vstore_name: 文件系统所属 vStore 名称（可选），1~256 个字符，与 vstore_raw_id 互斥，支持模糊匹配
         vstore_raw_id: 文件系统所属租户在存储设备上的 ID（可选），1~64 个字符，与 vstore_name 互斥
         project_name: 文件系统所属业务群组名称（可选），1~256 个字符，与 project_id 互斥，支持模糊匹配
         project_id: 业务群组 ID（可选），1~256 个字符，与 project_name 互斥，精确匹配
-        storage_id: 归属存储设备 ID（可选），1~256 个字符，与 storage_name 互斥，精确匹配
+        storage_id: 归属Storage device ID（可选），1~256 个字符，与 storage_name 互斥，精确匹配
         fs_raw_id: 文件系统在设备上的 ID（可选），1~256 个字符，与 name 互斥
         health_status: 健康状态（可选），可选值：normal（正常）、faulty（故障）、unknown（未知）
         running_status: 运行状态（可选），可选值：online（在线）、offline（离线）、invalid（失效）、
@@ -1901,7 +1901,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
               smart_mobility_internal（SmartMobility内部文件系统）
         protection: 保护状态（可选），可选值：protected（已保护）、not_protected（未保护）
         dc_id: 数据中心 ID（可选），1~128 个字符，正则 ^[_A-Fa-f0-9\\-]+$
-        dc_name: 数据中心名称（可选），1~256 个字符
+        dc_name: Data center name（可选），1~256 个字符
         zone_id: 所属 zone 的 ID（可选），1~256 个字符；仅 OceanStor A800 系列文件系统支持搜索，传入集群ID代表查询全局文件系统
         product_name: 文件系统所属设备产品名称（可选），1~256 个字符，支持模糊搜索
         description: 文件系统描述信息（可选），1~255 个字符
@@ -2198,7 +2198,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/filesystems/customize-filesystems"
@@ -2287,12 +2287,12 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
     Args:
         client: DME API 客户端
         feature_type: 特性类型，当前仅支持 remote_replication（远程复制）
-        local_storage_id: 本端存储设备 ID
-        remote_storage_id: 远端存储设备 ID（当 feature_type 为 remote_replication 时必选）
-        name: 本端文件系统名称，支持模糊搜索
+        local_storage_id: 本端Storage device ID
+        remote_storage_id: 远端Storage device ID（当 feature_type 为 remote_replication 时必选）
+        name: 本端Filesystem name，支持模糊搜索
         page_no: 分页查询页码，默认 1
         page_size: 每页显示的数量，默认 20
-        sort_key: 排序字段，name（文件系统名称）或 capacity（文件系统容量）
+        sort_key: 排序字段，name（Filesystem name）或 capacity（文件系统容量）
         sort_dir: 排序方向，asc（升序）或 desc（降序）
 
     Returns:
@@ -2343,7 +2343,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
     Args:
         client: DME API 客户端
         file_system_id: 文件系统唯一标识
-        name: 文件系统名称，1~255个字符（可选）
+        name: Filesystem name，1~255个字符（可选）
         description: 描述信息，0~255个字符（可选）
         capacity: 文件系统容量，单位 GB，1~33554432（可选）
         capacity_threshold: 总空间容量告警阈值 50-99（可选）
@@ -2388,7 +2388,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         alarm_level: 限高告警级别 (可选)。可选值：event (事件), alarm (告警),
                         alarm_threshold: 限高告警阈值% (可选, 0~100),
                         resume_threshold: 限高告警恢复阈值% (可选, 0~100),
-                        storage_divice_id: 所属存储设备ID (可选, 1~64字符),
+                        storage_divice_id: 所属Storage device ID (可选, 1~64字符),
                         name: QoS名称 (可选, 1~255字符; A800下未使用),
                         description: QoS描述 (可选, 1~255字符; A800下未使用),
                         iotype: 策略类型 (可选)。可选值：2 (总性能上限), 3 (读写上限; 仅部分设备支持),
@@ -2433,7 +2433,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fileservice/v1/filesystems/{file_system_id}"
@@ -2522,22 +2522,22 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         page_size: 每页显示的数量（可选），1~1000，默认 100
         sort_dir: 指定排序方向（可选），可选值：asc（升序）、desc（降序）
         sort_key: 排序参数（可选），可选值：namespace_used_rate、file_used_rate
-        name: 命名空间名称（可选），1~256 个字符，支持模糊查询
+        name: Namespace name（可选），1~256 个字符，支持模糊查询
         vstore_name: 命名空间所属租户名称（可选），1~256 个字符，支持模糊查询
         vstore_raw_id: 命名空间所属 vStore 在存储设备上分配的 ID（可选），1~128 个字符
         vstore_id: 命名空间所属 vStore 的 ID（可选），1~128 个字符
         raw_id: 命名空间在存储设备上的 ID（可选），1~256 个字符
-        pool_name: 存储池名称（可选），1~256 个字符，支持模糊查询
-        storage_id: 归属存储设备 ID（可选），1~255 个字符
+        pool_name: Storage pool name（可选），1~256 个字符，支持模糊查询
+        storage_id: 归属Storage device ID（可选），1~255 个字符
         enable_encrypt: 是否开启加密（可选），true：是；false：否
         support_provisioning: 是否支持业务发放（可选），true：是；false：否；下发此字段可过滤不支持业务发放设备的资源，当前不支持业务发放的设备有 DataTurbo 系列
         gfs_id: 全局命名空间 ID（可选），1~64 个字符
-        gfs_name: 全局命名空间名称（可选），1~256 个字符
+        gfs_name: 全局Namespace name（可选），1~256 个字符
         has_gfs: 是否包含所属全局命名空间的命名空间（可选），true：是；false：否；has_gfs 为 false 时不支持下发 gfs_id
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - total: 命名空间数量
         - namespace_list: 命名空间列表，包含 id, raw_id, name, storage_id, vstore_id 等信息
@@ -2595,12 +2595,12 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         命名空间详细信息，包含：
         - id: 命名空间 ID
         - raw_id: 命名空间在存储设备上的 ID
-        - name: 命名空间名称
-        - storage_id: 存储设备 ID
+        - name: Namespace name
+        - storage_id: Storage device ID
         - vstore_id: 租户 ID
         - vstore_name: 租户名称
         - pool_id: 存储池 ID
-        - pool_name: 存储池名称
+        - pool_name: Storage pool name
         - running_status: 运行状态（NORMAL/UNKNOWN）
         - space_used_rate: 空间使用率
         - file_used_rate: 文件使用率
@@ -2639,7 +2639,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
     
     Args:
         client: DME API 客户端
-        storage_id: 存储设备 ID（必填）
+        storage_id: Storage device ID（必填）
         pool_raw_id: 存储池在存储设备上的 ID（必填）
         namespace_specs: 命名空间批量参数。参数格式如下：[{
                 name: 名称 (必填, 1~255字符, 支持数字字母下划线.-),
@@ -2739,7 +2739,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }（异步任务 ID）
     """
     url = "/rest/fileservice/v1/namespaces"
@@ -2892,7 +2892,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }（异步任务 ID）
     """
     url = "/rest/fileservice/v1/namespaces/{namespace_id}"
@@ -2958,7 +2958,7 @@ def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: st
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }（异步任务 ID）
     """
     url = "/rest/fileservice/v1/namespaces/delete"
@@ -2989,7 +2989,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         page_no: 分页查询的起始页码（可选），最小值 1，默认 1
         page_size: 单页显示的数量（可选），1~1000，默认 20
         nfs_share_id: NFS 共享 ID（可选），1~64 个字符
-        storage_id: 存储设备 ID（可选），1~64 个字符；如果指定 nfs_share_id，则此参数无效
+        storage_id: Storage device ID（可选），1~64 个字符；如果指定 nfs_share_id，则此参数无效
         vstore_id_in_storage: vStore ID（可选），1~256 个字符；vStore 场景下必须下发
         name: 客户端 IP 或主机名或网络组名（可选），1~256 个字符；指定 nfs_share_id 条件下支持模糊搜索
         client_id_in_storage: NFS 共享客户端 ID（可选），1~256 个字符
@@ -3143,7 +3143,7 @@ def account_unix_user_group_create(client: DMEAPIClient, storage_id: str, name: 
 
     Args:
         client: DME API 客户端
-        storage_id: 创建 UNIX 用户组所属存储设备 ID (1~64个字符, 必填)
+        storage_id: 创建 UNIX 用户组所属Storage device ID (1~64个字符, 必填)
         name: UNIX 用户组名称 (1~64个字符, 必填)
         raw_id: UNIX 用户组 ID (int64, 0~4294967294, 可选。OceanStor Pacific 和 OceanStor A310 存储必填)
         description: UNIX 用户组描述 (0~255个字符, 可选)
@@ -3215,7 +3215,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         raw_id: 用户组在存储设备上的 ID (1~256个字符, 可选)
         zone_id: Zone ID (1~64个字符, 可选)。仅 OceanStor A800 存储下的认证用户组支持通过该字段过滤
         sort_key: 按照指定字段排序 (可选)。可选值：name (用户组名), raw_id (用户组在存储设备上的 ID), create_time (创建时间)。默认值：create_time
-        storage_id: 存储设备 ID (1~36个字符, 可选)
+        storage_id: Storage device ID (1~36个字符, 可选)
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
 
     Returns:
@@ -3380,7 +3380,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         zone_id: Zone ID (1~64个字符, 可选)。仅 OceanStor A800 存储下的认证用户支持通过该字段过滤
         user_status: 用户状态 (可选)。可选值：enable (启用), disable (禁用)
         sort_key: 按照指定字段排序 (可选)。可选值：name (用户名), raw_id (用户在存储设备上的 ID), primary_group_name (主组名), create_time (创建时间)。默认值：create_time
-        storage_id: 存储设备 ID (1~36个字符, 可选)
+        storage_id: Storage device ID (1~36个字符, 可选)
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
 
     Returns:
@@ -3454,7 +3454,7 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
 
     Args:
         client: DME API 客户端
-        storage_id: 创建 UNIX 用户所属存储设备 ID (1~64个字符, 必填)
+        storage_id: 创建 UNIX 用户所属Storage device ID (1~64个字符, 必填)
         name: UNIX 用户名称 (1~64个字符, 必填)
         raw_id: UNIX 用户 ID (int64, 0~4294967294, 可选。OceanStor Pacific 和 OceanStor A310 存储必填)
         description: UNIX 用户描述 (0~255个字符, 可选)
@@ -3504,7 +3504,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
 
     Args:
         client: DME API 客户端
-        storage_id: 存储设备 ID (长度为36个字符, 必填)
+        storage_id: Storage device ID (长度为36个字符, 必填)
         zone_id: 所属 Zone 的 ID (长度为36个字符, 必填)
         pool_raw_id: 存储池在所属 Zone 上的 ID (1~64个字符, 必填)
         vstore_id: 租户 ID (长度为32个字符, 必填)
@@ -3616,7 +3616,7 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
 
     Args:
         client: DME API 客户端
-        storage_id: 存储设备 ID (长度为36个字符, 可选)
+        storage_id: Storage device ID (长度为36个字符, 可选)
         id: KV Cache 库 ID (长度为32个字符, 可选)
         raw_id: KV Cache 库在 Zone 上的 ID (1~256个字符, 可选)
         name: KV Cache 库名称 (1~256个字符, 可选)
@@ -3625,7 +3625,7 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         vstore_id: 租户 ID (长度为32个字符, 可选)
         vstore_name: 租户名称 (1~256个字符, 可选)
         fs_id: 文件系统 ID (长度为32个字符, 可选)
-        fs_name: 文件系统名称 (1~256个字符, 可选)
+        fs_name: Filesystem name (1~256个字符, 可选)
         data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)
         page_no: 分页页码 (int32, 1~10000, 默认值: 1, 可选)
         page_size: 每页数据条数 (int32, 1~100, 默认值: 20, 可选)

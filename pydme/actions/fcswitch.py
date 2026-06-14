@@ -53,7 +53,7 @@ def sync(client: DMEAPIClient, switch_id: str) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/{switch_id}/sync"
@@ -77,7 +77,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 ports 字段
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/ports/query"
@@ -110,7 +110,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 controllers 字段
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/controllers/query"
@@ -140,7 +140,7 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 fabrics 字段
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/list"
@@ -170,7 +170,7 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 ports 字段
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/ports/list"
@@ -197,7 +197,7 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/backup"
@@ -226,7 +226,7 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 vsans 字段
     """
     url = "/rest/fcswitchmgmt/v1/vsans/query"
@@ -266,7 +266,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 zones 字段
     """
     url = "/rest/fcswitchmgmt/v1/zones/list"
@@ -322,7 +322,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含新创建的 Zone ID
     """
     url = "/rest/fcswitchmgmt/v1/zones"
@@ -377,7 +377,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
@@ -413,7 +413,7 @@ def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
@@ -443,7 +443,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/zones/batch-create"
@@ -471,7 +471,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含成员列表
     """
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
@@ -527,7 +527,7 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 aliases 字段
     """
     url = "/rest/fcswitchmgmt/v1/aliases/list"
@@ -564,7 +564,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含新创建的 Alias ID
     """
     url = "/rest/fcswitchmgmt/v1/aliases"
@@ -616,7 +616,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
@@ -651,7 +651,7 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
@@ -674,7 +674,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含成员列表
     """
     result = {'port_members': [], 'wwn_members': []}

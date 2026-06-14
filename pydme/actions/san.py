@@ -225,9 +225,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 workload_type_raw_id: 应用类型ID (0~4294967295; 通过查询指定存储设备上应用类型接口获取),
              }
         mapping: 映射信息 (可选), LunMapping 对象, 存在即表示为主机或主机组创建 LUN。参数格式如下：{
-                host_id: 主机ID (1~64个字符; 与hostgroup_id二选其一, 不可同时存在),
-                hostgroup_id: 主机组ID (1~64个字符; 与host_id二选其一, 不可同时存在),
-                host_type: 映射主机类型。可选值：storage_host (存储主机), host (主机)。默认host,
+                host_id: Host ID (1~64个字符; 与hostgroup_id二选其一, 不可同时存在),
+                hostgroup_id: Host group ID (1~64个字符; 与host_id二选其一, 不可同时存在),
+                host_type: 映射Host type。可选值：storage_host (存储主机), host (主机)。默认host,
                 start_host_lun_id: 起始主机LUN ID (1~4096),
                 mapping_view: 映射视图请求信息 (LunMappingRequest对象)。属性格式如下：{
                         mapping_view_raw_id: 映射视图在存储设备上的ID (1~31个字符),
@@ -241,7 +241,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/blockservice/v1/volumes/customize"
@@ -1621,16 +1621,16 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     Args:
         client: DME API 客户端
         storage_host_group_id: 存储主机组 ID (必选)
-        storage_host_id_ids: 存储主机ID列表 (可选, 与create_storage_host_params互斥, 数组最大成员个数: 1000)
+        storage_host_id_ids: 存储Host ID列表 (可选, 与create_storage_host_params互斥, 数组最大成员个数: 1000)
         create_storage_host_params: 创建新的存储主机列表 (可选, 与storage_host_id_ids互斥, 数组最大成员个数: 1000)。参数格式如下：[{
-                name: 主机名称 (必选, 1~255个字符, 支持字母数字._-和中文字符),
-                os_type: 主机类型 (必选)。可选值：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
+                name: Host name (必选, 1~255个字符, 支持字母数字._-和中文字符),
+                os_type: Host type (必选)。可选值：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: 主机ip地址 (可选, 最多127个字符),
                 description: 主机描述 (可选, 最多63个字符),
-                initiators: 启动器列表 (可选, 数组最大成员个数: 1000)。参数格式如下：[{
-                        protocol: 启动器类型 (必选)。可选值：fc, iscsi, nvme_over_roce,
+                initiators: Initiator list (可选, 数组最大成员个数: 1000)。参数格式如下：[{
+                        protocol: Initiator type (必选)。可选值：fc, iscsi, nvme_over_roce,
                         raw_id: 主机启动器wwpn或iqn或nqn (必选, 1~223个字符),
-                        alias: 启动器别名 (可选, 最多31个字符),
+                        alias: Initiator alias (可选, 最多31个字符),
                      }, ...],
                 multipath: 多路径配置 (可选)。属性格式如下：{
                         multipath_type: 第三方多路径策略 (必选)。可选值：default (默认), third_party (第三方多路径),
@@ -1746,7 +1746,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
@@ -1788,7 +1788,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"

@@ -20,7 +20,7 @@ def login(client: DMEAPIClient) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 accessSession
         - accessSession: 会话 token，用于后续请求的 X-Auth-Token header
     """
@@ -346,7 +346,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含待办任务组列表和总数
     """
     url = "/rest/taskmgmt/v1/todo-groups"
@@ -442,7 +442,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含待办项列表和总数
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
@@ -1046,13 +1046,13 @@ def dc_list(client: DMEAPIClient, name: str = None,
     
     Args:
         client: DME API client
-        name: 数据中心名称（Optional，supports fuzzy search）
+        name: Data center name（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 datacenters 字段
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/query"
@@ -1105,7 +1105,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含设备列表
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/devices/query"

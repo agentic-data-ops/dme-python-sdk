@@ -131,7 +131,7 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
     Args:
         client: DME API client
         cluster_id: 容器集群 ID（Optional）
-        name: 命名空间名称（Optional，supports fuzzy search）
+        name: Namespace name（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     

@@ -375,7 +375,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含:
         - total: 智能分析任务总数
         - data: 智能分析任务响应结果列表，每项包含:
@@ -620,7 +620,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含查询结果
     """
     if type == 'capacity_prediction':
@@ -671,7 +671,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含对象健康度列表
     """
     url = "/rest/healthmgmt/v1/health-result/query"
@@ -718,7 +718,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含指标扣分列表
     """
     url = "/rest/healthmgmt/v1/health-result/dimension-score/query"
@@ -751,7 +751,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         },包含:
         - task_id: 任务 ID
         - task_status: 任务状态,取值范围:
@@ -818,7 +818,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total（总数）和 policies（策略列表）
     """
     url = "/rest/policymgmt/v2/policies/query"
@@ -869,7 +869,7 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}/execute"
@@ -890,7 +890,7 @@ def check_policy_enable(client: DMEAPIClient, policy_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}/enable"
@@ -911,7 +911,7 @@ def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}/disable"
@@ -932,7 +932,7 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}"
@@ -979,7 +979,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total（总数）和 results（异常检查结果列表）
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/query"
@@ -1034,7 +1034,7 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含检查结果的详细信息
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/{check_result_id}"
@@ -1075,7 +1075,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 LUN 拓扑列表
     """
     url = "/rest/topomgmt/v1/topo-data/luns/query"
@@ -1130,7 +1130,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含主机到存储池的拓扑结构：
         - ip_san 数据：
           - switches: 交换机列表
@@ -1214,7 +1214,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - total: 查询结果总数
         - vms: 虚拟机列表
@@ -1286,7 +1286,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - nodes: 节点列表，每个节点包含 id, type, label, sub_type
         - edges: 边列表，每条边包含 source, target, edge_type

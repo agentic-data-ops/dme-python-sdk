@@ -24,7 +24,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         dc_id: 数据中心 ID（仅 FusionCompute 场景支持）
         cluster_name: 虚拟机所属集群名称（supports fuzzy search，HCS 场景不支持）
         host_id: 虚拟机所属物理主机唯一标识
-        host_name: 虚拟机所属主机名称（supports fuzzy search）
+        host_name: 虚拟机所属Host name（supports fuzzy search）
         name: 虚拟机名称（supports fuzzy search）
         ip_address: 虚拟机 IP 地址（supports fuzzy search）
         status: 虚拟机状态列表
@@ -152,7 +152,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含 total 和 datastores 字段
     """
     url = "/rest/vmmgmt/v1/datastores/query"
@@ -227,7 +227,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         site_id: 主机所属站点 ID
         cluster_id: 主机所属集群 ID
         dc_id: 数据中心 ID
-        host_name: 主机名称（supports fuzzy search）
+        host_name: Host name（supports fuzzy search）
         ip_address: 主机 IP 地址
         status: 主机状态列表
         vr_type: 虚拟化平台类型
@@ -236,7 +236,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含主机列表
     """
     url = "/rest/vmmgmt/v1/hosts/query"
@@ -306,7 +306,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含集群列表
     """
     url = "/rest/vmmgmt/v1/clusters/query"
@@ -364,7 +364,7 @@ def site_list(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含站点列表
     """
     url = "/rest/vmmgmt/v1/sites/query"

@@ -65,7 +65,7 @@ def template_groups(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - groups: 模板分组列表，包含 name（模板分组名称）
     """
@@ -89,7 +89,7 @@ def template_show(client: DMEAPIClient, template_id: str,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - template_version_id: 模板版本 id
     """
@@ -136,7 +136,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - instance_id: 实例 id
         - template_id: 实例对应的模板 id
@@ -175,7 +175,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - instance_id: 实例 id
     """
@@ -209,7 +209,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64个字符),
         }，包含：
         - logs: 步骤日志列表（最多 6000 条）
     """

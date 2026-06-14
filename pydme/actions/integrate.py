@@ -51,8 +51,8 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
     Args:
         client: DME API client
         system_id: CMDB系统ID（Optional）
-        name: 主机名称（Optional，supports fuzzy search）
-        ip: 主机IP（Optional）
+        name: Host name（Optional，supports fuzzy search）
+        ip: Host IP（Optional）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
 
@@ -60,8 +60,8 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
         {
             total: 总数 (integer),
             hosts: CMDB主机列表。参数格式如下：[{
-                id: 主机ID (string),
-                name: 主机名称 (string),
+                id: Host ID (string),
+                name: Host name (string),
                 ip: IP地址 (string),
             }, ...],
         }
@@ -89,12 +89,12 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 
     Args:
         client: DME API client
-        cmdb_host_id: CMDB主机ID（Required）
+        cmdb_host_id: CMDBHost ID（Required）
 
     Returns:
         {
-            id: 主机ID (string),
-            name: 主机名称 (string),
+            id: Host ID (string),
+            name: Host name (string),
             ip: IP地址 (string),
         }
     """
@@ -145,17 +145,17 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
 
 def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dict:
     """
-    根据启动器列表查询CMDB主机列表。
+    根据Initiator list查询CMDB主机列表。
 
     Args:
         client: DME API client
-        initiators: 启动器列表（Required）
+        initiators: Initiator list（Required）
 
     Returns:
         {
             hosts: CMDB主机列表。参数格式如下：[{
-                id: 主机ID (string),
-                name: 主机名称 (string),
+                id: Host ID (string),
+                name: Host name (string),
             }, ...],
         }
     """
@@ -200,7 +200,7 @@ ACTIONS = {
     },
     'cmdb_host_query_by_initiators': {
         'func': cmdb_host_query_by_initiators,
-        'description': '根据启动器列表查询CMDB主机列表',
+        'description': '根据Initiator list查询CMDB主机列表',
         'params': ['initiators'],
         'subtopic': 'cmdb'
     },
