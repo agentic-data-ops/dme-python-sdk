@@ -24,7 +24,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
             total: 集群Total count (integer),
             clusters: Container cluster list。参数格式如下：[{
                 id: 集群ID (string),
-                name: 集群名称 (string),
+                name: Cluster name (string),
                 status: 状态 (string),
             }, ...],
         }
@@ -59,7 +59,7 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
         {
             nodes: Container node list。参数格式如下：[{
                 id: 节点ID (string),
-                name: 节点名称 (string),
+                name: Node name (string),
                 status: 状态 (string),
             }, ...],
         }

@@ -465,7 +465,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, Optional)。与 size_operator must be sent together
         tag: object标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")
         file_paths: 按文件列表过滤策略上传的文件标识列表 (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置
-        authentication_type: 认证类型 (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
+        authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
         user_operator: 用户名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
         user_name: 用户名 (1~255个字符, Optional)。与 authentication_type、user_operator must be sent together
         group_operator: User group名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together

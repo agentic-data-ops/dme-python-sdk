@@ -26,7 +26,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
             total: 集群Total count (integer),
             clusters: Backup cluster list。参数格式如下：[{
                 id: 集群ID (string),
-                name: 集群名称 (string),
+                name: Cluster name (string),
                 status: 状态 (string),
             }, ...],
         }

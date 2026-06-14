@@ -260,7 +260,7 @@ def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dic
 
     Args:
         client: DME API client
-        service_type: 服务类型 (Required, string)。Optional值：APIGWService (DME北向网关)
+        service_type: Service type (Required, string)。Optional值：APIGWService (DME北向网关)
 
     Returns:
         {
@@ -1097,7 +1097,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
     Args:
         client: DME API client
         dc_id: Data center ID（Required）
-        device_type: 设备类型列表（Optional）
+        device_type: Device type列表（Optional）
                      取值：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
         page_no: Page queryStart page，默认 1

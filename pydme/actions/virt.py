@@ -22,7 +22,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         site_id: Virtual machine所属站点 ID
         cluster_id: Virtual machine所属集群 ID（HCS 场景不支持）
         dc_id: Data center ID（仅 FusionCompute 场景支持）
-        cluster_name: Virtual machine所属集群名称（supports fuzzy search，HCS 场景不支持）
+        cluster_name: Virtual machine所属Cluster name（supports fuzzy search，HCS 场景不支持）
         host_id: Virtual machine所属Physical hostUnique identifier
         host_name: Virtual machine所属Host name（supports fuzzy search）
         name: Virtual machine名称（supports fuzzy search）
@@ -299,7 +299,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
         client: DME API client
         site_id: 集群所属站点 ID
         dc_id: Data center ID
-        name: 集群名称（supports fuzzy search）
+        name: Cluster name（supports fuzzy search）
         vr_type: Virtualization platform type
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20

@@ -1878,7 +1878,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         name: Filesystem name（可选），1~256 个字符，与 fs_raw_id mutually exclusive，支持fuzzy match
         is_associated_qos: Filesystem是否已关联 QoS（可选），true：是；false：否
         qos_id: QoS 策略 ID（可选），1~256 个字符
-        storage_name: Filesystem所属设备名称（可选），1~256 个字符，与 storage_id mutually exclusive，支持fuzzy match
+        storage_name: Filesystem所属Device name（可选），1~256 个字符，与 storage_id mutually exclusive，支持fuzzy match
         manufacturer: Storage device vendor（可选），1~64 个字符；Options：huawei（Huawei）、dell_emc（DELL EMC）、
                      fujitsu（FUJITSU）、hitachi（Hitachi）、hpe（HPE）、ibm（IBM）、netapp（NetApp）、
                      pure（PURE）、panji（Panji）、third_part（非华为Storage device）
@@ -2691,10 +2691,10 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: 最大锁count (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
@@ -2708,10 +2708,10 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: 最大锁count (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
@@ -2725,10 +2725,10 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: 最大锁count (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         create_s3_param: 创建 S3 协议参数 (可选)。参数格式如下：{
                 bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (公共读写),
@@ -2846,10 +2846,10 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: 最大锁count (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
                         qos_switch: QoS 开关（Required），Options：on、off,
@@ -2864,10 +2864,10 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: 最大锁count (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
                         qos_switch: QoS 开关（Required），Options：on、off,
@@ -2882,10 +2882,10 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: 最大锁count (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         application_type: 应用类型，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
         task_remarks: Async taskRemark
@@ -3208,7 +3208,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API Client
         page_no: Page queryStart position (int32, 1~2147483647, Default: 1, Optional)
         page_size: Items per page (int32, 10~100, Default: 100, Optional)
-        storage_name: 设备名称，支持fuzzy match过滤 (1~256个字符, Optional)
+        storage_name: Device name，支持fuzzy match过滤 (1~256个字符, Optional)
         vstore_raw_id: Tenanton the storage device ID (1~64个字符, Optional)
         vstore_name: 所属Tenant name，支持fuzzy search过滤 (1~256个字符, Optional)
         name: User group名称，支持fuzzy search过滤 (1~256个字符, Optional)
@@ -3371,7 +3371,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API Client
         page_no: Page queryStart position (int32, 1~2147483647, Default: 1, Optional)
         page_size: Items per page (int32, 10~100, Default: 100, Optional)
-        storage_name: 设备名称，支持fuzzy search过滤 (1~256个字符, Optional)
+        storage_name: Device name，支持fuzzy search过滤 (1~256个字符, Optional)
         vstore_raw_id: Tenanton the storage device ID (1~64个字符, Optional)
         vstore_name: 所属Tenant name，支持fuzzy search过滤 (1~256个字符, Optional)
         name: 用户名称，支持fuzzy search过滤 (1~256个字符, Optional)
