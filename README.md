@@ -37,18 +37,6 @@
 
 ### Installation
 
-Install from default branch (stable, Chinese comments):
-
-```bash
-pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git
-```
-
-Install from dev branch (latest features, Chinese comments):
-
-```bash
-pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@dev
-```
-
 Install from English branch (stable, English comments):
 
 ```bash
@@ -60,6 +48,7 @@ Or install in editable mode for development:
 ```bash
 git clone https://github.com/agentic-data-ops/dme-python-sdk.git
 cd dme-python-sdk
+git checkout main-en
 pip install -e .
 ```
 
