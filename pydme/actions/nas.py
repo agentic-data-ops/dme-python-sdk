@@ -1772,7 +1772,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_hard_quota: File hard quota(Optional) , -1 field is invalid; When both file hard/soft quotas arewhen both valid, File hard quota must exceed soft quota
         file_advisory_quota: File advisory quota(Optional) , -1 field is invalid; OceanStor Pacific only; When advisory quota and hard/soft quota are both valid hard/soft quotawhen both valid, Advisory quota must be less than hard or soft quota
         snap_space_switch: Include snapshot space(Optional) , true: Include snapshot space; false: Exclude snapshot space; OceanStor Pacific only
-        soft_grace_time:  Grace period (Optional) , 0~4294967294, in days ; Grace period before soft limit becomes hard limit; not sent or value 0: soft quota reached, warning only; 仅 OceanStor Pacific  support
+        soft_grace_time:  Grace period (Optional) , 0~4294967294, in days; Grace period before soft limit becomes hard limit; not sent or value 0: soft quota warning onlyft quota reached, warning only; 仅 OceanStor Pacific  support
         task_remarks: Async taskRemark
 
     Returns:
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format: {
-                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_modede ( high security compliance), audit_log (Audit log), non_worm (非WORM),
+                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_mode), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default 0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2408,7 +2408,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open). Options: true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
-                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink value limit和Filesystem capacity),
+                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink valuemit和Filesystem capacity),
                 min_auto_size:  Auto-shrink lower limit in GB (Optional, 1~33554432, default 33554432),
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
@@ -2980,16 +2980,16 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
                            client_id_in_storage: str = None, sort_key: str = None,
                            sort_dir: str = None) -> dict:
     """
-     query NFS share client access list
+     Query NFS share client access list
 
-     specified device或 NFS ID,  query NFS share client access list. 
+     Specified device or NFS share ID,  Query NFS share client access list. 
 
     Args:
         client: DME API Client
         page_no: Page queryStart page(Optional) , min 1, default 1
         page_size: shown per pagecount(Optional) , 1~1000, default 20
         nfs_share_id: NFS  share ID(Optional) , 1~64  characters
-        storage_id: Storage device ID(Optional) , 1~64  characters; 如果 specified nfs_share_id, this parameter is invalid
+        storage_id: Storage device ID(Optional) , 1~64  characters; if nfs_share_id is specified, this parameter is invalid
         vstore_id_in_storage: vStore ID(Optional) , 1~256  characters; vStore must be sent in this scenario
         name: Client IP or hostname or netgroup name(Optional) , 1~256  characters;  specified nfs_share_id  condition下 supportfuzzy search
         client_id_in_storage: NFS  shareClient ID(Optional) , 1~256  characters
@@ -2997,7 +2997,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         sort_dir: Sort direction(Optional) , Options: asc (ascending) , desc (descending) , default asc
 
     Returns:
-        Client访问 list
+        Client access list
     """
     url = "/rest/fileservice/v2/nfs-auth-clients/query"
 
@@ -3035,14 +3035,14 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
     """
     Batch query DataTurbo Admin
 
-    仅 OceanStor A800 series storage only. 
+    OceanStor A800 series only. 
 
     Args:
         client: DME API Client
         storage_id:  device ID (1~64 characters, Optional)
         vstore_id:  tenant的 ID (1~64 characters, Optional)
         vstore_name:  tenant name,  supportfuzzy search (1~256 characters, Optional)
-        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device Id; When resource scope is local, Zone ID 为 Zone 的 ID. 仅 OceanStor A800 series storage only
+        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device Id; When resource scope is local, Zone ID 为 Zone 的 ID. OceanStor A800 series only
         name: DataTurbo Admin名,  supportfuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (Optional). Options: offline, online
         lock_status: DataTurbo AdminLock status (Optional). Options: unlocked (未 lock), locked ( lock)
