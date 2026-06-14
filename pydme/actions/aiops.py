@@ -489,7 +489,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         obj_type:  monitorObject type(Optional,1~512  characters)
         indicators: Monitoring metric list(Optional, max 100 个)
         ext_dimensions:  extended dimensioninfo list(Optional, max 100 个)
-        interval: 间隔粒度(Optional)
+        interval:  interval granularity(Optional)
                   value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
         range: Time range(Optional,default LAST_1_HOUR)

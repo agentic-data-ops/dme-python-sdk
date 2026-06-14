@@ -485,7 +485,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client. 
         storage_id: BBU storage device ID (Optional, 1~64 characters). 
         health_status: Health status (Optional). Options: unknown (unknown), normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery). 
-        running_status: Running status (Optional). Options: unknown (unknown), normal, running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging (正在放电). 
+        running_status: Running status (Optional). Options: unknown (unknown), normal, running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging ( discharging). 
         enclosure_name: Enclosure name (Optional, 1~256 characters). supports fuzzy match. 
         location: location (Optional, 1~256 characters). supports fuzzy match. 
         zone_id: Zone ID (Optional, 1~255 characters). OceanStor A800 series only storage only. 
@@ -498,7 +498,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status. Options: unknown (unknown), normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
-                running_status: Running status. Options: unknown (unknown), normal, running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging (正在放电),
+                running_status: Running status. Options: unknown (unknown), normal, running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging ( discharging),
                 charge_times:  discharge count (int64),
                 firmware_version: Firmware version (1~255 characters),
                 manufactured_date: Manufacture date (1~255 characters),
@@ -855,7 +855,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
                 subscribed_capacity_percentage: 订阅率 (number),
                 subscribed_capacity: Total subscribed capacity, in MB (number),
                 used_subscribed_capacity: Used subscribed capacity, in MB (number),
-                redundancy_strategy: 冗余 policy. Options: disk (盘级冗余), distributed_ec (DistributedEC),
+                redundancy_strategy: 冗余 policy. Options: disk ( disk-level redundancy), distributed_ec (DistributedEC),
             }, ...]
         }
     """
@@ -1004,7 +1004,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
                 sn: Serial number (1~255 characters),
                 manufacturer: 生产 vendor (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
-                production_date: 生产日期 (1~255 characters),
+                production_date:  production date (1~255 characters),
                 version:  version (1~255 characters),
                 bom_code: Power supply模块BOM编码 (1~255 characters),
                 power_mode: Power supply mode. Options: balanced_power ( balancePower supply), active_power (主Power supply), standby_power (备Power supply),
@@ -3043,7 +3043,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, 结构一致: {"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
+        },  consistent structure: {"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
     """
     import concurrent.futures
 
@@ -3140,8 +3140,8 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 location: Zonelocation info (0~512 characters),
                 version: Version info (0~64 characters),
                 patch_version: Patch version info (0~64 characters),
-                add_time: Device access time (0~32 characters), UTCTimestamp (精确到毫second(s)) ,
-                last_sync_time:  lastSync time (0~32 characters), UTCTimestamp (精确到毫second(s)) ,
+                add_time: Device access time (0~32 characters), UTCTimestamp ( precise to mssecond(s)) ,
+                last_sync_time:  lastSync time (0~32 characters), UTCTimestamp ( precise to mssecond(s)) ,
                 sync_process: Sync进度 (int32),
                 alarm_num: alarmcount (number),
                 parent_id:  clusterid,
