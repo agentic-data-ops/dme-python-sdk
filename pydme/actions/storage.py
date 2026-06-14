@@ -1571,7 +1571,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         name: local Auth user name (1~255 characters, Required)
         description: local Auth user description (1~255 characters, Optional)
         password: local Auth user password (1~255 characters, Required)
-        primary_group_raw_id: local auth user user group ID on device (1~64 characters, Required)
+        primary_group_raw_id: local auth user group ID on device (1~64 characters, Required)
         group_names: create  local auth usertemporary user group name list (List<string>, min array members: 0, max array members: 31, Optional)
         vstore_id: local auth usertenant ID (1~64 characters, Optional. conditionally required, required when creating local auth user belongs to tenant)
 
@@ -1621,7 +1621,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
         description: UNIX Auth user description (1~255 characters, Optional)
         password: UNIX Auth user password (1~255 characters, Optional)
         status_enabled: UNIX Auth user status (boolean, Optional). Options: true ( start), false ( lock)
-        primary_group_raw_id: create UNIX auth user user group ID on device (1~64 characters, Required)
+        primary_group_raw_id: create UNIX auth user group ID on device (1~64 characters, Required)
         vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional. conditionally required, when creating UNIXd when auth user belongs to tenant)
 
     Returns:
@@ -2490,8 +2490,8 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         failover_group_raw_id: Failover group ID on storage device(Optional, max64 characters) . when data access protocol is KB_OVER_TCP, this field is required
         vstore_raw_id: Logic port vStore ID on device(Optional, max64 characters) . when role is CLIENT, do not send this field
         role: Logic port role(Optional, default DATA). Options: MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
-        dns_zone_name: DNS zone name (Optional, max255 characters) . when when role is CLIENT or data access protocol is KB_OVER_TCP, do not send this field
-        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when when role is CLIENT or data access protocol is KB_OVER_TCP, do not send this field
+        dns_zone_name: DNS zone name (Optional, max255 characters) . when role is CLIENT or data access protocol is KB_OVER_TCP, do not send this field
+        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when role is CLIENT or data access protocol is KB_OVER_TCP, do not send this field
         can_failover: Enable IP address drift(Optional, boolean). Options: true, false. when data access protocol is KB_OVER_TCP, do not send this field
         failback_mode: Drift-back mode(Optional). Options: not_support, manual, automatic. when data access protocol is KB_OVER_TCP, do not send this field
 

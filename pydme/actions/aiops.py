@@ -401,7 +401,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     return response
 
 
-# ============ Performance Performance monitoringsubtopic functions ============
+# ============ Performance monitoringsubtopic functions ============
 
 
 def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_time: int,
@@ -734,7 +734,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
 
 
-# ============ Performance Performance monitoringsubtopic functions ============
+# ============ Performance monitoringsubtopic functions ============
 
 
 
