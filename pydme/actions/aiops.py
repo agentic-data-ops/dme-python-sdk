@@ -254,7 +254,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
 
     Args:
         client: DME API client
-        csns: Alarm serial number list(Required),最多 30 个
+        csns: Alarm serial number list(Required), max 30 个
 
     Returns:
         Operation result
@@ -284,7 +284,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
 
     Args:
         client: DME API client
-        csns: Alarm serial number list(Required),最多 30 个
+        csns: Alarm serial number list(Required), max 30 个
 
     Returns:
         Operation result
@@ -314,7 +314,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
 
     Args:
         client: DME API client
-        csns: Alarm serial number list(Required),最多 30 个
+        csns: Alarm serial number list(Required), max 30 个
 
     Returns:
         Operation result
@@ -418,8 +418,8 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
         begin_time: Start time(Required,Unix Timestamp毫second(s))
         end_time: End time(Required,Unix Timestamp毫second(s))
         object_type_id: Object type ID(Required,1~32  characters)
-        object_ids: object ID  list(Required,最多 2000 个,ID 长度 1~32 位)
-        indicator_ids: 指标 ID  list(Required,最多 20 个,ID 长度 1~16 位)
+        object_ids: object ID  list(Required, max 2000 个,ID 长度 1~32 位)
+        indicator_ids: 指标 ID  list(Required, max 20 个,ID 长度 1~16 位)
 
     Returns:
         task  ID
@@ -478,17 +478,17 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         client: DME API client
         obj_type_id: 监控Object type标识(Required),对应监控Object type ID
                      从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        indicator_ids: Monitoring metricIdentifier list(Required,最多 100 个),对应指标 ID
+        indicator_ids: Monitoring metricIdentifier list(Required, max 100 个),对应指标 ID
                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        obj_ids: 监控objectIdentifier list(Required,最多 512 个),对应 CMDB 实例 ID
+        obj_ids: 监控objectIdentifier list(Required, max 512 个),对应 CMDB 实例 ID
                  获取方式:
                  1. 运行 `cmdb instance list --help` View help,了解类定义
                  2. Determine what to query based on helpResource type (Class  name)
                  3. 运行 `cmdb instance list --class_name <Class  name>`  query实例
                  4. obtain from response instance_id
         obj_type: 监控Object type(Optional,1~512  characters)
-        indicators: Monitoring metric list(Optional,最多 100 个)
-        ext_dimensions: 扩展维度info list(Optional,最多 100 个)
+        indicators: Monitoring metric list(Optional, max 100 个)
+        ext_dimensions: 扩展维度info list(Optional, max 100 个)
         interval: 间隔粒度(Optional)
                   value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
@@ -536,11 +536,11 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
     Args:
         client: DME API client
-        indicators: 监控object指标Identifier list(Required,最多 1000  characters)
+        indicators: 监控object指标Identifier list(Required, max 1000  characters)
                    可以是integer list或string list,如 [123, 456] 或 ["123", "456"]
 
     Returns:
-        Monitoring metric info,includes  kpi, data_type, data_unit, en_us, zh_cn 等字段
+        Monitoring metric info,includes  kpi, data_type, data_unit, en_us, zh_cn 等 field
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
@@ -576,12 +576,12 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     Args:
         client: DME API client
-        filter:  filter关键字(Optional),用于fuzzy match zh_cn 和 en_us 字段
+        filter:  filter关键字(Optional),用于fuzzy match zh_cn 和 en_us  field
                 如果提供,returns only matchesObject type
 
     Returns:
         监控Object type list,includes  obj_type_id, parent_obj_type_id, resource_category,
-        resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等字段
+        resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等 field
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types"
 
@@ -661,8 +661,8 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            storage_disk（硬盘）, storage_port（Storage port）, fcswitch_port（光纤Switch port）,
                            storage_file_system（Filesystem）, controller（Controller）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
-                           storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
-        object_name: Object name，supports fuzzy search（Optional，最多 256  characters）
+                           storage_name_space（Namespace）, storage_node（ storage节点）, dpc（DPC）
+        object_name: Object name，supports fuzzy search（Optional， max 256  characters）
         object_ids: object resId  list，For batch exact lookup（Optional，supports up to 100 个 ID）
         page_no: Page queryStart position（Optional，min：1）
         page_size: Items per page（Optional，1~100，default 20）
@@ -806,7 +806,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                     load_imbalance-负载失衡，highload-高负载资源）
         policy_source: 来源（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
-        object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
+        object_type: Object type（storage- storage，lun-Logical unit，host-主机等）
         page_no: Page number，1~1000，default 1
         page_size: Items per page，1~100，default 20
         sort_key: Sort field（last_check_time-Last check time，failed_count-Failed checksobjectcount）
@@ -962,12 +962,12 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         client: DME API client
         object_name: Object name（supports fuzzy search，1~256  characters）
         level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
-        object_ids: object ID  list（最多 100 个）
+        object_ids: object ID  list（ max 100 个）
         object_native_id: object nativeId（1~384  characters）
-        object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
+        object_type: Object type（storage- storage，lun-Logical unit，host-主机等）
         policy_id:  policy ID（exact match，1~64  characters）
         policy_name: Policy name（supports fuzzy search，1~256  characters）
-        policy_types: Policy type list（最多 30 个）
+        policy_types: Policy type list（ max 30 个）
         cause: 异常原因（supports fuzzy search，1~768  characters）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，unit  ms）
@@ -1135,13 +1135,13 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         - ip_san 数据：
           - switches: Switch list
           - hosts: 主机 list
-          - storages: 存储 list
+          - storages:  storage list
           - switch_links: Switch connection list
           - port_links: Port connection list
         - fc_san 数据：
           - fabrics: fabric  list
           - hosts: 主机 list
-          - storages: 存储 list
+          - storages:  storage list
     """
     result = {}
 
@@ -1276,13 +1276,13 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - dturbo_client: DataTurbo Client
             - enclosures: 机柜
             - eth_switch: Ethernet switch
-            - storage_zone: 存储区域
+            - storage_zone:  storage区域
             - service_network: 服务网络
             - db_instance: 数据库实例
             - db_node: 数据库节点
         entry_res_id: 入口资源 ID（Required）
         type: Business type，Optional值：nas, k8s, db
-        filter: Filter condition list，最多 10 个
+        filter: Filter condition list， max 10 个
 
     Returns:
         {

@@ -23,8 +23,8 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
         page_no: Page index（Required，min：1）
         page_size: per page querycount（Required，1~1000）
         directory_id: 目录 id（Optional，1~64  characters）
-        group: Template group name，supports fuzzy match（Optional，最多 255  characters）
-        name: 模板 name，supports fuzzy match（Optional，最多 255  characters）
+        group: Template group name，supports fuzzy match（Optional， max 255  characters）
+        name: 模板 name，supports fuzzy match（Optional， max 255  characters）
     
     Returns:
         {
@@ -107,9 +107,9 @@ def template_show(client: DMEAPIClient, template_id: str,
 
 def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """
-    停止实例
+     stop实例
     
-    停止Executing的Workflow实例。
+     stopExecuting的Workflow实例。
     
     Args:
         client: DME API client
@@ -171,7 +171,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
         template_id: 模板 id（Optional，1~64  characters，satisfies regex）
         template_version_id: Template version id（Optional，1~64  characters，satisfies regex）
         instance_id: 实例的 id（Optional，1~64  characters，satisfies regex）
-        params: Execute instance parameters（Optional）， format：{"key1": "value1", "key2": "value2"}，最多 100 个 parameter
+        params: Execute instance parameters（Optional）， format：{"key1": "value1", "key2": "value2"}， max 100 个 parameter
     
     Returns:
         {
@@ -211,7 +211,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
         {
             task_id: Task ID (string, 1~64 characters),
         }，includes ：
-        - logs: Step log list（最多 6000 条）
+        - logs: Step log list（ max 6000 条）
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"
     
@@ -244,7 +244,7 @@ ACTIONS = {
     # instance subtopic actions
     'instance_stop': {
         'func': instance_stop,
-        'description': '停止实例',
+        'description': ' stop实例',
         'params': ['instance_id'],
         'subtopic': 'instance'
     },

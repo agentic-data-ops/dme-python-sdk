@@ -23,7 +23,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
         name: Omni-Dataverse  name，supports fuzzy search
         id: Omni-Dataverse id
         raw_id: Omni-Dataverse 在device side的 id
-        max_site_num: Omni-Dataverse 下Data service site最大count
+        max_site_num: Omni-Dataverse 下Data service site maxcount
         page_no: Page number，default 1，范围 1~10000
         page_size: Items per page，default 100，范围 1~1000
 
@@ -93,7 +93,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
     Args:
         client: DME API client
         raw_id: Data service site在device side的 id
-        site_role: Data service site角色，includes  site_role 字段，value range：ORDINARY(普通站点)，METASTORE(元Data service site)
+        site_role: Data service site角色，includes  site_role  field，value range：ORDINARY(普通站点)，METASTORE(元Data service site)
         gfs_group_id: Omni-Dataverse id
         storage_name: Query by storage nameData service site，supports fuzzy search
         storage_pool_name: 根据Storage pool name queryData service site，supports fuzzy search
@@ -438,8 +438,8 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         start_mode: Task execution mode (Required)。Optional值：manual (手动), auto (自动)
-        start_time: task 启动的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
-        max_bandwidth: 最大Sync速率 (int32, 1~10240, unit : MB/s, Required)
+        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
+        max_bandwidth:  maxSync速率 (int32, 1~10240, unit : MB/s, Required)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
         period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
@@ -579,10 +579,10 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         id: Data migration task ID (1~32 characters, Required)
         task_name: Task name (1~255 characters, Optional)
         start_mode: Task execution mode (Optional)。Optional值：manual (手动), auto (自动)
-        start_time: task 启动的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
+        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when
         execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when
-        max_bandwidth: 最大Sync速率 (int32, 1~10240, unit : MB/s, Optional)
+        max_bandwidth:  maxSync速率 (int32, 1~10240, unit : MB/s, Optional)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
         period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
@@ -652,7 +652,7 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
     Args:
         client: DME API client
         ids: Data migration task ID  list
-        operate_type: Operation type，includes  operate_type 字段，取值 start(启动), stop(停止)
+        operate_type: Operation type，includes  operate_type  field，取值 start( start), stop( stop)
 
     Returns:
         {

@@ -53,7 +53,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     
     Args:
         client: DME API client
-        server_id: Server ID（注意：需要使用 device_id 字段，with hyphens UUID  format，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
+        server_id: Server ID（注意：需要使用 device_id  field，with hyphens UUID  format，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
         {

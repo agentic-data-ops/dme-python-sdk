@@ -113,10 +113,10 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: Username (Required, string, 最多32 characters)。local Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义 character、Invisible and special characters。remote Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊 character。
+        name: Username (Required, string,  max32 characters)。local Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义 character、Invisible and special characters。remote Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊 character。
         type: User type (Required, integer, 无)。0：Local user；2：Remote user。
         value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user不涉及。
-        description:  description (Optional, string, 最多127 characters)
+        description:  description (Optional, string,  max127 characters)
         roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全Admin组，FilesystemGroup or custom user role。
 
     Returns:
@@ -153,7 +153,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
         page_size: Page size (Required, integer, 5~200)。Default：10
-        name: Username搜索关键字 (Optional, string, 最多32 characters)
+        name: Username搜索关键字 (Optional, string,  max32 characters)
 
     Returns:
         {
@@ -161,7 +161,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
             datas: User data (List<UserData>, max array members：5000)。 parameter format如下：[{
                 id: user ID (integer, 1~2147483647),
                 name: Username (string, 6~32 characters),
-                description:  description (string, 最多127 characters),
+                description:  description (string,  max127 characters),
                 type: User type (integer)。Optional值：0 (Local user), 1 (Third-party system access user), 2 (Remote user),
                 roles: 角色ID list (List<integer>, max array members：50),
             }, ...]
@@ -186,15 +186,15 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
         page_size: Page size (Required, integer, 5~100)。Default：10
-        name: Role name search keyword (Optional, string, 最多64 characters)
+        name: Role name search keyword (Optional, string,  max64 characters)
 
     Returns:
         {
             total: Total count (integer, max：10),
             datas: Role data (List<RoleData>, max array members：5000)。 parameter format如下：[{
                 id: 角色ID (integer, 1~2147483647),
-                name: 角色 name (string, 最多64 characters),
-                description:  description (string, 最多127 characters),
+                name: 角色 name (string,  max64 characters),
+                description:  description (string,  max127 characters),
             }, ...]
         }
     """
@@ -219,9 +219,9 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
     Returns:
         {
             id: user ID (integer, 1~2147483647),
-            name: Username (string, 最多32 characters),
+            name: Username (string,  max32 characters),
             type: User type (integer)。Optional值：0 (Local user), 1 (Third-party system access user), 2 (Remote user),
-            description:  description (string, 最多127 characters),
+            description:  description (string,  max127 characters),
             roles: User role (List<integer>, max array members：50),
         }
     """
@@ -244,8 +244,8 @@ def show(client: DMEAPIClient) -> dict:
 
     Returns:
         {
-            version: DME产品Version info (string, 最多128 characters),
-            sn: DME产品SN号 (string, 最多64 characters),
+            version: DME产品Version info (string,  max128 characters),
+            sn: DME产品SN号 (string,  max64 characters),
         }
     """
     url = "/rest/productmgmt/v1/system-info"
@@ -335,12 +335,12 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         is_group: Group task（Optional）
         start: 分页Start position（Optional，0~10000000）
         limit: 分页count（Optional，1~1000）
-        status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已关闭）
+        status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已 disable）
         todo_item_status: Pending item status list（Optional，0-待确认/1-未完成/2-Executing/3-Completed）
         start_time_from: Start time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
-        start_time_to: Start time结束值（Optional， format：yyyy-MM-dd HH:mm:ss）
+        start_time_to: Start time end值（Optional， format：yyyy-MM-dd HH:mm:ss）
         end_time_from: End time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
-        end_time_to: End time结束值（Optional， format：yyyy-MM-dd HH:mm:ss）
+        end_time_to: End time end值（Optional， format：yyyy-MM-dd HH:mm:ss）
         sort_key: Sort field（Optional）
         sort_dir: Sort method（Optional，asc/desc）
 
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: Business type（Required，wfa_execute_activity-自动化编排）
-        status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-partial success/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
+        status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-partial success/5-失败/6-超时/7-警告/8-已 disable/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
         page_no: Page index（Optional，default 1）
         page_size: per pagecount（Optional，1~10，default 10）
 
@@ -550,7 +550,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     """
     Close pending task
 
-    关闭指定的Pending item，must provideShutdown reason。
+     disable指定的Pending item，must provideShutdown reason。
 
     Args:
         client: DME API client
@@ -558,7 +558,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
         reason: Shutdown reason（Required，0-63  character）
 
     Returns:
-        关闭结果
+         disable结果
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/close"
 
@@ -601,7 +601,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - end_time: task End time（UTC 毫second(s)数）
         - detail_en: Task details in English
         - detail_cn: Task details in Chinese
-        - is_support_retry: supports重试
+        - is_support_retry: supports retry
         - is_support_rollback: supports回滚
         - remarks: Remark
         - resources: task 关联的Resource list
@@ -627,7 +627,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         status:  status filter（Optional，1-Initial status;2-Executing;3-成功;4-partial success;5-失败;6-超时）
         owner_id: Create task user ID  filter（Optional）
         create_time_from: Creation time起始（Optional，UTC 毫second(s)数）
-        create_time_to: Creation time结束（Optional，UTC 毫second(s)数）
+        create_time_to: Creation time end（Optional，UTC 毫second(s)数）
     
     Returns:
         Task list
@@ -665,7 +665,7 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
         task_id: task  ID（Required，1~36  characters）
 
     Returns:
-        重试结果
+         retry结果
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}/retry"
 
@@ -1001,7 +1001,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
         client: DME API client
         az_name: Availability zone name，supports fuzzy match (Optional, string, 1~64 characters)
         operate_status: Availability zone运营 status。For offlineaz，其operate_status是null，因此暂时只supports filtering上线online的az (Optional, string, 1~16 characters)
-        start: Page number，从1开始 (Optional, int32, 1~10000000)。Default：1
+        start: Page number，从1 start (Optional, int32, 1~10000000)。Default：1
         limit: Page size (Optional, int32, 1~512)。Default：512
         is_sc: Operation-side query (Optional, boolean, true,false)。Default：false
 
@@ -1053,7 +1053,7 @@ def dc_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 datacenters 字段
+        }，includes  total 和 datacenters  field
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/query"
     
@@ -1134,14 +1134,14 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Args:
         client: DME API client
         ids: RegionID list，支持exact match (Optional, List[string], max array members：100)
-        name: Region name，supports fuzzy search (Optional, string, 最多256 characters)
-        active_ip_address: Region主IP address，supports fuzzy search (Optional, string, 最多256 characters)
-        standby_ip_address: Region备IP address，supports fuzzy search (Optional, string, 最多256 characters)
+        name: Region name，supports fuzzy search (Optional, string,  max256 characters)
+        active_ip_address: Region主IP address，supports fuzzy search (Optional, string,  max256 characters)
+        standby_ip_address: Region备IP address，supports fuzzy search (Optional, string,  max256 characters)
         sync_status: RegionSync status，Exact filter (Optional, List[string], max array members：3)。Optional值：normal (normal), sync (Syncing), failed (Sync失败)
         role: Region角色，Exact filter (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近Sync time)
         sort_dir: Sort direction (Optional, string)。Optional值：asc (ascending), desc (descending)。Default：desc
-        page_no: Page query开始页 (Optional, int32, 1~100)。Default：1
+        page_no: Page query start页 (Optional, int32, 1~100)。Default：1
         page_size: per pagecount (Optional, int32, 1~100)。Default：20
 
     Returns:

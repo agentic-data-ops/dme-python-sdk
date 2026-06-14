@@ -506,7 +506,7 @@ def dtree_modify(client: DMEAPIClient, dtree_id: str, name: str = None,
 
 
 # ============================================================================
-# NFS 共享subtopic actions
+# NFS  sharesubtopic actions
 # ============================================================================
 
 def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None,
@@ -523,7 +523,7 @@ def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = 
                    zone_id: str = None, zone_name: str = None,
                    zone_ip: str = None, scope: str = None) -> dict:
     """
-     query NFS 共享 list
+     query NFS  share list
 
     Args:
         client: DME API Client
@@ -719,15 +719,15 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                      file_name_ex_filters: list = None,
                      task_remarks: str = None) -> dict:
     """
-    Modify NFS 共享
+    Modify NFS  share
 
     Args:
         client: DME API Client
-        nfs_share_id: NFS 共享 ID
+        nfs_share_id: NFS  share ID
         description: Description
         character_encoding:  character编码，Options：utf-8, zh, gbk 等
         audit_items: Audit event list (可选)。 parameter format如下：[{
-                audititem: Audit event type。Options：none (无操作), all (所有操作), open (打开), create (create ), read (读), write (写), close (关闭), delete (delete ), rename (重命名), get_security (Get security attribute), set_security (Set security attribute), get_attr (获取属性), set_attr (设置属性),
+                audititem: Audit event type。Options：none (无操作), all (所有操作), open (打开), create (create ), read (读), write (写), close ( disable), delete (delete ), rename (重命名), get_security (Get security attribute), set_security (Set security attribute), get_attr (获取属性), set_attr (设置属性),
              }, ...]
         show_snapshot_enable: Show snapshot
         nfs_share_client_addition: 需要新增的 NFS Share client list (可选)。 parameter format如下：[{
@@ -813,11 +813,11 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
 def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    Batch delete NFS 共享
+    Batch delete NFS  share
 
     Args:
         client: DME API Client
-        nfs_share_ids: 待delete  NFS 共享 ID  list
+        nfs_share_ids: 待delete  NFS  share ID  list
         task_remarks: Async taskRemark
 
     Returns:
@@ -1005,7 +1005,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                      }, ...],
                 ip_addresses_and_segments: IP address和IP address段 list (可选)。 parameter format如下：[{
                         ip_or_segments_id_in_storage: IP address(段)on storageID (可选, 1~64 character, 变更时Required),
-                        ip_addresses_or_segments: IP address(段) (可选, 1~128 character, 最多32条),
+                        ip_addresses_or_segments: IP address(段) (可选, 1~128 character,  max32条),
                      }, ...],
                 file_name_extension_filters: File extensionFilter rule list (可选)。 parameter format如下：[{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64 character, when changing added rulesRequired),
@@ -1057,12 +1057,12 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 task_remarks: str = None, smb3_encryption_enable: bool = None,
                 unencrypted_access: bool = None, enable_lease: bool = None) -> dict:
     """
-    Modify CIFS 共享
+    Modify CIFS  share
 
     Args:
         client: DME API Client
-        cifs_share_id: CIFS 共享 ID
-        description: Description，最多 255  characters
+        cifs_share_id: CIFS  share ID
+        description: Description， max 255  characters
         op_lock_enabled: Oplock Feature switch
         notify_enabled: Notify Feature switch
         ca_enabled: Failover Continuous availability feature switch
@@ -1089,7 +1089,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 update_type: Change type (可选, defaultadd)。Options：add (新增), delete (delete ), modify (modify ),
                 param: IP address和IP address段 infoobject (可选)。属性 format如下：{
                         ip_or_segments_id_in_storage: IP address(段)on storageID (可选, 1~64 character, 变更时Required),
-                        ip_addresses_or_segments: IP address(段) (可选, 1~128 character, 最多32条),
+                        ip_addresses_or_segments: IP address(段) (可选, 1~128 character,  max32条),
                 }
              }, ...]
         file_name_ex_filters: 扩展名Filter rule list (可选)。 parameter format如下：[{
@@ -1098,7 +1098,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64 character, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127 character, supports wildcards?和*, *must be at the last character),
                         rule_type: 规则 type (可选, defaultreject)。Options：reject (拒绝), permit (允许),
-                        fileoperations: Operation type list (可选, 最多100个),
+                        fileoperations: Operation type list (可选,  max100个),
                 }
              }, ...]
         task_remarks: Async taskRemark，0~1024  characters
@@ -1534,11 +1534,11 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
 def dataturbo_share_delete(client: DMEAPIClient, dataturbo_share_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    Batch delete DataTurbo 共享
+    Batch delete DataTurbo  share
 
     Args:
         client: DME API Client
-        dataturbo_share_ids: DataTurbo 共享 ID  list
+        dataturbo_share_ids: DataTurbo  share ID  list
         task_remarks: Async taskRemark
 
     Returns:
@@ -1564,11 +1564,11 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
                                       user_id: str = None, user_name: str = None,
                                       permission: str = None) -> dict:
     """
-     query DataTurbo 共享AdminPermission list
+     query DataTurbo  shareAdminPermission list
 
     Args:
         client: DME API Client
-        dataturbo_share_id: DataTurbo 共享 ID
+        dataturbo_share_id: DataTurbo  share ID
         page_no: Page number（可选），1~10000000，default 1
         page_size: Items per page（可选），1~1000，default 10
         user_id: DataTurbo Admin ID（可选），1~64  characters，exact match
@@ -1576,7 +1576,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
         permission: DataTurbo Admin权限（可选），Options：read_and_write (read/write)
 
     Returns:
-        DataTurbo 共享AdminPermission list
+        DataTurbo  shareAdminPermission list
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}/dpc-share-auths/query"
 
@@ -2121,19 +2121,19 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 dist_alg: FilesystemDirectory dispersion policy (可选, 仅A800Device support)。Options：capacity_balance, subdirectory_round_robin,
                 qos_policy: SmartQosPolicy parameter info (可选)。属性 format如下：{
                         max_bandwidth: Max bandwidthMB/s (可选, 1~999999999),
-                        max_iops: 最大iops (可选, 1~999999999),
+                        max_iops:  maxiops (可选, 1~999999999),
                         min_bandwidth: Min bandwidthMB/s (可选, 1~999999999),
-                        min_iops: 最小iops (可选, 1~999999999),
+                        min_iops:  miniops (可选, 1~999999999),
                         burst_band_width: Burst bandwidthMB/s (可选),
                         burst_iops: 突发IOPS (可选),
                         burst_time: Max burst timesecond(s) (可选),
                         latency: 时延 (可选, 仅保护lower limit支持),
-                        max_read_bandwidth: 最大Read bandwidthMB/s (可选),
-                        max_write_bandwidth: 最大Write bandwidthMB/s (可选),
+                        max_read_bandwidth:  maxRead bandwidthMB/s (可选),
+                        max_write_bandwidth:  maxWrite bandwidthMB/s (可选),
                         burst_read_band_width: 突发Read bandwidthMB/s (可选),
                         burst_write_band_width: 突发Write bandwidthMB/s (可选),
-                        max_read_iops: 最大读iops (可选),
-                        max_write_iops: 最大写iops (可选),
+                        max_read_iops:  max读iops (可选),
+                        max_write_iops:  max写iops (可选),
                         burst_read_iops: 突发读iops (可选),
                         burst_write_iops: 突发写iops (可选),
                         schedule_policy: Scheduling policy (可选)。Options：once, daily, weekly,
@@ -2144,7 +2144,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         alarm_switch: Upper limit alarm switch (可选)。Options：off, on,
                         alarm_level: Alarm severity (可选)。Options：event, alarm,
                         alarm_threshold: 告警threshold% (可选, 0~100),
-                        resume_threshold: 恢复threshold% (可选, 0~100),
+                        resume_threshold:  resumethreshold% (可选, 0~100),
                         storage_divice_id: Storage deviceid (可选),
                         name: QoS name (可选),
                         description:  description (可选),
@@ -2164,7 +2164,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         security_mode: Security mode（可选）。取值：mixed/native/ntfs/unix
         nas_locking_policy: NAS锁 policy（可选）。取值：mandatory/advisory/unknown
         capacity_autonegotiation: Capacity adaptive parameter (可选)。 parameter format如下：{
-                capacity_self_adjusting_mode: Auto capacity adjustment mode (可选, default off)。Options：grow_off (关闭), grow (Auto-expand), grow_shrink (自动扩缩容),
+                capacity_self_adjusting_mode: Auto capacity adjustment mode (可选, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink (自动扩缩容),
                 capacity_recycle_mode: Capacity reclamation mode (可选, Default: expand first)。Options：expand_capacity (优先扩容), delete_snapshots (Prefer deleting old snapshots),
                 auto_size_enable: Auto capacity adjustment switch (可选, defaulttrue)。Options：true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (可选, 2~99, default85),
@@ -2179,7 +2179,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 min_protect_period_unit: Min protection period unit (可选, defaultyear)。Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (可选, 0~4294967295, default70),
                 max_protect_period_unit: Max protection period unit (可选, defaultyear)。Options：minute, hour, day, month, year,
-                def_protect_period: Default protection period (可选, 不小于最小, 不大于最大, default70),
+                def_protect_period: Default protection period (可选, 不小于 min, 不大于 max, default70),
                 def_protect_period_unit: Default protection period unit (可选, defaultyear)。Options：minute, hour, day, month, year,
                 auto_lock: WORMAuto-lock mode (可选, Enabled by default)。Options：true, false,
                 auto_lock_time: Auto-lock time (可选, default2),
@@ -2189,11 +2189,11 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 worm_append_unit: WORMAppend-only file protection granularity (可选, 仅advance_mode支持)。Options：256KB, 512KB, 1M,
              }
         snapshot_reserved_space_percentage: Snapshot reserved space percentage（可选），0~90
-        periodic_snapshots_limit: 定时快照count限制（可选），1~2048
+        periodic_snapshots_limit: 定时 snapshotcount limit（可选），1~2048
         snapshot_dir_visible: Snapshot directory visibility（可选）。true/false
         object_service_optimization: object服务优化（可选）。true/false
         case_sensitive: Case-sensitive mode（可选）。true/false
-        audit_log_rules: Audit log规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
+        audit_log_rules: Audit log规则集合（可选），如：set_security、get_security、set_attr、get_attr等， max100条
         unix_permissions: Filesystem目录权限（可选）， format如0755
 
     Returns:
@@ -2348,18 +2348,18 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         capacity: Filesystem容量，unit  GB，1~33554432（可选）
         capacity_threshold: Total space capacity alarmthreshold 50-99（可选）
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
-        automatic_update_time: Update access time after file read，true开启/false关闭（可选）
+        automatic_update_time: Update access time after file read，true enable/false disable（可选）
         atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（not enabled）（可选）
         quota_switch: Enable quota，true启用/falsedisabled（可选）
         vaai_switch: VAAI 开关，Cannot be disabled once enabled，true启用/falsenot enabled（可选）
         owning_controller: 归属Controller，2~16 characters（可选）
-        snapshot_expired_enabled: Delete old read-only snapshots，true开启/false关闭（可选）
-        checksum_enabled: Data verification switch，true开启/false关闭（可选）
-        ads_enabled: Enable data flow switching，true开启/false关闭，Cannot be disabled once enabled（可选）
+        snapshot_expired_enabled: Delete old read-only snapshots，true enable/false disable（可选）
+        checksum_enabled: Data verification switch，true enable/false disable（可选）
+        ads_enabled: Enable data flow switching，true enable/false disable，Cannot be disabled once enabled（可选）
         security_mode: Security mode，mixed/native/ntfs/unix（可选）
         nas_locking_policy: NAS锁 policy，mandatory（强制锁）/advisory（建议锁）/unknown（可选）
         snapshot_reserved_space_percentage: Snapshot reserved space percentage，0~90（可选）
-        periodic_snapshots_limit: 定时快照count限制，1~2048（可选）
+        periodic_snapshots_limit: 定时 snapshotcount limit，1~2048（可选）
         snapshot_dir_visible: Snapshot directory visibility，true可见/false不可见（可选）
         tuning: 调优 parameter (可选)。 parameter format如下：{
                 qos_policy: SmartQosPolicy parameter info (UpdateFileSystemQosPolicyobject)。属性 format如下：{
@@ -2371,19 +2371,19 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         burst_iops: 突发IOPS (可选, 1~999999999),
                         burst_time: Max burst timesecond(s) (可选, 1~999999999),
                         latency: 时延 (可选, 1~999999999; A800/Dorado V6可选500/1500unit us, V3/V5Customizable unitms),
-                        max_read_bandwidth: 最大Read bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
-                        max_write_bandwidth: 最大Write bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
+                        max_read_bandwidth:  maxRead bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
+                        max_write_bandwidth:  maxWrite bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
                         burst_read_band_width: 突发Read bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
                         burst_write_band_width: 突发Write bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
-                        max_read_iops: 最大Read IOPS (可选, 1~999999999; read/write upper limit policy only),
-                        max_write_iops: 最大Write IOPS (可选, 1~999999999; read/write upper limit policy only),
+                        max_read_iops:  maxRead IOPS (可选, 1~999999999; read/write upper limit policy only),
+                        max_write_iops:  maxWrite IOPS (可选, 1~999999999; read/write upper limit policy only),
                         burst_read_iops: 突发Read IOPS (可选, 1~999999999; read/write upper limit policy only),
                         burst_write_iops: 突发Write IOPS (可选, 1~999999999; read/write upper limit policy only),
                         schedule_policy: Scheduling policy (可选)。Options：once, daily, weekly,
                         schedule_start_date: Effective start date (可选,  formatyyyy-MM-dd, 0~64 character),
                         start_time: 生效Start time (可选,  formathh:mm, 0~64 character),
                         duration: 生效durationsecond(s) (可选, 1800~86400),
-                        weekly_days: week(s)Scheduling policy (可选, 0-6对应week(s)日到week(s)六, 最多7个; schedule_policy为weekly时生效),
+                        weekly_days: week(s)Scheduling policy (可选, 0-6对应week(s)日到week(s)六,  max7个; schedule_policy为weekly时生效),
                         alarm_switch: Upper limit alarm switch (可选)。Options：off, on,
                         alarm_level: 限高Alarm severity (可选)。Options：event (事件), alarm (告警),
                         alarm_threshold: 限高告警threshold% (可选, 0~100),
@@ -2403,7 +2403,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 allocation_type: FilesystemAllocation type (可选, defaultthin)。Options：thin (精简), thick (厚),
              }
         capacity_autonegotiation: Capacity adaptive parameter (可选)。 parameter format如下：{
-                capacity_self_adjusting_mode: Auto capacity adjustment mode (可选, default off)。Options：grow_off (关闭), grow (Auto-expand), grow_shrink (自动扩缩容),
+                capacity_self_adjusting_mode: Auto capacity adjustment mode (可选, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink (自动扩缩容),
                 capacity_recycle_mode: Capacity reclamation mode (可选, Default: expand first)。Options：expand_capacity (优先扩容), delete_snapshots (Prefer deleting old snapshots),
                 auto_size_enable: Auto capacity adjustment switch (可选, default打开)。Options：true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (可选, 2~99, default85; must be greater thanShrink trigger threshold),
@@ -2428,7 +2428,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 worm_append_unit: WORMAppend-only file protection granularity (可选, 仅advance_mode支持)。Options：256KB, 512KB, 1M,
              }
         task_remarks: Async taskRemark，0~1024 characters（可选）
-        audit_log_rules: Audit log规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
+        audit_log_rules: Audit log规则集合（可选），如：set_security、get_security、set_attr、get_attr等， max100条
         unix_permissions: Filesystem目录权限（可选）， format如0755
 
     Returns:
@@ -2650,14 +2650,14 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         enable_update_atime: 是否更新 Atime
         trash_visible: Recycle bin directory visibility，default不可见
         trash_enable: Recycle bin enabled，defaultdisabled
-        interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，最大 4294967295
-        dps_switch: Metadata search switch，true 开启
+        interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention， max 4294967295
+        dps_switch: Metadata search switch，true  enable
         forbidden_dpc: 是否禁止 dpc 挂载
         audit_log_switch: EnableAudit log，default off
         audit_log_rule: Audit log规则 list，Options：open, create, read, write, close, 
                        delete, rename, get_attr, set_attr, get_security, set_security,
                        get_xattr, set_xattr, list_dir, contact, mount_or_unmount, login_or_logoff
-        atime_update_mode: atime 更新Frequency，4294967295 关闭，3600 1 hour(s)，86400 1 day(s)
+        atime_update_mode: atime 更新Frequency，4294967295  disable，3600 1 hour(s)，86400 1 day(s)
         acl_policy_type: Security mode，Options：mixed, unix, native, ntfs，default unix
         enable_encrypt: Enable encryption
         crypt_alg: Encryption algorithm type，Options：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
@@ -2667,9 +2667,9 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         worm: WORM 配置 (可选)。 parameter format如下：{
                 worm_mode: WORM policy mode (可选)。Options：non_worm (None type), enterprise_mode (企业级), compliance_mode (法规级),
                 min_protect_period: Min protection period (可选, 0~4294967295, default0; 4294967295is indefinite),
-                min_protect_period_unit: 最小retention periodunit  (可选, defaultyear)。Options：day, year, month, hour, minute,
+                min_protect_period_unit:  minretention periodunit  (可选, defaultyear)。Options：day, year, month, hour, minute,
                 max_protect_period: Max protection period (可选, 1~4294967295, default70; 4294967295is indefinite),
-                max_protect_period_unit: 最大retention periodunit  (可选, defaultyear)。Options：day, year, month, hour, minute, infinite,
+                max_protect_period_unit:  maxretention periodunit  (可选, defaultyear)。Options：day, year, month, hour, minute, infinite,
                 def_protect_period: Default protection period (可选, 0~4294967295, default70),
                 def_protect_period_unit: defaultretention periodunit  (可选, defaultyear)。Options：day, year, month, hour, minute, infinite,
                 auto_lock_enabled: WORMAuto-lock (可选, defaultfalse)。Options：true, false,
@@ -2691,10 +2691,10 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_ops: 读OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         public_network_qos_policy: 公网 QoS Policy configuration。 parameter format如下：{
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
@@ -2708,10 +2708,10 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_ops: 读OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         private_network_qos_policy: 私网 QoS Policy configuration。 parameter format如下：{
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
@@ -2725,14 +2725,14 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_ops: 读OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         create_s3_param: create  S3  protocol parameter (可选)。 parameter format如下：{
                 bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (公共读写),
-                version_status: object多版本 status (可选, 0~2)。Options：0 (关闭), 1 (打开), 2 (暂停),
+                version_status: object多版本 status (可选, 0~2)。Options：0 ( disable), 1 (打开), 2 ( pause),
              }
         application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
         task_remarks: Async taskRemark
@@ -2819,20 +2819,20 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         enable_update_atime: 是否更新 Atime，true：更新；false：不更新
         show_snap_dir: Snapshot directory visibility，true：可见；false：不可见
         trash_visible: Recycle bin directory visibility，true：可见；false：不可见，default不可见
-        trash_enable: Recycle bin enabled，true：开启；false：disabled，defaultdisabled
-        interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，不自动delete ，最大 4294967295
-        dps_switch: Metadata search switch，true：开启；false：关闭
+        trash_enable: Recycle bin enabled，true： enable；false：disabled，defaultdisabled
+        interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，不自动delete ， max 4294967295
+        dps_switch: Metadata search switch，true： enable；false： disable
         forbidden_dpc: 是否禁止 dpc 挂载，true：禁止；false：不禁止
-        audit_log_switch: EnableAudit log，缺省关闭，true：开启；false：关闭
+        audit_log_switch: EnableAudit log，缺省 disable，true： enable；false： disable
         audit_log_rule: Audit log规则 list，Options：open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
                        list_dir, contact, mount_or_unmount, login_or_logoff
-        atime_update_mode: atime 更新Frequency，4294967295：关闭更新；3600：1 hour(s)更新；86400：1 day(s)更新
+        atime_update_mode: atime 更新Frequency，4294967295： disable更新；3600：1 hour(s)更新；86400：1 day(s)更新
         acl_policy_type: NamespaceSecurity mode，Options：mixed（同时支持 UNIX 和 Windows 权限），
                         unix（适用于 NFS User permissions determined by Unix Mode/NFSv4 ACL 权限控制），
                         native（与 Mixed Mode applicable to same scenario），
                         ntfs（适用于 CIFS User permissions determined by Windows NT ACL 权限控制）
-        enable_encrypt: Enable encryption，true：开启；false：关闭
+        enable_encrypt: Enable encryption，true： enable；false： disable
         qos_policy: QoS Policy configuration。 parameter format如下：{
                 qos_switch: QoS开关 (Required)。Options：on, off,
                 name: QoS policy name (可选, 1~63 character, 正则^[a-zA-Z0-9][a-zA-Z0-9_-]*),
@@ -2846,10 +2846,10 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_ops: 读OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         public_network_qos_policy: 公网 QoS Policy configuration。 parameter format如下：{
                         qos_switch: QoS 开关（Required），Options：on、off,
@@ -2864,10 +2864,10 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_ops: 读OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         private_network_qos_policy: 私网 QoS Policy configuration。 parameter format如下：{
                         qos_switch: QoS 开关（Required），Options：on、off,
@@ -2882,10 +2882,10 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_conn_cluster: Max connections (可选),
                 max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
-                read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
-                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_ops: 读OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_ops: 写OPS limit (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                read_mbps: Read bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
+                write_mbps: Write bandwidth limitMbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
         application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
         task_remarks: Async taskRemark
@@ -2953,7 +2953,7 @@ def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: st
     
     Args:
         client: DME API Client
-        namespace_ids: Namespace ID  list（Required），数组最大 100 个，最小 1 个
+        namespace_ids: Namespace ID  list（Required），数组 max 100 个， min 1 个
         task_remarks: Async taskRemark（可选，0~1024  characters）
     
     Returns:
@@ -2988,11 +2988,11 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         client: DME API Client
         page_no: Page queryStart page（可选），min 1，default 1
         page_size: 单页显示的count（可选），1~1000，default 20
-        nfs_share_id: NFS 共享 ID（可选），1~64  characters
+        nfs_share_id: NFS  share ID（可选），1~64  characters
         storage_id: Storage device ID（可选），1~64  characters；如果指定 nfs_share_id，this parameter is invalid
         vstore_id_in_storage: vStore ID（可选），1~256  characters；vStore must be sent in this scenario
         name: Client IP or hostname or netgroup name（可选），1~256  characters；指定 nfs_share_id  condition下支持fuzzy search
-        client_id_in_storage: NFS 共享Client ID（可选），1~256  characters
+        client_id_in_storage: NFS  shareClient ID（可选），1~256  characters
         sort_key: Sort field（可选），Options：raw_id、name
         sort_dir: Sort direction（可选），Options：asc（ascending）、desc（descending），default asc
 
@@ -3045,7 +3045,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         zone_id:  zone 的 ID (1~64 characters, Optional)。When resource scope is global，Zone ID of the device Id；When resource scope is local，Zone ID 为 Zone 的 ID。仅 OceanStor A800 series storage only
         name: DataTurbo Admin名，支持fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (可选)。Options：offline (offline), online (online)
-        lock_status: DataTurbo AdminLock status (可选)。Options：unlocked (未锁定), locked (锁定)
+        lock_status: DataTurbo AdminLock status (可选)。Options：unlocked (未 lock), locked ( lock)
         account_state: DataTurbo Admin密码 status (可选)。Options：normal (normal), expired (密码过期), initial (User password is in initial state，需要modify ), expiring_soon (Password expiring soon), change_required (Must change password on next login), never (Password never expires)
         sort_key: sort by specified field (可选)。Options：create_time
         sort_dir: 指定Sort direction (可选)。Options：asc (ascending), desc (descending)
@@ -3101,7 +3101,7 @@ def account_unix_user_modify(client: DMEAPIClient, id: str, raw_id: int = None,
         description: UNIX user  description (0~255 characters, Optional)
         primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id 都下发仅 primary_group_raw_id 生效)
         primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional。与 primary_group_name 都下发仅 primary_group_raw_id 生效)
-        status_enable: User status (boolean, Optional)。Options：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 series storage only
+        status_enable: User status (boolean, Optional)。Options：true (启用), false ( lock)。仅 OceanStor Pacific 和 OceanStor A310 series storage only
 
     Returns:
         Modification result
@@ -3145,7 +3145,7 @@ def account_unix_user_group_create(client: DMEAPIClient, storage_id: str, name: 
         client: DME API Client
         storage_id: create  UNIX User groupStorage device ID (1~64 characters, Required)
         name: UNIX User group name (1~64 characters, Required)
-        raw_id: UNIX User group ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310 存储Required)
+        raw_id: UNIX User group ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310  storageRequired)
         description: UNIX User group description (0~255 characters, Optional)
         vstore_raw_id: user Tenanton the storage device ID (1~32 characters, Required)
         zone_id:  Zone ID (1~64 characters, Optional。仅 OceanStor A800 storage support)
@@ -3377,7 +3377,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         name: Username称，支持fuzzy search filter (1~256 characters, Optional)
         primary_group_name: 主组 name，支持fuzzy search filter (1~256 characters, Optional)
         raw_id: user on the storage device ID (1~255 characters, Optional)
-        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800 存储下的auth usersupports filtering by this field
+        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800  storage下的auth usersupports filtering by this field
         user_status: User status (可选)。Options：enable (启用), disable (禁用)
         sort_key: sort by specified field (可选)。Options：name (Username), raw_id (user on the storage device ID), primary_group_name (主组名), create_time (Creation time)。Default：create_time
         storage_id: Storage device ID (1~36 characters, Optional)
@@ -3456,13 +3456,13 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         client: DME API Client
         storage_id: create  UNIX user Storage device ID (1~64 characters, Required)
         name: UNIX Username称 (1~64 characters, Required)
-        raw_id: UNIX user  ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310 存储Required)
+        raw_id: UNIX user  ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310  storageRequired)
         description: UNIX user  description (0~255 characters, Optional)
         primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional。与 primary_group_name provide at least one，若都下发仅 primary_group_name 生效)
         primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id provide at least one，若都下发仅 primary_group_name 生效)
         vstore_raw_id: user Tenanton the storage device ID (1~32 characters, Required)
         zone_id:  Zone ID (1~64 characters, Optional。仅 OceanStor A800 storage support)
-        status: User status (boolean, Optional。Default：true)。Options：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 series storage only
+        status: User status (boolean, Optional。Default：true)。Options：true (启用), false ( lock)。仅 OceanStor Pacific 和 OceanStor A310 series storage only
         secondary_group_name_list: user secondary groupName list (List<string>, min array members: 0, max array members: 100, Optional)
 
     Returns:
@@ -3508,7 +3508,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         zone_id:  Zone 的 ID (length is36 characters, Required)
         pool_raw_id: Storage pool在 Zone 上的 ID (1~64 characters, Required)
         vstore_id: 租户 ID (length is32 characters, Required)
-        data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off (关闭)。Default：off
+        data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off ( disable)。Default：off
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
         kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required)。 parameter format如下：[{
                 name: KV Cache 库 name (1~255 characters, Required),
@@ -3551,7 +3551,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
         kv_cache_stores_id: KV Cache 库 ID (1~64 characters, Required)
         name: KV Cache 库 name (1~255 characters, Optional)
         description: Description (0~255 characters, Optional)
-        data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off (关闭)。Default：off
+        data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off ( disable)。Default：off
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
 
     Returns:
@@ -3626,7 +3626,7 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         vstore_name: Tenant name (1~256 characters, Optional)
         fs_id: Filesystem ID (length is32 characters, Optional)
         fs_name: Filesystem name (1~256 characters, Optional)
-        data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off (关闭)
+        data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off ( disable)
         page_no: Page number (int32, 1~10000, Default: 1, Optional)
         page_size: Items per page (int32, 1~100, Default: 20, Optional)
         sort_dir: 指定Sort direction (可选)。Options：asc (ascending), desc (descending)。Default：asc

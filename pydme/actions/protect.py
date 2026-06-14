@@ -181,9 +181,9 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: 待add 到Protection group的 LUN 的 ID  list（Optional），max array members 100，与 hyper_metro 和 rem_reps 的 parameter lun_pairs mutually exclusive；Protection group不存在Active-active、复制、环形 3DC parameter effective when feature
+        lun_ids: 待add 到Protection group的 LUN 的 ID  list（Optional），max array members 100，与 hyper_metro 和 rem_reps 的 parameter lun_pairs mutually exclusive；Protection group不存在Active-active、 replication、环形 3DC parameter effective when feature
         hyper_metro: add  LUN 到有Active-active特性Protection group的请求 parameter（Optional），与 lun_ids  parametermutually exclusive；Protection group存在Active-activeparameter effective when feature。 format：{
-                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接 pauseConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
@@ -194,11 +194,11 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                                 remote_lun_id: remote  LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: add  LUN to replication-capableProtection group的请求 parameter（Optional），max array members 2，与 lun_ids  parametermutually exclusive；Protection group存在复制parameter effective when feature。 format：[{
+        rem_reps: add  LUN to replication-capableProtection group的请求 parameter（Optional），max array members 2，与 lun_ids  parametermutually exclusive；Protection group存在 replicationparameter effective when feature。 format：[{
                         is_delay: Deferred execution（Optional），default true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: remote Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
-                        remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair creation mode为 auto effective when
+                        remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$； replication Pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
                         name_suffix: remote  LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
@@ -238,7 +238,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: 待移除的Protection group成员 LUN 的 ID  list
+        lun_ids: 待移除的Protection group member LUN 的 ID  list
         is_delay: Deferred execution。在Remote replication，Sync + 异步的环形 3DC 情况下，此 parameter无效
 
     Returns:
@@ -504,7 +504,7 @@ def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids:
 
 def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    暂停Active-active consistency group
+     pauseActive-active consistency group
 
     Args:
         client: DME API client
@@ -818,7 +818,7 @@ def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
 
 def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    暂停Active-active Pair
+     pauseActive-active Pair
 
     Args:
         client: DME API client
@@ -920,7 +920,7 @@ def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
 
 
 # ============================================================================
-# replication_pair Subtopic - 复制 Pair operations
+# replication_pair Subtopic -  replication Pair operations
 # ============================================================================
 
 def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -931,15 +931,15 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           remote_vstore_id: str = None, remote_vstore_raw_id: str = None,
                           remote_volume_name: str = None) -> dict:
     """
-    Batch query复制 Pair
+    Batch query replication Pair
 
     Args:
         client: DME API client
         page_no: Page number，default 1
         page_size: Items per page，default 20
-        group_id: 复制Consistency group ID
-        group_name: 复制Consistency group name，supports fuzzy match
-        pair_raw_id: 复制 Pair on the storage device ID
+        group_id:  replicationConsistency group ID
+        group_name:  replicationConsistency group name，supports fuzzy match
+        pair_raw_id:  replication Pair on the storage device ID
         local_storage_id: local Storage device ID
         local_storage_name: local Storage device name，supports fuzzy match
         local_vstore_id: local tenant ID，this parameter and local_vstore_raw_id mutually exclusive
@@ -950,7 +950,7 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         remote_volume_name: remote  LUN  name，supports fuzzy match
 
     Returns:
-        复制 Pair  list
+         replication Pair  list
     """
     url = "/rest/protection/v1/replication/pairs/query"
 
@@ -1078,11 +1078,11 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
                             rep_io_timeout: int = None, sync_snap_policy: str = None,
                             user_snap_retention_num: int = None, switch_to_async: bool = None) -> dict:
     """
-    modify 复制 Pair
+    modify  replication Pair
 
     Args:
         client: DME API client
-        pair_id: 复制 Pair 实例 ID
+        pair_id:  replication Pair 实例 ID
         speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
@@ -1137,7 +1137,7 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
 
     Args:
         client: DME API client
-        ids: 复制 Pair 实例 ID  list
+        ids:  replication Pair 实例 ID  list
         delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，default dual_ends
 
     Returns:
@@ -1164,7 +1164,7 @@ def replication_pair_sync(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API client
-        ids: 复制 Pair ID  list
+        ids:  replication Pair ID  list
 
     Returns:
         {
@@ -1187,7 +1187,7 @@ def replication_pair_split(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API client
-        ids: 复制 Pair ID  list
+        ids:  replication Pair ID  list
 
     Returns:
         {
@@ -1210,7 +1210,7 @@ def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API client
-        ids: 复制 Pair ID  list
+        ids:  replication Pair ID  list
 
     Returns:
         {
@@ -1233,7 +1233,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
 
     Args:
         client: DME API client
-        id: 复制 Pair ID
+        id:  replication Pair ID
         operation_type: Operation type，Optional值：enable (on), disable（取消）
 
     Returns:
@@ -1252,7 +1252,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
 
 
 # ============================================================================
-# device Subtopic - 设备 Pair 和复制链路operations
+# device Subtopic - 设备 Pair 和 replication链路operations
 # ============================================================================
 
 def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
@@ -1300,7 +1300,7 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
 
 
 # ============================================================================
-# snapshot Subtopic - LUN 快照operations
+# snapshot Subtopic - LUN  snapshotoperations
 # ============================================================================
 
 def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: str = None,
@@ -1309,13 +1309,13 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
                   parent_name: str = None, activated_time_from: int = None,
                   activated_time_to: int = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query LUN 快照
+    Batch query LUN  snapshot
 
     Args:
         client: DME API client
-        snapshot_ids: 快照 ID  list
+        snapshot_ids:  snapshot ID  list
         storage_id: Storage device ID
-        raw_id: 快照on the storage device ID
+        raw_id:  snapshoton the storage device ID
         name: Snapshot name，supports fuzzy search
         health_status: Health status，Optional值：normal, fault, write_protected
         running_status: Running status，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
@@ -1323,11 +1323,11 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         parent_name: 父Object name，supports fuzzy search
         activated_time_from: Query activation start time（Unix Timestamp，unit second(s)）
         activated_time_to: Query activation end time（Unix Timestamp，unit second(s)）
-        page_no: Page query开始页，min为 1，Default为 1
+        page_no: Page query start页，min为 1，Default为 1
         page_size: per pagecount，1~1000，default 20
 
     Returns:
-        LUN 快照 list
+        LUN  snapshot list
     """
     url = "/rest/protection/v1/lun-snapshots/query"
 
@@ -1363,11 +1363,11 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
 
 def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activate: bool = None) -> dict:
     """
-    Batch create LUN 快照
+    Batch create LUN  snapshot
 
     Args:
         client: DME API client
-        snapshots_info: LUN 快照create info list，Each item includes name, source_type, source_id
+        snapshots_info: LUN  snapshotcreate info list，Each item includes name, source_type, source_id
         is_consist_activate: Consistency activation，default false
 
     Returns:
@@ -1390,7 +1390,7 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
 
 def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapshots: list) -> dict:
     """
-    批量回滚 LUN 快照
+    批量回滚 LUN  snapshot
 
     Args:
         client: DME API client
@@ -1416,13 +1416,13 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
 def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_lun: bool = None,
                     is_auto_deactivate: bool = None) -> dict:
     """
-    Batch delete LUN 快照
+    Batch delete LUN  snapshot
 
     Args:
         client: DME API client
-        snapshot_ids: 快照 ID  list
+        snapshot_ids:  snapshot ID  list
         is_delete_target_lun: Delete target LUN，default true
-        is_auto_deactivate: Auto before deleteDeactivate快照，default false
+        is_auto_deactivate: Auto before deleteDeactivate snapshot，default false
 
     Returns:
         {
@@ -1513,7 +1513,7 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
                             name_prefix: str = None, name_suffix: str = None,
                             target_snapshot_objects: list = None) -> dict:
     """
-    激活Snapshot consistency group
+     activateSnapshot consistency group
 
     Args:
         client: DME API client
@@ -1523,7 +1523,7 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
         name_rule: Snapshot naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
         name_suffix: Snapshot name suffix
-        target_snapshot_objects: 目标快照object list
+        target_snapshot_objects: 目标 snapshotobject list
 
     Returns:
         {
@@ -1589,7 +1589,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
         name_rule: Snapshot naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
         name_suffix: Snapshot name suffix
-        target_snapshot_objects: 目标快照object list
+        target_snapshot_objects: 目标 snapshotobject list
 
     Returns:
         {
@@ -1745,7 +1745,7 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
 
 
 # ============================================================================
-# replication_group Subtopic - 复制Consistency groupoperations
+# replication_group Subtopic -  replicationConsistency groupoperations
 # ============================================================================
 
 def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_id: str,
@@ -1767,9 +1767,9 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         description: Description
         remote_lun_group_id: remote  LUN 组的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时且local Protection group是基于 LUN 组create 的required when
         local_storage_id: local Storage device ID，当Storage device version不是 OceanStor V6、OceanStor Dorado V6 required when
-        create_mode: 复制 Pair creation mode，Optional值：auto（自动）, manual（手动）
+        create_mode:  replication Pair creation mode，Optional值：auto（自动）, manual（手动）
         existed_pair_ids: Existing replication Pair 的 ID  list
-        lun_pairs: In manual create mode，复制 Pair 的源 LUN、目标 LUN 的 ID  list
+        lun_pairs: In manual create mode， replication Pair 的源 LUN、目标 LUN 的 ID  list
         lun_ids: In auto-create mode，源 LUN 的 ID  list
         remote_storage_pool_id: remote Storage pool ID，effective in auto-create mode
         remote_vstore_id: Remote device tenant ID，effective in auto-create mode
@@ -2191,7 +2191,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
 def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量暂停FilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
+    批量 pauseFilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
 
     Args:
         client: DME API client
@@ -2276,14 +2276,14 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
 
 
 # ============================================================================
-# Filesystem快照 (fs_snapshot) subtopic functions
+# Filesystem snapshot (fs_snapshot) subtopic functions
 # ============================================================================
 
 
 def fs_snapshot_create(client: DMEAPIClient, vstore_pair_id: str,
                         fs_pairs: list) -> dict:
     """
-    create Filesystem快照。
+    create Filesystem snapshot。
 
     Args:
         client: DME API client
@@ -2314,13 +2314,13 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
                       local_fs_name: str = None, local_fs_id: str = None,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch queryFilesystem快照。
+    Batch queryFilesystem snapshot。
 
     Args:
         client: DME API client
         fs_pair_id: Active-active pair ID (Optional, string)
         name: Snapshot name (Optional, string, supports fuzzy search)
-        status: 快照 status (Optional, string)
+        status:  snapshot status (Optional, string)
         local_fs_name: local Filesystem name (Optional, string)
         local_fs_id: local Filesystem ID (Optional, string)
         page_no: Page number (Optional, int32)
@@ -2330,7 +2330,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
         {
             total: Total count (integer),
             snapshots: Filesystem snapshot list。 parameter format如下：[{
-                id: 快照ID (string),
+                id:  snapshotID (string),
                 name: Snapshot name (string),
                 status:  status (string),
             }, ...],
@@ -2359,11 +2359,11 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
 
 def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch deleteFilesystem快照。
+    Batch deleteFilesystem snapshot。
 
     Args:
         client: DME API client
-        ids: 快照ID list (Required, List[string])
+        ids:  snapshotID list (Required, List[string])
 
     Returns:
         {
@@ -2639,7 +2639,7 @@ def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
     """
-    恢复FilesystemActive-active域。
+     resumeFilesystemActive-active域。
 
     Args:
         client: DME API client
@@ -2813,7 +2813,7 @@ ACTIONS = {
     },
     'hypermetro_group_pause': {
         'func': hypermetro_group_pause,
-        'description': '暂停Active-active consistency group',
+        'description': ' pauseActive-active consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
@@ -2862,7 +2862,7 @@ ACTIONS = {
     },
     'hypermetro_pair_pause': {
         'func': hypermetro_pair_pause,
-        'description': '暂停Active-active Pair',
+        'description': ' pauseActive-active Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
@@ -2943,7 +2943,7 @@ ACTIONS = {
     # replication_pair subtopic actions
     'replication_pair_list': {
         'func': replication_pair_list,
-        'description': 'Batch query复制 Pair',
+        'description': 'Batch query replication Pair',
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
         'subtopic': 'replication_pair'
     },
@@ -2955,7 +2955,7 @@ ACTIONS = {
     },
     'replication_pair_modify': {
         'func': replication_pair_modify,
-        'description': 'modify 复制 Pair',
+        'description': 'modify  replication Pair',
         'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async'],
         'subtopic': 'replication_pair'
     },
@@ -3005,25 +3005,25 @@ ACTIONS = {
     # snapshot subtopic actions
     'snapshot_list': {
         'func': snapshot_list,
-        'description': 'Batch query LUN 快照',
+        'description': 'Batch query LUN  snapshot',
         'params': ['snapshot_ids', 'storage_id', 'raw_id', 'name', 'health_status', 'running_status', 'source_lun_name', 'parent_name', 'activated_time_from', 'activated_time_to', 'page_no', 'page_size'],
         'subtopic': 'snapshot'
     },
     'snapshot_create': {
         'func': snapshot_create,
-        'description': 'Batch create LUN 快照',
+        'description': 'Batch create LUN  snapshot',
         'params': ['snapshots_info', 'is_consist_activate'],
         'subtopic': 'snapshot'
     },
     'snapshot_rollback': {
         'func': snapshot_rollback,
-        'description': '批量回滚 LUN 快照',
+        'description': '批量回滚 LUN  snapshot',
         'params': ['rollback_speed', 'rollback_snapshots'],
         'subtopic': 'snapshot'
     },
     'snapshot_delete': {
         'func': snapshot_delete,
-        'description': 'Batch delete LUN 快照',
+        'description': 'Batch delete LUN  snapshot',
         'params': ['snapshot_ids', 'is_delete_target_lun', 'is_auto_deactivate'],
         'subtopic': 'snapshot'
     },
@@ -3042,7 +3042,7 @@ ACTIONS = {
     },
     'snapshot_group_activate': {
         'func': snapshot_group_activate,
-        'description': '激活Snapshot consistency group',
+        'description': ' activateSnapshot consistency group',
         'params': ['snapshot_cg_id', 'object_type', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },
@@ -3092,7 +3092,7 @@ ACTIONS = {
     },
     'filesystem_pair_pause': {
         'func': filesystem_pair_pause,
-        'description': '批量暂停FilesystemActive-active pair',
+        'description': '批量 pauseFilesystemActive-active pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
@@ -3111,19 +3111,19 @@ ACTIONS = {
     # fs_snapshot subtopic actions
     'fs_snapshot_create': {
         'func': fs_snapshot_create,
-        'description': 'create Filesystem快照',
+        'description': 'create Filesystem snapshot',
         'params': ['vstore_pair_id', 'fs_pairs'],
         'subtopic': 'fs_snapshot'
     },
     'fs_snapshot_list': {
         'func': fs_snapshot_list,
-        'description': 'Batch queryFilesystem快照',
+        'description': 'Batch queryFilesystem snapshot',
         'params': ['fs_pair_id', 'name', 'status', 'local_fs_name', 'local_fs_id', 'page_no', 'page_size'],
         'subtopic': 'fs_snapshot'
     },
     'fs_snapshot_delete': {
         'func': fs_snapshot_delete,
-        'description': 'Batch deleteFilesystem快照',
+        'description': 'Batch deleteFilesystem snapshot',
         'params': ['ids'],
         'subtopic': 'fs_snapshot'
     },
@@ -3179,7 +3179,7 @@ ACTIONS = {
     },
     'hypermetro_domain_recover': {
         'func': hypermetro_domain_recover,
-        'description': '恢复FilesystemActive-active域',
+        'description': ' resumeFilesystemActive-active域',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },

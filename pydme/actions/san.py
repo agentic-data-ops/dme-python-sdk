@@ -212,8 +212,8 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         prefetch_value: 预取 policy值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
         tuning: 调优属性 (可选), CustomizeLunTuning object。 parameter format如下：{
                 smart_tier: Data migration policy。Options：no_migration (不迁移), automatic_migration (自动迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。defaultno_migration,
-                deduplication_enabled: Deduplication (仅Thin LUN支持)。Options：true (开启), false (关闭),
-                compression_enabled: Data compression (仅Thin LUN支持)。Options：true (开启), false (关闭),
+                deduplication_enabled: Deduplication (仅Thin LUN支持)。Options：true ( enable), false ( disable),
+                compression_enabled: Data compression (仅Thin LUN支持)。Options：true ( enable), false ( disable),
                 alloction_type: LUNAllocation type。Options：thin, thick,
                 smart_qos: Smart QoSobject。属性 format如下：{
                         max_bandwidth: Max bandwidth (1~999999999Mbit/s; 与min_bandwidth/min_iopsmutually exclusive),
@@ -237,7 +237,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         port_group_raw_id: Port groupon the storage deviceID (1~31 characters; Host or host group does not existMapping relationship时可指定, 存在Mapping relationship时不可指定),
                 },
              }
-        task_remarks: Async taskRemark（可选），最多 1024  characters
+        task_remarks: Async taskRemark（可选）， max 1024  characters
 
     Returns:
         {
@@ -1621,25 +1621,25 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     Args:
         client: DME API Client
         storage_host_group_id: Storage host组 ID (Required)
-        storage_host_id_ids: 存储Host ID list (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
+        storage_host_id_ids:  storageHost ID list (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
         create_storage_host_params: create 新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。 parameter format如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。Options：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip: 主机ip address (可选, 最多127 characters),
-                description: 主机 description (可选, 最多63 characters),
+                ip: 主机ip address (可选,  max127 characters),
+                description: 主机 description (可选,  max63 characters),
                 initiators: Initiator list (可选, max array members: 1000)。 parameter format如下：[{
                         protocol: Initiator type (Required)。Options：fc, iscsi, nvme_over_roce,
                         raw_id: 主机Initiatorwwpn或iqn或nqn (Required, 1~223 characters),
-                        alias: Initiator alias (可选, 最多31 characters),
+                        alias: Initiator alias (可选,  max31 characters),
                      }, ...],
                 multipath: 多路径配置 (可选)。属性 format如下：{
                         multipath_type: Third-party multipath policy (Required)。Options：default (default), third_party (Third-party multipath),
-                        path_type: Initiator路径 type (可选, 开启Third-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: Initiator切换 mode (可选, 开启Third-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
+                        path_type: Initiator路径 type (可选,  enableThird-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
+                        failover_mode: Initiator切换 mode (可选,  enableThird-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (可选, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
-        task_remarks: Async taskRemark (可选, 最多1024 characters)
+        task_remarks: Async taskRemark (可选,  max1024 characters)
 
     Returns:
         task  ID
@@ -1679,7 +1679,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     Args:
         client: DME API Client
         storage_host_group_id: Storage host组 ID（Required，1~64  character）
-        storage_host_ids: hosts to remove ID  list（Required，最多 1000 个）
+        storage_host_ids: hosts to remove ID  list（Required， max 1000 个）
         task_remarks: Task remark(Optional, max 1024  character）
 
     Returns:

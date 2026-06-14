@@ -30,11 +30,11 @@ def lun_create(client: DMEAPIClient, volumes: list,
                 suffix_length: Suffix length rule (1~4,  name长度+后缀长度<=255),
              }, ...]
         service_level_id: Service level ID（Required，0~64  characters）
-        task_remarks: Async task remark（Optional，最多 1024  characters）
+        task_remarks: Async task remark（Optional， max 1024  characters）
         project_id: Project group ID（Optional，0~64  characters）
         availability_zone: Availability zone ID（Optional，0~64  characters）
         scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。 parameter format如下：{
-                affinity: Enable affinity。Optional值：true (开启), false (disabled)。defaultdisabled,
+                affinity: Enable affinity。Optional值：true ( enable), false (disabled)。defaultdisabled,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64 characters),
              }
         mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。 parameter format如下：{
@@ -213,7 +213,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryService level
 
-     queryService level list，支持按 name、项目 ID、可用区、存储 ID filtering and pagination。
+     queryService level list，支持按 name、项目 ID、可用区、 storage ID filtering and pagination。
 
     Args:
         client: DME API client
@@ -306,7 +306,7 @@ def project_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: Project group name（Optional，supports fuzzy search）
-        start: Page number，从 1 开始，default 1
+        start: Page number，从 1  start，default 1
         limit: Page size，1~512，default 20
 
     Returns:

@@ -78,7 +78,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 ports 字段
+        }，includes  total 和 ports  field
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/ports/query"
     
@@ -111,7 +111,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 controllers 字段
+        }，includes  total 和 controllers  field
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/controllers/query"
     
@@ -141,7 +141,7 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 fabrics 字段
+        }，includes  total 和 fabrics  field
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/list"
     
@@ -171,7 +171,7 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 ports 字段
+        }，includes  total 和 ports  field
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/ports/list"
     
@@ -227,7 +227,7 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 vsans 字段
+        }，includes  total 和 vsans  field
     """
     url = "/rest/fcswitchmgmt/v1/vsans/query"
     
@@ -258,7 +258,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         cfg_name:  CFG  name（Optional），supports fuzzy search，0~1024  characters
         zone_set:  Zone 集合（Optional），supports fuzzy search，0~1024  characters
         active_status: Zone status list（Optional），max array members：2
-        member_count: 成员count（Optional），0~2147483647
+        member_count:  membercount（Optional），0~2147483647
         sort_key: Sort field（Optional），支持 member_count
         sort_dir: Sort direction（Optional），asc：ascending；desc：descending
         page_no: Page number（Optional），1~65535
@@ -267,7 +267,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 zones 字段
+        }，includes  total 和 zones  field
     """
     url = "/rest/fcswitchmgmt/v1/zones/list"
 
@@ -430,7 +430,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
     Args:
         client: DME API client
-        is_active_zone: 是否激活 Zone（Required，string "true" 或 "false"）
+        is_active_zone: 是否 activate Zone（Required，string "true" 或 "false"）
         zones: Zone 配置 list，each element should contain:
             - fabric_wwn: Fibre Channel network WWN（Required）
             - name: Zone  name（Required）
@@ -459,14 +459,14 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
 def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> dict:
     """
-     query zone 的成员
+     query zone 的 member
 
      query Zone members contained in，支持Port member、WWN members and alias members。
 
     Args:
         client: DME API client
         zone_id: Zone ID（Required）
-        type: Member type，Optional值：port（Port member）,wwn（WWN 成员）,alias（别名成员）。
+        type: Member type，Optional值：port（Port member）,wwn（WWN  member）,alias（别名 member）。
              returns all member types if not specified
 
     Returns:
@@ -528,7 +528,7 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  total 和 aliases 字段
+        }，includes  total 和 aliases  field
     """
     url = "/rest/fcswitchmgmt/v1/aliases/list"
     
@@ -556,7 +556,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         name: Alias  name（Required）
         fabric_wwn: Fibre Channel network WWN（ conditionRequired，fabric Alias creation requires）
         vsan_wwn: VSAN WWN（ conditionRequired，vsan Alias creation requires）
-        wwn_members: WWN Member list（Optional，思科Switch PWWN 成员）
+        wwn_members: WWN Member list（Optional，思科Switch PWWN  member）
         port_members: Port member list（Optional）
         fwwn_members: FWWN Member list（Optional）
         fcid_members: FCID Member list（Optional）
@@ -664,12 +664,12 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     """
     Query alias members
 
-     query Alias members contained in，支持 queryPort member和 WWN 成员。
+     query Alias members contained in，支持 queryPort member和 WWN  member。
 
     Args:
         client: DME API client
         alias_id: Alias ID（Required）
-        type: Member type，Optional值：port（Port member）,wwn（WWN 成员）。
+        type: Member type，Optional值：port（Port member）,wwn（WWN  member）。
              returns all member types if not specified
 
     Returns:
@@ -690,7 +690,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     if type is None or type == 'wwn':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/wwn-members/list"
         response = client.get(url, params={"alias_id": alias_id})
-        # API 返回字段为 wwn_member（单数）
+        # API 返回 field为 wwn_member（单数）
         if response.get('wwn_member'):
             result['wwn_members'] = response.get('wwn_member')
 
@@ -787,7 +787,7 @@ ACTIONS = {
     },
     'zone_show_members': {
         'func': zone_show_members,
-        'description': ' query zone 的成员',
+        'description': ' query zone 的 member',
         'params': ['zone_id', 'type'],
         'subtopic': 'zone'
     },
