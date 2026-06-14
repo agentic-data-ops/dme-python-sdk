@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: Password reset requiredUsername (Required, string, 1~128 characters)
-        new_value:  New password (Required, string, 8~32 characters). 要求: 1. Password length cannot be less than8 characters, greater thann32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
+        new_value:  New password (Required, string, 8~32 characters). Requirements: 1. Password length must not be less than8 characters, and not greater than 32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false). true: Must perform initial password change on next login; false: Direct login next time, No initial modification required. Default: true
 
     Returns:
@@ -113,11 +113,11 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: Username (Required, string,  max 32 characters). Local username cannot be less than6 characters, greater thann32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, greater thann32 characters, Cannot contain invisible characters;特殊 character. 
+        name: Username (Required, string,  max 32 characters). Local username cannot be less than6 characters, and not greater than 32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, and not greater than 32 characters, Cannot contain invisible characters;特殊 character. 
         type: User type (Required, integer, N/A). 0: Local user; 2: Remote user. 
-        value: 密码 (Optional, string, 8~32 characters). Password length cannot be less than8 characters, greater thann32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
+        value: Password (Optional, string, 8~32 characters). Password length cannot be less than8 characters, and not greater than 32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
         description:  description (Optional, string,  max127 characters)
-        roles: User role (Optional, List[integer], max array members: 10). 如Administrators,  northboundUser group, 安全Admin组, FilesystemGroup or custom user role. 
+        roles: User role (Optional, List[integer], max array members: 10). E.g., Administrators, northbound user group, security admin group, filesystemGroup or custom user role. 
 
     Returns:
         N/A
@@ -126,7 +126,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     # Parameter validation
     if not name:
-        raise ValueError("name 是required parameter")
+        raise ValueError("name is required")
 
     payload = {
         'name': name,
@@ -151,7 +151,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
     Args:
         client: DME API client
-        page_no: 页数 (Required, integer, min: 1). Default: 1
+        page_no: Page number (Required, integer, min: 1). Default: 1
         page_size: Page size (Required, integer, 5~200). Default: 10
         name: UsernameSearch keyword (Optional, string,  max 32 characters)
 
@@ -162,7 +162,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
                 id: user ID (integer, 1~2147483647),
                 name: Username (string, 6~32 characters),
                 description:  description (string,  max127 characters),
-                type: User type (integer). Optional值: 0 (Local user), 1 (Third-party system access user), 2 (Remote user),
+                type: User type (integer). Options: 0 (Local user), 1 (Third-party system access user), 2 (Remote user),
                 roles:  roleID list (List<integer>, max array members: 50),
             }, ...]
         }
@@ -184,7 +184,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
     Args:
         client: DME API client
-        page_no: 页数 (Required, integer, min: 1). Default: 1
+        page_no: Page number (Required, integer, min: 1). Default: 1
         page_size: Page size (Required, integer, 5~100). Default: 10
         name: Role name search keyword (Optional, string,  max64 characters)
 
@@ -220,7 +220,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
         {
             id: user ID (integer, 1~2147483647),
             name: Username (string,  max 32 characters),
-            type: User type (integer). Optional值: 0 (Local user), 1 (Third-party system access user), 2 (Remote user),
+            type: User type (integer). Options: 0 (Local user), 1 (Third-party system access user), 2 (Remote user),
             description:  description (string,  max127 characters),
             roles: User role (List<integer>, max array members: 50),
         }
@@ -245,7 +245,7 @@ def show(client: DMEAPIClient) -> dict:
     Returns:
         {
             version: DME productVersion info (string,  max128 characters),
-            sn: DME productSN号 (string,  max64 characters),
+            sn: DME product serial number (string,  max64 characters),
         }
     """
     url = "/rest/productmgmt/v1/system-info"
@@ -256,22 +256,22 @@ def show(client: DMEAPIClient) -> dict:
 
 def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dict:
     """
-    getDME证书. 
+    Get DME certificate. 
 
     Args:
         client: DME API client
-        service_type: Service type (Required, string). Optional值: APIGWService (DMENorthbound gateway)
+        service_type: Service type (Required, string). Options: APIGWService (DME northbound gateway)
 
     Returns:
         {
-            cert: 证书 fileBase64编码string (string),
+            cert: Certificate file Base64-encoded string (string),
         }
     """
     url = "/rest/certmgmt/v1/certs"
 
     # Parameter validation
     if service_type not in ["APIGWService"]:
-        raise ValueError(f"service_type Optional值: APIGWService")
+        raise ValueError("service_type options: APIGWService")
 
     response = client.get(url, params={'service_type': service_type})
     return response
@@ -330,24 +330,24 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         client: DME API client
         group_id: Pending task group ID (Optional) 
         name: Pending task group name (Optional) 
-        creator_name: create 人 name (Optional) 
+        creator_name: Creator name (Optional) 
         is_finished:  whetherCompleted (Optional) 
         is_group: Group task (Optional) 
         start: paginationStart position (Optional, 0~10000000) 
         limit: paginationcount (Optional, 1~1000) 
-        status: Pending task groupstatus list (Optional, 1-Pending/2-Executing/3-Completed/4-已 disable) 
-        todo_item_status: Pending item status list (Optional, 0- pending confirm/1-未 completed/2-Executing/3-Completed) 
+        status: Pending task group status list (Optional, 1-Pending, 2-Executing, 3-Completed, 4-Disabled) 
+        todo_item_status: Pending item status list (Optional, 0-Pending confirm, 1-Incomplete, 2-Executing, 3-Completed) 
         start_time_from: Start time start value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
-        start_time_to: Start time end值 (Optional,  format: yyyy-MM-dd HH:mm:ss) 
+        start_time_to: Start time end value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
         end_time_from: End time start value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
-        end_time_to: End time end值 (Optional,  format: yyyy-MM-dd HH:mm:ss) 
+        end_time_to: End time end value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
         sort_key: Sort field (Optional) 
         sort_dir: Sort method (Optional, asc/desc) 
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes Pending task group list和Total count
+        }, includes pending task group list and total count
     """
     url = "/rest/taskmgmt/v1/todo-groups"
 
