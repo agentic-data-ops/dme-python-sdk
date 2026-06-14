@@ -21,9 +21,9 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         client: DME API client
         site_id: 虚拟机所属站点 ID
         cluster_id: 虚拟机所属集群 ID（HCS 场景不支持）
-        dc_id: 数据中心 ID（仅 FusionCompute 场景支持）
+        dc_id: Data center ID（仅 FusionCompute 场景支持）
         cluster_name: 虚拟机所属集群名称（supports fuzzy search，HCS 场景不支持）
-        host_id: 虚拟机所属物理主机唯一标识
+        host_id: 虚拟机所属Physical host唯一标识
         host_name: 虚拟机所属Host name（supports fuzzy search）
         name: 虚拟机名称（supports fuzzy search）
         ip_address: 虚拟机 IP 地址（supports fuzzy search）
@@ -134,7 +134,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         site_id: 数据存储所在的站点 ID
         cluster_id: 数据存储所关联的集群 ID
         host_id: 数据存储所关联的主机 ID
-        dc_id: 数据存储所在数据中心 ID
+        dc_id: 数据存储所在Data center ID
         name: 数据存储名称（supports fuzzy search）
         status: 数据存储状态列表
                 取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
@@ -144,7 +144,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: 是否支持精简模式（仅 FusionCompute 场景支持）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: 数据存储所属的 vCenter 数据中心 ID（仅 vCenter 场景支持）
+        datacenter_id: 数据存储所属的 vCenter Data center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），默认 asc
         page_no: 分页查询的Start page，默认 1
@@ -220,13 +220,13 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     """
     查询主机列表
     
-    查询物理主机列表，支持多种过滤条件。
+    查询Physical host列表，支持多种过滤条件。
     
     Args:
         client: DME API client
         site_id: 主机所属站点 ID
         cluster_id: 主机所属集群 ID
-        dc_id: 数据中心 ID
+        dc_id: Data center ID
         host_name: Host name（supports fuzzy search）
         ip_address: 主机 IP 地址
         status: 主机状态列表
@@ -269,7 +269,7 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
     Query主机详情
     
-    查询物理主机的Details。
+    查询Physical host的Details。
     
     Args:
         client: DME API client
@@ -298,7 +298,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     Args:
         client: DME API client
         site_id: 集群所属站点 ID
-        dc_id: 数据中心 ID
+        dc_id: Data center ID
         name: 集群名称（supports fuzzy search）
         vr_type: Virtualization platform type
         page_no: 分页查询的Start page，默认 1
@@ -398,7 +398,7 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
     Query主机存储适配器列表
     
-    查询物理主机的存储适配器列表。
+    查询Physical host的存储适配器列表。
     
     Args:
         client: DME API client

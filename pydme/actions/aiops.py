@@ -189,7 +189,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         severity: Alarm severity列表,取值:critical, major, minor, warning, indeterminate, cleared
         mo_dn: 被管理object DN,支持 inc 操作符匹配
         alarm_group_id: 告警组 ID
-        dc_id: 数据中心 ID
+        dc_id: Data center ID
         product_name: 产品名称
         alarm_name: Alarm name,supports fuzzy match
         occur_utc_start: 告警发生开始时间(毫second(s)时间戳)
@@ -346,21 +346,21 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         object_ids: 入口分析object ID 列表(Required),数组大小:1~50
         object_type: 入口Object type(Required),取值范围:
             - VM: 虚拟机
-            - STORAGE_HOST: 存储主机
-            - STORAGE_DEVICE: 存储设备
+            - STORAGE_HOST: Storage host
+            - STORAGE_DEVICE: Storage device
             - LUN: LUN
-            - FILE_SYSTEM: 文件系统
+            - FILE_SYSTEM: Filesystem
             - VBS_CLIENT: VBS 客户端
-            - DATATURBO: 并行客户端
-            - STORAGE_POOL: 存储池
+            - DATATURBO: DPC
+            - STORAGE_POOL: Storage pool
             - IP_CLIENT: IP 客户端
-            - HOST_GROUP: 存储主机组
+            - HOST_GROUP: Storage host组
             - FC_PORT: FC 端口
             - ETH_PORT: 以太端口
             - LUN_GROUP: LUN 组
-            - LOGIC_PORT: 逻辑端口
+            - LOGIC_PORT: Logic port
             - CONTROLLER: 控制器
-            - NAMESPACE: 命名空间
+            - NAMESPACE: Namespace
         begin_time: 分析开始时间(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
         end_time: 分析结束时间(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点
                   分析时间间隔范围必须大于 30 minute(s),小于 24 hour(s)
@@ -657,11 +657,11 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
     Args:
         client: DME API client
         object_type: Object type（Required）
-                    Optional值：storage（存储设备）, storage_pool（存储池）, storage_host（存储主机）,
+                    Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
                            storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤交换机端口）,
-                           storage_file_system（文件系统）, controller（控制器）, replication_cg（远程复制一致性组）,
-                           volume（LUN）, tier（服务等级）, datastore（数据存储）, virtual_machine（虚拟机）,
-                           storage_name_space（命名空间）, storage_node（存储节点）, dpc（并行客户端）
+                           storage_file_system（Filesystem）, controller（控制器）, replication_cg（远程复制Consistency group）,
+                           volume（LUN）, tier（Service level）, datastore（数据存储）, virtual_machine（虚拟机）,
+                           storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
         object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
         page_no: 分页查询的Start position（Optional，min：1）
@@ -813,7 +813,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         sort_dir: 排序方式（asc-正序，desc-降序）
         administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
-        object_category: object分类（Storage-存储设备，IPSwitch-以太网交换机，FCSwitch-光纤交换机，
+        object_category: object分类（Storage-Storage device，IPSwitch-以太网交换机，FCSwitch-光纤交换机，
                        Virtualization-虚拟化，Server-服务器，HCI-超融合，Client-客户端）
 
     Returns:
@@ -1059,15 +1059,15 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
         client: DME API client
         entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - host: 主机
-            - storage: 存储设备
+            - storage: Storage device
             - host_group: 主机组
             - lun: LUN
             - vm: 虚拟机
             - datastore: 数据存储
             - application: 应用
             - switch_port: 交换机端口
-            - storage_pool: 存储池
-        storage_pool_id: 存储池 ID（Required）
+            - storage_pool: Storage pool
+        storage_pool_id: Storage pool ID（Required）
         lun_name: LUN 名称，supports fuzzy match
         san_type: SAN 类型，Optional值：ip_san, fc_san
         page_size: Items per page，1~20，默认 20
@@ -1108,21 +1108,21 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     r"""
     查询 SAN 路径拓扑结构
 
-    根据指定入口object查询 SAN 网络中从主机到存储池之间的拓扑结构。
+    根据指定入口object查询 SAN 网络中从主机到Storage pool之间的拓扑结构。
     支持 IP_SAN 和 FC_SAN 两种类型。
 
     Args:
         client: DME API client
         entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - host: 主机
-            - storage: 存储设备
+            - storage: Storage device
             - lun: LUN
             - host_group: 主机组
             - vm: 虚拟机
             - datastore: 数据存储（仅 FC_SAN）
             - application: 应用（仅 FC_SAN）
             - switch_port: 交换机端口（仅 FC_SAN）
-            - storage_pool: 存储池
+            - storage_pool: Storage pool
         san_type: SAN 类型（Optional），Optional值：ip_san, fc_san
                   - 不指定时，同时调用 IP_SAN 和 FC_SAN 两个 API，组合返回数据
                   - 指定为 ip_san 时，仅调用 IP_SAN API
@@ -1131,7 +1131,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含主机到存储池的拓扑结构：
+        }，包含主机到Storage pool的拓扑结构：
         - ip_san 数据：
           - switches: Switch list
           - hosts: 主机列表
@@ -1202,11 +1202,11 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
             - vm: 虚拟机
             - host_group: 主机组
             - host: 主机
-            - storage: 存储设备
+            - storage: Storage device
             - lun: LUN
             - datastore: 数据存储
             - switch_port: 交换机端口
-            - storage_pool: 存储池
+            - storage_pool: Storage pool
         host_id: 主机 ID（Required）
         vm_name: 虚拟机名称搜索参数，supports fuzzy match
         page_size: Items per page，1~20，默认 20
@@ -1218,7 +1218,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
         }，包含：
         - total: Query resultTotal count
         - vms: VM list
-        - disks: 物理主机关联的物理磁盘列表
+        - disks: Physical host关联的物理磁盘列表
     """
     url = "/rest/topomgmt/v1/topo-data/vms/query"
 
@@ -1253,15 +1253,15 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     Args:
         client: DME API client
         entry_res_type: 入口Resource type（Required），支持类型：
-            - storage_device: 存储设备
+            - storage_device: Storage device
             - disk: 磁盘
-            - storage_pool: 存储池
+            - storage_pool: Storage pool
             - hyper_scale_pool: 超大规模池
-            - file_system: 文件系统
+            - file_system: Filesystem
             - controller: 控制器
             - eth_port: 以太网端口
             - ib_port: InfiniBand 端口
-            - logic_port: 逻辑端口
+            - logic_port: Logic port
             - ip_client: IP 客户端
             - dtree: Dtree
             - lun: LUN

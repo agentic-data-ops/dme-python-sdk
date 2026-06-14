@@ -86,12 +86,12 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     """
     查询Pod list
     
-    查询容器组（Pod）列表，支持按集群 ID、命名空间和名称过滤。
+    查询容器组（Pod）列表，支持按集群 ID、Namespace和名称过滤。
     
     Args:
         client: DME API client
         cluster_id: 容器集群 ID（Optional）
-        namespace: 容器命名空间（Optional）
+        namespace: 容器Namespace（Optional）
         name: 容器组名称（Optional，supports fuzzy search）
         page_no: 分页查询的Start page，默认 1
         page_size: 每页count，1~1000，默认 20
@@ -126,7 +126,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
 def namespace_list(client: DMEAPIClient, cluster_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器命名空间列表
+    查询容器Namespace列表
     
     Args:
         client: DME API client
@@ -137,7 +137,7 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            namespaces: 命名空间列表 (List<string>),
+            namespaces: Namespace列表 (List<string>),
         }
     """
     url = "/rest/dmecaasmgmt/v1/namespaces/query-list"
@@ -165,7 +165,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
     Args:
         client: DME API client
         cluster_id: 容器集群 ID（Optional）
-        namespace: 容器命名空间（Optional）
+        namespace: 容器Namespace（Optional）
         name: 持久卷声明名称（Optional，supports fuzzy search）
         page_no: 分页查询的Start page，默认 1
         page_size: 每页count，1~1000，默认 20
@@ -259,10 +259,10 @@ ACTIONS = {
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },
-    # 命名空间管理
+    # Namespace管理
     'namespace_list': {
         'func': namespace_list,
-        'description': '查询容器命名空间列表',
+        'description': '查询容器Namespace列表',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },

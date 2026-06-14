@@ -117,7 +117,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
         value: 密码 (Optional, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符。远端用户不涉及。
         description: 描述 (Optional, string, 最多127个字符)
-        roles: 用户所属角色 (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
+        roles: 用户所属角色 (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，Filesystem组或用户自定义角色。
 
     Returns:
         无
@@ -995,24 +995,24 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
 def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = None,
          start: int = 1, limit: int = 512, is_sc: bool = False) -> dict:
     """
-    Batch query可用分区。
+    Batch queryAvailability zone。
 
     Args:
         client: DME API client
-        az_name: 可用分区名称，supports fuzzy match (Optional, string, 1~64个字符)
-        operate_status: 可用分区运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (Optional, string, 1~16个字符)
+        az_name: Availability zone名称，supports fuzzy match (Optional, string, 1~64个字符)
+        operate_status: Availability zone运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (Optional, string, 1~16个字符)
         start: 分页的页号，从1开始 (Optional, int32, 1~10000000)。Default：1
         limit: 分页的大小 (Optional, int32, 1~512)。Default：512
         is_sc: 是否运营侧查询 (Optional, boolean, true,false)。Default：false
 
     Returns:
         {
-            total: 可用分区Total count (integer),
+            total: Availability zoneTotal count (integer),
             az_list: Availability zone list (List<GetAzResponse>)。参数格式如下：[{
-                id: 可用分区id (string),
-                name: 可用分区名称 (string),
-                description: 可用分区描述 (string),
-                operate_status: 可用分区的运营状态 (string)。Default：offline,
+                id: Availability zoneid (string),
+                name: Availability zone名称 (string),
+                description: Availability zone描述 (string),
+                operate_status: Availability zone的运营状态 (string)。Default：offline,
                 site_urn: 站点urn (string, 1~64个字符),
             }, ...]
         }
@@ -1035,14 +1035,14 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     return response
 
 
-# ==================== 数据中心管理（dc 子主题） ====================
+# ==================== Data center管理（dc 子主题） ====================
 
 def dc_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
     """
-    获取数据中心列表
+    获取Data center列表
     
-    查询数据中心列表，支持按名称过滤和分页。
+    查询Data center列表，支持按名称过滤和分页。
     
     Args:
         client: DME API client
@@ -1071,16 +1071,16 @@ def dc_list(client: DMEAPIClient, name: str = None,
 
 def dc_show(client: DMEAPIClient, dc_id: str) -> dict:
     """
-    获取数据中心详情
+    获取Data center详情
     
-    Query数据中心的Details。
+    QueryData center的Details。
     
     Args:
         client: DME API client
-        dc_id: 数据中心 ID（Required）
+        dc_id: Data center ID（Required）
     
     Returns:
-        数据中心Details
+        Data centerDetails
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/{dc_id}"
     
@@ -1092,11 +1092,11 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
                  device_type: list = None, page_no: int = 1,
                  page_size: int = 20) -> dict:
     """
-    Query数据中心的设备列表信息
+    QueryData center的设备列表信息
     
     Args:
         client: DME API client
-        dc_id: 数据中心 ID（Required）
+        dc_id: Data center ID（Required）
         device_type: 设备类型列表（Optional）
                      取值：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
@@ -1436,26 +1436,26 @@ ACTIONS = {
     # 子主题动作 - az (three-level structure)
     'az_list': {
         'func': az_list,
-        'description': 'Batch query可用分区',
+        'description': 'Batch queryAvailability zone',
         'params': ['az_name', 'operate_status', 'start', 'limit', 'is_sc'],
         'subtopic': 'az'
     },
     # 子主题动作 - dc (three-level structure)
     'dc_list': {
         'func': dc_list,
-        'description': '获取数据中心列表',
+        'description': '获取Data center列表',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
     'dc_show': {
         'func': dc_show,
-        'description': '获取数据中心详情',
+        'description': '获取Data center详情',
         'params': ['dc_id'],
         'subtopic': 'dc'
     },
     'dc_show_devices': {
         'func': dc_show_devices,
-        'description': 'Query数据中心的设备列表信息',
+        'description': 'QueryData center的设备列表信息',
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
