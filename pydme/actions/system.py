@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: Business type (Required, wfa_execute_activity- auto orchestration) 
-        status: Pending item status list (Optional, 1-Not executed/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure) 
+        status: Pending item status list (Optional, 1-Not executed/2-Executing/3-Success/4-partial success/5-Failure/6-Timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure) 
         page_no: Page index (Optional, default 1) 
         page_size: per pagecount (Optional, 1~10, default 10) 
 
