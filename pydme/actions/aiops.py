@@ -187,7 +187,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         client: DME API client
         alarm_id: 告警 ID,supports fuzzy match
         severity: Alarm severity列表,取值:critical, major, minor, warning, indeterminate, cleared
-        mo_dn: 被管理对象 DN,支持 inc 操作符匹配
+        mo_dn: 被管理object DN,支持 inc 操作符匹配
         alarm_group_id: 告警组 ID
         dc_id: 数据中心 ID
         product_name: 产品名称
@@ -343,7 +343,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
 
     Args:
         client: DME API client
-        object_ids: 入口分析对象 ID 列表(Required),数组大小:1~50
+        object_ids: 入口分析object ID 列表(Required),数组大小:1~50
         object_type: 入口Object type(Required),取值范围:
             - VM: 虚拟机
             - STORAGE_HOST: 存储主机
@@ -411,14 +411,14 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     创建性能文件收集任务
 
     收集范围为开始日期到结束日期的性能文件,只支持收集 7 天内的数据,
-    每次传入的对象乘以指标数不超过 2000.
+    每次传入的object乘以指标数不超过 2000.
 
     Args:
         client: DME API client
         begin_time: 开始时间(Required,Unix 时间戳毫秒)
         end_time: 结束时间(Required,Unix 时间戳毫秒)
         object_type_id: Object type ID(Required,1~32 个字符)
-        object_ids: 对象 ID 列表(Required,最多 2000 个,ID 长度 1~32 位)
+        object_ids: object ID 列表(Required,最多 2000 个,ID 长度 1~32 位)
         indicator_ids: 指标 ID 列表(Required,最多 20 个,ID 长度 1~16 位)
 
     Returns:
@@ -468,7 +468,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
 
     使用说明:
     - Object type和指标定义:从Performance metrics模型文档获取 (reference/dme_performance_model/index.md)
-    - 对象 ID (CMDB 实例 ID) 获取步骤:
+    - object ID (CMDB 实例 ID) 获取步骤:
       1. 运行 `cmdb instance list --help` 查看帮助,了解类定义和查询方式
       2. 根据帮助信息,从 CMDB 资源模型中确定要查询的Resource type (Class 名称)
       3. 使用 `cmdb instance list --class_name <Class 名称>` 查询实例列表
@@ -480,7 +480,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                      从Performance metrics模型文档获取:reference/dme_performance_model/index.md
         indicator_ids: 监控指标标识列表(Required,最多 100 个),对应指标 ID
                        从Performance metrics模型文档获取:reference/dme_performance_model/index.md
-        obj_ids: 监控对象标识列表(Required,最多 512 个),对应 CMDB 实例 ID
+        obj_ids: 监控object标识列表(Required,最多 512 个),对应 CMDB 实例 ID
                  获取方式:
                  1. 运行 `cmdb instance list --help` 查看帮助,了解类定义
                  2. 根据帮助确定要查询的Resource type (Class 名称)
@@ -536,19 +536,19 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
     Args:
         client: DME API client
-        indicators: 监控对象指标标识列表(Required,最多 1000 个字符)
-                   可以是整数列表或字符串列表,如 [123, 456] 或 ["123", "456"]
+        indicators: 监控object指标标识列表(Required,最多 1000 个字符)
+                   可以是integer列表或string列表,如 [123, 456] 或 ["123", "456"]
 
     Returns:
         监控指标信息,包含 kpi, data_type, data_unit, en_us, zh_cn 等字段
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
-    # 确保 indicators 是整数列表
+    # 确保 indicators 是integer列表
     if indicators:
         indicators = [int(i) for i in indicators]
 
-    # API 要求直接传递数组,而不是对象
+    # API 要求直接传递数组,而不是object
     response = client.post(url, body=indicators)
     return response
 
@@ -650,9 +650,9 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                       object_ids: list = None, page_no: int = None, page_size: int = None,
                       sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    查询对象健康度
+    查询object健康度
 
-    Query类型对象的健康度信息。
+    Query类型object的健康度信息。
 
     Args:
         client: DME API client
@@ -663,7 +663,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            volume（LUN）, tier（服务等级）, datastore（数据存储）, virtual_machine（虚拟机）,
                            storage_name_space（命名空间）, storage_node（存储节点）, dpc（并行客户端）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
-        object_ids: 对象 resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
+        object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
         page_no: 分页查询的起始位置（Optional，最小值：1）
         page_size: 每页显示的数量（Optional，1~100，默认 20）
         sort_key: 排序字段（Optional），按分数进行排序，Optional值：health_score
@@ -672,7 +672,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含对象健康度列表
+        }，包含object健康度列表
     """
     url = "/rest/healthmgmt/v1/health-result/query"
 
@@ -702,11 +702,11 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
     """
     查询健康维度的扣分详情
 
-    Query对象在指定健康维度下的扣分详情。
+    Queryobject在指定健康维度下的扣分详情。
 
     Args:
         client: DME API client
-        object_id: 对象 Id（Required，1~128 个字符）
+        object_id: object Id（Required，1~128 个字符）
         object_type: Object type（Required）
                     Optional值：storage, storage_pool, storage_host, storage_disk, storage_port,
                            fcswitch_port, storage_file_system, controller, replication_cg, volume,
@@ -809,11 +809,11 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
         page_no: 分页查询的页码，1~1000，默认 1
         page_size: 分页查询的个数，1~100，默认 20
-        sort_key: 排序字段（last_check_time-最后检查时间，failed_count-检查不通过的对象个数）
+        sort_key: 排序字段（last_check_time-最后检查时间，failed_count-检查不通过的object个数）
         sort_dir: 排序方式（asc-正序，desc-降序）
         administrative_status: 管理状态（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
-        object_category: 对象分类（Storage-存储设备，IPSwitch-以太网交换机，FCSwitch-光纤交换机，
+        object_category: object分类（Storage-存储设备，IPSwitch-以太网交换机，FCSwitch-光纤交换机，
                        Virtualization-虚拟化，Server-服务器，HCI-超融合，Client-客户端）
 
     Returns:
@@ -962,8 +962,8 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         client: DME API client
         object_name: Object name（supports fuzzy search，1~256 个字符）
         level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
-        object_ids: 对象 ID 列表（最多 100 个）
-        object_native_id: 对象 nativeId（1~384 个字符）
+        object_ids: object ID 列表（最多 100 个）
+        object_native_id: object nativeId（1~384 个字符）
         object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
         policy_id: 策略 ID（精确查询，1~64 个字符）
         policy_name: 策略名称（supports fuzzy search，1~256 个字符）
@@ -1053,11 +1053,11 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
     r"""
     查询拓扑图 Lun 列表
 
-    根据指定入口对象查询拓扑图中的 LUN 列表。
+    根据指定入口object查询拓扑图中的 LUN 列表。
 
     Args:
         client: DME API client
-        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
+        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - host: 主机
             - storage: 存储设备
             - host_group: 主机组
@@ -1108,12 +1108,12 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     r"""
     查询 SAN 路径拓扑结构
 
-    根据指定入口对象查询 SAN 网络中从主机到存储池之间的拓扑结构。
+    根据指定入口object查询 SAN 网络中从主机到存储池之间的拓扑结构。
     支持 IP_SAN 和 FC_SAN 两种类型。
 
     Args:
         client: DME API client
-        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
+        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - host: 主机
             - storage: 存储设备
             - lun: LUN
@@ -1193,12 +1193,12 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     r"""
     查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表
 
-    根据指定入口对象查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
+    根据指定入口object查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
     或者查询 BMS（裸金属服务器）下的物理磁盘列表。
 
     Args:
         client: DME API client
-        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
+        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - vm: 虚拟机
             - host_group: 主机组
             - host: 主机
@@ -1469,7 +1469,7 @@ ACTIONS = {
     },
     'health_show_score': {
         'func': health_show_score,
-        'description': '查询对象健康度',
+        'description': '查询object健康度',
         'params': ['object_type', 'object_name', 'object_ids', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'health'
     },

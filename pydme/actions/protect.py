@@ -29,8 +29,8 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
         storage_id: Storage device ID，支持条件过滤
         raw_id: 保护组在设备上的 ID，支持精确搜索，支持排序
         lun_group_raw_id: LUN 组在设备上的 ID，支持条件过滤
-        vstore_id: 所属租户的 ID，该参数和 vstore_raw_id 互斥
-        vstore_raw_id: 所属租户在设备上的 ID，该参数和 vstore_id 互斥
+        vstore_id: 所属租户的 ID，该参数和 vstore_raw_id mutually exclusive
+        vstore_raw_id: 所属租户在设备上的 ID，该参数和 vstore_id mutually exclusive
         sort_key: 排序字段，Optional值：sort_id
         sort_dir: 排序方向，Optional值：asc, desc（默认 desc）
         page_no: 分页查询页码，默认 1
@@ -181,20 +181,20 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     Args:
         client: DME API client
         pg_id: 保护组 ID
-        lun_ids: 待添加到保护组的 LUN 的 ID 列表（Optional），数组最大成员个数 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs 互斥；保护组不存在双活、复制、环形 3DC 特性时此参数有效
-        hyper_metro: 添加 LUN 到有双活特性保护组的请求参数（Optional），与 lun_ids 参数互斥；保护组存在双活特性时此参数有效。格式：{
+        lun_ids: 待添加到保护组的 LUN 的 ID 列表（Optional），max array members 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs mutually exclusive；保护组不存在双活、复制、环形 3DC 特性时此参数有效
+        hyper_metro: 添加 LUN 到有双活特性保护组的请求参数（Optional），与 lun_ids 参数mutually exclusive；保护组存在双活特性时此参数有效。格式：{
                         is_delay: 是否延迟执行（Required），true：是；false：否；当延迟执行为 true 时：若一致性组或新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入一致性组；当延迟执行为 false 时：若一致性组或新 Pair 处于"正在同步"状态，将直接暂停一致性组和新 Pair，将新 Pair 加入一致性组，再同步一致性组
                         create_mode: 双活 Pair 的创建模式（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_pool_id: 远端存储池 ID（Optional），1~32 个字符，正则 ^[a-fA-F0-9]+$；双活 Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
-                        lun_pairs: 手动配置的双活 Pair 信息列表（Optional），数组最大成员个数 100；当 create_mode 为 manual 时有效。格式：[{
+                        lun_pairs: 手动配置的双活 Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: 添加 LUN 到有复制特性保护组的请求参数（Optional），数组最大成员个数 2，与 lun_ids 参数互斥；保护组存在复制特性时此参数有效。格式：[{
+        rem_reps: 添加 LUN 到有复制特性保护组的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；保护组存在复制特性时此参数有效。格式：[{
                         is_delay: 是否延迟执行（Optional），默认 true；true：是；false：否；当延迟执行为 true 时：若新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入一致性组；当延迟执行为 false 时：将直接分裂一致性组和新 Pair，将新 Pair 加入一致性组，再同步一致性组
                         create_mode: 远程复制 Pair 的创建模式（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64 个字符，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
@@ -202,7 +202,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
-                        lun_pairs: 手动配置的远程复制 Pair 信息列表（Optional），数组最大成员个数 100；当 create_mode 为 manual 时有效。格式：[{
+                        lun_pairs: 手动配置的远程复制 Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$
                         },...]
@@ -281,10 +281,10 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         protect_group_id: 保护组 ID
         storage_id: Storage device ID，支持本端存储 ID 过滤
         storage_name: Storage device name，支持本端存储名称模糊匹配
-        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id 互斥
-        local_vstore_raw_id: 所属本端租户在设备上的 ID，该参数和 local_vstore_id 互斥
-        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id 互斥
-        remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id 互斥
+        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
+        local_vstore_raw_id: 所属本端租户在设备上的 ID，该参数和 local_vstore_id mutually exclusive
+        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id mutually exclusive
+        remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id mutually exclusive
 
     Returns:
         双活一致性组列表
@@ -600,12 +600,12 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         pair_raw_id: 双活 Pair 在存储设备上的 ID
         local_storage_id: 本端Storage device ID
         local_storage_name: 本端Storage device name，supports fuzzy match
-        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id 互斥
-        local_vstore_raw_id: 所属本端租户在设备上的 ID，该参数和 local_vstore_id 互斥
+        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
+        local_vstore_raw_id: 所属本端租户在设备上的 ID，该参数和 local_vstore_id mutually exclusive
         local_volume_name: 本端 LUN 名称，supports fuzzy match
         local_host_access_state: 本地资源主机访问状态，Optional值：access_forbidden, read_only, read_write
-        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id 互斥
-        remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id 互斥
+        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id mutually exclusive
+        remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id mutually exclusive
         remote_volume_name: 远端 LUN 名称，supports fuzzy match
 
     Returns:
@@ -942,11 +942,11 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         pair_raw_id: 复制 Pair 在存储设备上的 ID
         local_storage_id: 本端Storage device ID
         local_storage_name: 本端Storage device name，supports fuzzy match
-        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id 互斥
-        local_vstore_raw_id: 所属本端租户在设备上的 ID，该参数和 local_vstore_id 互斥
+        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
+        local_vstore_raw_id: 所属本端租户在设备上的 ID，该参数和 local_vstore_id mutually exclusive
         local_volume_name: 本端 LUN 名称，supports fuzzy match
-        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id 互斥
-        remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id 互斥
+        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id mutually exclusive
+        remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id mutually exclusive
         remote_volume_name: 远端 LUN 名称，supports fuzzy match
 
     Returns:
@@ -1523,7 +1523,7 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
         name_rule: 快照名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 快照名称前缀
         name_suffix: 快照名称后缀
-        target_snapshot_objects: 目标快照对象列表
+        target_snapshot_objects: 目标快照object列表
 
     Returns:
         {
@@ -1589,7 +1589,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
         name_rule: 快照名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 快照名称前缀
         name_suffix: 快照名称后缀
-        target_snapshot_objects: 目标快照对象列表
+        target_snapshot_objects: 目标快照object列表
 
     Returns:
         {
@@ -2085,7 +2085,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
         client: DME API client
         vstore_pair_id: 双活租户Pair的ID (Required, string, 1~32个字符)
         create_mode: 创建模式 (Optional, string)。Optional值：manual (手动)。默认值：manual
-        fs_pairs: 文件系统Pair列表 (Optional, List[FsPairInstance], 数组最大成员个数：100)
+        fs_pairs: 文件系统Pair列表 (Optional, List[FsPairInstance], max array members：100)
         speed: 同步速率 (Optional, string)。Optional值：low, medium, high, highest, custom
         bandwidth: 带宽 (Optional, integer, 1~1024)。当speed为custom时Required
         service_assurance_policy: 业务保障策略 (Optional, string)。Optional值：data_reliability_preferred, service_continuity_preferred
@@ -2195,7 +2195,7 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
     Args:
         client: DME API client
-        fs_pair_ids: 文件系统双活Pair的ID列表 (Required, List[string], 数组最大成员个数：100, 数组最小成员个数：1)
+        fs_pair_ids: 文件系统双活Pair的ID列表 (Required, List[string], max array members：100, min array members：1)
 
     Returns:
         {

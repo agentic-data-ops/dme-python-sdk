@@ -21,7 +21,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, 数组最大成员个数: 1000)。参数格式如下：[{
+        volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
                 name: LUN名称 (1~255个字符, 支持字母数字._-和中文字符),
                 capacity: 容量GB (1~262144),
                 count: 创建数量 (1~500),
@@ -33,13 +33,13 @@ def lun_create(client: DMEAPIClient, volumes: list,
         task_remarks: Async task remark（Optional，最多 1024 个字符）
         project_id: 业务群组 ID（Optional，0~64 个字符）
         availability_zone: 可用分区 ID（Optional，0~64 个字符）
-        scheduler_hints: 调度策略 (Optional, SchedulerHints 对象)。参数格式如下：{
+        scheduler_hints: 调度策略 (Optional, SchedulerHints object)。参数格式如下：{
                 affinity: 是否开启亲和性。Optional值：true (开启), false (不开启)。默认不开启,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64个字符),
              }
-        mapping: 映射信息 (Optional, ServiceVolumeMapping 对象, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
-                host_id: Host ID (Optional, 0~64个字符, 与hostgroup_id二选其一),
-                hostgroup_id: Host group ID (Optional, 0~64个字符, 与host_id二选其一),
+        mapping: 映射信息 (Optional, ServiceVolumeMapping object, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
+                host_id: Host ID (Optional, 0~64个字符, 与hostgroup_idone of),
+                hostgroup_id: Host group ID (Optional, 0~64个字符, 与host_idone of),
              }
 
     Returns:

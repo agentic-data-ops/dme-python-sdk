@@ -117,7 +117,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
         value: 密码 (Optional, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。
         description: 描述 (Optional, string, 最多127个字符)
-        roles: 用户所属角色 (Optional, List[integer], 数组最大成员个数：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
+        roles: 用户所属角色 (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
 
     Returns:
         无
@@ -158,12 +158,12 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: 总数 (integer, 最大值：5000),
-            datas: User data (List<UserData>, 数组最大成员个数：5000)。参数格式如下：[{
+            datas: User data (List<UserData>, max array members：5000)。参数格式如下：[{
                 id: 用户ID (integer, 1~2147483647),
                 name: 用户名 (string, 6~32个字符),
                 description: 描述 (string, 最多127个字符),
                 type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
-                roles: 角色ID列表 (List<integer>, 数组最大成员个数：50),
+                roles: 角色ID列表 (List<integer>, max array members：50),
             }, ...]
         }
     """
@@ -191,7 +191,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: 总数 (integer, 最大值：10),
-            datas: Role data (List<RoleData>, 数组最大成员个数：5000)。参数格式如下：[{
+            datas: Role data (List<RoleData>, max array members：5000)。参数格式如下：[{
                 id: 角色ID (integer, 1~2147483647),
                 name: 角色名称 (string, 最多64个字符),
                 description: 描述 (string, 最多127个字符),
@@ -222,7 +222,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
             name: 用户名 (string, 最多32个字符),
             type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
             description: 描述 (string, 最多127个字符),
-            roles: 用户所属角色 (List<integer>, 数组最大成员个数：50),
+            roles: 用户所属角色 (List<integer>, max array members：50),
         }
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
@@ -264,7 +264,7 @@ def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dic
 
     Returns:
         {
-            cert: 证书文件Base64编码字符串 (string),
+            cert: 证书文件Base64编码string (string),
         }
     """
     url = "/rest/certmgmt/v1/certs"
@@ -1133,11 +1133,11 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
 
     Args:
         client: DME API client
-        ids: Region的ID列表，支持精确匹配 (Optional, List[string], 数组最大成员个数：100)
+        ids: Region的ID列表，支持精确匹配 (Optional, List[string], max array members：100)
         name: Region的名称，supports fuzzy search (Optional, string, 最多256个字符)
         active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256个字符)
         standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256个字符)
-        sync_status: Region同步状态，精确过滤 (Optional, List[string], 数组最大成员个数：3)。Optional值：normal (正常), sync (同步中), failed (同步失败)
+        sync_status: Region同步状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (同步中), failed (同步失败)
         role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: 排序字段 (Optional, string)。Optional值：last_sync_time (最近同步时间)
         sort_dir: 排序方向 (Optional, string)。Optional值：asc (升序), desc (降序)。默认值：desc

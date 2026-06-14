@@ -144,7 +144,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         name: 全局命名空间的名称，supports fuzzy search (0~256个字符, Optional)
         gfs_group_name: 全局数据空间的名称，supports fuzzy search (0~256个字符, Optional)
         gfs_group_id: 所属全局数据空间的 ID (1~32个字符, Optional)
-        gfs_type: 全局命名空间类型 (Optional)。Optional值：enable_object_multi_version (支持对象多版本), disable_object_multi_version (不支持对象多版本)
+        gfs_type: 全局命名空间类型 (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
         sort_key: 按照指定字段排序 (Optional)。Optional值：child_name_space_num
         sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。默认值：asc
         page_no: 分页起始页 (int32, 1~1000, 默认值: 1, Optional)
@@ -216,7 +216,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         gfs_group_name: 全局数据空间名称 (1~255个字符, Optional。与 gfs_group_id 不能同时为空，都有值时优先使用 gfs_group_id)
         gfs_mode: 全局命名空间模式 (Optional)。Optional值：smart_share。默认值：smart_share
         single_write_switch: 单写模式开关 (Optional)。Optional值：close (任意成员可写入), open (只有一个成员可写入)
-        smart_share_members: SmartShare 成员列表 (List<SmartShareMember>, 数组最大成员个数: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
+        smart_share_members: SmartShare 成员列表 (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
                 id: 命名空间 ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。默认值：on_demand,
                 cache_time: 缓存时长 (int32, Optional, 默认值: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
@@ -258,7 +258,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         client: DME API client
         id: 全局命名空间的 ID (1~32个字符, Optional。与 name_locator 不能同时为空，都有值时优先使用 id)
         name_locator: 名称定位器，格式为：全局命名空间的名称@全局数据空间的名称 (3~507个字符, Optional。与 id 不能同时为空，都有值时优先使用 id)
-        smart_share_members: SmartShare 成员列表 (List<ModifySmartShareMember>, 数组最小成员个数: 0, 数组最大成员个数: 256, Optional。当全局命名空间的模式为 smart_share 时该参数有效)。参数格式如下：[{
+        smart_share_members: SmartShare 成员列表 (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当全局命名空间的模式为 smart_share 时该参数有效)。参数格式如下：[{
                 id: 命名空间 ID 或文件系统 ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
                 cache_time: 缓存时长 (int32, Optional, 默认值: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
@@ -341,9 +341,9 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_id: 命名空间 ID (1~32个字符, Optional)
         namespace_raw_id: 命名空间在设备侧 ID (1~256个字符, Optional)
         local_path: 命名空间下的路径，supports fuzzy search (1~256个字符, Optional, 默认值: "/")
-        status: 任务状态列表 (List<string>, 数组最大成员个数: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据同步中), completed (完成), suspended (已暂停), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
-        task_mode: 任务模式列表 (List<string>, 数组最大成员个数: 2, Optional)
-        execute_mode: 执行模式列表 (List<string>, 数组最大成员个数: 2, Optional)
+        status: 任务状态列表 (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据同步中), completed (完成), suspended (已暂停), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
+        task_mode: 任务模式列表 (List<string>, max array members: 2, Optional)
+        execute_mode: 执行模式列表 (List<string>, max array members: 2, Optional)
         page_no: 分页查询页码 (int32, 1~1000, 默认值: 1, Optional)
         page_size: 每页显示的数量 (int32, 1~1000, 默认值: 20, Optional)
         sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。默认值：desc
@@ -446,7 +446,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         period_max_bandwidth: 指定时间段的带宽上限 (Optional, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time 必须同时下发
         target_namespace_id: 全局命名空间下目标命名空间 ID (1~32个字符, Required)
         local_path: 命名空间下的路径 (Optional, 默认值: "/")
-        src_namespace_ids: 全局命名空间下源站点命名空间 ID 列表 (List<string>, 数组最大成员个数: 32, Optional)
+        src_namespace_ids: 全局命名空间下源站点命名空间 ID 列表 (List<string>, max array members: 32, Optional)
         atime_operator: 文件的访问时间匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 atime、atime_unit 必须同时下发
         atime: 文件的访问时间间隔 (int32, 0~26304, Optional)。与 atime_operator、atime_unit 必须同时下发
         atime_unit: 文件的访问时间间隔单位 (Optional)。Optional值：hour (小时), day (天)。与 atime_operator、atime 必须同时下发
@@ -463,14 +463,14 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         name_filter: 文件名匹配表达式列表 (1~1023个字符, Optional)。与 name_operator 必须同时下发
         size_operator: 文件大小的匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 file_size 必须同时下发
         file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, Optional)。与 size_operator 必须同时下发
-        tag: 对象标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")
-        file_paths: 按文件列表过滤策略上传的文件标识列表 (List<string>, 数组最大成员个数: 200, Optional)。仅 execute_mode 为 one_time 时可配置
+        tag: object标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")
+        file_paths: 按文件列表过滤策略上传的文件标识列表 (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置
         authentication_type: 认证类型 (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
         user_operator: 用户名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name 必须同时下发
         user_name: 用户名 (1~255个字符, Optional)。与 authentication_type、user_operator 必须同时下发
         group_operator: 用户组名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name 必须同时下发
         group_name: 用户组名 (1~255个字符, Optional)。与 authentication_type、group_operator 必须同时下发
-        files_filter: 按文件列表过滤请求参数 (FilesFilter对象, Optional)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
+        files_filter: 按文件列表过滤请求参数 (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
                 file_id: 按文件列表过滤策略上传的文件 ID (1~63个字符, Required),
                 file_name: 按文件列表过滤策略上传的文件名称 (1~1023个字符, Required),
              }

@@ -257,7 +257,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         name: Zone 名称（Optional），supports fuzzy search，1~1024 个字符
         cfg_name: 所属 CFG 名称（Optional），supports fuzzy search，0~1024 个字符
         zone_set: 所属 Zone 集合（Optional），supports fuzzy search，0~1024 个字符
-        active_status: Zone 状态列表（Optional），数组最大成员个数：2
+        active_status: Zone 状态列表（Optional），max array members：2
         member_count: 成员数量（Optional），0~2147483647
         sort_key: 排序字段（Optional），支持 member_count
         sort_dir: 排序方向（Optional），asc：升序；desc：降序
@@ -430,7 +430,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
     Args:
         client: DME API client
-        is_active_zone: 是否激活 Zone（Required，字符串 "true" 或 "false"）
+        is_active_zone: 是否激活 Zone（Required，string "true" 或 "false"）
         zones: Zone 配置列表，每个元素应包含:
             - fabric_wwn: 光纤网络 WWN（Required）
             - name: Zone 名称（Required）
