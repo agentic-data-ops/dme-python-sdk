@@ -727,12 +727,12 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
         description: Description
         character_encoding:  character encoding (utf-8, zh, gbk, etc.)
         audit_items: Audit event list (Optional). 参数格式如下：[{
-                audititem: Audit event type. Options: none, all (all operations), open, create, read, write, close, delete, rename ( rename), get_security (Get security attribute), set_security (Set security attribute), get_attr (get), set_attr (设置),
+                audititem: Audit event type. Options: none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr,
              }, ...]
         show_snapshot_enable: Show snapshot
-        nfs_share_client_addition:  to add NFS Share client list (Optional). 参数格式如下：[{
-                name: ClientIPor hostname or netgroup name (Required, 1~255 character),
-                permission:  permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
+        nfs_share_client_addition: NFS share client list to add (Optional). 参数格式如下：[{
+                name: Client IP, hostname or netgroup name (Required, 1~255 characters),
+                permission: Permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5: krb5 permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5i: krb5i permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5p: krb5p permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
@@ -744,7 +744,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
              }, ...]
         nfs_share_client_modification:  to modify NFS Share client list (Optional). 参数格式如下：[{
                 nfs_share_client_id_in_storage: Client on storageID (Required, 1~32 character),
-                permission:  permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
+                permission: Permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5: krb5 permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5i: krb5i permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5p: krb5p permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
