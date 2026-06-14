@@ -1,5 +1,5 @@
 """
-NAS 相关操作
+NAS operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# DPC (并行客户端) 子主题函数
+# DPC (Distributed Parallel Client) subtopic functions
 # ============================================================================
 
 
@@ -18,32 +18,32 @@ def dpc_list(client: DMEAPIClient, ids: list = None, hostname: str = None, ip: s
              storage_id: str = None, dpc_om_id: str = None, dpc_type: list = None,
              client_version: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询并行客户端列表
+    Batch query DPC list
 
     Args:
-        client: DME API 客户端
-        ids: 并行客户端 ID 列表（可选），List<string> 类型，数组最大成员个数 100，精确查询
-        hostname: 计算节点的主机名称（可选），1~256 个字符，模糊查询
-        ip: 并行客户端所在计算节点的管理 IP（可选），1~256 个字符，模糊查询
-        mgmt_status: 管理状态列表（可选），List<string> 类型，精确查询；可选值：normal（正常）、abnormal（异常）、unready（未就绪，客户端配置状态异常）、subhealth（亚健康）、pre_registered（预注册）、unknown（未知）
-        status: 业务状态列表（可选），List<string> 类型，精确查询；可选值：normal（正常）、abnormal（异常）、subhealth（亚健康）、unknown（未知）
-        sn: 并行客户端所在计算节点的硬件 SN（可选），1~256 个字符，模糊查询
-        storage_id: 存储设备 ID（可选），1~256 个字符，精确查询
-        dpc_om_id: 并行客户端 O&M ID（可选），1~256 个字符，精确查询
-        dpc_type: DPC 类型列表（可选），List<string> 类型
-        client_version: 并行客户端版本号（可选），最多 256 个字符，精确查询
-        page_no: 分页页码（可选），1~10000000，默认 1
-        page_size: 每页数据条数（可选），1~1000，默认 20
+        client: DME API client
+        ids: DPC ID list (Optional), List<string> type, max array members 100, exact match
+        hostname: Compute node hostname (Optional), 1~256 characters, fuzzy search
+        ip: Management IP of DPC compute node (Optional), 1~256 characters, fuzzy search
+        mgmt_status: Management status list (Optional), List<string> type, exact match. Available values: normal, abnormal, unready, subhealth, pre_registered, unknown
+        status: Service status list (Optional), List<string> type, exact match. Available values: normal, abnormal, subhealth, unknown
+        sn: Hardware SN of compute node (Optional), 1~256 characters, fuzzy search
+        storage_id: Storage device ID (Optional), 1~256 characters, exact match
+        dpc_om_id: DPC O&M ID (Optional), 1~256 characters, exact match
+        dpc_type: DPC type list (Optional), List<string> type
+        client_version: DPC client version (Optional), max 256 characters, exact match
+        page_no: Page number (Optional), 1~10000000, default 1
+        page_size: Items per page (Optional), 1~1000, default 20
 
     Returns:
         {
-            total: 并行客户端总数 (integer),
-            dpcs: 并行客户端列表 (List<DpcInfo>)。参数格式如下：[{
-                id: 并行客户端ID (string),
-                hostname: 主机名称 (string),
-                ip: 管理IP (string),
-                status: 业务状态 (string),
-                mgmt_status: 管理状态 (string),
+            total: Total DPC count (integer),
+            dpcs: DPC list (List<DpcInfo>)。参数格式如下：[{
+                id: DPC ID (string),
+                hostname: Hostname (string),
+                ip: Management IP (string),
+                status: Service status (string),
+                mgmt_status: Management status (string),
             }, ...],
         }
     """
