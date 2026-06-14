@@ -2830,7 +2830,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         atime_update_mode: atime 更新Frequency，4294967295：关闭更新；3600：1 hour(s)更新；86400：1 day(s)更新
         acl_policy_type: NamespaceSecurity mode，Options：mixed（同时支持 UNIX 和 Windows 权限），
                         unix（适用于 NFS User permissions determined by Unix Mode/NFSv4 ACL 权限控制），
-                        native（与 Mixed Mode适用于相同的场景 applicable to same scenario），
+                        native（与 Mixed Mode applicable to same scenario），
                         ntfs（适用于 CIFS User permissions determined by Windows NT ACL 权限控制）
         enable_encrypt: Enable encryption，true：开启；false：关闭
         qos_policy: QoS Policy configuration。参数格式如下：{
