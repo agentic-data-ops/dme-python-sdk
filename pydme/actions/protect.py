@@ -181,29 +181,29 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: to add to protection group LUN ID list (Optional) , max array members 100, mutually exclusive with hyper_metro and rem_reps lun_pairs parameterive; Protection group does not existActive-active,  replication, 环形 3DC parameter effective when feature
-        hyper_metro: request parameter for adding LUN to active-active protection group (Optional) , mutually exclusive with lun_ids parameter; Protection group existsActive-activeparameter effective when feature.  format: {
-                        is_delay: Deferred execution (Required) , true/false; when deferred execution is true if consistency group or new pair is syncingtatus,  will waitSyncafter completion, new Pair  joinConsistency group; when deferred execution is false 时: if consistency group or new pair is syncingtatus,  directly pauseConsistency group和新 Pair, 将新 Pair  joinConsistency group, 再SyncConsistency group
+        lun_ids: to add to protection group LUN ID list (Optional) , max array members 100, mutually exclusive with hyper_metro and rem_reps lun_pairs parameter; Protection group does not existactive-active, replication, ring 3DC parameter effective when feature exists
+        hyper_metro: request parameter for adding LUN to active-active protection group (Optional) , mutually exclusive with lun_ids parameter; Protection group has active-active feature exists.  format: {
+                        is_delay: Deferred execution (Required) , true/false; when deferred execution is true if consistency group or new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false: if consistency group or new pair is syncing,  directly pause consistency group和新 Pair, join new pair to consistency group, then sync consistency group
                         create_mode: Active-active pair creation mode (Required) , Options: auto, manual
-                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Active-active pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local (same as local resource name), prefix_and_suffixix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix+ auto序号) ; effective in auto-create mode
-                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffixix 或 prefix_and_num effective when; prefix_and_suffixix max prefix length 32  byte, prefix_and_num max prefix length 251  byte
-                        name_suffix: remote  LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffixix effective when
+                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Effective when active-active pair creation mode is auto
+                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
+                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
+                        name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manually configured active-active pair info list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
-                                local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; defined as local, The peer device is defined as remote
+                                local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
                                 remote_lun_id: Remote LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: request parameter for adding LUN to replication-capable protection group (Optional) , max array members 2, mutually exclusive with lun_ids parameter; Protection group exists replicationparameter effective when feature.  format: [{
-                        is_delay: Deferred execution (Optional) , default true; true/false; when deferred execution is true if new pair is syncing,  will waitSyncafter completion, new Pair  joinConsistency group; when deferred execution is false 时:  directlySplitConsistency group和新 Pair, 将新 Pair  joinConsistency group, 再SyncConsistency group
+        rem_reps: request parameter for adding LUN to replication-capable protection group (Optional) , max array members 2, mutually exclusive with lun_ids parameter; Protection group has replication feature exists.  format: [{
+                        is_delay: Deferred execution (Optional) , default true; true/false; when deferred execution is true if new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false:  directlySplitConsistency group和新 Pair, join new pair to consistency group, then sync consistency group
                         create_mode: Remote replication pair creation mode (Required) , Options: auto, manual
                         remote_storage_id: Remote storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; replication pair creation modee为 auto effective when
-                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local (same as local resource name), prefix_and_suffixix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix+ auto序号) ; effective in auto-create mode
-                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffixix 或 prefix_and_num effective when; prefix_and_suffixix max prefix length 32  byte, prefix_and_num max prefix length 251  byte
-                        name_suffix: remote  LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffixix effective when
+                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
+                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
+                        name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manually configured remote replication pair info list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
-                                local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; defined as local, The peer device is defined as remote
+                                local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
                                 remote_lun_id: Remote LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         },...]
@@ -670,7 +670,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode
         remote_resource_name_rule: LUN naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: Remote LUN name prefix
-        name_suffix: remote  LUN name suffix
+        name_suffix: Remote LUN name suffix
         speed: Sync rate. Options: low, medium, high, highest, custom
         bandwidth: Custom sync rate (MB/s) , 当 speed 为 custom required when
         service_assurance_policy: Service assurance policy, Optional值: data_reliability_preferred, service_continuity_preferred
@@ -1520,7 +1520,7 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
         snapshot_cg_id: Snapshot consistency group ID
         object_type: Object type, Optional值: parent_object
         snapshot_create_mode: Snapshot creation method, Optional值: auto, manual
-        name_rule: Snapshot naming rule, Optional值: prefix_and_suffixix, prefix_and_num
+        name_rule: Snapshot naming rule, Optional值: prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
         name_suffix: Snapshot name suffix
         target_snapshot_objects:  target snapshotobject list
@@ -1586,7 +1586,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
         snapshot_cg_id: Snapshot consistency group ID
         rollback_speed:  rollback rate, Optional值: low, medium, high, highest
         snapshot_create_mode: Snapshot creation method, Optional值: auto, manual
-        name_rule: Snapshot naming rule, Optional值: prefix_and_suffixix, prefix_and_num
+        name_rule: Snapshot naming rule, Optional值: prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
         name_suffix: Snapshot name suffix
         target_snapshot_objects:  target snapshotobject list
@@ -1635,7 +1635,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         protect_group_id: Protection group ID
         create_mode: creation mode, Optional值: auto, manual
         description: Description
-        name_rule:  target LUN Naming rule, Optional值: prefix_and_suffixix, prefix_and_num
+        name_rule:  target LUN Naming rule, Optional值: prefix_and_suffix, prefix_and_num
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
         copy_rate:  copy rate, Optional值: low, medium, high, highest, default medium
@@ -1684,7 +1684,7 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
         client: DME API client
         clone_group_id: cloneConsistency group ID
         create_mode: clone Pair creation mode, Optional值: auto, manual
-        name_rule:  target LUN Naming rule, Optional值: prefix_and_suffixix, prefix_and_num
+        name_rule:  target LUN Naming rule, Optional值: prefix_and_suffix, prefix_and_num
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
         clone_pairs: clone Pair  list, create_mode 为 manual 时Required
