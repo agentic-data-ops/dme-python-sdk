@@ -56,7 +56,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
                 description: Tenant description (string, 0~255 characters),
                 running_status: Running status (string)。Options：normal (normal), initializing ( initialize),
                 status: Tenant status (string)。Options：active (已 activate), inactive (inactive),
-                encrypt_option: Tenant的加密选项 (boolean, true,false),
+                encrypt_option: Tenant encryption options (boolean, true,false),
             }, ...]
         }
     """
@@ -537,7 +537,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
 
 def get_passphrase(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    getStorage device访问的令牌
+    getStorage device access token
 
     Args:
         client: DME API client
@@ -1108,7 +1108,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         used_capacity: Used capacity (Optional, -1~2147483647, unit MB)。Storage device all inStorage poolsum of used capacity，-1表示无Used capacity。
         free_capacity: Free capacity (Optional, -1~2147483647, unit MB)。Storage device的Available capacity与Used capacity的差值，-1表示无Free capacity。
         subscription_capacity: 订阅 capacity (Optional, -1~2147483647, unit MB)。Storage device all inStorage poolsum of subscribed capacity，-1Indicates no subscribed capacity。
-        tag_ids:  tagID list (Optional, string, 0~512 characters)。数组 formatstring，supports up to10个 tag，空数组代表Remove storage deviceall associated tags。
+        tag_ids:  tagID list (Optional, string, 0~512 characters)。数组 formatstring，supports up to10个 tag， empty array meansRemove storage deviceall associated tags。
 
     Returns:
         无
@@ -3223,7 +3223,7 @@ ACTIONS = {
     },
     'get_passphrase': {
         'func': get_passphrase,
-        'description': 'getStorage device访问的令牌',
+        'description': 'getStorage device access token',
         'params': ['storage_id'],
     },
     'fan_list': {
