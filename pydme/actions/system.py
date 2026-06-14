@@ -684,7 +684,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         client: DME API client
         task_id: task  ID
         timeout: timeout（second(s)），default 300 second(s)
-        poll_interval: 轮询间隔（second(s)），default 2 second(s)
+        poll_interval:  poll间隔（second(s)），default 2 second(s)
 
     Returns:
         Task final status details

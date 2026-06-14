@@ -1635,7 +1635,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                 multipath: 多路径 config (Optional)。 format：{
                         multipath_type: Third-party multipath policy (Required)。Options：default (default), third_party (Third-party multipath),
                         path_type: Initiator路径 type (Optional,  enableThird-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: Initiator切换 mode (Optional,  enableThird-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
+                        failover_mode: Initiator switch mode (Optional,  enableThird-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (Optional, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]

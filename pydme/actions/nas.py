@@ -998,13 +998,13 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                 show_previous_versions_enabled: Show previous versions enabled (Optional),
                 show_snapshot_enabled: Show snapshot enabled (Optional),
                 user_and_user_group_info: User and user group list (Optional)。 parameter format：[{
-                        user_or_user_group_id_in_storage: user or user group on storageid (Optional, 1~64 character, 变更时Required),
+                        user_or_user_group_id_in_storage: user or user group on storageid (Optional, 1~64 character,  when changingRequired),
                         user_or_user_group_name: Username or group name (Optional, 1~255 character; Group name with prefix@),
                         domain_type: 域 type (Optional, defaultlocal)。Options：ad_domain, ldap_domain, local, nis_domain,
                         permission:  permission (Optional, defaultread)。Options：read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
                      }, ...],
                 ip_addresses_and_segments: IP address和IP address段 list (Optional)。 parameter format：[{
-                        ip_or_segments_id_in_storage: IP address(段)on storageID (Optional, 1~64 character, 变更时Required),
+                        ip_or_segments_id_in_storage: IP address(段)on storageID (Optional, 1~64 character,  when changingRequired),
                         ip_addresses_or_segments: IP address(段) (Optional, 1~128 character,  max32条),
                      }, ...],
                 file_name_extension_filters: File extensionFilter rule list (Optional)。 parameter format：[{
@@ -1079,7 +1079,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         user_and_user_group_info: user 和User group list (Optional)。 parameter format：[{
                 update_type: Change type (Optional, defaultadd)。Options：add ( add), delete (delete ), modify (modify ),
                 param: user 和User group infoobject (Optional)。 format：{
-                        user_or_user_group_id_in_storage: user or user group on storageid (Optional, 1~64 character, 变更时Required),
+                        user_or_user_group_id_in_storage: user or user group on storageid (Optional, 1~64 character,  when changingRequired),
                         user_or_user_group_name: Username or group name (Optional, 1~255 character; Group name with prefix@),
                         domain_type: 域 type (Optional, defaultlocal)。Options：ad_domain, ldap_domain, local, nis_domain,
                         permission:  permission (Optional, defaultread)。Options：read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
@@ -1088,7 +1088,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         ip_and_segments: IP address和IP address段 list (Optional)。 parameter format：[{
                 update_type: Change type (Optional, defaultadd)。Options：add ( add), delete (delete ), modify (modify ),
                 param: IP address和IP address段 infoobject (Optional)。 format：{
-                        ip_or_segments_id_in_storage: IP address(段)on storageID (Optional, 1~64 character, 变更时Required),
+                        ip_or_segments_id_in_storage: IP address(段)on storageID (Optional, 1~64 character,  when changingRequired),
                         ip_addresses_or_segments: IP address(段) (Optional, 1~128 character,  max32条),
                 }
              }, ...]
@@ -2363,10 +2363,10 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         snapshot_dir_visible: Snapshot directory visibility，true可见/false invisible(Optional）
         tuning: 调优 parameter (Optional)。 parameter format：{
                 qos_policy: SmartQosPolicy parameter info (UpdateFileSystemQosPolicyobject)。 format：{
-                        max_bandwidth: Max bandwidthMB/s (Optional, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
-                        max_iops: Max IOPS (Optional, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
-                        min_bandwidth: Min bandwidthMB/s (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
-                        min_iops: Min IOPS (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
+                        max_bandwidth: Max bandwidthMB/s (Optional, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800 not undermutually exclusive),
+                        max_iops: Max IOPS (Optional, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800 not undermutually exclusive),
+                        min_bandwidth: Min bandwidthMB/s (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 not undermutually exclusive),
+                        min_iops: Min IOPS (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 not undermutually exclusive),
                         burst_band_width: Burst bandwidthMB/s (Optional, 1~999999999),
                         burst_iops: burstIOPS (Optional, 1~999999999),
                         burst_time: Max burst timesecond(s) (Optional, 1~999999999),
@@ -3377,7 +3377,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         name: Username称， supportfuzzy search filter (1~256 characters, Optional)
         primary_group_name: 主组 name， supportfuzzy search filter (1~256 characters, Optional)
         raw_id: user on the storage device ID (1~255 characters, Optional)
-        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800  storage下的auth usersupports filtering by this field
+        zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800  storage underauth usersupports filtering by this field
         user_status: User status (Optional)。Options：enable ( enable), disable (禁用)
         sort_key: sort by specified field (Optional)。Options：name (Username), raw_id (user on the storage device ID), primary_group_name (主组名), create_time (Creation time)。Default：create_time
         storage_id: Storage device ID (1~36 characters, Optional)

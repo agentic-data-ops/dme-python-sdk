@@ -1493,7 +1493,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
         multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01及以上 support)。 format：{
                 multi_path_type: InitiatorMultipath type (Optional)。Options：default (default), third_party (Third-party multipath),
                 path_type: Initiator路径 type (conditionally required, 当multi_path_type为third_partyrequired when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
-                failover_mode: Initiator切换 mode (conditionally required, 当multi_path_type为third_partyrequired when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
+                failover_mode: Initiator switch mode (conditionally required, 当multi_path_type为third_partyrequired when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                 special_mode_type: Special mode type (Optional, effective when failover mode is special)。Options：0 (Special mode0), 1 (Special mode1), 2 (Special mode2), 3 (Special mode3)
              }
 
@@ -3033,7 +3033,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
 def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
                                port_type: str = None) -> dict:
     """
-     queryFailover group下的 port（ support bond、eth、ib 三种 type）
+     queryFailover group under port（ support bond、eth、ib 三种 type）
 
     Args:
         client: DME API client
@@ -3087,7 +3087,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
 
 def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> dict:
     """
-     queryFailover group下的 VLAN
+     queryFailover group under VLAN
 
     Args:
         client: DME API client
@@ -3574,13 +3574,13 @@ ACTIONS = {
     },
     'failover_group_show_ports': {
         'func': failover_group_show_ports,
-        'description': ' queryFailover group下的 port（ support bond、eth、ib 三种 type）',
+        'description': ' queryFailover group under port（ support bond、eth、ib 三种 type）',
         'params': ['failover_group_id', 'port_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_vlans': {
         'func': failover_group_show_vlans,
-        'description': ' queryFailover group下的 VLAN',
+        'description': ' queryFailover group under VLAN',
         'params': ['failover_group_id'],
         'subtopic': 'failover_group'
     },

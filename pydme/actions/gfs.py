@@ -340,7 +340,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_name: Namespace name，supports fuzzy search (1~256 characters, Optional)
         namespace_id: Namespace ID (1~32 characters, Optional)
         namespace_raw_id: Namespace在device side ID (1~256 characters, Optional)
-        local_path: Namespace下的路径，supports fuzzy search (1~256 characters, Optional, Default: "/")
+        local_path: Namespace under路径，supports fuzzy search (1~256 characters, Optional, Default: "/")
         status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled (待调度), partially_success (partial success), failed ( failure), unknown (unknown)
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
         execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
@@ -445,7 +445,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
         period_max_bandwidth: Bandwidth for specified periodupper limit (Optional,  format: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time must be sent together
         target_namespace_id: Global namespace下 targetNamespace ID (1~32 characters, Required)
-        local_path: Namespace下的路径 (Optional, Default: "/")
+        local_path: Namespace under路径 (Optional, Default: "/")
         src_namespace_ids: Global namespace下源 siteNamespace ID  list (List<string>, max array members: 32, Optional)
         atime_operator: File access time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 atime、atime_unit must be sent together
         atime: File access time interval (int32, 0~26304, Optional)。与 atime_operator、atime_unit must be sent together
