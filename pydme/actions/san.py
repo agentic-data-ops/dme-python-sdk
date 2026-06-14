@@ -1636,7 +1636,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                         multipath_type: Third-party multipath策略 (Required)。可选值：default (默认), third_party (Third-party multipath),
                         path_type: Initiator路径类型 (可选, 开启Third-party multipath时有效)。可选值：optimal_path (优选路径), non_optimal_path (非优选路径),
                         failover_mode: Initiator切换模式 (可选, 开启Third-party multipath时有效)。可选值：early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: Special mode type (可选, 切换模式为特殊模式时有效)。可选值：mode_zero, mode_one, mode_two, mode_three,
+                        special_mode_type: Special mode type (可选, effective when failover mode is special)。可选值：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
         task_remarks: Async taskRemark (可选, 最多1024个字符)

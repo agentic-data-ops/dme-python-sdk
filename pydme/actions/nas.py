@@ -2660,7 +2660,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         atime_update_mode: atime 更新Frequency，4294967295 关闭，3600 1 hour(s)，86400 1 day(s)
         acl_policy_type: 安全模式，可选值：mixed, unix, native, ntfs，默认 unix
         enable_encrypt: Enable encryption
-        crypt_alg: 加密算法类型，可选值：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
+        crypt_alg: Encryption algorithm类型，可选值：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
         case_sensitive: 大小写是否敏感，默认不敏感
         show_snap_dir: Snapshot directory visibility
         rdc: Data redundancy copies，可选值：redundancy_2, redundancy_3, redundancy_4

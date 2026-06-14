@@ -100,7 +100,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
 
 def vstore_show(client: DMEAPIClient, id: str) -> dict:
     """
-    查询租户详情。
+    Query tenant details。
 
     Args:
         client: DME API client
@@ -143,7 +143,7 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         nas_capacity_quota: NAS 容量配额（可选，单位：扇区）
         description: 租户描述（可选，0~255 个字符）
         nas_capacity_quota_alarm_switch: NAS Capacity quota alarm switch（可选，仅 A800 设备支持）
-        nas_capacity_quota_alarm_threshold: NAS 容量配额告警threshold（可选，仅 A800 设备支持）
+        nas_capacity_quota_alarm_threshold: NAS Capacity quota alarmthreshold（可选，仅 A800 设备支持）
         associate_pool_ids: Related storage池 ID 列表（可选，仅 A series device support）
 
     Returns:
@@ -183,7 +183,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
                   description: str = None, nas_capacity_quota_alarm_switch: bool = None,
                   nas_capacity_quota_alarm_threshold: int = None) -> dict:
     """
-    Modify租户，该操作会Modify storage device上指定的租户。
+    Modify租户，该操作会Modify storage devicetenant specified on。
 
     Args:
         client: DME API client
@@ -193,7 +193,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
         nas_capacity_quota: NAS容量配额 (Optional, string, 1~20个字符)
         description: 租户描述 (Optional, string, 0~255 characters)
         nas_capacity_quota_alarm_switch: NASCapacity quota alarm switch (Optional, boolean, true,false)。仅A800设备支持
-        nas_capacity_quota_alarm_threshold: NAS容量配额告警threshold (Optional, int32, 50~100)。仅A800设备支持
+        nas_capacity_quota_alarm_threshold: NASCapacity quota alarmthreshold (Optional, int32, 50~100)。仅A800设备支持
 
     Returns:
         {
@@ -226,7 +226,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
 
 def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch delete租户，该操作会删除Storage device上指定的租户。该APIMay directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
+    Batch delete租户，该操作会删除Storage devicetenant specified on。该APIMay directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -347,18 +347,18 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
 
     Args:
         client: DME API client。
-        name: 设备名称 (1~256 characters)。只能包含半角字母、半角数字、\"_\"、\"-\"、\".\"、中文字符。
-        sn: Device serial number (正则表达式为^[a-zA-Z0-9]{1,128}$)。
+        name: 设备名称 (1~256 characters)。can only contain half-width letters、半角数字、\"_\"、\"-\"、\".\"、中文字符。
+        sn: Device serial number (regex is^[a-zA-Z0-9]{1,128}$)。
         ip: 设备IP地址 (可选, 0~128个字符, 支持IPv4与IPv6格式, 也可为空string)。
-        dc_id: 所属Data center ID (Optional, 正则表达式为^[a-zA-Z0-9]{1,128}$)。
+        dc_id: 所属Data center ID (Optional, regex is^[a-zA-Z0-9]{1,128}$)。
         az: Availability zone (Optional, string)。
         vendor: 厂商 (可选, 0~128个字符)。
         model: 产品型号 (可选, 0~128个字符)。
         version: 版本信息 (可选, 0~64 characters)。
         patch_version: Patch version info (可选, 0~64 characters)。
         location: 设备位置 (可选, 0~512个字符)。
-        maintenance_start: 维护Start time (可选, 格式是毫second(s)级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
-        maintenance_overtime: 维护过保时间 (可选, 格式是毫second(s)级时间戳)。需要和维护Start time一起出现并且数值大于维护Start time。
+        maintenance_start: 维护Start time (可选, 格式是毫second(s)级时间戳)。must appear with warranty expiration time and value must be less。
+        maintenance_overtime: Warranty expiration time (可选, 格式是毫second(s)级时间戳)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸容量 (可选, 0~2147483647, 单位MB)。
         total_effective_capacity: 可得容量 (可选, 0~2147483647, 单位MB)。
         total_pool_capacity: Available capacity (可选, 0~2147483647, 单位MB)。
@@ -632,7 +632,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
               sort_dir: str = None, page_no: int = 1,
               page_size: int = 20) -> dict:
     """
-    query storage device硬盘信息列表
+    query storage deviceDisk info list
 
     Args:
         client: DME API client。
@@ -647,10 +647,10 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         capacity: Total capacity (可选, max: 9223372036854775807, 单位: GB)。
         role: 硬盘角色 (可选)。可选值：unknown (未知), free (空闲), member (成员), hotSpare (热备), cache (缓存), aggregate (聚合), broken (断开), foreign (外部), labelmaint (标签维护), maintenance (维护), shared (共享), spare (备用), unassigned (未分配), unsupported (不支持), remote (远程), mediator (中介)。
         disk_pool_name: 所属Disk pool名称 (可选, 1~256 characters)。supports fuzzy search。
-        disk_pool_id: Disk pool或Disk poolID (可选, 1~64 characters)。仅华为Storage device，第三方设备支持该字段。
+        disk_pool_id: Disk pool或Disk poolID (可选, 1~64 characters)。仅华为Storage device，third-party device supports this field。
         storage_pool_id: Storage pool ID (Optional, 1~64 characters)。
         bar_code: 硬盘条码 (可选, 1~256 characters)。
-        sn: 硬盘序列号 (可选, 1~256 characters)。仅华为Storage device，第三方设备支持该字段。
+        sn: 硬盘序列号 (可选, 1~256 characters)。仅华为Storage device，third-party device supports this field。
         speed: 转速 (可选, max: 2147483647, 单位: RPM)。
         storage_ip: 所属设备ip地址 (可选, 1~255 characters)。
         management_ip: 管理设备ip地址 (可选, 1~256 characters)。
@@ -1088,20 +1088,20 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    Modify storage device（only supports修改录入的离线Storage device信息）
+    Modify storage device（only supportsModify recorded offlineStorage device信息）
 
     Args:
         client: DME API client。
         storage_id: Storage device ID（Required）。
-        name: 设备名称 (可选, 1~256 characters)。只能包含半角字母、半角数字、"_"、"-"、"."、中文字符。
+        name: 设备名称 (可选, 1~256 characters)。can only contain half-width letters、半角数字、"_"、"-"、"."、中文字符。
         ip: 设备IP地址 (可选, 0~128个字符, 支持IPv4与IPv6格式, 也可为空string)。
         vendor: 厂商 (可选, 0~128个字符)。
         model: 产品型号 (可选, 0~128个字符)。
         version: 版本信息 (可选, 0~64 characters)。
         patch_version: Patch version info (可选, 0~64 characters)。
         location: 设备位置 (可选, 0~512个字符)。
-        maintenance_start: 维护Start time (可选, 格式是毫second(s)级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
-        maintenance_overtime: 维护过保时间 (可选, 格式是毫second(s)级时间戳)。需要和维护Start time一起出现并且数值大于维护Start time。
+        maintenance_start: 维护Start time (可选, 格式是毫second(s)级时间戳)。must appear with warranty expiration time and value must be less。
+        maintenance_overtime: Warranty expiration time (可选, 格式是毫second(s)级时间戳)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。Storage device中所有硬盘的物理容量之和，-1表示无裸容量。
         total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。Storage device可写入的User data总量，-1表示无可得容量。
         total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage device实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无Available capacity。
@@ -1202,7 +1202,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
 
 def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    QueryStorage device的控制器信息
+    QueryStorage devicecontroller info
     
     query storage device控制器列表信息。
     
@@ -1319,7 +1319,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         zone_name: ZoneName (Optional,1~255 characters），仅OceanStor A800series storage only，supports fuzzy match
         zone_id: Zone ID列表（可选，List<string>，max array members：100），仅OceanStor A800series storage only
         running_status: 运行状态列表（可选，List<string>，max array members：7). Options：unknown (未知), normal (正常), running (运行), sleep_in_high_temperature (高温休眠), online (在线), offline (离线)
-        power_mode: Power supply模式列表（可选，List<string>，max array members：2). Options：load_balance (负载均衡模式), active_standby_power (主备供电模式)
+        power_mode: Power supply模式列表（可选，List<string>，max array members：2). Options：load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
         esn: Enclosure序列号（可选，1~256 characters），supports fuzzy match
         mac: MAC地址（可选，1~256 characters），supports fuzzy match
         sort_key: Sort field(Optional). Options：temperature (温度)
@@ -1348,7 +1348,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     zone_id: Zone ID (0~512个字符)，仅OceanStor A800存储支持,
                     esn: Enclosure序列号 (0~512个字符),
                     mac: MAC地址 (0~512个字符),
-                    power_mode: Power supply模式。可选值：load_balance (负载均衡模式), active_standby_power (主备供电模式),
+                    power_mode: Power supply模式。可选值：load_balance (Load balancing mode), active_standby_power (Primary/standby power mode),
                     bar_code: 条形码 (0~256个字符),
                     board_type: 单板类型 (0~128个字符),
                     description: 描述 (0~1024个字符),
@@ -1494,7 +1494,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
                 multi_path_type: InitiatorMultipath type (可选)。可选值：default (默认), third_party (Third-party multipath),
                 path_type: Initiator路径类型 (条件必传, 当multi_path_type为third_party时必传)。可选值：optimal_path (优选路径), non_optimal_path (非优选路径),
                 failover_mode: Initiator切换模式 (条件必传, 当multi_path_type为third_party时必传)。可选值：early_version_alua, common_alua, alua_not_used, special_alua,
-                special_mode_type: Special mode type (可选, 切换模式为特殊模式时有效)。可选值：0 (特殊模式0), 1 (特殊模式1), 2 (特殊模式2), 3 (特殊模式3)
+                special_mode_type: Special mode type (可选, effective when failover mode is special)。可选值：0 (特殊模式0), 1 (特殊模式1), 2 (特殊模式2), 3 (特殊模式3)
              }
 
     Returns:
@@ -1569,8 +1569,8 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         client: DME API client
         storage_id: Create local auth userStorage device ID (1~36个字符, Required)
         name: 本地Auth user name (1~255 characters, Required)
-        description: 本地认证用户描述 (1~255 characters, Optional)
-        password: 本地认证用户密码 (1~255 characters, Required)
+        description: 本地Auth user description (1~255 characters, Optional)
+        password: 本地Auth user password (1~255 characters, Required)
         primary_group_raw_id: 本地认证用户所归属的用户组在设备上 ID (1~64 characters, Required)
         group_names: 创建的本地认证用户所属的临时用户组名称列表 (List<string>, min array members: 0, max array members: 31, Optional)
         vstore_id: 本地认证用户所属的租户 ID (1~64 characters, Optional。条件必传，当创建的本地认证用户属于租户时必传)
@@ -1617,9 +1617,9 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
         client: DME API client
         storage_id: 创建 UNIX 认证用户Storage device ID (1~36个字符, Required)
         name: UNIX Auth user name (1~255 characters, Required)
-        raw_id: UNIX 认证用户在设备上 ID (int64, 0~4294967295, Optional)
-        description: UNIX 认证用户描述 (1~255 characters, Optional)
-        password: UNIX 认证用户密码 (1~255 characters, Optional)
+        raw_id: UNIX Auth user on device ID (int64, 0~4294967295, Optional)
+        description: UNIX Auth user description (1~255 characters, Optional)
+        password: UNIX Auth user password (1~255 characters, Optional)
         status_enabled: UNIX 认证用户状态 (boolean, Optional)。可选值：true (启动), false (锁定)
         primary_group_raw_id: 创建的 UNIX 认证用户所归属的用户组在设备上 ID (1~64 characters, Required)
         vstore_raw_id: UNIX 认证用户所属的租户在设备上 ID (1~64 characters, Optional。条件必传，当创建的 UNIX 认证用户属于租户时必传)
@@ -1660,9 +1660,9 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
         client: DME API client
         storage_id: 创建 Windows 认证用户Storage device ID (1~36个字符, Required)
         name: Windows Auth user name (1~255 characters, Required)
-        raw_id: Windows 认证用户在设备上 ID (int64, 1000~4294967295, Optional)
-        description: Windows 认证用户描述 (1~255 characters, Optional)
-        password: Windows 认证用户密码 (1~255 characters, Required)
+        raw_id: Windows Auth user on device ID (int64, 1000~4294967295, Optional)
+        description: Windows Auth user description (1~255 characters, Optional)
+        password: Windows Auth user password (1~255 characters, Required)
         status_enabled: Windows 认证用户状态 (boolean, Optional)。可选值：true (启用), false (锁定)
         vstore_raw_id: 创建的 Windows 认证用户所属的租户在设备上 ID (1~64 characters, Optional。条件必传，当 Windows 认证用户属于租户时必传)
 
@@ -3209,7 +3209,7 @@ ACTIONS = {
     },
     'modify': {
         'func': modify,
-        'description': 'Modify storage device（only supports修改录入的离线Storage device信息）',
+        'description': 'Modify storage device（only supportsModify recorded offlineStorage device信息）',
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
         'subtopic': None
     },
@@ -3235,7 +3235,7 @@ ACTIONS = {
     },
     'disk_list': {
         'func': disk_list,
-        'description': 'query storage device硬盘信息列表',
+        'description': 'query storage deviceDisk info list',
         'params': ['storage_id'],
         'subtopic': 'disk'
     },
@@ -3280,7 +3280,7 @@ ACTIONS = {
     },
     'controller_list': {
         'func': controller_list,
-        'description': 'QueryStorage device的控制器信息',
+        'description': 'QueryStorage devicecontroller info',
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
@@ -3312,7 +3312,7 @@ ACTIONS = {
     },
     'vstore_show': {
         'func': vstore_show,
-        'description': '查询租户详情',
+        'description': 'Query tenant details',
         'params': ['vstore_id'],
         'subtopic': 'vstore'
     },
