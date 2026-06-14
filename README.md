@@ -13,21 +13,22 @@
 │   ├── client.py           # DME API 客户端
 │   ├── cli.py              # 命令行接口
 │   └── actions/            # 动作模块（每个主题一个文件）
-│       ├── aiops.py
-│       ├── backup.py
-│       ├── fc_switch.py
-│       ├── gfs.py
-│       ├── ip_switch.py
-│       ├── kubernetes.py
-│       ├── nas.py
-│       ├── protection.py
-│       ├── san.py
-│       ├── self_service.py
-│       ├── server.py
-│       ├── storage.py
-│       ├── system.py
-│       ├── virtualization.py
-│       └── workflow.py
+│       ├── aiops.py         # AIOps 智能运维
+│       ├── backup.py         # 数据备份管理
+│       ├── fcswitch.py       # FC 光纤交换机
+│       ├── gfs.py            # 全局文件系统
+│       ├── integrate.py      # 三方系统集成(CMDB)
+│       ├── ipswitch.py       # IP 交换机
+│       ├── kube.py           # Kubernetes 容器
+│       ├── nas.py            # NAS 文件存储
+│       ├── protect.py        # 数据保护
+│       ├── san.py            # SAN 块存储
+│       ├── server.py         # 服务器管理
+│       ├── storage.py        # 存储设备管理
+│       ├── system.py         # 系统管理
+│       ├── tenant.py         # 租户自助服务
+│       ├── virt.py           # 虚拟化服务
+│       └── workflow.py       # 工作流管理
 ├── pyproject.toml
 └── README.md
 ```
@@ -51,7 +52,7 @@ pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@dev
 从英文分支安装（稳定版，英文注释）：
 
 ```bash
-pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@en
+pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@main-en
 ```
 
 或以可编辑模式安装用于开发：
@@ -104,20 +105,22 @@ pydme storage disk list --storage_id <id>
 
 | 主题 | 描述 |
 |-------|-------------|
+| `protect` | 数据保护（保护组/双活/复制/快照/克隆） |
+| `san` | SAN 块存储（LUN/映射视图/主机/端口组） |
+| `nas` | NAS 文件存储（NFS/CIFS/DPC/文件系统/配额） |
+| `storage` | 存储设备管理（租户/磁盘/池/端口/控制器） |
+| `system` | 系统管理（用户/标签/任务/Region/证书） |
 | `aiops` | AIOps 智能运维（告警/性能/健康度/拓扑） |
-| `backup` | 数据备份管理 |
-| `fc_switch` | FC 光纤交换机管理 |
-| `gfs` | GFS 全局文件系统 |
-| `ip_switch` | IP 交换机管理 |
-| `kubernetes` | Kubernetes 容器管理 |
-| `nas` | NAS 相关操作（NFS/CIFS/文件系统/配额） |
-| `protection` | 保护（快照/双活/远程复制/保护组） |
-| `san` | SAN 相关操作（LUN/LUN组/映射视图/主机） |
-| `self_service` | 租户自助服务（服务化 LUN/业务群组） |
+| `fcswitch` | FC 光纤交换机管理 |
+| `gfs` | 全局文件系统 |
+| `virt` | 虚拟化服务（VM/集群/数据存储） |
 | `server` | 服务器管理（CPU/内存/RAID） |
-| `storage` | 存储设备管理（磁盘/端口/控制器/QoS） |
-| `system` | 系统管理（用户/标签/任务/证书） |
-| `virtualization` | 虚拟化服务（VM/集群/数据存储） |
+| `tenant` | 租户自助服务（服务化LUN/业务群组） |
+| `ipswitch` | IP 交换机管理 |
+| `workflow` | 工作流管理 |
+| `kube` | Kubernetes 容器管理 |
+| `integrate` | 三方系统集成（CMDB） |
+| `backup` | 数据备份管理 |
 | `workflow` | 工作流管理 |
 
 DME 连接信息也可通过命令行参数传递：
