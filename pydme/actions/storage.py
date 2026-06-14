@@ -974,7 +974,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
              enclosure_name: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询Storage devicePower supply详情信息，only supportsOceanStor A800存储。
+    查询Storage devicePower supplyDetails info，only supportsOceanStor A800存储。
 
     Args:
         client: DME API client

@@ -743,7 +743,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
     r"""
     Query performance diagnosis task status
 
-    根据任务 ID 查询诊断任务状态.
+    By task ID 查询诊断任务状态.
 
     Args:
         client: DME API client
@@ -861,7 +861,7 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Execute check policy
 
-    执行指定的检查策略。
+    Execute specified检查策略。
 
     Args:
         client: DME API client

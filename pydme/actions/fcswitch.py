@@ -249,7 +249,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
     """
     Batch query zone
 
-    查询光纤 Zone 列表。
+    Query Fibre Channel Zone 列表。
 
     Args:
         client: DME API client
@@ -306,7 +306,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     创建 zone
 
-    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，and at least one member type。
+    注：根据 DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
@@ -461,12 +461,12 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     """
     查询 zone 的成员
 
-    查询 Zone members contained in，支持端口成员、WWN members and alias members。
+    查询 Zone members contained in，支持Port member、WWN members and alias members。
 
     Args:
         client: DME API client
         zone_id: Zone ID（Required）
-        type: 成员类型，Optional值：port（端口成员）,wwn（WWN 成员）,alias（别名成员）。
+        type: Member type，Optional值：port（Port member）,wwn（WWN 成员）,alias（别名成员）。
              returns all member types if not specified
 
     Returns:
@@ -517,7 +517,7 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     """
     Batch query别名
     
-    查询光纤 Alias 列表。
+    Query Fibre Channel Alias 列表。
     
     Args:
         client: DME API client
@@ -547,9 +547,9 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                  port_members: list = None, fwwn_members: list = None,
                  fcid_members: list = None, device_alias_members: list = None) -> dict:
     """
-    创建别名
+    Create alias
 
-    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，and at least one member type。
+    注：根据 DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
@@ -600,7 +600,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
                  port_members: dict = None, fcid_members: dict = None,
                  device_alias_members: dict = None) -> dict:
     """
-    修改别名
+    Modify alias
 
     注：根据 DME API 文档，member modification requires {type}.added_members 和 {type}.removed_members 格式。
 
@@ -641,7 +641,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
 
 def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
-    删除别名
+    Delete alias
 
     注：根据 DME API 文档，使用 DELETE 方法到 /aliases/{alias_id}
 
@@ -664,12 +664,12 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     """
     Query alias members
 
-    查询 Alias members contained in，支持查询端口成员和 WWN 成员。
+    查询 Alias members contained in，支持查询Port member和 WWN 成员。
 
     Args:
         client: DME API client
         alias_id: Alias ID（Required）
-        type: 成员类型，Optional值：port（端口成员）,wwn（WWN 成员）。
+        type: Member type，Optional值：port（Port member）,wwn（WWN 成员）。
              returns all member types if not specified
 
     Returns:
@@ -799,19 +799,19 @@ ACTIONS = {
     },
     'alias_create': {
         'func': alias_create,
-        'description': '创建别名',
+        'description': 'Create alias',
         'params': ['name', 'fabric_wwn', 'vsan_wwn', 'wwn_members', 'port_members', 'fwwn_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'alias'
     },
     'alias_modify': {
         'func': alias_modify,
-        'description': '修改别名',
+        'description': 'Modify alias',
         'params': ['alias_id', 'name', 'wwn_members', 'fwwn_members', 'port_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'alias'
     },
     'alias_delete': {
         'func': alias_delete,
-        'description': '删除别名',
+        'description': 'Delete alias',
         'params': ['alias_id'],
         'subtopic': 'alias'
     },

@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: 需要重置密码的Username (Required, string, 1~128 characters)
-        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. 密码长度cannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
 
     Returns:
@@ -86,7 +86,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
 def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     """
-    删除用户。该APIMay directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
+    Delete user。该APIMay directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -109,13 +109,13 @@ def user_create(client: DMEAPIClient, name: str, type: int,
                 value: str = None, description: str = None,
                 roles: list = None) -> dict:
     """
-    创建用户。
+    Create user。
 
     Args:
         client: DME API client
         name: Username (Required, string, 最多32 characters)。本地Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义字符、Invisible and special characters。远端Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊字符。
         type: User type (Required, integer, 无)。0：Local user；2：Remote user。
-        value: 密码 (Optional, string, 8~32 characters)。密码长度cannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符。Remote user不涉及。
+        value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user不涉及。
         description: 描述 (Optional, string, 最多127 characters)
         roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全Admin组，Filesystem组或用户自定义角色。
 
@@ -152,7 +152,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Args:
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
-        page_size: 页面大小 (Required, integer, 5~200)。Default：10
+        page_size: Page size (Required, integer, 5~200)。Default：10
         name: Username搜索关键字 (Optional, string, 最多32 characters)
 
     Returns:
@@ -180,12 +180,12 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    Batch query角色信息。
+    Batch queryRole info。
 
     Args:
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
-        page_size: 页面大小 (Required, integer, 5~100)。Default：10
+        page_size: Page size (Required, integer, 5~100)。Default：10
         name: 角色名搜索关键字 (Optional, string, 最多64 characters)
 
     Returns:
@@ -391,14 +391,14 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
     """
     执行Pending task group
 
-    执行指定的Pending task group。
+    Execute specifiedPending task group。
 
     Args:
         client: DME API client
         group_id: Pending task group ID（Required）
 
     Returns:
-        执行结果，包含 task_id
+        Execution result，包含 task_id
     """
     url = "/rest/taskmgmt/v1/todo-groups/{group_id}/execute"
 
@@ -437,7 +437,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
         client: DME API client
         service_type: Business type（Required，wfa_execute_activity-自动化编排）
         status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-partial success/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
-        page_no: 页索引号（Optional，默认 1）
+        page_no: Page index（Optional，默认 1）
         page_size: 每页count（Optional，1~10，默认 10）
 
     Returns:
@@ -463,7 +463,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
 def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
-    查询Pending item详情信息
+    查询Pending itemDetails info
 
     QueryPending item的Details。
 
@@ -484,14 +484,14 @@ def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
     """
     Execute pending task
 
-    执行指定的Pending item。
+    Execute specifiedPending item。
 
     Args:
         client: DME API client
         item_id: Pending item ID（Required）
 
     Returns:
-        执行结果，包含 task_id
+        Execution result，包含 task_id
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/execute"
 
@@ -550,7 +550,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     """
     Close pending task
 
-    关闭指定的Pending item，需要提供关闭原因。
+    关闭指定的Pending item，must provide关闭原因。
 
     Args:
         client: DME API client
@@ -578,7 +578,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
     QueryTask details
     
-    根据任务Unique identifier TaskId 进行查询。
+    By taskUnique identifier TaskId 进行查询。
     
     Args:
         client: DME API client
@@ -592,7 +592,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - description: 任务描述
         - parent_id: 父任务 ID
         - seq_no: 任务序号
-        - status: 状态（1-初始状态;2-Executing;3-成功;4-partial success;5-失败;6-超时）
+        - status: 状态（1-Initial status;2-Executing;3-成功;4-partial success;5-失败;6-超时）
         - progress: 任务进度
         - owner_name: Create task user名称
         - owner_id: Create task user ID
@@ -624,7 +624,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: 分页Start position，默认 1
         limit: Page size, default 100
         task_name: Task name过滤（Optional）
-        status: 状态过滤（Optional，1-初始状态;2-Executing;3-成功;4-partial success;5-失败;6-超时）
+        status: 状态过滤（Optional，1-Initial status;2-Executing;3-成功;4-partial success;5-失败;6-超时）
         owner_id: Create task user ID 过滤（Optional）
         create_time_from: Creation time起始（Optional，UTC 毫second(s)数）
         create_time_to: Creation time结束（Optional，UTC 毫second(s)数）
@@ -656,7 +656,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 
 def task_retry(client: DMEAPIClient, task_id: str) -> dict:
     """
-    重试任务
+    Retry task
 
     重试指定的任务，用于任务未完全成功的重试。
 
@@ -840,8 +840,8 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
         name: Tag name（Required）
         tag_type_id: Tag type ID（Required）
         tag_type_name: Tag type name（API 需要）
-        description: 标签描述（Optional）
-        color: 标签颜色（Optional）
+        description: Tag description（Optional）
+        color: Tag color（Optional）
     
     Returns:
         创建的标签信息
@@ -904,8 +904,8 @@ def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
         client: DME API client
         tag_id: 标签 ID（Required）
         name: Tag name（Optional）
-        description: 标签描述（Optional）
-        color: 标签颜色（Optional）
+        description: Tag description（Optional）
+        color: Tag color（Optional）
     
     Returns:
         修改后的标签信息
@@ -1263,20 +1263,20 @@ ACTIONS = {
     },
     'user_create': {
         'func': user_create,
-        'description': '创建用户',
+        'description': 'Create user',
         'params': ['name', 'type', 'value', 'description', 'roles'],
         'subtopic': 'user'
     },
     'user_delete': {
         'func': user_delete,
-        'description': '删除用户',
+        'description': 'Delete user',
         'params': ['user_id'],
         'subtopic': 'user'
     },
     # subtopic actions - role (three-level structure)
     'role_list': {
         'func': role_list,
-        'description': 'Batch query角色信息',
+        'description': 'Batch queryRole info',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
@@ -1361,7 +1361,7 @@ ACTIONS = {
     },
     'task_retry': {
         'func': task_retry,
-        'description': '重试任务',
+        'description': 'Retry task',
         'params': ['task_id'],
         'subtopic': 'task'
     },
