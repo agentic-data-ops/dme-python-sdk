@@ -35,7 +35,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                      building, error
         is_template: 是否是模板（true/false）
         os_type: 操作系统类型列表（Windows, Linux, Other）
-        vr_type: 虚拟化平台类型（FUSIONCOMPUTE, VMWARE, HCS）
+        vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: 数据存储Data center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
         sort_dir: Sort direction（asc, desc），默认 asc
@@ -105,7 +105,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     Args:
         client: DME API client
         vm_id: 虚拟机 ID（Required）
-        vr_type: 虚拟化平台类型（Optional）
+        vr_type: Virtualization platform type（Optional）
     
     Returns:
         虚拟机Details，包含 CPU、内存、磁盘、网卡等Configuration info
@@ -143,7 +143,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                       取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: 是否支持精简模式（仅 FusionCompute 场景支持）
-        vr_type: 虚拟化平台类型（FUSIONCOMPUTE, VMWARE, HCS）
+        vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: 数据存储所属的 vCenter 数据中心 ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），默认 asc
@@ -198,7 +198,7 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
     Args:
         client: DME API client
         datastore_id: 数据存储 ID（Required）
-        vr_type: 虚拟化平台类型（Optional）
+        vr_type: Virtualization platform type（Optional）
     
     Returns:
         数据存储Details
@@ -230,7 +230,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         host_name: Host name（supports fuzzy search）
         ip_address: 主机 IP 地址
         status: 主机状态列表
-        vr_type: 虚拟化平台类型
+        vr_type: Virtualization platform type
         page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -274,7 +274,7 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     Args:
         client: DME API client
         host_id: 主机 ID（Required）
-        vr_type: 虚拟化平台类型（Optional）
+        vr_type: Virtualization platform type（Optional）
     
     Returns:
         主机Details
@@ -300,7 +300,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
         site_id: 集群所属站点 ID
         dc_id: 数据中心 ID
         name: 集群名称（supports fuzzy search）
-        vr_type: 虚拟化平台类型
+        vr_type: Virtualization platform type
         page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -338,7 +338,7 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
     Args:
         client: DME API client
         cluster_id: 集群 ID（Required）
-        vr_type: 虚拟化平台类型（Optional）
+        vr_type: Virtualization platform type（Optional）
     
     Returns:
         集群Details

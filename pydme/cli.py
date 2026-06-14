@@ -95,7 +95,7 @@ class DMECLI:
                             continue
                         
                         if subtopic:
-                            # 子主题动作（三级结构）
+                            # 子主题动作 (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
                             # 提取动作名（去掉子主题前缀，支持空格或下划线分隔）

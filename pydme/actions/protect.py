@@ -150,7 +150,7 @@ def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
     Batch delete保护组
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
-    >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -185,26 +185,26 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         hyper_metro: 添加 LUN 到有双活特性保护组的请求参数（Optional），与 lun_ids 参数mutually exclusive；保护组存在双活特性时此参数有效。格式：{
                         is_delay: 是否延迟执行（Required），true：是；false：否；当延迟执行为 true 时：若一致性组或新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入一致性组；当延迟执行为 false 时：若一致性组或新 Pair 处于"正在同步"状态，将直接暂停一致性组和新 Pair，将新 Pair 加入一致性组，再同步一致性组
                         create_mode: 双活 Pair 的创建模式（Required），Optional值：auto（自动）、manual（手动）
-                        remote_storage_pool_id: 远端存储池 ID（Optional），1~32 个字符，正则 ^[a-fA-F0-9]+$；双活 Pair 创建模式为 auto 时有效
+                        remote_storage_pool_id: 远端存储池 ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；双活 Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
                         lun_pairs: 手动配置的双活 Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
-                                local_lun_id: 本端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
-                                remote_lun_id: 远端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$
+                                local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
+                                remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
         rem_reps: 添加 LUN 到有复制特性保护组的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；保护组存在复制特性时此参数有效。格式：[{
                         is_delay: 是否延迟执行（Optional），默认 true；true：是；false：否；当延迟执行为 true 时：若新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入一致性组；当延迟执行为 false 时：将直接分裂一致性组和新 Pair，将新 Pair 加入一致性组，再同步一致性组
                         create_mode: 远程复制 Pair 的创建模式（Required），Optional值：auto（自动）、manual（手动）
-                        remote_storage_id: 远端Storage device ID（Required），1~64 个字符，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
-                        remote_storage_pool_id: 远端存储池 ID（Optional），1~32 个字符，正则 ^[a-fA-F0-9]+$；复制 Pair 创建模式为 auto 时有效
+                        remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
+                        remote_storage_pool_id: 远端存储池 ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
                         lun_pairs: 手动配置的远程复制 Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
-                                local_lun_id: 本端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
-                                remote_lun_id: 远端 LUN 的 ID（Required），1~32 个字符，正则 ^[a-fA-F0-9]+$
+                                local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
+                                remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         },...]
 
@@ -260,7 +260,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
 
 
 # ============================================================================
-# hypermetro_group 子主题 - 双活一致性组operations
+# hypermetro_group 子主题 - Active-active consistency groupoperations
 # ============================================================================
 
 def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -270,14 +270,14 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           local_vstore_raw_id: str = None, remote_vstore_id: str = None,
                           remote_vstore_raw_id: str = None) -> dict:
     """
-    Batch query双活一致性组
+    Batch queryActive-active consistency group
 
     Args:
         client: DME API client
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: Items per page，默认 20
-        name: 双活一致性组名称，supports fuzzy match
-        raw_id: 双活一致性组在设备上的 ID
+        name: Active-active consistency group名称，supports fuzzy match
+        raw_id: Active-active consistency group在设备上的 ID
         protect_group_id: 保护组 ID
         storage_id: Storage device ID，支持本端存储 ID 过滤
         storage_name: Storage device name，支持本端存储名称fuzzy match
@@ -287,7 +287,7 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id mutually exclusive
 
     Returns:
-        双活一致性组列表
+        Active-active consistency group列表
     """
     url = "/rest/protection/v1/metro/groups/query"
 
@@ -325,12 +325,12 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
                             remote_vstore_id: str = None, remote_storage_pool_id: str = None,
                             lun_ids: list = None, remote_resource_name_rule: str = None) -> dict:
     """
-    创建双活一致性组
+    创建Active-active consistency group
 
     Args:
         client: DME API client
         domain_id: 双活域 ID
-        name: 双活一致性组名称
+        name: Active-active consistency group名称
         local_storage_id: 本端设备 ID
         local_pg_id: 本端保护组的 ID，条件Required：当设备类型为 OceanStor Dorado V6、OceanStor V6 时Required
         description: Description
@@ -378,12 +378,12 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
                              service_assurance_policy: str = None, speed: str = None,
                              bandwidth: int = None, isolation_threshold_time: int = None) -> dict:
     """
-    修改双活一致性组
+    修改Active-active consistency group
 
     Args:
         client: DME API client
-        group_id: 双活一致性组 ID
-        name: 双活一致性组名称
+        group_id: Active-active consistency group ID
+        name: Active-active consistency group名称
         description: Description
         recovery_policy: 双活 Pair 恢复策略，Optional值：automatic（自动）, manual（手动）
         service_assurance_policy: 业务保障策略，Optional值：data_reliability_preferred（数据可靠优先）, service_continuity_preferred（业务连续优先）
@@ -422,11 +422,11 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
 def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
                              is_self_adapt: bool = None) -> dict:
     """
-    Batch delete双活一致性组
+    Batch deleteActive-active consistency group
 
     Args:
         client: DME API client
-        ids: 双活一致性组 ID 列表
+        ids: Active-active consistency group ID 列表
         delete_mode: 删除模型，Optional值：preferred_only（优先站点删除）, non_preferred_only（非优先站点删除）, dual_ends（两端站点删除）
         is_self_adapt: 是否支持自适应删除成员 Pair，默认 false
 
@@ -452,11 +452,11 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
 def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list,
                                 is_self_adapt: bool = None) -> dict:
     """
-    双活一致性组添加成员 Pair
+    Active-active consistency group添加成员 Pair
 
     Args:
         client: DME API client
-        group_id: 双活一致性组 ID
+        group_id: Active-active consistency group ID
         pair_ids: 双活 Pair ID 列表
         is_self_adapt: 是否自适应修改双活 Pair 运行状态
 
@@ -480,11 +480,11 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
 
 def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    双活一致性组移除成员 Pair
+    Active-active consistency group移除成员 Pair
 
     Args:
         client: DME API client
-        group_id: 双活一致性组 ID
+        group_id: Active-active consistency group ID
         pair_ids: 双活 Pair ID 列表
 
     Returns:
@@ -504,11 +504,11 @@ def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids:
 
 def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    暂停双活一致性组
+    暂停Active-active consistency group
 
     Args:
         client: DME API client
-        ids: 双活一致性组 ID 列表
+        ids: Active-active consistency group ID 列表
         priority_station_type: 站点类型，Optional值：preferred（优先站点）, non_preferred（非优先站点）
 
     Returns:
@@ -529,11 +529,11 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
 
 def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    强制启动双活一致性组
+    强制启动Active-active consistency group
 
     Args:
         client: DME API client
-        ids: 双活一致性组 ID 列表
+        ids: Active-active consistency group ID 列表
         priority_station_type: 站点类型，Optional值：preferred（优先站点）, non_preferred（非优先站点）
 
     Returns:
@@ -554,11 +554,11 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
 
 def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     """
-    双活一致性组优先站点切换
+    Active-active consistency group优先站点切换
 
     Args:
         client: DME API client
-        ids: 双活一致性组 ID 列表
+        ids: Active-active consistency group ID 列表
 
     Returns:
         {
@@ -592,12 +592,12 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
 
     Args:
         client: DME API client
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: Items per page，默认 20
-        group_id: 所属双活一致性组 ID
-        group_name: 所属双活一致性组名称，supports fuzzy match
-        group_raw_id: 所属双活一致性组在存储设备上的 ID
-        pair_raw_id: 双活 Pair 在存储设备上的 ID
+        group_id: 所属Active-active consistency group ID
+        group_name: 所属Active-active consistency group名称，supports fuzzy match
+        group_raw_id: 所属Active-active consistency groupon the storage device ID
+        pair_raw_id: 双活 Pair on the storage device ID
         local_storage_id: 本端Storage device ID
         local_storage_name: 本端Storage device name，supports fuzzy match
         local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
@@ -765,7 +765,7 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
     Batch delete双活 Pair
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
-    >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -935,11 +935,11 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
 
     Args:
         client: DME API client
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: Items per page，默认 20
         group_id: 所属复制一致性组 ID
         group_name: 所属复制一致性组名称，supports fuzzy match
-        pair_raw_id: 复制 Pair 在存储设备上的 ID
+        pair_raw_id: 复制 Pair on the storage device ID
         local_storage_id: 本端Storage device ID
         local_storage_name: 本端Storage device name，supports fuzzy match
         local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
@@ -1315,7 +1315,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         client: DME API client
         snapshot_ids: 快照 ID 列表
         storage_id: Storage device ID
-        raw_id: 快照在存储设备上的 ID
+        raw_id: 快照on the storage device ID
         name: 快照名称，supports fuzzy search
         health_status: Health status，Optional值：normal, fault, write_protected
         running_status: 运行状态，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
@@ -1445,17 +1445,17 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
 
 
 # ============================================================================
-# snapshot_group 子主题 - 快照一致性组operations
+# snapshot_group 子主题 - Snapshot consistency groupoperations
 # ============================================================================
 
 def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
                           description: str = None, creation_mode: str = None) -> dict:
     """
-    创建快照一致性组
+    创建Snapshot consistency group
 
     Args:
         client: DME API client
-        name: 快照一致性组名称
+        name: Snapshot consistency group名称
         protect_group_id: 保护组的 ID
         description: Description
         creation_mode: 创建模式，Optional值：new_snapshot
@@ -1483,11 +1483,11 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
 
 def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete_target_lun: bool = None) -> dict:
     """
-    Batch delete快照一致性组
+    Batch deleteSnapshot consistency group
 
     Args:
         client: DME API client
-        snapshot_cg_ids: 快照一致性组 ID 列表
+        snapshot_cg_ids: Snapshot consistency group ID 列表
         is_delete_target_lun: 是否删除目标 LUN，仅 Dorado 6.1.2 及以上版本支持，默认 true
 
     Returns:
@@ -1513,11 +1513,11 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
                             name_prefix: str = None, name_suffix: str = None,
                             target_snapshot_objects: list = None) -> dict:
     """
-    激活快照一致性组
+    激活Snapshot consistency group
 
     Args:
         client: DME API client
-        snapshot_cg_id: 快照一致性组 ID
+        snapshot_cg_id: Snapshot consistency group ID
         object_type: Object type，Optional值：parent_object
         snapshot_create_mode: 快照创建方式，Optional值：auto, manual
         name_rule: 快照名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
@@ -1553,11 +1553,11 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
 
 def snapshot_group_deactivate(client: DMEAPIClient, snapshot_cg_ids: list) -> dict:
     """
-    批量取消激活快照一致性组
+    批量取消激活Snapshot consistency group
 
     Args:
         client: DME API client
-        snapshot_cg_ids: 快照一致性组 ID 列表
+        snapshot_cg_ids: Snapshot consistency group ID 列表
 
     Returns:
         {
@@ -1579,11 +1579,11 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
                             name_prefix: str = None, name_suffix: str = None,
                             target_snapshot_objects: list = None) -> dict:
     """
-    回滚快照一致性组
+    回滚Snapshot consistency group
 
     Args:
         client: DME API client
-        snapshot_cg_id: 快照一致性组 ID
+        snapshot_cg_id: Snapshot consistency group ID
         rollback_speed: 回滚速率，Optional值：low, medium, high, highest
         snapshot_create_mode: 快照创建方式，Optional值：auto, manual
         name_rule: 快照名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
@@ -1971,7 +1971,7 @@ def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
     批量同步远程复制一致性组
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
-    >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -1997,7 +1997,7 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
     批量分裂远程复制一致性组
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
-    >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -2023,7 +2023,7 @@ def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
     远程复制一致性组批量主从切换
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
-    >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -2777,55 +2777,55 @@ ACTIONS = {
     # hypermetro_group 子主题动作
     'hypermetro_group_list': {
         'func': hypermetro_group_list,
-        'description': 'Batch query双活一致性组',
+        'description': 'Batch queryActive-active consistency group',
         'params': ['page_no', 'page_size', 'name', 'raw_id', 'protect_group_id', 'storage_id', 'storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'remote_vstore_id', 'remote_vstore_raw_id'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_create': {
         'func': hypermetro_group_create,
-        'description': '创建双活一致性组',
+        'description': '创建Active-active consistency group',
         'params': ['domain_id', 'name', 'local_storage_id', 'local_pg_id', 'description', 'create_mode', 'remote_vstore_id', 'remote_storage_pool_id', 'lun_ids', 'remote_resource_name_rule'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_modify': {
         'func': hypermetro_group_modify,
-        'description': '修改双活一致性组',
+        'description': '修改Active-active consistency group',
         'params': ['group_id', 'name', 'description', 'recovery_policy', 'service_assurance_policy', 'speed', 'bandwidth', 'isolation_threshold_time'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_delete': {
         'func': hypermetro_group_delete,
-        'description': 'Batch delete双活一致性组',
+        'description': 'Batch deleteActive-active consistency group',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_add_pairs': {
         'func': hypermetro_group_add_pairs,
-        'description': '双活一致性组添加成员 Pair',
+        'description': 'Active-active consistency group添加成员 Pair',
         'params': ['group_id', 'pair_ids', 'is_self_adapt'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_remove_pairs': {
         'func': hypermetro_group_remove_pairs,
-        'description': '双活一致性组移除成员 Pair',
+        'description': 'Active-active consistency group移除成员 Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_pause': {
         'func': hypermetro_group_pause,
-        'description': '暂停双活一致性组',
+        'description': '暂停Active-active consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_force_startup': {
         'func': hypermetro_group_force_startup,
-        'description': '强制启动双活一致性组',
+        'description': '强制启动Active-active consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_switch_priority': {
         'func': hypermetro_group_switch_priority,
-        'description': '双活一致性组优先站点切换',
+        'description': 'Active-active consistency group优先站点切换',
         'params': ['ids'],
         'subtopic': 'hypermetro_group'
     },
@@ -3030,31 +3030,31 @@ ACTIONS = {
     # snapshot_group 子主题动作
     'snapshot_group_create': {
         'func': snapshot_group_create,
-        'description': '创建快照一致性组',
+        'description': '创建Snapshot consistency group',
         'params': ['name', 'protect_group_id', 'description', 'creation_mode'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_delete': {
         'func': snapshot_group_delete,
-        'description': 'Batch delete快照一致性组',
+        'description': 'Batch deleteSnapshot consistency group',
         'params': ['snapshot_cg_ids', 'is_delete_target_lun'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_activate': {
         'func': snapshot_group_activate,
-        'description': '激活快照一致性组',
+        'description': '激活Snapshot consistency group',
         'params': ['snapshot_cg_id', 'object_type', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_deactivate': {
         'func': snapshot_group_deactivate,
-        'description': '批量取消激活快照一致性组',
+        'description': '批量取消激活Snapshot consistency group',
         'params': ['snapshot_cg_ids'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_rollback': {
         'func': snapshot_group_rollback,
-        'description': '回滚快照一致性组',
+        'description': '回滚Snapshot consistency group',
         'params': ['snapshot_cg_id', 'rollback_speed', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },

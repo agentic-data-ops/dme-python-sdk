@@ -230,11 +230,11 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 host_type: 映射Host type。可选值：storage_host (存储主机), host (主机)。默认host,
                 start_host_lun_id: 起始主机LUN ID (1~4096),
                 mapping_view: 映射视图请求信息 (LunMappingRequestobject)。属性格式如下：{
-                        mapping_view_raw_id: 映射视图在存储设备上的ID (1~31个字符),
-                        mapping_view_name: 映射视图在存储设备上的名称 (1~31个字符),
-                        lun_group_raw_id: LUN组在存储设备上的ID (1~31个字符),
-                        lun_group_name: LUN组在存储设备上的名称 (1~255个字符),
-                        port_group_raw_id: 端口组在存储设备上的ID (1~31个字符; 主机或主机组不存在映射关系时可指定, 存在映射关系时不可指定),
+                        mapping_view_raw_id: 映射视图on the storage deviceID (1~31个字符),
+                        mapping_view_name: 映射视图on the storage device名称 (1~31个字符),
+                        lun_group_raw_id: LUN组on the storage deviceID (1~31个字符),
+                        lun_group_name: LUN组on the storage device名称 (1~255个字符),
+                        port_group_raw_id: 端口组on the storage deviceID (1~31个字符; 主机或主机组不存在映射关系时可指定, 存在映射关系时不可指定),
                 },
              }
         task_remarks: Async taskRemark（可选），最多 1024 个字符
@@ -1680,7 +1680,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
         client: DME API 客户端
         storage_host_group_id: 存储主机组 ID（Required，1~64 字符）
         storage_host_ids: 要移除的主机 ID 列表（Required，最多 1000 个）
-        task_remarks: Task remark（可选，最多 1024 字符）
+        task_remarks: Task remark(Optional, max 1024 字符）
 
     Returns:
         任务 ID
@@ -1708,7 +1708,7 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
     Args:
         client: DME API 客户端
         host_group_ids: 存储主机组 ID 列表（Required，1~100 个）
-        task_remarks: Task remark（可选，最多 1024 字符）
+        task_remarks: Task remark(Optional, max 1024 字符）
 
     Returns:
         Deletion result
@@ -1738,7 +1738,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     Args:
         client: DME API 客户端
         storage_host_id: 存储主机 ID（Required，1~64 字符）
-        name: LUN 名称（可选，1~256 字符，支持fuzzy search）
+        name: LUN Name (Optional,1~256 字符，支持fuzzy search）
         page_size: Items per page（可选，1~1000，默认 20）
         page_no: 分页查询的Start position（可选，1~10000000，默认 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
@@ -1780,7 +1780,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     Args:
         client: DME API 客户端
         storage_host_group_id: 存储主机组 ID（Required，1~64 字符）
-        name: LUN 名称（可选，1~256 字符，支持fuzzy search）
+        name: LUN Name (Optional,1~256 字符，支持fuzzy search）
         page_size: Items per page（可选，1~1000，默认 20）
         page_no: 分页查询的Start position（可选，1~10000000，默认 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）

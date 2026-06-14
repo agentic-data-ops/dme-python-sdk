@@ -16,7 +16,7 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     Args:
         client: DME API client
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
         name: 服务器名称过滤（Optional）
         server_type: 服务器类型过滤（Optional）
     
@@ -78,7 +78,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
         client: DME API client
         server_id: 服务器 ID
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
 
     Returns:
         CPU 列表
@@ -104,7 +104,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
         client: DME API client
         server_id: 服务器 ID
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
     
     Returns:
         内存列表
@@ -130,7 +130,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
         client: DME API client
         server_id: 服务器 ID
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
     
     Returns:
         硬盘列表
@@ -155,7 +155,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
     Args:
         client: DME API client
         server_id: 服务器 ID（Optional）
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，5~1000，默认 20
 
     Returns:
@@ -184,7 +184,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
         client: DME API client
         server_id: 服务器 ID
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
     
     Returns:
         风扇列表
@@ -210,7 +210,7 @@ def power_list(client: DMEAPIClient, server_id: str,
         client: DME API client
         server_id: 服务器 ID
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
     
     Returns:
         电源列表
@@ -236,7 +236,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
         client: DME API client
         server_id: 服务器 ID
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
     
     Returns:
         RAID 卡列表
@@ -262,7 +262,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
         client: DME API client
         server_id: 服务器 ID
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
     
     Returns:
         PCIe 卡列表
@@ -294,56 +294,56 @@ ACTIONS = {
         'params': ['server_id'],
         'subtopic': None
     },
-    # 子主题动作 - cpu（三级结构）
+    # 子主题动作 - cpu (three-level structure)
     'cpu_list': {
         'func': cpu_list,
         'description': '查询服务器上的所有 CPU 列表',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
-    # 子主题动作 - memory（三级结构）
+    # 子主题动作 - memory (three-level structure)
     'memory_list': {
         'func': memory_list,
         'description': '查询服务器上的内存',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'memory'
     },
-    # 子主题动作 - disk（三级结构）
+    # 子主题动作 - disk (three-level structure)
     'disk_list': {
         'func': disk_list,
         'description': '查询服务器上的硬盘集合',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },
-    # 子主题动作 - nic（三级结构）
+    # 子主题动作 - nic (three-level structure)
     'nic_list': {
         'func': nic_list,
         'description': '查询服务器上的网卡集合',
         'params': ['server_id', 'page_no', 'page_size'],
         'subtopic': 'nic'
     },
-    # 子主题动作 - fan（三级结构）
+    # 子主题动作 - fan (three-level structure)
     'fan_list': {
         'func': fan_list,
         'description': '查询服务器上的风扇',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
-    # 子主题动作 - power（三级结构）
+    # 子主题动作 - power (three-level structure)
     'power_list': {
         'func': power_list,
         'description': '查询服务器上的电源',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },
-    # 子主题动作 - raid_card（三级结构）
+    # 子主题动作 - raid_card (three-level structure)
     'raid_card_list': {
         'func': raid_card_list,
         'description': '查询服务器上的 RAID 卡详情',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },
-    # 子主题动作 - pcie_card（三级结构）
+    # 子主题动作 - pcie_card (three-level structure)
     'pcie_card_list': {
         'func': pcie_card_list,
         'description': '查询服务器上的 PCIe 卡信息',

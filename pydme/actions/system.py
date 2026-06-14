@@ -86,7 +86,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
 def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     """
-    删除用户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    删除用户。该APIMay directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
@@ -622,7 +622,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     Args:
         client: DME API client
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
         task_name: 任务名称过滤（Optional）
         status: 状态过滤（Optional，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
         owner_id: 创建任务用户 ID 过滤（Optional）
@@ -760,7 +760,7 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     Args:
         client: DME API client
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
         name: 标签类型名称过滤（Optional）
     
     Returns:
@@ -872,7 +872,7 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     Args:
         client: DME API client
         start: 分页Start position，默认 1
-        limit: 分页数量，默认 100
+        limit: Page size, default 100
         name: 标签名称过滤（Optional）
         tag_type_id: 标签类型 ID 过滤（Optional）
     
@@ -1248,7 +1248,7 @@ ACTIONS = {
         'params': ['user_name', 'new_value', 'is_initial_password'],
         'subtopic': None
     },
-    # 子主题动作 - user（三级结构）
+    # 子主题动作 - user (three-level structure)
     'user_list': {
         'func': user_list,
         'description': 'Batch query用户信息',
@@ -1273,21 +1273,21 @@ ACTIONS = {
         'params': ['user_id'],
         'subtopic': 'user'
     },
-    # 子主题动作 - role（三级结构）
+    # 子主题动作 - role (three-level structure)
     'role_list': {
         'func': role_list,
         'description': 'Batch query角色信息',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
-    # 子主题动作 - backup_server（三级结构）
+    # 子主题动作 - backup_server (three-level structure)
     'backup_server_list': {
         'func': backup_server_list,
         'description': 'Batch query backup servers',
         'params': ['address', 'name', 'page_no', 'page_size'],
         'subtopic': 'backup_server'
     },
-    # 子主题动作 - todo_task_group（三级结构）
+    # 子主题动作 - todo_task_group (three-level structure)
     'todo_task_group_list': {
         'func': todo_task_group_list,
         'description': '查询待办任务组列表',
@@ -1309,7 +1309,7 @@ ACTIONS = {
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
-    # 子主题动作 - todo_task（三级结构）
+    # 子主题动作 - todo_task (three-level structure)
     'todo_task_list': {
         'func': todo_task_list,
         'description': '查询待办Task list',
@@ -1346,7 +1346,7 @@ ACTIONS = {
         'params': ['item_id', 'reason'],
         'subtopic': 'todo_task'
     },
-    # 子主题动作 - task（三级结构）
+    # 子主题动作 - task (three-level structure)
     'task_show': {
         'func': task_show,
         'description': 'QueryTask details',
@@ -1371,7 +1371,7 @@ ACTIONS = {
         'params': ['task_id', 'timeout', 'poll_interval'],
         'subtopic': 'task'
     },
-    # 子主题动作 - tag_type（三级结构）
+    # 子主题动作 - tag_type (three-level structure)
     'tag_type_create': {
         'func': tag_type_create,
         'description': '创建标签类型',
@@ -1396,7 +1396,7 @@ ACTIONS = {
         'params': ['tag_type_ids'],
         'subtopic': 'tag_type'
     },
-    # 子主题动作 - tag（三级结构）
+    # 子主题动作 - tag (three-level structure)
     'tag_create': {
         'func': tag_create,
         'description': '创建标签',
@@ -1433,14 +1433,14 @@ ACTIONS = {
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
-    # 子主题动作 - az（三级结构）
+    # 子主题动作 - az (three-level structure)
     'az_list': {
         'func': az_list,
         'description': 'Batch query可用分区',
         'params': ['az_name', 'operate_status', 'start', 'limit', 'is_sc'],
         'subtopic': 'az'
     },
-    # 子主题动作 - dc（三级结构）
+    # 子主题动作 - dc (three-level structure)
     'dc_list': {
         'func': dc_list,
         'description': '获取数据中心列表',

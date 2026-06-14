@@ -807,7 +807,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         policy_source: 来源（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
-        page_no: 分页查询的页码，1~1000，默认 1
+        page_no: Page number，1~1000，默认 1
         page_size: Items per page，1~100，默认 20
         sort_key: Sort field（last_check_time-最后检查时间，failed_count-检查不通过的object个数）
         sort_dir: 排序方式（asc-正序，desc-降序）
@@ -972,7 +972,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         first_occur_time: 第一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
         last_occur_time: 最后一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
-        page_no: 分页查询的页码，1~10000，默认 1
+        page_no: Page number，1~10000，默认 1
         page_size: Items per page，1~2000，默认 20
         sort_key: Sort field（violation_count-异常次数）
         sort_dir: 排序方式（asc-正序，desc-降序）

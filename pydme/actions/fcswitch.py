@@ -16,7 +16,7 @@ def list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: 交换机名称（Optional，supports fuzzy search）
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -72,7 +72,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
         client: DME API client
         switch_id: 交换机 ID（Optional）
         port_name: Port name（Optional）
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -105,7 +105,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     Args:
         client: DME API client
         switch_id: 交换机 ID（Optional）
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -135,7 +135,7 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: 光纤网络名称（Optional，supports fuzzy search）
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -165,7 +165,7 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
     Args:
         client: DME API client
         fabric_id: 光纤网络 ID（Required）
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，1~1000，默认 20
 
     Returns:
@@ -221,7 +221,7 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     
     Args:
         client: DME API client
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -261,7 +261,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         member_count: 成员数量（Optional），0~2147483647
         sort_key: Sort field（Optional），支持 member_count
         sort_dir: Sort direction（Optional），asc：升序；desc：降序
-        page_no: 分页查询的页码（Optional），1~65535
+        page_no: Page number（Optional），1~65535
         page_size: 每页数量（Optional），1~1000
 
     Returns:
@@ -522,7 +522,7 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     Args:
         client: DME API client
         fabric_wwn: 光纤网络 WWN（Required）
-        page_no: 分页查询的页码，默认 1
+        page_no: Page number，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
