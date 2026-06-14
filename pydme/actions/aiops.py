@@ -199,7 +199,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         page_size: 每页count,1~1000,默认 100(Current alarm查询用)
         cleared: 是否已清除,true/false(History alarm查询用)
         size: 返回的结果集最大条数,1~1000,默认 100(History alarm查询用)
-        iterator: 迭代子,首次查询无需传入,后续查询使用上次返回的 iterator(History alarm查询用)
+        iterator: 迭代子,首次查询无需传入,Subsequent queries use last returned iterator(History alarm查询用)
         include_history: 开关参数,指定则同时查询History alarm
 
     Returns:
@@ -363,7 +363,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - NAMESPACE: Namespace
         begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点,支持最近七day(s)内的诊断
         end_time: 分析End time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
-                  分析时间间隔范围must be greater than 30 minute(s),小于 24 hour(s)
+                  Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: 智能分析类型列表(Required),Array size:1~4,value range:
             - highLatency: 高时延
             - healthAnalysis: 健康快检
@@ -719,7 +719,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含指标扣分列表
+        }，Includes metric deduction list
     """
     url = "/rest/healthmgmt/v1/health-result/dimension-score/query"
 
@@ -882,7 +882,7 @@ def check_policy_enable(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Enable check policy
 
-    启用指定的检查策略。
+    Enable specified check policy。
 
     Args:
         client: DME API client
@@ -1218,7 +1218,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
         }，包含：
         - total: Query resultTotal count
         - vms: VM list
-        - disks: Physical host关联的物理磁盘列表
+        - disks: Physical hostAssociated physical disk list
     """
     url = "/rest/topomgmt/v1/topo-data/vms/query"
 

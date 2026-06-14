@@ -280,7 +280,7 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         raw_id: Active-active consistency groupon the device ID
         protect_group_id: Protection group ID
         storage_id: Storage device ID，支持本端存储 ID 过滤
-        storage_name: Storage device name，支持本端存储名称fuzzy match
+        storage_name: Storage device name，Supports local storage namefuzzy match
         local_vstore_id: local tenant ID，this parameter and local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: local tenanton the device ID，this parameter and local_vstore_id mutually exclusive
         remote_vstore_id: remote tenant ID，this parameter and remote_vstore_raw_id mutually exclusive
@@ -603,7 +603,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         local_vstore_id: local tenant ID，this parameter and local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: local tenanton the device ID，this parameter and local_vstore_id mutually exclusive
         local_volume_name: 本端 LUN 名称，supports fuzzy match
-        local_host_access_state: 本地资源主机访问状态，Optional值：access_forbidden, read_only, read_write
+        local_host_access_state: Local resource host access status，Optional值：access_forbidden, read_only, read_write
         remote_vstore_id: remote tenant ID，this parameter and remote_vstore_raw_id mutually exclusive
         remote_vstore_raw_id: remote tenanton the device ID，this parameter and remote_vstore_id mutually exclusive
         remote_volume_name: 远端 LUN 名称，supports fuzzy match
@@ -1321,8 +1321,8 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         running_status: Running status，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
         source_lun_name: 源 LUN 名称，supports fuzzy search
         parent_name: 父Object name，supports fuzzy search
-        activated_time_from: 查询激活时间的起始点（Unix Timestamp，单位second(s)）
-        activated_time_to: 查询激活时间的结束点（Unix Timestamp，单位second(s)）
+        activated_time_from: Query activation start time（Unix Timestamp，单位second(s)）
+        activated_time_to: Query activation end time（Unix Timestamp，单位second(s)）
         page_no: Page query开始页，min为 1，Default为 1
         page_size: 每页count，1~1000，默认 20
 
@@ -1422,7 +1422,7 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
         client: DME API client
         snapshot_ids: 快照 ID 列表
         is_delete_target_lun: Delete target LUN，默认 true
-        is_auto_deactivate: 是否在删除前自动Deactivate快照，默认 false
+        is_auto_deactivate: Auto before deleteDeactivate快照，默认 false
 
     Returns:
         {

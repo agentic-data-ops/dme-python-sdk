@@ -1242,7 +1242,7 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
     """
     result = {'user': [], 'ip': [], 'file': []}
 
-    # 根据 type 参数查询对应类型的权限
+    # 根据 type parameter to query matching permission type
     if type is None or type == 'user':
         url = "/rest/fileservice/v1/cifs-shares/{cifs_share_id}/auth-users/query"
         payload = {}
@@ -1770,7 +1770,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         space_advisory_quota: 空间建议配额（可选），单位 Byte，-1 field is invalid；仅 OceanStor Pacific Device support；当空间建议配额和空间硬配额或空间软配额when both valid，空间建议配额需小于空间硬配额或空间软配额
         file_soft_quota: 文件数软配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_hard_quota: 文件数硬配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
-        file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific Device support；当文件数建议配额和文件数硬配额或文件数软配额when both valid，文件数建议配额需小于文件数硬配额或文件数软配额
+        file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，文件数建议配额需小于文件数硬配额或文件数软配额
         snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：Exclude snapshot space；仅 OceanStor Pacific Device support
         soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；not sent或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
         task_remarks: Async taskRemark
@@ -1906,7 +1906,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         product_name: Filesystem所属设备产品名称（可选），1~256  characters，支持fuzzy search
         description: FilesystemDescription（可选），1~255  characters
         tag_filters: Tag filter list（可选），List<TagFilters> 类型，max array members 11。参数格式如下：[{
-                        tag_ids: 标签 ID 列表（可选），max array members 10，多个标签之间为或关系,
+                        tag_ids: 标签 ID 列表（可选），max array members 10，Tags are OR-related,
                         tag_type_id: Tag type ID（可选），正则 ^[a-fA-F0-9]{32}$,
                         operator: 过滤条件（Required），Options：contain（包含）、not_contain（不包含）,
         },...]
@@ -2355,7 +2355,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         owning_controller: 归属Controller，2~16 characters（可选）
         snapshot_expired_enabled: Delete old read-only snapshots，true开启/false关闭（可选）
         checksum_enabled: Data verification switch，true开启/false关闭（可选）
-        ads_enabled: Enable data flow switching，true开启/false关闭，开启后不允许关闭（可选）
+        ads_enabled: Enable data flow switching，true开启/false关闭，Cannot be disabled once enabled（可选）
         security_mode: Security mode，mixed/native/ntfs/unix（可选）
         nas_locking_policy: NAS锁策略，mandatory（强制锁）/advisory（建议锁）/unknown（可选）
         snapshot_reserved_space_percentage: Snapshot reserved space percentage，0~90（可选）
@@ -2394,7 +2394,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         iotype: Policy type (可选)。Options：2 (总性能upper limit), 3 (读写upper limit; only supported by some devices),
                         vstore_id: 所属Tenant ID (可选, 1~64字符; A800unused under),
                         vstore_name: 所属Tenant name (可选, 1~64字符; A800unused under),
-                        global_flag: 是否全局 (可选; 当前版本只支持全局; A800unused under),
+                        global_flag: 是否全局 (可选; Current version only supports global; A800unused under),
                         qos_policy_id: QoS policyID (可选, 0~64字符; 与除enabled外的其他参数mutually exclusive),
                         enabled: EnableQoSPolicy (可选, 默认false),
                 },

@@ -98,7 +98,7 @@ class DMECLI:
                             # subtopic actions (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
-                            # 提取动作名（Remove subtopic prefix，支持空格或下划线分隔）
+                            # 提取动作名（Remove subtopic prefix，Supports space or underscore separator）
                             action_name = action_key
                             prefix_space = f"{subtopic} "
                             prefix_underscore = f"{subtopic}_"
@@ -158,7 +158,7 @@ class DMECLI:
         if in_params:
             current_param = None
             param_lines = []
-            in_format_block = 0  # 参数格式块嵌套深度，>0 时跳过内部属性解析
+            in_format_block = 0  # 参数格式块嵌套深度，>0 skip internal attribute parsing
             
             for line in lines:
                 raw = line  # preserve original indentation
@@ -883,7 +883,7 @@ def main():
 
                         typed_params[func_param_name] = param_value
 
-                # 检查函数是否需要 client 参数
+                # Check if function requires client 参数
                 sig_params = sig.parameters
                 if sig_params and 'client' in sig_params:
                     result = func(client, **typed_params)
@@ -904,10 +904,10 @@ def main():
             print_subtopic_help(cli, args.topic, args.subtopic)
             return
 
-    # 4. 指定了 <topic> <subtopic> <action>，显示动作帮助或执行动作
+    # 4. 指定了 <topic> <subtopic> <action>，Show action help or execute action
     if args.subtopic and args.action:
         # 尝试组合为 action_key（Three-level structure：<topic> <subtopic> <action>）
-        # 先尝试 subtopic_action 格式（支持带空格的动作名，如 "frame list"）
+        # 先尝试 subtopic_action 格式（Supports action names with spaces，如 "frame list"）
         action_key = f"{args.subtopic}_{args.action}"
         
         # 如果找不到，尝试 subtopic action 格式（空格分隔）

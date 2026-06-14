@@ -215,13 +215,13 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         gfs_group_id: Global data space ID (1~32 characters, Optional。与 gfs_group_name cannot both be empty; takes precedence when both have values gfs_group_id)
         gfs_group_name: Global data space名称 (1~255 characters, Optional。与 gfs_group_id cannot both be empty; takes precedence when both have values gfs_group_id)
         gfs_mode: Global namespace模式 (Optional)。Optional值：smart_share。Default：smart_share
-        single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (只有一个成员可写入)
+        single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (Only one member can write)
         smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
                 id: Namespace ID (1~64 characters, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required。Default：hour,
-                single_write_mode: 单写模式策略 (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，必须且只能有一个成员取值为 read_write,
+                single_write_mode: 单写模式策略 (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
              }, ...]
 
     Returns:
@@ -450,8 +450,8 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         atime_operator: 文件的访问时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 atime、atime_unit must be sent together
         atime: 文件的访问时间间隔 (int32, 0~26304, Optional)。与 atime_operator、atime_unit must be sent together
         atime_unit: 文件的访问Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 atime_operator、atime must be sent together
-        mtime_operator: 文件的修改时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 mtime、mtime_unit must be sent together
-        mtime: 文件的修改时间间隔 (int32, 0~26304, Optional)。与 mtime_operator、mtime_unit must be sent together
+        mtime_operator: File modification time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 mtime、mtime_unit must be sent together
+        mtime: File modification time interval (int32, 0~26304, Optional)。与 mtime_operator、mtime_unit must be sent together
         mtime_unit: 文件的修改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 mtime_operator、mtime must be sent together
         ctime_operator: file status modification改时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 ctime、ctime_unit must be sent together
         ctime: file status modification改时间间隔 (int32, 0~26304, Optional)。与 ctime_operator、ctime_unit must be sent together
@@ -460,7 +460,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         crtime: 文件的Creation time间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
         crtime_unit: 文件的Creation time间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
         name_operator: 文件名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 name_filter must be sent together
-        name_filter: 文件名匹配表达式列表 (1~1023 characters, Optional)。与 name_operator must be sent together
+        name_filter: Filename matching expression list (1~1023 characters, Optional)。与 name_operator must be sent together
         size_operator: File size的匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 file_size must be sent together
         file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, Optional)。与 size_operator must be sent together
         tag: object标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")

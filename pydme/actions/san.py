@@ -1616,7 +1616,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     """
     Add storage host to storage host group
 
-    将现有主机添加到Storage host组，或在主机组中创建新主机。
+    Add existing hosts toStorage host组，or create new hosts in host group。
 
     Args:
         client: DME API Client
@@ -1674,7 +1674,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     """
     Remove host from storage host group
 
-    从指定的Storage host组中移除一个或多个主机。
+    从指定的Storage hostRemove one or more hosts from group。
 
     Args:
         client: DME API Client

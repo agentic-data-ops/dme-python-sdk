@@ -377,7 +377,7 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
     """
     Query站点详情
     
-    查询虚拟化站点的Details。
+    Query virtualization siteDetails。
     
     Args:
         client: DME API client
@@ -420,7 +420,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
     """
     Query physical disk info
     
-    查询物理磁盘列表，supports multiple filter criteria。
+    Query physical disk list，supports multiple filter criteria。
     
     Args:
         client: DME API client

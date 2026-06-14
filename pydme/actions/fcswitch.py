@@ -679,7 +679,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     """
     result = {'port_members': [], 'wwn_members': []}
 
-    # if specified type 或默认为 None 时，查询对应类型的成员
+    # if specified type 或默认为 None 时，Query matching member type
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/port-members/list"
         payload = {}

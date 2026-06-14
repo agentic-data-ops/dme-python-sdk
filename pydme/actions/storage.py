@@ -263,7 +263,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
         az: Availability zone ID (Optional, string, 1~64 characters)
         source: Storage device的来源 (Optional, string)。Options：add (接入), record (录入), all (所有)。默认查询接入设备
         dc_id: Storage deviceData center的ID (Optional, string, 1~32 characters)
-        tag_ids: Tag filter list (Optional, string)。supports up to10个标签ID组合过滤，多个过滤条件之间为且关系
+        tag_ids: Tag filter list (Optional, string)。supports up to10个标签ID组合过滤，Multiple filter conditions are AND-related
         start: Page queryStart position (Optional, int32, 1~10000)。Default：1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
         ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000 characters)。supports up to10extended attributes combined filter
@@ -772,7 +772,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 filesystem_subscribed_capacity: FilesystemTotal subscribed capacity，单位MB (number)，仅OceanStor Dorado V6存储6.1.0supported in version,
                 health_status: Health status。Options：normal (正常), fault (故障), degraded (降级), unknown (未知)。flash and third-party storage only,
                 running_status: Running status. Options：pre-copy (Pre-copy), rebuilt (重构), online (在线), offline (离线), balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown (未知)。flash storage only,
-                pool_status: Storage pool状态。Options：normal (正常), fault (故障), write-protect (写保护), stopped (停止), fault-and-write-protect (故障且写保护), migrating-data (Data migration), degraded (降级), rebuilding-data (数据重构), migrating-services (服务迁移), all-copies-failed (全副本故障), all-copies-failed-and-write-protect (全副本故障且写保护), deleting (Deleting), deletion-failed (删除失败), unknown (未知)。distributed storage only,
+                pool_status: Storage pool状态。Options：normal (正常), fault (故障), write-protect (写保护), stopped (停止), fault-and-write-protect (故障且写保护), migrating-data (Data migration), degraded (降级), rebuilding-data (数据重构), migrating-services (服务迁移), all-copies-failed (全副本故障), all-copies-failed-and-write-protect (All replicas failed with write protection), deleting (Deleting), deletion-failed (删除失败), unknown (未知)。distributed storage only,
                 disk_types: Disk type列表 (List<string>)，flash storage only,
                 capacity_usage: Capacity utilization,
                 redundancy_policy: 冗余策略。Options：replication (副本), ec (EC)。仅FusionStorage、OceanStor 100D和OceanStor Pacificseries device support,
@@ -929,7 +929,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 storage_id: Storage deviceid (1~64 characters),
                 storage_name: Storage device名称 (1~255 characters),
                 eos_time: 存储EOS时间 (int64)，格林威治时间1970year(s)01month(s)01日00时00分00second(s)起至现在的总毫second(s)数,
-                installation_status: 存储软件安装状态。Options：installed (已安装存储软件), not_installed (未安装存储软件),
+                installation_status: Storage software installation status。Options：installed (已安装存储软件), not_installed (未安装存储软件),
                 ip_address_list: Node IP address list (List<StorageNodeIpInfo>)。参数格式如下：[{
                     ip_address: Node IP地址 (1~256 characters),
                     usage: Node IP地址用途列表 (List<string>)。Options：storage_frontend (存储前端网络IP), storage_backend (存储后端网络IP), management_external_float (管理外部网络浮动IP), management_internal_float (管理内部网络浮动IP), management_external (管理外部网络IP), management_internal (管理内部网络IP), replication (复制网络IP), quorum (仲裁网络IP), iscsi (ISCSI网络IP),
@@ -1953,7 +1953,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
     """
     创建 QoS 策略
 
-    创建一个新的 QoS 策略，可以配置性能限制、告警参数和定时调度。
+    创建一个新的 QoS 策略，Can configure performance limits、Alarm parameters and scheduled scheduling。
 
     Args:
         client: DME API client

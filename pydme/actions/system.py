@@ -13,7 +13,7 @@ def login(client: DMEAPIClient) -> dict:
     Auth user login
 
     强制调用 client.login() 完成认证，然后从 header 获取 accessSession，
-    提示用户可配置环境变量复用认证密钥，Avoid duplicate login。
+    Prompt user to configure env vars to reuse auth token，Avoid duplicate login。
 
     Args:
         client: DME API client
@@ -56,12 +56,12 @@ def logout(client: DMEAPIClient) -> dict:
 def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
                    is_initial_password: bool = True) -> dict:
     """
-    根据指定Username重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全Admin角色。
+    根据指定Username重置指定用户的密码，重置不需要原始密码，因此，Third-party user executing this API must have security roleAdmin角色。
 
     Args:
         client: DME API client
         user_name: 需要重置密码的Username (Required, string, 1~128 characters)
-        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
 
     Returns:
@@ -687,7 +687,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         poll_interval: 轮询间隔（second(s)），默认 2 second(s)
 
     Returns:
-        任务最终状态详情
+        Task final status details
         status 说明：
         - 3: 成功
         - 4: partial success
@@ -908,7 +908,7 @@ def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
         color: Tag color（Optional）
     
     Returns:
-        修改后的标签信息
+        Modified tag info
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}"
     
