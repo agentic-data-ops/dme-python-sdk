@@ -1,0 +1,313 @@
+$ python3 -c "
+import re, glob
+
+for fname in sorted(glob.glob('pydme/actions/*.py') + ['pydme/cli.py']):
+    name = fname.split('/')[-1]
+    with open(fname) as f:
+        lines = f.readlines()
+    for i, line in enumerate(lines, 1):
+        # Find lines with Chinese chars (excluding preserved markers)
+        if not re.search(r'[\u4e00-\u9fff]', line):
+            continue
+        if '参数格式如下' in line or '属性格式如下' in line:
+            continue
+        # Show only lines that clearly have mixed Chinese-English (Chinese chars + English words)
+        if re.search(r'[a-zA-Z]{3,}', line) and re.search(r'[\u4e00-\u9fff]', line):
+            clean = line.rstrip()
+            if len(clean) > 20 and len(clean) < 150:
+                print(f'{name}:L{i}: {clean}')
+"
+[exit 0]
+aiops.py:L366:                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
+aiops.py:L371:             - highReadLatency: 高Read latency
+aiops.py:L372:             - highWriteLatency: 高Write latency
+aiops.py:L418:         begin_time: Start time(Required,Unix Timestamp毫second(s))
+aiops.py:L419:         end_time: End time(Required,Unix Timestamp毫second(s))
+aiops.py:L421:         object_ids: object ID  list(Required, max 2000 个,ID  length 1~32 位)
+aiops.py:L470:     - Object typeand metric definition:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
+aiops.py:L473:       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
+aiops.py:L475:       4. obtain from response corresponding resource的 instance_id (即 obj_ids  parameter)
+aiops.py:L480:                      从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
+aiops.py:L482:                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
+aiops.py:L483:         obj_ids:  monitorobjectIdentifier list(Required, max 512 个), corresponding CMDB instance ID
+aiops.py:L494:                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
+aiops.py:L497:                LAST_1_DAY( recent 1 day(s)), LAST_1_WEEK( recent 1 week(s)), LAST_1_MONTH( recent 1 个month(s)),
+aiops.py:L498:                LAST_1_QUARTER( recent 3 个month(s)), HALF_1_YEAR( recent半year(s)), LAST_1_YEAR( recent 1 year(s)),
+aiops.py:L500:         begin_time: Query start time(Optional),仅 range 为 BEGIN_END_TIME 时effective, must be end_time 小
+aiops.py:L501:         end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时effective, must be begin_time 大
+aiops.py:L540:                     can beinteger list或string list,如 [123, 456] 或 ["123", "456"]
+aiops.py:L543:         Monitoring metric info,includes  kpi, data_type, data_unit, en_us, zh_cn 等 field
+aiops.py:L584:         resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等 field
+aiops.py:L590:     # if provided了 filter  parameter, filter result
+aiops.py:L616:         begin_time: Start time (Required) , 自 1970 year(s) 1 month(s) 1 日 (00:00:00GMT) to current time in mssecond(s)数
+aiops.py:L617:         end_time: End time (Required) , 自 1970 year(s) 1 month(s) 1 日 (00:00:00GMT) to current time in mssecond(s)数
+aiops.py:L619:         indicator: Resource typecorresponding metric (capacity_prediction 和 performance_prediction Required)
+aiops.py:L633:         raise ValueError(f"不 support的 type  parameter: {type}")
+aiops.py:L660:                     Optional值: storage (Storage device) , storage_pool (Storage pool) , storage_host (Storage host) ,
+aiops.py:L666:         object_ids: object resId  list, For batch exact lookup (Optional, supports up to 100 个 ID)
+aiops.py:L669:         sort_key: Sort field (Optional) , Sort by score, Optional值: health_score
+aiops.py:L670:         sort_dir: Sort method (Optional) , Optional值: asc, desc
+aiops.py:L711:                     Optional值: storage, storage_pool, storage_host, storage_disk, storage_port,
+aiops.py:L716:                         Optional值: alarm , performance_anomaly (Performance anomaly) ,
+aiops.py:L764:             - un_analyzed: 未 analysis
+aiops.py:L809:         object_type: Object type (storage- storage, lun-Logical unit, host- host等)
+aiops.py:L822:         }, includes  total (Total count) 和 policies ( policy list)
+aiops.py:L959:     Query check policy exception results, supports multiple filter criteria和Pagination.
+aiops.py:L967:         object_type: Object type (storage- storage, lun-Logical unit, host- host等)
+aiops.py:L970:         policy_types: Policy type list ( max 30 个)
+aiops.py:L983:         }, includes  total (Total count) 和 results (Exception check result list)
+aiops.py:L1063:             - host_group:  host组
+aiops.py:L1072:         san_type: SAN  type, Optional值: ip_san, fc_san
+aiops.py:L1120:             - host_group:  host组
+aiops.py:L1122:             - datastore: Datastore (仅 FC_SAN)
+aiops.py:L1123:             - application:  app (仅 FC_SAN)
+aiops.py:L1124:             - switch_port: Switch port (仅 FC_SAN)
+aiops.py:L1126:         san_type: SAN  type (Optional) , Optional值: ip_san, fc_san
+aiops.py:L1128:                   -  specified为 ip_san 时,  only call IP_SAN API
+aiops.py:L1129:                   -  specified为 fc_san 时,  only call FC_SAN API
+aiops.py:L1134:         }, includes  host到Storage pool topology:
+aiops.py:L1194:     Query topology VM and virtual disk list, 或 query BMS Physical disk list below
+aiops.py:L1203:             - host_group:  host组
+aiops.py:L1251:     via specified entry resourceQuery topology library info,  support NAS, K8s, DB 等Business type.
+aiops.py:L1281:             - db_instance:  data库instance
+aiops.py:L1282:             - db_node:  data库 node
+aiops.py:L1284:         type: Business type, Optional值: nas, k8s, db
+aiops.py:L1285:         filter: Filter condition list,  max 10 个
+aiops.py:L1321:         'description': 'Query alarm info(Current alarm,Optional择 whetherincludes History alarm)',
+aiops.py:L1441:         'description': ' query SAN Path topology ( support IP_SAN 和 FC_SAN) ',
+aiops.py:L1453:         'description': 'Query topology VM and virtual disk list, 或 query BMS Physical disk list below',
+aiops.py:L1459:         'description': 'Query topology library info ( support NAS, K8s, DB 等Business type) ',
+fcswitch.py:L259:         zone_set:  Zone 集合 (Optional) , supports fuzzy search, 0~1024  characters
+fcswitch.py:L270:         }, includes  total 和 zones  field
+fcswitch.py:L309:     注:  based on DME API  doc, must provide fabric_wwn 或 vsan_wwn, and at least one member type.
+fcswitch.py:L314:         fabric_wwn: Fibre Channel network WWN ( conditionRequired, fabric create  zone 时 need)
+fcswitch.py:L315:         vsan_wwn: VSAN WWN ( conditionRequired, vsan create  zone 时 need)
+fcswitch.py:L334:     # fabric_wwn 或 vsan_wwn provide at least one
+fcswitch.py:L365:     modify  fiber Zone 的Configuration info.
+fcswitch.py:L408:     注:  based on DME API  doc,  use DELETE  method to /zones/{zone_id}
+fcswitch.py:L429:     注:  based on DME API  doc,  need is_active_zone 和 zone_list  parameter.
+fcswitch.py:L433:         is_active_zone:  whether activate Zone (Required, string "true" 或 "false")
+fcswitch.py:L462:      query zone 的 member
+fcswitch.py:L469:         type: Member type, Optional值: port (Port member) ,wwn (WWN  member) ,alias (别名 member) .
+fcswitch.py:L531:         }, includes  total 和 aliases  field
+fcswitch.py:L552:     注:  based on DME API  doc, must provide fabric_wwn 或 vsan_wwn, and at least one member type.
+fcswitch.py:L559:         wwn_members: WWN Member list (Optional, 思科Switch PWWN  member)
+fcswitch.py:L576:     # fabric_wwn 或 vsan_wwn provide at least one
+fcswitch.py:L605:     注:  based on DME API  doc, member modification requires {type}.added_members 和 {type}.removed_members  format.
+fcswitch.py:L646:     注:  based on DME API  doc,  use DELETE  method to /aliases/{alias_id}
+fcswitch.py:L667:      query Alias members contained in,  support queryPort member和 WWN  member.
+fcswitch.py:L672:         type: Member type, Optional值: port (Port member) ,wwn (WWN  member) .
+fcswitch.py:L682:     # if specified type 或default为 None 时, Query matching member type
+fcswitch.py:L693:         # API 返回 field为 wwn_member (单数)
+fcswitch.py:L708: # ACTIONS 字典, Define all available actions
+fcswitch.py:L742:         'description': ' query fabric 的 port list',
+fcswitch.py:L790:         'description': ' query zone 的 member',
+fcswitch.py:L796:         'description': 'Batch query别名',
+gfs.py:L67:         name: Omni-Dataverse  name, 与 id cannot both be empty; ID takes precedence when both have values
+gfs.py:L147:         gfs_type: Global namespace type. Options: enable_object_multi_version, disable_object_multi_versionpportobject多 version)
+gfs.py:L223:                 cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). cache_time  value时Required. Default: hour,
+gfs.py:L262:                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
+gfs.py:L263:                 pull_mode: 读 data mode (Optional). Optional值: no_cache ( forwarded read), on_demand ( read on demand),
+gfs.py:L265:                 cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). cache_time  value时Required,
+gfs.py:L291:     Delete的Global namespace
+gfs.py:L297:         is_delete_child:  whetherdelete 子Namespace, default true
+gfs.py:L338:         task_id: Data migration task在device side ID (1~256 characters, Optional)
+gfs.py:L342:         namespace_raw_id: Namespace在device side ID (1~256 characters, Optional)
+gfs.py:L343:         local_path: Namespace under路径, supports fuzzy search (1~256 characters, Optional, Default: "/")
+gfs.py:L349:         sort_dir:  Specified sort direction (Optional). Optional值: asc (ascending), desc (descending). Default: desc
+gfs.py:L436:         task_mode: task  mode (Required). Optional值: pre_fetch (prefetch cache), tier ( data拉取)
+gfs.py:L440:         start_mode: Task execution mode (Required). Optional值: manual ( manual), auto ( auto)
+gfs.py:L447:         target_namespace_id: Global namespace下 targetNamespace ID (1~32 characters, Required)
+gfs.py:L448:         local_path: Namespace under路径 (Optional, Default: "/")
+gfs.py:L449:         src_namespace_ids: Global namespace下源 siteNamespace ID  list (List<string>, max array members: 32, Optional)
+gfs.py:L451:         atime: File access time interval (int32, 0~26304, Optional). 与 atime_operator, atime_unit must be sent together
+gfs.py:L452:         atime_unit:  file accessTime interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 atime_operator, atime must be sent together
+gfs.py:L454:         mtime: File modification time interval (int32, 0~26304, Optional). 与 mtime_operator, mtime_unit must be sent together
+gfs.py:L457:         ctime: file status modificationmodification interval (int32, 0~26304, Optional). 与 ctime_operator, ctime_unit must be sent together
+gfs.py:L460:         crtime:  file的Creation time间隔 (int32, 0~26304, Optional). 与 crtime_operator, crtime_unit must be sent together
+gfs.py:L461:         crtime_unit:  file的Creation time间隔unit  (Optional). Optional值: hour (hour(s)), day (day(s)). 与 crtime_operator, crtime must be sent together
+gfs.py:L462:         name_operator: Filename matching rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 name_filter must be sent together
+gfs.py:L463:         name_filter: Filename matching expression list (1~1023 characters, Optional). 与 name_operator must be sent together
+gfs.py:L465:         file_size:  file的 size (int64, 0~4398046511104, unit : KB, Optional). 与 size_operator must be sent together
+gfs.py:L468:         authentication_type: Auth type (Optional). Optional值: ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIXlocal  auth), nis_domain (NIS域)
+gfs.py:L470:         user_name: Username (1~255 characters, Optional). 与 authentication_type, user_operator must be sent together
+gfs.py:L472:         group_name: User group名 (1~255 characters, Optional). 与 authentication_type, group_operator must be sent together
+gfs.py:L473:         files_filter: filter by file list滤 request parameter (FilesFilterobject, Optional). 仅 execute_mode 为 one_time 时可 config.  parameter format: {
+gfs.py:L581:         start_mode: Task execution mode (Optional). Optional值: manual ( manual), auto ( auto)
+gfs.py:L583:         execute_time: week(s)Task executiontime interval (int32, 1~365, Optional). 当 execute_mode 为 interval must be sent when
+gfs.py:L721:         'description': 'Delete的Global namespace',
+integrate.py:L104:         raise ValueError("cmdb_host_id 是required parameter")
+integrate.py:L165:         raise ValueError("initiators 是required parameter")
+ipswitch.py:L207: # ACTIONS 字典, Define all available actions
+kube.py:L205:     Query containerPersistent volume (PV)  list,  support按 cluster ID 和 name filter.
+nas.py:L690:                 fs_id: Filesystem ID (与namespace_id mutually exclusive),
+nas.py:L691:                 namespace_id: Namespace的id (与fs_idmutually exclusive),
+nas.py:L728:         character_encoding:  character encoding, Options: utf-8, zh, gbk 等
+nas.py:L1020:         fs_id: Filesystem ID, 与 namespace_id mutually exclusive
+nas.py:L1021:         namespace_id: Namespace ID, 与 fs_id mutually exclusive
+nas.py:L1878:         name: Filesystem name(Optional) , 1~256  characters, 与 fs_raw_id mutually exclusive,  supportfuzzy match
+nas.py:L1879:         is_associated_qos: Filesystem whether已 associated QoS(Optional) , true: 是; false: 否
+nas.py:L1881:         storage_name: FilesystemDevice name(Optional) , 1~256  characters, 与 storage_id mutually exclusive,  supportfuzzy match
+nas.py:L1885:         storage_pool_name: FilesystemStorage pool name(Optional) , 1~256  characters, 与 storage_pool_id mutually exclusive,  supportfuzzy match
+nas.py:L1886:         storage_pool_id: Storage pool ID(Optional) , 1~255  characters, 与 storage_pool_name mutually exclusive
+nas.py:L1887:         tier_name: FilesystemService level name(Optional) , 1~256  characters, 与 tier_id mutually exclusive,  supportfuzzy match
+nas.py:L1888:         tier_id: Service level ID(Optional) , 1~256  characters, 与 tier_name mutually exclusive, exact match
+nas.py:L1889:         vstore_name: Filesystem vStore  name(Optional) , 1~256  characters, 与 vstore_raw_id mutually exclusive,  supportfuzzy match
+nas.py:L1890:         vstore_raw_id: FilesystemTenanton the storage device ID(Optional) , 1~64  characters, 与 vstore_name mutually exclusive
+nas.py:L1891:         project_name: FilesystemProject group name(Optional) , 1~256  characters, 与 project_id mutually exclusive,  supportfuzzy match
+nas.py:L1892:         project_id: Project group ID(Optional) , 1~256  characters, 与 project_name mutually exclusive, exact match
+nas.py:L1893:         storage_id: Storage device ID(Optional) , 1~256  characters, 与 storage_name mutually exclusive, exact match
+nas.py:L1894:         fs_raw_id: Filesystemon the device ID(Optional) , 1~256  characters, 与 name mutually exclusive
+nas.py:L1911:                         operator:  filter condition (Required) , Options: contain (includes ) , not_contain (不includes ) ,
+nas.py:L2105:         gfs_group_id: Global data space的 ID(Optional)
+nas.py:L2116:                 block_size: Filesystem块 sizeKB (Optional, default64). Options: 4, 8, 16, 32, 64, 128,
+nas.py:L2121:                 dist_alg: FilesystemDirectory dispersion policy (Optional, 仅A800Device support). Options: capacity_balance, subdirectory_round_robin,
+nas.py:L2135:                         max_read_iops:  max读iops (Optional),
+nas.py:L2136:                         max_write_iops:  max写iops (Optional),
+nas.py:L2137:                         burst_read_iops: burst读iops (Optional),
+nas.py:L2138:                         burst_write_iops: burst写iops (Optional),
+nas.py:L2151:                         iotype: Policy type (Optional). Options: 2 (总upper limit), 3 ( read-writeupper limit),
+nas.py:L2160:         owning_controller: Controller(Optional) , 2~16 characters,  format如0A, 1B
+nas.py:L2165:         nas_locking_policy: NAS锁 policy(Optional) .  value: mandatory/advisory/unknown
+nas.py:L2182:                 def_protect_period: Default protection period (Optional,  not less than min, 不greater than max, default70),
+nas.py:L2189:                 worm_append_unit: WORMAppend-only file protection granularity (Optional, 仅advance_mode support). Options: 256KB, 512KB, 1M,
+nas.py:L2196:         audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr etc,  max 100
+nas.py:L2283:     Query available的Filesystem
+nas.py:L2289:         feature_type: Feature type, 当前only supports remote_replication (Remote replication)
+nas.py:L2291:         remote_storage_id: remote Storage device ID (当 feature_type 为 remote_replication 时Required)
+nas.py:L2295:         sort_key: Sort field, name (Filesystem name) 或 capacity (Filesystem capacity)
+nas.py:L2296:         sort_dir: Sort direction, asc (ascending) 或 desc (descending)
+nas.py:L2352:         atime_update_mode: Atime  updateFrequency, hour (每hour(s)) /day (每day(s)) /close (not enabled) (Optional)
+nas.py:L2360:         nas_locking_policy: NAS锁 policy, mandatory ( mandatory lock) /advisory ( advisory lock) /unknown(Optional)
+nas.py:L2367:                         max_iops: Max IOPS (Optional, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800 not undermutually exclusive),
+nas.py:L2369:                         min_iops: Min IOPS (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 not undermutually exclusive),
+nas.py:L2390:                         resume_threshold: 限高Alarm recoverythreshold% (Optional, 0~100),
+nas.py:L2398:                         qos_policy_id: QoS policyID (Optional, 0~64 character; 与除enabledother parameters exceptmutually exclusive),
+nas.py:L2403:                 allocation_type: FilesystemAllocation type (Optional, defaultthin). Options: thin (精简), thick (厚),
+nas.py:L2423:                 auto_lock: WORMAuto-lock mode (Optional, Enabled by default; advance_mode不 support). Options: true, false,
+nas.py:L2426:                 auto_del: Auto-delete mode (Optional, default off; advance_mode不 support). Options: true, false,
+nas.py:L2428:                 worm_append_unit: WORMAppend-only file protection granularity (Optional, 仅advance_mode support). Options: 256KB, 512KB, 1M,
+nas.py:L2431:         audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr etc,  max 100
+nas.py:L2527:         vstore_raw_id: Namespace vStore 在Storage deviceassigned on ID(Optional) , 1~128  characters
+nas.py:L2528:         vstore_id: Namespace vStore 的 ID(Optional) , 1~128  characters
+nas.py:L2532:         enable_encrypt: Enable encryption(Optional) , true: 是; false: 否
+nas.py:L2536:         has_gfs: IncludeGlobal namespace的Namespace(Optional) , true: 是; false: 否; has_gfs 为 false not supported when gfs_id
+nas.py:L2543:         - namespace_list: Namespace list, includes  id, raw_id, name, storage_id, vstore_id 等 info
+nas.py:L2607:         - space_used: 已 use空间
+nas.py:L2647:                 start_suffix: Starting suffix number (Optional, 0~9999; 起始 suffix+count<=9999),
+nas.py:L2648:                 isInGfs:  whether在Global namespace中 (Optional). Options: true, false,
+nas.py:L2655:         forbidden_dpc:  whether禁止 dpc 挂载
+nas.py:L2676:                 auto_lock_time: Auto-lock time (Optional, 1~64800, default2; unit day时1~45, hour时1~1080, minute时1~64800),
+nas.py:L2681:                 qos_scale: upper limit control维度 (Required). Options: namespace, client, account, user, innertask,
+nas.py:L2683:                 qos_mode: QoS mode (Required). Options: by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
+nas.py:L2684:                 account_raw_id: 帐户on the storage deviceid (Optional, 0~4294967293; 当qos_scale为namespace/account/user时Required),
+nas.py:L2685:                 package_size: package capacityGB (Optional, 0~94371840; 当qos_mode为by_package时Required),
+nas.py:L2687:                 max_mbps:  bandwidthupper limitMbps (Optional, 0~1073741824; 当qos_mode为manual时Required),
+nas.py:L2688:                 max_band_width: Max bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2689:                 basic_band_width: base bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2690:                 bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2694:                 read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2695:                 write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2696:                 read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2697:                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2699:         public_network_qos_policy: 公网 QoS Policy configuration.  parameter format: {
+nas.py:L2702:                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+nas.py:L2704:                         max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
+nas.py:L2705:                         max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2706:                         basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2707:                 bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2711:                 read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2712:                 write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2713:                 read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2714:                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2716:         private_network_qos_policy: 私网 QoS Policy configuration.  parameter format: {
+nas.py:L2719:                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+nas.py:L2721:                         max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
+nas.py:L2722:                         max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2723:                         basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2724:                 bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2728:                 read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2729:                 write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2730:                 read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2731:                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2735:                 version_status: object多 version status (Optional, 0~2). Options: 0 ( disable), 1 ( open), 2 ( pause),
+nas.py:L2819:         enable_update_atime:  whether update Atime, true:  update; false: 不 update
+nas.py:L2820:         show_snap_dir: Snapshot directory visibility, true: 可见; false:  invisible
+nas.py:L2821:         trash_visible: Recycle bin directory visibility, true: 可见; false:  invisible, default invisible
+nas.py:L2823:         interval_trash: Recycle bin retention period (minute(s)) , 0 Indicates permanent retention, 不 autodelete ,  max 4294967295
+nas.py:L2825:         forbidden_dpc:  whether禁止 dpc 挂载, true: 禁止; false:  not prohibited
+nas.py:L2826:         audit_log_switch: EnableAudit log, 缺省 disable, true:  enable; false:  disable
+nas.py:L2831:         acl_policy_type: NamespaceSecurity mode, Options: mixed ( simultaneously support UNIX 和 Windows  permission) ,
+nas.py:L2833:                         native (与 Mixed Mode applicable to same scenario) ,
+nas.py:L2839:                 qos_mode: QoS mode ( conditionRequired). Options: by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
+nas.py:L2840:                 package_size: package capacityGB (Optional, 0~94371840; 当qos_mode为by_package时Required),
+nas.py:L2842:                 max_mbps:  bandwidthupper limitMbps (Optional, 0~1073741824; 当qos_mode为manual时Required),
+nas.py:L2843:                 max_band_width: Max bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2844:                 basic_band_width: base bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2845:                 bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2849:                 read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2850:                 write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2851:                 read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2852:                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2854:         public_network_qos_policy: 公网 QoS Policy configuration.  parameter format: {
+nas.py:L2858:                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+nas.py:L2860:                         max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
+nas.py:L2861:                         max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2862:                         basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2863:                 bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2867:                 read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2868:                 write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2869:                 read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2870:                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2872:         private_network_qos_policy: 私网 QoS Policy configuration.  parameter format: {
+nas.py:L2876:                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+nas.py:L2878:                         max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
+nas.py:L2879:                         max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2880:                         basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
+nas.py:L2881:                 bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+nas.py:L2885:                 read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2886:                 write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2887:                 read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2888:                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+nas.py:L2956:         namespace_ids: Namespace ID  list (Required) , 数组 max 100,  min 1 个
+nas.py:L2985:      specified device或 NFS ID,  query NFS share client access list.
+nas.py:L2992:         storage_id: Storage device ID(Optional) , 1~64  characters; 如果 specified nfs_share_id, this parameter is invalid
+nas.py:L2994:         name: Client IP or hostname or netgroup name(Optional) , 1~256  characters;  specified nfs_share_id  condition下 supportfuzzy search
+nas.py:L3000:         Client访问 list
+nas.py:L3038:     仅 OceanStor A800 series storage only.
+nas.py:L3043:         vstore_id:  tenant的 ID (1~64 characters, Optional)
+nas.py:L3046:         name: DataTurbo Admin名,  supportfuzzy search (1~256 characters, Optional)
+nas.py:L3048:         lock_status: DataTurbo AdminLock status (Optional). Options: unlocked (未 lock), locked ( lock)
+nas.py:L3056:         DataTurbo Admin list, includes  total 和 administrators
+nas.py:L3103:         primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional. 与 primary_group_name  both sent only primary_group_raw_id effective)
+nas.py:L3148:         raw_id: UNIX User group ID (int64, 0~4294967294, Optional. OceanStor Pacific 和 OceanStor A310  storageRequired)
+nas.py:L3151:         zone_id:  Zone ID (1~64 characters, Optional. 仅 OceanStor A800 storage support)
+nas.py:L3216:         zone_id: Zone ID (1~64 characters, Optional). 仅 OceanStor A800 auth under storageUser groupsupports filtering by this field
+nas.py:L3305:         ids: UNIX User group的 ID  list (List<string>, min array members: 1, max array members: 100, Required)
+nas.py:L3323:     移除 UNIX user secondary group
+nas.py:L3377:         name: Username称,  supportfuzzy search filter (1~256 characters, Optional)
+nas.py:L3378:         primary_group_name: 主组 name,  supportfuzzy search filter (1~256 characters, Optional)
+nas.py:L3380:         zone_id: Zone ID (1~64 characters, Optional). 仅 OceanStor A800  storage underauth usersupports filtering by this field
+nas.py:L3381:         user_status: User status (Optional). Options: enable ( enable), disable (禁用)
+nas.py:L3458:         name: UNIX Username称 (1~64 characters, Required)
+nas.py:L3459:         raw_id: UNIX user  ID (int64, 0~4294967294, Optional. OceanStor Pacific 和 OceanStor A310  storageRequired)
+nas.py:L3464:         zone_id:  Zone ID (1~64 characters, Optional. 仅 OceanStor A800 storage support)
+nas.py:L3503:     Batch create KV Cache 库
+nas.py:L3508:         zone_id:  Zone 的 ID (length is36 characters, Required)
+nas.py:L3509:         pool_raw_id: Storage pool在 Zone 上的 ID (1~64 characters, Required)
+nas.py:L3512:         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. 当 data_cleanup_switch 为 on 时Required)
+nas.py:L3514:                 name: KV Cache 库 name (1~255 characters, Required),
+nas.py:L3515:                 capacity: KV Cache 库 capacity (int64, 20971520~70368744177664, unit :  sector count, 1扇区=512 byte, Required),
+nas.py:L3517:                 count: Batch create KV Cache 库的count (int32, 1~100, Default: 1, Optional),
+nas.py:L3518:                 start_suffix: Starting suffix number (int32, 0~9999, Optional. Starting suffix number+KV Cache库count<=9999),
+nas.py:L3547:     modify  KV Cache 库
+nas.py:L3551:         kv_cache_stores_id: KV Cache 库 ID (1~64 characters, Required)
+nas.py:L3552:         name: KV Cache 库 name (1~255 characters, Optional)
+nas.py:L3555:         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. 当 data_cleanup_switch 为 on 时Required)
+nas.py:L3588:     Batch delete KV Cache 库
+nas.py:L3592:         ids: KV Cache 库 ID  list (List<string>, min array members: 1, max array members: 100, Required)
+nas.py:L3615:      query KV Cache 库
+nas.py:L3620:         id: KV Cache 库 ID (length is32 characters, Optional)
+nas.p
+
+[… truncated 41444 chars …]

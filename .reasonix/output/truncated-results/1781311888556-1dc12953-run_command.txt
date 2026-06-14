@@ -1,0 +1,501 @@
+$ grep -n '状态码' reference/dme-api-stormgmt.md
+[exit 0]
+68:- **响应参数** – 响应状态码200： 返回json字符串。
+84:**状态码**
+86:| 状态码 | 说明 |
+135:**状态码**
+137:| 状态码 | 说明 |
+189:**状态码**
+191:| 状态码 | 说明 |
+239:**状态码**
+241:| 状态码 | 说明 |
+290:- **响应参数** – 响应状态码200： 返回string。
+293:**状态码**
+295:| 状态码 | 说明 |
+340:- **响应参数** – 响应状态码200： 返回AllUsers对象。
+380:**状态码**
+382:| 状态码 | 说明 |
+427:- **响应参数** – 响应状态码200： 返回AllRoles对象。
+461:**状态码**
+463:| 状态码 | 说明 |
+506:- **响应参数** – 响应状态码200： 返回UserInfo对象。
+527:**状态码**
+529:| 状态码 | 说明 |
+557:- **响应参数** – 响应状态码200： 返回SystemInfoRsp对象。
+573:**状态码**
+575:| 状态码 | 说明 |
+627:- **响应参数** – 响应状态码200： 返回CertInfo对象。
+650:**状态码**
+652:| 状态码 | 说明 |
+709:- **响应参数** – 响应状态码200： 返回GetAzListResponse对象。
+746:**状态码**
+748:| 状态码 | 说明 |
+831:- **响应参数** – 响应状态码200： 返回StorageRecordResponse对象。
+848:**状态码**
+850:| 状态码 | 说明 |
+938:**状态码**
+940:| 状态码 | 说明 |
+988:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+1006:**状态码**
+1008:| 状态码 | 说明 |
+1057:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+1075:**状态码**
+1077:| 状态码 | 说明 |
+1123:- **响应参数** – 响应状态码200：返回LicenseResponse对象。
+1141:**状态码**
+1143:| 状态码 | 说明 |
+1184:- **响应参数** – 响应状态码200： 返回StorageDetail对象。
+1276:**状态码**
+1278:| 状态码 | 说明 |
+1324:- **响应参数** – 响应状态码200： 返回StoragesResponse对象。
+1453:**状态码**
+1455:| 状态码 | 说明 |
+1502:**状态码**
+1504:| 状态码 | 说明 |
+1543:- **响应参数** – 响应状态码200： 返回StoragesPassphrase对象。
+1564:**状态码**
+1566:| 状态码 | 说明 |
+1609:- **响应参数** – 响应状态码200： 返回StorageWorkloadResponse对象。
+1646:**状态码**
+1648:| 状态码 | 说明 |
+1714:- **响应参数** – 响应状态码200： 返回StorageNodeListResponse对象。
+1775:**状态码**
+1777:| 状态码 | 说明 |
+1827:- **响应参数** – 响应状态码200：返回StoragePowerMetricResponse对象。
+1856:**状态码**
+1858:| 状态码 | 说明 |
+1904:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+1922:**状态码**
+1924:| 状态码 | 说明 |
+2016:- **响应参数** – 响应状态码200： 返回ThirdSystemTransmissionResponse对象。
+2023:| status_code | 否 | int64 | 无 | 第三方存储管理服务返回存储状态码。 |
+2036:**状态码**
+2038:| 状态码 | 说明 |
+2089:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+2106:**状态码**
+2108:| 状态码 | 说明 |
+2159:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+2176:**状态码**
+2178:| 状态码 | 说明 |
+2233:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+2250:**状态码**
+2252:| 状态码 | 说明 |
+2316:- **响应参数** – 响应状态码200： 返回A800ZoneListResponse对象。
+2377:**状态码**
+2379:| 状态码 | 说明 |
+2438:- **响应参数** – 响应状态码200： 返回BackupPowerQueryResponse对象。
+2489:**状态码**
+2491:| 状态码 | 说明 |
+2553:- **响应参数** – 响应状态码200： 返回TransReqToDeviceResponse对象。
+2570:**状态码**
+2572:| 状态码 | 说明 |
+2623:- **响应参数** – 响应状态码200： 返回UploadDataFlowTaskFileResponse对象。
+2644:**状态码**
+2646:| 状态码 | 说明 |
+2707:- **响应参数** – 响应状态码200： 返回FanQueryResponse对象。
+2753:**状态码**
+2755:| 状态码 | 说明 |
+2804:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+2822:**状态码**
+2824:| 状态码 | 说明 |
+2891:- **响应参数** – 响应状态码200： 返回PowerQueryResponse对象。
+2957:**状态码**
+2959:| 状态码 | 说明 |
+3006:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+3024:**状态码**
+3026:| 状态码 | 说明 |
+3077:- **响应参数** – 响应状态码200： 返回CableCheckResponse对象。
+3122:**状态码**
+3124:| 状态码 | 说明 |
+3174:**状态码**
+3176:| 状态码 | 说明 |
+3220:- **响应参数** – 响应状态码200： 返回ProgressResponse对象。
+3229:**状态码**
+3231:| 状态码 | 说明 |
+3277:**状态码**
+3279:| 状态码 | 说明 |
+3331:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。
+3348:**状态码**
+3350:| 状态码 | 说明 |
+3404:- **响应参数** – 响应状态码200： 返回QosResponse对象。
+3472:**状态码**
+3474:| 状态码 | 说明 |
+3532:- **响应参数** – 响应状态码200： 返回StoragePoolBasicInfoListGetResponse对象。
+3607:**状态码**
+3609:| 状态码 | 说明 |
+3673:- **响应参数** – 响应状态码200： 返回QueryHyperScalePoolResponse对象。 QueryHyperScalePoolResponse对象包含如下属性：
+3720:**状态码**
+3722:| 状态码 | 说明 |
+3767:- **响应参数** – 响应状态码200： 返回StorageLogicPortsResp对象。 StorageLogicPortsResp对象包含如下属性：
+3868:**状态码**
+3870:| 状态码 | 说明 |
+3919:- **响应参数** – 响应状态码200： 返回StorageLogicPortsResp对象。 StorageLogicPortsResp对象包含如下属性：
+3986:**状态码**
+3988:| 状态码 | 说明 |
+4030:- **响应参数** – 响应状态码200： 返回StorageLogicPortResp对象。
+4091:**状态码**
+4093:| 状态码 | 说明 |
+4243:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+4255:**状态码**
+4257:| 状态码 | 说明 |
+4456:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+4468:**状态码**
+4470:| 状态码 | 说明 |
+4514:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+4526:**状态码**
+4528:| 状态码 | 说明 |
+4575:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+4587:**状态码**
+4589:| 状态码 | 说明 |
+4636:- **响应参数** – 响应状态码200： 返回BondPortsResp对象。 BondPortsResp对象包含如下属性：
+4652:**状态码**
+4654:| 状态码 | 说明 |
+4694:- **响应参数** – 响应状态码200： 返回BondPortEthPortsResp对象。 BondPortEthPortsResp对象包含如下属性：
+4722:**状态码**
+4724:| 状态码 | 说明 |
+4766:- **响应参数** – 响应状态码200： 返回BondPortsResp对象。 BondPortsResp对象包含如下属性：
+4798:**状态码**
+4800:| 状态码 | 说明 |
+4843:- **响应参数** – 响应状态码200： 返回FailoverGroupEthPortsResp对象。 FailoverGroupEthPortsResp对象包含如下属性：
+4896:**状态码**
+4898:| 状态码 | 说明 |
+4966:- **响应参数** – 响应状态码200： 返回EthPortQueryResponse对象。 EthPortQueryResponse对象包含如下属性：
+5020:**状态码**
+5022:| 状态码 | 说明 |
+5067:- **响应参数** – 响应状态码200： 返回QueryFcPortsResponse对象。 QueryFcPortsResponse对象包含如下属性：
+5114:**状态码**
+5116:| 状态码 | 说明 |
+5161:- **响应参数** – 响应状态码200： 返回QuerySasPortsResponse对象。 QuerySasPortsResponse对象包含如下属性：
+5196:**状态码**
+5198:| 状态码 | 说明 |
+5243:- **响应参数** – 响应状态码200： 返回QueryPortGroupsResponse对象。 QueryPortGroupsResponse对象包含如下属性：
+5267:**状态码**
+5269:| 状态码 | 说明 |
+5316:- **响应参数** – 响应状态码200： 返回QueryPortGroupPortsResponse对象。 QueryPortGroupPortsResponse对象包含如下属性：
+5352:**状态码**
+5354:| 状态码 | 说明 |
+5397:- **响应参数** – 响应状态码200： 返回QueryPortGroupPortsRelationsResponse对象。 QueryPortGroupPortsRelationsResponse对象包含如下属性：
+5418:**状态码**
+5420:| 状态码 | 说明 |
+5471:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+5483:**状态码**
+5485:| 状态码 | 说明 |
+5538:- **响应参数** – 响应状态码200： 返回FailoverGroupsResp对象。 FailoverGroupsResp对象包含如下属性：
+5556:**状态码**
+5558:| 状态码 | 说明 |
+5646:- **响应参数** – 响应状态码200： 返回QueryVlansResp对象。 QueryVlansResp对象包含如下属性：
+5676:**状态码**
+5678:| 状态码 | 说明 |
+5733:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+5745:**状态码**
+5747:| 状态码 | 说明 |
+5806:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+5818:**状态码**
+5820:| 状态码 | 说明 |
+5868:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+5880:**状态码**
+5882:| 状态码 | 说明 |
+5929:- **响应参数** – 响应状态码200： 返回FailoverGroupVlansResp对象。 FailoverGroupVlansResp对象包含如下属性：
+5956:**状态码**
+5958:| 状态码 | 说明 |
+6023:- **响应参数** – 响应状态码200： 返回IbPortResponse对象。 IbPortResponse对象包含如下属性：
+6050:**状态码**
+6052:| 状态码 | 说明 |
+6096:- **响应参数** – 响应状态码200： 返回FailoverGroupIbPortsResp对象。 FailoverGroupIbPortsResp对象包含如下属性：
+6125:**状态码**
+6127:| 状态码 | 说明 |
+6177:- **响应参数** – 响应状态码200： 返回ControllerListRsp对象。 ControllerListRsp对象包含如下属性：
+6192:**状态码**
+6194:| 状态码 | 说明 |
+6244:- **响应参数** – 响应状态码200： 返回StorageDiskListRsp对象。 StorageDiskListRsp对象包含如下属性：
+6297:**状态码**
+6299:| 状态码 | 说明 |
+6343:- **响应参数** – 响应状态码200： 返回DiskPoolQueryResponse对象。 DiskPoolQueryResponse对象包含如下属性：
+6372:**状态码**
+6374:| 状态码 | 说明 |
+6512:- **响应参数** – 响应状态码200： 返回DiskQueryResponse对象。 DiskQueryResponse对象包含如下属性：
+6581:**状态码**
+6583:| 状态码 | 说明 |
+6628:- **响应参数** – 响应状态码200： 返回SasSsdResponse对象。 SasSsdResponse对象包含如下属性：
+6645:**状态码**
+6647:| 状态码 | 说明 |
+6692:- **响应参数** – 响应状态码200： 返回SasHddResponse对象。 SasHddResponse对象包含如下属性：
+6707:**状态码**
+6709:| 状态码 | 说明 |
+6756:- **响应参数** – 响应状态码200： 返回SataHddResponse对象。 SataHddResponse对象包含如下属性：
+6776:**状态码**
+6778:| 状态码 | 说明 |
+6823:- **响应参数** – 响应状态码200： 返回NvmeSsdResponse对象。 NvmeSsdResponse对象包含如下属性：
+6839:**状态码**
+6841:| 状态码 | 说明 |
+6901:10状态码
+6902:| 状态码 | 说明 |
+6944:- **响应参数** – 响应状态码200： 返回QueryDiskPoolsResponse对象。 QueryDiskPoolsResponse对象包含如下属性：
+6969:**状态码**
+6971:| 状态码 | 说明 |
+7027:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+7037:**状态码**
+7039:| 状态码 | 说明 |
+7100:- **响应参数** – 响应状态码200： 返回VstoresResp对象。 VstoresResp对象包含如下属性：
+7125:**状态码**
+7127:| 状态码 | 说明 |
+7173:- **响应参数** – 响应状态码200： 返回AccountDetailResp对象。 AccountDetailResp对象包含如下属性：
+7195:**状态码**
+7197:| 状态码 | 说明 |
+7249:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+7259:**状态码**
+7261:| 状态码 | 说明 |
+7303:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+7313:**状态码**
+7315:| 状态码 | 说明 |
+7361:- **响应参数** – 响应状态码200： 返回EnclosureListRsp对象。 EnclosureListRsp对象包含如下属性：
+7394:**状态码**
+7396:| 状态码 | 说明 |
+7453:**状态码**
+7456:| 状态码 | 说明 |
+7508:**状态码**
+7511:| 状态码 | 说明 |
+7628:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+7637:**状态码**
+7639:| 状态码 | 说明 |
+7683:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+7692:**状态码**
+7694:| 状态码 | 说明 |
+7728:- **响应参数** – 响应状态码200： 返回DpcResponse对象。 DpcResponse对象包含如下属性：
+7756:**状态码**
+7758:| 状态码 | 说明 |
+7804:- **响应参数** – 响应状态码200： 返回DpcsResponse对象。 DpcsResponse对象包含如下属性：
+7836:**状态码**
+7838:| 状态码 | 说明 |
+7877:- **响应参数** – 响应状态码200： 返回RegisterDpcResponse对象。 RegisterDpcResponse对象包含如下属性：
+7886:**状态码**
+7888:| 状态码 | 说明 |
+7932:**状态码**
+7935:| 状态码 | 说明 |
+7966:- **响应参数** – 响应状态码200： 返回NamespaceSummary对象。 NamespaceSummary对象包含如下属性：
+8030:**状态码**
+8032:| 状态码 | 说明 |
+8076:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+8086:**状态码**
+8088:| 状态码 | 说明 |
+8143:- **响应参数** – 响应状态码200： 返回FcSwitchesGetResponse对象。 FcSwitchesGetResponse对象包含如下属性：
+8165:**状态码**
+8167:| 状态码 | 说明 |
+8219:Content-Type: application/json;charset=UTF8状态码
+8222:| 状态码 | 说明 |
+8327:- **响应参数** – 响应状态码200： 返回FcSwitchPortsListResponse对象。 FcSwitchPortsListResponse对象包含如下属性：
+8414:**状态码**
+8416:| 状态码 | 说明 |
+8459:- **响应参数**– 响应状态码200： 返回QueryFramesListResponse对象。 QueryFramesListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Fra数组最大成查询指定/所有交换机下的机 mesResp员个数：框信息 onseBody1000 >FramesResponseBody对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 机框列表总数量statistics 否 Map<obj无 运行状态统计。取值范围： ect,Error(故障)，Normal(正 integer>常)，Offline(离线)，sum （总数）frames 否 List<Fra数组最大成机框详细信息 mesRsp>员个数：FramesRsp对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字机框资源ID 符name 否 string 0~128个字机框名称 符switch_id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+8472:**状态码**
+8474:| 状态码 | 说明 |
+8517:- **响应参数** – 响应状态码200： 返回QueryBoardsListResponse对象。 QueryBoardsListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Boar数组最大成查询指定/所有交换机下的单 dsRespon员个数：板信息 seBody>1000BoardsResponseBody对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 单板列表总数量statistics 否 Map<obj无 运行状态统计。取值范围： ect,Error(故障)，Normal(正 integer>常)，Offline(离线)，sum （总数）boards 否 List<Boar无 单板详细信息 dsRsp>BoardsRsp对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字单板资源ID 符name 否 string 0~128个字单板名称 符switch_id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+8530:**状态码**
+8532:| 状态码 | 说明 |
+8576:- **响应参数** – 响应状态码200： 返回QuerySubcardsListResponse对象。 QuerySubcardsListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Subc数组最大成查询指定/所有交换机下的子 ardsResp员个数：卡信息 onseBody1000 >SubcardsResponseBody对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 子卡列表总数量statistics 否 Map<obj无 运行状态统计。取值范围： ect,Error(故障)，Normal(正 integer>常)，Offline(离线)，sum （总数）subcards 否 List<Subc无 子卡详细信息 ardsRsp>SubcardsRsp对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字子卡资源ID 符name 否 string 0~128个字子卡名称 符switch_id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+8589:**状态码**
+8591:| 状态码 | 说明 |
+8636:- **响应参数** – 响应状态码200： 返回QueryPowersListResponse对象。 QueryPowersListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Que数组最大成查询指定/所有交换机下的电 ryPowers员个数：源信息 Response1000 >QueryPowersResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 电源列表总数量statistics 否 Map<obj无 运行状态统计。取值范围： ect,Error(故障)，Normal(正 integer>常)，Offline(离线)，sum （总数）powers 否 List<Pow无 电源详细信息 ersRespo nse>PowersResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 无 电源idname 否 string 0~128个字电源名称 符switch_id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+8649:**状态码**
+8651:| 状态码 | 说明 |
+8695:- **响应参数** – 响应状态码200： 返回QueryFansListResponse对象。 QueryFansListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Que数组最大成查询指定/所有交换机下的风 ryFansRe员个数：扇信息 sponse>1000QueryFansResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 风扇列表总数量statistics 否 Map<obj无 运行状态统计。取值范围： ect,Error(故障)，Normal(正 integer>常)，Offline(离线)，sum （总数）fans 否 List<Fans数组最大成风扇详细信息 Response员个数： >1000FansResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字风扇id 符name 否 string 0~128个字风扇名称 符switch_id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+8708:**状态码**
+8710:| 状态码 | 说明 |
+8758:- **响应参数** – 响应状态码200： 返回QueryPortsListResponse对象。 QueryPortsListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Que数组最大成查询指定/所有交换机下的端 ryPortsRe员个数：口信息 sponse>1000QueryPortsResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 端口列表总数量statistics 否 Map<obj无 运行状态统计。取值范围： ect,Up，Down integer>ports 否 List<Port数组最大成端口详细信息 sRespons员个数： e>1000PortsResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字端口id 符参数 是否类型 值域 说明 必选name 否 string 0~128个字端口名称 符switch_id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+8771:**状态码**
+8773:| 状态码 | 说明 |
+8821:- **响应参数** – 响应状态码200： 返回QuerySwitchsResponse对象。 QuerySwitchsResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 以太网交换机设备总数data_list 否 List<Swit无 以太网交换机列表 chRespon se>SwitchResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字交换机资源ID 符name 否 string 1~256个字交换机名称 符native_id 否 string 1~128个字交换机设备ID 符ip_addres否 string 1~128个字交换机IP地址 s符device_n否 string 1~256个字交换机设备名称 ame符version 否 string 1~128个字软件版本 符product_否 string 1~128个字交换机型号 name符mac 否 string 1~128个字MAC地址 符manufact否 string 1~128个字厂商 urer符参数 是否类型 值域 说明 必选comm_st否 number 1~128个字交换机纳管状态，取值范 atus符围，1（在线），2（未 知），3（离线）,14 （SNMP不可达），15（未 管理）dc_id 否 string 1~128个字数据中心ID 符dc_name 否 string 1~256个字数据中心名称 符region_id 否 string 1~128个字所属区域ID 符sn 否 string 1~128个字sn序列号 符sync_stat否 string 1~128个字同步状态，取值范围为： us符unsync（未同步）， Synchronizing（同步中）， Synchronized（已同步）， failed（同步失败）hci_id 否 string 1~128个字交换机所属的超融合设备id 符hci_name 否 string 1~256个字超融合名称 符tags 否 List<Tag> 无 关联标签集合。plane 否 string 最多8个字交换机所属平面，用于标识 符，且满足网络所属的冗余平面。仅通 正则表达过OceanStor A800 LLD模板 ^[a-zA-接入交换机且模板中配置了 Z0-9]+$交换机平面数据支持此字 段。layer 否 string 最多8个字交换机所属网络层级。仅通 符，且满足过OceanStor A800 LLD模板 正则表达接入交换机且模板中配置了 ^[a-zA-交换机L层数据支持此字 Z0-9]+$段。L1表示与存储阵列直连 的交换机，L2是L1交换机之 间的汇聚交换机。Tag对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~32个字标签的ID。 符tag_type否 string 1~64个字标签类型名称。 _name符name 否 string 1~128个字标签名称。 符
+8833:**状态码**
+8835:| 状态码 | 说明 |
+8889:- **响应参数** – 响应状态码200： 返回FcSwitchPortsGetResponse对象。 FcSwitchPortsGetResponse对象包含如下属性：
+8953:**状态码**
+8955:| 状态码 | 说明 |
+8998:- **响应参数** – 响应状态码200： 返回GetFcSwitchControllerListResponse对象。 GetFcSwitchControllerListResponse对象包含如下属性：
+9016:**状态码**
+9018:| 状态码 | 说明 |
+9063:- **响应参数** – 响应状态码200： 返回FabricsGetResponse对象。 FabricsGetResponse对象包含如下属性：
+9081:**状态码**
+9083:| 状态码 | 说明 |
+9128:- **响应参数** – 响应状态码200： 返回FabricPortsGetResponse对象。 FabricPortsGetResponse对象包含如下属性：
+9159:**状态码**
+9161:| 状态码 | 说明 |
+9217:Content-Type: application/json;charset=UTF8状态码
+9220:| 状态码 | 说明 |
+9266:- **响应参数** – 响应状态码200： 返回VsansQueryResponse对象。 VsansQueryResponse对象包含如下属性：
+9285:**状态码**
+9287:| 状态码 | 说明 |
+9330:- **响应参数** – 响应状态码200： 返回ZoneListResponse对象。 ZoneListResponse对象包含如下属性：
+9347:**状态码**
+9349:| 状态码 | 说明 |
+9391:- **响应参数** – 响应状态码200： 返回GetZoneWwnMembersResponse对象。 GetZoneWwnMembersResponse对象包含如下属性：
+9404:**状态码**
+9406:| 状态码 | 说明 |
+9450:- **响应参数** – 响应状态码200： 返回GetZonePortMembersResponse对象。 GetZonePortMembersResponse对象包含如下属性：
+9463:**状态码**
+9465:| 状态码 | 说明 |
+9510:- **响应参数** – 响应状态码200： 返回ZoneAliasMembersGetResponse对象。 ZoneAliasMembersGetResponse对象包含如下属性：
+9538:**状态码**
+9540:| 状态码 | 说明 |
+9600:- **响应参数** – 响应状态码200： 返回ZoneCreateResponse对象。 ZoneCreateResponse对象包含如下属性：
+9610:**状态码**
+9612:| 状态码 | 说明 |
+9695:Content-Type: application/json;charset=UTF8状态码
+9698:| 状态码 | 说明 |
+9749:Content-Type: application/json;charset=UTF8状态码
+9752:| 状态码 | 说明 |
+9812:- **响应参数** – 响应状态码200： 返回ZoneShowCommandResponse对象。 ZoneShowCommandResponse对象包含如下属性：
+9821:**状态码**
+9823:| 状态码 | 说明 |
+9885:- **响应参数** – 响应状态码200： 返回ZoneShowCommandResponseList对象。 ZoneShowCommandResponseList对象包含如下属性：
+9897:**状态码**
+9899:| 状态码 | 说明 |
+9962:- **响应参数** – 响应状态码200： 返回BatchCreateZonesResponse对象。 BatchCreateZonesResponse对象包含如下属性：
+9971:]状态码
+9972:| 状态码 | 说明 |
+10040:- **响应参数** – 响应状态码200： 返回AliasCreateResponse对象。 AliasCreateResponse对象包含如下属性：
+10050:**状态码**
+10052:| 状态码 | 说明 |
+10095:- **响应参数** – 响应状态码200： 返回AliasListResponse对象。 AliasListResponse对象包含如下属性：
+10110:**状态码**
+10112:| 状态码 | 说明 |
+10154:- **响应参数** – 响应状态码200： 返回GetAliasWwnMembersResponse对象。 GetAliasWwnMembersResponse对象包含如下属性：
+10167:**状态码**
+10169:| 状态码 | 说明 |
+10213:- **响应参数** – 响应状态码200： 返回GetAliasPortMembersResponse对象。 GetAliasPortMembersResponse对象包含如下属性：
+10226:**状态码**
+10228:| 状态码 | 说明 |
+10309:Content-Type: application/json;charset=UTF8状态码
+10312:| 状态码 | 说明 |
+10363:Content-Type: application/json;charset=UTF8状态码
+10366:| 状态码 | 说明 |
+10409:- **响应参数** – 响应状态码200： 返回FansGetResponseList对象。 FansGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 风扇总数fans 否 List<Fans数组最大成风扇详细信息列表 GetQuer员个数： yRespons1000 e>FansGetQueryResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字风扇id 符参数 是否类型 值域 说明 必选server_id 否 string 1~128个字风扇所属服务器的id 符name 否 string 1~128个字风扇名称 符state 否 string ● Enabled使能状态。取值范围： Enabled（有转速）；
+10424:**状态码**
+10426:| 状态码 | 说明 |
+10469:- **响应参数** – 响应状态码200： 返回HardDiskList对象。 HardDiskList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 磁盘总数disks 否 List<Hard无 磁盘集合 DiskBaseI nfo>HardDiskBaseInfo对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字硬盘ID 符server_id 否 string 1~128个字所属服务器ID 符name 否 string 1~128个字硬盘名称 符is_direct_否 boolean true,false 是否为直通盘 diskslot_num否 string 1~128个字槽位号 ber符capacity 否 number 最小值：0 硬盘容量，单位为GBmedia_ty否 string 1~128个字介质类型。取值范围：HDD pe符（传统硬盘），SSD（新式 硬盘），SMR（叠瓦式磁记 录盘）health 否 string 1~128个字健康状态。取值范围：OK 符（正常），Warning（警 告），Critical（紧急）
+10479:**状态码**
+10481:| 状态码 | 说明 |
+10524:- **响应参数** – 响应状态码200： 返回PCIeGetResponseList对象。 PCIeGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 pcie卡总数pcies 否 List<PCIe数组最大成PCIe卡详细信息列表 GetQuer员个数： yRespons1000 e>PCIeGetQueryResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字PCIe卡ID 符参数 是否类型 值域 说明 必选server_id 否 string 1~128个字PCIe卡所属服务器的ID 符name 否 string 1~128个字名称 符state 否 string ● Enabled使能状态。取值范围： Enabled（启用），
+10537:**状态码**
+10539:| 状态码 | 说明 |
+10582:- **响应参数** – 响应状态码200： 返回PowersGetResponseList对象。 PowersGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 电源总数参数 是否类型 值域 说明 必选powers 否 List<Pow数组最大成电源详细信息列表 ersGetQu员个数： eryRespo1000 nse>PowersGetQueryResponse对象包含如下属性：参数 是否类型 值域 说明 必选power_id 否 string 1~128个字电源模块的唯一标识 符line_inpu否 integer 最小值：0 输入电压 t_voltageoutput_v否 double 最小值：0 输出电压，单位默认V oltageserver_id 否 string 1~128个字电源所属服务器的ID 符name 否 string 1~128个字名称 符state 否 string ● Enabled使能状态。取值范围： Enabled（启用），
+10601:**状态码**
+10603:| 状态码 | 说明 |
+10646:- **响应参数** – 响应状态码200： 返回NetworkAdaptersGetResponseList对象。 NetworkAdaptersGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 网卡总数network_否 List<Net数组最大成网卡详细信息列表 adaptersworkAda员个数： ptersGet1000 QueryRes ponse>NetworkAdaptersGetQueryResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字网卡的id 符server_id 否 string 1~64个字网卡所属服务器id 符，且满足 正则表达 ^[_A-Za
+10661:**状态码**
+10663:| 状态码 | 说明 |
+10706:- **响应参数** – 响应状态码200： 返回MemoryQueryInfoList对象。 MemoryQueryInfoList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 内存总数memorie否 List<Me数组最大成内存详细信息列表 smoryQue员个数： ryInfo>1000MemoryQueryInfo对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字内存ID 符server_id 否 string 1~128个字内存所属服务器的ID 符参数 是否类型 值域 说明 必选name 否 string 1~128个字内存名称 符health 否 string ● OK健康状态。取值范围：OK （正常），Warning（警
+10720:**状态码**
+10722:| 状态码 | 说明 |
+10765:- **响应参数**– 响应状态码200： 返回RaidCardResponseList对象。 RaidCardResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 RAID卡总数raids 否 List<Raid无 RAID卡集合 CardResp onse>RaidCardResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字RAID序号 符name 否 string 0~128个字名称 符raid_card否 string 0~128个字RAID卡唯一标识id _id符server_id 否 string 1~128个字服务器的唯一标识id 符state 否 string ● Enabled使能状态。取值范围： Enabled（启用），
+10792:**状态码**
+10794:| 状态码 | 说明 |
+10842:- **响应参数** – 响应状态码200： 返回QueryServersResponse对象。 QueryServersResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 服务器总数data_list 否 List<Serv无 服务器列表数据 ersData>ServersData对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~64个字服务器设备在CMDB中的ID 符device_id 否 string 1~256个字设备 id 符bmc_ip 否 string 1~256个字bmc ip 地址 符name 否 string 1~512个字bmc 主机名 符takeover否 string 1~128个字管理状态，取值范围为： _status符Ready（就绪），Adding （添加中），Locked（锁定 中），Unmanaged（未管 理）health_st否 string 1~128个字健康状态，取值范围为：OK atus符（正常），Warning（警 告），Critical（紧急）， Unknown（未知）power_st否 string 1~128个字bmc 电源状态，取值范围 atus符为：On（上电），Off（下 电）model 否 string 1~128个字型号 符tag 否 string 1~256个字设备标签 符cpu_coun否 int32 1~512 cpu个数 tcpu_total否 int32 0~512 CPU总核数 _coresmemory_否 int64 1~429496内存大小 size7295disk_size 否 int64 1~429496硬盘容量serial_nu否 string 1~256个字序列号 mber符server_ty否 string 1~32 服务器类型 petakeover否 string 1~32 服务器当前所处整体管理状 _status_r态的原因 eason参数 是否类型 值域 说明 必选device_ta否 string 1~128个字设备标签 g符disk_cap否 integer 无 硬盘总容量，单位GByte， acity服务器不支持时此字段为 nulldevice_ali否 string 1~128个字设备别名 as符bmc_na否 string 1~128个字BMC主机名 me符dc_id 否 string 1~128个字数据中心ID 符，且满足 正则表达 ^[_A-Za
+10855:**状态码**
+10857:| 状态码 | 说明 |
+10895:- **响应参数** – 响应状态码200： 返回ServerInfo对象。 ServerInfo对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字服务器的id 符device_n否 string 1~128个字设备名称 ame符device_ta否 string 1~128个字设备标签 g符bmc_ip 否 string 1~128个字BMC ip地址 符serial_nu否 string 1~128个字序列号 mber符role_type 否 string 1~128个字超融合角色类型 符tag 否 string 1~128个字资产标签 符ibma_sta否 string 1~128个字iBMA运行状态 tus符ibma_ver否 string 1~128个字iBMA版本 sion符ibma_dri否 string 1~128个字iBMA驱动版本 ver_versi符 onhost_na否 string 1~128个字计算机名称 me符os_versio否 string 1~128个字操作系统版本 n符kernal_ve否 string 1~128个字操作系统内核版本 rsion符domain_否 string 1~128个字域名称 name符bmc_na否 string 1~128个字BMC主机名 me符参数 是否类型 值域 说明 必选health 否 string ● OK健康状态。取值范围：OK （正常），Warning（警
+10910:**状态码**
+10912:| 状态码 | 说明 |
+10955:- **响应参数** – 响应状态码200： 返回ProcessorInfoList对象。 ProcessorInfoList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 处理器总数processor否 List<Proc数组最大成处理器详细信息列表 sessorQue员个数： ryInfo>1000ProcessorQueryInfo对象包含如下属性：参数 是否类型 值域 说明 必选processor否 string 1~128个字处理器唯一识别ID _id符server_id 否 string 1~128个字处理器所属服务器的ID 符name 否 string 1~128个字处理器的名称 符processor否 string ● CPU处理器的类型, CPU NPU _type
+10969:**状态码**
+10971:| 状态码 | 说明 |
+11013:- **响应参数** – 响应状态码200： 返回GetApplicationSourcesResponse对象。 GetApplicationSourcesResponse对象包含如下属性：
+11026:**状态码**
+11028:| 状态码 | 说明 |
+11074:- **响应参数** – 响应状态码200： 返回GetExternalHostsResponse对象。 GetExternalHostsResponse对象包含如下属性：
+11098:**状态码**
+11100:| 状态码 | 说明 |
+11141:- **响应参数** – 响应状态码200： 返回GetCmdbHostDetailResponse对象。 GetCmdbHostDetailResponse对象包含如下属性：
+11170:**状态码**
+11172:| 状态码 | 说明 |
+11220:- **响应参数** – 响应状态码200： 返回GetApplicationListResponse对象。 GetApplicationListResponse对象包含如下属性：
+11234:**状态码**
+11236:| 状态码 | 说明 |
+11281:- **响应参数** – 响应状态码200： 返回StorageHostsResponse对象。 StorageHostsResponse对象包含如下属性：
+11316:**状态码**
+11318:| 状态码 | 说明 |
+11362:- **响应参数** – 响应状态码200： 返回GetCmdbHostsInfoResponse对象。 GetCmdbHostsInfoResponse对象包含如下属性：
+11394:**状态码**
+11396:| 状态码 | 说明 |
+11444:Content-Type: application/json;charset=UTF8状态码
+11447:| 状态码 | 说明 |
+11488:- **响应参数** – 响应状态码200： 返回TagTypeListResponse对象。 TagTypeListResponse对象包含如下属性：
+11502:**状态码**
+11504:| 状态码 | 说明 |
+11553:Content-Type: application/json;charset=UTF8状态码
+11556:| 状态码 | 说明 |
+11597:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+11607:**状态码**
+11609:| 状态码 | 说明 |
+11665:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+11675:**状态码**
+11677:| 状态码 | 说明 |
+11719:- **响应参数** – 响应状态码200： 返回TagListResponse对象。 TagListResponse对象包含如下属性：
+11736:**状态码**
+11738:| 状态码 | 说明 |
+11787:Content-Type: application/json;charset=UTF8状态码
+11790:| 状态码 | 说明 |
+11837:**状态码**
+11840:| 状态码 | 说明 |
+11897:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+11907:**状态码**
+11909:| 状态码 | 说明 |
+11962:- **响应参数** – 响应状态码202： 返回AsyncTaskResponse对象。 AsyncTaskResponse对象包含如下属性：
+11972:**状态码**
+11974:| 状态码 | 说明 |
+12031:- **响应参数** – 响应状态码200： 返回SitesResponse对象。 SitesResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 总数量sites 否 List<Site无 站点列表。 >Site对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 最多128个站点ID。 字符name 否 string 最多128个站点名称。 字符ip_addres否 string 最多128个站点的IP地址。 s字符version 否 string 最多128个虚拟化平台版本。 字符参数 是否类型 值域 说明 必选vr_type 否 string ● FUSION虚拟化平台类型。取值范 COMPU围：FUSIONCOMPUTE TE（FusionCompute）， VMWARE（vCenter），
+12038:**状态码**
+12040:| 状态码 | 说明 |
+12082:- **响应参数** – 响应状态码200： 返回Site对象。 Site对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 最多128个站点ID。 字符name 否 string 最多128个站点名称。 字符ip_addres否 string 最多128个站点的IP地址。 s字符version 否 string 最多128个虚拟化平台版本。 字符参数 是否类型 值域 说明 必选vr_type 否 string ● FUSION虚拟化平台类型。取值范 COMPU围：FUSIONCOMPUTE TE（FusionCompute）， VMWARE（vCenter），
+12087:**状态码**
+12089:| 状态码 | 说明 |
+12140:- **响应参数** – 响应状态码200： 返回ClustersResponse对象。 ClustersResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 总数量。clusters 否 List<Clus无 集群列表。 ter>Cluster对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字集群ID。 符参数 是否类型 值域 说明 必选pid 否 string 0~128个字数据标识，该ID用于查询集 符群对应的统计数据，如历史 性能数据、容量趋势与预测 数据等。site_id 否 string 0~128个字集群所在站点ID。 符site_ip 否 string 0~128个字集群所在站点IP。 符name 否 string 0~256个字集群名称。集群名称长度如 符果超过78个字符，超过部分 会被三个英文句号代替。az_id 否 string 0~256个字可用分区id。仅 符FusionCompute场景 （vr_type为 FUSIONCOMPUTE）支持此 字段。az_name 否 string 0~256个字可用分区名称。仅 符FusionCompute场景 （vr_type为 FUSIONCOMPUTE）支持此 字段。descripti否 string 0~128个字集群描述。 on符total_cpu 否 int64 最少1个字总CPU大小, 单位：MHz。 符 默认值：0free_cpu 否 int64 最少1个字剩余CPU大小, 单位： 符MHz。 默认值：0allocated否 int64 最少1个字已分配CPU大小, 单位： _cpu符MHz。 默认值：0cpu_usag否 double 最小值：0CPU预留率。 e 默认值：0total_me否 int64 最少1个字总内存大小, 单位：MB。 mory符 默认值：0参数 是否类型 值域 说明 必选allocated否 int64 最少1个字已分配内存大小, 单位： _memory符MB。 默认值：0free_me否 int64 最少1个字剩余内存大小, 单位：MB。 mory符 默认值：0memory_否 double 最小值：0内存分配率。 usage 默认值：0total_cap否 double 默认值：0 集群存储空间，单位：GB。 acity当且仅当VMware场景 （vr_type为VMWARE）支 持该字段。free_capa否 double 默认值：0 集群剩余存储空间，单位： cityGB。当且仅当VMware场景 （vr_type为VMWARE）支 持该字段。allocated否 double 默认值：0 集群已分配存储空间，单 _capacity位：GB。当且仅当VMware 场景（vr_type为 VMWARE）支持该字段。capacity_否 double 最少1个字存储空间分配率。当且仅当 usage符VMware场景（vr_type为 VMWARE）支持该字段。datastore否 integer 最小值：0集群拥有数据存储数量。 _num 默认值：0vm_num 否 integer 最小值：0集群拥有虚拟机数量。 默认值：0host_nu否 integer 最小值：0集群拥有主机数量。 m 默认值：0arch 否 string ● x86架构类型。取值范围： x86，arm，华为云平台场景
+12148:**状态码**
+12150:| 状态码 | 说明 |
+12192:- **响应参数** – 响应状态码200： 返回Cluster对象。 Cluster对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字集群ID。 符pid 否 string 0~128个字数据标识，该ID用于查询集 符群对应的统计数据，如历史 性能数据、容量趋势与预测 数据等。site_id 否 string 0~128个字集群所在站点ID。 符site_ip 否 string 0~128个字集群所在站点IP。 符name 否 string 0~256个字集群名称。集群名称长度如 符果超过78个字符，超过部分 会被三个英文句号代替。az_id 否 string 0~256个字可用分区id。仅 符FusionCompute场景 （vr_type为 FUSIONCOMPUTE）支持此 字段。az_name 否 string 0~256个字可用分区名称。仅 符FusionCompute场景 （vr_type为 FUSIONCOMPUTE）支持此 字段。descripti否 string 0~128个字集群描述。 on符total_cpu 否 int64 最少1个字总CPU大小, 单位：MHz。 符 默认值：0参数 是否类型 值域 说明 必选free_cpu 否 int64 最少1个字剩余CPU大小, 单位： 符MHz。 默认值：0allocated否 int64 最少1个字已分配CPU大小, 单位： _cpu符MHz。 默认值：0cpu_usag否 double 最小值：0CPU预留率。 e 默认值：0total_me否 int64 最少1个字总内存大小, 单位：MB。 mory符 默认值：0allocated否 int64 最少1个字已分配内存大小, 单位： _memory符MB。 默认值：0free_me否 int64 最少1个字剩余内存大小, 单位：MB。 mory符 默认值：0memory_否 double 最小值：0内存分配率。 usage 默认值：0total_cap否 double 默认值：0 集群存储空间，单位：GB。 acity当且仅当VMware场景 （vr_type为VMWARE）支 持该字段。free_capa否 double 默认值：0 集群剩余存储空间，单位： cityGB。当且仅当VMware场景 （vr_type为VMWARE）支 持该字段。allocated否 double 默认值：0 集群已分配存储空间，单 _capacity位：GB。当且仅当VMware 场景（vr_type为 VMWARE）支持该字段。capacity_否 double 最少1个字存储空间分配率。当且仅当 usage符VMware场景（vr_type为 VMWARE）支持该字段。datastore否 integer 最小值：0集群拥有数据存储数量。 _num 默认值：0vm_num 否 integer 最小值：0集群拥有虚拟机数量。 默认值：0参数 是否类型 值域 说明 必选host_nu否 integer 最小值：0集群拥有主机数量。 m 默认值：0arch 否 string ● x86架构类型。取值范围： x86，arm，华为云平台场景
+12198:**状态码**
+12200:| 状态码 | 说明 |
+12250:- **响应参数** – 响应状态码200： 返回HostListResponse对象。 HostListResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 总数量。参数 是否类型 值域 说明 必选hosts 否 List<Host数组最大成主机列表 >员个数：Host对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字主机ID。 符pid 否 string 0~128个字数据标识，该ID用于查询主 符机对应的统计数据，如历史 性能数据、容量趋势与预测 数据等。name 否 string 1~128个字主机名称。 符sn 否 string 1~256个字序列号。 符descripti否 string 1~128个字主机描述。 on符参数 是否类型 值域 说明 必选status 否 string ● rebooti主机状态。rebooting（重启 ng中），normal（正常）， fault（故障），initial（初
+12277:**状态码**
+12279:| 状态码 | 说明 |
+12320:- **响应参数** – 响应状态码200： 返回Host对象。 Host对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字主机ID。 符参数 是否类型 值域 说明 必选pid 否 string 0~128个字数据标识，该ID用于查询主 符机对应的统计数据，如历史 性能数据、容量趋势与预测 数据等。name 否 string 1~128个字主机名称。 符sn 否 string 1~256个字序列号。 符descripti否 string 1~128个字主机描述。 on符参数 是否类型 值域 说明 必选status 否 string ● rebooti主机状态。rebooting（重启 ng中），normal（正常）， fault（故障），initial（初
+12345:**状态码**
+12347:| 状态码 | 说明 |
+12389:- **响应参数** – 响应状态码200： 返回StorageadaptersResponse对象。 StorageadaptersResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 0~256个字存储适配器总数量。 符storage_否 List<Stor无 存储适配器数据集。 adaptersageAdapt er>StorageAdapter对象包含如下属性：参数 是否类型 值域 说明 必选name 否 string 0~256个字存储适配器名称。 符type 否 string ● ISCSI协议类型，取值范围： ISCSI（ISCSI协议）,FC（FC
+12396:**状态码**
+12398:| 状态码 | 说明 |
+12446:- **响应参数** – 响应状态码200： 返回QueryDiskResponse对象。QueryDiskResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 物理盘总数量。disks 否 List<Disk无 物理盘列表。 Response >DiskResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字物理盘ID。 符type 否 string 0~128个字存储设备类型列表。取值范 符围: LOCAL（本地硬盘）， DSWARE（DSWare的存储 池），NAS（本地内存 盘），IPSAN（IP协议对接 存储设备创建的盘）， FCSAN（FC SAN）， ADVANCESAN（eVol存 储），FC_LUN（FC协议对 接存储设备创建的盘）， ISCSI_LUN（ISCSI协议对接 存储设备创建的盘）， OTHER（其他）， LOCAL_DISK（本地磁 盘）。备注：当vr_type为 HCS时，不支持此字段；当 vr_type为VMWARE时，该 字段仅支持设置为 FC_LUN，ISCSI_LUN， OTHER和LOCAL_DISK。capacity 否 int32 无 容量。单位：GB。refresh_ti否 string 0~128个字上次扫描时间。使用 me符ISO-8601格式，如 2000-01-01 00:00:00。备 注：当且仅当vr_type为 FUSIONCOMPUTE时，支持 此字段。wwn 否 string 0~128个字SAN设备的LUN对应的wwn 符号。参数 是否类型 值域 说明 必选lun_nam否 string 0~128个字SAN设备对应的LUN名称。 e符support_否 int32 0~2 硬件辅助锁。取值范围：0 adl（未知），1（不支持），2 （支持）。当且仅当vr_type 为FUSIONCOMPUTE时，支 持此字段。name 否 string 0~128个字存储设备名称。 符status 否 string ● NORM存储设备状态。取值范围： ALNORMAL（可用）， ABNORMAL（异常）。当
+12452:**状态码**
+12454:| 状态码 | 说明 |
+12508:- **响应参数** – 响应状态码200： 返回VmsResponse对象。 VmsResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 虚拟机总数量。vms 否 List<Vm> 数组最大成虚拟机列表信息。 员个数：Vm对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 最多128个虚拟机唯一标识。 字符project_i否 string 最多36个资源集唯一标识。备注：当 d字符且仅当vr_type为 FUSIONCOMPUTE时支持此 字段。pid 否 string 最多128个数据标识。备注：该标识用 字符于查询虚拟机对应的统计数 据，如历史性能数据、容量 趋势与预测数据等，当 vr_type为HCS时不支持此字 段。name 否 string 最多256个虚拟机名称。 字符descripti否 string 最多256个虚拟机描述。当vr_type为 on字符HCS时不支持此字段。参数 是否类型 值域 说明 必选status 否 string ● running虚拟机状态，取值范围： running（运行中），
+12588:**状态码**
+12590:| 状态码 | 说明 |
+12632:- **响应参数** – 响应状态码200： 返回Vm对象。 Vm对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 最多128个虚拟机唯一标识。 字符project_i否 string 最多36个资源集唯一标识。备注：当 d字符且仅当vr_type为 FUSIONCOMPUTE时支持此 字段。pid 否 string 最多128个数据标识。备注：该标识用 字符于查询虚拟机对应的统计数 据，如历史性能数据、容量 趋势与预测数据等，当 vr_type为HCS时不支持此字 段。name 否 string 最多256个虚拟机名称。 字符参数 是否类型 值域 说明 必选descripti否 string 最多256个虚拟机描述。当vr_type为 on字符HCS时不支持此字段。参数 是否类型 值域 说明 必选status 否 string ● running虚拟机状态，取值范围： running（运行中），
+12710:**状态码**
+12712:| 状态码 | 说明 |
+12760:- **响应参数** – 响应状态码200： 返回VDisksResponse对象。 VDisksResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 虚拟磁盘总数量。vmDisks 否 List<VDis无 虚拟磁盘列表信息。 k>VDisk对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 无 虚拟磁盘ID。pid 否 string 1~128个字数据标识。备注：该标识用 符于查询虚拟磁盘信息对应的 统计数据，如历史性能数 据、容量趋势与预测数据 等，并且当vr_type为HCS不 支持此字段。参数 是否类型 值域 说明 必选status 否 string ● CREATI卷状态，仅FusionCompute NG场景（vr_type为 FUSIONCOMPUTE）支持此
+12796:**状态码**
+12798:| 状态码 | 说明 |
+12840:- **响应参数** – 响应状态码200： 返回VDisk对象。 VDisk对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 无 虚拟磁盘ID。pid 否 string 1~128个字数据标识。备注：该标识用 符于查询虚拟磁盘信息对应的 统计数据，如历史性能数 据、容量趋势与预测数据 等，并且当vr_type为HCS不 支持此字段。status 否 string ● CREATI卷状态，仅FusionCompute NG场景（vr_type为 FUSIONCOMPUTE）支持此
+12874:**状态码**
+12876:| 状态码 | 说明 |
+12930:- **响应参数** – 响应状态码200： 返回BatchQueryDataStoreListResponse对象。 BatchQueryDataStoreListResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 总数量。datastore否 List<Data数组最大成数据存储列表。 sStoreList员个数： Response1000 >DataStoreListResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字数据存储ID。 符pid 否 string 0~128个字数据标识，该ID用于查询数 符据存储对应的数据统计，如 历史性能数据、容量趋势与 预测数据等。name 否 string 0~128个字数据存储的名称。 符参数 是否类型 值域 说明 必选status 否 string ● NORM数据存储的状态。取值范 AL围：NORMAL（可用）， ABNORMAL（不可用），
+12971:**状态码**
+12973:| 状态码 | 说明 |
+13014:- **响应参数** – 响应状态码200： 返回DataStoreListResponse对象。 DataStoreListResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字数据存储ID。 符pid 否 string 0~128个字数据标识，该ID用于查询数 符据存储对应的数据统计，如 历史性能数据、容量趋势与 预测数据等。name 否 string 0~128个字数据存储的名称。 符status 否 string ● NORM数据存储的状态。取值范 AL围：NORMAL（可用）， ABNORMAL（不可用），
+13053:**状态码**
+13055:| 状态码 | 说明 |
+13104:- **响应参数** – 响应状态码200： 返回DataCenterQueryListResponse对象。 DataCenterQueryListResponse对象包含如下属性：
+13132:**状态码**
+13134:| 状态码 | 说明 |
+13181:- **响应参数** – 响应状态码200： 返回DevicesQueryResponses对象。 DevicesQueryResponses对象包含如下属性：
+13195:**状态码**
+13197:| 状态码 | 说明 |
+13238:- **响应参数** – 响应状态码200： 返回DataCenterDetailResponse对象。 DataCenterDetailResponse对象包含如下属性：
+13263:**状态码**
+13265:| 状态码 | 说明 |
+13304:- **响应参数** – 响应状态码200： 返回ClustersListResponse对象。 ClustersListResponse对象包含如下属性：
+13318:**状态码**
+13320:| 状态码 | 说明 |
+13358:- **响应参数** – 响应状态码200： 返
+
+[… truncated 55782 chars …]

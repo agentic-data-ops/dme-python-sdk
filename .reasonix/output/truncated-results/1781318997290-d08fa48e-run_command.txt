@@ -1,0 +1,932 @@
+$ python3 -c "
+import re
+
+with open('reference/dme-api-stormgmt.md', 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+
+param_headers = []
+for i, line in enumerate(lines):
+    stripped = line.strip()
+    if re.match(r'^\*{0,2}查询参数\*{0,2}\s*$', stripped) or \
+       re.match(r'^- \*{0,2}请求body参数\*{0,2}', stripped) or \
+       re.match(r'^- \*{0,2}响应参数\*{0,2}', stripped) or \
+       re.match(r'^.*对象包含如下属性：?\s*$', stripped):
+        param_headers.append(i)
+
+def is_proper_table(lines, start_idx):
+    for j in range(start_idx, min(start_idx+20, len(lines))):
+        line = lines[j].strip()
+        if line.startswith('| 参数'):
+            return True
+        if line.startswith('|') and '|' in line[1:]:
+            if line.count('|') >= 2:
+                return True
+        if line.startswith('#'):
+            return False
+        if line == '':
+            continue
+    return False
+
+broken_sections = []
+for idx in param_headers:
+    if not is_proper_table(lines, idx+1):
+        # Determine the type of breakage
+        next_text = ''
+        for j in range(idx+1, min(idx+10, len(lines))):
+            nxt = lines[j].strip()
+            if nxt and not nxt.startswith('|') and not nxt.startswith('-'):
+                next_text = nxt[:100]
+                break
+            if nxt.startswith('参数') and '是否必选' in nxt and '|' not in nxt:
+                next_text = nxt[:100]
+                break
+        broken_sections.append((idx+1, lines[idx].strip()[:120], next_text))
+
+print(f'Total broken sections: {len(broken_sections)}')
+print()
+for ln, txt, nxt in broken_sections:
+    print(f'L{ln}: {txt}')
+    if nxt:
+        print(f'   next: {nxt}')
+    print()
+"
+[exit 0]
+Total broken sections: 311
+
+L113: - **响应参数** – 响应状态码200： 返回json字符串。
+   next: HTTP/1.1 200 OK
+
+L189: **查询参数**
+   next: 无
+
+L337: **查询参数**
+   next: 无
+
+L687: **查询参数**
+   next: 无
+
+L1557: **查询参数**
+   next: 无
+
+L1976: **查询参数**
+   next: 无
+
+L3313: - 请求body参数 无
+   next: POST /rest/storagemgmt/v1/smart-migration-task-files?namespace_name=10e&account_id=0&storage_id=3813
+
+L5240: **查询参数**
+   next: 无
+
+L7793: | lans | 否 | List<无 VLAN列表。 Vlan Resp >VlanResp对象包含如下属性：
+   next: 参数 是否必选 类型 值域 说明father_dr否 string● ROCE所属端口接口卡类型，取值 v_typeg范围：ROCE（ROCE接口
+
+L9392: **查询参数**
+   next: 无
+
+L9398: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明storage_id否 List<s数组最大成存储设备ID数组。 string员个数： >128 数组最小成 员个数：0page_no 否 int32 1~65535页
+
+L9537: **查询参数**
+   next: 无
+
+L9543: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明storage_id否 List<s数组最大成存储设备ID数组。 string员个数： >128 数组最小成 员个数：0page_no 否 int32 1~65535页
+
+L9770: **查询参数**
+   next: 无
+
+L9776: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明storage_id否 List<s数组最大成存储设备ID数组。 string员个数： >128 数组最小成 员个数：0page_no 否 int32 1~65535页
+
+L9924: - 请求body参数 无
+   next: GET /rest/diskexporter/v1/disks/metrics HTTP/1.1
+
+L9937: - **响应参数**
+   next: HTTP/1.1 200 OK
+
+L11276: **查询参数**
+   next: 无
+
+L11282: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明namespac是 string1~32个字符 命名空间id e_idg
+
+L11987: **查询参数**
+   next: 无
+
+L12215: **查询参数**
+   next: 无
+
+L12654: **查询参数**
+   next: 无
+
+L12660: - **请求body参数** 是否类型 值域 说明 必选id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+   next: POST /rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query HTTP/1.1
+
+L12679: - **响应参数**– 响应状态码200： 返回QueryFramesListResponse对象。 QueryFramesListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Fra数
+   next: HTTP/1.1 200 Accept
+
+L12752: **查询参数**
+   next: 无
+
+L12758: - **请求body参数** 是否类型 值域 说明 必选id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+   next: POST /rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query HTTP/1.1
+
+L12777: - **响应参数** – 响应状态码200： 返回QueryBoardsListResponse对象。 QueryBoardsListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Boa
+   next: HTTP/1.1 200 Accept
+
+L12850: **查询参数**
+   next: 无
+
+L12856: - **请求body参数** 是否类型 值域 说明 必选id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+
+L12877: - **响应参数** – 响应状态码200： 返回QuerySubcardsListResponse对象。 QuerySubcardsListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List
+   next: HTTP/1.1 200 Accept
+
+L12952: **查询参数**
+   next: 无
+
+L12958: - **请求body参数** 是否类型 值域 说明 必选id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+
+L12981: - **响应参数** – 响应状态码200： 返回QueryPowersListResponse对象。 QueryPowersListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Que
+   next: HTTP/1.1 200 Accept
+
+L13055: **查询参数**
+   next: 无
+
+L13061: - **请求body参数** 是否类型 值域 说明 必选id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+
+L13083: - **响应参数** – 响应状态码200： 返回QueryFansListResponse对象。 QueryFansListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Que数组最大
+   next: HTTP/1.1 200 Accept
+
+L13158: **查询参数**
+   next: 无
+
+L13164: - **请求body参数** 是否类型 值域 说明 必选id 否 string 1~64个字交换机id 符，且满足 正则表达 ^[A-Fa
+   next: [A-Fa
+
+L13193: - **响应参数** – 响应状态码200： 返回QueryPortsListResponse对象。 QueryPortsListResponse对象包含如下属性：参数 是否类型 值域 说明 必选queryList 否 List<Que数组
+   next: HTTP/1.1 200 Accept
+
+L13256: **查询参数**
+   next: 无
+
+L13262: - **请求body参数** 是否类型 值域 说明 必选id 否 List<string数组最大成交换机id g>员个数：name 否 string 1~256个字交换机名称 符ip_addres否 string 1~256个字交换机IP地
+
+L13815: **查询参数**
+   next: 无
+
+L13821: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明switch_do否 string1~1024个字交换机域id，支持模糊匹配。 main_idg符port_nam否 string1~1024个字交换机端口名称，支持模
+
+L13980: **查询参数**
+   next: 无
+
+L13986: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明backup_se是 string1~64个字符 备份服务器id。 rver_idgpath 是 string1~128个字备份路径，只能包含字母、数 g符，且满足字、
+
+L14208: **查询参数**
+   next: 无
+
+L14214: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明fabric_ww否 string1~1024个字光纤网络WWN。 ng符page_no 否 int32 1~65535 分页查询的开始页。page_size 否 in
+
+L14439: **查询参数**
+   next: 无
+
+L14445: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域id，从交换机处获取，支持 d模糊查询。port_inde否 int32 0~65535 端口号，从交换机处获取，支 
+
+L14549: **查询参数**
+   next: 无
+
+L14555: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明alias_nam否 string1~128个字别名成员名称，支持模糊查 eg符询。sort_key 否 string● member排序字段，支持按照别名成员 g_c
+
+L14669: **查询参数**
+   next: 无
+
+L14675: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明fabric_ww是 string1~128个字光纤网络WWN。 ng符，且满足 正则表达 ^[A-Za
+
+L14697: 参数 是否必选 类型 值域 说明fcid_mem否 List<s数组最大成Zone的FCID成员列表。 berstring员个数： >100PortMemberRequest对象包含如下属性：
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域ID。 dport_inde否 int32 0~65535 端口号，条件必选：当为博科 x交换机的ZONE配置端口成员
+
+L14821: 参数 是否必选 类型 值域 说明wwn_me否 Modi无 WWN成员，可选。 mbersfyW wnM embe rsReq uest 对象port_mem否 Modi无 端口成员，可选。 bersfyPor tMe mber sReq 
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的WWN成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的WWN成员。 mem
+
+L14823: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的WWN成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的WWN成员。 memberstring员个数： >100Mo
+   next: 参数 是否必选 类型 值域 说明added_me否 List<数组最大成增加的端口成员。 mbersPort员个数： Mem100 berR eque st>removed_否 List<数组最大成移
+
+L14825: 参数 是否必选 类型 值域 说明added_me否 List<数组最大成增加的端口成员。 mbersPort员个数： Mem100 berR eque st>removed_否 List<数组最大成移除的端口成员。 membersPort员
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域ID。 dport_inde否 int32 0~65535 端口号，条件必选：当为博科 x交换机的ZONE配置端口成员
+
+L14843: )$ModifyAliasMembersRequest对象包含如下属性：
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的别名成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的别名成员。 membe
+
+L14845: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的别名成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的别名成员。 memberstring员个数： >100Modi
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FWWN成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FWWN成员。 m
+
+L14847: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FWWN成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FWWN成员。 memberstring员个数： >100
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FCID成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FCID成员。 m
+
+L14849: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FCID成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FCID成员。 memberstring员个数： >100
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的设备别名成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的设备别名成员。 m
+
+L14977: **查询参数**
+   next: 无
+
+L15071: )$wwn_me否 List<s数组最大成Zone的WWN成员列表。 mberstring员个数： >100port_mem否 List<数组最大成Zone的端口成员列表。 bersPort员个数： Mem100 berR eque st>
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域ID。 dport_inde否 int32 0~65535 端口号，条件必选：当为博科 x交换机的ZONE配置端口成员
+
+L15107: - **响应参数** – 响应状态码200： 返回ZoneShowCommandResponse对象。 ZoneShowCommandResponse对象包含如下属性：
+   next: 参数 是否必选 类型 值域 说明comman否 List<无 执行的命令列表。 dsstring g>fabric_w否 string无 光纤网络的wwn。 wngname 否 string无 zon
+
+L15172: **查询参数**
+   next: 无
+
+L15178: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明create_zo否 List<数组最大成创建zone的请求列表。 ne_paramZone员个数： _listCreat100 eReq 数组最小成 uest> 员个
+
+L15180: 参数 是否必选 类型 值域 说明create_zo否 List<数组最大成创建zone的请求列表。 ne_paramZone员个数： _listCreat100 eReq 数组最小成 uest> 员个数：1ZoneCreateRequest
+   next: 参数 是否必选 类型 值域 说明fabric_ww是 string1~128个字光纤网络WWN。 ng符，且满足 正则表达 ^[A-Za
+
+L15200: )$wwn_me否 List<s数组最大成Zone的WWN成员列表。 mberstring员个数： >100port_mem否 List<数组最大成Zone的端口成员列表。 bersPort员个数： Mem100 berR eque st>
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域ID。 dport_inde否 int32 0~65535 端口号，条件必选：当为博科 x交换机的ZONE配置端口成员
+
+L15238: - **响应参数** – 响应状态码200： 返回ZoneShowCommandResponseList对象。 ZoneShowCommandResponseList对象包含如下属性：
+   next: 参数 是否必选 类型 值域 说明comman否 List<数组最大成创建zone命令列表。 d_listZone员个数： Sho100 wCo 数组最小成 mm 员个数：1 andR espo nse
+
+L15240: 参数 是否必选 类型 值域 说明comman否 List<数组最大成创建zone命令列表。 d_listZone员个数： Sho100 wCo 数组最小成 mm 员个数：1 andR espo nse>ZoneShowCommandResp
+   next: 参数 是否必选 类型 值域 说明comman否 List<无 执行的命令列表。 dsstring g>fabric_w否 string无 光纤网络的wwn。 wngname 否 string无 zon
+
+L15299: **查询参数**
+   next: 无
+
+L15305: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明is_active_是 booletrue,false 是否激活zones zoneanzone_list 是 List<数组最大成创建zone的请求列表。 Zone员
+
+L15307: 参数 是否必选 类型 值域 说明is_active_是 booletrue,false 是否激活zones zoneanzone_list 是 List<数组最大成创建zone的请求列表。 Zone员个数：20 Creat 数组最小成 eR
+   next: 参数 是否必选 类型 值域 说明fabric_ww是 string1~128个字光纤网络WWN。 ng符，且满足 正则表达 ^[A-Za
+
+L15329: 参数 是否必选 类型 值域 说明port_mem否 List<数组最大成Zone的端口成员列表。 bersPort员个数： Mem100 berR eque st>alias_me否 List<s数组最大成Zone的别名成员列表。 mber
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域ID。 dport_inde否 int32 0~65535 端口号，条件必选：当为博科 x交换机的ZONE配置端口成员
+
+L15420: **查询参数**
+   next: 无
+
+L15426: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明fabric_ww否 string1~32个字光纤网络WWN，从查询光纤 ng符，且满足网络接口获取；条件必选，光 正则表达纤网络创建别名时需要传递。 ^([A-Fa
+
+L15462: 参数 是否必选 类型 值域 说明fcid_mem否 List<s数组最大成FCID成员列表，条件必选，思 berstring员个数：科交换机成员PWWN、成员 >100FWWN、成员端口、成员 FCID、成员设备别名至少五选 一。devic
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域ID。 dport_inde否 int32 0~65535 端口号，条件必选：当为博科 x交换机的ZONE配置端口成员
+
+L15775: **查询参数**
+   next: 无
+
+L15894: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的WWN成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的WWN成员。 memberstring员个数： >100Fw
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FWWN成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FWWN成员。 m
+
+L15896: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FWWN成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FWWN成员。 memberstring员个数： >100
+   next: 参数 是否必选 类型 值域 说明added_me否 List<数组最大成增加的端口成员。 mbersPort员个数： Mem100 berR eque st>removed_否 List<数组最大成移
+
+L15898: 参数 是否必选 类型 值域 说明added_me否 List<数组最大成增加的端口成员。 mbersPort员个数： Mem100 berR eque st>removed_否 List<数组最大成移除的端口成员。 membersPort员
+   next: 参数 是否必选 类型 值域 说明domain_i否 int32 0~65535 域ID。 d
+
+L15916: )$FcidMembersRequest对象包含如下属性：
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FCID成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FCID成员。 m
+
+L15918: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的FCID成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的FCID成员。 memberstring员个数： >100
+   next: 参数 是否必选 类型 值域 说明added_me否 List<s数组最大成增加的设备别名成员。 mberstring员个数： >100removed_否 List<s数组最大成移除的设备别名成员。 m
+
+L16060: **查询参数**
+   next: 无
+
+L16131: **查询参数**
+   next: 无
+
+L16137: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /rest/servermgmt/v1/fans/query HTTP/1.1
+
+L16155: - **响应参数** – 响应状态码200： 返回FansGetResponseList对象。 FansGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 风扇总数fans
+
+L16232: **查询参数**
+   next: 无
+
+L16238: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /servermgmt/v1/disks/query HTTP/1.1
+
+L16256: - **响应参数** – 响应状态码200： 返回HardDiskList对象。 HardDiskList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 磁盘总数disks 否 List<Hard无
+   next: HTTP/1.1 200 OK
+
+L16321: **查询参数**
+   next: 无
+
+L16327: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /rest/servermgmt/v1/pcies/query HTTP/1.1
+
+L16345: - **响应参数** – 响应状态码200： 返回PCIeGetResponseList对象。 PCIeGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 pcie卡总数p
+
+L16422: **查询参数**
+   next: 无
+
+L16428: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /rest/servermgmt/v1/powers/query HTTP/1.1
+
+L16446: - **响应参数** – 响应状态码200： 返回PowersGetResponseList对象。 PowersGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 电源总数
+
+L16539: **查询参数**
+   next: 无
+
+L16545: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /rest/servermgmt/v1/network-adapters/query HTTP/1.1
+
+L16563: - **响应参数** – 响应状态码200： 返回NetworkAdaptersGetResponseList对象。 NetworkAdaptersGetResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 
+
+L16647: **查询参数**
+   next: 无
+
+L16653: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /rest/servermgmt/v1/memories/query HTTP/1.1
+
+L16671: - **响应参数** – 响应状态码200： 返回MemoryQueryInfoList对象。 MemoryQueryInfoList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 内存总数memo
+
+L16752: **查询参数**
+   next: 无
+
+L16758: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /rest/servermgmt/v1/raid-cards/query HTTP/1.1
+
+L16776: - **响应参数**– 响应状态码200： 返回RaidCardResponseList对象。 RaidCardResponseList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 RAID卡总数
+   next: **功能**
+
+L16868: **查询参数**
+   next: 无
+
+L16874: - **请求body参数** 是否类型 值域 说明 必选scope_uri 否 string 1~256个字指定分域路径（已废弃） 符，且满足 正则表达 ^[a-zA-z] +://[^\s]*$page_size 否 int32 0~10
+
+L16967: **查询参数**
+   next: 无
+
+L16973: - 请求body参数 无
+   next: GET /rest/servermgmt/v1/servers/e58c88eb-da13-4459-ae8d-6c42f1870a4c/summary Content-Type: applicati
+
+L16981: - **响应参数** – 响应状态码200： 返回ServerInfo对象。 ServerInfo对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字服务器的id 符device_n否 string 1~
+
+L17070: **查询参数**
+   next: 无
+
+L17076: - **请求body参数** 是否类型 值域 说明 必选server_id 否 string 1~64个字服务器id 符，且满足 正则表达 ^[_A-Za
+   next: POST /rest/servermgmt/v1/processors/query HTTP/1.1
+
+L17094: - **响应参数** – 响应状态码200： 返回ProcessorInfoList对象。 ProcessorInfoList对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 处理器总数process
+
+L17684: - ORACL E_VM_S ERVER_ FOR_SP ARCip 否 string无 存储主机的IP。 gdescripti否 string无 存储主机描述信息。 ongstorage 否 Simp无 存储设备相关信息。 leSto r
+   next: 参数 是否必选 类型 值域 说明storage_i否 string1~64个字存储设备ID。 dg符storage_否 string1~255个字存储设备名称。 nameg符storage_i否 st
+
+L18213: **查询参数**
+   next: 无
+
+L18219: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明tag_type_是 string1~64个字标签类型名称。支持除|, &, $, nameg符，且满足<, >, 换行, 空格以外的字符, 正则表达最多支持64个字符
+
+L18225: $resources 否 List<数组最大成待关联的资源列表。 TagR员个数： esour100 ce> 数组最小成 员个数：0TagResource对象包含如下属性：
+   next: 参数 是否必选 类型 值域 说明resource_t是 string1~128个字资源类型。当前标签支持的资 ypeg符源类型有：storage_device （存储设备）， backup_mediu
+
+L18818: **查询参数**
+   next: 无
+
+L18824: - **请求body参数** 是否类型 值域 说明 必选name 否 string 0~128个字站点别名，支持模糊查询。 符vr_type 否 string ● FUSION虚拟化平台类型。取值范围： COMPUFUSIONCOMPUTE
+
+L18866: - **响应参数** – 响应状态码200： 返回SitesResponse对象。 SitesResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 总数量sites 否 List<Site无 站点
+   next: { "total": 1, "sites": [
+
+L18945: **查询参数**
+   next: 无
+
+L18951: - 请求body参数 无
+   next: GET /rest/vmmgmt/v1/sites/urn:sites:461D0910 HTTP/1.1
+
+L19017: **查询参数**
+   next: 无
+
+L19023: - **请求body参数** 是否类型 值域 说明 必选site_id 否 string 0~128个字集群所属的站点ID。 符site_ip 否 string 0~16个字符 集群所属的站点IP地址，支持 模糊搜索。name 否 stri
+
+L19063: - **响应参数** – 响应状态码200： 返回ClustersResponse对象。 ClustersResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 总数量。clusters 否 Lis
+
+L19149: **查询参数**
+   next: 无
+
+L19155: - 请求body参数 无
+   next: GET /rest/vmmgmt/v1/clusters/urn:sites:461D0910:clusters:774 HTTP/1.1
+
+L19223: **查询参数**
+   next: 无
+
+L19229: - **请求body参数** 是否类型 值域 说明 必选name 否 string 0~256个字主机名称，支持模糊查询。 符ip_addres否 string 0~256个字主机IP地址，支持模糊查询。 s符sn 否 string 0~2
+
+L19284: - **响应参数** – 响应状态码200： 返回HostListResponse对象。 HostListResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 总数量。参数 是否类型 
+
+L19416: **查询参数**
+   next: 无
+
+L19422: - 请求body参数 无
+   next: GET /rest/vmmgmt/v1/hosts/urn:sites:33C906C9:hosts:6867 HTTP/1.1
+
+L19432: - **响应参数** – 响应状态码200： 返回Host对象。 Host对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 1~128个字主机ID。 符参数 是否类型 值域 说明 必选pid 否 string 0~1
+
+L19529: **查询参数**
+   next: 无
+
+L19535: - 请求body参数 无
+   next: GET /rest/vmmgmt/v1/hosts/urn:sites:1030114F:hosts:178/storage-adapters HTTP/1.1
+
+L19606: **查询参数**
+   next: 无
+
+L19612: - **请求body参数** 是否类型 值域 说明 必选name 否 string 0~256个字物理盘名称，支持模糊查询。 符storage_r否 string 0~256个字所属存储资源名称，支持模糊 esource_n符查询。 ame
+
+L19662: - **响应参数** – 响应状态码200： 返回QueryDiskResponse对象。QueryDiskResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 物理盘总数量。disks 否 
+   next: { "total": 1, "disks": [
+
+L19735: **查询参数**
+   next: 无
+
+L19741: - **请求body参数** 是否类型 值域 说明 必选site_id 否 string 0~128个字虚拟机所属站点ID。 符cluster_id 否 string 0~128个字虚拟机所属集群ID。备注：当 符vr_type为HCS时不
+
+L19794: - **响应参数** – 响应状态码200： 返回VmsResponse对象。 VmsResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 最小值：0 虚拟机总数量。vms 否 List<Vm> 
+
+L20002: **查询参数**
+   next: 无
+
+L20008: - 请求body参数 无
+   next: GET /rest/vmmgmt/v1/vms/urn:sites:461D0910:vms:i-000001BB HTTP/1.1
+
+L20019: - **响应参数** – 响应状态码200： 返回Vm对象。 Vm对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 最多128个虚拟机唯一标识。 字符project_i否 string 最多36个资源集唯一标识。备注
+
+L20225: **查询参数**
+   next: 无
+
+L20231: - **请求body参数** 是否类型 值域 说明 必选name 否 string 0~256个字虚拟磁盘名称，支持模糊查 符询。is_system否 List<boole数组最大成是否为系统盘。取值范围： _vdiskan>员个数：2tr
+
+L20284: - **响应参数** – 响应状态码200： 返回VDisksResponse对象。 VDisksResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 integer 无 虚拟磁盘总数量。vmDisks 否 Li
+
+L20420: **查询参数**
+   next: 无
+
+L20426: - 请求body参数 无
+   next: GET /rest/vmmgmt/v1/vdisks/urn:sites:45E707F1:volumes:340 HTTP/1.1
+
+L20437: - **响应参数** – 响应状态码200： 返回VDisk对象。 VDisk对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 无 虚拟磁盘ID。pid 否 string 1~128个字数据标识。备注：该标识用 符于
+
+L20566: **查询参数**
+   next: 无
+
+L20572: - **请求body参数** 是否类型 值域 说明 必选site_id 否 string 0~128个字数据存储所在的站点ID。 符cluster_id 否 string 0~128个字数据存储所关联的集群ID。 符host_id 否 st
+
+L20627: - **响应参数** – 响应状态码200： 返回BatchQueryDataStoreListResponse对象。 BatchQueryDataStoreListResponse对象包含如下属性：参数 是否类型 值域 说明 必选tota
+
+L20746: **查询参数**
+   next: 无
+
+L20752: - 请求body参数 无
+   next: GET /rest/vmmgmt/v1/datastores/urn:sites:461D0910:datastores:2 HTTP/1.1
+
+L20762: - **响应参数** – 响应状态码200： 返回DataStoreListResponse对象。 DataStoreListResponse对象包含如下属性：参数 是否类型 值域 说明 必选id 否 string 0~128个字数据存储I
+
+L21410: **查询参数**
+   next: 无
+
+L21416: - **请求body参数** 是否类型 值域 说明 必选page_no 否 int32 1~10000分页查询的开始页，最小值为 1，默认值为1 默认值：1参数 是否类型 值域 说明 必选page_size 否 int32 1~200每页数
+   next: post /rest/dmebackupsoftmgmtservice/v1/clusters/d3044b5a-ff6e-4cb2-a94b
+
+L21489: **查询参数**
+   next: 无
+
+L21495: - **请求body参数** 是否类型 值域 说明 必选name 否 string 最多512个持久卷名称，支持模糊查询。 字符namespac否 string 最多512个所属命名空间名称，支持模糊 e_name字符查询。cluster_
+   next: POST /rest/dmecaasmgmt/v1/pvcs/query-list Content-Type: application/json;charset=UTF8 Accept: applic
+
+L21589: **查询参数**
+   next: 无
+
+L21595: - **请求body参数** 是否类型 值域 说明 必选name 否 string 最多512个命名空间名称，支持模糊查 字符询。cluster_id 否 string 最多64个字所属容器集群ID。 符status 否 List<stri
+   next: {
+
+L21676: **查询参数**
+   next: 无
+
+L21682: - **请求body参数** 是否类型 值域 说明 必选id 否 string 最多64个字集群ID。 符name 否 string 最多512个集群名称，支持模糊查询。 字符version 否 string 最多256个版本。 字符ip_
+
+L21779: **查询参数**
+   next: 无
+
+L21785: - **请求body参数** 是否类型 值域 说明 必选id 否 string 最多64个字持久卷ID。 符name 否 string 最多512个持久卷名称，支持模糊查询。 字符cluster_na否 string 最多512个所属集群名
+   next: POST /rest/dmecaasmgmt/v1/pvs/query-list Content-Type: application/json;charset=UTF8 Accept: applica
+
+L21878: **查询参数**
+   next: 无
+
+L21884: - **请求body参数** 是否类型 值域 说明 必选id 否 string 最多64个字容器组ID。 符name 否 string 最多512个容器组名称，支持模糊查询。 字符workload_否 string 最多64个字所属工作负载
+   next: POST /rest/dmecaasmgmt/v1/pods/query-list Content-Type: application/json;charset=UTF8 Accept: applic
+
+L21980: **查询参数**
+   next: 无
+
+L21986: - **请求body参数** 是否类型 值域 说明 必选id 否 string 最多64个字节点ID。 符name 否 string 最多512个节点名称，支持模糊查询。 字符cluster_id 否 string 最多32个字容器节点所属
+
+L42657: **查询参数**
+   next: 无
+
+L44563: **查询参数**
+   next: 无
+
+L44569: - **请求body参数** 是否类型 值域 说明 必选name 否 string 0~256个字全局命名空间的名称。支持模 符糊搜索。gfs_group否 string 0~256个字全局数据空间的名称。支持模 _name符糊搜索。gfs
+
+L44589: - **响应参数** – 响应状态码200： 返回GfsListResponse对象。 GfsListResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 全局命名空间总数量。data 否 Lis
+   next: **响应示例**
+
+L44659: **查询参数**
+   next: 无
+
+L44665: - **请求body参数** 是否类型 值域 说明 必选id 否 string 1~32个字全局命名空间的ID，与 符，且满足name_locator不能同时为空， 正则表达都有值时优先使用ID。 ^[a-fA
+   next: POST /rest/fileservice/v1/gfs/detail/query HTTP/1.1
+
+L44681: - **响应参数** – 响应状态码200： 返回GfsDetailResponse对象。 GfsDetailResponse对象包含如下属性：参数 是否类型 值域 说明 必选gfs_mod否 string 无 全局命名空间模式。 e参数 
+   next: **响应示例**
+
+L46141: **查询参数**
+   next: 无
+
+L46147: - 请求body参数 无
+   next: HTTP/1.1
+
+L46559: **查询参数**
+   next: 无
+
+L46565: - **请求body参数** 是否类型 值域 说明 必选storage_id 是 string 1~36个字要访问的存储设备或存储zone 符，且满足ID。 正则表达 ^[a-fA
+
+L46636: - **响应参数** – 响应状态码200： 返回HuaweiStorageTransmissionResponse对象。 HuaweiStorageTransmissionResponse对象包含如下属性：参数 是否类型 值域 说明 必选
+   next: **响应示例**
+
+L56375: **查询参数**
+   next: 无
+
+L56381: - **请求body参数** 是否类型 值域 说明 必选parent_id 否 request_st无 文件的父级目录ID。搜索方式 ruct_with_（action_type）只支持 action_tyexact。 pe对象id 否 r
+
+L56796: - **响应参数** – 响应状态码200： 返回SearchMetadataResponse对象。 SearchMetadataResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最大值：搜索结果
+
+L56900: **查询参数**
+   next: 无
+
+L56906: - **请求body参数** 是否类型 值域 说明 必选name 是 string 1~64个字符 标签名称，不支持“|”、 “\”和空白字符（空格、制 表符和换行符）。descriptio否 string 0~200个字对标签详细信息的描
+   next: POST /rest/catalogmgmt/v1/tag HTTP/1.1
+
+L57340: **查询参数**
+   next: 无
+
+L57346: - **请求body参数** 是否类型 值域 说明 必选name 否 string 1~64个字符 标签类型名称，不支持“|”、 “\”和空白字符（空格、制 表符和换行符）。descriptio否 string 0~1024个字对标签类型详
+   next: POST /rest/catalogmgmt/v1/tag-types/228870a7-f99a-46a2-8490-17e25a87d7c0 HTTP/1.1
+
+L57602: **查询参数**
+   next: 无
+
+L57608: - **请求body参数** 是否类型 值域 说明 必选doc_id_list 是 List<string数组最大成待更新的元数据ID列表。 g>员个数：数组最小成 员个数：1tag_id_list 是 List<string数组最大成待添
+   next: POST /rest/catalogmgmt/v1/tags/batch-add HTTP/1.1
+
+L57677: **查询参数**
+   next: 无
+
+L57683: - **请求body参数** 是否类型 值域 说明 必选doc_id_list 是 List<string数组最大成待更新的元数据ID列表。 g>员个数：数组最小成 员个数：1tag_id_list 是 List<string数组最大成待删
+   next: POST /rest/catalogmgmt/v1/tags/batch-delete HTTP/1.1
+
+L57752: **查询参数**
+   next: 无
+
+L57758: - **请求body参数** 是否类型 值域 说明 必选ids 否 List<string数组最大成数据源ID。 g>员个数：数组最小成 员个数：0type 否 string ● NFS数据源类型。取值范围：NFS, CIFS, GFS(O
+
+L57822: - **响应参数** – 响应状态码200： 返回DatasourceListResponse对象。 DatasourceListResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 数据源数量。
+
+L57921: **查询参数**
+   next: 无
+
+L57927: - 请求body参数 无
+   next: GET /rest/catalogmgmt/v1/settings/file-types: HTTP/1.1
+
+L57991: **查询参数**
+   next: 无
+
+L57997: - 请求body参数 无
+   next: GET /rest/catalogmgmt/v1/settings/hot-cold-data-range: HTTP/1.1
+
+L58008: - **响应参数** – 响应状态码200： 返回HotColdDataSettings对象。 HotColdDataSettings对象包含如下属性：参数 是否类型 值域 说明 必选ranges 是 List<Data数组最大成冷热区间。
+   next: HTTP/1.1 200 OK
+
+L58082: **查询参数**
+   next: 无
+
+L58088: - 请求body参数 无
+   next: GET /rest/catalogmgmt/v1/settings/file-size-range: HTTP/1.1
+
+L58099: - **响应参数** – 响应状态码200： 返回FileSizeSettings对象。 FileSizeSettings对象包含如下属性：参数 是否类型 值域 说明 必选file_size_r是 List<int6数组最大成每一个区间单元
+   next: HTTP/1.1 200 OK
+
+L58374: **查询参数**
+   next: 参数 是否类型 值域 描述 必选pageNo 否 int32 最小值：1页码，默认值1。 默认值：1pageSize 否 int32 1~1000页大小，默认值20。 默认值：20contentSel
+
+L58405: - 请求body参数 无
+   next: GET https://accessip:port
+
+L58429: - **响应参数** – 响应状态码200： 返回string。
+   next: **响应示例**
+
+L58521: **查询参数**
+   next: 参数 是否类型 值域 描述 必选groupNam否 string 1~128个字要返回的属性所属属性组名称， e符默认不返回属性组属性。contentSel否 string 无 要返回的字段，默认返回
+
+L58527: - 请求body参数 无
+   next: GET https://accessip:port
+
+L58603: **查询参数**
+   next: 参数 是否类型 值域 描述 必选pageNo 否 int32 最小值：1页码，默认值1。 默认值：1pageSize 否 int32 1~1000页大小，默认值20。 默认值：20contentSel
+
+L58611: - 请求body参数 无
+   next: GET https://accessip:port
+
+L58631: - **响应参数** – 响应状态码200： 返回string。
+   next: **响应示例**
+
+L58704: **查询参数**
+   next: 参数 是否类型 值域 描述 必选contentSel否 string 无 要返回的字段，默认返回所有字 ector段，格式：["attr1","attr2"]。
+
+L58710: - 请求body参数 无
+   next: GET https://accessip:port
+
+L58789: **查询参数**
+   next: 无
+
+L58795: - **请求body参数** 是否类型 值域 说明 必选object_typ是 string ● storage对象类型。取值范围：存储设 e备（storage），存储池
+
+L58847: - **响应参数** – 响应状态码200： 返回HealthScoreItem对象。 HealthScoreItem对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 对象总数。objects 否 List<
+
+L58959: **查询参数**
+   next: 无
+
+L58965: - **请求body参数** 是否类型 值域 说明 必选object_id 是 string 1~128个字对象Id 符参数 是否类型 值域 说明 必选object_typ是 string ● storage对象类型。取值范围：存储设 e备
+
+L59077: **查询参数**
+   next: 无
+
+L59083: - **请求body参数** 是否类型 值域 说明 必选object_id 是 string 1~128个字对象id 符参数 是否类型 值域 说明 必选object_typ是 string ● storage_对象类型。取值范围：存储主 e
+
+L59123: - **响应参数** – 响应状态码200： 返回PerformanceDataResponse对象。 PerformanceDataResponse对象包含如下属性：参数 是否类型 值域 说明 必选data 否 List<Ano无 性能异
+   next: HTTP/1.1 200 OK
+
+L59201: **查询参数**
+   next: 无
+
+L59207: - **请求body参数** 是否类型 值域 说明 必选object_id 是 string 1~256个字资源ID。 符begin_tim是 int64 无 开始时间。 eend_time 是 int64 无 结束时间。参数 是否类型 值
+
+L59256: - **响应参数** – 响应状态码200： 返回PredictQueryResponse对象。 PredictQueryResponse对象包含如下属性：参数 是否类型 值域 说明 必选data 否 PredictM无 查询结果。 ap对
+   next: **响应示例**
+
+L59325: **查询参数**
+   next: 无
+
+L59331: - **请求body参数** 是否类型 值域 说明 必选object_id 是 string 1~256个字资源ID。 符begin_tim是 int64 无 开始时间。 eend_time 是 int64 无 结束时间。object_ty
+
+L59368: - **响应参数** – 响应状态码200： 返回PredictQueryResponse对象。 PredictQueryResponse对象包含如下属性：参数 是否类型 值域 说明 必选data 否 PredictM无 查询结果。 ap对
+   next: **响应示例**
+
+L59632: **查询参数**
+   next: 无
+
+L59638: - **请求body参数** 是否类型 值域 说明 必选obj_type_i是 int64 0~1000000监控对象类型标识，对应监控 d000000000对象类型ID。参考《性能指标 00模型》，获取需要查询对象类 型ID。indica
+   next: POST /rest/metrics/v1/data-svc/second-data/action/query HTTP/1.1
+
+L59657: - **响应参数** – 响应状态码200： 返回List<SecondHistoryPerfData>。 SecondHistoryPerfData对象包含如下属性：参数 是否类型 值域 说明 必选obj_type_否 int64 0~1
+   next: **响应示例**
+
+L59864: **查询参数**
+   next: 无
+
+L59966: **查询参数**
+   next: 无
+
+L59972: - **请求body参数** 是否类型 值域 说明 必选indicators 是 List<int64最多1000个监控对象指标标识列表。 >字符
+   next: POST /rest/metrics/v1/mgr-svc/indicators HTTP/1.1
+
+L59987: - **响应参数** – 响应状态码200： 返回IndicatorResp对象。 IndicatorResp对象包含如下属性：参数 是否类型 值域 说明 必选status_co否 int32 默认值：状态码。 de200error_cod
+   next: **响应示例**
+
+L60147: **查询参数**
+   next: 无
+
+L60215: **查询参数**
+   next: 无
+
+L60283: **查询参数**
+   next: 无
+
+L60443: **查询参数**
+   next: 无
+
+L60449: - 请求body参数 无
+   next: GET /rest/pmmgmt/v1/performance-data/download/26a5ef03-e9fa-4473-ace1-1e9b778e1111 HTTP/1.1
+
+L60601: - **响应参数** – 响应状态码200： 返回string。
+   next: **响应示例**
+
+L60843: - **响应参数** – 响应状态码200： 返回string。
+   next: { "took": 103, "timed_out": false, "_shards":
+
+L60978: **查询参数**
+   next: 无
+
+L60984: - **请求body参数** 是否类型 值域 说明 必选query 否 QueryCon无 告警迭代查询请求参数。 text对象iterator 否 string 0~64个字符 迭代子，上一次查询返回的迭 代子作为下一次查询的输入， 首次
+   next: POST /rest/alarmmgmt/v1/alarms/current-alarm/query HTTP/1.1
+
+L61010: - **响应参数** – 响应状态码200： 返回AlarmScrollResponse对象。AlarmScrollResponse对象包含如下属性：参数 是否类型 值域 说明 必选hits 否 List<Curr无 数据列表,当返回数据列
+   next: HTTP/1.1 200 OK
+
+L61098: **查询参数**
+   next: 无
+
+L61104: - **请求body参数** 是否类型 值域 说明 必选query_con否 QueryHist无 过滤条件 textoryContex t对象size 是 int32 1~1000 返回的结果集最大条数，按设 置的排序条件，返回最前的N 
+   next: POST /rest/alarmmgmt/v1/alarms/history-alarms/query HTTP/1.1
+
+L61196: **查询参数**
+   next: 无
+
+L61202: - **请求body参数** 是否类型 值域 说明 必选csns 是 List<int32数组最大成告警流水号列表。 >员个数：30 数组最小成 员个数：1operation是 string ● ACK告警操作类型。取值范围： _typeA
+   next: POST /rest/alarmmgmt/v1/alarms/operation HTTP/1.1
+
+L61230: - **响应参数** – 响应状态码200： 返回AlarmOperationResp对象。 AlarmOperationResp对象包含如下属性：参数 是否类型 值域 说明 必选total_nu是 int32 0~30 总告警数。 mfi
+   next: **响应示例**
+
+L61698: **查询参数**
+   next: 无
+
+L61704: - 请求body参数 无
+   next: DELETE /rest/djaianalysisservice/northbound-subscription-mgmt/v1/northbound
+
+L61953: **查询参数**
+   next: 无
+
+L61959: - **请求body参数** 是否类型 值域 说明 必选policy_na否 string 1~256个字策略名称。只能包含字母、数 me符，且满足字、“_”、“-”、“.”、空 正则表达格和中文字符。 ^[\p{L}
+   next: \p{N}
+
+L62201: - **响应参数** – 响应状态码200： 返回PolicyQueryResponse对象。 PolicyQueryResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 0~1000 策略总数pol
+   next: 可用性)， y configuration(配置)，
+
+L62479: **查询参数**
+   next: 无
+
+L62546: **查询参数**
+   next: 无
+
+L62613: **查询参数**
+   next: 无
+
+L62678: **查询参数**
+   next: 无
+
+L62743: **查询参数**
+   next: 无
+
+L62749: - **请求body参数** 是否类型 值域 说明 必选object_na否 string 1~256个字对象名称-支持模糊查询 me符level 否 string ● critical异常级别。取值范围： critical(紧急),maj
+
+L62936: - **响应参数** – 响应状态码200： 返回PolicyCheckResultResponse对象。 PolicyCheckResultResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 0~
+   next: 可用性)， y configuration(配置)，
+
+L63188: **查询参数**
+   next: 无
+
+L63194: - 请求body参数 无
+   next: GET /rest/policymgmt/v1/abnormal-check-results/2f84a672-48e7-4892
+
+L63205: - **响应参数** – 响应状态码200： 返回PolicyCheckResult对象。 PolicyCheckResult对象包含如下属性：参数 是否类型 值域 说明 必选check_res否 string 1~64个字检查结果ID u
+   next: 可用性)， y configuration(配置)，
+
+L63461: **查询参数**
+   next: 无
+
+L63467: - **请求body参数** 是否类型 值域 说明 必选entry_obj是 List<LunT数组最大成入口对象列表。当前支持类 ectsopoQuery员个数：5型：host，storage， EntryObjehost_group，l
+
+L63503: - **响应参数** – 响应状态码200： 返回LunTopo对象。 LunTopo对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 Lun查询结果总数。参数 是否类型 值域 说明 必选luns 否 Lis
+   next: **响应示例**
+
+L63572: **查询参数**
+   next: 无
+
+L63578: - **请求body参数** 是否类型 值域 说明 必选entry_obj是 List<FcSa数组最大成入口对象列表，目前支持一个 ectsnTopoEntr员个数：1对象。当前支持类型：host， yObject>storage，hos
+
+L63612: - **响应参数** – 响应状态码200： 返回HostToStoragePoolTopo对象。 HostToStoragePoolTopo对象包含如下属性：参数 是否类型 值域 说明 必选fabrics 否 List<Host无 Fab
+
+L63749: **查询参数**
+   next: 无
+
+L63755: - **请求body参数** 是否类型 值域 说明 必选entry_obj是 List<IpSan数组最大成入口对象列表。当前只支持 ectsTopoEntry员个数：5host（主机），storage（闪 Object>存存储设备或分布式
+
+L63783: - **响应参数**– 响应状态码200： 返回IpSanHostToStoragePoolTopo对象。 IpSanHostToStoragePoolTopo对象包含如下属性：参数 是否类型 值域 说明 必选switches 否 List
+
+L63901: **查询参数**
+   next: 无
+
+L63907: - **请求body参数** 是否类型 值域 说明 必选entry_obj是 List<VmT数组最大成入口对象列表。当前支持类 ectsopoQuery员个数：5型：host，storage， EntryObjehost_group，lu
+
+L63939: - **响应参数** – 响应状态码200： 返回VmTopo对象。 VmTopo对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 vms查询结果总数。vms 否 List<Virtu无 vm查询结果列表。 
+   next: **响应示例**
+
+L64004: **查询参数**
+   next: 无
+
+L64010: - **请求body参数** 是否类型 值域 说明 必选type 否 string ● nas业务类型。取值范围：nas， k8s，db。
+
+L64155: - **响应参数** – 响应状态码200： 返回QueryGraphTraceDataResponse对象。 QueryGraphTraceDataResponse对象包含如下属性：参数 是否类型 值域 说明 必选nodes 否 List
+
+L64380: **查询参数**
+   next: 无
+
+L64386: - **请求body参数** 是否类型 值域 说明 必选object_id 是 string 1~128个字分析对象ID。 符参数 是否类型 值域 说明 必选object_typ是 string ● vm入口对象类型，类型为 estorag
+
+L64491: **查询参数**
+   next: 无
+
+L64497: - **请求body参数** 是否类型 值域 说明 必选task_id 是 string 1~128个字任务ID 符
+   next: POST /rest/dmegraphanalysis/v1/perf-tasks/query-status HTTP/1.1
+
+L64512: - **响应参数** – 响应状态码200： 返回PerfTaskStatus对象。 PerfTaskStatus对象包含如下属性：参数 是否类型 值域 说明 必选task_id 是 string 1~128个字任务ID。 符task_st
+
+L64588: **查询参数**
+   next: 无
+
+L64594: - **请求body参数** 是否类型 值域 说明 必选object_ids 是 List<string数组最大成入口分析对象ID列表。 g>员个数：50 数组最小成 员个数：1object_typ是 string ● VM入口对象类型枚举
+
+L64647: - **响应参数** – 响应状态码200： 返回CreateBatchPerfAnalysisTaskResponseOpenapi对象。 CreateBatchPerfAnalysisTaskResponseOpenapi对象包含如下属
+
+L65071: **查询参数**
+   next: 无
+
+L65077: - 请求body参数 无
+   next: PUT /rest/taskmgmt/v1/todo-groups/c1886a37-7490-491a-b13e-758cf95a71d3/execute HTTP/1.1
+
+L65161: **查询参数**
+   next: 无
+
+L65167: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明is_approv是 booletrue,false是否通过审核。true：通过； alanfalse：不通过。
+
+L65239: **查询参数**
+   next: 无
+
+L65323: **查询参数**
+   next: 无
+
+L65329: - 请求body参数 无
+   next: PUT /rest/taskmgmt/v1/todo-items/c1886a37-7490-491a-b13e-758cf95a71d3/execute HTTP/1.1
+
+L65491: **查询参数**
+   next: 无
+
+L65497: - 请求body参数 无
+   next: POST /rest/taskmgmt/v1/tasks/8e00710d-a3df-11eb-a12e-000c29182f23/retry HTTP/1.1
+
+L65653: **查询参数**
+   next: 无
+
+L65659: - **请求body参数**
+   next: 参数 是否必选 类型 值域 说明service_ty是 string● wfa_exe业务类型。支持过滤，取值范 pegcute_acti围：wfa_execute_activity vity（自动化
+
+L65753: **查询参数**
+   next: 无
+
+L65829: **查询参数**
+   next: 参数 是否类型 值域 描述 必选address 否 string 1~256个字备份服务器地址，支持IPv4地 符址，支持模糊匹配。
+
+L65835: - 请求body参数 无
+   next: GET /rest/configmgmt/v1/backup-servers?address=
+
+L65846: - **响应参数** – 响应状态码200： 返回BackupServerListRsp对象。 BackupServerListRsp对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 无 备份服务器总数。back
+   next: **响应示例**
+
+L65916: **查询参数**
+   next: 无
+
+L65922: - **请求body参数** 是否类型 值域 说明 必选ids 否 List<string数组最大成Region的ID列表，支持精确匹 g>员个数：配。name 否 string 最多256个Region的名称，支持模糊搜 字符索。acti
+   next: POST /rest/regionmgmt/v1/regions/query HTTP/1.1
+
+L65954: - **响应参数** – 响应状态码200：返回RegionListResponse对象。 RegionListResponse对象包含如下属性：参数 是否类型 值域 说明 必选total 否 int32 最小值：0 Region总数。it
+
+L66128: **查询参数**
+   next: 无
+
+L66134: - **请求body参数** 是否类型 值域 说明 必选name 否 string 1~32个字符 主Region的名称。active_ip_否 string 1~64个字符 主Region主站点IP地址。 addressstandby_i
+   next: PUT /rest/regionmgmt/v1/parent-regions/7B8365C09BC9363086A7ED92B875A2C2 HTTP/1.1
+
+L66213: **查询参数**
+   next: 无
+
+L66280: **查询参数**
+   next: 无
+
+L66286: - **请求body参数** 是否类型 值域 说明 必选request_u是 string 1~8192个字查询下级相应资源北向接口 rl符URL，以/rest开头，包含URL 中的查询字符串。request_是 string ● get请
+   next: HTTP/1.1
+
