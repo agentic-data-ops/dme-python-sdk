@@ -203,14 +203,14 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 start_suffix: Suffix start encoding (0~9999, default0; 当count大于1effective when),
              }, ...]
         pool_id: Storage pool ID (Conditionally required), 1~64 characters; required when storage mode is not pass-through; obtained via QueryResource type API, Resource type name is SYS_StoragePool
-        vstore_id:  tenant ID（可选），1~64  characters；当 device为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
+        vstore_id:  tenant ID(Optional），1~64  characters；当 device为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
-        initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5  device，Dorado 系列不 support；
+        initial_distribute_policy: Initial capacity allocation policy(Optional），only supports华为 V3/V5  device，Dorado 系列不 support；
                                   Options：automatic（ auto）、highest_performance（高性能层）、performance（性能层）、capacity（ capacity层）；default automatic
-        prefetch_policy: 预取 policy（可选），Affects disk read；
+        prefetch_policy: 预取 policy(Optional），Affects disk read；
                         Options：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；default intelligent_prefetch
-        prefetch_value: 预取 policy值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
-        tuning: 调优属性 (可选), CustomizeLunTuning object。 parameter format如下：{
+        prefetch_value: 预取 policy值(Optional），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
+        tuning: 调优属性 (Optional), CustomizeLunTuning object。 parameter format如下：{
                 smart_tier: Data migration policy。Options：no_migration (不迁移), automatic_migration ( auto迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。defaultno_migration,
                 deduplication_enabled: Deduplication (仅Thin LUN support)。Options：true ( enable), false ( disable),
                 compression_enabled: Data compression (仅Thin LUN support)。Options：true ( enable), false ( disable),
@@ -224,7 +224,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 },
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
-        mapping: Mapping info (可选), LunMapping object, If present, creates for host or host group LUN。 parameter format如下：{
+        mapping: Mapping info (Optional), LunMapping object, If present, creates for host or host group LUN。 parameter format如下：{
                 host_id: Host ID (1~64 characters; 与hostgroup_idone of, cannot coexist),
                 hostgroup_id: Host group ID (1~64 characters; 与host_idone of, cannot coexist),
                 host_type: 映射Host type。Options：storage_host (Storage host), host ( host)。defaulthost,
@@ -237,7 +237,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         port_group_raw_id: Port groupon the storage deviceID (1~31 characters; Host or host group does not existMapping relationship时可 specified, 存在Mapping relationship时不可 specified),
                 },
              }
-        task_remarks: Async taskRemark（可选）， max 1024  characters
+        task_remarks: Async taskRemark(Optional）， max 1024  characters
 
     Returns:
         {
@@ -1621,25 +1621,25 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     Args:
         client: DME API Client
         storage_host_group_id: Storage host组 ID (Required)
-        storage_host_id_ids:  storageHost ID list (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
-        create_storage_host_params: create 新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。 parameter format如下：[{
+        storage_host_id_ids:  storageHost ID list (Optional, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
+        create_storage_host_params: create 新的Storage host list (Optional, 与storage_host_id_idsmutually exclusive, max array members: 1000)。 parameter format如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。Options：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip:  hostip address (可选,  max127 characters),
-                description:  host description (可选,  max63 characters),
-                initiators: Initiator list (可选, max array members: 1000)。 parameter format如下：[{
+                ip:  hostip address (Optional,  max127 characters),
+                description:  host description (Optional,  max63 characters),
+                initiators: Initiator list (Optional, max array members: 1000)。 parameter format如下：[{
                         protocol: Initiator type (Required)。Options：fc, iscsi, nvme_over_roce,
                         raw_id:  hostInitiatorwwpn或iqn或nqn (Required, 1~223 characters),
-                        alias: Initiator alias (可选,  max31 characters),
+                        alias: Initiator alias (Optional,  max31 characters),
                      }, ...],
-                multipath: 多路径 config (可选)。属性 format如下：{
+                multipath: 多路径 config (Optional)。属性 format如下：{
                         multipath_type: Third-party multipath policy (Required)。Options：default (default), third_party (Third-party multipath),
-                        path_type: Initiator路径 type (可选,  enableThird-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: Initiator切换 mode (可选,  enableThird-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: Special mode type (可选, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
+                        path_type: Initiator路径 type (Optional,  enableThird-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
+                        failover_mode: Initiator切换 mode (Optional,  enableThird-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
+                        special_mode_type: Special mode type (Optional, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
-        task_remarks: Async taskRemark (可选,  max1024 characters)
+        task_remarks: Async taskRemark (Optional,  max1024 characters)
 
     Returns:
         task  ID
@@ -1739,10 +1739,10 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
         client: DME API Client
         storage_host_id: Storage host ID（Required，1~64  character）
         name: LUN Name (Optional,1~256  character， supportfuzzy search）
-        page_size: Items per page（可选，1~1000，default 20）
-        page_no: Page queryStart position（可选，1~10000000，default 1）
-        sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
-        sort_dir: Sort direction（可选，asc/desc，default desc）
+        page_size: Items per page(Optional，1~1000，default 20）
+        page_no: Page queryStart position(Optional，1~10000000，default 1）
+        sort_key: Sort field(Optional，host_lun_id/mapping_view_raw_id/lun_raw_id）
+        sort_dir: Sort direction(Optional，asc/desc，default desc）
 
     Returns:
         {
@@ -1781,10 +1781,10 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
         client: DME API Client
         storage_host_group_id: Storage host组 ID（Required，1~64  character）
         name: LUN Name (Optional,1~256  character， supportfuzzy search）
-        page_size: Items per page（可选，1~1000，default 20）
-        page_no: Page queryStart position（可选，1~10000000，default 1）
-        sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
-        sort_dir: Sort direction（可选，asc/desc，default desc）
+        page_size: Items per page(Optional，1~1000，default 20）
+        page_no: Page queryStart position(Optional，1~10000000，default 1）
+        sort_key: Sort field(Optional，host_lun_id/mapping_view_raw_id/lun_raw_id）
+        sort_dir: Sort direction(Optional，asc/desc，default desc）
 
     Returns:
         {
