@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format: {
-                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode), compliance_mode (legal compliance)compliance), advance_mode ( high security compliance), audit_log (Audit log), non_worm (非WORM),
+                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_modede ( high security compliance), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default 0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2408,22 +2408,22 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open). Options: true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
-                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink valuewer limit和Filesystem capacity),
+                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink value limit和Filesystem capacity),
                 min_auto_size:  Auto-shrink lower limit in GB (Optional, 1~33554432, default 33554432),
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format: {
-                type: WORMProtection compliance mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_mode, audit_log, non_worm,
+                type: WORMProtection compliance mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_modede, audit_log, non_worm,
                 min_protect_period: Min protection period (Optional, 0~4294967295, default 0; 4294967295is indefinite),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 1~4294967295, default70; 4294967295is indefinite),
                 max_protect_period_unit: Max protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 def_protect_period: Default protection period (Optional, 0~4294967295, default70; not less than min and not greater than max),
                 def_protect_period_unit: Default protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
-                auto_lock: WORM auto-lock mode (Optional, Enabled by default; advance_mode not supported). Options: true, false,
+                auto_lock: WORM auto-lock mode (Optional, Enabled by default; advance_modede not supported). Options: true, false,
                 auto_lock_time: Auto-lock time (Optional, min1, default2),
                 auto_lock_time_unit: Auto-lock timeunit  (Optional, defaulthour). Options: minute, hour, day, month, year,
-                auto_del: Auto-delete mode (Optional, default off); advance_mode not supported). Options: true, false,
+                auto_del: Auto-delete mode (Optional, default off); advance_modede not supported). Options: true, false,
                 is_worm_audit_log_fs: WORMAudit logFilesystem (Optional, default off; One tenant can only have one),
                 worm_append_unit: WORM append-only file protection granularity (Optional, advance mode only). Options: 256KB, 512KB, 1M,
              }
@@ -2699,7 +2699,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         public_network_qos_policy: Public network QoS policy.  parameter format: {
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
                         qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: Package capacity (Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+                        package_size: Package capacity (Optional) , 0~94371840 (GB) , required when qos_mode is by_package,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: Bandwidth upper limit (Optional) , 0~1073741824 (Mbps) , required when qos_mode is manual,
                         max_band_width: Max bandwidth (Optional) , 1~1073741824 (Mbps) , required when qos_mode is by_usage or by_package,
@@ -2716,7 +2716,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         private_network_qos_policy: Private network QoS policy.  parameter format: {
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
                         qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: Package capacity (Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+                        package_size: Package capacity (Optional) , 0~94371840 (GB) , required when qos_mode is by_package,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: Bandwidth upper limit (Optional) , 0~1073741824 (Mbps) , required when qos_mode is manual,
                         max_band_width: Max bandwidth (Optional) , 1~1073741824 (Mbps) , required when qos_mode is by_usage or by_package,
@@ -2731,7 +2731,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 write_mbps: Write bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
              }
         create_s3_param: create  S3  protocol parameter (Optional).  parameter format: {
-                bucket_permission: Policy type (Required). Options: private (私有), public_read_only ( public read), public_write_only ( public write), public_read_write (Public read/write),
+                bucket_permission: Policy type (Required). Options: private, public_read_only, public_write_only, public_read_write (Public read/write),
                 version_status: Object multi-version status (Optional, 0~2). Options: 0 (disable), 1 (open), 2 (pause),
              }
         application_type: Application type, Options: PACS (Medical imaging scenario) , GENERAL ( general scenario) 
@@ -2822,7 +2822,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         trash_enable: Recycle bin enabled, true:  enable; false: disabled, defaultdisabled
         interval_trash: Recycle bin retention period (minute(s)) , 0 = permanent retention, no auto-delete ,  max 4294967295
         dps_switch: Metadata search switch, true: enable; false: disable
-        forbidden_dpc:  whether to prohibit DPC mounting, true: 禁止; false:  not prohibited
+        forbidden_dpc:  whether to prohibit DPC mounting, true: prohibit; false: allow
         audit_log_switch: Enable audit log, default disabled, true: enable; false: disable
         audit_log_rule: Audit log rule list, Options: open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
@@ -2855,7 +2855,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                         qos_switch: QoS  switch (Required) , Options: on, off,
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
                         qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: Package capacity (Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+                        package_size: Package capacity (Optional) , 0~94371840 (GB) , required when qos_mode is by_package,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: Bandwidth upper limit (Optional) , 0~1073741824 (Mbps) , required when qos_mode is manual,
                         max_band_width: Max bandwidth (Optional) , 1~1073741824 (Mbps) , required when qos_mode is by_usage or by_package,
@@ -2873,7 +2873,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                         qos_switch: QoS  switch (Required) , Options: on, off,
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
                         qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: Package capacity (Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
+                        package_size: Package capacity (Optional) , 0~94371840 (GB) , required when qos_mode is by_package,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: Bandwidth upper limit (Optional) , 0~1073741824 (Mbps) , required when qos_mode is manual,
                         max_band_width: Max bandwidth (Optional) , 1~1073741824 (Mbps) , required when qos_mode is by_usage or by_package,
@@ -2953,7 +2953,7 @@ def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: st
     
     Args:
         client: DME API Client
-        namespace_ids: Namespace ID  list (Required) , 数组 max 100,  min 1 个
+        namespace_ids: Namespace ID  list (Required) , max 100, min 1
         task_remarks: Async taskRemark(Optional, 0~1024  characters) 
     
     Returns:
