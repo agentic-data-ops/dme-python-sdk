@@ -1133,7 +1133,7 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
 
 def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None) -> dict:
     """
-    Batch deleteRemote replication Pair
+    Batch delete remote replication pair
 
     Args:
         client: DME API client
@@ -1483,7 +1483,7 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
 
 def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete_target_lun: bool = None) -> dict:
     """
-    Batch deleteSnapshot consistency group
+    Batch delete snapshot consistency group
 
     Args:
         client: DME API client
@@ -1757,7 +1757,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
                               remote_resource_name_rule: str = None, name_prefix: str = None,
                               name_suffix: str = None) -> dict:
     """
-    Create remote replicationConsistency group
+    Create remote replication consistency group
 
     Args:
         client: DME API client
@@ -1828,7 +1828,7 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
                               sync_snap_policy: str = None, user_snap_retention_num: int = None,
                               switch_to_async: bool = None) -> dict:
     """
-    modify Remote replicationConsistency group
+    modify remote replication consistency group
 
     Args:
         client: DME API client
@@ -1890,7 +1890,7 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
 def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: bool = None,
                               delete_mode: str = None) -> dict:
     """
-    Batch deleteRemote replicationConsistency group
+    Batch delete remote replication consistency group
 
     Args:
         client: DME API client
@@ -1920,7 +1920,7 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
 
 def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Remote replicationConsistency groupAdd member Pair
+    Remote replication consistency group - add member pair
 
     Args:
         client: DME API client
@@ -1944,7 +1944,7 @@ def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: l
 
 def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Remote replicationConsistency groupRemove member Pair
+    Remote replication consistency group - remove member pair
 
     Args:
         client: DME API client
@@ -1968,7 +1968,7 @@ def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids
 
 def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch sync remote replicationConsistency group
+    Batch sync remote replication consistency group
 
     >![](public_sys-resources/icon-notice.gif) **: **
     This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
@@ -1994,7 +1994,7 @@ def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch split remote replicationConsistency group
+    Batch split remote replication consistency group
 
     >![](public_sys-resources/icon-notice.gif) **: **
     This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
@@ -2020,7 +2020,7 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
     """
-    Remote replicationConsistency groupBatch primary/standby switch
+    Remote replication consistency group - batch primary/standby switch
 
     >![](public_sys-resources/icon-notice.gif) **: **
     This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
@@ -2046,7 +2046,7 @@ def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_switch_write_protection(client: DMEAPIClient, id: str, operation_type: str) -> dict:
     """
-    Remote replicationConsistency groupSwitch from resource write-protection state
+    Remote replication consistency group - switch from write-protection state
 
     Args:
         client: DME API client
@@ -2888,55 +2888,55 @@ ACTIONS = {
     # replication_group subtopic actions
     'replication_group_create': {
         'func': replication_group_create,
-        'description': 'Create remote replicationConsistency group',
+        'description': 'Create remote replication consistency group',
         'params': ['cg_name', 'remote_storage_id', 'local_pg_id', 'description', 'remote_lun_group_id', 'local_storage_id', 'create_mode', 'existed_pair_ids', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix'],
         'subtopic': 'replication_group'
     },
     'replication_group_modify': {
         'func': replication_group_modify,
-        'description': 'modify Remote replicationConsistency group',
+        'description': 'modify remote replication consistency group',
         'params': ['replication_group_id', 'name', 'description', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async'],
         'subtopic': 'replication_group'
     },
     'replication_group_delete': {
         'func': replication_group_delete,
-        'description': 'Batch deleteRemote replicationConsistency group',
+        'description': 'Batch delete remote replication consistency group',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'replication_group'
     },
     'replication_group_add_pairs': {
         'func': replication_group_add_pairs,
-        'description': 'Remote replicationConsistency groupAdd member Pair',
+        'description': 'Remote replication consistency group - add member pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_remove_pairs': {
         'func': replication_group_remove_pairs,
-        'description': 'Remote replicationConsistency groupRemove member Pair',
+        'description': 'Remote replication consistency group - remove member pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_sync': {
         'func': replication_group_sync,
-        'description': 'Batch sync remote replicationConsistency group',
+        'description': 'Batch sync remote replication consistency group',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_split': {
         'func': replication_group_split,
-        'description': 'Batch split remote replicationConsistency group',
+        'description': 'Batch split remote replication consistency group',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_switch': {
         'func': replication_group_switch,
-        'description': 'Remote replicationConsistency groupBatch primary/standby switch',
+        'description': 'Remote replication consistency group - batch primary/standby switch',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_switch_write_protection': {
         'func': replication_group_switch_write_protection,
-        'description': 'Remote replicationConsistency groupSwitch from resource write-protection state',
+        'description': 'Remote replication consistency group - switch from write-protection state',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_group'
     },
@@ -2961,7 +2961,7 @@ ACTIONS = {
     },
     'replication_pair_delete': {
         'func': replication_pair_delete,
-        'description': 'Batch deleteRemote replication Pair',
+        'description': 'Batch delete remote replication pair',
         'params': ['ids', 'delete_mode'],
         'subtopic': 'replication_pair'
     },
@@ -3036,7 +3036,7 @@ ACTIONS = {
     },
     'snapshot_group_delete': {
         'func': snapshot_group_delete,
-        'description': 'Batch deleteSnapshot consistency group',
+        'description': 'Batch delete snapshot consistency group',
         'params': ['snapshot_cg_ids', 'is_delete_target_lun'],
         'subtopic': 'snapshot_group'
     },

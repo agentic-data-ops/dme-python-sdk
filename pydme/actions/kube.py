@@ -160,7 +160,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query containerPVC list
+    Query container PVC list
     
     Args:
         client: DME API client
@@ -200,7 +200,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
 def pv_list(client: DMEAPIClient, cluster_id: str = None,
              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query containerPV list
+    Query container PV list
     
     Query container PV list,  supports filtering by cluster ID and name. 
     
@@ -269,14 +269,14 @@ ACTIONS = {
     # Persistent volume claimmanagement 
     'pvc_list': {
         'func': pvc_list,
-        'description': 'Query containerPVC list',
+        'description': 'Query container PVC list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pvc'
     },
     # Persistent volumemanagement 
     'pv_list': {
         'func': pv_list,
-        'description': 'Query containerPV list',
+        'description': 'Query container PV list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'pv'
     },
