@@ -1138,7 +1138,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         active_ip_address: Region primary IP address, supports fuzzy search (Optional, string,  max256 characters)
         standby_ip_address: Region standby IP address, supports fuzzy search (Optional, string,  max256 characters)
         sync_status: Region sync status, Exact filter (Optional, List[string], max array members: 3). Options: normal, sync (Syncing), failed (Sync failure)
-        role: Region role, Exact filter (Optional, string). Optional值: parent, child
+        role: Region role, Exact filter (Optional, string). Options: parent, child
         sort_key: Sort field (Optional, string). Options: last_sync_time ( recentSync time)
         sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending). Default: desc
         page_no: Page query start (Optional, int32, 1~100). Default: 1

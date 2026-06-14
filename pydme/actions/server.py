@@ -53,7 +53,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     
     Args:
         client: DME API client
-        server_id: Server ID (use device_id field, UUID format with hyphens, 如 507cb27f-3eda-44c8-a491-5a81ca035da5) 
+        server_id: Server ID (use device_id field, UUID format with hyphens, e.g. 507cb27f-3eda-44c8-a491-5a81ca035da5) 
     
     Returns:
         {
@@ -239,7 +239,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        RAID 卡 list
+        RAID card list
     """
     url = "/rest/servermgmt/v1/raid-cards/query"
     
@@ -256,7 +256,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
 def pcie_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server PCIe 卡 info
+    Query on server PCIe card info
     
     Args:
         client: DME API client
@@ -265,7 +265,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        PCIe 卡 list
+        PCIe card list
     """
     url = "/rest/servermgmt/v1/pcies/query"
     
@@ -346,7 +346,7 @@ ACTIONS = {
     # subtopic actions - pcie_card (three-level structure)
     'pcie_card_list': {
         'func': pcie_card_list,
-        'description': 'Query on server PCIe 卡 info',
+        'description': 'Query on server PCIe card info',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'pcie_card'
     },
