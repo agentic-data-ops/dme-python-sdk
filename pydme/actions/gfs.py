@@ -146,9 +146,9 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         gfs_group_id: 所属全局数据空间的 ID (1~32个字符, Optional)
         gfs_type: 全局命名空间类型 (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
         sort_key: 按照指定字段排序 (Optional)。Optional值：child_name_space_num
-        sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。默认值：asc
-        page_no: 分页起始页 (int32, 1~1000, 默认值: 1, Optional)
-        page_size: 每页查询的数量 (int32, 1~1000, 默认值: 20, Optional)
+        sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。Default：asc
+        page_no: 分页起始页 (int32, 1~1000, Default: 1, Optional)
+        page_size: 每页查询的数量 (int32, 1~1000, Default: 20, Optional)
 
     Returns:
         全局命名空间列表
@@ -214,13 +214,13 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         name: 全局Namespace name (1~255个字符, Required)
         gfs_group_id: 全局数据空间 ID (1~32个字符, Optional。与 gfs_group_name 不能同时为空，都有值时优先使用 gfs_group_id)
         gfs_group_name: 全局数据空间名称 (1~255个字符, Optional。与 gfs_group_id 不能同时为空，都有值时优先使用 gfs_group_id)
-        gfs_mode: 全局命名空间模式 (Optional)。Optional值：smart_share。默认值：smart_share
+        gfs_mode: 全局命名空间模式 (Optional)。Optional值：smart_share。Default：smart_share
         single_write_switch: 单写模式开关 (Optional)。Optional值：close (任意成员可写入), open (只有一个成员可写入)
         smart_share_members: SmartShare 成员列表 (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
                 id: 命名空间 ID (1~64个字符, Required),
-                pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。默认值：on_demand,
-                cache_time: 缓存时长 (int32, Optional, 默认值: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
-                cache_time_unit: 缓存时长单位 (Optional)。Optional值：hour (小时), day (天)。cache_time 取值时Required。默认值：hour,
+                pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
+                cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
+                cache_time_unit: 缓存时长单位 (Optional)。Optional值：hour (小时), day (天)。cache_time 取值时Required。Default：hour,
                 single_write_mode: 单写模式策略 (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，必须且只能有一个成员取值为 read_write,
              }, ...]
 
@@ -261,7 +261,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         smart_share_members: SmartShare 成员列表 (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当全局命名空间的模式为 smart_share 时该参数有效)。参数格式如下：[{
                 id: 命名空间 ID 或文件系统 ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
-                cache_time: 缓存时长 (int32, Optional, 默认值: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
+                cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: 缓存时长单位 (Optional)。Optional值：hour (小时), day (天)。cache_time 取值时Required,
              }, ...]
 
@@ -340,13 +340,13 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_name: Namespace name，supports fuzzy search (1~256个字符, Optional)
         namespace_id: 命名空间 ID (1~32个字符, Optional)
         namespace_raw_id: 命名空间在设备侧 ID (1~256个字符, Optional)
-        local_path: 命名空间下的路径，supports fuzzy search (1~256个字符, Optional, 默认值: "/")
+        local_path: 命名空间下的路径，supports fuzzy search (1~256个字符, Optional, Default: "/")
         status: 任务状态列表 (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据同步中), completed (完成), suspended (已暂停), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
         task_mode: 任务模式列表 (List<string>, max array members: 2, Optional)
         execute_mode: 执行模式列表 (List<string>, max array members: 2, Optional)
-        page_no: 分页查询页码 (int32, 1~1000, 默认值: 1, Optional)
-        page_size: 每页显示的数量 (int32, 1~1000, 默认值: 20, Optional)
-        sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。默认值：desc
+        page_no: 分页查询页码 (int32, 1~1000, Default: 1, Optional)
+        page_size: 每页显示的数量 (int32, 1~1000, Default: 20, Optional)
+        sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。Default：desc
         sort_key: 排序参数 (Optional)。Optional值：progress (Task execution进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
 
     Returns:
@@ -438,14 +438,14 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         execute_time: 周期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
         execute_time_unit: 周期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
         start_mode: Task execution模式 (Required)。Optional值：manual (手动), auto (自动)
-        start_time: 任务启动的 UTC 时间戳 (int64, 最小值: 0, 单位: 秒, Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
+        start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: 秒, Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
         max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, Required)
         period_start_day: 指定时间段的起始日期 (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth 必须同时下发
         period_end_day: 指定时间段的结束日期 (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth 必须同时下发
         period_time: 指定时间段的起止时间 (Optional, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth 必须同时下发
         period_max_bandwidth: 指定时间段的带宽上限 (Optional, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time 必须同时下发
         target_namespace_id: 全局命名空间下目标命名空间 ID (1~32个字符, Required)
-        local_path: 命名空间下的路径 (Optional, 默认值: "/")
+        local_path: 命名空间下的路径 (Optional, Default: "/")
         src_namespace_ids: 全局命名空间下源站点命名空间 ID 列表 (List<string>, max array members: 32, Optional)
         atime_operator: 文件的访问时间匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 atime、atime_unit 必须同时下发
         atime: 文件的访问时间间隔 (int32, 0~26304, Optional)。与 atime_operator、atime_unit 必须同时下发
@@ -579,7 +579,7 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         id: 数据迁移任务 ID (1~32个字符, Required)
         task_name: 任务名称 (1~255个字符, Optional)
         start_mode: Task execution模式 (Optional)。Optional值：manual (手动), auto (自动)
-        start_time: 任务启动的 UTC 时间戳 (int64, 最小值: 0, 单位: 秒, Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
+        start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: 秒, Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
         execute_time: 周期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发
         execute_time_unit: 周期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发
         max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, Optional)

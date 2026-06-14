@@ -2128,10 +2128,10 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         burst_iops: 突发IOPS (可选),
                         burst_time: 最大突发时间秒 (可选),
                         latency: 时延 (可选, 仅保护下限支持),
-                        max_read_bandwidth: 最大读带宽MB/s (可选),
-                        max_write_bandwidth: 最大写带宽MB/s (可选),
-                        burst_read_band_width: 突发读带宽MB/s (可选),
-                        burst_write_band_width: 突发写带宽MB/s (可选),
+                        max_read_bandwidth: 最大Read bandwidthMB/s (可选),
+                        max_write_bandwidth: 最大Write bandwidthMB/s (可选),
+                        burst_read_band_width: 突发Read bandwidthMB/s (可选),
+                        burst_write_band_width: 突发Write bandwidthMB/s (可选),
                         max_read_iops: 最大读iops (可选),
                         max_write_iops: 最大写iops (可选),
                         burst_read_iops: 突发读iops (可选),
@@ -2371,14 +2371,14 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         burst_iops: 突发IOPS (可选, 1~999999999),
                         burst_time: 最大突发时间秒 (可选, 1~999999999),
                         latency: 时延 (可选, 1~999999999; A800/Dorado V6可选500/1500单位us, V3/V5可自定义单位ms),
-                        max_read_bandwidth: 最大读带宽MB/s (可选, 1~999999999; 仅读写上限策略有效),
-                        max_write_bandwidth: 最大写带宽MB/s (可选, 1~999999999; 仅读写上限策略有效),
-                        burst_read_band_width: 突发读带宽MB/s (可选, 1~999999999; 仅读写上限策略有效),
-                        burst_write_band_width: 突发写带宽MB/s (可选, 1~999999999; 仅读写上限策略有效),
-                        max_read_iops: 最大读IOPS (可选, 1~999999999; 仅读写上限策略有效),
-                        max_write_iops: 最大写IOPS (可选, 1~999999999; 仅读写上限策略有效),
-                        burst_read_iops: 突发读IOPS (可选, 1~999999999; 仅读写上限策略有效),
-                        burst_write_iops: 突发写IOPS (可选, 1~999999999; 仅读写上限策略有效),
+                        max_read_bandwidth: 最大Read bandwidthMB/s (可选, 1~999999999; 仅读写上限策略有效),
+                        max_write_bandwidth: 最大Write bandwidthMB/s (可选, 1~999999999; 仅读写上限策略有效),
+                        burst_read_band_width: 突发Read bandwidthMB/s (可选, 1~999999999; 仅读写上限策略有效),
+                        burst_write_band_width: 突发Write bandwidthMB/s (可选, 1~999999999; 仅读写上限策略有效),
+                        max_read_iops: 最大Read IOPS (可选, 1~999999999; 仅读写上限策略有效),
+                        max_write_iops: 最大Write IOPS (可选, 1~999999999; 仅读写上限策略有效),
+                        burst_read_iops: 突发Read IOPS (可选, 1~999999999; 仅读写上限策略有效),
+                        burst_write_iops: 突发Write IOPS (可选, 1~999999999; 仅读写上限策略有效),
                         schedule_policy: 调度策略 (可选)。可选值：once, daily, weekly,
                         schedule_start_date: 生效开始日期 (可选, 格式yyyy-MM-dd, 0~64字符),
                         start_time: 生效开始时间 (可选, 格式hh:mm, 0~64字符),
@@ -2421,7 +2421,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 def_protect_period: 默认保护期 (可选, 0~4294967295, 默认70; 不小于最小且不大于最大),
                 def_protect_period_unit: 默认保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
                 auto_lock: WORM自动锁定模式 (可选, 默认开启; advance_mode不支持)。可选值：true, false,
-                auto_lock_time: 自动锁定时间 (可选, 最小值1, 默认2),
+                auto_lock_time: 自动锁定时间 (可选, min1, 默认2),
                 auto_lock_time_unit: 自动锁定时间单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
                 auto_del: 自动删除模式 (可选, 默认关闭; advance_mode不支持)。可选值：true, false,
                 is_worm_audit_log_fs: WORMAudit log文件系统 (可选, 默认关闭; 一个租户只能有一个),
@@ -2602,8 +2602,8 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - pool_id: 存储池 ID
         - pool_name: Storage pool name
         - running_status: 运行状态（NORMAL/UNKNOWN）
-        - space_used_rate: 空间使用率
-        - file_used_rate: 文件使用率
+        - space_used_rate: Space usage ratio
+        - file_used_rate: File usage ratio
         - space_used: 已使用空间
         - file_used: 已使用文件数
         - trash_enable: 是否开启回收站
@@ -2693,8 +2693,8 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_open_file_cluster: 最大打开文件数量 (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: 读带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
                         name: QoS 策略名称（可选），1~63 个字符，正则 ^[a-zA-Z0-9][a-zA-Z0-9_-]*，只能以数字或字母开头,
@@ -2710,8 +2710,8 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_open_file_cluster: 最大打开文件数量 (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: 读带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
                         name: QoS 策略名称（可选），1~63 个字符，正则 ^[a-zA-Z0-9][a-zA-Z0-9_-]*，只能以数字或字母开头,
@@ -2727,8 +2727,8 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 max_open_file_cluster: 最大打开文件数量 (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: 读带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         create_s3_param: 创建 S3 协议参数 (可选)。参数格式如下：{
                 bucket_permission: 策略类型 (Required)。可选值：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (公共读写),
@@ -2848,8 +2848,8 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_open_file_cluster: 最大打开文件数量 (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: 读带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
                         qos_switch: QoS 开关（Required），可选值：on、off,
@@ -2866,8 +2866,8 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_open_file_cluster: 最大打开文件数量 (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: 读带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
                         qos_switch: QoS 开关（Required），可选值：on、off,
@@ -2884,8 +2884,8 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 max_open_file_cluster: 最大打开文件数量 (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为account时可选),
-                read_mbps: 读带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
-                write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
+                write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         application_type: 应用类型，可选值：PACS（医疗影像场景）, GENERAL（通用场景）
         task_remarks: Async taskRemark
@@ -2986,7 +2986,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
 
     Args:
         client: DME API 客户端
-        page_no: 分页查询的起始页码（可选），最小值 1，默认 1
+        page_no: 分页查询的起始页码（可选），min 1，默认 1
         page_size: 单页显示的数量（可选），1~1000，默认 20
         nfs_share_id: NFS 共享 ID（可选），1~64 个字符
         storage_id: Storage device ID（可选），1~64 个字符；如果指定 nfs_share_id，则此参数无效
@@ -3044,13 +3044,13 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         vstore_name: 租户的名称，支持模糊查询 (1~256个字符, Optional)
         zone_id: 所属 zone 的 ID (1~64个字符, Optional)。当资源所属范围为全局时，Zone ID 为所属设备的 Id；当资源所属范围为本地时，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 系列存储支持
         name: DataTurbo 管理员名，支持模糊查询 (1~256个字符, Optional)
-        online_status: DataTurbo 管理员在线状态 (可选)。可选值：offline (离线), online (在线)
-        lock_status: DataTurbo 管理员锁定状态 (可选)。可选值：unlocked (未锁定), locked (锁定)
+        online_status: DataTurbo 管理员Online status (可选)。可选值：offline (离线), online (在线)
+        lock_status: DataTurbo 管理员Lock status (可选)。可选值：unlocked (未锁定), locked (锁定)
         account_state: DataTurbo 管理员密码状态 (可选)。可选值：normal (正常), expired (密码过期), initial (用户密码处于初始化状态，需要修改), expiring_soon (密码即将到期), change_required (下一次登录必须修改密码), never (密码永不过期)
         sort_key: 按照指定字段排序 (可选)。可选值：create_time
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)
-        page_no: 分页查询的起始页码 (int32, 最小值: 1, 默认值: 1, Optional)
-        page_size: 单页显示的数量 (int32, 最小值: 1, 最大值: 1000, 默认值: 20, Optional)
+        page_no: 分页查询的起始页码 (int32, min: 1, Default: 1, Optional)
+        page_size: 单页显示的数量 (int32, min: 1, max: 1000, Default: 20, Optional)
 
     Returns:
         DataTurbo 管理员列表，包含 total 和 administrators
@@ -3206,17 +3206,17 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
 
     Args:
         client: DME API 客户端
-        page_no: 分页查询的起始位置 (int32, 1~2147483647, 默认值: 1, Optional)
-        page_size: 每页显示的数量 (int32, 10~100, 默认值: 100, Optional)
+        page_no: 分页查询的起始位置 (int32, 1~2147483647, Default: 1, Optional)
+        page_size: 每页显示的数量 (int32, 10~100, Default: 100, Optional)
         storage_name: 设备名称，支持模糊匹配过滤 (1~256个字符, Optional)
         vstore_raw_id: 所属租户在存储设备上的 ID (1~64个字符, Optional)
         vstore_name: 所属Tenant name，支持模糊搜索过滤 (1~256个字符, Optional)
         name: 用户组名称，支持模糊搜索过滤 (1~256个字符, Optional)
         raw_id: 用户组在存储设备上的 ID (1~256个字符, Optional)
         zone_id: Zone ID (1~64个字符, Optional)。仅 OceanStor A800 存储下的认证用户组支持通过该字段过滤
-        sort_key: 按照指定字段排序 (可选)。可选值：name (用户组名), raw_id (用户组在存储设备上的 ID), create_time (创建时间)。默认值：create_time
+        sort_key: 按照指定字段排序 (可选)。可选值：name (用户组名), raw_id (用户组在存储设备上的 ID), create_time (创建时间)。Default：create_time
         storage_id: Storage device ID (1~36个字符, Optional)
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
+        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。Default：desc
 
     Returns:
         UNIX 认证User group list
@@ -3369,8 +3369,8 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
 
     Args:
         client: DME API 客户端
-        page_no: 分页查询的起始位置 (int32, 1~2147483647, 默认值: 1, Optional)
-        page_size: 每页显示的数量 (int32, 10~100, 默认值: 100, Optional)
+        page_no: 分页查询的起始位置 (int32, 1~2147483647, Default: 1, Optional)
+        page_size: 每页显示的数量 (int32, 10~100, Default: 100, Optional)
         storage_name: 设备名称，支持模糊搜索过滤 (1~256个字符, Optional)
         vstore_raw_id: 所属租户在存储设备上的 ID (1~64个字符, Optional)
         vstore_name: 所属Tenant name，支持模糊搜索过滤 (1~256个字符, Optional)
@@ -3379,9 +3379,9 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         raw_id: 用户在存储设备上的 ID (1~255个字符, Optional)
         zone_id: Zone ID (1~64个字符, Optional)。仅 OceanStor A800 存储下的认证用户支持通过该字段过滤
         user_status: 用户状态 (可选)。可选值：enable (启用), disable (禁用)
-        sort_key: 按照指定字段排序 (可选)。可选值：name (用户名), raw_id (用户在存储设备上的 ID), primary_group_name (主组名), create_time (创建时间)。默认值：create_time
+        sort_key: 按照指定字段排序 (可选)。可选值：name (用户名), raw_id (用户在存储设备上的 ID), primary_group_name (主组名), create_time (创建时间)。Default：create_time
         storage_id: Storage device ID (1~36个字符, Optional)
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
+        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。Default：desc
 
     Returns:
         UNIX 认证User list
@@ -3462,7 +3462,7 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         primary_group_name: 用户所归属的主组名称 (1~64个字符, Optional。与 primary_group_raw_id 至少下发一个，若都下发仅 primary_group_name 生效)
         vstore_raw_id: 用户所属租户在存储设备上的 ID (1~32个字符, Required)
         zone_id: 所属 Zone ID (1~64个字符, Optional。仅 OceanStor A800 存储支持)
-        status: 用户状态 (boolean, Optional。默认值：true)。可选值：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 系列存储支持
+        status: 用户状态 (boolean, Optional。Default：true)。可选值：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 系列存储支持
         secondary_group_name_list: 用户附属组名称列表 (List<string>, min array members: 0, max array members: 100, Optional)
 
     Returns:
@@ -3508,13 +3508,13 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         zone_id: 所属 Zone 的 ID (长度为36个字符, Required)
         pool_raw_id: 存储池在所属 Zone 上的 ID (1~64个字符, Required)
         vstore_id: 租户 ID (长度为32个字符, Required)
-        data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)。默认值：off
+        data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)。Default：off
         max_survival_time: KV Cache 最长存活时间 (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
         kv_cache_stores: KV Cache 库列表 (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required)。参数格式如下：[{
                 name: KV Cache 库名称 (1~255个字符, Required),
                 capacity: KV Cache 库容量 (int64, 20971520~70368744177664, 单位: 扇区数, 1扇区=512字节, Required),
                 description: Description (1~255个字符, Optional),
-                count: Batch create KV Cache 库的数量 (int32, 1~100, 默认值: 1, Optional),
+                count: Batch create KV Cache 库的数量 (int32, 1~100, Default: 1, Optional),
                 start_suffix: 起始后缀编号 (int32, 0~9999, Optional。起始后缀编号+KV Cache库数量<=9999),
              }, ...]
 
@@ -3551,7 +3551,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
         kv_cache_stores_id: KV Cache 库 ID (1~64个字符, Required)
         name: KV Cache 库名称 (1~255个字符, Optional)
         description: Description (0~255个字符, Optional)
-        data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)。默认值：off
+        data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)。Default：off
         max_survival_time: KV Cache 最长存活时间 (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
 
     Returns:
@@ -3627,9 +3627,9 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         fs_id: 文件系统 ID (长度为32个字符, Optional)
         fs_name: Filesystem name (1~256个字符, Optional)
         data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)
-        page_no: 分页页码 (int32, 1~10000, 默认值: 1, Optional)
-        page_size: 每页数据条数 (int32, 1~100, 默认值: 20, Optional)
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：asc
+        page_no: 分页页码 (int32, 1~10000, Default: 1, Optional)
+        page_size: 每页数据条数 (int32, 1~100, Default: 20, Optional)
+        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。Default：asc
         sort_key: 排序参数 (可选)。可选值：capacity (Total capacity), used_capacity (Used capacity), used_tokens (已使用的 token 数量), hit_ratio (命中率)
 
     Returns:

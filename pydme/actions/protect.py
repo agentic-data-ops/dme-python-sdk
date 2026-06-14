@@ -1323,7 +1323,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         parent_name: 父Object name，supports fuzzy search
         activated_time_from: 查询激活时间的起始点（Unix 时间戳，单位秒）
         activated_time_to: 查询激活时间的结束点（Unix 时间戳，单位秒）
-        page_no: 分页查询的开始页，最小值为 1，默认值为 1
+        page_no: 分页查询的开始页，min为 1，Default为 1
         page_size: 每页数量，1~1000，默认 20
 
     Returns:
@@ -2084,7 +2084,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
     Args:
         client: DME API client
         vstore_pair_id: 双活租户Pair的ID (Required, string, 1~32个字符)
-        create_mode: 创建模式 (Optional, string)。Optional值：manual (手动)。默认值：manual
+        create_mode: 创建模式 (Optional, string)。Optional值：manual (手动)。Default：manual
         fs_pairs: 文件系统Pair列表 (Optional, List[FsPairInstance], max array members：100)
         speed: 同步速率 (Optional, string)。Optional值：low, medium, high, highest, custom
         bandwidth: 带宽 (Optional, integer, 1~1024)。当speed为custom时Required

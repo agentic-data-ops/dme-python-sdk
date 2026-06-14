@@ -62,7 +62,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
         client: DME API client
         user_name: 需要重置密码的用户名 (Required, string, 1~128个字符)
         new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
-        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。默认值：true
+        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。Default：true
 
     Returns:
         无
@@ -151,13 +151,13 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
     Args:
         client: DME API client
-        page_no: 页数 (Required, integer, 最小值：1)。默认值：1
-        page_size: 页面大小 (Required, integer, 5~200)。默认值：10
+        page_no: 页数 (Required, integer, min：1)。Default：1
+        page_size: 页面大小 (Required, integer, 5~200)。Default：10
         name: 用户名搜索关键字 (Optional, string, 最多32个字符)
 
     Returns:
         {
-            total: 总数 (integer, 最大值：5000),
+            total: 总数 (integer, max：5000),
             datas: User data (List<UserData>, max array members：5000)。参数格式如下：[{
                 id: 用户ID (integer, 1~2147483647),
                 name: 用户名 (string, 6~32个字符),
@@ -184,13 +184,13 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
     Args:
         client: DME API client
-        page_no: 页数 (Required, integer, 最小值：1)。默认值：1
-        page_size: 页面大小 (Required, integer, 5~100)。默认值：10
+        page_no: 页数 (Required, integer, min：1)。Default：1
+        page_size: 页面大小 (Required, integer, 5~100)。Default：10
         name: 角色名搜索关键字 (Optional, string, 最多64个字符)
 
     Returns:
         {
-            total: 总数 (integer, 最大值：10),
+            total: 总数 (integer, max：10),
             datas: Role data (List<RoleData>, max array members：5000)。参数格式如下：[{
                 id: 角色ID (integer, 1~2147483647),
                 name: 角色名称 (string, 最多64个字符),
@@ -287,8 +287,8 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
         client: DME API client
         address: 备份服务器地址，支持IPv4地址，supports fuzzy match (Optional, string, 1~256个字符)
         name: 备份服务器名称 (Optional, string)
-        page_no: 分页查询的起始页码 (Optional, int32)。默认值：1
-        page_size: 每页数量 (Optional, int32, 1~1000)。默认值：20
+        page_no: 分页查询的起始页码 (Optional, int32)。Default：1
+        page_size: 每页数量 (Optional, int32, 1~1000)。Default：20
 
     Returns:
         {
@@ -1001,9 +1001,9 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
         client: DME API client
         az_name: 可用分区名称，supports fuzzy match (Optional, string, 1~64个字符)
         operate_status: 可用分区运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (Optional, string, 1~16个字符)
-        start: 分页的页号，从1开始 (Optional, int32, 1~10000000)。默认值：1
-        limit: 分页的大小 (Optional, int32, 1~512)。默认值：512
-        is_sc: 是否运营侧查询 (Optional, boolean, true,false)。默认值：false
+        start: 分页的页号，从1开始 (Optional, int32, 1~10000000)。Default：1
+        limit: 分页的大小 (Optional, int32, 1~512)。Default：512
+        is_sc: 是否运营侧查询 (Optional, boolean, true,false)。Default：false
 
     Returns:
         {
@@ -1012,7 +1012,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
                 id: 可用分区id (string),
                 name: 可用分区名称 (string),
                 description: 可用分区描述 (string),
-                operate_status: 可用分区的运营状态 (string)。默认值：offline,
+                operate_status: 可用分区的运营状态 (string)。Default：offline,
                 site_urn: 站点urn (string, 1~64个字符),
             }, ...]
         }
@@ -1140,9 +1140,9 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         sync_status: Region同步状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (同步中), failed (同步失败)
         role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: 排序字段 (Optional, string)。Optional值：last_sync_time (最近同步时间)
-        sort_dir: 排序方向 (Optional, string)。Optional值：asc (升序), desc (降序)。默认值：desc
-        page_no: 分页查询的开始页 (Optional, int32, 1~100)。默认值：1
-        page_size: 每页数量 (Optional, int32, 1~100)。默认值：20
+        sort_dir: 排序方向 (Optional, string)。Optional值：asc (升序), desc (降序)。Default：desc
+        page_no: 分页查询的开始页 (Optional, int32, 1~100)。Default：1
+        page_size: 每页数量 (Optional, int32, 1~100)。Default：20
 
     Returns:
         {

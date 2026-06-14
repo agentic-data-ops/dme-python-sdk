@@ -368,8 +368,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - highLatency: 高时延
             - healthAnalysis: 健康快检
             - IOInterrupt: IO 中断
-            - highReadLatency: 高读时延
-            - highWriteLatency: 高写时延
+            - highReadLatency: 高Read latency
+            - highWriteLatency: 高Write latency
             - trafficAnalysis: 流量分析
             - cpuUsageAnalysis: cpu 消耗分析
 
@@ -464,7 +464,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     查询历史Performance data
 
     根据传入参数中的"range"字段所取的枚举值或从开始到结束时间范围内的查询数据.
-    有汇聚数据情况下,返回结果序列是平均值序列,并包含最大值,最小值以及对应时间戳.
+    有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应时间戳.
 
     使用说明:
     - Object type和指标定义:从Performance metrics模型文档获取 (reference/dme_performance_model/index.md)
@@ -664,7 +664,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            storage_name_space（命名空间）, storage_node（存储节点）, dpc（并行客户端）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
         object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
-        page_no: 分页查询的起始位置（Optional，最小值：1）
+        page_no: 分页查询的起始位置（Optional，min：1）
         page_size: 每页显示的数量（Optional，1~100，默认 20）
         sort_key: 排序字段（Optional），按分数进行排序，Optional值：health_score
         sort_dir: 排序方式（Optional），Optional值：asc, desc
@@ -811,7 +811,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         page_size: 分页查询的个数，1~100，默认 20
         sort_key: 排序字段（last_check_time-最后检查时间，failed_count-检查不通过的object个数）
         sort_dir: 排序方式（asc-正序，desc-降序）
-        administrative_status: 管理状态（enable-启用，disable-禁用）
+        administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
         object_category: object分类（Storage-存储设备，IPSwitch-以太网交换机，FCSwitch-光纤交换机，
                        Virtualization-虚拟化，Server-服务器，HCI-超融合，Client-客户端）

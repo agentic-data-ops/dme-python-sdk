@@ -20,7 +20,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     
     Args:
         client: DME API client
-        page_no: 页索引号（Required，最小值：1）
+        page_no: 页索引号（Required，min：1）
         page_size: 每页查询数量（Required，1~1000）
         directory_id: 目录 id（Optional，1~64 个字符）
         group: 模板所属分组名称，supports fuzzy match（Optional，最多 255 个字符）
@@ -28,7 +28,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     
     Returns:
         {
-            total: 模板数量 (integer, 最大值：500),
+            total: 模板数量 (integer, max：500),
             templates: Template list。参数格式如下：[{
                 id: 模板ID (string),
                 name: 模板名称 (string),

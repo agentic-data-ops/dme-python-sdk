@@ -71,7 +71,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     Args:
         client: DME API client
         switch_id: 交换机 ID（Optional）
-        port_name: 端口名称（Optional）
+        port_name: Port name（Optional）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
