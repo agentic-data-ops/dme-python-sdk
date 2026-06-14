@@ -1234,7 +1234,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
     Args:
         client: DME API client
         id: 复制 Pair ID
-        operation_type: 操作类型，Optional值：enable（开启）, disable（取消）
+        operation_type: 操作类型，Optional值：enable (on), disable（取消）
 
     Returns:
         {
@@ -2051,7 +2051,7 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
     Args:
         client: DME API client
         id: 一致性组的 ID
-        operation_type: 操作类型，Optional值：enable（开启）, disable（取消）
+        operation_type: 操作类型，Optional值：enable (on), disable（取消）
 
     Returns:
         {

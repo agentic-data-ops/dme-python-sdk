@@ -2258,7 +2258,7 @@ def qos_associate(client: DMEAPIClient, qos_policy_id: str,
     """
     QoS 策略关联控制资源
 
-    将一个或多个资源关联到 QoS 策略。
+    将一个或多个资源associated with QoS 策略。
 
     Args:
         client: DME API client

@@ -1573,7 +1573,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
         page_size: Items per page（可选），1~1000，默认 10
         user_id: DataTurbo 管理员 ID（可选），1~64 个字符，exact match
         user_name: DataTurbo 管理员名称（可选），1~256 个字符，支持fuzzy search
-        permission: DataTurbo 管理员权限（可选），可选值：read_and_write（读写）
+        permission: DataTurbo 管理员权限（可选），可选值：read_and_write (read/write)
 
     Returns:
         DataTurbo 共享管理员Permission list
@@ -1892,14 +1892,14 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         project_id: 业务群组 ID（可选），1~256 个字符，与 project_name mutually exclusive，exact match
         storage_id: 归属Storage device ID（可选），1~256 个字符，与 storage_name mutually exclusive，exact match
         fs_raw_id: 文件系统在设备上的 ID（可选），1~256 个字符，与 name mutually exclusive
-        health_status: Health status（可选），可选值：normal（正常）、faulty（故障）、unknown（未知）
-        running_status: 运行状态（可选），可选值：online（在线）、offline（离线）、invalid（失效）、
-                       initializing（初始化中）、unknown（未知）
+        health_status: Health status（可选），可选值：normal (normal)、faulty (fault)、unknown (unknown)
+        running_status: 运行状态（可选），可选值：online (online)、offline (offline)、invalid（失效）、
+                       initializing（初始化中）、unknown (unknown)
         alloc_type: 文件系统分配类型（可选），可选值：thin（按需分配）、thick（固定分配）
         type: 文件系统类型（可选），可选值：normal（普通文件系统）、worm（worm文件系统）、
               migration（migration文件系统）、container（容器应用文件系统）、hash（哈希文件系统）、
               smart_mobility_internal（SmartMobility内部文件系统）
-        protection: 保护状态（可选），可选值：protected（已保护）、not_protected（未保护）
+        protection: 保护状态（可选），可选值：protected (protected)、not_protected (unprotected)
         dc_id: 数据中心 ID（可选），1~128  characters, regex ^[_A-Fa-f0-9\\-]+$
         dc_name: Data center name（可选），1~256 个字符
         zone_id: 所属 zone 的 ID（可选），1~256 个字符；仅 OceanStor A800 系列文件系统支持搜索，传入集群ID代表查询全局文件系统
