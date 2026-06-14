@@ -2079,7 +2079,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
                             service_assurance_policy: str = None,
                             isolation_threshold_time: int = None) -> dict:
     """
-    创建FilesystemActive-active pair。该API可能会直接或间接影响现网业务运行，Proceed with caution.
+    创建FilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
 
     Args:
         client: DME API client
@@ -2191,7 +2191,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
 def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量暂停FilesystemActive-active pair。该API可能会直接或间接影响现网业务运行，Proceed with caution.
+    批量暂停FilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
 
     Args:
         client: DME API client
@@ -2217,7 +2217,7 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
 def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量SyncFilesystemActive-active pair。该API可能会直接或间接影响现网业务运行，Proceed with caution.
+    批量SyncFilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
 
     Args:
         client: DME API client
@@ -2245,7 +2245,7 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
                             is_local_delete: bool = None,
                             is_online_delete: bool = None) -> dict:
     """
-    Batch deleteFilesystemActive-active pair。该API可能会直接或间接影响现网业务运行，Proceed with caution.
+    Batch deleteFilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
 
     Args:
         client: DME API client
