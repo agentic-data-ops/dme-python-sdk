@@ -34,7 +34,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                      pending_delete, queued, importing, killed, storage_migrating,
                      building, error
         is_template: 是否是模板（true/false）
-        os_type: 操作系统类型列表（Windows, Linux, Other）
+        os_type: OS type list（Windows, Linux, Other）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: 数据存储Data center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
@@ -224,12 +224,12 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Args:
         client: DME API client
-        site_id: 主机所属站点 ID
-        cluster_id: 主机所属集群 ID
+        site_id: Host site ID
+        cluster_id: Host cluster ID
         dc_id: Data center ID
         host_name: Host name（supports fuzzy search）
         ip_address: 主机 IP 地址
-        status: 主机状态列表
+        status: Host status list
         vr_type: Virtualization platform type
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
@@ -237,7 +237,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含主机列表
+        }，includes host list
     """
     url = "/rest/vmmgmt/v1/hosts/query"
     
@@ -307,7 +307,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含集群列表
+        }，includes cluster list
     """
     url = "/rest/vmmgmt/v1/clusters/query"
     
@@ -365,7 +365,7 @@ def site_list(client: DMEAPIClient) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含站点列表
+        }，includes site list
     """
     url = "/rest/vmmgmt/v1/sites/query"
     
@@ -398,14 +398,14 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
     QueryHost storage adapter list
     
-    查询Physical host的存储适配器列表。
+    查询Physical host的Storage adapter list。
     
     Args:
         client: DME API client
         host_id: 主机 ID（Required）
     
     Returns:
-        存储适配器列表
+        Storage adapter list
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}/storage-adapters"
     

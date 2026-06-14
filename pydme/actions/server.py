@@ -17,8 +17,8 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         client: DME API client
         start: 分页Start position，默认 1
         limit: Page size, default 100
-        name: 服务器名称过滤（Optional）
-        server_type: 服务器类型过滤（Optional）
+        name: Server name filter（Optional）
+        server_type: Server type filter（Optional）
     
     Returns:
         {
@@ -49,11 +49,11 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 
 def show(client: DMEAPIClient, server_id: str) -> dict:
     """
-    Query服务器的概览信息
+    QueryServer overview info
     
     Args:
         client: DME API client
-        server_id: 服务器 ID（注意：需要使用 device_id 字段，即带连字符的 UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
+        server_id: 服务器 ID（注意：需要使用 device_id 字段，with hyphens UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
         {
@@ -290,7 +290,7 @@ ACTIONS = {
     },
     'show': {
         'func': show,
-        'description': 'Query服务器的概览信息',
+        'description': 'QueryServer overview info',
         'params': ['server_id'],
         'subtopic': None
     },

@@ -1,5 +1,5 @@
 """
-数据备份管理 (Backup) operations
+Backup management (Backup) operations
 """
 
 import sys
@@ -8,7 +8,7 @@ import os
 from pydme.client import DMEAPIClient
 
 
-# ==================== 备份集群管理 ====================
+# ==================== Backup cluster management ====================
 
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
@@ -17,7 +17,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     
     Args:
         client: DME API client
-        name: 备份集群名称（Optional，supports fuzzy search）
+        name: Backup cluster name（Optional，supports fuzzy search）
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -49,7 +49,7 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
     Query backup cluster capacity
     
-    Query备份集群的容量信息。
+    QueryBackup cluster capacity info。
     
     Args:
         client: DME API client
@@ -74,7 +74,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     """
     Query backup clusterTenant quota list
     
-    Query备份集群下的Tenant quota list。
+    QueryBackup clusterTenant quota list。
     
     Args:
         client: DME API client

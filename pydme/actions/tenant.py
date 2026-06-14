@@ -1,7 +1,7 @@
 """
-租户自助服务 (Self Service) operations
+Tenant self-service (Self Service) operations
 
-租户自助服务用于管理Service level和Project group。
+Tenant self-service用于管理Service level和Project group。
 """
 
 import sys
@@ -21,20 +21,20 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
+        volumes: 待创建 LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
                 name: LUN名称 (1~255个字符, supports alphanumeric._-and Chinese characters),
                 capacity: 容量GB (1~262144),
                 count: 创建count (1~500),
                 description: 描述 (0~255个字符),
                 start_suffix: Starting suffix number (0~9999),
-                suffix_length: 后缀长度规则 (1~4, 名称长度+后缀长度<=255),
+                suffix_length: Suffix length rule (1~4, 名称长度+后缀长度<=255),
              }, ...]
         service_level_id: Service level ID（Required，0~64 个字符）
         task_remarks: Async task remark（Optional，最多 1024 个字符）
         project_id: Project group ID（Optional，0~64 个字符）
         availability_zone: Availability zone ID（Optional，0~64 个字符）
         scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。参数格式如下：{
-                affinity: 是否开启亲和性。Optional值：true (开启), false (disabled)。默认disabled,
+                affinity: Enable affinity。Optional值：true (开启), false (disabled)。默认disabled,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64个字符),
              }
         mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。参数格式如下：{
@@ -213,7 +213,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryService level
 
-    查询Service level列表，支持按名称、项目 ID、可用区、存储 ID 等过滤和分页。
+    查询Service level列表，支持按名称、项目 ID、可用区、存储 ID filtering and pagination。
 
     Args:
         client: DME API client
@@ -361,7 +361,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
 
 
 # Action list for CLI help
-# 本主题无直接动作，所有动作均在子主题下
+# No direct actions for this topic，All actions are under subtopics
 ACTIONS = {
     # tier 子主题
     'tier_list': {

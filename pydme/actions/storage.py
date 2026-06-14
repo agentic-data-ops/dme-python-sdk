@@ -266,7 +266,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
         tag_ids: Tag filter list (Optional, string)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系
         start: Page queryStart position (Optional, int32, 1~10000)。Default：1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
-        ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000个字符)。最多支持10个扩展属性组合过滤
+        ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000个字符)。最多支持10extended attributes combined filter
 
     Returns:
         {
@@ -770,14 +770,14 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 subscribed_capacity: 总订阅容量，单位MB (number)，仅闪存存储、分布式设备支持,
                 lun_subscribed_capacity: LUN的订阅容量，单位MB (number)，flash storage only,
                 filesystem_subscribed_capacity: Filesystem总订阅容量，单位MB (number)，仅OceanStor Dorado V6存储6.1.0supported in version,
-                health_status: Health status。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知)。仅闪存存储及第三方存储支持,
+                health_status: Health status。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知)。flash and third-party storage only,
                 running_status: Running status. Options：pre-copy (预拷贝), rebuilt (重构), online (在线), offline (离线), balancing (正在均衡), initializing (Initializing), deleting (删除中), unknown (未知)。flash storage only,
-                pool_status: Storage pool状态。可选值：normal (正常), fault (故障), write-protect (写保护), stopped (停止), fault-and-write-protect (故障且写保护), migrating-data (Data migration), degraded (降级), rebuilding-data (数据重构), migrating-services (服务迁移), all-copies-failed (全副本故障), all-copies-failed-and-write-protect (全副本故障且写保护), deleting (删除中), deletion-failed (删除失败), unknown (未知)。仅分布式存储支持,
+                pool_status: Storage pool状态。可选值：normal (正常), fault (故障), write-protect (写保护), stopped (停止), fault-and-write-protect (故障且写保护), migrating-data (Data migration), degraded (降级), rebuilding-data (数据重构), migrating-services (服务迁移), all-copies-failed (全副本故障), all-copies-failed-and-write-protect (全副本故障且写保护), deleting (删除中), deletion-failed (删除失败), unknown (未知)。distributed storage only,
                 disk_types: Disk type列表 (List<string>)，flash storage only,
                 capacity_usage: 容量利用率,
                 redundancy_policy: 冗余策略。可选值：replication (副本), ec (EC)。仅FusionStorage、OceanStor 100D和OceanStor Pacificseries device support,
                 num_data_units: EC数据块count (integer)，only when redundancy policy isec时有效,
-                num_fault_tolerance: EC允许故障节点数 (integer)，only when redundancy policy isec时有效,
+                num_fault_tolerance: ECAllowed faulty node count (integer)，only when redundancy policy isec时有效,
                 num_parity_units: EC校验块count (integer)，only when redundancy policy isec时有效,
                 cache_media_type: Storage pool缓存类型。可选值：ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘), none (无缓存)。仅FusionStorage、OceanStor 100D、OceanStor A310和OceanStor Pacificseries device support,
                 zone_id: Zone的ID (1~64 characters)，仅OceanStor A800series storage only,
@@ -1102,7 +1102,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         location: 设备位置 (可选, 0~512个字符)。
         maintenance_start: 维护Start time (可选, 格式是毫second(s)级时间戳)。must appear with warranty expiration time and value must be less。
         maintenance_overtime: Warranty expiration time (可选, 格式是毫second(s)级时间戳)。需要和维护Start timemust appear together and value greater thanStart time。
-        total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。Storage device中所有硬盘的物理容量之和，-1表示无裸容量。
+        total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。Storage devicesum of all disk physical capacities，-1表示无裸容量。
         total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。Storage device可写入的User data总量，-1表示无可得容量。
         total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage device实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无Available capacity。
         used_capacity: Used capacity (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的已使用容量之和，-1表示无Used capacity。
@@ -1154,7 +1154,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         payload['tag_ids'] = json.dumps(tag_ids) if isinstance(tag_ids, list) else tag_ids
 
     response = client.put(url, body=payload, params={"storage_id": storage_id})
-    # 修改接口返回空响应，返回空字典表示成功
+    # modify API returns empty response，返回空字典表示成功
     return response if response else {}
 
 
@@ -1169,7 +1169,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
     Args:
         client: DME API client。
         storage_id: Storage device id (1~36个字符, 满足uuid格式)。
-        create_type: 创建类型 (可选, 0~1)。可选值：0 (系统预置), 1 (用户定义)。不传返回所有类型。
+        create_type: 创建类型 (可选, 0~1)。可选值：0 (系统预置), 1 (用户定义)。returns all types if not provided。
         template_type: 应用类型分类 (可选, 0~1)。可选值：0 (LUN类型), 1 (NAS类型)。不传默认LUN类型。
         pool_id: Storage poolid (可选, 1~64 characters, 字母和数字)。
     
@@ -2996,7 +2996,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device ID（Required，1~36个字符，且满足正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）
         failover_group_type: Failover group类型(Optional). Options：system, VLAN, customized
         zone_id: Zone ID（可选，1~255 characters），仅OceanStor A800series storage only
-        failover_group_service_type: Failover group业务类型列表（可选，List<string>，max array members：10). Options：NAS (用于关联NFS、CIFS、NFS and OBJECT协议类型Logic port的Failover group), BGP (用于关联VIP类型Logic port的Failover group), RDMA (用于关联NFS over RDMA、NFS、OBJECT协议Logic port的Failover group), IB (用于关联NAS over IB协议类型Logic port的Failover group), KB (用于关联KnowledgeBase over TCP协议类型Logic port的Failover group)
+        failover_group_service_type: Failover groupBusiness type list（可选，List<string>，max array members：10). Options：NAS (用于关联NFS、CIFS、NFS and OBJECT协议类型Logic port的Failover group), BGP (用于关联VIP类型Logic port的Failover group), RDMA (用于关联NFS over RDMA、NFS、OBJECT协议Logic port的Failover group), IB (用于关联NAS over IB协议类型Logic port的Failover group), KB (用于关联KnowledgeBase over TCP协议类型Logic port的Failover group)
 
     Returns:
         {

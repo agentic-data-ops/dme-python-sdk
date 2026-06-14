@@ -143,7 +143,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         client: DME API client
         name: Global namespace的名称，supports fuzzy search (0~256个字符, Optional)
         gfs_group_name: Global data space name，supports fuzzy search (0~256个字符, Optional)
-        gfs_group_id: 所属全局数据空间的 ID (1~32个字符, Optional)
+        gfs_group_id: 所属Global data space的 ID (1~32个字符, Optional)
         gfs_type: Global namespace类型 (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
         sort_key: sort by specified field (Optional)。Optional值：child_name_space_num
         sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：asc
@@ -212,10 +212,10 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
     Args:
         client: DME API client
         name: 全局Namespace name (1~255个字符, Required)
-        gfs_group_id: 全局数据空间 ID (1~32个字符, Optional。与 gfs_group_name cannot both be empty; takes precedence when both have values gfs_group_id)
-        gfs_group_name: 全局数据空间名称 (1~255个字符, Optional。与 gfs_group_id cannot both be empty; takes precedence when both have values gfs_group_id)
+        gfs_group_id: Global data space ID (1~32个字符, Optional。与 gfs_group_name cannot both be empty; takes precedence when both have values gfs_group_id)
+        gfs_group_name: Global data space名称 (1~255个字符, Optional。与 gfs_group_id cannot both be empty; takes precedence when both have values gfs_group_id)
         gfs_mode: Global namespace模式 (Optional)。Optional值：smart_share。Default：smart_share
-        single_write_switch: 单写模式开关 (Optional)。Optional值：close (任意成员可写入), open (只有一个成员可写入)
+        single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (只有一个成员可写入)
         smart_share_members: SmartShare 成员列表 (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
                 id: Namespace ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
@@ -292,7 +292,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
 
     Args:
         client: DME API client
-        id: Global namespace的 ID，与 name_locator 不能同时为空
+        id: Global namespace的 ID，与 name_locator cannot both be empty
         name_locator: 名称定位器，格式为：Global namespace的名称@Global data space name
         is_delete_child: 是否删除子Namespace，默认 true
 
@@ -341,13 +341,13 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_id: Namespace ID (1~32个字符, Optional)
         namespace_raw_id: Namespace在device side ID (1~256个字符, Optional)
         local_path: Namespace下的路径，supports fuzzy search (1~256个字符, Optional, Default: "/")
-        status: 任务状态列表 (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据Syncing), completed (完成), suspended (Paused), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
-        task_mode: 任务模式列表 (List<string>, max array members: 2, Optional)
+        status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据Syncing), completed (完成), suspended (Paused), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
+        task_mode: Task mode list (List<string>, max array members: 2, Optional)
         execute_mode: 执行模式列表 (List<string>, max array members: 2, Optional)
         page_no: Page number (int32, 1~1000, Default: 1, Optional)
         page_size: Items per page (int32, 1~1000, Default: 20, Optional)
         sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：desc
-        sort_key: Sort key (Optional)。Optional值：progress (Task execution进度), real_start_time (任务实际启动时间), real_finish_time (任务实际End time)
+        sort_key: Sort key (Optional)。Optional值：progress (Task execution进度), real_start_time (Task actual start time), real_finish_time (任务实际End time)
 
     Returns:
         Data migrationTask list

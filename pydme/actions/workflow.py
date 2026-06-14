@@ -139,16 +139,16 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
             task_id: Task ID (string, 1~64个字符),
         }，包含：
         - instance_id: 实例 id
-        - template_id: 实例对应的模板 id
-        - template_name: 实例对应的模板名称
+        - template_id: Instance template id
+        - template_name: Instance template名称
         - state: 执行状态（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
         - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
         - params: Execute instance parameters
-        - step_list: 实例的步骤列表
+        - step_list: Instance step list
         - start_time: 实例执行的Start time（毫second(s)）
         - end_time: 实例执行的End time（毫second(s)）
         - instance_type: 实例类型（PRECHECK/EXECUTION）
-        - template_version_id: 实例对应的模板版本 id
+        - template_version_id: Instance template版本 id
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}"
     
@@ -163,8 +163,8 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     Create and execute instance
     
-    创建并执行工作流实例。可以通过指定模板 id 与模板版本 id（模板版本 id default if not specified为最新版本）
-    来创建实例并执行，也可以通过指定实例 id 来找到对应实例对应的模板创建实例并执行。
+    Create and execute workflow instance。by specifying template id 与模板版本 id（模板版本 id default if not specified为最新版本）
+    来创建实例并执行，or by specifying instance id 来找到对应Instance template创建实例并执行。
     
     Args:
         client: DME API client
@@ -219,7 +219,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     return response
 
 
-# ==================== 动作注册信息 ====================
+# ==================== Action registration info ====================
 
 ACTIONS = {
     # template subtopic actions

@@ -411,7 +411,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     Create performance file collection task
 
     收集范围为开始日期到结束日期的性能文件,只支持收集 7 day(s)内的数据,
-    每次传入的object乘以指标数不超过 2000.
+    每次传入的objectmultiplied by metric count不超过 2000.
 
     Args:
         client: DME API client
@@ -469,10 +469,10 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
     - object ID (CMDB 实例 ID) 获取步骤:
-      1. 运行 `cmdb instance list --help` 查看帮助,了解类定义和查询方式
+      1. 运行 `cmdb instance list --help` 查看帮助,see class definition and query method
       2. 根据帮助信息,从 CMDB 资源模型中确定要查询的Resource type (Class 名称)
       3. 使用 `cmdb instance list --class_name <Class 名称>` 查询实例列表
-      4. 从返回结果中获取对应资源的 instance_id (即 obj_ids 参数)
+      4. obtain from response对应资源的 instance_id (即 obj_ids 参数)
 
     Args:
         client: DME API client
@@ -485,7 +485,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                  1. 运行 `cmdb instance list --help` 查看帮助,了解类定义
                  2. 根据帮助确定要查询的Resource type (Class 名称)
                  3. 运行 `cmdb instance list --class_name <Class 名称>` 查询实例
-                 4. 从返回结果中获取 instance_id
+                 4. obtain from response instance_id
         obj_type: 监控Object type(Optional,1~512 个字符)
         indicators: 监控指标列表(Optional,最多 100 个)
         ext_dimensions: 扩展维度信息列表(Optional,最多 100 个)
@@ -577,7 +577,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
     Args:
         client: DME API client
         filter: 过滤关键字(Optional),用于fuzzy match zh_cn 和 en_us 字段
-                如果提供,仅返回匹配的Object type
+                如果提供,returns only matchesObject type
 
     Returns:
         监控Object type列表,包含 obj_type_id, parent_obj_type_id, resource_category,
@@ -1108,7 +1108,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     r"""
     查询 SAN Path topology
 
-    via specified entryobject查询 SAN 网络中从主机到Storage pool之间的拓扑结构。
+    via specified entryobject查询 SAN 网络中从主机到Storage pooltopology between。
     支持 IP_SAN 和 FC_SAN 两种类型。
 
     Args:
@@ -1136,7 +1136,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
           - switches: Switch list
           - hosts: 主机列表
           - storages: 存储列表
-          - switch_links: 交换机连接关系列表
+          - switch_links: Switch connection list
           - port_links: 端口连接关系列表
         - fc_san 数据：
           - fabrics: fabric 列表
@@ -1194,7 +1194,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     Query topology VM and virtual disk list，或查询 BMS Physical disk list below
 
     via specified entryobject查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
-    或者查询 BMS（裸金属服务器）下的物理磁盘列表。
+    或者查询 BMS（裸金属服务器）physical disk list under。
 
     Args:
         client: DME API client

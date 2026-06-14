@@ -100,7 +100,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
 def controller_list(client: DMEAPIClient, switch_id: str = None,
                              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query交换机控制处理器
+    Batch querySwitch control processor
     
     Args:
         client: DME API client
@@ -134,7 +134,7 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     
     Args:
         client: DME API client
-        name: 光纤网络名称（Optional，supports fuzzy search）
+        name: FC network name（Optional，supports fuzzy search）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -160,7 +160,7 @@ def fabric_list(client: DMEAPIClient, name: str = None,
 def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query光纤网络的端口列表
+    QueryFC network port list
 
     Args:
         client: DME API client
@@ -369,7 +369,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
         zone_id: Zone ID（Required）
         zone_name: Zone 名称（Optional）
         wwn_members: WWN 成员修改（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
-        alias_members: 别名成员修改（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
+        alias_members: Alias member modification（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
         fwwn_members: FWWN 成员修改（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
         port_members: Port member modification（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fcid_members: FCID 成员修改（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
@@ -461,7 +461,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     """
     查询 zone 的成员
 
-    查询 Zone 中包含的成员，支持端口成员、WWN 成员和别名成员。
+    查询 Zone 中包含的成员，支持端口成员、WWN members and alias members。
 
     Args:
         client: DME API client
@@ -476,7 +476,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     """
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
 
-    # 根据 type 参数查询对应类型的成员
+    # 根据 type parameter to query matching member type
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/zones/{zone_id}/port-members/list"
         payload = {}
@@ -602,7 +602,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     """
     修改别名
 
-    注：根据 DME API 文档，成员修改需要使用 {type}.added_members 和 {type}.removed_members 格式。
+    注：根据 DME API 文档，member modification requires {type}.added_members 和 {type}.removed_members 格式。
 
     Args:
         client: DME API client

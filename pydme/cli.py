@@ -98,7 +98,7 @@ class DMECLI:
                             # subtopic actions (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
-                            # 提取动作名（去掉子主题前缀，支持空格或下划线分隔）
+                            # 提取动作名（Remove subtopic prefix，支持空格或下划线分隔）
                             action_name = action_key
                             prefix_space = f"{subtopic} "
                             prefix_underscore = f"{subtopic}_"
@@ -161,7 +161,7 @@ class DMECLI:
             in_format_block = 0  # 参数格式块嵌套深度，>0 时跳过内部属性解析
             
             for line in lines:
-                raw = line  # 保留原始缩进
+                raw = line  # preserve original indentation
                 stripped = line.strip()
                 
                 # Check if it's Returns or later section
@@ -806,7 +806,7 @@ def main():
                 parser.print_help()
                 sys.exit(1)
 
-            # 创建客户端并登录
+            # Create client and login
             client = DMEAPIClient(
                 endpoint=endpoint,
                 username=username,
@@ -858,7 +858,7 @@ def main():
                 }
 
                 for param_name, param_value in action_params.items():
-                    # 尝试直接匹配或映射后匹配
+                    # try direct match or mapped match
                     func_param_name = param_mapping.get(param_name, param_name)
                     if func_param_name in sig.parameters:
                         param_type = sig.parameters[func_param_name].annotation
@@ -921,10 +921,10 @@ def main():
                 print(f"错误：Action not found '{args.topic} {args.subtopic} {args.action}'")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
-                    print(f"提示：可用动作包括：{', '.join(available)}")
+                    print(f"提示：Available actions include：{', '.join(available)}")
                 return
 
-        # if specified --help，显示帮助；否则执行动作
+        # if specified --help，显示帮助；otherwise execute action
         if show_help:
             # 显示帮助（不需要登录）
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
@@ -942,7 +942,7 @@ def main():
             parser.print_help()
             sys.exit(1)
 
-        # 创建客户端并登录
+        # Create client and login
         client = DMEAPIClient(
             endpoint=endpoint,
             username=username,
@@ -960,7 +960,7 @@ def main():
         action_info = actions_info[action_key]
         func = action_info['func']
 
-        # 三级结构显示为 "topic subtopic action"
+        # three-level structure shown as "topic subtopic action"
         print(f"执行：{args.topic} {args.subtopic} {args.action}")
         print(f"描述：{action_info.get('description', '')}")
         print("-" * 60)
@@ -995,7 +995,7 @@ def main():
             }
 
             for param_name, param_value in action_params.items():
-                # 尝试直接匹配或映射后匹配
+                # try direct match or mapped match
                 func_param_name = param_mapping.get(param_name, param_name)
                 if func_param_name in sig.parameters:
                     param_type = sig.parameters[func_param_name].annotation

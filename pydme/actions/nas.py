@@ -1771,7 +1771,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_soft_quota: 文件数软配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_hard_quota: 文件数硬配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific 设备支持；当文件数建议配额和文件数硬配额或文件数软配额when both valid，文件数建议配额需小于文件数硬配额或文件数软配额
-        snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：不统计快照空间；仅 OceanStor Pacific 设备支持
+        snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：Exclude snapshot space；仅 OceanStor Pacific 设备支持
         soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；not sent或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
         task_remarks: Async taskRemark
 
@@ -2102,7 +2102,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         vstore_id: 租户 ID（可选）
         zone_id: 所属 zone 的 ID（可选）
         task_remarks: Async taskRemark（可选）
-        gfs_group_id: 全局数据空间的 ID（可选）
+        gfs_group_id: Global data space的 ID（可选）
         automatic_update_time: 是否更新访问时间（可选）
         atime_update_mode: Atime 更新Frequency，hour/day/close（可选）
         schedule_name: 定时 HyperCDP 计划名称（可选）
@@ -2282,7 +2282,7 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
     """
     Query available的Filesystem
 
-    Query available于配置增删特性的Filesystem。当前only supports可配置Remote replication的Filesystem。
+    Query availablefor configuring add/remove featuresFilesystem。当前only supports可配置Remote replication的Filesystem。
 
     Args:
         client: DME API 客户端
@@ -2391,7 +2391,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         storage_divice_id: 所属Storage device ID (可选, 1~64字符),
                         name: QoS name (可选, 1~255字符; A800下未使用),
                         description: QoS描述 (可选, 1~255字符; A800下未使用),
-                        iotype: 策略类型 (可选)。可选值：2 (总性能upper limit), 3 (读写upper limit; 仅部分设备支持),
+                        iotype: 策略类型 (可选)。可选值：2 (总性能upper limit), 3 (读写upper limit; only supported by some devices),
                         vstore_id: 所属Tenant ID (可选, 1~64字符; A800下未使用),
                         vstore_name: 所属Tenant name (可选, 1~64字符; A800下未使用),
                         global_flag: 是否全局 (可选; 当前版本只支持全局; A800下未使用),
@@ -2418,13 +2418,13 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 min_protect_period_unit: Min protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
                 max_protect_period: 最大保护期 (可选, 1~4294967295, 默认70; 4294967295为无限期),
                 max_protect_period_unit: Max protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
-                def_protect_period: 默认保护期 (可选, 0~4294967295, 默认70; 不小于最小且不大于最大),
+                def_protect_period: 默认保护期 (可选, 0~4294967295, 默认70; not less than min and not greater than max),
                 def_protect_period_unit: Default protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
                 auto_lock: WORMAuto-lock mode (可选, 默认开启; advance_mode不支持)。可选值：true, false,
                 auto_lock_time: Auto-lock time (可选, min1, 默认2),
                 auto_lock_time_unit: Auto-lock time单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
                 auto_del: Auto-delete mode (可选, 默认关闭; advance_mode不支持)。可选值：true, false,
-                is_worm_audit_log_fs: WORMAudit logFilesystem (可选, 默认关闭; 一个租户只能有一个),
+                is_worm_audit_log_fs: WORMAudit logFilesystem (可选, 默认关闭; One tenant can only have one),
                 worm_append_unit: WORMAppend-only file protection granularity (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
              }
         task_remarks: Async taskRemark，0~1024个字符（可选）
@@ -2530,7 +2530,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         pool_name: Storage pool name（可选），1~256 个字符，支持fuzzy search
         storage_id: 归属Storage device ID（可选），1~255 个字符
         enable_encrypt: Enable encryption（可选），true：是；false：否
-        support_provisioning: 是否支持Service provisioning（可选），true：是；false：否；下发此字段可过滤不支持Service provisioning设备的资源，当前不支持Service provisioning的设备有 DataTurbo 系列
+        support_provisioning: 是否支持Service provisioning（可选），true：是；false：否；send this field to filter unsupportedService provisioning设备的资源，当前不支持Service provisioning的设备有 DataTurbo 系列
         gfs_id: Global namespace ID（可选），1~64 个字符
         gfs_name: 全局Namespace name（可选），1~256 个字符
         has_gfs: 是否包含所属Global namespace的Namespace（可选），true：是；false：否；has_gfs 为 false 时不支持下发 gfs_id
@@ -3042,11 +3042,11 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         storage_id: 设备 ID (1~64个字符, Optional)
         vstore_id: 租户的 ID (1~64个字符, Optional)
         vstore_name: 租户的名称，支持fuzzy search (1~256个字符, Optional)
-        zone_id: 所属 zone 的 ID (1~64个字符, Optional)。当资源所属范围为全局时，Zone ID 为所属设备的 Id；当资源所属范围为本地时，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 series storage only
+        zone_id: 所属 zone 的 ID (1~64个字符, Optional)。当资源所属范围为全局时，Zone ID of the device Id；当资源所属范围为本地时，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 series storage only
         name: DataTurbo 管理员名，支持fuzzy search (1~256个字符, Optional)
         online_status: DataTurbo 管理员Online status (可选)。可选值：offline (离线), online (在线)
         lock_status: DataTurbo 管理员Lock status (可选)。可选值：unlocked (未锁定), locked (锁定)
-        account_state: DataTurbo 管理员密码状态 (可选)。可选值：normal (正常), expired (密码过期), initial (用户密码处于初始化状态，需要修改), expiring_soon (密码即将到期), change_required (下一次登录必须修改密码), never (密码永不过期)
+        account_state: DataTurbo 管理员密码状态 (可选)。可选值：normal (正常), expired (密码过期), initial (用户密码处于初始化状态，需要修改), expiring_soon (密码即将到期), change_required (Must change password on next login), never (密码永不过期)
         sort_key: sort by specified field (可选)。可选值：create_time
         sort_dir: 指定Sort direction (可选)。可选值：asc (升序), desc (降序)
         page_no: Page queryStart page (int32, min: 1, Default: 1, Optional)

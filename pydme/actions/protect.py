@@ -194,7 +194,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: 添加 LUN 到有复制特性Protection group的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；Protection group存在复制parameter effective when feature。格式：[{
+        rem_reps: 添加 LUN to replication-capableProtection group的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；Protection group存在复制parameter effective when feature。格式：[{
                         is_delay: Deferred execution（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
@@ -332,10 +332,10 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         domain_id: Active-active域 ID
         name: Active-active consistency group名称
         local_storage_id: 本端设备 ID
-        local_pg_id: 本端Protection group的 ID，条件Required：当设备类型为 OceanStor Dorado V6、OceanStor V6 时Required
+        local_pg_id: 本端Protection group的 ID，条件Required：when device type is OceanStor Dorado V6、OceanStor V6 时Required
         description: Description
         create_mode: Active-active Pair creation mode，Optional值：auto（自动模式）, manual（手动模式）
-        remote_vstore_id: Remote device tenant ID，条件Required：当 create_mode 为 auto 且设备为 OceanStor Dorado 6.1.3 及以上版本时
+        remote_vstore_id: Remote device tenant ID，条件Required：当 create_mode 为 auto 且设备为 OceanStor Dorado 6.1.3 version and above
         remote_storage_pool_id: 远端Storage pool ID，条件Required：当 create_mode 为 auto 时
         lun_ids: LUN 的 ID 列表，条件Optional：当 create_mode 为 auto 时
         remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
@@ -386,7 +386,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         name: Active-active consistency group名称
         description: Description
         recovery_policy: Active-active Pair Recovery policy，Optional值：automatic（自动）, manual（手动）
-        service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred（数据可靠优先）, service_continuity_preferred（业务连续优先）
+        service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred（数据可靠优先）, service_continuity_preferred（Business continuity priority）
         speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
@@ -427,7 +427,7 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
     Args:
         client: DME API client
         ids: Active-active consistency group ID 列表
-        delete_mode: 删除模型，Optional值：preferred_only（优先站点删除）, non_preferred_only（非优先站点删除）, dual_ends（两端站点删除）
+        delete_mode: 删除模型，Optional值：preferred_only（Preferred site deletion）, non_preferred_only（非Preferred site deletion）, dual_ends（Delete both sites）
         is_self_adapt: 是否支持自适应删除成员 Pair，默认 false
 
     Returns:
@@ -1286,7 +1286,7 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: Storage device ID
 
     Returns:
-        复制链路列表
+        Replication link list
     """
     url = "/rest/protection/v1/replication-links/query"
 
@@ -1768,7 +1768,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         remote_lun_group_id: 远端 LUN 组的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时且本端Protection group是基于 LUN 组创建的时必传
         local_storage_id: 本端Storage device ID，当Storage device version不是 OceanStor V6、OceanStor Dorado V6 时必传
         create_mode: 复制 Pair creation mode，Optional值：auto（自动）, manual（手动）
-        existed_pair_ids: 已存在的复制 Pair 的 ID 列表
+        existed_pair_ids: Existing replication Pair 的 ID 列表
         lun_pairs: In manual create mode，复制 Pair 的源 LUN、目标 LUN 的 ID 列表
         lun_ids: In auto-create mode，源 LUN 的 ID 列表
         remote_storage_pool_id: 远端Storage pool ID，effective in auto-create mode

@@ -1,6 +1,6 @@
 """
-三方系统集成 (Integrate) operations
-包含CMDB系统、主机、应用等资源查询
+Third-party system integration (Integrate) operations
+包含CMDB系统、主机、Application resource query
 """
 
 import sys

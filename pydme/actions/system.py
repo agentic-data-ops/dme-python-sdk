@@ -61,8 +61,8 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: 需要重置密码的用户名 (Required, string, 1~128个字符)
-        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度cannot be less than8个字符、大于32个字符。2. Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
-        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。Default：true
+        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度cannot be less than8个字符、大于32个字符。2. Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
 
     Returns:
         无
@@ -113,7 +113,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: 用户名 (Required, string, 最多32个字符)。本地用户名cannot be less than6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名cannot be less than1个字符，大于32个字符，不能包含不可见字符和;特殊字符。
+        name: 用户名 (Required, string, 最多32个字符)。本地用户名cannot be less than6个字符，大于32个字符，Cannot contain spaces、转义字符、Invisible and special characters。远端用户名cannot be less than1个字符，大于32个字符，Cannot contain invisible characters;特殊字符。
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
         value: 密码 (Optional, string, 8~32个字符)。密码长度cannot be less than8个字符、大于32个字符。Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符。远端用户不涉及。
         description: 描述 (Optional, string, 最多127个字符)
