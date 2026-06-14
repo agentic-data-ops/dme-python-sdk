@@ -139,12 +139,12 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         status: Datastorestatus list
                  value: NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
-        storage_type:  dataStorage class型 list
+        storage_type:  Datastore class type list
                        value: LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: supports thin mode (FusionCompute only) 
         vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS) 
-        datacenter_id: Datastore的 vCenter Data center ID (vCenter only) 
+        datacenter_id: Datastore vCenter data center ID (vCenter only) 
         sort_key: Sort field (name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate) 
         sort_dir: Sort direction (asc, desc) , default asc
         page_no: Page queryStart page, default 1
@@ -153,7 +153,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  total 和 datastores  field
+        }, includes total and datastores fields
     """
     url = "/rest/vmmgmt/v1/datastores/query"
     
@@ -193,7 +193,7 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
     """
     QueryDatastore details
     
-     queryDatastore的Details. 
+     Query datastore details. 
     
     Args:
         client: DME API client
@@ -269,7 +269,7 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
     QueryHost details
     
-     queryPhysical host的Details. 
+     Query physical host details. 
     
     Args:
         client: DME API client
@@ -333,7 +333,7 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
     """
     Query cluster details
     
-     query cluster的Details. 
+     Query cluster details. 
     
     Args:
         client: DME API client
@@ -398,7 +398,7 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
     QueryHost storage adapter list
     
-     queryPhysical host的Storage adapter list. 
+     Query physical host storage adapter list. 
     
     Args:
         client: DME API client
@@ -505,7 +505,7 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
     QueryVirtual disk info
     
-     queryVirtual disk的Details. 
+     Query virtual disk details. 
     
     Args:
         client: DME API client

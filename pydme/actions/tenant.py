@@ -72,7 +72,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 def lun_change_tier(client: DMEAPIClient, volume_ids: list,
                                 tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    batch update LUN 的Service level
+    Batch update LUN service level
 
     Args:
         client: DME API client
@@ -131,7 +131,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
 
 def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
     """
-     unbind LUN 与Service level associated
+     Unbind LUN from service level
 
     Args:
         client: DME API client
@@ -180,7 +180,7 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
 def lun_unbind_project(client: DMEAPIClient, volume_id: str,
                           business_group_id: str) -> dict:
     """
-     unbind LUN 与Project group间 associated
+     Unbind LUN from project group
 
     Args:
         client: DME API client
@@ -213,7 +213,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryService level
 
-     queryService level list,  support按 name, 项目 ID,  availability zone,  storage ID filtering and pagination. 
+     Query service level list, supports filtering by name, project ID, AZ, storage ID and pagination. 
 
     Args:
         client: DME API client
@@ -221,11 +221,11 @@ def tier_list(client: DMEAPIClient, name: str = None,
         project_id: Project group ID (Optional) 
         available_zone_id:  availability zone ID (Optional) 
         storage_array_id: Storage device ID (Optional) 
-        start:  query的Start position, default 0
+        start:  Query start position, default 0
         limit: per pagecount, 10~1000, default 200
         sort_key: Sort field, name/total_capacity/created_at, default name
         sort_dir: Sort direction, asc/desc, default asc
-        type: Storage class型, FILE/BLOCK/VIRTUAL_DATASTORE (Optional) 
+        type: Storage class type, FILE, BLOCK, VIRTUAL_DATASTORE (Optional) 
 
     Returns:
         {
@@ -264,9 +264,9 @@ def tier_list(client: DMEAPIClient, name: str = None,
 def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    Batch queryProject group与Service levelAssociation
+    Batch query project group and service level association
 
-     queryProject group与Service level的Association list,  support按Service level ID  filter. 
+     Query project group and service level association list,  supports filtering by service level ID. 
 
     Args:
         client: DME API client
@@ -306,7 +306,7 @@ def project_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: Project group name (Optional, supports fuzzy search) 
-        start: Page number, 从 1  start, default 1
+        start: Page number, starting from 1, default 1
         limit: Page size, 1~512, default 20
 
     Returns:
@@ -331,9 +331,9 @@ def project_list(client: DMEAPIClient, name: str = None,
 def project_show_tiers(client: DMEAPIClient, project_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    Batch queryProject group与Service levelAssociation
+    Batch query project group and service level association
 
-    QueryProject group的 associatedService level list. 
+    Query project group associated service level list. 
 
     Args:
         client: DME API client
@@ -372,7 +372,7 @@ ACTIONS = {
     },
     'tier_show_projects': {
         'func': tier_show_projects,
-        'description': 'Batch queryProject group与Service levelAssociation',
+        'description': 'Batch query project group and service level association',
         'params': ['tier_id', 'page_no', 'page_size'],
         'subtopic': 'tier'
     },
@@ -385,7 +385,7 @@ ACTIONS = {
     },
     'project_show_tiers': {
         'func': project_show_tiers,
-        'description': 'Batch queryProject group与Service levelAssociation',
+        'description': 'Batch query project group and service level association',
         'params': ['project_id', 'page_no', 'page_size'],
         'subtopic': 'project'
     },
@@ -398,7 +398,7 @@ ACTIONS = {
     },
     'lun_change_tier': {
         'func': lun_change_tier,
-        'description': 'batch update LUN 的Service level',
+        'description': 'Batch update LUN service level',
         'params': ['volume_ids', 'tier_id'],
         'subtopic': 'lun'
     },
@@ -410,7 +410,7 @@ ACTIONS = {
     },
     'lun_unbind_tier': {
         'func': lun_unbind_tier,
-        'description': ' unbind LUN 与Service level associated',
+        'description': ' Unbind LUN from service level',
         'params': ['volume_id'],
         'subtopic': 'lun'
     },
@@ -422,7 +422,7 @@ ACTIONS = {
     },
     'lun_unbind_project': {
         'func': lun_unbind_project,
-        'description': ' unbind LUN 与Project group间 associated',
+        'description': ' Unbind LUN from project group',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },

@@ -937,7 +937,7 @@ def main():
         auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
         if not auth_token and not (endpoint and username and password):
-            print(" error: must be provided endpoint, user 和 password  parameter, 或者 use --token provide auth token")
+            print(" Error: endpoint, user and password must be provided, or use --token to provide auth token")
             print(" can pass --endpoint, --user, --password, --token or set via environment variables")
             parser.print_help()
             sys.exit(1)
@@ -971,7 +971,7 @@ def main():
             sig = inspect.signature(func)
             typed_params = {}
 
-            #  parameter名 mapping: CLI  parameter名 -> 函数 parameter名
+            #  Parameter name mapping: CLI param name -> function param name
             param_mapping = {
                 'name': 'name',
                 'alias_name': 'name',

@@ -306,7 +306,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     create  zone
 
-    注:  Based on DME API documentation, must provide fabric_wwn 或 vsan_wwn, and at least one member type. 
+    注:  Based on DME API documentation, must provide fabric_wwn or vsan_wwn, and at least one member type. 
 
     Args:
         client: DME API client
@@ -549,7 +549,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     Create alias
 
-    注:  Based on DME API documentation, must provide fabric_wwn 或 vsan_wwn, and at least one member type. 
+    注:  Based on DME API documentation, must provide fabric_wwn or vsan_wwn, and at least one member type. 
 
     Args:
         client: DME API client
@@ -602,7 +602,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     """
     Modify alias
 
-    注:  Based on DME API documentation, member modification requires {type}.added_members and {type}.removed_members format. 
+    注:  Based on DME API documentation, member modification requires {type}.added_members and {type}.removed_members formatmat. 
 
     Args:
         client: DME API client
