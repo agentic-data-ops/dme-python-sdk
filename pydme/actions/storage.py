@@ -2987,7 +2987,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
 def failover_group_list(client: DMEAPIClient, storage_id: str,
                         failover_group_type: str = None,
                         zone_id: str = None,
-                        failover group service type: list = None) -> dict:
+                        failover_group_service_type: list = None) -> dict:
     """
      query failover group busi failover group list
 
@@ -2996,7 +2996,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
         failover_group_type: Failover group busi failover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover group service type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group)
+        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group)
 
     Returns:
         {
@@ -3009,7 +3009,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only,
                 zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
                 zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
-                failover group service type: Failover group business type. Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group),
+                failover_group_service_type: Failover group business type. Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group),
             }, ...]
         }
     """
@@ -3023,8 +3023,8 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         payload['failover_group_type'] = failover_group_type
     if zone_id is not None:
         payload['zone_id'] = zone_id
-    if failover group service type is not None:
-        payload['failover group service type'] = failover group service type
+    if failover_group_service_type is not None:
+        payload['failover_group_service_type'] = failover_group_service_type
 
     response = client.post(url, body=payload)
     return response
@@ -3569,7 +3569,7 @@ ACTIONS = {
     'failover_group_list': {
         'func': failover_group_list,
         'description': ' query failover group busi failover group list',
-        'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover group service type'],
+        'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover_group_service_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_ports': {
