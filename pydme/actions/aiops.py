@@ -190,7 +190,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         mo_dn: 被management object DN, support inc 操作符匹配
         alarm_group_id: 告警组 ID
         dc_id: Data center ID
-        product_name: 产品 name
+        product_name:  product name
         alarm_name: Alarm name,supports fuzzy match
         occur_utc_start: Alarm occurredStart time(毫second(s)Timestamp)
         occur_utc_end: Alarm occurredEnd time(毫second(s)Timestamp)
@@ -269,7 +269,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
         "operation_type": "ACK"
     }
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
@@ -299,7 +299,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
         "operation_type": "UNACK"
     }
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
@@ -329,7 +329,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
         "operation_type": "CLEAR"
     }
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
@@ -394,7 +394,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         "analysis_types": analysis_types
     }
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
@@ -410,7 +410,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     """
     Create performance file collection task
 
-    Collect performance files from start to end date,只 support收集 7 day(s)内的数据,
+    Collect performance files from start to end date,只 support收集 7 day(s)内的 data,
     每次传入的objectmultiplied by metric count不超过 2000.
 
     Args:
@@ -472,7 +472,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
       1. 运行 `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
       3. 使用 `cmdb instance list --class_name <Class  name>` Query instance list
-      4. obtain from response对应资源的 instance_id (即 obj_ids  parameter)
+      4. obtain from response对应 resource的 instance_id (即 obj_ids  parameter)
 
     Args:
         client: DME API client
@@ -612,7 +612,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     Args:
         client: DME API client
         type: Data type（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（Performance prediction）, performance_anomaly（Performance anomaly）
-        object_id: 资源 ID（Required，1~256  characters）
+        object_id:  resource ID（Required，1~256  characters）
         begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         object_type: Resource type（Required）
@@ -661,7 +661,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            storage_disk（硬盘）, storage_port（Storage port）, fcswitch_port（光纤Switch port）,
                            storage_file_system（Filesystem）, controller（Controller）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
-                           storage_name_space（Namespace）, storage_node（ storage节点）, dpc（DPC）
+                           storage_name_space（Namespace）, storage_node（ storage node）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional， max 256  characters）
         object_ids: object resId  list，For batch exact lookup（Optional，supports up to 100 个 ID）
         page_no: Page queryStart position（Optional，min：1）
@@ -774,7 +774,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
         "task_id": task_id
     }
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
@@ -800,13 +800,13 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         exact_query:  name是否exact match（true-exact match，false-fuzzy search），default false
         status:  policy status（normal-normal，checking-检查中，failed-检查 failure，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity- capacitythreshold，availability-可用性，
-                    configuration- config，recyclable-可回收资源，lowload-低负载资源，
+                    configuration- config，recyclable-可回收 resource，lowload-低负载 resource，
                     performance_anomaly-Performance anomaly，performance_prediction-Performance warning，
                     capacity_prediction-Capacity warning，history_performance-History performance，
-                    load_imbalance-负载失衡，highload-高负载资源）
-        policy_source: 来源（pre-define-预置，user-define-自定义）
+                    load_imbalance-负载失衡，highload-高负载 resource）
+        policy_source:  source（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
-        object_type: Object type（storage- storage，lun-Logical unit，host-主机等）
+        object_type: Object type（storage- storage，lun-Logical unit，host- host等）
         page_no: Page number，1~1000，default 1
         page_size: Items per page，1~100，default 20
         sort_key: Sort field（last_check_time-Last check time，failed_count-Failed checksobjectcount）
@@ -964,7 +964,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
         object_ids: object ID  list（ max 100 个）
         object_native_id: object nativeId（1~384  characters）
-        object_type: Object type（storage- storage，lun-Logical unit，host-主机等）
+        object_type: Object type（storage- storage，lun-Logical unit，host- host等）
         policy_id:  policy ID（exact match，1~64  characters）
         policy_name: Policy name（supports fuzzy search，1~256  characters）
         policy_types: Policy type list（ max 30 个）
@@ -1058,9 +1058,9 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
     Args:
         client: DME API client
         entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
-            - host: 主机
+            - host:  host
             - storage: Storage device
-            - host_group: 主机组
+            - host_group:  host组
             - lun: LUN
             - vm: Virtual machine
             - datastore: Datastore
@@ -1097,7 +1097,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
     if page_no is not None:
         payload["page_no"] = page_no
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
@@ -1114,10 +1114,10 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     Args:
         client: DME API client
         entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
-            - host: 主机
+            - host:  host
             - storage: Storage device
             - lun: LUN
-            - host_group: 主机组
+            - host_group:  host组
             - vm: Virtual machine
             - datastore: Datastore（仅 FC_SAN）
             - application: 应用（仅 FC_SAN）
@@ -1131,16 +1131,16 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes 主机到Storage pool的拓扑结构：
-        - ip_san 数据：
+        }，includes  host到Storage pool的拓扑结构：
+        - ip_san  data：
           - switches: Switch list
-          - hosts: 主机 list
+          - hosts:  host list
           - storages:  storage list
           - switch_links: Switch connection list
           - port_links: Port connection list
-        - fc_san 数据：
+        - fc_san  data：
           - fabrics: fabric  list
-          - hosts: 主机 list
+          - hosts:  host list
           - storages:  storage list
     """
     result = {}
@@ -1150,7 +1150,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         # 调用 IP_SAN API
         ip_san_url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         ip_san_payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {ip_san_url}")
+        print(f" request URL: {ip_san_url}")
         print(f"Request load：{json.dumps(ip_san_payload, ensure_ascii=False, indent=2)}")
         ip_san_response = client.post(ip_san_url, body=ip_san_payload)
         result['ip_san'] = ip_san_response
@@ -1158,7 +1158,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         # 调用 FC_SAN API
         fc_san_url = "/rest/topomgmt/v1/topo-data/host-storage/query"
         fc_san_payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {fc_san_url}")
+        print(f" request URL: {fc_san_url}")
         print(f"Request load：{json.dumps(fc_san_payload, ensure_ascii=False, indent=2)}")
         fc_san_response = client.post(fc_san_url, body=fc_san_payload)
         result['fc_san'] = fc_san_response
@@ -1169,7 +1169,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     elif san_type == 'ip_san':
         url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {url}")
+        print(f" request URL: {url}")
         print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
         response = client.post(url, body=payload)
         return response
@@ -1177,7 +1177,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     elif san_type == 'fc_san':
         url = "/rest/topomgmt/v1/topo-data/host-storage/query"
         payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {url}")
+        print(f" request URL: {url}")
         print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
         response = client.post(url, body=payload)
         return response
@@ -1200,14 +1200,14 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
         client: DME API client
         entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
             - vm: Virtual machine
-            - host_group: 主机组
-            - host: 主机
+            - host_group:  host组
+            - host:  host
             - storage: Storage device
             - lun: LUN
             - datastore: Datastore
             - switch_port: Switch port
             - storage_pool: Storage pool
-        host_id: 主机 ID（Required）
+        host_id:  host ID（Required）
         vm_name: Virtual machineName search parameter，supports fuzzy match
         page_size: Items per page，1~20，default 20
         page_no: Page queryStart position，default 1
@@ -1236,7 +1236,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     if page_no is not None:
         payload["page_no"] = page_no
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
@@ -1248,13 +1248,13 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     r"""
     Query topology library info
 
-    via specified entry资源Query topology library info， support NAS、K8s、DB 等Business type。
+    via specified entry resourceQuery topology library info， support NAS、K8s、DB 等Business type。
 
     Args:
         client: DME API client
         entry_res_type: 入口Resource type（Required），Supported types：
             - storage_device: Storage device
-            - disk: 磁盘
+            - disk:  disk
             - storage_pool: Storage pool
             - hyper_scale_pool: 超大规模池
             - file_system: Filesystem
@@ -1270,17 +1270,17 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - k8s_pod: K8s Pod
             - k8s_pvc: K8s PVC
             - k8s_pv: K8s PV
-            - k8s_cluster: K8s 集群
-            - k8s_node: K8s 节点
+            - k8s_cluster: K8s  cluster
+            - k8s_node: K8s  node
             - k8s_vc_job: K8s VC task 
             - dturbo_client: DataTurbo Client
             - enclosures: 机柜
             - eth_switch: Ethernet switch
             - storage_zone:  storage区域
-            - service_network: 服务网络
-            - db_instance: 数据库实例
-            - db_node: 数据库节点
-        entry_res_id: 入口资源 ID（Required）
+            - service_network: 服务 network
+            - db_instance:  data库实例
+            - db_node:  data库 node
+        entry_res_id: 入口 resource ID（Required）
         type: Business type，Optional值：nas, k8s, db
         filter: Filter condition list， max 10 个
 
@@ -1288,7 +1288,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
         {
             task_id: Task ID (string, 1~64 characters),
         }，includes ：
-        - nodes: 节点 list，Each node contains id, type, label, sub_type
+        - nodes:  node list，Each node contains id, type, label, sub_type
         - edges: 边 list，每条边includes  source, target, edge_type
     """
     url = "/rest/dmegraphanalysis/v1/topo-data/query"
@@ -1304,7 +1304,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     if filter is not None:
         payload["filter"] = filter
 
-    print(f"请求 URL: {url}")
+    print(f" request URL: {url}")
     print(f"Request load：{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)

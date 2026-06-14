@@ -19,8 +19,8 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Args:
         client: DME API client
-        site_id: Virtual machine站点 ID
-        cluster_id: Virtual machine集群 ID（HCS 场景不 support）
+        site_id: Virtual machine site ID
+        cluster_id: Virtual machine cluster ID（HCS 场景不 support）
         dc_id: Data center ID（仅 FusionCompute Scenario support）
         cluster_name: Virtual machineCluster name（supports fuzzy search，HCS 场景不 support）
         host_id: Virtual machinePhysical hostUnique identifier
@@ -108,7 +108,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        Virtual machineDetails，includes  CPU、内存、磁盘、网卡等Configuration info
+        Virtual machineDetails，includes  CPU、内存、 disk、网卡等Configuration info
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -131,7 +131,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     
     Args:
         client: DME API client
-        site_id: Datastore所在的站点 ID
+        site_id: Datastore所在的 site ID
         cluster_id: Datastoreassociated clusters ID
         host_id: Datastoreassociated hosts ID
         dc_id: Datastore所在Data center ID
@@ -139,7 +139,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         status: Datastorestatus list
                 取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
-        storage_type: 数据Storage class型 list
+        storage_type:  dataStorage class型 list
                       取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: supports精简 mode（仅 FusionCompute Scenario support）
@@ -228,7 +228,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         cluster_id: Host cluster ID
         dc_id: Data center ID
         host_name: Host name（supports fuzzy search）
-        ip_address: 主机 IP  address
+        ip_address:  host IP  address
         status: Host status list
         vr_type: Virtualization platform type
         page_no: Page queryStart page，default 1
@@ -273,11 +273,11 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     
     Args:
         client: DME API client
-        host_id: 主机 ID（Required）
+        host_id:  host ID（Required）
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        主机Details
+         hostDetails
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}"
     
@@ -331,17 +331,17 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
 
 def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> dict:
     """
-    Query集群 details
+    Query cluster details
     
-     query集群的Details。
+     query cluster的Details。
     
     Args:
         client: DME API client
-        cluster_id: 集群 ID（Required）
+        cluster_id:  cluster ID（Required）
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        集群Details
+         clusterDetails
     """
     url = "/rest/vmmgmt/v1/clusters/{cluster_id}"
     
@@ -375,16 +375,16 @@ def site_list(client: DMEAPIClient) -> dict:
 
 def site_show(client: DMEAPIClient, site_id: str) -> dict:
     """
-    Query站点 details
+    Query site details
     
     Query virtualization siteDetails。
     
     Args:
         client: DME API client
-        site_id: 站点 ID（Required）
+        site_id:  site ID（Required）
     
     Returns:
-        站点Details
+         siteDetails
     """
     url = "/rest/vmmgmt/v1/sites/{site_id}"
     
@@ -402,7 +402,7 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     
     Args:
         client: DME API client
-        host_id: 主机 ID（Required）
+        host_id:  host ID（Required）
     
     Returns:
         Storage adapter list
@@ -468,7 +468,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     
     Args:
         client: DME API client
-        site_id: Virtual disk站点 ID（Optional）
+        site_id: Virtual disk site ID（Optional）
         vm_id: Virtual diskVirtual machine ID（Optional）
         name: Virtual disk name（Optional）
         disk_type: Disk type list（Optional）
@@ -553,7 +553,7 @@ ACTIONS = {
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
-    # 主机management 
+    #  hostmanagement 
     'host_list': {
         'func': host_list,
         'description': 'Query host list',
@@ -573,7 +573,7 @@ ACTIONS = {
         'params': ['host_id'],
         'subtopic': 'host'
     },
-    # 集群management 
+    #  clustermanagement 
     'cluster_list': {
         'func': cluster_list,
         'description': 'Query cluster list',
@@ -582,11 +582,11 @@ ACTIONS = {
     },
     'cluster_show': {
         'func': cluster_show,
-        'description': 'Query集群 details',
+        'description': 'Query cluster details',
         'params': ['cluster_id', 'vr_type'],
         'subtopic': 'cluster'
     },
-    # 站点management 
+    #  sitemanagement 
     'site_list': {
         'func': site_list,
         'description': 'Query site list',
@@ -595,7 +595,7 @@ ACTIONS = {
     },
     'site_show': {
         'func': site_show,
-        'description': 'Query站点 details',
+        'description': 'Query site details',
         'params': ['site_id'],
         'subtopic': 'site'
     },

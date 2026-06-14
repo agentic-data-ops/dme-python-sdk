@@ -1902,7 +1902,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         protection: Protection status（可选），Options：protected (protected)、not_protected (unprotected)
         dc_id: Data center ID（可选），1~128  characters, regex ^[_A-Fa-f0-9\\-]+$
         dc_name: Data center name（可选），1~256  characters
-        zone_id:  zone 的 ID（可选），1~256  characters；仅 OceanStor A800 系列Filesystem support搜索，传入集群IDQueries global scopeFilesystem
+        zone_id:  zone 的 ID（可选），1~256  characters；仅 OceanStor A800 系列Filesystem support搜索，传入 clusterIDQueries global scopeFilesystem
         product_name: FilesystemDevice product name（可选），1~256  characters， supportfuzzy search
         description: FilesystemDescription（可选），1~255  characters
         tag_filters: Tag filter list（可选），List<TagFilters>  type，max array members 11。 parameter format如下：[{
@@ -2099,7 +2099,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 capacity: Capacity in GB (Required, 1~262144),
                 description: Description (Optional, 0~255 characters),
              }, ...]
-        vstore_id: 租户 ID（可选）
+        vstore_id:  tenant ID（可选）
         zone_id:  zone 的 ID（可选）
         task_remarks: Async taskRemark（可选）
         gfs_group_id: Global data space的 ID（可选）
@@ -2530,7 +2530,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         pool_name: Storage pool name（可选），1~256  characters， supportfuzzy search
         storage_id: 归属Storage device ID（可选），1~255  characters
         enable_encrypt: Enable encryption（可选），true：是；false：否
-        support_provisioning: supportsService provisioning（可选），true：是；false：否；send this field to filter unsupportedService provisioning设备的资源，当前不 supportService provisioning的设备有 DataTurbo 系列
+        support_provisioning: supportsService provisioning（可选），true：是；false：否；send this field to filter unsupportedService provisioning device的 resource，当前不 supportService provisioning的 device有 DataTurbo 系列
         gfs_id: Global namespace ID（可选），1~64  characters
         gfs_name: 全局Namespace name（可选），1~256  characters
         has_gfs: IncludeGlobal namespace的Namespace（可选），true：是；false：否；has_gfs 为 false not supported when gfs_id
@@ -2597,7 +2597,7 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - raw_id: Namespaceon the storage device ID
         - name: Namespace name
         - storage_id: Storage device ID
-        - vstore_id: 租户 ID
+        - vstore_id:  tenant ID
         - vstore_name: Tenant name
         - pool_id: Storage pool ID
         - pool_name: Storage pool name
@@ -2732,7 +2732,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }
         create_s3_param: create  S3  protocol parameter (可选)。 parameter format如下：{
                 bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (公共读写),
-                version_status: object多版本 status (可选, 0~2)。Options：0 ( disable), 1 (打开), 2 ( pause),
+                version_status: object多 version status (可选, 0~2)。Options：0 ( disable), 1 (打开), 2 ( pause),
              }
         application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
         task_remarks: Async taskRemark
@@ -2982,7 +2982,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
     """
      query NFS share client access list
 
-     specified设备或 NFS ID， query NFS share client access list。
+     specified device或 NFS ID， query NFS share client access list。
 
     Args:
         client: DME API Client
@@ -3039,9 +3039,9 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
 
     Args:
         client: DME API Client
-        storage_id: 设备 ID (1~64 characters, Optional)
-        vstore_id: 租户的 ID (1~64 characters, Optional)
-        vstore_name: 租户 name， supportfuzzy search (1~256 characters, Optional)
+        storage_id:  device ID (1~64 characters, Optional)
+        vstore_id:  tenant的 ID (1~64 characters, Optional)
+        vstore_name:  tenant name， supportfuzzy search (1~256 characters, Optional)
         zone_id:  zone 的 ID (1~64 characters, Optional)。When resource scope is global，Zone ID of the device Id；When resource scope is local，Zone ID 为 Zone 的 ID。仅 OceanStor A800 series storage only
         name: DataTurbo Admin名， supportfuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (可选)。Options：offline (offline), online (online)
@@ -3507,7 +3507,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         storage_id: Storage device ID (length is36 characters, Required)
         zone_id:  Zone 的 ID (length is36 characters, Required)
         pool_raw_id: Storage pool在 Zone 上的 ID (1~64 characters, Required)
-        vstore_id: 租户 ID (length is32 characters, Required)
+        vstore_id:  tenant ID (length is32 characters, Required)
         data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off ( disable)。Default：off
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
         kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required)。 parameter format如下：[{
@@ -3622,7 +3622,7 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         name: KV Cache 库 name (1~256 characters, Optional)
         zone_id:  Zone 的 ID (length is36 characters, Optional)
         pool_raw_id: Storage pool在 Zone 上的 ID (1~64 characters, Optional)
-        vstore_id: 租户 ID (length is32 characters, Optional)
+        vstore_id:  tenant ID (length is32 characters, Optional)
         vstore_name: Tenant name (1~256 characters, Optional)
         fs_id: Filesystem ID (length is32 characters, Optional)
         fs_name: Filesystem name (1~256 characters, Optional)

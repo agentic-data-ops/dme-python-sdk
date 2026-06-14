@@ -21,9 +21,9 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     
     Returns:
         {
-            total: 集群Total count (integer),
+            total:  clusterTotal count (integer),
             clusters: Container cluster list。 parameter format如下：[{
-                id: 集群ID (string),
+                id:  clusterID (string),
                 name: Cluster name (string),
                 status:  status (string),
             }, ...],
@@ -58,7 +58,7 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
     Returns:
         {
             nodes: Container node list。 parameter format如下：[{
-                id: 节点ID (string),
+                id:  nodeID (string),
                 name: Node name (string),
                 status:  status (string),
             }, ...],
@@ -86,7 +86,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     """
      queryPod list
     
-     queryPod（Pod） list， support按集群 ID、Namespace和 name filter。
+     queryPod（Pod） list， support按 cluster ID、Namespace和 name filter。
     
     Args:
         client: DME API client
@@ -101,7 +101,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
             pods: Pod list。 parameter format如下：[{
                 name: Pod name (string),
                 status:  status (string),
-                node: 所在节点 (string),
+                node: 所在 node (string),
             }, ...],
         }
     """
@@ -202,7 +202,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     """
     Query containerPV list
     
-    Query containerPersistent volume（PV） list， support按集群 ID 和 name filter。
+    Query containerPersistent volume（PV） list， support按 cluster ID 和 name filter。
     
     Args:
         client: DME API client
@@ -238,7 +238,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
 
 # Action list for CLI help
 ACTIONS = {
-    # 集群management 
+    #  clustermanagement 
     'cluster_list': {
         'func': cluster_list,
         'description': ' queryContainer cluster list',

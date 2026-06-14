@@ -148,7 +148,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         - start_time: 实例执行的Start time（毫second(s)）
         - end_time: 实例执行的End time（毫second(s)）
         - instance_type: 实例 type（PRECHECK/EXECUTION）
-        - template_version_id: Instance template版本 id
+        - template_version_id: Instance template version id
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}"
     
@@ -163,7 +163,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     Create and execute instance
     
-    Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified为最新版本）
+    Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified为最新 version）
     to create and execute instance，or by specifying instance id 来找到对应Instance templateCreate and execute instance。
     
     Args:

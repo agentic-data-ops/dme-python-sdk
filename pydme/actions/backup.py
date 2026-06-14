@@ -23,9 +23,9 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     
     Returns:
         {
-            total: 集群Total count (integer),
+            total:  clusterTotal count (integer),
             clusters: Backup cluster list。 parameter format如下：[{
-                id: 集群ID (string),
+                id:  clusterID (string),
                 name: Cluster name (string),
                 status:  status (string),
             }, ...],
@@ -53,7 +53,7 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     
     Args:
         client: DME API client
-        cluster_id: 备份集群 ID（Required）
+        cluster_id: 备份 cluster ID（Required）
     
     Returns:
         {
@@ -78,7 +78,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     
     Args:
         client: DME API client
-        cluster_id: 备份集群 ID（Required）
+        cluster_id: 备份 cluster ID（Required）
         quota_type: 配额 type（Optional）
         page_no: Page queryStart page，default 1
         page_size: per pagecount，1~1000，default 20

@@ -1,6 +1,6 @@
 """
 Third-party system integration (Integrate) operations
-includes CMDB system、主机、Application resource query
+includes CMDB system、 host、Application resource query
 """
 
 import sys

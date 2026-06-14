@@ -244,8 +244,8 @@ def show(client: DMEAPIClient) -> dict:
 
     Returns:
         {
-            version: DME产品Version info (string,  max128 characters),
-            sn: DME产品SN号 (string,  max64 characters),
+            version: DME productVersion info (string,  max128 characters),
+            sn: DME productSN号 (string,  max64 characters),
         }
     """
     url = "/rest/productmgmt/v1/system-info"
@@ -264,7 +264,7 @@ def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dic
 
     Returns:
         {
-            cert: 证书文件Base64编码string (string),
+            cert: 证书 fileBase64编码string (string),
         }
     """
     url = "/rest/certmgmt/v1/certs"
@@ -1013,7 +1013,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
                 name: Availability zone name (string),
                 description: Availability zone description (string),
                 operate_status: Availability zone的运营 status (string)。Default：offline,
-                site_urn: 站点urn (string, 1~64 characters),
+                site_urn:  siteurn (string, 1~64 characters),
             }, ...]
         }
     """
@@ -1191,7 +1191,7 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
         client: DME API client
         region_id: 下级Region的ID (Required, string, 1~64 characters)
         request_url: Query sub-levelCorresponding resource northbound APIURL (Required, string, 1~8192 characters)
-        request_method: 请求方式 (Required, string)。Optional值：get (Get请求), post (Post请求)
+        request_method:  request方式 (Required, string)。Optional值：get (Get request), post (Post request)
         request_body: Call lower-level northbound API requestBody体 (Optional, string, 1~20480 characters)
 
     Returns:

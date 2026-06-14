@@ -203,9 +203,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 start_suffix: Suffix start encoding (0~9999, default0; 当count大于1effective when),
              }, ...]
         pool_id: Storage pool ID (Conditionally required), 1~64 characters; required when storage mode is not pass-through; obtained via QueryResource type API, Resource type name is SYS_StoragePool
-        vstore_id: 租户 ID（可选），1~64  characters；当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
+        vstore_id:  tenant ID（可选），1~64  characters；当 device为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
-        initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5 设备，Dorado 系列不 support；
+        initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5  device，Dorado 系列不 support；
                                   Options：automatic（ auto）、highest_performance（高性能层）、performance（性能层）、capacity（ capacity层）；default automatic
         prefetch_policy: 预取 policy（可选），Affects disk read；
                         Options：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；default intelligent_prefetch
@@ -227,9 +227,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         mapping: Mapping info (可选), LunMapping object, If present, creates for host or host group LUN。 parameter format如下：{
                 host_id: Host ID (1~64 characters; 与hostgroup_idone of, cannot coexist),
                 hostgroup_id: Host group ID (1~64 characters; 与host_idone of, cannot coexist),
-                host_type: 映射Host type。Options：storage_host (Storage host), host (主机)。defaulthost,
-                start_host_lun_id: 起始主机LUN ID (1~4096),
-                mapping_view: Mapping view请求 info (LunMappingRequestobject)。属性 format如下：{
+                host_type: 映射Host type。Options：storage_host (Storage host), host ( host)。defaulthost,
+                start_host_lun_id: 起始 hostLUN ID (1~4096),
+                mapping_view: Mapping view request info (LunMappingRequestobject)。属性 format如下：{
                         mapping_view_raw_id: Mapping viewon the storage deviceID (1~31 characters),
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN组on the storage deviceID (1~31 characters),
@@ -1625,11 +1625,11 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         create_storage_host_params: create 新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。 parameter format如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。Options：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip: 主机ip address (可选,  max127 characters),
-                description: 主机 description (可选,  max63 characters),
+                ip:  hostip address (可选,  max127 characters),
+                description:  host description (可选,  max63 characters),
                 initiators: Initiator list (可选, max array members: 1000)。 parameter format如下：[{
                         protocol: Initiator type (Required)。Options：fc, iscsi, nvme_over_roce,
-                        raw_id: 主机Initiatorwwpn或iqn或nqn (Required, 1~223 characters),
+                        raw_id:  hostInitiatorwwpn或iqn或nqn (Required, 1~223 characters),
                         alias: Initiator alias (可选,  max31 characters),
                      }, ...],
                 multipath: 多路径 config (可选)。属性 format如下：{
@@ -1733,7 +1733,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-     specifiedStorage host query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
+     specifiedStorage host query映射 LUN info list，includes  LUN  info和 host LUN ID  info。
 
     Args:
         client: DME API Client
@@ -1775,7 +1775,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-     specifiedStorage host组 query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
+     specifiedStorage host组 query映射 LUN info list，includes  LUN  info和 host LUN ID  info。
 
     Args:
         client: DME API Client
