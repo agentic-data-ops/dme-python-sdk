@@ -1733,7 +1733,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-    指定Storage host查询映射 LUN 信息列表，包含 LUN 信息和主机 LUN ID 信息。
+    指定Storage host查询映射 LUN info list，包含 LUN 信息和主机 LUN ID 信息。
 
     Args:
         client: DME API Client
@@ -1775,7 +1775,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-    指定Storage host组查询映射 LUN 信息列表，包含 LUN 信息和主机 LUN ID 信息。
+    指定Storage host组查询映射 LUN info list，包含 LUN 信息和主机 LUN ID 信息。
 
     Args:
         client: DME API Client

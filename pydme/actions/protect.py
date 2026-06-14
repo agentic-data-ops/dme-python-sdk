@@ -189,7 +189,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs: 手动配置的Active-active Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
+                        lun_pairs: 手动配置的Active-active Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
@@ -202,7 +202,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs: 手动配置的Remote replication Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
+                        lun_pairs: 手动配置的Remote replication Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
@@ -1367,7 +1367,7 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
 
     Args:
         client: DME API client
-        snapshots_info: LUN 快照创建信息列表，每项包含 name, source_type, source_id
+        snapshots_info: LUN 快照创建info list，每项包含 name, source_type, source_id
         is_consist_activate: 是否一致性激活，默认 false
 
     Returns:
@@ -1395,7 +1395,7 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
     Args:
         client: DME API client
         rollback_speed: 回滚速率，Optional值：low, medium, high, highest
-        rollback_snapshots: 快照回滚的资源信息列表，每项包含 snapshot_id, target_type, target_id
+        rollback_snapshots: 快照回滚的资源info list，每项包含 snapshot_id, target_type, target_id
 
     Returns:
         {

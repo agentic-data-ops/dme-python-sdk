@@ -488,7 +488,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                  4. obtain from response instance_id
         obj_type: 监控Object type(Optional,1~512 个字符)
         indicators: Monitoring metric列表(Optional,最多 100 个)
-        ext_dimensions: 扩展维度信息列表(Optional,最多 100 个)
+        ext_dimensions: 扩展维度info list(Optional,最多 100 个)
         interval: 间隔粒度(Optional)
                   value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))

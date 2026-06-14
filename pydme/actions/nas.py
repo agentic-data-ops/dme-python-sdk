@@ -1013,7 +1013,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                         rule_type: 规则类型 (可选, 默认reject)。Options：reject, permit,
                         fileoperations: Operation type list (可选),
                      }, ...],
-                smb3_encryption_enable: 是否开启SMB3加密功能 (可选),
+                smb3_encryption_enable: EnableSMB3加密功能 (可选),
                 unencrypted_access: Allow unencrypted client access (可选),
                 enable_lease: Enable lease locking (可选),
              }
@@ -1073,9 +1073,9 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 audititem: Audit event type (默认none)。Options：none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
              }, ...]
         apply_default_acl: 是否添加默认 ACL
-        file_extension_filter_enabled: 是否开启File extension过滤特性
-        show_previous_versions_enabled: 是否开启显示以前的版本的功能
-        show_snapshot_enabled: 是否开启显示 Snapshot 的功能
+        file_extension_filter_enabled: EnableFile extension过滤特性
+        show_previous_versions_enabled: Enable显示以前的版本的功能
+        show_snapshot_enabled: Enable显示 Snapshot 的功能
         user_and_user_group_info: 用户和User group list (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。Options：add (新增), delete (删除), modify (修改),
                 param: 用户和User group信息object (可选)。属性格式如下：{
@@ -1102,7 +1102,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 }
              }, ...]
         task_remarks: Async taskRemark，0~1024 个字符
-        smb3_encryption_enable: 是否开启 SMB3 加密功能
+        smb3_encryption_enable: Enable SMB3 加密功能
         unencrypted_access: Allow unencrypted client access
         enable_lease: Enable lease locking
 
@@ -2111,8 +2111,8 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
         capacity_threshold: Total space capacity alarmthreshold 50-99（可选）
         tuning: 调优参数 (可选)。参数格式如下：{
-                deduplication_enabled: 是否开启Deduplication (可选, 默认false)。Options：true, false,
-                compression_enabled: 是否开启数据压缩 (可选, 默认false)。Options：true, false,
+                deduplication_enabled: EnableDeduplication (可选, 默认false)。Options：true, false,
+                compression_enabled: Enable数据压缩 (可选, 默认false)。Options：true, false,
                 block_size: Filesystem块大小KB (可选, 默认64)。Options：4, 8, 16, 32, 64, 128,
                 allocation_type: 分配类型 (可选, 默认thin)。Options：thin, thick,
                 qos_policy_id: QoS policyID (可选),
@@ -2606,7 +2606,7 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - file_used_rate: File usage ratio
         - space_used: 已使用空间
         - file_used: 已使用文件数
-        - trash_enable: 是否开启回收站
+        - trash_enable: Enable回收站
         - enable_encrypt: Enable encryption
         - rdc: Data redundancy copies
         - acl_policy_type: 安全模式
@@ -2653,7 +2653,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，最大 4294967295
         dps_switch: Metadata search switch，true 开启
         forbidden_dpc: 是否禁止 dpc 挂载
-        audit_log_switch: 是否开启Audit log，default off
+        audit_log_switch: EnableAudit log，default off
         audit_log_rule: Audit log规则列表，Options：open, create, read, write, close, 
                        delete, rename, get_attr, set_attr, get_security, set_security,
                        get_xattr, set_xattr, list_dir, contact, mount_or_unmount, login_or_logoff
@@ -2823,7 +2823,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，不自动删除，最大 4294967295
         dps_switch: Metadata search switch，true：开启；false：关闭
         forbidden_dpc: 是否禁止 dpc 挂载，true：禁止；false：不禁止
-        audit_log_switch: 是否开启Audit log，缺省关闭，true：开启；false：关闭
+        audit_log_switch: EnableAudit log，缺省关闭，true：开启；false：关闭
         audit_log_rule: Audit log规则列表，Options：open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
                        list_dir, contact, mount_or_unmount, login_or_logoff
@@ -3377,7 +3377,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         name: 用户名称，支持fuzzy search过滤 (1~256个字符, Optional)
         primary_group_name: 主组名称，支持fuzzy search过滤 (1~256个字符, Optional)
         raw_id: 用户on the storage device ID (1~255个字符, Optional)
-        zone_id: Zone ID (1~64个字符, Optional)。仅 OceanStor A800 存储下的认证用户支持通过该字段过滤
+        zone_id: Zone ID (1~64个字符, Optional)。仅 OceanStor A800 存储下的auth user支持通过该字段过滤
         user_status: 用户状态 (可选)。Options：enable (启用), disable (禁用)
         sort_key: sort by specified field (可选)。Options：name (用户名), raw_id (用户on the storage device ID), primary_group_name (主组名), create_time (Creation time)。Default：create_time
         storage_id: Storage device ID (1~36个字符, Optional)

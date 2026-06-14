@@ -479,7 +479,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
              zone_id: str = None, page_no: int = 1,
              page_size: int = 20) -> dict:
     """
-    query storage device BBU 信息列表
+    query storage device BBU info list
 
     Args:
         client: DME API client。
@@ -1524,7 +1524,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
     return response
 
 
-# ============ 认证用户 (account) subtopic functions ============
+# ============ auth user (account) subtopic functions ============
 
 
 def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
@@ -1535,7 +1535,7 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
     Args:
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
-        vstore_raw_id: 本地认证用户Tenant在设备上 ID（可选）
+        vstore_raw_id: 本地auth userTenanton device ID（可选）
         name: 本地Auth user name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
@@ -1571,9 +1571,9 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         name: 本地Auth user name (1~255 characters, Required)
         description: 本地Auth user description (1~255 characters, Optional)
         password: 本地Auth user password (1~255 characters, Required)
-        primary_group_raw_id: 本地认证用户所归属的User group在设备上 ID (1~64 characters, Required)
-        group_names: 创建的本地认证用户所属的临时User group名称列表 (List<string>, min array members: 0, max array members: 31, Optional)
-        vstore_id: 本地认证用户所属的租户 ID (1~64 characters, Optional。条件必传，当创建的本地required when auth user belongs to tenant)
+        primary_group_raw_id: 本地auth user所归属的User groupon device ID (1~64 characters, Required)
+        group_names: 创建的本地auth user所属的临时User group名称列表 (List<string>, min array members: 0, max array members: 31, Optional)
+        vstore_id: 本地auth user所属的租户 ID (1~64 characters, Optional。条件必传，当创建的本地required when auth user belongs to tenant)
 
     Returns:
         创建结果
@@ -1611,17 +1611,17 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
                       description: str = None, password: str = None,
                       status_enabled: bool = None, vstore_raw_id: str = None) -> dict:
     """
-    CreateStorage device UNIX 认证用户
+    CreateStorage device UNIX auth user
 
     Args:
         client: DME API client
-        storage_id: 创建 UNIX 认证用户Storage device ID (1~36个字符, Required)
+        storage_id: 创建 UNIX auth userStorage device ID (1~36个字符, Required)
         name: UNIX Auth user name (1~255 characters, Required)
         raw_id: UNIX Auth user on device ID (int64, 0~4294967295, Optional)
         description: UNIX Auth user description (1~255 characters, Optional)
         password: UNIX Auth user password (1~255 characters, Optional)
         status_enabled: UNIX Auth user status (boolean, Optional)。Options：true (启动), false (锁定)
-        primary_group_raw_id: 创建的 UNIX 认证用户所归属的User group在设备上 ID (1~64 characters, Required)
+        primary_group_raw_id: 创建的 UNIX auth user所归属的User groupon device ID (1~64 characters, Required)
         vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional。条件必传，当创建的 UNIX required when auth user belongs to tenant)
 
     Returns:
@@ -1654,11 +1654,11 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
                                  status_enabled: bool = None,
                                  vstore_raw_id: str = None) -> dict:
     """
-    CreateStorage device Windows 认证用户
+    CreateStorage device Windows auth user
 
     Args:
         client: DME API client
-        storage_id: 创建 Windows 认证用户Storage device ID (1~36个字符, Required)
+        storage_id: 创建 Windows auth userStorage device ID (1~36个字符, Required)
         name: Windows Auth user name (1~255 characters, Required)
         raw_id: Windows Auth user on device ID (int64, 1000~4294967295, Optional)
         description: Windows Auth user description (1~255 characters, Optional)
@@ -1697,7 +1697,7 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
     Args:
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
-        vstore_raw_id: UNIX 认证用户Tenant在设备上 ID（可选）
+        vstore_raw_id: UNIX auth userTenanton device ID（可选）
         name: UNIX Auth user name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
@@ -1729,7 +1729,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
     Args:
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
-        vstore_raw_id: Windows 认证用户Tenant在设备上 ID（可选）
+        vstore_raw_id: Windows auth userTenanton device ID（可选）
         name: Windows Auth user name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
@@ -1761,7 +1761,7 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
     Args:
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
-        vstore_raw_id: 本地认证User groupTenant在设备上 ID（可选）
+        vstore_raw_id: 本地认证User groupTenanton device ID（可选）
         name: 本地Auth user group name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
@@ -1793,7 +1793,7 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
     Args:
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
-        vstore_raw_id: UNIX 认证User groupTenant在设备上 ID（可选）
+        vstore_raw_id: UNIX 认证User groupTenanton device ID（可选）
         name: UNIX Auth user group name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
@@ -1825,7 +1825,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
     Args:
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
-        vstore_raw_id: Windows 认证User groupTenant在设备上 ID（可选）
+        vstore_raw_id: Windows 认证User groupTenanton device ID（可选）
         name: Windows Auth user group name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
@@ -3216,7 +3216,7 @@ ACTIONS = {
     # subtopic actions（三级结构：<topic> <subtopic> <action>）
     'bbu_list': {
         'func': bbu_list,
-        'description': 'query storage device BBU 信息列表',
+        'description': 'query storage device BBU info list',
         'params': ['storage_id', 'health_status', 'running_status', 'enclosure_name',
                    'location', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'bbu'
@@ -3355,7 +3355,7 @@ ACTIONS = {
         'params': ['initiator_id', 'vstore_id', 'alias', 'multi_path'],
         'subtopic': 'initiator'
     },
-    # account subtopic actions（认证用户）
+    # account subtopic actions（auth user）
     'account_show_local_users': {
         'func': account_show_local_users,
         'description': 'QueryStorage device本地Auth user info',
@@ -3370,13 +3370,13 @@ ACTIONS = {
     },
     'account_create_unix_user': {
         'func': account_create_unix_user,
-        'description': 'CreateStorage device UNIX 认证用户',
+        'description': 'CreateStorage device UNIX auth user',
         'params': ['storage_id', 'name', 'primary_group_raw_id', 'raw_id', 'description', 'password', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_create_windows_user': {
         'func': account_create_windows_user,
-        'description': 'CreateStorage device Windows 认证用户',
+        'description': 'CreateStorage device Windows auth user',
         'params': ['storage_id', 'name', 'password', 'raw_id', 'description', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
