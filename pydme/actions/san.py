@@ -1711,7 +1711,7 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
         task_remarks: 任务备注（可选，最多 1024 字符）
 
     Returns:
-        删除结果
+        Deletion result
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/delete"
 

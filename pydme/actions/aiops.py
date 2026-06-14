@@ -257,7 +257,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
         csns: 告警流水号列表(Required),最多 30 个
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
@@ -287,7 +287,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
         csns: 告警流水号列表(Required),最多 30 个
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
@@ -317,7 +317,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
         csns: 告警流水号列表(Required),最多 30 个
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
@@ -621,7 +621,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含查询结果
+        }，包含Query result
     """
     if type == 'capacity_prediction':
         url = "/rest/pmmgmt/v1/prediction/query-capacity-predict"
@@ -1216,7 +1216,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
         {
             task_id: Task ID (string, 1~64个字符),
         }，包含：
-        - total: 查询结果总数
+        - total: Query result总数
         - vms: 虚拟机列表
         - disks: 物理主机关联的物理磁盘列表
     """

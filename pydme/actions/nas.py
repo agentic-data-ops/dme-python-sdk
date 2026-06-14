@@ -3104,7 +3104,7 @@ def account_unix_user_modify(client: DMEAPIClient, id: str, raw_id: int = None,
         status_enable: 用户状态 (boolean, 可选)。可选值：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 系列存储支持
 
     Returns:
-        修改结果
+        Modification result
     """
     url = "/rest/fileservice/v1/unix-users/{id}"
 
@@ -3181,7 +3181,7 @@ def account_unix_user_batch_delete(client: DMEAPIClient, ids: list) -> dict:
         ids: UNIX 用户 ID 列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/fileservice/v1/unix-users/delete"
 
@@ -3281,7 +3281,7 @@ def account_unix_user_group_modify(client: DMEAPIClient, id: str,
         description: UNIX 用户组描述 (0~255个字符, 可选)
 
     Returns:
-        修改结果
+        Modification result
     """
     url = "/rest/fileservice/v1/unix-user-groups/{id}"
 
@@ -3305,7 +3305,7 @@ def account_unix_user_group_batch_delete(client: DMEAPIClient, ids: list) -> dic
         ids: UNIX 用户组的 ID 列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/fileservice/v1/unix-user-groups/delete"
 
@@ -3328,7 +3328,7 @@ def account_unix_user_remove_group(client: DMEAPIClient, user_id: str,
         secondary_group_name_list: 附属组名称列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/fileservice/v1/unix-users/{user_id}/remove-secondary-group"
 
@@ -3431,7 +3431,7 @@ def account_unix_user_add_group(client: DMEAPIClient, user_id: str,
         secondary_group_name_list: 附属组名称列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/fileservice/v1/unix-users/{user_id}/add-secondary-group"
 
@@ -3555,7 +3555,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
         max_survival_time: KV Cache 最长存活时间 (int32, 1~3650, 可选。当 data_cleanup_switch 为 on 时必填)
 
     Returns:
-        修改结果
+        Modification result
     """
     url = "/rest/kvcachemgmt/v1/kv-cache-stores/{kv_cache_stores_id}"
 
@@ -3592,7 +3592,7 @@ def kvcache_batch_delete(client: DMEAPIClient, ids: list) -> dict:
         ids: KV Cache 库 ID 列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)
 
     Returns:
-        操作结果
+        Operation result
     """
     url = "/rest/kvcachemgmt/v1/kv-cache-stores/delete"
 

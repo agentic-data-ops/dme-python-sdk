@@ -1,11 +1,11 @@
 # DME Python SDK
 
-## 简介
-- 提供 Python 客户端（`pydme/client.py`）访问 DME RESTful API
-- 支持通过 DME 获取的令牌自动登录华为闪存存储，无需记忆每台存储的用户名和密码
-- 提供 DME RESTful API 的动作模块
+## Introduction
+- Python client (`pydme/client.py`) for accessing DME RESTful API
+- Auto-login to Huawei flash storage using DME tokens, no need to remember per-storage credentials
+- Action modules for DME RESTful API
 
-## 项目结构
+## Project Structure
 
 ```
 .
@@ -24,8 +24,8 @@
 │       ├── protect.py        # 数据保护
 │       ├── san.py            # SAN 块存储
 │       ├── server.py         # 服务器管理
-│       ├── storage.py        # 存储设备管理
-│       ├── system.py         # 系统管理
+│       ├── storage.py        # Storage Device Management
+│       ├── system.py         # System Management
 │       ├── tenant.py         # 租户自助服务
 │       ├── virt.py           # 虚拟化服务
 │       └── workflow.py       # 工作流管理
@@ -35,7 +35,7 @@
 
 ## 如何使用
 
-### 安装
+### Installation
 
 从默认分支安装（稳定版，中文注释）：
 
@@ -108,8 +108,8 @@ pydme storage disk list --storage_id <id>
 | `protect` | 数据保护（保护组/双活/复制/快照/克隆） |
 | `san` | SAN 块存储（LUN/映射视图/主机/端口组） |
 | `nas` | NAS 文件存储（NFS/CIFS/DPC/文件系统/配额） |
-| `storage` | 存储设备管理（租户/磁盘/池/端口/控制器） |
-| `system` | 系统管理（用户/标签/任务/Region/证书） |
+| `storage` | Storage Device Management（租户/磁盘/池/端口/控制器） |
+| `system` | System Management（用户/标签/任务/Region/证书） |
 | `aiops` | AIOps 智能运维（告警/性能/健康度/拓扑） |
 | `fcswitch` | FC 光纤交换机管理 |
 | `gfs` | 全局文件系统 |
@@ -200,8 +200,8 @@ alarms = alarm_list(client)
 | `san` | `san.lun_list()` | SAN 相关操作（LUN/映射视图/主机） |
 | `self_service` | `self_service.lun_create()` | 租户自助服务（服务化 LUN/业务群组） |
 | `server` | `server.list()` | 服务器管理（CPU/内存/RAID） |
-| `storage` | `storage.disk_list()` | 存储设备管理（磁盘/端口/控制器/QoS） |
-| `system` | `system.task_list()` | 系统管理（用户/标签/任务/证书） |
+| `storage` | `storage.disk_list()` | Storage Device Management（磁盘/端口/控制器/QoS） |
+| `system` | `system.task_list()` | System Management（用户/标签/任务/证书） |
 | `virtualization` | `virtualization.vm_list()` | 虚拟化服务（VM/集群/数据存储） |
 | `workflow` | `workflow.template_list()` | 工作流管理 |
 
@@ -215,7 +215,7 @@ pydme <topic> --help                   # 查看主题下的动作
 
 ### 使用 Python 客户端
 
-#### 初始化客户端
+#### Initialization客户端
 
 ```python
 from pydme.client import DMEAPIClient

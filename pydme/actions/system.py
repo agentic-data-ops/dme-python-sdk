@@ -816,7 +816,7 @@ def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
         tag_type_ids: 标签类型 ID 列表（Required）
     
     Returns:
-        批量删除结果
+        批量Deletion result
     """
     url = "/rest/tagmgmt/v1/tag-types/delete"
     
@@ -934,7 +934,7 @@ def tag_delete(client: DMEAPIClient, tag_ids: list) -> dict:
         tag_ids: 标签 ID 列表（Required）
     
     Returns:
-        批量删除结果
+        批量Deletion result
     """
     url = "/rest/tagmgmt/v1/tags/delete"
     
