@@ -19,12 +19,12 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Args:
         client: DME API client
-        site_id: Virtual machine所属站点 ID
-        cluster_id: Virtual machine所属集群 ID（HCS 场景不支持）
+        site_id: Virtual machine站点 ID
+        cluster_id: Virtual machine集群 ID（HCS 场景不支持）
         dc_id: Data center ID（仅 FusionCompute Scenario support）
-        cluster_name: Virtual machine所属Cluster name（supports fuzzy search，HCS 场景不支持）
-        host_id: Virtual machine所属Physical hostUnique identifier
-        host_name: Virtual machine所属Host name（supports fuzzy search）
+        cluster_name: Virtual machineCluster name（supports fuzzy search，HCS 场景不支持）
+        host_id: Virtual machinePhysical hostUnique identifier
+        host_name: Virtual machineHost name（supports fuzzy search）
         name: Virtual machine name（supports fuzzy search）
         ip_address: Virtual machine IP  address（supports fuzzy search）
         status: Virtual machinestatus list
@@ -40,7 +40,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
         sort_dir: Sort direction（asc, desc），default asc
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -108,7 +108,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        Virtual machineDetails，包含 CPU、内存、磁盘、网卡等Configuration info
+        Virtual machineDetails，includes  CPU、内存、磁盘、网卡等Configuration info
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -144,16 +144,16 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: supports精简 mode（仅 FusionCompute Scenario support）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: Datastore所属的 vCenter Data center ID（仅 vCenter Scenario support）
+        datacenter_id: Datastore的 vCenter Data center ID（仅 vCenter Scenario support）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），default asc
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 datastores 字段
+        }，includes  total 和 datastores 字段
     """
     url = "/rest/vmmgmt/v1/datastores/query"
     
@@ -232,7 +232,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         status: Host status list
         vr_type: Virtualization platform type
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -302,7 +302,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
         name: Cluster name（supports fuzzy search）
         vr_type: Virtualization platform type
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -430,7 +430,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         Physical disk list
@@ -468,13 +468,13 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     
     Args:
         client: DME API client
-        site_id: Virtual disk所属站点 ID（Optional）
-        vm_id: Virtual disk所属Virtual machine ID（Optional）
+        site_id: Virtual disk站点 ID（Optional）
+        vm_id: Virtual diskVirtual machine ID（Optional）
         name: Virtual disk name（Optional）
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         Virtual disk list
@@ -522,7 +522,7 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
 
 # Action list for CLI help
 ACTIONS = {
-    # Virtual machine管理
+    # Virtual machinemanagement 
     'vm_list': {
         'func': vm_list,
         'description': ' queryVM list',
@@ -538,7 +538,7 @@ ACTIONS = {
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
-    # Datastore管理
+    # Datastoremanagement 
     'datastore_list': {
         'func': datastore_list,
         'description': 'Query datastore list',
@@ -553,7 +553,7 @@ ACTIONS = {
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
-    # 主机管理
+    # 主机management 
     'host_list': {
         'func': host_list,
         'description': 'Query host list',
@@ -573,7 +573,7 @@ ACTIONS = {
         'params': ['host_id'],
         'subtopic': 'host'
     },
-    # 集群管理
+    # 集群management 
     'cluster_list': {
         'func': cluster_list,
         'description': 'Query cluster list',
@@ -586,7 +586,7 @@ ACTIONS = {
         'params': ['cluster_id', 'vr_type'],
         'subtopic': 'cluster'
     },
-    # 站点管理
+    # 站点management 
     'site_list': {
         'func': site_list,
         'description': 'Query site list',
@@ -599,14 +599,14 @@ ACTIONS = {
         'params': ['site_id'],
         'subtopic': 'site'
     },
-    # 物理盘管理
+    # 物理盘management 
     'disk_list': {
         'func': disk_list,
         'description': 'Query physical disk info',
         'params': ['site_id', 'host_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'disk'
     },
-    # Virtual disk管理
+    # Virtual diskmanagement 
     'vdisk_list': {
         'func': vdisk_list,
         'description': 'Query virtual disk info list',

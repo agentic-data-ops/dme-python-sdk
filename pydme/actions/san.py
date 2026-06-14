@@ -220,7 +220,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         max_iops: Max IOPS (1~999999999; 与min_bandwidth/min_iopsmutually exclusive),
                         min_bandwidth: Min bandwidth (1~999999999Mbit/s; 与max_bandwidth/max_iopsmutually exclusive),
                         min_iops: Min IOPS (1~999999999; 与max_bandwidth/max_iopsmutually exclusive),
-                        latency: 时延 (1~999999999ms; Dorado V6系列单位为us, Optional值为500/1500; 与max_bandwidth/max_iopsmutually exclusive),
+                        latency: 时延 (1~999999999ms; Dorado V6系列unit 为us, Optional值为500/1500; 与max_bandwidth/max_iopsmutually exclusive),
                 },
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
@@ -1622,7 +1622,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         client: DME API Client
         storage_host_group_id: Storage host组 ID (Required)
         storage_host_id_ids: 存储Host ID list (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
-        create_storage_host_params: 创建新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。 parameter format如下：[{
+        create_storage_host_params: create 新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。 parameter format如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。Options：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: 主机ip address (可选, 最多127 characters),
@@ -1642,7 +1642,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         task_remarks: Async taskRemark (可选, 最多1024 characters)
 
     Returns:
-        任务 ID
+        task  ID
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/{storage_host_group_id}/hosts/add"
 
@@ -1683,7 +1683,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
         task_remarks: Task remark(Optional, max 1024  character）
 
     Returns:
-        任务 ID
+        task  ID
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/{storage_host_group_id}/hosts/remove"
 
@@ -1733,7 +1733,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-    指定Storage host query映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
+    指定Storage host query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client
@@ -1747,7 +1747,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 lun_mapping_list
+        }，includes  total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 
@@ -1775,7 +1775,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-    指定Storage host组 query映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
+    指定Storage host组 query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client
@@ -1789,7 +1789,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 lun_mapping_list
+        }，includes  total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 

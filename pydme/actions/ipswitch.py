@@ -1,5 +1,5 @@
 """
-IP Switch (IPSwitch) 管理operations
+IP Switch (IPSwitch) management operations
 """
 
 import sys
@@ -16,7 +16,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
         client: DME API client
         name: Switch name（Optional，supports fuzzy search）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -50,12 +50,12 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 frames 字段
+        }，includes  total 和 frames 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query"
     
@@ -77,12 +77,12 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 boards 字段
+        }，includes  total 和 boards 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query"
     
@@ -104,12 +104,12 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 subcards 字段
+        }，includes  total 和 subcards 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/subcards/query"
     
@@ -131,12 +131,12 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 powers 字段
+        }，includes  total 和 powers 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/powers/query"
     
@@ -158,12 +158,12 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 fans 字段
+        }，includes  total 和 fans 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/fans/query"
     
@@ -185,12 +185,12 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 ports 字段
+        }，includes  total 和 ports 字段
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/ports/query"
     

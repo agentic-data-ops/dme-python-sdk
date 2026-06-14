@@ -21,7 +21,7 @@ def login(client: DMEAPIClient) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 accessSession
+        }，includes  accessSession
         - accessSession: 会话 token，for subsequent requests X-Auth-Token header
     """
     client.login()
@@ -90,7 +90,7 @@ def user_delete(client: DMEAPIClient, user_id: int) -> dict:
 
     Args:
         client: DME API client
-        user_id: 用户ID (Required, integer, 11~2147483647)
+        user_id: user ID (Required, integer, 11~2147483647)
 
     Returns:
         无
@@ -113,7 +113,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: Username (Required, string, 最多32 characters)。本地Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义 character、Invisible and special characters。远端Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊 character。
+        name: Username (Required, string, 最多32 characters)。local Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义 character、Invisible and special characters。remote Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊 character。
         type: User type (Required, integer, 无)。0：Local user；2：Remote user。
         value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user不涉及。
         description:  description (Optional, string, 最多127 characters)
@@ -159,7 +159,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         {
             total: Total count (integer, max：5000),
             datas: User data (List<UserData>, max array members：5000)。 parameter format如下：[{
-                id: 用户ID (integer, 1~2147483647),
+                id: user ID (integer, 1~2147483647),
                 name: Username (string, 6~32 characters),
                 description:  description (string, 最多127 characters),
                 type: User type (integer)。Optional值：0 (Local user), 1 (Third-party system access user), 2 (Remote user),
@@ -214,11 +214,11 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
 
     Args:
         client: DME API client
-        user_id: 用户ID (Required, integer, 1~2147483647)
+        user_id: user ID (Required, integer, 1~2147483647)
 
     Returns:
         {
-            id: 用户ID (integer, 1~2147483647),
+            id: user ID (integer, 1~2147483647),
             name: Username (string, 最多32 characters),
             type: User type (integer)。Optional值：0 (Local user), 1 (Third-party system access user), 2 (Remote user),
             description:  description (string, 最多127 characters),
@@ -288,7 +288,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
         address: Backup server address，支持IPv4 address，supports fuzzy match (Optional, string, 1~256 characters)
         name: Backup server name (Optional, string)
         page_no: Page queryStart page (Optional, int32)。Default：1
-        page_size: 每页count (Optional, int32, 1~1000)。Default：20
+        page_size: per pagecount (Optional, int32, 1~1000)。Default：20
 
     Returns:
         {
@@ -314,7 +314,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     return response
 
 
-# ==================== Pending task group管理（todo_task_group Subtopic） ====================
+# ==================== Pending task groupmanagement （todo_task_group Subtopic） ====================
 
 def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str = None,
                creator_name: str = None, is_finished: bool = None,
@@ -330,7 +330,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         client: DME API client
         group_id: Pending task group ID（Optional）
         name: Pending task group name（Optional）
-        creator_name: 创建人 name（Optional）
+        creator_name: create 人 name（Optional）
         is_finished: 是否Completed（Optional）
         is_group: Group task（Optional）
         start: 分页Start position（Optional，0~10000000）
@@ -347,7 +347,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Pending task group list和Total count
+        }，includes Pending task group list和Total count
     """
     url = "/rest/taskmgmt/v1/todo-groups"
 
@@ -398,7 +398,7 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
         group_id: Pending task group ID（Required）
 
     Returns:
-        Execution result，包含 task_id
+        Execution result，includes  task_id
     """
     url = "/rest/taskmgmt/v1/todo-groups/{group_id}/execute"
 
@@ -438,12 +438,12 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
         service_type: Business type（Required，wfa_execute_activity-自动化编排）
         status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-partial success/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
         page_no: Page index（Optional，default 1）
-        page_size: 每页count（Optional，1~10，default 10）
+        page_size: per pagecount（Optional，1~10，default 10）
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Pending item list和Total count
+        }，includes Pending item list和Total count
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
 
@@ -491,7 +491,7 @@ def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
         item_id: Pending item ID（Required）
 
     Returns:
-        Execution result，包含 task_id
+        Execution result，includes  task_id
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/execute"
 
@@ -570,7 +570,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     return response
 
 
-# ==================== 任务管理（task Subtopic） ====================
+# ==================== task management （task Subtopic） ====================
 
 import time
 
@@ -582,29 +582,29 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     
     Args:
         client: DME API client
-        task_id: 任务 ID（Required，1~36  characters）
+        task_id: task  ID（Required，1~36  characters）
     
     Returns:
-        Task details list，包含：
-        - id: 任务 ID
+        Task details list，includes ：
+        - id: task  ID
         - name_en: Task name in English
         - name_cn: Task name in Chinese
-        - description: 任务 description
-        - parent_id: 父任务 ID
-        - seq_no: 任务序号
+        - description: task  description
+        - parent_id: 父task  ID
+        - seq_no: task 序号
         - status:  status（1-Initial status;2-Executing;3-成功;4-partial success;5-失败;6-超时）
-        - progress: 任务进度
+        - progress: task 进度
         - owner_name: Create task user name
         - owner_id: Create task user ID
         - create_time: Task creation时间（UTC 毫second(s)数）
-        - start_time: 任务Start time（UTC 毫second(s)数）
-        - end_time: 任务End time（UTC 毫second(s)数）
+        - start_time: task Start time（UTC 毫second(s)数）
+        - end_time: task End time（UTC 毫second(s)数）
         - detail_en: Task details in English
         - detail_cn: Task details in Chinese
         - is_support_retry: supports重试
         - is_support_rollback: supports回滚
         - remarks: Remark
-        - resources: 任务关联的Resource list
+        - resources: task 关联的Resource list
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
     
@@ -617,7 +617,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                owner_id: str = None, create_time_from: int = None,
                create_time_to: int = None) -> dict:
     """
-    Batch query任务
+    Batch querytask 
     
     Args:
         client: DME API client
@@ -662,7 +662,7 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
 
     Args:
         client: DME API client
-        task_id: 任务 ID（Required，1~36  characters）
+        task_id: task  ID（Required，1~36  characters）
 
     Returns:
         重试结果
@@ -682,7 +682,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
 
     Args:
         client: DME API client
-        task_id: 任务 ID
+        task_id: task  ID
         timeout: timeout（second(s)），default 300 second(s)
         poll_interval: 轮询间隔（second(s)），default 2 second(s)
 
@@ -725,7 +725,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         time.sleep(poll_interval)
 
 
-# ==================== Tag type管理（tag_type Subtopic） ====================
+# ==================== Tag typemanagement （tag_type Subtopic） ====================
 
 def tag_type_create(client: DMEAPIClient, name: str, description: str = None) -> dict:
     """
@@ -737,7 +737,7 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
         description: Tag type description（Optional）
     
     Returns:
-        创建的Tag type info
+        create 的Tag type info
     """
     url = "/rest/tagmgmt/v1/tag-types"
     
@@ -792,7 +792,7 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
         description: Tag type description（Optional）
     
     Returns:
-        修改后的Tag type info
+        modify 后的Tag type info
     """
     url = "/rest/tagmgmt/v1/tag-types/{tag_type_id}"
     
@@ -828,7 +828,7 @@ def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     return response
 
 
-# ==================== 标签管理（tag Subtopic） ====================
+# ==================== 标签management （tag Subtopic） ====================
 
 def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
                 tag_type_name: str = None, description: str = None, color: str = None) -> dict:
@@ -1035,7 +1035,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     return response
 
 
-# ==================== Data center管理（dc Subtopic） ====================
+# ==================== Data centermanagement （dc Subtopic） ====================
 
 def dc_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
@@ -1048,12 +1048,12 @@ def dc_list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: Data center name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 datacenters 字段
+        }，includes  total 和 datacenters 字段
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/query"
     
@@ -1101,7 +1101,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
                      取值：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -1142,7 +1142,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近Sync time)
         sort_dir: Sort direction (Optional, string)。Optional值：asc (ascending), desc (descending)。Default：desc
         page_no: Page query开始页 (Optional, int32, 1~100)。Default：1
-        page_size: 每页count (Optional, int32, 1~100)。Default：20
+        page_size: per pagecount (Optional, int32, 1~100)。Default：20
 
     Returns:
         {
@@ -1355,7 +1355,7 @@ ACTIONS = {
     },
     'task_list': {
         'func': task_list,
-        'description': 'Batch query任务',
+        'description': 'Batch querytask ',
         'params': ['start', 'limit', 'task_name', 'status', 'owner_id', 'create_time_from', 'create_time_to'],
         'subtopic': 'task'
     },

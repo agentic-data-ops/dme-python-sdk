@@ -1,5 +1,5 @@
 """
-Server管理 (Server) operations
+Servermanagement  (Server) operations
 """
 
 import sys
@@ -156,7 +156,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
         client: DME API client
         server_id: Server ID（Optional）
         page_no: Page number，default 1
-        page_size: 每页count，5~1000，default 20
+        page_size: per pagecount，5~1000，default 20
 
     Returns:
         网卡 list

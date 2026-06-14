@@ -19,7 +19,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: Backup cluster name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -81,7 +81,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
         cluster_id: 备份集群 ID（Required）
         quota_type: 配额 type（Optional）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {

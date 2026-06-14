@@ -1,7 +1,7 @@
 """
 Tenant self-service (Self Service) operations
 
-Tenant self-service用于管理Service level和Project group。
+Tenant self-service用于management Service level和Project group。
 """
 
 import sys
@@ -21,10 +21,10 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: 待创建 LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format如下：[{
+        volumes: 待create  LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format如下：[{
                 name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
                 capacity: 容量GB (1~262144),
-                count: 创建count (1~500),
+                count: create count (1~500),
                 description:  description (0~255 characters),
                 start_suffix: Starting suffix number (0~9999),
                 suffix_length: Suffix length rule (1~4,  name长度+后缀长度<=255),
@@ -222,7 +222,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
         available_zone_id: 可用区 ID（Optional）
         storage_array_id: Storage device ID（Optional）
         start:  query的Start position，default 0
-        limit: 每页count，10~1000，default 200
+        limit: per pagecount，10~1000，default 200
         sort_key: Sort field，name/total_capacity/created_at，default name
         sort_dir: Sort direction，asc/desc，default asc
         type: Storage class型，FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
@@ -230,7 +230,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Service level list
+        }，includes Service level list
     """
     url = "/rest/service-policy/v1/service-levels"
 
@@ -272,12 +272,12 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
         client: DME API client
         tier_id: Service level ID（Optional）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，10~1000，default 200
+        page_size: per pagecount，10~1000，default 200
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Association list
+        }，includes Association list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -312,7 +312,7 @@ def project_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Project group list
+        }，includes Project group list
     """
     url = "/rest/projectmgmt/v1/projects"
 
@@ -339,12 +339,12 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
         client: DME API client
         project_id: Project group ID（Optional）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，10~1000，default 200
+        page_size: per pagecount，10~1000，default 200
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Association list
+        }，includes Association list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 

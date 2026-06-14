@@ -17,7 +17,7 @@ def list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: Switch name（Optional，supports fuzzy search）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -73,12 +73,12 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
         switch_id: Switch ID（Optional）
         port_name: Port name（Optional）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 ports 字段
+        }，includes  total 和 ports 字段
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/ports/query"
     
@@ -106,12 +106,12 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
         client: DME API client
         switch_id: Switch ID（Optional）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 controllers 字段
+        }，includes  total 和 controllers 字段
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/controllers/query"
     
@@ -136,12 +136,12 @@ def fabric_list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: FC network name（Optional，supports fuzzy search）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 fabrics 字段
+        }，includes  total 和 fabrics 字段
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/list"
     
@@ -166,12 +166,12 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
         client: DME API client
         fabric_id: Fibre Channel network ID（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 ports 字段
+        }，includes  total 和 ports 字段
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/ports/list"
     
@@ -222,12 +222,12 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     Args:
         client: DME API client
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 vsans 字段
+        }，includes  total 和 vsans 字段
     """
     url = "/rest/fcswitchmgmt/v1/vsans/query"
     
@@ -255,19 +255,19 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         client: DME API client
         fabric_wwn: Fibre Channel network WWN（Optional），1~1024  characters
         name: Zone  name（Optional），supports fuzzy search，1~1024  characters
-        cfg_name: 所属 CFG  name（Optional），supports fuzzy search，0~1024  characters
-        zone_set: 所属 Zone 集合（Optional），supports fuzzy search，0~1024  characters
+        cfg_name:  CFG  name（Optional），supports fuzzy search，0~1024  characters
+        zone_set:  Zone 集合（Optional），supports fuzzy search，0~1024  characters
         active_status: Zone status list（Optional），max array members：2
         member_count: 成员count（Optional），0~2147483647
         sort_key: Sort field（Optional），支持 member_count
         sort_dir: Sort direction（Optional），asc：ascending；desc：descending
         page_no: Page number（Optional），1~65535
-        page_size: 每页count（Optional），1~1000
+        page_size: per pagecount（Optional），1~1000
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 zones 字段
+        }，includes  total 和 zones 字段
     """
     url = "/rest/fcswitchmgmt/v1/zones/list"
 
@@ -304,15 +304,15 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                 fcid_members: list = None, alias_members: list = None,
                 device_alias_members: list = None) -> dict:
     """
-    创建 zone
+    create  zone
 
     注：根据 DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
         name: Zone  name（Required）
-        fabric_wwn: Fibre Channel network WWN（ conditionRequired，fabric 创建 zone 时需要）
-        vsan_wwn: VSAN WWN（ conditionRequired，vsan 创建 zone 时需要）
+        fabric_wwn: Fibre Channel network WWN（ conditionRequired，fabric create  zone 时需要）
+        vsan_wwn: VSAN WWN（ conditionRequired，vsan create  zone 时需要）
         wwn_members: WWN Member list（Optional）， format：["<wwn>",...]
         port_members: Port member list（Optional）， format：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fwwn_members: FWWN Member list（Optional）， format：["<fwwn>",...]
@@ -360,9 +360,9 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
                 fwwn_members: dict = None, port_members: dict = None,
                 fcid_members: dict = None, device_alias_members: dict = None) -> dict:
     """
-    修改 zone
+    modify  zone
 
-    修改光纤 Zone 的Configuration info。
+    modify 光纤 Zone 的Configuration info。
 
     Args:
         client: DME API client
@@ -404,7 +404,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
-    删除 zone
+    delete  zone
     注：根据 DME API 文档，使用 DELETE 方法到 /zones/{zone_id}
     
     Args:
@@ -523,12 +523,12 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
         client: DME API client
         fabric_wwn: Fibre Channel network WWN（Required）
         page_no: Page number，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total 和 aliases 字段
+        }，includes  total 和 aliases 字段
     """
     url = "/rest/fcswitchmgmt/v1/aliases/list"
     
@@ -763,19 +763,19 @@ ACTIONS = {
     },
     'zone_create': {
         'func': zone_create,
-        'description': '创建 zone',
+        'description': 'create  zone',
         'params': ['name', 'fabric_wwn', 'vsan_wwn', 'wwn_members', 'port_members', 'fwwn_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_modify': {
         'func': zone_modify,
-        'description': '修改 zone',
+        'description': 'modify  zone',
         'params': ['zone_id', 'zone_name', 'wwn_members', 'fwwn_members', 'port_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_delete': {
         'func': zone_delete,
-        'description': '删除 zone',
+        'description': 'delete  zone',
         'params': ['zone_id'],
         'subtopic': 'zone'
     },

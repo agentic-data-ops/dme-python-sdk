@@ -187,7 +187,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         client: DME API client
         alarm_id: 告警 ID,supports fuzzy match
         severity: Alarm severity list,取值:critical, major, minor, warning, indeterminate, cleared
-        mo_dn: 被管理object DN,支持 inc 操作符匹配
+        mo_dn: 被management object DN,支持 inc 操作符匹配
         alarm_group_id: 告警组 ID
         dc_id: Data center ID
         product_name: 产品 name
@@ -196,7 +196,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         occur_utc_end: Alarm occurredEnd time(毫second(s)Timestamp)
         fields: Specified return field list
         page_no: Page queryStart page,default 1
-        page_size: 每页count,1~1000,default 100(Current alarm query用)
+        page_size: per pagecount,1~1000,default 100(Current alarm query用)
         cleared: 是否已清除,true/false(History alarm query用)
         size: Max number of returned results,1~1000,default 100(History alarm query用)
         iterator: 迭代子,No need to pass on first query,Subsequent queries use last returned iterator(History alarm query用)
@@ -376,10 +376,10 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含:
+        }，includes :
         - total: Intelligent analysis taskTotal count
         - data: Intelligent analysis task response result list，Each item includes:
-            - id: 任务 ID
+            - id: task  ID
             - analysis_type: 分析 type
             - error_msg: Error message
             - is_succeed: Created successfully
@@ -422,7 +422,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
         indicator_ids: 指标 ID  list(Required,最多 20 个,ID 长度 1~16 位)
 
     Returns:
-        任务 ID
+        task  ID
     """
     url = "/rest/pmmgmt/v1/performance-data/collection-task"
 
@@ -444,7 +444,7 @@ def performance_download_collect_result(client: DMEAPIClient, task_id: str) -> d
 
     Args:
         client: DME API client
-        task_id: 任务 ID(Required)
+        task_id: task  ID(Required)
 
     Returns:
         Performance file download link or content
@@ -464,7 +464,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Query historyPerformance data
 
     Based on input parameters"range"Enum values or from start toEnd timeQuery data within range.
-    With aggregated data,Returned result sequence is average,并包含max,min以及对应Timestamp.
+    With aggregated data,Returned result sequence is average,并includes max,min以及对应Timestamp.
 
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
@@ -501,7 +501,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 begin_time 大
 
     Returns:
-        历史Performance data,包含 status_code, error_code, error_msg, data
+        历史Performance data,includes  status_code, error_code, error_msg, data
     """
     url = "/rest/metrics/v1/data-svc/history-data/action/query"
 
@@ -540,7 +540,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
                    可以是integer list或string list,如 [123, 456] 或 ["123", "456"]
 
     Returns:
-        Monitoring metric info,包含 kpi, data_type, data_unit, en_us, zh_cn 等字段
+        Monitoring metric info,includes  kpi, data_type, data_unit, en_us, zh_cn 等字段
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
@@ -562,7 +562,7 @@ def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
         obj_type_id: 监控Object type标识(Required)
 
     Returns:
-        Monitoring metric info,包含 indicator_ids  list
+        Monitoring metric info,includes  indicator_ids  list
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types/{obj_type_id}/indicators"
 
@@ -580,7 +580,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
                 如果提供,returns only matchesObject type
 
     Returns:
-        监控Object type list,包含 obj_type_id, parent_obj_type_id, resource_category,
+        监控Object type list,includes  obj_type_id, parent_obj_type_id, resource_category,
         resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等字段
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types"
@@ -621,7 +621,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Query result
+        }，includes Query result
     """
     if type == 'capacity_prediction':
         url = "/rest/pmmgmt/v1/prediction/query-capacity-predict"
@@ -672,7 +672,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含object健康度 list
+        }，includes object健康度 list
     """
     url = "/rest/healthmgmt/v1/health-result/query"
 
@@ -747,20 +747,20 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
 
     Args:
         client: DME API client
-        task_id: 任务 ID(Required),1~128  characters
+        task_id: task  ID(Required),1~128  characters
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        },包含:
-        - task_id: 任务 ID
-        - task_status: 任务 status,value range:
+        },includes :
+        - task_id: task  ID
+        - task_status: task  status,value range:
             - executing: Executing
             - failed: 失败
             - success: 成功
             - waiting: 等待
             - terminated: 已终止
-        - task_result: 任务结果,value range:
+        - task_result: task 结果,value range:
             - un_analyzed: 未分析
             - warning: 警告
             - abnormal: 异常
@@ -819,7 +819,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total（Total count）和 policies（ policy list）
+        }，includes  total（Total count）和 policies（ policy list）
     """
     url = "/rest/policymgmt/v2/policies/query"
 
@@ -970,8 +970,8 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         policy_types: Policy type list（最多 30 个）
         cause: 异常原因（supports fuzzy search，1~768  characters）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
-        first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，单位 ms）
-        last_occur_time: Last exceptionTime range（{beginTime, endTime}，UTC Timestamp，单位 ms）
+        first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，unit  ms）
+        last_occur_time: Last exceptionTime range（{beginTime, endTime}，UTC Timestamp，unit  ms）
         page_no: Page number，1~10000，default 1
         page_size: Items per page，1~2000，default 20
         sort_key: Sort field（violation_count-异常次数）
@@ -980,7 +980,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total（Total count）和 results（Exception check result list）
+        }，includes  total（Total count）和 results（Exception check result list）
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/query"
 
@@ -1045,7 +1045,7 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 
 # Action list for CLI help
 # ============================================================================
-# 拓扑管理 (topology) subtopic functions
+# 拓扑management  (topology) subtopic functions
 # ============================================================================
 
 def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_id: str,
@@ -1076,7 +1076,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 LUN 拓扑 list
+        }，includes  LUN 拓扑 list
     """
     url = "/rest/topomgmt/v1/topo-data/luns/query"
 
@@ -1131,7 +1131,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含主机到Storage pool的拓扑结构：
+        }，includes 主机到Storage pool的拓扑结构：
         - ip_san 数据：
           - switches: Switch list
           - hosts: 主机 list
@@ -1215,7 +1215,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含：
+        }，includes ：
         - total: Query resultTotal count
         - vms: VM list
         - disks: Physical hostAssociated physical disk list
@@ -1272,7 +1272,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - k8s_pv: K8s PV
             - k8s_cluster: K8s 集群
             - k8s_node: K8s 节点
-            - k8s_vc_job: K8s VC 任务
+            - k8s_vc_job: K8s VC task 
             - dturbo_client: DataTurbo Client
             - enclosures: 机柜
             - eth_switch: Ethernet switch
@@ -1287,9 +1287,9 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含：
+        }，includes ：
         - nodes: 节点 list，Each node contains id, type, label, sub_type
-        - edges: 边 list，每条边包含 source, target, edge_type
+        - edges: 边 list，每条边includes  source, target, edge_type
     """
     url = "/rest/dmegraphanalysis/v1/topo-data/query"
 
@@ -1318,7 +1318,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 ACTIONS = {
     'alarm_list': {
         'func': alarm_list,
-        'description': 'Query alarm info(Current alarm,Optional择是否包含History alarm)',
+        'description': 'Query alarm info(Current alarm,Optional择是否includes History alarm)',
         'params': ['alarm_id', 'severity', 'mo_dn', 'alarm_group_id', 'dc_id',
                    'product_name', 'alarm_name', 'occur_utc_start', 'occur_utc_end',
                    'fields', 'page_no', 'page_size', 'cleared', 'size', 'iterator', 'include_history'],

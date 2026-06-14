@@ -17,7 +17,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: Container cluster name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -53,7 +53,7 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
         cluster_id: Container cluster ID（Optional）
         name: Container node name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -94,7 +94,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
         namespace: 容器Namespace（Optional）
         name: Pod name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -133,7 +133,7 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
         cluster_id: Container cluster ID（Optional）
         name: Namespace name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -168,7 +168,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
         namespace: 容器Namespace（Optional）
         name: Persistent volume声明 name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -209,7 +209,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
         cluster_id: Container cluster ID（Optional）
         name: Persistent volume name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
@@ -238,7 +238,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
 
 # Action list for CLI help
 ACTIONS = {
-    # 集群管理
+    # 集群management 
     'cluster_list': {
         'func': cluster_list,
         'description': ' queryContainer cluster list',
@@ -252,28 +252,28 @@ ACTIONS = {
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'node'
     },
-    # Pod管理
+    # Podmanagement 
     'pod_list': {
         'func': pod_list,
         'description': ' queryPod list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },
-    # Namespace管理
+    # Namespacemanagement 
     'namespace_list': {
         'func': namespace_list,
         'description': 'Query containerNamespace list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
-    # Persistent volume声明管理
+    # Persistent volume声明management 
     'pvc_list': {
         'func': pvc_list,
         'description': 'Query containerPVC list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pvc'
     },
-    # Persistent volume管理
+    # Persistent volumemanagement 
     'pv_list': {
         'func': pv_list,
         'description': 'Query containerPV list',

@@ -21,7 +21,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     Args:
         client: DME API client
         page_no: Page index（Required，min：1）
-        page_size: 每页 querycount（Required，1~1000）
+        page_size: per page querycount（Required，1~1000）
         directory_id: 目录 id（Optional，1~64  characters）
         group: Template group name，supports fuzzy match（Optional，最多 255  characters）
         name: 模板 name，supports fuzzy match（Optional，最多 255  characters）
@@ -66,8 +66,8 @@ def template_groups(client: DMEAPIClient) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含：
-        - groups: Template group list，包含 name（Template group name）
+        }，includes ：
+        - groups: Template group list，includes  name（Template group name）
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
     
@@ -90,7 +90,7 @@ def template_show(client: DMEAPIClient, template_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含：
+        }，includes ：
         - template_version_id: Template version id
     """
     url = "/rest/wfamgmt/v1/workflow/templates/{template_id}"
@@ -137,7 +137,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含：
+        }，includes ：
         - instance_id: 实例 id
         - template_id: Instance template id
         - template_name: Instance template name
@@ -176,7 +176,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含：
+        }，includes ：
         - instance_id: 实例 id
     """
     url = "/rest/wfamgmt/v1/workflow/instances"
@@ -210,7 +210,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含：
+        }，includes ：
         - logs: Step log list（最多 6000 条）
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"

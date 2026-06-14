@@ -1,6 +1,6 @@
 """
 Third-party system integration (Integrate) operations
-包含CMDB系统、主机、Application resource query
+includes CMDB系统、主机、Application resource query
 """
 
 import sys
@@ -18,7 +18,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
         client: DME API client
         name: CMDBSystem name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
 
     Returns:
         {
@@ -54,7 +54,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
         name: Host name（Optional，supports fuzzy search）
         ip: Host IP（Optional）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
 
     Returns:
         {
@@ -117,7 +117,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
         system_id: CMDB系统ID（Optional）
         name: Application name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
-        page_size: 每页count，1~1000，default 20
+        page_size: per pagecount，1~1000，default 20
 
     Returns:
         {
