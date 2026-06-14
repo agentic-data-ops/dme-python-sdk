@@ -209,7 +209,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                                   Options: automatic, highest_performance, performance, capacity; default automatic
         prefetch_policy: Prefetch policy (Optional) , Affects disk read; 
                         Options: no_prefetch ( no prefetch) , constant_prefetch (Fixed prefetch) , variable_prefetch (Variable prefetch) , intelligent_prefetch (Smart prefetch) ; default intelligent_prefetch
-        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set to fixed or variablee prefetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
+        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set to fixed or variable prefetchfetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
         tuning:  tuning (Optional), CustomizeLunTuning object.  parameter format: {
                 smart_tier: Data migration policy. Options: no_migration, automatic_migration, migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
                 deduplication_enabled: Deduplication (Thin LUN only). Options: true, false,
@@ -234,7 +234,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN group ID on storage device (1~31 characters),
                         lun_group_name: LUN group name on storage device (1~255 characters),
-                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existpping relationship时可 specified, 存在Mapping relationship not available when specified),
+                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existg relationship时可 specified, 存在Mapping relationship not available when specified),
                 },
              }
         task_remarks: Async taskRemark(Optional) ,  max 1024  characters
@@ -1679,7 +1679,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     Args:
         client: DME API Client
         storage_host_group_id: Storage host group ID (Required, 1~64  character) 
-        storage_host_ids: hosts to remove ID  list (Required,  max 1000 个) 
+        storage_host_ids: hosts to remove ID  list (Required,  max 1000) 
         task_remarks: Task remark(Optional, max 1024  character) 
 
     Returns:
@@ -1703,11 +1703,11 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
     """
     Batch delete storage host groups
 
-    Batch delete specified的Storage host group. 
+    Batch delete specified storage host group. 
 
     Args:
         client: DME API Client
-        host_group_ids: Storage host group ID  list (Required, 1~100 个) 
+        host_group_ids: Storage host group ID  list (Required, 1-100) 
         task_remarks: Task remark(Optional, max 1024  character) 
 
     Returns:
@@ -1733,7 +1733,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-     specifiedStorage host query mapping LUN info list, includes  LUN  info和 host LUN ID  info. 
+     Query LUN mapping info list for specified storage host, includes LUN info and host LUN ID info. 
 
     Args:
         client: DME API Client
@@ -1747,7 +1747,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  total 和 lun_mapping_list
+        }, includes total and lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 
@@ -1775,7 +1775,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-     specifiedStorage host group query mapping LUN info list, includes  LUN  info和 host LUN ID  info. 
+     Query LUN mapping info list for specified storage host group, includes LUN info and host LUN ID info. 
 
     Args:
         client: DME API Client
@@ -1789,7 +1789,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  total 和 lun_mapping_list
+        }, includes total and lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 
@@ -3411,7 +3411,7 @@ ACTIONS = {
     },
     'physical_host_save_sshkey': {
         'func': physical_host_save_sshkey,
-        'description': '保存 specifiedPhysical hostSSH public key',
+        'description': 'Save physical host SSH public key',
         'params': ['ip', 'key', 'port'],
         'subtopic': 'physical_host'
     },

@@ -602,7 +602,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     """
     Modify alias
 
-    注:  Based on DME API documentation, member modification requires {type}.added_members and {type}.removed_members formatmat. 
+    注:  Based on DME API documentation, member modification requires {type}.added_members and {type}.removed_members format. 
 
     Args:
         client: DME API client

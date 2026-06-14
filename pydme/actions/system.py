@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: Password reset requiredUsername (Required, string, 1~128 characters)
-        new_value:  New password (Required, string, 8~32 characters). Requirements: 1. Password length must not be less than8 characters, and not greater than 32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
+        new_value:  New password (Required, string, 8~32 characters). Requirements: 1. Password length must not be less than 8 characters, and not greater than 32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false). true: Must perform initial password change on next login; false: Direct login next time, No initial modification required. Default: true
 
     Returns:
@@ -113,9 +113,9 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: Username (Required, string,  max 32 characters). Local username cannot be less than6 characters, and not greater than 32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, and not greater than 32 characters, Cannot contain invisible characters;特殊 character. 
+        name: Username (Required, string,  max 32 characters). Local username cannot be less than 6 characters, and not greater than 32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, and not greater than 32 characters, Cannot contain invisible characters;特殊 character. 
         type: User type (Required, integer, N/A). 0: Local user; 2: Remote user. 
-        value: Password (Optional, string, 8~32 characters). Password length cannot be less than8 characters, and not greater than 32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
+        value: Password (Optional, string, 8~32 characters). Password length cannot be less than 8 characters, and not greater than 32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
         description:  description (Optional, string,  max127 characters)
         roles: User role (Optional, List[integer], max array members: 10). E.g., Administrators, northbound user group, security admin group, filesystemGroup or custom user role. 
 
@@ -415,7 +415,7 @@ def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
         group_id: Pending task group ID (Required) 
 
     Returns:
-        确认 result
+        Confirmation result
     """
     url = "/rest/taskmgmt/v1/todo-groups/{group_id}/confirm"
 
@@ -429,21 +429,21 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
                status: list = None, page_no: int = None,
                page_size: int = None) -> dict:
     """
-    Batch query待办Task details
+    Batch query pending task details
 
-    Batch queryPending item list, supports filtering和pagination. 
+    Batch query pending item list, supports filtering and pagination. 
 
     Args:
         client: DME API client
         service_type: Business type (Required, wfa_execute_activity- auto orchestration) 
-        status: Pending item status list (Optional, 1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure) 
+        status: Pending item status list (Optional, 1-Not executed/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure) 
         page_no: Page index (Optional, default 1) 
         page_size: per pagecount (Optional, 1~10, default 10) 
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes Pending item list和Total count
+        }, includes pending item list and total count
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
 
@@ -465,7 +465,7 @@ def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
      queryPending itemDetails info
 
-    QueryPending item的Details. 
+    Query pending item details. 
 
     Args:
         client: DME API client
@@ -504,16 +504,16 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
     """
     Review pending task
 
-    对Pending itemReview ( approve or reject) . 
+    Review pending item ( approve or reject) . 
 
     Args:
         client: DME API client
         item_id: Pending item ID (Required) 
-        is_approval:  whether批准 (Required, true-批准/false- reject) 
+        is_approval:  Whether to approve (Required, true-approve, false-reject) 
         suggestion: Review suggestion (Optional, 0-63  character) 
 
     Returns:
-        审核 result
+        Review result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/audit"
 
@@ -538,7 +538,7 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
         item_id: Pending item ID (Required) 
 
     Returns:
-        撤销 result
+        Cancellation result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/revoke-audit"
 
@@ -550,7 +550,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     """
     Close pending task
 
-     disable specified的Pending item, must provideShutdown reason. 
+     Disable specified pending item, must provide shutdown reason. 
 
     Args:
         client: DME API client
@@ -578,7 +578,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
     QueryTask details
     
-    By taskUnique identifier TaskId 进行 query. 
+    By taskUnique identifier TaskId query. 
     
     Args:
         client: DME API client
@@ -590,21 +590,21 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - name_en: Task name in English
         - name_cn: Task name in Chinese
         - description: task  description
-        - parent_id: 父task  ID
-        - seq_no: task 序号
+        - parent_id: Parent task ID
+        - seq_no: Task sequence number
         - status:  status (1-Initial status;2-Executing;3- success;4-partial success;5- failure;6- timeout) 
-        - progress: task 进度
+        - progress: Task progress
         - owner_name: Create task user name
         - owner_id: Create task user ID
-        - create_time: Task creation时间 (UTC 毫second(s)数) 
-        - start_time: task Start time (UTC 毫second(s)数) 
-        - end_time: task End time (UTC 毫second(s)数) 
+        - create_time: Task creation time (UTC ms timestamp) 
+        - start_time: Task start time (UTC ms timestamp) 
+        - end_time: Task end time (UTC ms timestamp) 
         - detail_en: Task details in English
         - detail_cn: Task details in Chinese
         - is_support_retry: supports retry
         - is_support_rollback: supports rollback
         - remarks: Remark
-        - resources: task  associated的Resource list
+        - resources: Task associated resource list
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
     
@@ -626,8 +626,8 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         task_name: Task name filter (Optional) 
         status:  status filter (Optional, 1-Initial status;2-Executing;3- success;4-partial success;5- failure;6- timeout) 
         owner_id: Create task user ID  filter (Optional) 
-        create_time_from: Creation time起始 (Optional, UTC 毫second(s)数) 
-        create_time_to: Creation time end (Optional, UTC 毫second(s)数) 
+        create_time_from: Creation time start (Optional, UTC ms timestamp) 
+        create_time_to: Creation time end (Optional, UTC ms timestamp) 
     
     Returns:
         Task list
@@ -684,11 +684,11 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         client: DME API client
         task_id: task  ID
         timeout: timeout (second(s)) , default 300 second(s)
-        poll_interval:  poll间隔 (second(s)) , default 2 second(s)
+        poll_interval:  Polling interval (second(s)) , default 2 second(s)
 
     Returns:
         Task final status details
-        status 说明: 
+        Status description: 
         - 3:  success
         - 4: partial success
         - 5:  failure
@@ -699,7 +699,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     while True:
         task_info = task_show(client, task_id)
 
-        # API Returns a list, get根Task details
+        # API returns a list, get root task details
         for task in task_info:
             if task["id"] == task_id:
                 root_task = task
@@ -737,7 +737,7 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
         description: Tag type description (Optional) 
     
     Returns:
-        create 的Tag type info
+        Created tag type info
     """
     url = "/rest/tagmgmt/v1/tag-types"
     
@@ -792,7 +792,7 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
         description: Tag type description (Optional) 
     
     Returns:
-        modify 后的Tag type info
+        Modified tag type info
     """
     url = "/rest/tagmgmt/v1/tag-types/{tag_type_id}"
     
@@ -1000,8 +1000,8 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     Args:
         client: DME API client
         az_name: Availability zone name, supports fuzzy match (Optional, string, 1~64 characters)
-        operate_status: Availability zone运营 status. For offlineaz, 其operate_status是null, currently onlysupports filtering上线online的az (Optional, string, 1~16 characters)
-        start: Page number, 从1 start (Optional, int32, 1~10000000). Default: 1
+        operate_status: AZ operation status. For offline AZs, operate_status is null. Currently only supports filtering online AZsaz (Optional, string, 1~16 characters)
+        start: Page number, starting from 1 (Optional, int32, 1~10000000). Default: 1
         limit: Page size (Optional, int32, 1~512). Default: 512
         is_sc: Operation-side query (Optional, boolean, true,false). Default: false
 
@@ -1053,7 +1053,7 @@ def dc_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  total 和 datacenters  field
+        }, includes total and datacenters fields
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/query"
     
@@ -1073,7 +1073,7 @@ def dc_show(client: DMEAPIClient, dc_id: str) -> dict:
     """
     getData center details
     
-    QueryData center的Details. 
+    Query data center details. 
     
     Args:
         client: DME API client
@@ -1135,13 +1135,13 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         client: DME API client
         ids: RegionID list,  supportexact match (Optional, List[string], max array members: 100)
         name: Region name, supports fuzzy search (Optional, string,  max256 characters)
-        active_ip_address: Region主IP address, supports fuzzy search (Optional, string,  max256 characters)
-        standby_ip_address: Region备IP address, supports fuzzy search (Optional, string,  max256 characters)
-        sync_status: RegionSync status, Exact filter (Optional, List[string], max array members: 3). Optional值: normal (normal), sync (Syncing), failed (Sync failure)
-        role: Region role, Exact filter (Optional, string). Optional值: parent (上级Region), child (下级Region)
-        sort_key: Sort field (Optional, string). Optional值: last_sync_time ( recentSync time)
-        sort_dir: Sort direction (Optional, string). Optional值: asc (ascending), desc (descending). Default: desc
-        page_no: Page query start页 (Optional, int32, 1~100). Default: 1
+        active_ip_address: Region primary IP address, supports fuzzy search (Optional, string,  max256 characters)
+        standby_ip_address: Region standby IP address, supports fuzzy search (Optional, string,  max256 characters)
+        sync_status: Region sync status, Exact filter (Optional, List[string], max array members: 3). Options: normal, sync (Syncing), failed (Sync failure)
+        role: Region role, Exact filter (Optional, string). Optional值: parent, child
+        sort_key: Sort field (Optional, string). Options: last_sync_time ( recentSync time)
+        sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending). Default: desc
+        page_no: Page query start (Optional, int32, 1~100). Default: 1
         page_size: per pagecount (Optional, int32, 1~100). Default: 20
 
     Returns:
@@ -1189,10 +1189,10 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
 
     Args:
         client: DME API client
-        region_id: 下级Region的ID (Required, string, 1~64 characters)
+        region_id: Child region ID (Required, string, 1~64 characters)
         request_url: Query sub-levelCorresponding resource northbound APIURL (Required, string, 1~8192 characters)
-        request_method:  request方式 (Required, string). Optional值: get (Get request), post (Post request)
-        request_body: Call lower-level northbound API requestBody体 (Optional, string, 1~20480 characters)
+        request_method:  Request method (Required, string). Options: get, post
+        request_body: Call lower-level northbound API request body (Optional, string, 1~20480 characters)
 
     Returns:
         N/A
@@ -1200,9 +1200,9 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     url = "/rest/regionmgmt/v1/regions/{region_id}/resources/query"
 
     if not region_id:
-        raise ValueError("region_id 是required parameter")
+        raise ValueError("region_id is required")
     if not request_url:
-        raise ValueError("request_url 是required parameter")
+        raise ValueError("request_url is required")
 
     payload = {
         'request_url': request_url,
@@ -1238,7 +1238,7 @@ ACTIONS = {
     },
     'certificate': {
         'func': certificate,
-        'description': 'get DME 证书',
+        'description': 'Get DME certificate',
         'params': [],
         'subtopic': None
     },
