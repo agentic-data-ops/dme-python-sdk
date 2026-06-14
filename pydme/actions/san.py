@@ -1623,7 +1623,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         storage_host_group_id: Storage host组 ID (Required)
         storage_host_id_ids: 存储Host ID列表 (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
         create_storage_host_params: 创建新的Storage host列表 (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。参数格式如下：[{
-                name: Host name (Required, 1~255个字符, 支持字母数字._-和中文字符),
+                name: Host name (Required, 1~255个字符, 支持字母数字._-and Chinese characters),
                 os_type: Host type (Required)。可选值：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: 主机ip地址 (可选, 最多127个字符),
                 description: 主机描述 (可选, 最多63个字符),
@@ -1740,7 +1740,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
         storage_host_id: Storage host ID（Required，1~64 字符）
         name: LUN Name (Optional,1~256 字符，支持fuzzy search）
         page_size: Items per page（可选，1~1000，默认 20）
-        page_no: 分页查询的Start position（可选，1~10000000，默认 1）
+        page_no: Page queryStart position（可选，1~10000000，默认 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
         sort_dir: Sort direction（可选，asc/desc，默认 desc）
 
@@ -1782,7 +1782,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
         storage_host_group_id: Storage host组 ID（Required，1~64 字符）
         name: LUN Name (Optional,1~256 字符，支持fuzzy search）
         page_size: Items per page（可选，1~1000，默认 20）
-        page_no: 分页查询的Start position（可选，1~10000000，默认 1）
+        page_no: Page queryStart position（可选，1~10000000，默认 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
         sort_dir: Sort direction（可选，asc/desc，默认 desc）
 
@@ -3267,7 +3267,7 @@ ACTIONS = {
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'storage_host'
     },
-    # Storage host组子主题动作（san storage_host_group xxx）
+    # Storage host组subtopic actions（san storage_host_group xxx）
     'storage_host_group_create': {
         'func': storage_host_group_create,
         'description': 'Create storage host group',
@@ -3312,7 +3312,7 @@ ACTIONS = {
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
-    # Port group子主题动作（san port_group xxx）
+    # Port groupsubtopic actions（san port_group xxx）
     'port_group_list': {
         'func': port_group_list,
         'description': 'Batch queryPort group',

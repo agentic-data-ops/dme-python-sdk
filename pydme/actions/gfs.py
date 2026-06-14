@@ -142,10 +142,10 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
     Args:
         client: DME API client
         name: Global namespace的名称，supports fuzzy search (0~256个字符, Optional)
-        gfs_group_name: 全局数据空间的名称，supports fuzzy search (0~256个字符, Optional)
+        gfs_group_name: Global data space name，supports fuzzy search (0~256个字符, Optional)
         gfs_group_id: 所属全局数据空间的 ID (1~32个字符, Optional)
         gfs_type: Global namespace类型 (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
-        sort_key: 按照指定字段排序 (Optional)。Optional值：child_name_space_num
+        sort_key: sort by specified field (Optional)。Optional值：child_name_space_num
         sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：asc
         page_no: 分页起始页 (int32, 1~1000, Default: 1, Optional)
         page_size: 每页查询的count (int32, 1~1000, Default: 20, Optional)
@@ -184,7 +184,7 @@ def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = Non
     Args:
         client: DME API client
         id: Global namespace的 ID，与 name_locator cannot both be empty; takes precedence when both have values ID
-        name_locator: 名称定位器，格式为：Global namespace的名称@全局数据空间的名称
+        name_locator: 名称定位器，格式为：Global namespace的名称@Global data space name
 
     Returns:
         Global namespaceDetails
@@ -257,7 +257,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace的 ID (1~32个字符, Optional。与 name_locator cannot both be empty; takes precedence when both have values id)
-        name_locator: 名称定位器，格式为：Global namespace的名称@全局数据空间的名称 (3~507个字符, Optional。与 id cannot both be empty; takes precedence when both have values id)
+        name_locator: 名称定位器，格式为：Global namespace的名称@Global data space name (3~507个字符, Optional。与 id cannot both be empty; takes precedence when both have values id)
         smart_share_members: SmartShare 成员列表 (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的模式为 smart_share 时该参数有效)。参数格式如下：[{
                 id: Namespace ID 或Filesystem ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
@@ -293,7 +293,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace的 ID，与 name_locator 不能同时为空
-        name_locator: 名称定位器，格式为：Global namespace的名称@全局数据空间的名称
+        name_locator: 名称定位器，格式为：Global namespace的名称@Global data space name
         is_delete_child: 是否删除子Namespace，默认 true
 
     Returns:
@@ -347,7 +347,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         page_no: Page number (int32, 1~1000, Default: 1, Optional)
         page_size: Items per page (int32, 1~1000, Default: 20, Optional)
         sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：desc
-        sort_key: Sort key (Optional)。Optional值：progress (Task execution进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
+        sort_key: Sort key (Optional)。Optional值：progress (Task execution进度), real_start_time (任务实际启动时间), real_finish_time (任务实际End time)
 
     Returns:
         Data migrationTask list
@@ -456,9 +456,9 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         ctime_operator: 文件的状态修改时间匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 ctime、ctime_unit must be sent together
         ctime: 文件的状态修改时间间隔 (int32, 0~26304, Optional)。与 ctime_operator、ctime_unit must be sent together
         ctime_unit: 文件的状态修改时间间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 ctime_operator、ctime must be sent together
-        crtime_operator: 文件的创建时间匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 crtime、crtime_unit must be sent together
-        crtime: 文件的创建时间间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
-        crtime_unit: 文件的创建时间间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
+        crtime_operator: 文件的Creation time匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 crtime、crtime_unit must be sent together
+        crtime: 文件的Creation time间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
+        crtime_unit: 文件的Creation time间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
         name_operator: 文件名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 name_filter must be sent together
         name_filter: 文件名匹配表达式列表 (1~1023个字符, Optional)。与 name_operator must be sent together
         size_operator: 文件大小的匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 file_size must be sent together
@@ -672,7 +672,7 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
 
 # Action list for CLI help
 ACTIONS = {
-    # Dataspace 子主题动作
+    # Dataspace subtopic actions
     'dataspace_list': {
         'func': dataspace_list,
         'description': 'Batch query Omni-Dataverse',
@@ -691,7 +691,7 @@ ACTIONS = {
         'params': ['raw_id', 'site_role', 'gfs_group_id', 'storage_name', 'storage_pool_name', 'account_name', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
-    # Namespace 子主题动作
+    # Namespace subtopic actions
     'namespace_list': {
         'func': namespace_list,
         'description': 'Batch queryGlobal namespace',
@@ -722,7 +722,7 @@ ACTIONS = {
         'params': ['id', 'name_locator', 'is_delete_child'],
         'subtopic': 'namespace'
     },
-    # Migration Task 子主题动作
+    # Migration Task subtopic actions
     'migration_task_list': {
         'func': migration_task_list,
         'description': 'Batch query Omni-Dataverse Data migration task',

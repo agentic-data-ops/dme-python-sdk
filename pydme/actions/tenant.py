@@ -22,7 +22,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
     Args:
         client: DME API client
         volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
-                name: LUN名称 (1~255个字符, 支持字母数字._-和中文字符),
+                name: LUN名称 (1~255个字符, 支持字母数字._-and Chinese characters),
                 capacity: 容量GB (1~262144),
                 count: 创建count (1~500),
                 description: 描述 (0~255个字符),
@@ -271,7 +271,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     Args:
         client: DME API client
         tier_id: Service level ID（Optional）
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，10~1000，默认 200
 
     Returns:
@@ -338,7 +338,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     Args:
         client: DME API client
         project_id: Project group ID（Optional）
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，10~1000，默认 200
 
     Returns:

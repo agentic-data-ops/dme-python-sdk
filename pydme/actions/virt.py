@@ -39,7 +39,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         datacenter_id: 数据存储Data center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
         sort_dir: Sort direction（asc, desc），默认 asc
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
     Returns:
@@ -147,7 +147,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         datacenter_id: 数据存储所属的 vCenter Data center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），默认 asc
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
     Returns:
@@ -231,7 +231,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         ip_address: 主机 IP 地址
         status: 主机状态列表
         vr_type: Virtualization platform type
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
     Returns:
@@ -301,7 +301,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
         dc_id: Data center ID
         name: 集群名称（supports fuzzy search）
         vr_type: Virtualization platform type
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
     Returns:
@@ -429,7 +429,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         name: 物理盘名称（Optional）
         disk_type: 磁盘类型列表（Optional）
         status: 磁盘状态列表（Optional）
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
     Returns:
@@ -473,7 +473,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
         name: 虚拟磁盘名称（Optional）
         disk_type: 磁盘类型列表（Optional）
         status: 磁盘状态列表（Optional）
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
     Returns:

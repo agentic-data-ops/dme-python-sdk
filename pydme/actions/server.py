@@ -72,7 +72,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
 def cpu_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    查询服务器上的所有 CPU 列表
+    Query on server所有 CPU 列表
 
     Args:
         client: DME API client
@@ -98,7 +98,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
 def memory_list(client: DMEAPIClient, server_id: str,
                  start: int = 1, limit: int = 100) -> dict:
     """
-    查询服务器上的内存
+    Query on server内存
     
     Args:
         client: DME API client
@@ -124,7 +124,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
 def disk_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    查询服务器上的硬盘集合
+    Query on server硬盘集合
     
     Args:
         client: DME API client
@@ -150,7 +150,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
 def nic_list(client: DMEAPIClient, server_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询服务器上的网卡集合
+    Query on server网卡集合
 
     Args:
         client: DME API client
@@ -178,7 +178,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
 def fan_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    查询服务器上的风扇
+    Query on server风扇
     
     Args:
         client: DME API client
@@ -204,7 +204,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
 def power_list(client: DMEAPIClient, server_id: str,
                      start: int = 1, limit: int = 100) -> dict:
     """
-    查询服务器上的电源
+    Query on server电源
     
     Args:
         client: DME API client
@@ -230,7 +230,7 @@ def power_list(client: DMEAPIClient, server_id: str,
 def raid_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    查询服务器上的 RAID 卡详情
+    Query on server RAID 卡详情
     
     Args:
         client: DME API client
@@ -256,7 +256,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
 def pcie_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    查询服务器上的 PCIe 卡信息
+    Query on server PCIe 卡信息
     
     Args:
         client: DME API client
@@ -294,59 +294,59 @@ ACTIONS = {
         'params': ['server_id'],
         'subtopic': None
     },
-    # 子主题动作 - cpu (three-level structure)
+    # subtopic actions - cpu (three-level structure)
     'cpu_list': {
         'func': cpu_list,
-        'description': '查询服务器上的所有 CPU 列表',
+        'description': 'Query on server所有 CPU 列表',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
-    # 子主题动作 - memory (three-level structure)
+    # subtopic actions - memory (three-level structure)
     'memory_list': {
         'func': memory_list,
-        'description': '查询服务器上的内存',
+        'description': 'Query on server内存',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'memory'
     },
-    # 子主题动作 - disk (three-level structure)
+    # subtopic actions - disk (three-level structure)
     'disk_list': {
         'func': disk_list,
-        'description': '查询服务器上的硬盘集合',
+        'description': 'Query on server硬盘集合',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },
-    # 子主题动作 - nic (three-level structure)
+    # subtopic actions - nic (three-level structure)
     'nic_list': {
         'func': nic_list,
-        'description': '查询服务器上的网卡集合',
+        'description': 'Query on server网卡集合',
         'params': ['server_id', 'page_no', 'page_size'],
         'subtopic': 'nic'
     },
-    # 子主题动作 - fan (three-level structure)
+    # subtopic actions - fan (three-level structure)
     'fan_list': {
         'func': fan_list,
-        'description': '查询服务器上的风扇',
+        'description': 'Query on server风扇',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
-    # 子主题动作 - power (three-level structure)
+    # subtopic actions - power (three-level structure)
     'power_list': {
         'func': power_list,
-        'description': '查询服务器上的电源',
+        'description': 'Query on server电源',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },
-    # 子主题动作 - raid_card (three-level structure)
+    # subtopic actions - raid_card (three-level structure)
     'raid_card_list': {
         'func': raid_card_list,
-        'description': '查询服务器上的 RAID 卡详情',
+        'description': 'Query on server RAID 卡详情',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },
-    # 子主题动作 - pcie_card (three-level structure)
+    # subtopic actions - pcie_card (three-level structure)
     'pcie_card_list': {
         'func': pcie_card_list,
-        'description': '查询服务器上的 PCIe 卡信息',
+        'description': 'Query on server PCIe 卡信息',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'pcie_card'
     },

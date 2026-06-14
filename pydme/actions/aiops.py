@@ -192,10 +192,10 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         dc_id: Data center ID
         product_name: 产品名称
         alarm_name: Alarm name,supports fuzzy match
-        occur_utc_start: 告警发生开始时间(毫second(s)时间戳)
-        occur_utc_end: 告警发生结束时间(毫second(s)时间戳)
+        occur_utc_start: 告警发生Start time(毫second(s)时间戳)
+        occur_utc_end: 告警发生End time(毫second(s)时间戳)
         fields: 指定返回的字段列表
-        page_no: 分页查询的Start page,默认 1
+        page_no: Page queryStart page,默认 1
         page_size: 每页count,1~1000,默认 100(Current alarm查询用)
         cleared: 是否已清除,true/false(History alarm查询用)
         size: 返回的结果集最大条数,1~1000,默认 100(History alarm查询用)
@@ -230,7 +230,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     current_response = client.post(current_url, body=current_params)
     result['current_alarms'] = current_response
 
-    # 如果指定了 include_history,同时查询History alarm
+    # if specified include_history,同时查询History alarm
     if include_history:
         history_url = "/rest/alarmmgmt/v1/alarms/history-alarms/query"
         history_params = _build_history_alarm_params(
@@ -254,7 +254,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
 
     Args:
         client: DME API client
-        csns: 告警流水号列表(Required),最多 30 个
+        csns: Alarm serial number list(Required),最多 30 个
 
     Returns:
         Operation result
@@ -262,7 +262,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
     if not isinstance(csns, list) or len(csns) < 1 or len(csns) > 30:
-        raise ValueError("csns 必须是包含 1-30 个元素的列表")
+        raise ValueError("csns must be a list containing 1-30 elements")
 
     payload = {
         "csns": csns,
@@ -284,7 +284,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
 
     Args:
         client: DME API client
-        csns: 告警流水号列表(Required),最多 30 个
+        csns: Alarm serial number list(Required),最多 30 个
 
     Returns:
         Operation result
@@ -292,7 +292,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
     if not isinstance(csns, list) or len(csns) < 1 or len(csns) > 30:
-        raise ValueError("csns 必须是包含 1-30 个元素的列表")
+        raise ValueError("csns must be a list containing 1-30 elements")
 
     payload = {
         "csns": csns,
@@ -314,7 +314,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
 
     Args:
         client: DME API client
-        csns: 告警流水号列表(Required),最多 30 个
+        csns: Alarm serial number list(Required),最多 30 个
 
     Returns:
         Operation result
@@ -322,7 +322,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
     if not isinstance(csns, list) or len(csns) < 1 or len(csns) > 30:
-        raise ValueError("csns 必须是包含 1-30 个元素的列表")
+        raise ValueError("csns must be a list containing 1-30 elements")
 
     payload = {
         "csns": csns,
@@ -361,9 +361,9 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: 控制器
             - NAMESPACE: Namespace
-        begin_time: 分析开始时间(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
-        end_time: 分析结束时间(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点
-                  分析时间间隔范围必须大于 30 minute(s),小于 24 hour(s)
+        begin_time: 分析Start time(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
+        end_time: 分析End time(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点
+                  分析时间间隔范围must be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: 智能分析类型列表(Required),数组大小:1~4,取值范围:
             - highLatency: 高时延
             - healthAnalysis: 健康快检
@@ -381,7 +381,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         - data: 智能分析任务响应结果列表，每项包含:
             - id: 任务 ID
             - analysis_type: 分析类型
-            - error_msg: 错误信息
+            - error_msg: Error message
             - is_succeed: 是否创建成功
     """
     url = "/rest/diagnosis/v1/tasks"
@@ -415,8 +415,8 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
 
     Args:
         client: DME API client
-        begin_time: 开始时间(Required,Unix 时间戳毫second(s))
-        end_time: 结束时间(Required,Unix 时间戳毫second(s))
+        begin_time: Start time(Required,Unix 时间戳毫second(s))
+        end_time: End time(Required,Unix 时间戳毫second(s))
         object_type_id: Object type ID(Required,1~32 个字符)
         object_ids: object ID 列表(Required,最多 2000 个,ID 长度 1~32 位)
         indicator_ids: 指标 ID 列表(Required,最多 20 个,ID 长度 1~16 位)
@@ -463,7 +463,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     """
     查询历史Performance data
 
-    根据传入参数中的"range"字段所取的枚举值或从开始到结束时间范围内的查询数据.
+    根据传入参数中的"range"字段所取的枚举值或从开始到End time范围内的查询数据.
     有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应时间戳.
 
     使用说明:
@@ -496,7 +496,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                取值范围:LAST_5_MINUTE(最近 5 minute(s)), LAST_1_HOUR(最近 1 hour(s)),
                LAST_1_DAY(最近 1 day(s)), LAST_1_WEEK(最近 1 week(s)), LAST_1_MONTH(最近 1 个month(s)),
                LAST_1_QUARTER(最近 3 个month(s)), HALF_1_YEAR(最近半year(s)), LAST_1_YEAR(最近 1 year(s)),
-               BEGIN_END_TIME(自行设置开始和结束时间), INVALID(无效值)
+               BEGIN_END_TIME(自行设置开始和End time), INVALID(无效值)
         begin_time: 查询开始时刻(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 end_time 小
         end_time: 查询结束时刻(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 begin_time 大
 
@@ -613,8 +613,8 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
         client: DME API client
         type: 数据类型（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
         object_id: 资源 ID（Required，1~256 个字符）
-        begin_time: 开始时间（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
-        end_time: 结束时间（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
+        begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
+        end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
         object_type: Resource type（Required）
         indicator: Resource type所对应的指标（capacity_prediction 和 performance_prediction Required）
 
@@ -658,13 +658,13 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         client: DME API client
         object_type: Object type（Required）
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
-                           storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤交换机端口）,
+                           storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤Switch port）,
                            storage_file_system（Filesystem）, controller（控制器）, replication_cg（远程复制Consistency group）,
                            volume（LUN）, tier（Service level）, datastore（数据存储）, virtual_machine（虚拟机）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
         object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
-        page_no: 分页查询的Start position（Optional，min：1）
+        page_no: Page queryStart position（Optional，min：1）
         page_size: Items per page（Optional，1~100，默认 20）
         sort_key: Sort field（Optional），按分数进行排序，Optional值：health_score
         sort_dir: 排序方式（Optional），Optional值：asc, desc
@@ -813,7 +813,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         sort_dir: 排序方式（asc-正序，desc-降序）
         administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
-        object_category: object分类（Storage-Storage device，IPSwitch-以太网交换机，FCSwitch-光纤交换机，
+        object_category: object分类（Storage-Storage device，IPSwitch-以太网交换机，FCSwitch-Fibre Channel switch，
                        Virtualization-虚拟化，Server-服务器，HCI-超融合，Client-客户端）
 
     Returns:
@@ -1065,13 +1065,13 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
             - vm: 虚拟机
             - datastore: 数据存储
             - application: 应用
-            - switch_port: 交换机端口
+            - switch_port: Switch port
             - storage_pool: Storage pool
         storage_pool_id: Storage pool ID（Required）
         lun_name: LUN 名称，supports fuzzy match
         san_type: SAN 类型，Optional值：ip_san, fc_san
         page_size: Items per page，1~20，默认 20
-        page_no: 分页查询的Start position，默认 1
+        page_no: Page queryStart position，默认 1
 
     Returns:
         {
@@ -1121,7 +1121,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - vm: 虚拟机
             - datastore: 数据存储（仅 FC_SAN）
             - application: 应用（仅 FC_SAN）
-            - switch_port: 交换机端口（仅 FC_SAN）
+            - switch_port: Switch port（仅 FC_SAN）
             - storage_pool: Storage pool
         san_type: SAN 类型（Optional），Optional值：ip_san, fc_san
                   - 不指定时，同时调用 IP_SAN 和 FC_SAN 两个 API，组合返回数据
@@ -1165,7 +1165,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
         return result
 
-    # 如果指定了 san_type，只调用对应的 API
+    # if specified san_type，只调用对应的 API
     elif san_type == 'ip_san':
         url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         payload = {"entry_objects": entry_objects}
@@ -1205,12 +1205,12 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
             - storage: Storage device
             - lun: LUN
             - datastore: 数据存储
-            - switch_port: 交换机端口
+            - switch_port: Switch port
             - storage_pool: Storage pool
         host_id: 主机 ID（Required）
         vm_name: 虚拟机名称搜索参数，supports fuzzy match
         page_size: Items per page，1~20，默认 20
-        page_no: 分页查询的Start position，默认 1
+        page_no: Page queryStart position，默认 1
 
     Returns:
         {
@@ -1354,7 +1354,7 @@ ACTIONS = {
         'params': ['task_id'],
         'subtopic': 'diagnose_task'
     },
-    # performance 子主题动作
+    # performance subtopic actions
     'performance_create_collect_task': {
         'func': performance_create_collect_task,
         'description': '创建性能文件收集任务',
@@ -1391,7 +1391,7 @@ ACTIONS = {
         'params': ['filter'],
         'subtopic': 'performance'
     },
-    # check_result 子主题动作
+    # check_result subtopic actions
     'check_result_list': {
         'func': check_result_list,
         'description': '查询检查策略异常检查结果列表',
@@ -1404,7 +1404,7 @@ ACTIONS = {
         'params': ['check_result_id'],
         'subtopic': 'check_result'
     },
-    # check_policy 子主题动作
+    # check_policy subtopic actions
     'check_policy_list': {
         'func': check_policy_list,
         'description': '查询检查策略列表',
@@ -1435,7 +1435,7 @@ ACTIONS = {
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
-    # topology 子主题动作
+    # topology subtopic actions
     'topology_query_san_path': {
         'func': topology_query_san_path,
         'description': '查询 SAN 路径拓扑结构（支持 IP_SAN 和 FC_SAN）',
@@ -1460,7 +1460,7 @@ ACTIONS = {
         'params': ['entry_res_type', 'entry_res_id', 'type', 'filter'],
         'subtopic': 'topology'
     },
-    # health 子主题动作
+    # health subtopic actions
     'health_query_data': {
         'func': health_query_data,
         'description': '查询健康度相关数据（Capacity prediction/性能预测/性能异常）',

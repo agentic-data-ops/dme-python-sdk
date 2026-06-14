@@ -95,7 +95,7 @@ class DMECLI:
                             continue
                         
                         if subtopic:
-                            # 子主题动作 (three-level structure)
+                            # subtopic actions (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
                             # 提取动作名（去掉子主题前缀，支持空格或下划线分隔）
@@ -924,7 +924,7 @@ def main():
                     print(f"提示：可用动作包括：{', '.join(available)}")
                 return
 
-        # 如果指定了 --help，显示帮助；否则执行动作
+        # if specified --help，显示帮助；否则执行动作
         if show_help:
             # 显示帮助（不需要登录）
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)

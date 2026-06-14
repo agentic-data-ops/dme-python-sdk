@@ -17,7 +17,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: CMDB系统名称（Optional，supports fuzzy search）
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
 
     Returns:
@@ -53,7 +53,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
         system_id: CMDB系统ID（Optional）
         name: Host name（Optional，supports fuzzy search）
         ip: Host IP（Optional）
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
 
     Returns:
@@ -116,7 +116,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
         client: DME API client
         system_id: CMDB系统ID（Optional）
         name: 应用名称（Optional，supports fuzzy search）
-        page_no: 分页查询的Start page，默认 1
+        page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
 
     Returns:
@@ -173,7 +173,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
 
 ACTIONS = {
-    # cmdb 子主题动作
+    # cmdb subtopic actions
     'cmdb_system_list': {
         'func': cmdb_system_list,
         'description': '查询CMDB system list',

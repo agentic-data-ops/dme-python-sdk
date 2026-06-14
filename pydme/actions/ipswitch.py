@@ -14,7 +14,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     
     Args:
         client: DME API client
-        name: 交换机名称（Optional，supports fuzzy search）
+        name: Switch name（Optional，supports fuzzy search）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -23,7 +23,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
             total: Total count (integer),
             data_list: Switch list。参数格式如下：[{
                 id: 交换机ID (string),
-                name: 交换机名称 (string),
+                name: Switch name (string),
                 status: 状态 (string),
             }, ...],
         }
@@ -179,7 +179,7 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
 
 def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP 交换机端口列表信息
+    查询 IP Switch port列表信息
     
     Args:
         client: DME API client
@@ -244,7 +244,7 @@ ACTIONS = {
     },
     'port_list': {
         'func': port_list,
-        'description': '查询 IP 交换机端口列表信息',
+        'description': '查询 IP Switch port列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },

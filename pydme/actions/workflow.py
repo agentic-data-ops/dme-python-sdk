@@ -145,8 +145,8 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
         - params: 执行实例参数
         - step_list: 实例的步骤列表
-        - start_time: 实例执行的开始时间（毫second(s)）
-        - end_time: 实例执行的结束时间（毫second(s)）
+        - start_time: 实例执行的Start time（毫second(s)）
+        - end_time: 实例执行的End time（毫second(s)）
         - instance_type: 实例类型（PRECHECK/EXECUTION）
         - template_version_id: 实例对应的模板版本 id
     """
@@ -222,7 +222,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
 # ==================== 动作注册信息 ====================
 
 ACTIONS = {
-    # template 子主题动作
+    # template subtopic actions
     'template_list': {
         'func': template_list,
         'description': '分页查询Template list',
@@ -241,7 +241,7 @@ ACTIONS = {
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },
-    # instance 子主题动作
+    # instance subtopic actions
     'instance_stop': {
         'func': instance_stop,
         'description': '停止实例',
