@@ -173,8 +173,8 @@ def lun_show(client: DMEAPIClient, volume_id: str) -> dict:
 def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                   lun_specs_pass_through: list = None, pool_id: str = None,
                   vstore_id: str = None, owner_controller: str = None,
-                  initial_distribute_policy: str = None, prefetch_policy: str = None,
-                  prefetch_value: int = None, tuning: dict = None,
+                  initial_distribute_policy: str = None, prefetchetch_policy: str = None,
+                  prefetchetch_value: int = None, tuning: dict = None,
                   mapping: dict = None, task_remarks: str = None) -> dict:
     """
     Custom create LUN
@@ -207,9 +207,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: Initial capacity allocation policy(Optional) , Huawei V3/V5 and Dorado series onlyries not support; 
                                   Options: automatic, highest_performance, performance, capacity; default automatic
-        prefetch_policy: Prefetch policy (Optional) , Affects disk read; 
-                        Options: no_prefetch ( no prefetch) , constant_prefetch (Fixed prefetch) , variable_prefetch (Variable prefetch) , intelligent_prefetch (Smart prefetch) ; default intelligent_prefetch
-        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set to fixed or variable prefetchetchetchfetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
+        prefetchetch_policy: Prefetch policy (Optional) , Affects disk read; 
+                        Options: no_prefetchetch ( no prefetchetch) , constant_prefetchetch (Fixed prefetchetch) , variable_prefetchetch (Variable prefetchetch) , intelligent_prefetchetch (Smart prefetchetch) ; default intelligent_prefetchetch
+        prefetchetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetchetch_policy is set to fixed or variable prefetchetchetchetchfetch; Fixed prefetchetchvalue range 0~1024KB, Variable prefetchetch value range 0~1024 倍
         tuning:  tuning (Optional), CustomizeLunTuning object.  parameter format: {
                 smart_tier: Data migration policy. Options: no_migration, automatic_migration, migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
                 deduplication_enabled: Deduplication (Thin LUN only). Options: true, false,
@@ -234,7 +234,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN group ID on storage device (1~31 characters),
                         lun_group_name: LUN group name on storage device (1~255 characters),
-                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existip时可 specified, 存在Mapping relationship not available when specified),
+                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not exist specified, 存在Mapping relationship not available when specified),
                 },
              }
         task_remarks: Async taskRemark(Optional) ,  max 1024  characters
@@ -265,10 +265,10 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         payload['owner_controller'] = owner_controller
     if initial_distribute_policy is not None:
         payload['initial_distribute_policy'] = initial_distribute_policy
-    if prefetch_policy is not None:
-        payload['prefetch_policy'] = prefetch_policy
-    if prefetch_value is not None:
-        payload['prefetch_value'] = prefetch_value
+    if prefetchetch_policy is not None:
+        payload['prefetchetch_policy'] = prefetchetch_policy
+    if prefetchetch_value is not None:
+        payload['prefetchetch_value'] = prefetchetch_value
     if tuning is not None:
         payload['tuning'] = tuning
     if mapping is not None:
@@ -312,7 +312,7 @@ def lun_delete(client: DMEAPIClient, volume_ids: list, task_remarks: str = None)
 
 def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
                   description: str = None, owner_controller: str = None,
-                  prefetch_policy: str = None, prefetch_value: int = None,
+                  prefetchetch_policy: str = None, prefetchetch_value: int = None,
                   tuning: dict = None, task_remarks: str = None) -> dict:
     """
     Modify a specified LUN
@@ -323,9 +323,9 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
         name: New name (Optional, 1~255 characters)
         description: Modify LUN description (Optional, 0~255 characters)
         owner_controller: Owner controller (Optional, only non-service LUNs support modification)
-        prefetch_policy: Prefetch policy (Optional, only non-service LUNs support modification)
-                        Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch)
-        prefetch_value: Prefetch policy value (Optional, only non-service LUNs support modification)
+        prefetchetch_policy: Prefetch policy (Optional, only non-service LUNs support modification)
+                        Options: 0 (no prefetchetch), 1 (fixed prefetchetch), 2 (variable prefetchetch), 3 (smart prefetchetch)
+        prefetchetch_value: Prefetch policy value (Optional, only non-service LUNs support modification)
         tuning: LUN tuning properties (Optional, only non-service LUNs support modification).  parameter format: {
                 smarttier: Data migration policy (Optional, default 0). Options: 0 (no migration), 1 (auto migration), 2 (migrate to higher tier), 3 (migrate to lower tier),
                 smartqos: SmartQos4Update object (Optional).  format: {
@@ -357,10 +357,10 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
         volume['description'] = description
     if owner_controller is not None:
         volume['owner_controller'] = owner_controller
-    if prefetch_policy is not None:
-        volume['prefetch_policy'] = prefetch_policy
-    if prefetch_value is not None:
-        volume['prefetch_value'] = prefetch_value
+    if prefetchetch_policy is not None:
+        volume['prefetchetch_policy'] = prefetchetch_policy
+    if prefetchetch_value is not None:
+        volume['prefetchetch_value'] = prefetchetch_value
     if tuning is not None:
         volume['tuning'] = tuning
 
@@ -612,8 +612,8 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
                 availability_zone: Availability zone id (Optional, 0~64 characters),
                 owner_controller: Owner controller (Optional, 0~64 characters),
                 initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Options: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
-                prefetch_policy: Prefetch policy (Optional). Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
-                prefetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
+                prefetchetch_policy: Prefetch policy (Optional). Options: 0 (no prefetchetch), 1 (fixed prefetchetch), 2 (variable prefetchetch), 3 (smart prefetchetch). Default 3,
+                prefetchetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
                 tuning: CustomizeVolumeTuning object (Optional).  format: {
                         smartqos: SmartQos object (Optional).  format: {
                                 name: Smart QoS name (Optional, 1~255 characters),
@@ -745,8 +745,8 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
                 availability_zone: Availability zone id (Optional, 0~64 characters),
                 owner_controller: Owner controller (Optional, 0~64 characters),
                 initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Options: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
-                prefetch_policy: Prefetch policy (Optional). Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
-                prefetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
+                prefetchetch_policy: Prefetch policy (Optional). Options: 0 (no prefetchetch), 1 (fixed prefetchetch), 2 (variable prefetchetch), 3 (smart prefetchetch). Default 3,
+                prefetchetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
                 tuning: CustomizeVolumeTuning object (Optional).  format: {
                         smartqos: SmartQos object (Optional).  format: {
                                 name: Smart QoS name (Optional, 1~255 characters),
@@ -1373,7 +1373,7 @@ def storage_host_modify(client: DMEAPIClient, storage_host_id: str,
                 special_mode_type: Special mode type (Optional, effective when mode is special). Options: mode_zero, mode_one, mode_two, mode_three,
              }
         access_mode: Host access mode (Optional, Dorado V6+ only). Options: balanced, asymmetric
-        hyper_metro_path_optimized: HyperMetro preferred path (Optional, Dorado V6+ only). Options: true, false
+        hyper_metro_path_optimized: HyperMetro prefetcherred path (Optional, Dorado V6+ only). Options: true, false
         task_remarks: Async task remark (Optional, max 1024 characters)
 
     Returns:
@@ -1634,7 +1634,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                      }, ...],
                 multipath:  multipath config (Optional).  format: {
                         multipath_type: Third-party multipath policy (Required). Options: default (default), third_party (Third-party multipath),
-                        path_type: Initiator path type (Optional,  effective when third-party multipath is enabledmal_path (Preferred path), non_optimal_path (非Preferred path),
+                        path_type: Initiator path type (Optional,  effective when third-party multipath is enabled. Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
                         failover_mode: Initiator switch mode (Optional,  effective when third-party multipath is enabled). Options: early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (Optional, effective when failover mode is special). Options: mode_zero, mode_one, mode_two, mode_three,
                 }
@@ -3108,7 +3108,7 @@ ACTIONS = {
     'lun_create': {
         'func': lun_create,
         'description': 'Custom create LUN',
-        'params': ['storage_id', 'lun_specs', 'lun_specs_pass_through', 'pool_id', 'vstore_id', 'owner_controller', 'initial_distribute_policy', 'prefetch_policy', 'prefetch_value', 'tuning', 'mapping', 'task_remarks'],
+        'params': ['storage_id', 'lun_specs', 'lun_specs_pass_through', 'pool_id', 'vstore_id', 'owner_controller', 'initial_distribute_policy', 'prefetchetch_policy', 'prefetchetch_value', 'tuning', 'mapping', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_delete': {
@@ -3120,7 +3120,7 @@ ACTIONS = {
     'lun_modify': {
         'func': lun_modify,
         'description': 'Modify a specified LUN',
-        'params': ['volume_id', 'name', 'description', 'owner_controller', 'prefetch_policy', 'prefetch_value', 'tuning', 'task_remarks'],
+        'params': ['volume_id', 'name', 'description', 'owner_controller', 'prefetchetch_policy', 'prefetchetch_value', 'tuning', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_modify_name': {

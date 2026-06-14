@@ -2326,7 +2326,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
+                running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (pendingsume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
                 operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2340,11 +2340,11 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
                 current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
                 current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-                role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4eplication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
+                role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 (replication)cation), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
                 ddns_status: Dynamic DNS status. Options: INVALID, ENABLE, DISABLED,
-                failover_group_raw_id: Failover group business typelover group ID on storage device (1~255 characters),
+                failover_group_raw_id: Failover group ID on storage device (1~255 characters),
                 failover_group_name: Failover group business typelover group name (1~255 characters),
-                support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+                support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS, NFS_AND_CIFS (NFS and CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
                 logical_type:  logical type. Options: SERVICE, MANAGEMENT, MAINTENANCEaintenancetenance port),
                 listen_dns_query_enabled:  Whether to listen for DNS queries (1~255 characters). Options: NO, YES,
                 management_access: Management access method (1~255 characters),
@@ -2405,7 +2405,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             id:  logicalPort ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
+            running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (pendingsume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
             operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2419,11 +2419,11 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
             current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
             current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-            role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4eplication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
+            role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 (replication)cation), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
             ddns_status: Dynamic DNS status. Options: INVALID, ENABLE, DISABLED,
-            failover_group_raw_id: Failover group business typelover group ID on storage device (1~255 characters),
+            failover_group_raw_id: Failover group ID on storage device (1~255 characters),
             failover_group_name: Failover group business typelover group name (1~255 characters),
-            support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+            support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS, NFS_AND_CIFS (NFS and CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
             logical_type:  logical type. Options: SERVICE, MANAGEMENT, MAINTENANCEaintenancetenance port),
             listen_dns_query_enabled:  Whether to listen for DNS queries (1~255 characters). Options: NO, YES,
             management_access: Management access method (1~255 characters),
@@ -2476,7 +2476,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         address_family: IPProtocol version (Required). Options: IPv4 (IPv4), IPv6 (IPv6)
         home_port_type: Parent port type (Required). Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB)
         zone_raw_id: Zoneon the deviceID (Required, 1~64 characters) , OceanStor A800 series only
-        scope:  range (Required). Options: hyperscale, default. OceanStor A800 series only. Data accesscess protocol is KB_OVER_TCP时 value only supportsdefault
+        scope:  range (Required). Options: hyperscale, default. OceanStor A800 series only. Data access protocol is KB_OVER_TCP时 value only supportsdefault
         mgmt_ip: Logic portIP address(IPV4)(Optional, max64 characters, IPv4 format) 
         ipv4_mask: Logic portIPNetmask(IPV4)(Optional, max64 characters) 
         ipv4_gateway: Logic port gatewayIP address(IPV4)(Optional, max64 characters) 
@@ -2487,13 +2487,13 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         support_protocol: Logic port supported protocols(Optional). Options: NFS (NFS protocol), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NFS_OVER_RDMA (NFS over RDMA protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). when role is CLIENT, do not send this field
         operational_status: Active status(Optional). Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive)
         home_controller_id: ControllerID(Optional, 1~64 characters) . when role is HEALTH_CHECK, this field is required
-        failover_group_raw_id: Failover group business typelover group ID on storage device(Optional, max64 characters) . Data accesscess protocol is KB_OVER_TCP时, this field is required
+        failover_group_raw_id: Failover group ID on storage device(Optional, max64 characters) . Data access protocol is KB_OVER_TCP时, this field is required
         vstore_raw_id: Logic port vStore ID on device(Optional, max64 characters) . when role is CLIENT, do not send this field
         role: Logic port role(Optional, default DATA). Options: MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
-        dns_zone_name: DNS zone name (Optional, max255 characters) . when role is CLIENT或Data accesscess protocol is KB_OVER_TCP时, do not send this field
-        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when role is CLIENT或Data accesscess protocol is KB_OVER_TCP时, do not send this field
-        can_failover: Enable IP address drift(Optional, boolean). Options: true, false. Data accesscess protocol is KB_OVER_TCP时, do not send this field
-        failback_mode: Drift-back mode(Optional). Options: not_support, manual, automatic. Data accesscess protocol is KB_OVER_TCP时, do not send this field
+        dns_zone_name: DNS zone name (Optional, max255 characters) . when role is CLIENT或Data access protocol is KB_OVER_TCP时, do not send this field
+        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when role is CLIENT或Data access protocol is KB_OVER_TCP时, do not send this field
+        can_failover: Enable IP address drift(Optional, boolean). Options: true, false. Data access protocol is KB_OVER_TCP时, do not send this field
+        failback_mode: Drift-back mode(Optional). Options: not_support, manual, automatic. Data access protocol is KB_OVER_TCP时, do not send this field
 
     Returns:
         {
@@ -2661,7 +2661,7 @@ def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
     """
-    Failover group business typelback logic port (仅 OceanStor A800 series storage only) 
+    Failback logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
@@ -2996,7 +2996,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
         failover_group_type: Failover group business typelover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover_group_service_type: Failover group business typelover group business type list(Optional, List<string>, max array members: 10). Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group)
+        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group)
 
     Returns:
         {
@@ -3005,11 +3005,11 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                 id: Failover group business typelover groupid (1~64 characters),
                 name: Failover group business typelover group name (1~64 characters),
                 failover_group_type: Failover group business typelover group type (1~255 characters). Options: system, VLAN, customized,
-                raw_id: Failover group business typelover group ID on storage device (1~255 characters),
+                raw_id: Failover group ID on storage device (1~255 characters),
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only,
                 zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
                 zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
-                failover_group_service_type: Failover group business typelover group business type. Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group),
+                failover_group_service_type: Failover group business type. Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group),
             }, ...]
         }
     """
@@ -3523,7 +3523,7 @@ ACTIONS = {
     },
     'logic_port_failback': {
         'func': logic_port_failback,
-        'description': 'Failover group business typelback logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Failback logic port (仅 OceanStor A800 series storage only) ',
         'params': ['id'],
         'subtopic': 'logic_port'
     },
