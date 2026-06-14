@@ -3377,7 +3377,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         name: Username,  supports fuzzy search filter (1~256 characters, Optional)
         primary_group_name: Primary group name,  supports fuzzy search filter (1~256 characters, Optional)
         raw_id: user on the storage device ID (1~255 characters, Optional)
-        zone_id: Zone ID (1~64 characters, Optional). 仅 OceanStor A800  storage underauth usersupports filtering by this field
+        zone_id: Zone ID (1~64 characters, Optional). OceanStor A800  storage underauth usersupports filtering by this field
         user_status: User status (Optional). Options: enable, disable
         sort_key: sort by specified field (Optional). Options: name (Username), raw_id (user on the storage device ID), primary_group_name ( primary group name), create_time (Creation time). Default: create_time
         storage_id: Storage device ID (1~36 characters, Optional)
@@ -3459,7 +3459,7 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         raw_id: UNIX user ID (int64, 0~4294967294, Optional. OceanStor Pacific and A310 required)
         description: UNIX user  description (0~255 characters, Optional)
         primary_group_raw_id: user primary group ID (int64, 0~4294967294, Optional. provide at least one with primary_group_name,  if both sent, only primary_group_name effective)
-        primary_group_name: User primary group name (1~64 characters, Optional. 与 primary_group_raw_id provide at least one,  if both sent, only primary_group_name effective)
+        primary_group_name: User primary group name (1~64 characters, Optional. with primary_group_raw_id provide at least one,  if both sent, only primary_group_name effective)
         vstore_raw_id: user Tenanton the storage device ID (1~32 characters, Required)
         zone_id:  Zone ID (1~64 characters, Optional. OceanStor A800 only)
         status: User status (boolean, Optional. Default: true). Options: true, false. OceanStor Pacific and A310 only10 series storage only

@@ -2490,8 +2490,8 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         failover_group_raw_id: Failover group ID on storage device(Optional, max64 characters) . Data access protocol is KB_OVER_TCP时, this field is required
         vstore_raw_id: Logic port vStore ID on device(Optional, max64 characters) . when role is CLIENT, do not send this field
         role: Logic port role(Optional, default DATA). Options: MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
-        dns_zone_name: DNS zone name (Optional, max255 characters) . when role is CLIENT或Data access protocol is KB_OVER_TCP时, do not send this field
-        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when role is CLIENT或Data access protocol is KB_OVER_TCP时, do not send this field
+        dns_zone_name: DNS zone name (Optional, max255 characters) . when role is CLIENT or data access protocol is KB_OVER_TCP时, do not send this field
+        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when role is CLIENT or data access protocol is KB_OVER_TCP时, do not send this field
         can_failover: Enable IP address drift(Optional, boolean). Options: true, false. Data access protocol is KB_OVER_TCP时, do not send this field
         failback_mode: Drift-back mode(Optional). Options: not_support, manual, automatic. Data access protocol is KB_OVER_TCP时, do not send this field
 
@@ -2559,7 +2559,7 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
                       dns_zone_name: str = None, listen_dns_query_enabled: str = None,
                       can_failover: bool = None, failback_mode: str = None) -> dict:
     """
-    Modify logic port (仅 OceanStor A800 series storage only) 
+    Modify logic port (OceanStor A800 only) 
 
     Args:
         client: DME API client
@@ -2638,7 +2638,7 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
 
 def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Delete logic port (仅 OceanStor A800 series storage only) 
+    Delete logic port (OceanStor A800 only) 
 
     Args:
         client: DME API client
@@ -2661,7 +2661,7 @@ def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
     """
-    Failback logic port (仅 OceanStor A800 series storage only) 
+    Failback logic port (OceanStor A800 only) 
 
     Args:
         client: DME API client
@@ -2700,7 +2700,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         ipv4: IPv4  address(Optional, ETH port only, 1~255  characters) 
         ipv6: IPv6  address(Optional, ETH port only, 1~255  characters) 
         port_name: Port name(Optional, ETH port only, 1~255  characters) 
-        zone_id: Storage device的 Zone ID(Optional, Bond port only, 1~36  characters) 
+        zone_id: Storage device zone ID(Optional, Bond port only, 1~36  characters) 
         page_no: Page number(Optional, FC/SAS port support, 1~10000, default 1) 
         page_size: per pagecount(Optional, FC/SAS port support, 1~1000, default 20) 
 
@@ -2996,7 +2996,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
         failover_group_type: Failover group business typelover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group)
+        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS. Logic port failover groupness typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group)
 
     Returns:
         {
@@ -3009,7 +3009,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only,
                 zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
                 zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
-                failover_group_service_type: Failover group business type. Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group),
+                failover_group_service_type: Failover group business type. Options: NAS. Logic port failover groupness typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group),
             }, ...]
         }
     """
@@ -3508,7 +3508,7 @@ ACTIONS = {
     },
     'logic_port_update': {
         'func': logic_port_update,
-        'description': 'Modify logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Modify logic port (OceanStor A800 only) ',
         'params': ['logic_port_id', 'name', 'address_family', 'mgmt_ip', 'ipv4_mask', 'ipv4_gateway',
                    'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway', 'home_port_raw_id', 'home_port_type',
                    'operational_status', 'failover_group_raw_id', 'dns_zone_name',
@@ -3517,13 +3517,13 @@ ACTIONS = {
     },
     'logic_port_delete': {
         'func': logic_port_delete,
-        'description': 'Delete logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Delete logic port (OceanStor A800 only) ',
         'params': ['ids'],
         'subtopic': 'logic_port'
     },
     'logic_port_failback': {
         'func': logic_port_failback,
-        'description': 'Failback logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Failback logic port (OceanStor A800 only) ',
         'params': ['id'],
         'subtopic': 'logic_port'
     },

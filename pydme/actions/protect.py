@@ -198,7 +198,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         is_delay: Deferred execution (Optional) , default true. When deferred execution is true, if new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false:  directlySplitConsistency group和新 Pair, join new pair to consistency group, then sync consistency group
                         create_mode: Remote replication pair creation mode (Required) , Options: auto, manual
                         remote_storage_id: Remote storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
-                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Replication pair creationation pair creation mode为 auto effective when
+                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Replication pair creationation pair creationation pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
                         name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
                         name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
@@ -1286,7 +1286,7 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: Storage device ID
 
     Returns:
-        Replication pair creationation link list
+        Replication pair creationation pair creationation link list
     """
     url = "/rest/protection/v1/replication-links/query"
 
@@ -1767,9 +1767,9 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         description: Description
         remote_lun_group_id: Remote LUN group ID. Required for OceanStor V6/Dorado V6 when local PG is based on LUN groupred when
         local_storage_id: local Storage device ID, Required for non-V6/non-Dorado V6
-        create_mode: Replication pair creationation pair creation mode, Options: auto , manual 
+        create_mode: Replication pair creationation pair creationation pair creation mode, Options: auto , manual 
         existed_pair_ids: Existing replication Pair  ID  list
-        lun_pairs: In manual create mode,  Replication pair creationation pair source and target LUN ID list
+        lun_pairs: In manual create mode,  Replication pair creationation pair creationation pair source and target LUN ID list
         lun_ids: In auto-create mode, Source LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode
