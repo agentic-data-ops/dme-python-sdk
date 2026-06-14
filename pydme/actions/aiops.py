@@ -1332,7 +1332,7 @@ ACTIONS = {
     },
     'alarm_unack': {
         'func': alarm_unack,
-        'description': ' cancelAcknowledgege alarm',
+        'description': 'Cancel acknowledge alarm',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
