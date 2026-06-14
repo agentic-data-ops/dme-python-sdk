@@ -1772,7 +1772,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_hard_quota: File hard quota(Optional) , -1 field is invalid; When both file hard/soft quotas arewhen both valid, File hard quota must exceed soft quota
         file_advisory_quota: File advisory quota(Optional) , -1 field is invalid; OceanStor Pacific only; When advisory quota and hard/soft quota are both valid hard/soft quotawhen both valid, Advisory quota must be less than hard or soft quota
         snap_space_switch: Include snapshot space(Optional) , true: Include snapshot space; false: Exclude snapshot space; OceanStor Pacific only
-        soft_grace_time: Grace period (Optional), 0~4294967294, in days. Grace period before soft limit becomes hard limit. If not sent or value is 0, only warning when soft quota exceeded.t quota warning only quota warning onlyft quota reached, warning only; 仅 OceanStor Pacific  support
+        soft_grace_time: Grace period (Optional), 0~4294967294, in days. Grace period before soft limit becomes hard limit. If not sent or value is 0, only warning when soft quota exceeded.t quota warning only quota warning only when soft quota reached; OceanStor Pacific only
         task_remarks: Async taskRemark
 
     Returns:
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format: {
-                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_mode (Audit log), non_worm (非WORM),
+                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_mode (Audit log), non_worm (non-WORM),
                 min_protect_period: Min protection period (Optional, default 0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2408,7 +2408,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open). Options: true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
-                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink value和Filesystem capacity),
+                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink value and filesystem capacity),
                 min_auto_size:  Auto-shrink lower limit in GB (Optional, 1~33554432, default 33554432),
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
@@ -2530,7 +2530,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         pool_name: Storage pool name(Optional) , 1~256  characters,  supports fuzzy search
         storage_id: Storage device ID(Optional) , 1~255  characters
         enable_encrypt: Enable encryption (Optional) , true: yes; false: no
-        support_provisioning: Supports service provisioning(Optional) , true: yes; false: no; send this field to filter unsupported service provisioningg device的 resource,  currently not supportService provisioning的 device有 DataTurbo 系列
+        support_provisioning: Supports service provisioning(Optional) , true: yes; false: no; send this field to filter unsupported service provisioningg device resource,  currently not support service provisioning. DevicesDataTurbo series
         gfs_id: Global namespace ID(Optional) , 1~64  characters
         gfs_name:  globalNamespace name(Optional) , 1~256  characters
         has_gfs: Include global namespace namespaces(Optional) , true: yes; false: no; has_gfs=false not supported when gfs_id is set
@@ -2678,7 +2678,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 legal_hold_modify: Legal hold file retention period modification switch (Optional, defaultfalse). Options: true, false,
              }
         qos_policy: QoS Policy configuration.  parameter format: {
-                qos_scale: upper limit control维度 (Required). Options: namespace, client, account, user, innertask,
+                qos_scale: upper limit controldimension (Required). Options: namespace, client, account, user, innertask,
                 name: QoS policy name (Optional, 1~63 character,  regex^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit),
                 qos_mode: QoS mode (Required). Options: by_usage, by_package, manual,
                 account_raw_id: Account ID on storage device (Optional, 0~4294967293; required when qos_scale is namespace/account/user),
@@ -3042,7 +3042,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         storage_id:  device ID (1~64 characters, Optional)
         vstore_id:  Tenant ID (1~64 characters, Optional)
         vstore_name:  tenant name,  supports fuzzy search (1~256 characters, Optional)
-        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device ID. When resource scope is local, Zone ID 为 Zone ID. OceanStor A800 series only
+        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device ID. When resource scope is local, Zone ID is the zone ID. OceanStor A800 series only
         name: DataTurbo admin name,  supports fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (Optional). Options: offline, online
         lock_status: DataTurbo admin lock status (Optional). Options: unlocked, locked

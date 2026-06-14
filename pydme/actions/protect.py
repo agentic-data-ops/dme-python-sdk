@@ -182,27 +182,27 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         client: DME API client
         pg_id: Protection group ID
         lun_ids: to add to protection group LUN ID list (Optional) , max array members 100, mutually exclusive with hyper_metro and rem_reps lun_pairs parameter; Protection group does not existactive-active, replication, ring 3DC parameter effective when feature exists
-        hyper_metro: request parameter forr adding LUN to active-active protection group (Optional) , mutually exclusive with lun_ids parameter; Protection group has active-active feature exists.  forrmat: {
-                        is_delay: Deferred execution (Required) , true/false. When deferred execution is true, if consistency group or new pair is synccing,  will wait forr syncc to complete beforre, new pair joins consistency group; when deferred execution is false: if consistency group or new pair is synccing,  directly pause consistency group和新 Pair, join new pair to consistency group, then syncc consistency group
+        hyper_metro: request parameter for adding LUN to active-active protection group (Optional) , mutually exclusive with lun_ids parameter; Protection group has active-active feature exists.  format: {
+                        is_delay: Deferred execution (Required) , true/false. When deferred execution is true, if consistency group or new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false: if consistency group or new pair is syncing,  directly pause consistency groupand new pair, join new pair to consistency group, then sync consistency group
                         create_mode: Active-active pair creation mode (Required) , Options: auto, manual
                         remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Effective when active-active pair creation mode is auto
                         remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
                         name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
                         name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs:  manually configured active-active pair infor list (Optional) , max array members 100; effective when create_mode is manual.  forrmat: [{
+                        lun_pairs:  manually configured active-active pair infor list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
                                 local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
                                 remote_lun_id: Remote LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: request parameter forr adding LUN to replication-capable protection group (Optional) , max array members 2, mutually exclusive with lun_ids parameter; Protection group has replication feature exists.  forrmat: [{
-                        is_delay: Deferred execution (Optional) , default true. When deferred execution is true, if new pair is synccing,  will wait forr syncc to complete beforre, new pair joins consistency group; when deferred execution is false:  directlySplitConsistency group和新 Pair, join new pair to consistency group, then syncc consistency group
+        rem_reps: request parameter for adding LUN to replication-capable protection group (Optional) , max array members 2, mutually exclusive with lun_ids parameter; Protection group has replication feature exists.  format: [{
+                        is_delay: Deferred execution (Optional) , default true. When deferred execution is true, if new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false:  directlySplitConsistency groupand new pair, join new pair to consistency group, then sync consistency group
                         create_mode: Remote replication pair creation mode (Required) , Options: auto, manual
                         remote_storage_id: Remote storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
-                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Replication pair creationtion pair creationtion pair creation mode为 auto effective when
+                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Replication pair creationtion pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
                         name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
                         name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs:  manually configured remote replication pair infor list (Optional) , max array members 100; effective when create_mode is manual.  forrmat: [{
+                        lun_pairs:  manually configured remote replication pair infor list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
                                 local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
                                 remote_lun_id: Remote LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
@@ -239,7 +239,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
         client: DME API client
         pg_id: Protection group ID
         lun_ids: to be removedProtection group member LUN ID list
-        is_delay: Deferred execution. In remote replication, syncc + asyncc ring 3DC case, this parameter is N/A
+        is_delay: Deferred execution. In remote replication, sync + async ring 3DC case, this parameter is N/A
 
     Returns:
         {
@@ -332,10 +332,10 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         domain_id: Active-active domain ID
         name: Active-active consistency group name
         local_storage_id: local  device ID
-        local_pg_id: Local protection group ID,  conditionally required forr OceanStor Dorado V6+, required forr OceanStor V6
+        local_pg_id: Local protection group ID,  conditionally required for OceanStor Dorado V6+, required for OceanStor V6
         description: Description
         create_mode: Active-active pair creation mode, Options: auto , manual 
-        remote_vstore_id: Remote device tenant ID,  conditionally required when create_mode is auto forr OceanStor Dorado 6.1.3 version and above
+        remote_vstore_id: Remote device tenant ID,  conditionally required when create_mode is auto for OceanStor Dorado 6.1.3 version and above
         remote_storage_pool_id: Remote storage pool ID,  conditionally required when create_mode is auto
         lun_ids: LUN ID list,  conditionally optional: when create_mode is auto
         remote_resource_name_rule: Remote resource naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
@@ -388,7 +388,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         recovery_policy: Active-active pair recovery policy, Options: automatic , manual 
         service_assurance_policy: Service assurance policy, Options: data_reliability_preferred (data reliability first)t) , service_continuity_preferred (Business continuity priority) 
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom syncc rate (MB/s) , required when speed is custom
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
         isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
 
     Returns:
@@ -527,9 +527,9 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
     return response
 
 
-def hypermetro_group_forrce_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
+def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    forrce startActive-active consistency group
+    force startActive-active consistency group
 
     Args:
         client: DME API client
@@ -541,7 +541,7 @@ def hypermetro_group_forrce_startup(client: DMEAPIClient, ids: list, priority_st
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/metro/groups/forrce-startup"
+    url = "/rest/protection/v1/metro/groups/force-startup"
 
     payload = {
         'ids': ids,
@@ -603,7 +603,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         local_vstore_id: local tenant ID, this parameter and local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: local tenanton the device ID, this parameter and local_vstore_id mutually exclusive
         local_volume_name: local  LUN  name, supports fuzzy match
-        local_host_access_state: Local resource host access status. Options: access_forrbidden, read_only, read_write
+        local_host_access_state: Local resource host access status. Options: access_forbidden, read_only, read_write
         remote_vstore_id: remote tenant ID, this parameter and remote_vstore_raw_id mutually exclusive
         remote_vstore_raw_id: remote tenanton the device ID, this parameter and remote_vstore_id mutually exclusive
         remote_volume_name: remote  LUN  name, supports fuzzy match
@@ -672,7 +672,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         name_prefix: Remote LUN name prefix
         name_suffix: Remote LUN name suffix
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom syncc rate (MB/s) , required when speed is custom
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
         service_assurance_policy: Service assurance policy, Options: data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
         recovery_policy: Recovery policy, Options: automatic, manual
@@ -793,7 +793,7 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
     return response
 
 
-def hypermetro_pair_syncc(client: DMEAPIClient, ids: list) -> dict:
+def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
     """
     SyncActive-active Pair
 
@@ -806,7 +806,7 @@ def hypermetro_pair_syncc(client: DMEAPIClient, ids: list) -> dict:
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/metro/lun-pairs/syncc"
+    url = "/rest/protection/v1/metro/lun-pairs/sync"
 
     payload = {
         'ids': ids
@@ -841,9 +841,9 @@ def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type
     return response
 
 
-def hypermetro_pair_forrce_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
+def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    forrce startActive-active Pair
+    force startActive-active Pair
 
     Args:
         client: DME API client
@@ -855,7 +855,7 @@ def hypermetro_pair_forrce_startup(client: DMEAPIClient, ids: list, priority_sta
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/metro/lun-pairs/forrce-startup"
+    url = "/rest/protection/v1/metro/lun-pairs/force-startup"
 
     payload = {
         'ids': ids,
@@ -991,10 +991,10 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
                             remote_storage_pool_id: str = None, remote_vstore_id: str = None,
                             remote_resource_name_rule: str = None, name_prefix: str = None,
                             name_suffix: str = None, speed: str = None, bandwidth: int = None,
-                            recovery_policy: str = None, syncc_type: str = None,
-                            timing_value_in_sec: int = None, syncc_schedule: dict = None,
-                            rep_io_timeout: int = None, syncc_snap_policy: str = None,
-                            user_snap_retention_num: int = None, switch_to_asyncc: bool = None,
+                            recovery_policy: str = None, sync_type: str = None,
+                            timing_value_in_sec: int = None, sync_schedule: dict = None,
+                            rep_io_timeout: int = None, sync_snap_policy: str = None,
+                            user_snap_retention_num: int = None, switch_to_async: bool = None,
                             enable_compress: bool = None) -> dict:
     """
     Create remote replication Pair
@@ -1010,16 +1010,16 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         name_prefix: remote Resource name prefix
         name_suffix: remote Resource name suffix
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom syncc rate (MB/s) , required when speed is custom
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
         recovery_policy: Recovery policy, Options: automatic, manual
-        syncc_type: Sync type, Options: manual, wait_after_syncc_begins, wait_after_syncc_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , required when syncc_type is wait_after_syncc_begins or wait_after_syncc_ends
-        syncc_schedule: Timer rule, required when syncc_type is specified_time_policy
+        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
+        sync_schedule: Timer rule, required when sync_type is specified_time_policy
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        syncc_snap_policy: User snapshotSync policy, Options: not_syncc_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_asyncc: Auto-convert syncc to asyncc remote replication switch
-        enable_compress: Link compression, when replication mode isin asyncc modeRequired
+        switch_to_async: Auto-convert sync to async remote replication switch
+        enable_compress: Link compression, when replication mode isin async modeRequired
 
     Returns:
         {
@@ -1050,20 +1050,20 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         payload['bandwidth'] = bandwidth
     if recovery_policy is not None:
         payload['recovery_policy'] = recovery_policy
-    if syncc_type is not None:
-        payload['syncc_type'] = syncc_type
+    if sync_type is not None:
+        payload['sync_type'] = sync_type
     if timing_value_in_sec is not None:
         payload['timing_value_in_sec'] = timing_value_in_sec
-    if syncc_schedule is not None:
-        payload['syncc_schedule'] = syncc_schedule
+    if sync_schedule is not None:
+        payload['sync_schedule'] = sync_schedule
     if rep_io_timeout is not None:
         payload['rep_io_timeout'] = rep_io_timeout
-    if syncc_snap_policy is not None:
-        payload['syncc_snap_policy'] = syncc_snap_policy
+    if sync_snap_policy is not None:
+        payload['sync_snap_policy'] = sync_snap_policy
     if user_snap_retention_num is not None:
         payload['user_snap_retention_num'] = user_snap_retention_num
-    if switch_to_asyncc is not None:
-        payload['switch_to_asyncc'] = switch_to_asyncc
+    if switch_to_async is not None:
+        payload['switch_to_async'] = switch_to_async
     if enable_compress is not None:
         payload['enable_compress'] = enable_compress
 
@@ -1073,10 +1073,10 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
 
 def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None,
                             bandwidth: int = None, recovery_policy: str = None,
-                            enable_compress: bool = None, syncc_type: str = None,
-                            timing_value_in_sec: int = None, syncc_schedule: dict = None,
-                            rep_io_timeout: int = None, syncc_snap_policy: str = None,
-                            user_snap_retention_num: int = None, switch_to_asyncc: bool = None) -> dict:
+                            enable_compress: bool = None, sync_type: str = None,
+                            timing_value_in_sec: int = None, sync_schedule: dict = None,
+                            rep_io_timeout: int = None, sync_snap_policy: str = None,
+                            user_snap_retention_num: int = None, switch_to_async: bool = None) -> dict:
     """
     modify  replication Pair
 
@@ -1084,16 +1084,16 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         client: DME API client
         pair_id:  replication Pair instance ID
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom syncc rate (MB/s) , required when speed is custom
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
         recovery_policy: Recovery policy, Options: automatic, manual
-        enable_compress: Link compression, when replication mode isin asyncc modeRequired
-        syncc_type: Sync type, Options: manual, wait_after_syncc_begins, wait_after_syncc_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , required when syncc_type is wait_after_syncc_begins or wait_after_syncc_ends
-        syncc_schedule: Timer rule, required when syncc_type is specified_time_policy
+        enable_compress: Link compression, when replication mode isin async modeRequired
+        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
+        sync_schedule: Timer rule, required when sync_type is specified_time_policy
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        syncc_snap_policy: User snapshotSync policy, Options: not_syncc_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_asyncc: Auto-convert syncc to asyncc remote replication switch
+        switch_to_async: Auto-convert sync to async remote replication switch
 
     Returns:
         {
@@ -1112,20 +1112,20 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         payload['recovery_policy'] = recovery_policy
     if enable_compress is not None:
         payload['enable_compress'] = enable_compress
-    if syncc_type is not None:
-        payload['syncc_type'] = syncc_type
+    if sync_type is not None:
+        payload['sync_type'] = sync_type
     if timing_value_in_sec is not None:
         payload['timing_value_in_sec'] = timing_value_in_sec
-    if syncc_schedule is not None:
-        payload['syncc_schedule'] = syncc_schedule
+    if sync_schedule is not None:
+        payload['sync_schedule'] = sync_schedule
     if rep_io_timeout is not None:
         payload['rep_io_timeout'] = rep_io_timeout
-    if syncc_snap_policy is not None:
-        payload['syncc_snap_policy'] = syncc_snap_policy
+    if sync_snap_policy is not None:
+        payload['sync_snap_policy'] = sync_snap_policy
     if user_snap_retention_num is not None:
         payload['user_snap_retention_num'] = user_snap_retention_num
-    if switch_to_asyncc is not None:
-        payload['switch_to_asyncc'] = switch_to_asyncc
+    if switch_to_async is not None:
+        payload['switch_to_async'] = switch_to_async
 
     response = client.put(url, body=payload, params={"pair_id": pair_id})
     return response
@@ -1158,9 +1158,9 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
     return response
 
 
-def replication_pair_syncc(client: DMEAPIClient, ids: list) -> dict:
+def replication_pair_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch syncc remote replication Pair
+    Batch sync remote replication Pair
 
     Args:
         client: DME API client
@@ -1171,7 +1171,7 @@ def replication_pair_syncc(client: DMEAPIClient, ids: list) -> dict:
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/replication/pairs/syncc"
+    url = "/rest/protection/v1/replication/pairs/sync"
 
     payload = {
         'ids': ids
@@ -1286,7 +1286,7 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: Storage device ID
 
     Returns:
-        Replication pair creationtion pair creationtion link list
+        Replication pair creationtion link list
     """
     url = "/rest/protection/v1/replication-links/query"
 
@@ -1422,7 +1422,7 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
         client: DME API client
         snapshot_ids:  snapshot ID  list
         is_delete_target_lun: Delete target LUN, default true
-        is_auto_deactivate: Auto beforre deleteDeactivate snapshot, default false
+        is_auto_deactivate: Auto before deleteDeactivate snapshot, default false
 
     Returns:
         {
@@ -1624,7 +1624,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
 def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
                        create_mode: str, description: str = None, name_rule: str = None,
                        name_prefix: str = None, name_suffix: str = None,
-                       copy_rate: str = None, is_syncc: bool = None,
+                       copy_rate: str = None, is_sync: bool = None,
                        clone_pairs: list = None) -> dict:
     """
     create cloneConsistency group
@@ -1639,7 +1639,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
         copy_rate:  copy rate, Options: low, medium, high, highest, default medium
-        is_syncc:  Whether to syncc immediately, default true
+        is_sync:  Whether to sync immediately, default true
         clone_pairs: Clone pair list, required when create_mode is manual
 
     Returns:
@@ -1665,8 +1665,8 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         payload['name_suffix'] = name_suffix
     if copy_rate is not None:
         payload['copy_rate'] = copy_rate
-    if is_syncc is not None:
-        payload['is_syncc'] = is_syncc
+    if is_sync is not None:
+        payload['is_sync'] = is_sync
     if clone_pairs is not None:
         payload['clone_pairs'] = clone_pairs
 
@@ -1674,7 +1674,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
     return response
 
 
-def clone_group_syncc(client: DMEAPIClient, clone_group_id: str, create_mode: str = None,
+def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str = None,
                             name_rule: str = None, name_prefix: str = None,
                             name_suffix: str = None, clone_pairs: list = None) -> dict:
     """
@@ -1694,7 +1694,7 @@ def clone_group_syncc(client: DMEAPIClient, clone_group_id: str, create_mode: st
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/clone-consistency-groups/{clone_group_id}/syncchronize"
+    url = "/rest/protection/v1/clone-consistency-groups/{clone_group_id}/synchronize"
 
     payload = {}
 
@@ -1763,13 +1763,13 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         client: DME API client
         cg_name: Remote replicationConsistency group name
         remote_storage_id: Remote storage device ID
-        local_pg_id: Local protection group ID, Required forr OceanStor V6/Dorado V6
+        local_pg_id: Local protection group ID, Required for OceanStor V6/Dorado V6
         description: Description
-        remote_lun_group_id: Remote LUN group ID. Required forr OceanStor V6/Dorado V6 when local PG is based on LUN groupred when
-        local_storage_id: local Storage device ID, Required forr non-V6/non-Dorado V6
-        create_mode: Replication pair creationtion pair creationtion pair creation mode, Options: auto , manual 
+        remote_lun_group_id: Remote LUN group ID. Required for OceanStor V6/Dorado V6 when local PG is based on LUN groupred when
+        local_storage_id: local Storage device ID, Required for non-V6/non-Dorado V6
+        create_mode: Replication pair creationtion pair creation mode, Options: auto , manual 
         existed_pair_ids: Existing replication Pair  ID  list
-        lun_pairs: In manual create mode,  Replication pair creationtion pair creationtion pair source and target LUN ID list
+        lun_pairs: In manual create mode,  Replication pair creationtion pair source and target LUN ID list
         lun_ids: In auto-create mode, Source LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode
@@ -1823,10 +1823,10 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
 def replication_group_modify(client: DMEAPIClient, replication_group_id: str, name: str = None,
                               description: str = None, speed: str = None, bandwidth: int = None,
                               recovery_policy: str = None, enable_compress: bool = None,
-                              syncc_type: str = None, timing_value_in_sec: int = None,
-                              syncc_schedule: dict = None, rep_io_timeout: int = None,
-                              syncc_snap_policy: str = None, user_snap_retention_num: int = None,
-                              switch_to_asyncc: bool = None) -> dict:
+                              sync_type: str = None, timing_value_in_sec: int = None,
+                              sync_schedule: dict = None, rep_io_timeout: int = None,
+                              sync_snap_policy: str = None, user_snap_retention_num: int = None,
+                              switch_to_async: bool = None) -> dict:
     """
     modify Remote replicationConsistency group
 
@@ -1836,16 +1836,16 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         name: Remote replicationConsistency group name
         description: Description
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom syncc rate (MB/s) , required when speed is custom
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
         recovery_policy: Recovery policy, Options: automatic, manual
-        enable_compress: Link compression, when replication mode isin asyncc modeRequired
-        syncc_type: Sync type, Options: manual, wait_after_syncc_begins, wait_after_syncc_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , required when syncc_type is wait_after_syncc_begins or wait_after_syncc_ends
-        syncc_schedule: Timer rule, required when syncc_type is specified_time_policy
+        enable_compress: Link compression, when replication mode isin async modeRequired
+        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
+        sync_schedule: Timer rule, required when sync_type is specified_time_policy
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        syncc_snap_policy: User snapshotSync policy, Options: not_syncc_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_asyncc: Auto-convert syncc to asyncc remote replication switch
+        switch_to_async: Auto-convert sync to async remote replication switch
 
     Returns:
         {
@@ -1868,20 +1868,20 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         payload['recovery_policy'] = recovery_policy
     if enable_compress is not None:
         payload['enable_compress'] = enable_compress
-    if syncc_type is not None:
-        payload['syncc_type'] = syncc_type
+    if sync_type is not None:
+        payload['sync_type'] = sync_type
     if timing_value_in_sec is not None:
         payload['timing_value_in_sec'] = timing_value_in_sec
-    if syncc_schedule is not None:
-        payload['syncc_schedule'] = syncc_schedule
+    if sync_schedule is not None:
+        payload['sync_schedule'] = sync_schedule
     if rep_io_timeout is not None:
         payload['rep_io_timeout'] = rep_io_timeout
-    if syncc_snap_policy is not None:
-        payload['syncc_snap_policy'] = syncc_snap_policy
+    if sync_snap_policy is not None:
+        payload['sync_snap_policy'] = sync_snap_policy
     if user_snap_retention_num is not None:
         payload['user_snap_retention_num'] = user_snap_retention_num
-    if switch_to_asyncc is not None:
-        payload['switch_to_asyncc'] = switch_to_asyncc
+    if switch_to_async is not None:
+        payload['switch_to_async'] = switch_to_async
 
     response = client.put(url, body=payload, params={"replication_group_id": replication_group_id})
     return response
@@ -1966,9 +1966,9 @@ def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids
     return response
 
 
-def replication_group_syncc(client: DMEAPIClient, ids: list) -> dict:
+def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch syncc remote replicationConsistency group
+    Batch sync remote replicationConsistency group
 
     >![](public_sys-resources/icon-notice.gif) **: **
     This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
@@ -1982,7 +1982,7 @@ def replication_group_syncc(client: DMEAPIClient, ids: list) -> dict:
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/replication/groups/syncc"
+    url = "/rest/protection/v1/replication/groups/sync"
 
     payload = {
         'ids': ids
@@ -2215,9 +2215,9 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     return response
 
 
-def filesystem_pair_syncc(client: DMEAPIClient, fs_pair_ids: list) -> dict:
+def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    Batch syncc filesystem active-active pair. This API potentially affects production services, Proceed with caution.
+    Batch sync filesystem active-active pair. This API potentially affects production services, Proceed with caution.
 
     Args:
         client: DME API client
@@ -2228,7 +2228,7 @@ def filesystem_pair_syncc(client: DMEAPIClient, fs_pair_ids: list) -> dict:
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/hypermetro/filesystem-pairs/syncc"
+    url = "/rest/protection/v1/hypermetro/filesystem-pairs/sync"
 
     if not fs_pair_ids or len(fs_pair_ids) == 0:
         raise ValueError("fs_pair_ids is required")
@@ -2388,9 +2388,9 @@ def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
 # ============================================================================
 
 
-def vstore_pair_forrce_start(client: DMEAPIClient, ids: list) -> dict:
+def vstore_pair_force_start(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch forrce startActive-active tenantPair. 
+    Batch force startActive-active tenantPair. 
 
     Args:
         client: DME API client
@@ -2401,7 +2401,7 @@ def vstore_pair_forrce_start(client: DMEAPIClient, ids: list) -> dict:
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/metro/vstore-pairs/forrce-start"
+    url = "/rest/protection/v1/metro/vstore-pairs/force-start"
 
     if not ids or len(ids) == 0:
         raise ValueError("ids is required")
@@ -2593,9 +2593,9 @@ def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
 # ============================================================================
 
 
-def hypermetro_domain_forrce_start(client: DMEAPIClient, id: str) -> dict:
+def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
     """
-    forrce startFilesystemActive-active domain. 
+    force startFilesystemActive-active domain. 
 
     Args:
         client: DME API client
@@ -2606,7 +2606,7 @@ def hypermetro_domain_forrce_start(client: DMEAPIClient, id: str) -> dict:
             task_id: Task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/hyper-metro-domains/{id}/forrce-start"
+    url = "/rest/protection/v1/hyper-metro-domains/{id}/force-start"
 
     if not id:
         raise ValueError("id is required")
@@ -2711,7 +2711,7 @@ def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
 def hypermetro_pair_query_available_luns(client: DMEAPIClient,
                                           source_lun_id: str) -> dict:
     """
-     Query available target LUNs forr active-active pair. 
+     Query available target LUNs for active-active pair. 
 
     Args:
         client: DME API client
@@ -2735,7 +2735,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
     return response
 
 
-# Action list forr CLI help
+# Action list for CLI help
 ACTIONS = {
     # group subtopic actions
     'group_list': {
@@ -2817,9 +2817,9 @@ ACTIONS = {
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
-    'hypermetro_group_forrce_startup': {
-        'func': hypermetro_group_forrce_startup,
-        'description': 'forrce startActive-active consistency group',
+    'hypermetro_group_force_startup': {
+        'func': hypermetro_group_force_startup,
+        'description': 'force startActive-active consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
@@ -2854,8 +2854,8 @@ ACTIONS = {
         'params': ['ids', 'delete_mode', 'is_lun_service_interrupt'],
         'subtopic': 'hypermetro_pair'
     },
-    'hypermetro_pair_syncc': {
-        'func': hypermetro_pair_syncc,
+    'hypermetro_pair_sync': {
+        'func': hypermetro_pair_sync,
         'description': 'SyncActive-active Pair',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
@@ -2866,9 +2866,9 @@ ACTIONS = {
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
-    'hypermetro_pair_forrce_startup': {
-        'func': hypermetro_pair_forrce_startup,
-        'description': 'forrce startActive-active Pair',
+    'hypermetro_pair_force_startup': {
+        'func': hypermetro_pair_force_startup,
+        'description': 'force startActive-active Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
@@ -2895,7 +2895,7 @@ ACTIONS = {
     'replication_group_modify': {
         'func': replication_group_modify,
         'description': 'modify Remote replicationConsistency group',
-        'params': ['replication_group_id', 'name', 'description', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'syncc_type', 'timing_value_in_sec', 'syncc_schedule', 'rep_io_timeout', 'syncc_snap_policy', 'user_snap_retention_num', 'switch_to_asyncc'],
+        'params': ['replication_group_id', 'name', 'description', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async'],
         'subtopic': 'replication_group'
     },
     'replication_group_delete': {
@@ -2916,9 +2916,9 @@ ACTIONS = {
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
-    'replication_group_syncc': {
-        'func': replication_group_syncc,
-        'description': 'Batch syncc remote replicationConsistency group',
+    'replication_group_sync': {
+        'func': replication_group_sync,
+        'description': 'Batch sync remote replicationConsistency group',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
@@ -2950,13 +2950,13 @@ ACTIONS = {
     'replication_pair_create': {
         'func': replication_pair_create,
         'description': 'Create remote replication Pair',
-        'params': ['local_storage_id', 'local_lun_id', 'remote_storage_id', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'speed', 'bandwidth', 'recovery_policy', 'syncc_type', 'timing_value_in_sec', 'syncc_schedule', 'rep_io_timeout', 'syncc_snap_policy', 'user_snap_retention_num', 'switch_to_asyncc', 'enable_compress'],
+        'params': ['local_storage_id', 'local_lun_id', 'remote_storage_id', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'speed', 'bandwidth', 'recovery_policy', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async', 'enable_compress'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_modify': {
         'func': replication_pair_modify,
         'description': 'modify  replication Pair',
-        'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'syncc_type', 'timing_value_in_sec', 'syncc_schedule', 'rep_io_timeout', 'syncc_snap_policy', 'user_snap_retention_num', 'switch_to_asyncc'],
+        'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_delete': {
@@ -2965,9 +2965,9 @@ ACTIONS = {
         'params': ['ids', 'delete_mode'],
         'subtopic': 'replication_pair'
     },
-    'replication_pair_syncc': {
-        'func': replication_pair_syncc,
-        'description': 'Batch syncc remote replication Pair',
+    'replication_pair_sync': {
+        'func': replication_pair_sync,
+        'description': 'Batch sync remote replication Pair',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
@@ -3062,11 +3062,11 @@ ACTIONS = {
     'clone_group_create': {
         'func': clone_group_create,
         'description': 'create cloneConsistency group',
-        'params': ['name', 'protect_group_id', 'create_mode', 'description', 'name_rule', 'name_prefix', 'name_suffix', 'copy_rate', 'is_syncc', 'clone_pairs'],
+        'params': ['name', 'protect_group_id', 'create_mode', 'description', 'name_rule', 'name_prefix', 'name_suffix', 'copy_rate', 'is_sync', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
-    'clone_group_syncc': {
-        'func': clone_group_syncc,
+    'clone_group_sync': {
+        'func': clone_group_sync,
         'description': 'SynccloneConsistency group',
         'params': ['clone_cg_id', 'create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'clone_pairs'],
         'subtopic': 'clone_group'
@@ -3096,9 +3096,9 @@ ACTIONS = {
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
-    'filesystem_pair_syncc': {
-        'func': filesystem_pair_syncc,
-        'description': 'Batch syncc filesystem active-active pair',
+    'filesystem_pair_sync': {
+        'func': filesystem_pair_sync,
+        'description': 'Batch sync filesystem active-active pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
@@ -3128,9 +3128,9 @@ ACTIONS = {
         'subtopic': 'fs_snapshot'
     },
     # vstore_hypermetro_pair subtopic actions
-    'vstore_pair_forrce_start': {
-        'func': vstore_pair_forrce_start,
-        'description': 'Batch forrce startActive-active tenantPair',
+    'vstore_pair_force_start': {
+        'func': vstore_pair_force_start,
+        'description': 'Batch force startActive-active tenantPair',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
@@ -3165,9 +3165,9 @@ ACTIONS = {
         'subtopic': 'vstore_hypermetro_pair'
     },
     # hypermetro_domain subtopic actions
-    'hypermetro_domain_forrce_start': {
-        'func': hypermetro_domain_forrce_start,
-        'description': 'forrce startFilesystemActive-active domain',
+    'hypermetro_domain_force_start': {
+        'func': hypermetro_domain_force_start,
+        'description': 'force startFilesystemActive-active domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
@@ -3198,7 +3198,7 @@ ACTIONS = {
     # hypermetro_pair subtopic actions
     'query_available_luns': {
         'func': hypermetro_pair_query_available_luns,
-        'description': ' Query available target LUNs forr active-active pair',
+        'description': ' Query available target LUNs for active-active pair',
         'params': ['source_lun_id'],
         'subtopic': 'hypermetro_pair'
     },
