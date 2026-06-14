@@ -12,14 +12,14 @@ from pydme.client import DMEAPIClient
 # ============================================================================
 
 
-def vstore_list(client: DMEAPIClient, storage_id: str = NORMALone, name: str = NORMALone,
+def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
                 page_no: int = 1, page_size: int = 100,
-                raw_id: str = NORMALone, vstore_id: str = NORMALone,
-                qos_id: str = NORMALone, is_associated_qos: bool = NORMALone,
-                storage_ip: str = NORMALone, storage_name: str = NORMALone,
-                zone_id: str = NORMALone, status: str = NORMALone,
-                nas_capacity_quota_alarm_switch: bool = NORMALone,
-                sort_key: str = NORMALone, sort_dir: str = NORMALone) -> dict:
+                raw_id: str = None, vstore_id: str = None,
+                qos_id: str = None, is_associated_qos: bool = None,
+                storage_ip: str = None, storage_name: str = None,
+                zone_id: str = None, status: str = None,
+                nas_capacity_quota_alarm_switch: bool = None,
+                sort_key: str = None, sort_dir: str = None) -> dict:
     """
     Batch query storage device tenant info. 
 
@@ -35,7 +35,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = NORMALone, name: str = N
         storage_name: Storage device name (Optional, string, 1~255 characters)
         zone_id: Zone ID (Optional, string, 1~64 characters). OceanStor A series only storage only. 
         status: Tenant status (Optional, string). Options: active (activated), inactive (inactive)
-        nas_capacity_quota_alarm_switch: NORMALASCapacity quota alarm switch (Optional, boolean, true,false). OceanStor A series only storage only. 
+        nas_capacity_quota_alarm_switch: NASCapacity quota alarm switch (Optional, boolean, true,false). OceanStor A series only storage only. 
         sort_key: Sort field (Optional, string)
         sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending)
         page_no: Page number (Optional, int32, 1~10000000). Default: 1
@@ -48,7 +48,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = NORMALone, name: str = N
                 id: Tenant unique identifier (string, 1~64 characters),
                 qos_id: QoS policyID (string, 1~64 characters),
                 raw_id: tenant ID on device (string, 1~64 characters),
-                storage_sn: Storage deviceSNORMAL (string, 1~64 characters),
+                storage_sn: Storage deviceSN (string, 1~64 characters),
                 storage_id: Device ID (string, 1~64 characters),
                 storage_ip: Device IP (string, 1~255 characters),
                 storage_name: Device name (string, 1~255 characters),
@@ -63,35 +63,35 @@ def vstore_list(client: DMEAPIClient, storage_id: str = NORMALone, name: str = N
     url = "/rest/fileservice/v1/vstores/query"
 
     payload = {}
-    if raw_id is not NORMALone:
+    if raw_id is not None:
         payload['raw_id'] = raw_id
-    if vstore_id is not NORMALone:
+    if vstore_id is not None:
         payload['id'] = vstore_id
-    if qos_id is not NORMALone:
+    if qos_id is not None:
         payload['qos_id'] = qos_id
-    if is_associated_qos is not NORMALone:
+    if is_associated_qos is not None:
         payload['is_associated_qos'] = is_associated_qos
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if storage_id is not NORMALone:
+    if storage_id is not None:
         payload['storage_id'] = storage_id
-    if storage_ip is not NORMALone:
+    if storage_ip is not None:
         payload['storage_ip'] = storage_ip
-    if storage_name is not NORMALone:
+    if storage_name is not None:
         payload['storage_name'] = storage_name
-    if zone_id is not NORMALone:
+    if zone_id is not None:
         payload['zone_id'] = zone_id
-    if status is not NORMALone:
+    if status is not None:
         payload['status'] = status
-    if nas_capacity_quota_alarm_switch is not NORMALone:
+    if nas_capacity_quota_alarm_switch is not None:
         payload['nas_capacity_quota_alarm_switch'] = nas_capacity_quota_alarm_switch
-    if sort_key is not NORMALone:
+    if sort_key is not None:
         payload['sort_key'] = sort_key
-    if sort_dir is not NORMALone:
+    if sort_dir is not None:
         payload['sort_dir'] = sort_dir
-    if page_no is not NORMALone:
+    if page_no is not None:
         payload['page_no'] = page_no
-    if page_size is not NORMALone:
+    if page_size is not None:
         payload['page_size'] = page_size
 
     response = client.post(url, body=payload)
@@ -127,11 +127,11 @@ def vstore_show(client: DMEAPIClient, id: str) -> dict:
 
 
 def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
-                  san_capacity_quota: str = NORMALone,
-                  nas_capacity_quota: str = NORMALone, description: str = NORMALone,
-                  nas_capacity_quota_alarm_switch: bool = NORMALone,
-                  nas_capacity_quota_alarm_threshold: int = NORMALone,
-                  associate_pool_ids: list = NORMALone) -> dict:
+                  san_capacity_quota: str = None,
+                  nas_capacity_quota: str = None, description: str = None,
+                  nas_capacity_quota_alarm_switch: bool = None,
+                  nas_capacity_quota_alarm_threshold: int = None,
+                  associate_pool_ids: list = None) -> dict:
     """
     create  tenant. OceanStor Dorado v3 devicefeature not supported. 
 
@@ -139,11 +139,11 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         storage_id: Storage device ID (Required, string, 1~36 characters). must satisfy UUID format or 32-bit hex
         name: Tenant name (Required, string, 1~256 characters). Supports letters, digits, underscores, hyphens, dots and Chinese characters
-        san_capacity_quota: SANORMAL Capacity quota(Optional, unit :  sector) 
-        nas_capacity_quota: NORMALAS Capacity quota(Optional, unit :  sector) 
+        san_capacity_quota: SAN Capacity quota(Optional, unit :  sector) 
+        nas_capacity_quota: NAS Capacity quota(Optional, unit :  sector) 
         description: Tenant description(Optional, 0~255  characters) 
-        nas_capacity_quota_alarm_switch: NORMALAS Capacity quota alarm switch(Optional, A800 device only) 
-        nas_capacity_quota_alarm_threshold: NORMALAS Capacity quota alarmthreshold(Optional, A800 device only) 
+        nas_capacity_quota_alarm_switch: NAS Capacity quota alarm switch(Optional, A800 device only) 
+        nas_capacity_quota_alarm_threshold: NAS Capacity quota alarmthreshold(Optional, A800 device only) 
         associate_pool_ids: Related storage pool ID list (Optional, A series device only) 
 
     Returns:
@@ -161,39 +161,39 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         'name': name
     }
 
-    if san_capacity_quota is not NORMALone:
+    if san_capacity_quota is not None:
         payload['san_capacity_quota'] = san_capacity_quota
-    if nas_capacity_quota is not NORMALone:
+    if nas_capacity_quota is not None:
         payload['nas_capacity_quota'] = nas_capacity_quota
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
-    if nas_capacity_quota_alarm_switch is not NORMALone:
+    if nas_capacity_quota_alarm_switch is not None:
         payload['nas_capacity_quota_alarm_switch'] = nas_capacity_quota_alarm_switch
-    if nas_capacity_quota_alarm_threshold is not NORMALone:
+    if nas_capacity_quota_alarm_threshold is not None:
         payload['nas_capacity_quota_alarm_threshold'] = nas_capacity_quota_alarm_threshold
-    if associate_pool_ids is not NORMALone:
+    if associate_pool_ids is not None:
         payload['associate_pool_ids'] = associate_pool_ids
 
     response = client.post(url, body=payload)
     return response
 
 
-def vstore_modify(client: DMEAPIClient, id: str, name: str = NORMALone,
-                  san_capacity_quota: str = NORMALone, nas_capacity_quota: str = NORMALone,
-                  description: str = NORMALone, nas_capacity_quota_alarm_switch: bool = NORMALone,
-                  nas_capacity_quota_alarm_threshold: int = NORMALone) -> dict:
+def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
+                  san_capacity_quota: str = None, nas_capacity_quota: str = None,
+                  description: str = None, nas_capacity_quota_alarm_switch: bool = None,
+                  nas_capacity_quota_alarm_threshold: int = None) -> dict:
     """
     Modify tenant, This operation modifies storage devicetenant specified on. 
 
     Args:
         client: DME API client
         id:  tenant ID (Required, string, 1~64 characters). must satisfy UUID format or 32-bit hex
-        name: Tenant name (Optional, string, 1~256 characters). NORMALame supports letters, digits, underscores, hyphens, dots and Chinese characters
-        san_capacity_quota: SANORMALCapacity quota (Optional, string, 1~20 characters)
-        nas_capacity_quota: NORMALASCapacity quota (Optional, string, 1~20 characters)
+        name: Tenant name (Optional, string, 1~256 characters). Name supports letters, digits, underscores, hyphens, dots and Chinese characters
+        san_capacity_quota: SANCapacity quota (Optional, string, 1~20 characters)
+        nas_capacity_quota: NASCapacity quota (Optional, string, 1~20 characters)
         description: Tenant description (Optional, string, 0~255 characters)
-        nas_capacity_quota_alarm_switch: NORMALASCapacity quota alarm switch (Optional, boolean, true,false). A800 device only
-        nas_capacity_quota_alarm_threshold: NORMALASCapacity quota alarmthreshold (Optional, int32, 50~100). A800 device only
+        nas_capacity_quota_alarm_switch: NASCapacity quota alarm switch (Optional, boolean, true,false). A800 device only
+        nas_capacity_quota_alarm_threshold: NASCapacity quota alarmthreshold (Optional, int32, 50~100). A800 device only
 
     Returns:
         {
@@ -207,17 +207,17 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = NORMALone,
         raise ValueError("id is required")
 
     payload = {}
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if san_capacity_quota is not NORMALone:
+    if san_capacity_quota is not None:
         payload['san_capacity_quota'] = san_capacity_quota
-    if nas_capacity_quota is not NORMALone:
+    if nas_capacity_quota is not None:
         payload['nas_capacity_quota'] = nas_capacity_quota
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
-    if nas_capacity_quota_alarm_switch is not NORMALone:
+    if nas_capacity_quota_alarm_switch is not None:
         payload['nas_capacity_quota_alarm_switch'] = nas_capacity_quota_alarm_switch
-    if nas_capacity_quota_alarm_threshold is not NORMALone:
+    if nas_capacity_quota_alarm_threshold is not None:
         payload['nas_capacity_quota_alarm_threshold'] = nas_capacity_quota_alarm_threshold
 
     response = client.put(url, body=payload, params={"id": id})
@@ -252,9 +252,9 @@ def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
 
 
 
-def list(client: DMEAPIClient, az: str = NORMALone, source: str = NORMALone,
-         dc_id: str = NORMALone, tag_ids: str = NORMALone, start: int = 1, 
-         limit: int = 20, ext_attrs: str = NORMALone) -> dict:
+def list(client: DMEAPIClient, az: str = None, source: str = None,
+         dc_id: str = None, tag_ids: str = None, start: int = 1, 
+         limit: int = 20, ext_attrs: str = None) -> dict:
     """
     Batch query storage devices:  supportPagination,  filter. 
 
@@ -263,7 +263,7 @@ def list(client: DMEAPIClient, az: str = NORMALone, source: str = NORMALone,
         az: Availability zone ID (Optional, string, 1~64 characters)
         source: Storage device source (Optional, string). Options: add, record, all. Queries access devices by default
         dc_id: Storage deviceData center ID (Optional, string, 1~32 characters)
-        tag_ids: Tag filter list (Optional, string). supports up to 10 tag IDs combined filter, Multiple filter conditions are ANORMALD-related
+        tag_ids: Tag filter list (Optional, string). supports up to 10 tag IDs combined filter, Multiple filter conditions are AND-related
         start: Page queryStart position (Optional, int32, 1~10000). Default: 1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
         ext_attrs: Extended attribute filter list (Optional, string, 1~3000 characters). supports up to10extended attributes combined filter
@@ -285,19 +285,19 @@ def list(client: DMEAPIClient, az: str = NORMALone, source: str = NORMALone,
     url = "/rest/storagemgmt/v1/storages"
     
     query_params = {}
-    if az is not NORMALone:
+    if az is not None:
         query_params['az'] = az
-    if source is not NORMALone:
+    if source is not None:
         query_params['source'] = source
-    if dc_id is not NORMALone:
+    if dc_id is not None:
         query_params['dc_id'] = dc_id
-    if tag_ids is not NORMALone:
+    if tag_ids is not None:
         query_params['tag_ids'] = tag_ids
-    if start is not NORMALone:
+    if start is not None:
         query_params['start'] = start
-    if limit is not NORMALone:
+    if limit is not None:
         query_params['limit'] = limit
-    if ext_attrs is not NORMALone:
+    if ext_attrs is not None:
         query_params['ext_attrs'] = ext_attrs
     
     response = client.get(url, params=query_params)
@@ -332,14 +332,14 @@ def show(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def add(client: DMEAPIClient, name: str = NORMALone, sn: str = NORMALone, ip: str = NORMALone,
-        vendor: str = NORMALone, model: str = NORMALone, version: str = NORMALone,
-        patch_version: str = NORMALone, dc_id: str = NORMALone, az: str = NORMALone,
-        location: str = NORMALone, maintenance_start: int = NORMALone,
-        maintenance_overtime: int = NORMALone, total_capacity: float = NORMALone,
-        total_effective_capacity: float = NORMALone, total_pool_capacity: float = NORMALone,
-        used_capacity: float = NORMALone, free_capacity: float = NORMALone,
-        subscription_capacity: float = NORMALone, tag_ids: list = NORMALone) -> dict:
+def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
+        vendor: str = None, model: str = None, version: str = None,
+        patch_version: str = None, dc_id: str = None, az: str = None,
+        location: str = None, maintenance_start: int = None,
+        maintenance_overtime: int = None, total_capacity: float = None,
+        total_effective_capacity: float = None, total_pool_capacity: float = None,
+        used_capacity: float = None, free_capacity: float = None,
+        subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
     Add storage device (offline info entry only) 
 
@@ -384,39 +384,39 @@ def add(client: DMEAPIClient, name: str = NORMALone, sn: str = NORMALone, ip: st
         'sn': sn
     }
     
-    if ip is not NORMALone:
+    if ip is not None:
         payload['ip'] = ip
-    if vendor is not NORMALone:
+    if vendor is not None:
         payload['vendor'] = vendor
-    if model is not NORMALone:
+    if model is not None:
         payload['model'] = model
-    if version is not NORMALone:
+    if version is not None:
         payload['version'] = version
-    if patch_version is not NORMALone:
+    if patch_version is not None:
         payload['patch_version'] = patch_version
-    if dc_id is not NORMALone:
+    if dc_id is not None:
         payload['dc_id'] = dc_id
-    if az is not NORMALone:
+    if az is not None:
         payload['az'] = az
-    if location is not NORMALone:
+    if location is not None:
         payload['location'] = location
-    if maintenance_start is not NORMALone:
+    if maintenance_start is not None:
         payload['maintenance_start'] = maintenance_start
-    if maintenance_overtime is not NORMALone:
+    if maintenance_overtime is not None:
         payload['maintenance_overtime'] = maintenance_overtime
-    if total_capacity is not NORMALone:
+    if total_capacity is not None:
         payload['total_capacity'] = total_capacity
-    if total_effective_capacity is not NORMALone:
+    if total_effective_capacity is not None:
         payload['total_effective_capacity'] = total_effective_capacity
-    if total_pool_capacity is not NORMALone:
+    if total_pool_capacity is not None:
         payload['total_pool_capacity'] = total_pool_capacity
-    if used_capacity is not NORMALone:
+    if used_capacity is not None:
         payload['used_capacity'] = used_capacity
-    if free_capacity is not NORMALone:
+    if free_capacity is not None:
         payload['free_capacity'] = free_capacity
-    if subscription_capacity is not NORMALone:
+    if subscription_capacity is not None:
         payload['subscription_capacity'] = subscription_capacity
-    if tag_ids is not NORMALone:
+    if tag_ids is not None:
         payload['tag_ids'] = tag_ids
     
     response = client.post(url, body=payload)
@@ -458,7 +458,7 @@ def sync(client: DMEAPIClient, storage_id: str) -> dict:
         storage_id: Storage deviceId (Required, string, 1~64 characters). obtained via Batch query storage devices API
 
     Returns:
-        NORMAL/A
+        N/A
     """
     url = "/rest/storagemgmt/v1/storages/refresh"
 
@@ -473,10 +473,10 @@ def sync(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def bbu_list(client: DMEAPIClient, storage_id: str = NORMALone,
-             health_status: str = NORMALone, running_status: str = NORMALone,
-             enclosure_name: str = NORMALone, location: str = NORMALone,
-             zone_id: str = NORMALone, page_no: int = 1,
+def bbu_list(client: DMEAPIClient, storage_id: str = None,
+             health_status: str = None, running_status: str = None,
+             enclosure_name: str = None, location: str = None,
+             zone_id: str = None, page_no: int = 1,
              page_size: int = 20) -> dict:
     """
     query storage device BBU info list
@@ -514,21 +514,21 @@ def bbu_list(client: DMEAPIClient, storage_id: str = NORMALone,
     url = "/rest/storagemgmt/v1/backup-powers/query"
     
     payload = {}
-    if storage_id is not NORMALone:
+    if storage_id is not None:
         payload['storage_id'] = storage_id
-    if health_status is not NORMALone:
+    if health_status is not None:
         payload['health_status'] = health_status
-    if running_status is not NORMALone:
+    if running_status is not None:
         payload['running_status'] = running_status
-    if enclosure_name is not NORMALone:
+    if enclosure_name is not None:
         payload['enclosure_name'] = enclosure_name
-    if location is not NORMALone:
+    if location is not None:
         payload['location'] = location
-    if zone_id is not NORMALone:
+    if zone_id is not None:
         payload['zone_id'] = zone_id
-    if page_no is not NORMALone:
+    if page_no is not None:
         payload['page_no'] = page_no
-    if page_size is not NORMALone:
+    if page_size is not None:
         payload['page_size'] = page_size
     
     response = client.post(url, body=payload)
@@ -556,10 +556,10 @@ def get_passphrase(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def fan_list(client: DMEAPIClient, storage_id: str = NORMALone,
-             health_status: str = NORMALone, running_status: str = NORMALone,
-             run_level: str = NORMALone, enclosure_name: str = NORMALone,
-             location: str = NORMALone, zone_id: str = NORMALone,
+def fan_list(client: DMEAPIClient, storage_id: str = None,
+             health_status: str = None, running_status: str = None,
+             run_level: str = None, enclosure_name: str = None,
+             location: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
     query storage deviceFan info
@@ -570,7 +570,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = NORMALone,
         health_status: Health status (Optional). Options: unknown, normal, faulty
         running_status: Running status (Optional). Options: unknown, normal, running, not_running, spin_down, online, offline
         run_level: Running level(Optional). Options: low, normal, high
-        enclosure_name: EnclosureNORMALame (Optional,1~256 characters) , supports fuzzy match
+        enclosure_name: EnclosureName (Optional,1~256 characters) , supports fuzzy match
         location: location(Optional, 1~256 characters) , supports fuzzy match
         zone_id: Zone ID (Optional, 1~255 characters), OceanStor A800 series only
         page_no: Page number (Optional, 1~2147483647, default 1)
@@ -611,25 +611,25 @@ def fan_list(client: DMEAPIClient, storage_id: str = NORMALone,
     }
 
     for key, value in param_map.items():
-        if value is not NORMALone:
+        if value is not None:
             payload[key] = value
 
     response = client.post(url, body=payload)
     return response
 
 
-def disk_list(client: DMEAPIClient, storage_id: str, ids: list = NORMALone,
-              name: str = NORMALone, slot_number: str = NORMALone, bom_id: str = NORMALone,
-              health_status: str = NORMALone, physical_type: str = NORMALone,
-              new_physical_type: str = NORMALone, capacity: int = NORMALone,
-              role: str = NORMALone, disk_pool_name: str = NORMALone,
-              disk_pool_id: str = NORMALone, storage_pool_id: str = NORMALone,
-              bar_code: str = NORMALone, sn: str = NORMALone, speed: int = NORMALone,
-              storage_ip: str = NORMALone, management_ip: str = NORMALone,
-              node_name: str = NORMALone, virtual_disk: bool = NORMALone,
-              status: str = NORMALone, enclosure_name: str = NORMALone,
-              zone_id: str = NORMALone, sort_key: str = NORMALone,
-              sort_dir: str = NORMALone, page_no: int = 1,
+def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
+              name: str = None, slot_number: str = None, bom_id: str = None,
+              health_status: str = None, physical_type: str = None,
+              new_physical_type: str = None, capacity: int = None,
+              role: str = None, disk_pool_name: str = None,
+              disk_pool_id: str = None, storage_pool_id: str = None,
+              bar_code: str = None, sn: str = None, speed: int = None,
+              storage_ip: str = None, management_ip: str = None,
+              node_name: str = None, virtual_disk: bool = None,
+              status: str = None, enclosure_name: str = None,
+              zone_id: str = None, sort_key: str = None,
+              sort_dir: str = None, page_no: int = 1,
               page_size: int = 20) -> dict:
     """
     query storage deviceDisk info list
@@ -642,8 +642,8 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = NORMALone,
         slot_number: Slot number, location (Optional, 1~256 characters). supports fuzzy search. 
         bom_id: BOM ID (Optional, 1~256 characters). 
         health_status: Health status (Optional). Options: unknown, normal, fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link ( single link), no_redundant_link ( no redundant link), subhealthy ( sub-health), offline. 
-        physical_type: Disk type (Optional). Options: unknown, sata (SATA), sas (SAS), nl_sas (NORMALL-SAS), ssd (SSD), ssd_card, scm, nl_ssd (NORMALL-SSD), fc (FC), lun (LUNORMAL), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
-        new_physical_type: Actual disk type (Optional). Options: SAS, SATA, SSD, NORMALL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NORMALL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NORMALVMe_SSD, NORMALVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
+        physical_type: Disk type (Optional). Options: unknown, sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card, scm, nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
+        new_physical_type: Actual disk type (Optional). Options: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB). 
         role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaint, maintenancece), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
         disk_pool_name: Disk pool name (Optional, 1~256 characters). supports fuzzy search. 
@@ -651,10 +651,10 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = NORMALone,
         storage_pool_id: Storage pool ID (Optional, 1~64 characters). 
         bar_code:  Disk barcode (Optional, 1~256 characters). 
         sn:  diskSerial number (Optional, 1~256 characters).  Huawei storage device only, third-party device supports this field. 
-        speed: Rotation speed (Optional, max: 2147483647, in RPM). 
+        speed: 转速 (Optional, max: 2147483647, in RPM). 
         storage_ip:  deviceip address (Optional, 1~255 characters). 
         management_ip: management  deviceip address (Optional, 1~256 characters). 
-        node_name: NORMALode name (Optional, 1~256 characters). 
+        node_name: Node name (Optional, 1~256 characters). 
         virtual_disk: Virtual disk (Optional). Options: true, false. 
         status: Running status (Optional). Options: unknown, normal, abnormal ( fault), online, offline. 
         enclosure_name: Fan enclosure name on storage device (Optional, 1~255 characters). supports fuzzy search. 
@@ -680,66 +680,66 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = NORMALone,
     url = "/rest/storagemgmt/v2/storages/{storage_id}/disk"
 
     payload = {}
-    if ids is not NORMALone:
+    if ids is not None:
         payload['ids'] = ids
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if slot_number is not NORMALone:
+    if slot_number is not None:
         payload['slot_number'] = slot_number
-    if bom_id is not NORMALone:
+    if bom_id is not None:
         payload['bom_id'] = bom_id
-    if health_status is not NORMALone:
+    if health_status is not None:
         payload['health_status'] = health_status
-    if physical_type is not NORMALone:
+    if physical_type is not None:
         payload['physical_type'] = physical_type
-    if new_physical_type is not NORMALone:
+    if new_physical_type is not None:
         payload['new_physical_type'] = new_physical_type
-    if capacity is not NORMALone:
+    if capacity is not None:
         payload['capacity'] = capacity
-    if role is not NORMALone:
+    if role is not None:
         payload['role'] = role
-    if disk_pool_name is not NORMALone:
+    if disk_pool_name is not None:
         payload['disk_pool_name'] = disk_pool_name
-    if disk_pool_id is not NORMALone:
+    if disk_pool_id is not None:
         payload['disk_pool_id'] = disk_pool_id
-    if storage_pool_id is not NORMALone:
+    if storage_pool_id is not None:
         payload['storage_pool_id'] = storage_pool_id
-    if bar_code is not NORMALone:
+    if bar_code is not None:
         payload['bar_code'] = bar_code
-    if sn is not NORMALone:
+    if sn is not None:
         payload['sn'] = sn
-    if speed is not NORMALone:
+    if speed is not None:
         payload['speed'] = speed
-    if storage_ip is not NORMALone:
+    if storage_ip is not None:
         payload['storage_ip'] = storage_ip
-    if management_ip is not NORMALone:
+    if management_ip is not None:
         payload['management_ip'] = management_ip
-    if node_name is not NORMALone:
+    if node_name is not None:
         payload['node_name'] = node_name
-    if virtual_disk is not NORMALone:
+    if virtual_disk is not None:
         payload['virtual_disk'] = virtual_disk
-    if status is not NORMALone:
+    if status is not None:
         payload['status'] = status
-    if enclosure_name is not NORMALone:
+    if enclosure_name is not None:
         payload['enclosure_name'] = enclosure_name
-    if zone_id is not NORMALone:
+    if zone_id is not None:
         payload['zone_id'] = zone_id
-    if sort_key is not NORMALone:
+    if sort_key is not None:
         payload['sort_key'] = sort_key
-    if sort_dir is not NORMALone:
+    if sort_dir is not None:
         payload['sort_dir'] = sort_dir
-    if page_no is not NORMALone:
+    if page_no is not None:
         payload['page_no'] = page_no
-    if page_size is not NORMALone:
+    if page_size is not None:
         payload['page_size'] = page_size
 
     response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
-def pool_list(client: DMEAPIClient, storage_id: str = NORMALone, raw_id: str = NORMALone,
-              zone_id: str = NORMALone, page_no: int = 1, page_size: int = 10,
-              sort_key: str = NORMALone, sort_dir: str = NORMALone) -> dict:
+def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
+              zone_id: str = None, page_no: int = 1, page_size: int = 10,
+              sort_key: str = None, sort_dir: str = None) -> dict:
     """
      queryStorage deviceStorage pool list
 
@@ -768,7 +768,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = NORMALone, raw_id: str = N
                 consumed_capacity: Used capacity, in MB (number),
                 replication_capacity:  dataProtection capacity, in MB (number), flash storage only,
                 subscribed_capacity: Total subscribed capacity, in MB (number), Flash storage only, DistributedDevice support,
-                lun_subscribed_capacity: LUNORMAL subscribed capacity, in MB (number), flash storage only,
+                lun_subscribed_capacity: LUN subscribed capacity, in MB (number), flash storage only,
                 filesystem_subscribed_capacity: Filesystem total subscribed capacity, in MB (number), OceanStor Dorado V6 6.1.0+ onlysion,
                 health_status: Health status. Options: normal, fault ( fault), degraded ( degraded), unknown. flash and third-party storage only,
                 running_status: Running status. Options: pre-copy (Pre-copy), rebuilt ( refactor), online, offline, balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown. flash storage only,
@@ -806,18 +806,18 @@ def pool_list(client: DMEAPIClient, storage_id: str = NORMALone, raw_id: str = N
     }
 
     for key, value in param_map.items():
-        if value is not NORMALone:
+        if value is not None:
             payload[key] = value
 
     response = client.post(url, body=payload)
     return response
 
 
-def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = NORMALone, name: str = NORMALone,
-                         local_pool_id: str = NORMALone, health_status: str = NORMALone,
-                         running_status: str = NORMALone, storage_id: str = NORMALone,
-                         description: str = NORMALone, page_no: int = 1, page_size: int = 20,
-                         sort_key: str = NORMALone, sort_dir: str = NORMALone) -> dict:
+def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
+                         local_pool_id: str = None, health_status: str = None,
+                         running_status: str = None, storage_id: str = None,
+                         description: str = None, page_no: int = 1, page_size: int = 20,
+                         sort_key: str = None, sort_dir: str = None) -> dict:
     """
      query HyperScale Storage pool list
 
@@ -879,49 +879,49 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = NORMALone, name: st
     }
 
     for key, value in param_map.items():
-        if value is not NORMALone:
+        if value is not None:
             payload[key] = value
 
     response = client.post(url, body=payload)
     return response
 
 
-def node_list(client: DMEAPIClient, storage_id: str = NORMALone, raw_id: str = NORMALone,
-              storage_name: str = NORMALone, name: str = NORMALone, ids: list = NORMALone,
-              mgmt_ip: str = NORMALone, frame_number: str = NORMALone,
-              slot_number: str = NORMALone, status: str = NORMALone, roles: list = NORMALone,
+def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
+              storage_name: str = None, name: str = None, ids: list = None,
+              mgmt_ip: str = None, frame_number: str = None,
+              slot_number: str = None, status: str = None, roles: list = None,
               page_no: int = 1, page_size: int = 20,
-              sort_key: str = NORMALone, sort_dir: str = NORMALone) -> dict:
+              sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    query storage deviceNORMALode list
+    query storage deviceNode list
 
     Args:
         client: DME API client
         storage_id: Storage device ID(Optional, 1~64 characters) , supports filtering
         raw_id:  nodeon the storage deviceID(Optional, 1~64 characters) 
-        storage_name: Storage deviceNORMALame (Optional,1~255 characters) , supports filtering
-        name:  nodeNORMALame (Optional,1~256 characters) , supports fuzzy search (case-insensitive) 
+        storage_name: Storage deviceName (Optional,1~255 characters) , supports filtering
+        name:  nodeName (Optional,1~256 characters) , supports fuzzy search (case-insensitive) 
         ids:  nodeID list(Optional, List<string>, max array members: 100) 
-        mgmt_ip: NORMALode managementIP address(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
+        mgmt_ip: Node managementIP address(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         frame_number: Rack/ rack number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         slot_number: Slot number in rack(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        status: NORMALode status(Optional). Options: UNORMALKNORMALOWNORMAL, NORMALORMAL, FAULT, PRE_FAILED, PARTIALLY_DAMAGED, DEGRADED, BAD_SECTORS_FOUNORMALD, BIT_ERRORS_FOUNORMALDOUNORMALD ( has error code), CONORMALSISTENORMALT (一致), INORMALCONORMALSISTENORMALT ( inconsistent), BUSY (繁忙), NORMALO_INORMALPUT ( no input), LOW_BATTERY (Low battery), SINORMALGLE_LINORMALK_FAULT ( single link fault)
+        status: Node status(Optional). Options: UNKNOWN, NORMAL, FAULT, PRE_FAIL, PARTIALLY_DAMAGED, DEGRADED, BAD_SECTORS_FOUND, BIT_ERRORS_FOUNDOUND ( has error code), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
         roles:  nodeRole list(Optional, List<string>, max array members: 10). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
         page_no: Page number(Optional, 1~10000, default 1) 
         page_size: Page size(Optional, 1~1000, default 20) 
-        sort_key: Sort field(Optional). Options: name (NORMALode name), mgmt_ip (NORMALode managementIP address)
+        sort_key: Sort field(Optional). Options: name (Node name), mgmt_ip (Node managementIP address)
         sort_dir: Sort direction(Optional). Options: asc (ascending), desc (descending)
 
     Returns:
         {
-            total:  NORMALode count (integer),
-            nodes: NORMALode list (List<StorageNORMALodeBaseInfo>). 参数格式如下：[{
+            total:  Node count (integer),
+            nodes: Node list (List<StorageNodeBaseInfo>). 参数格式如下：[{
                 id:  nodeid (1~64 characters),
-                name: NORMALode name (1~255 characters),
+                name: Node name (1~255 characters),
                 raw_id:  nodeon the storage deviceID (1~64 characters),
-                mgmt_ip: NORMALode managementIP address (1~255 characters),
-                status: NORMALode status (1~255 characters). Options: UNORMALKNORMALOWNORMAL, NORMALORMAL, FAULT, PARTIALLY_DAMAGED,
-                node_model:  NORMALode model (1~255 characters). E.g.: DataTurbo, OceanStor Pacific, RH5288 V3,
+                mgmt_ip: Node managementIP address (1~255 characters),
+                status: Node status (1~255 characters). Options: UNKNOWN, NORMAL, FAULT, PARTIALLY_DAMAGED,
+                node_model:  Node model (1~255 characters). E.g.: DataTurbo, OceanStor Pacific, RH5288 V3,
                 frame_number: Rack/ rack number (1~255 characters),
                 slot_number: Slot number in rack (1~255 characters),
                 roles:  nodeRole list (List<string>). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute),
@@ -930,9 +930,9 @@ def node_list(client: DMEAPIClient, storage_id: str = NORMALone, raw_id: str = N
                 storage_name: Storage device name (1~255 characters),
                 eos_time:  Storage EOS time (int64), GMT: Jan 1, 1970 00:00:00 - total ms to present,
                 installation_status: Storage software installation status. Options: installed (Storage software installed), not_installed (Storage software not installed),
-                ip_address_list: NORMALode IP address list (List<StorageNORMALodeIpInfo>). 参数格式如下：[{
-                    ip_address: NORMALode IP address (1~256 characters),
-                    usage: NORMALode IP address purpose list (List<string>). Options: storage_frontend, storage_backendtorage_backend (Storage backend network IP), management_external_float (Management external network floatingIP), management_internal_float (Management internal network floatingIP), management_external (Management external networkIP), management_internal (Management internal networkIP), replication ( replication networkIP), quorum (仲裁 networkIP), iscsi (ISCSI networkIP),
+                ip_address_list: Node IP address list (List<StorageNodeIpInfo>). 参数格式如下：[{
+                    ip_address: Node IP address (1~256 characters),
+                    usage: Node IP address purpose list (List<string>). Options: storage_frontend (Storage frontend network IP), storage_backend (Storage backend network IP), management_external_float (Management external network floatingIP), management_internal_float (Management internal network floatingIP), management_external (Management external networkIP), management_internal (Management internal networkIP), replication ( replication networkIP), quorum (仲裁 networkIP), iscsi (ISCSI networkIP),
                 }, ...],
             }, ...]
         }
@@ -960,7 +960,7 @@ def node_list(client: DMEAPIClient, storage_id: str = NORMALone, raw_id: str = N
     }
 
     for key, value in param_map.items():
-        if value is not NORMALone:
+        if value is not None:
             payload[key] = value
 
     response = client.post(url, body=payload)
@@ -968,10 +968,10 @@ def node_list(client: DMEAPIClient, storage_id: str = NORMALone, raw_id: str = N
 
 
 def psu_list(client: DMEAPIClient, storage_id: str,
-             health_status: str = NORMALone, running_status: str = NORMALone,
-             power_type: str = NORMALone, power_mode: str = NORMALone,
-             location: str = NORMALone, model: str = NORMALone, sn: str = NORMALone,
-             enclosure_name: str = NORMALone, zone_id: str = NORMALone,
+             health_status: str = None, running_status: str = None,
+             power_type: str = None, power_mode: str = None,
+             location: str = None, model: str = None, sn: str = None,
+             enclosure_name: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
      queryStorage devicePower supplyDetails info, only supportsOceanStor A800 storage. 
@@ -986,7 +986,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
         location: location(Optional, 1~256 characters) , supports fuzzy match
         model:  model(Optional, 1~256 characters) , supports fuzzy match
         sn: Serial number(Optional, 1~256 characters) , supports fuzzy match
-        enclosure_name: EnclosureNORMALame (Optional,1~256 characters) , supports fuzzy match
+        enclosure_name: EnclosureName (Optional,1~256 characters) , supports fuzzy match
         zone_id: Zone ID(Optional, 1~64 characters) , OceanStor A800 series only
         page_no: Page number(Optional, 1~2147483647, default 1) 
         page_size: Page size(Optional, 1~1000, default 20) 
@@ -1039,7 +1039,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     }
 
     for key, value in param_map.items():
-        if value is not NORMALone:
+        if value is not None:
             payload[key] = value
 
     response = client.post(url, body=payload)
@@ -1056,7 +1056,7 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
         start_time: Start timestamp (Required, 13-digit ms timestamp,  regex ^([0-9]){13}$) 
         end_time: End timestamp (Required, 13-digit ms timestamp,  regex ^([0-9]){13}$) 
         storage_ids:  storageID list (Required, List<string>, max array members: 300) 
-        time_granularity: Time granularity (Required). Options: HOUR (hour(s)), DAY (day(s)), MONORMALTH ( months)
+        time_granularity: Time granularity (Required). Options: HOUR (hour(s)), DAY (day(s)), MONTH ( months)
 
     Returns:
         {
@@ -1079,14 +1079,14 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
     return response
 
 
-def modify(client: DMEAPIClient, storage_id: str = NORMALone, name: str = NORMALone,
-           ip: str = NORMALone, vendor: str = NORMALone, model: str = NORMALone,
-           version: str = NORMALone, patch_version: str = NORMALone,
-           location: str = NORMALone, maintenance_start: int = NORMALone,
-           maintenance_overtime: int = NORMALone, total_capacity: float = NORMALone,
-           total_effective_capacity: float = NORMALone, total_pool_capacity: float = NORMALone,
-           used_capacity: float = NORMALone, free_capacity: float = NORMALone,
-           subscription_capacity: float = NORMALone, tag_ids: list = NORMALone) -> dict:
+def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
+           ip: str = None, vendor: str = None, model: str = None,
+           version: str = None, patch_version: str = None,
+           location: str = None, maintenance_start: int = None,
+           maintenance_overtime: int = None, total_capacity: float = None,
+           total_effective_capacity: float = None, total_pool_capacity: float = None,
+           used_capacity: float = None, free_capacity: float = None,
+           subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
     Modify storage device (only supportsModify recorded offlineStorage device info) 
 
@@ -1104,14 +1104,14 @@ def modify(client: DMEAPIClient, storage_id: str = NORMALone, name: str = NORMAL
         maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenance start time and value greater thanStart time. 
         total_capacity: Raw capacity (Optional, -1~2147483647, in MB). Storage devicesum of all disk physical capacities, -1Indicates no raw capacity. 
         total_effective_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage device writable user data total, -1Indicates no available capacity. 
-        total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Actual available disk physical space (Excluding RAID, metadata consumption) , -1Indicates NORMAL/AAvailable capacity. 
-        used_capacity: Used capacity (Optional, -1~2147483647, in MB). Sum of used capacity across all storage pools, -1NORMAL/A for used capacity. 
-        free_capacity: Free capacity (Optional, -1~2147483647, in MB). Difference between available and used capacity, -1NORMAL/A for free capacity. 
+        total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Actual available disk physical space (Excluding RAID, metadata consumption) , -1Indicates N/AAvailable capacity. 
+        used_capacity: Used capacity (Optional, -1~2147483647, in MB). Sum of used capacity across all storage pools, -1N/A for used capacity. 
+        free_capacity: Free capacity (Optional, -1~2147483647, in MB). Difference between available and used capacity, -1N/A for free capacity. 
         subscription_capacity: Subscribed capacity (Optional, -1~2147483647, in MB). Sum of subscribed capacity across all storage pools, -1Indicates no subscribed capacity. 
         tag_ids:  Tag ID list (Optional, string, 0~512 characters). Array format string, supports up to 10 tags,  empty array meansRemove all storage device tagsassociated tags. 
 
     Returns:
-        NORMAL/A
+        N/A
     """
     if not storage_id:
         raise ValueError("storage_id is required")
@@ -1119,37 +1119,37 @@ def modify(client: DMEAPIClient, storage_id: str = NORMALone, name: str = NORMAL
     url = "/rest/storagemgmt/v2/storages/offline-storages/{storage_id}"
 
     payload = {}
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if ip is not NORMALone:
+    if ip is not None:
         payload['ip'] = ip
-    if vendor is not NORMALone:
+    if vendor is not None:
         payload['vendor'] = vendor
-    if model is not NORMALone:
+    if model is not None:
         payload['model'] = model
-    if version is not NORMALone:
+    if version is not None:
         payload['version'] = version
-    if patch_version is not NORMALone:
+    if patch_version is not None:
         payload['patch_version'] = patch_version
-    if location is not NORMALone:
+    if location is not None:
         payload['location'] = location
-    if maintenance_start is not NORMALone:
+    if maintenance_start is not None:
         payload['maintenance_start'] = maintenance_start
-    if maintenance_overtime is not NORMALone:
+    if maintenance_overtime is not None:
         payload['maintenance_overtime'] = maintenance_overtime
-    if total_capacity is not NORMALone:
+    if total_capacity is not None:
         payload['total_capacity'] = total_capacity
-    if total_effective_capacity is not NORMALone:
+    if total_effective_capacity is not None:
         payload['total_effective_capacity'] = total_effective_capacity
-    if total_pool_capacity is not NORMALone:
+    if total_pool_capacity is not None:
         payload['total_pool_capacity'] = total_pool_capacity
-    if used_capacity is not NORMALone:
+    if used_capacity is not None:
         payload['used_capacity'] = used_capacity
-    if free_capacity is not NORMALone:
+    if free_capacity is not None:
         payload['free_capacity'] = free_capacity
-    if subscription_capacity is not NORMALone:
+    if subscription_capacity is not None:
         payload['subscription_capacity'] = subscription_capacity
-    if tag_ids is not NORMALone:
+    if tag_ids is not None:
         import json
         payload['tag_ids'] = json.dumps(tag_ids) if isinstance(tag_ids, list) else tag_ids
 
@@ -1159,8 +1159,8 @@ def modify(client: DMEAPIClient, storage_id: str = NORMALone, name: str = NORMAL
 
 
 def app_type_list(client: DMEAPIClient, storage_id: str, 
-                 create_type: int = NORMALone, template_type: int = NORMALone, 
-                 pool_id: str = NORMALone) -> dict:
+                 create_type: int = None, template_type: int = None, 
+                 pool_id: str = None) -> dict:
     """
     QueryStorage device application type
     
@@ -1170,7 +1170,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
         client: DME API client. 
         storage_id: Storage device id (1~36 characters, must satisfy UUID format). 
         create_type: Create type (Optional, 0~1). Options: 0 ( system preset), 1 (user defined). returns all types if not provided. 
-        template_type: Application type category (Optional, 0~1). Options: 0 (LUNORMAL), 1 (NORMALAS). default: LUNORMAL if not specified. 
+        template_type: Application type category (Optional, 0~1). Options: 0 (LUN), 1 (NAS). default: LUN if not specified. 
         pool_id: Storage poolid (Optional, 1~64 characters,  letters and digits). 
     
     Returns:
@@ -1180,20 +1180,20 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
     url = "/rest/storagemgmt/v1/storages/{storage_id}/workloads"
     
     query_params = {}
-    if create_type is not NORMALone:
+    if create_type is not None:
         query_params['create_type'] = create_type
-    if template_type is not NORMALone:
+    if template_type is not None:
         query_params['template_type'] = template_type
-    if pool_id is not NORMALone:
+    if pool_id is not None:
         query_params['pool_id'] = pool_id
     
     
     query_params = {}
-    if create_type is not NORMALone:
+    if create_type is not None:
         query_params['create_type'] = create_type
-    if template_type is not NORMALone:
+    if template_type is not None:
         query_params['template_type'] = template_type
-    if pool_id is not NORMALone:
+    if pool_id is not None:
         query_params['pool_id'] = pool_id
     
     response = client.get(url, params=query_params)
@@ -1223,7 +1223,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def disk_domain_list(client: DMEAPIClient, storage_id: str = NORMALone, page_no: int = 1,
+def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
     Batch query disk pools
@@ -1256,7 +1256,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = NORMALone, page_no:
 
     payload = {}
 
-    if storage_id is not NORMALone:
+    if storage_id is not None:
         payload['storage_id'] = storage_id
     payload['page_no'] = page_no
     payload['page_size'] = page_size
@@ -1265,14 +1265,14 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = NORMALone, page_no:
     return response
 
 
-def disk_pool_list(client: DMEAPIClient, storage_id: str = NORMALone,
+def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
     Batch query distributed storage device disk pools. OceanStor Pacific and A310 only. 
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Optional, string, 1~64 characters). NORMALon-Pacific/A310 device reports parameter error
+        storage_id: Storage device ID (Optional, string, 1~64 characters). Non-Pacific/A310 device reports parameter error
         page_no: Page number (Optional, int32, 1~2147483647). Default: 1
         page_size: Page size (Optional, int32, 1~1000). Default: 20
 
@@ -1292,7 +1292,7 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = NORMALone,
         'page_no': page_no,
         'page_size': page_size
     }
-    if storage_id is not NORMALone:
+    if storage_id is not None:
         payload['storage_id'] = storage_id
 
     response = client.post(url, body=payload)
@@ -1300,11 +1300,11 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = NORMALone,
 
 
 def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
-                   storage_id: str = NORMALone, name: str = NORMALone, location: str = NORMALone,
-                   health_status: list = NORMALone, zone_name: str = NORMALone,
-                   zone_id: list = NORMALone, running_status: list = NORMALone,
-                   power_mode: list = NORMALone, esn: str = NORMALone, mac: str = NORMALone,
-                   sort_key: str = NORMALone, sort_dir: str = NORMALone) -> dict:
+                   storage_id: str = None, name: str = None, location: str = None,
+                   health_status: list = None, zone_name: str = None,
+                   zone_id: list = None, running_status: list = None,
+                   power_mode: list = None, esn: str = None, mac: str = None,
+                   sort_key: str = None, sort_dir: str = None) -> dict:
     """
     Batch query enclosures info
 
@@ -1313,10 +1313,10 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         page_no: Page number(Optional, 1~2147483647, default 1) 
         page_size: Page size(Optional, 1~1000, default 20) 
         storage_id: Storage deviceID(Optional, 1~64 characters) 
-        name: NORMALame (Optional,1~256 characters) , supports fuzzy match
+        name: Name (Optional,1~256 characters) , supports fuzzy match
         location: location(Optional, 1~256 characters) , supports fuzzy match
         health_status: Health status list(Optional, List<string>, max array members: 3). Options: unknown, normal, faulty ( fault)
-        zone_name: ZoneNORMALame (Optional,1~255 characters) , OceanStor A800 series only, supports fuzzy match
+        zone_name: ZoneName (Optional,1~255 characters) , OceanStor A800 series only, supports fuzzy match
         zone_id: Zone ID list(Optional, List<string>, max array members: 100) , OceanStor A800 series only
         running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown, normal, running, sleep_in_high_temperature, online, offline
         power_mode: Power supply mode list(Optional, List<string>, max array members: 2). Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
@@ -1332,7 +1332,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     id: EnclosureID (1~64 characters),
                     raw_id: Enclosure ID on storage device (1~64 characters),
                     name:  name (1~256 characters),
-                    model:  Model (1~32 characters). Options: 0 (BMC controller enclosure), 1 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NORMALVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NORMALVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NORMALVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5 inch智能Disk enclosure), 119 (2U SAS 12disk slot 3.5 inch智能Disk enclosure), 120 (2U NORMALVMe 36disk slot智能Disk enclosure), 122 (2U dual controller NORMALVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controller NORMALVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NORMALVME dual controller 64disk slot 2.5 inch Controller enclosure),
+                    model:  Model (1~32 characters). Options: 0 (BMC controller enclosure), 1 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5 inch智能Disk enclosure), 119 (2U SAS 12disk slot 3.5 inch智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controller NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controller NVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controller 64disk slot 2.5 inch Controller enclosure),
                     height: Height in U (integer),
                     location: Enclosure location (1~128 characters),
                     logic_type:  type. Options: disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
@@ -1379,19 +1379,19 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
     }
 
     for key, value in param_map.items():
-        if value is not NORMALone:
+        if value is not None:
             payload[key] = value
 
     response = client.post(url, body=payload)
     return response
 
 
-def initiator_list(client: DMEAPIClient, page_size: int = NORMALone, page_no: int = NORMALone,
-                   raw_id: str = NORMALone, alias: str = NORMALone, status: str = NORMALone,
-                   associated_host_name: str = NORMALone, associated_host_id: str = NORMALone,
-                   multipath_type: str = NORMALone, protocol: str = NORMALone,
-                   support_provisioning: bool = NORMALone, vstore_raw_id: str = NORMALone,
-                   vstore_name: str = NORMALone, storage_id: str = NORMALone) -> dict:
+def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = None,
+                   raw_id: str = None, alias: str = None, status: str = None,
+                   associated_host_name: str = None, associated_host_id: str = None,
+                   multipath_type: str = None, protocol: str = None,
+                   support_provisioning: bool = None, vstore_raw_id: str = None,
+                   vstore_name: str = None, storage_id: str = None) -> dict:
     """
     Batch query storage initiator objects
 
@@ -1401,7 +1401,7 @@ def initiator_list(client: DMEAPIClient, page_size: int = NORMALone, page_no: in
         client: DME API client
         page_size: Items per page (Optional, 1~1000, default 100)
         page_no: Page number (Optional, min1, default1)
-        raw_id: InitiatorWWPNORMAL/IQNORMAL/NORMALQNORMAL (Optional, 0~256 characters, supports fuzzy match)
+        raw_id: InitiatorWWPN/IQN/NQN (Optional, 0~256 characters, supports fuzzy match)
         alias: Initiator alias (Optional, 0~256 characters, supports fuzzy match)
         status: Initiator status (Optional). Options: unknown, online, offline
         associated_host_name: Initiator associatedHost name (Optional, 0~256 characters, supports fuzzy match)
@@ -1420,31 +1420,31 @@ def initiator_list(client: DMEAPIClient, page_size: int = NORMALone, page_no: in
 
     payload = {}
 
-    if page_size is not NORMALone:
+    if page_size is not None:
         payload['page_size'] = page_size
-    if page_no is not NORMALone:
+    if page_no is not None:
         payload['page_no'] = page_no
-    if raw_id is not NORMALone:
+    if raw_id is not None:
         payload['raw_id'] = raw_id
-    if alias is not NORMALone:
+    if alias is not None:
         payload['alias'] = alias
-    if status is not NORMALone:
+    if status is not None:
         payload['status'] = status
-    if associated_host_name is not NORMALone:
+    if associated_host_name is not None:
         payload['associated_host_name'] = associated_host_name
-    if associated_host_id is not NORMALone:
+    if associated_host_id is not None:
         payload['associated_host_id'] = associated_host_id
-    if multipath_type is not NORMALone:
+    if multipath_type is not None:
         payload['multipath_type'] = multipath_type
-    if protocol is not NORMALone:
+    if protocol is not None:
         payload['protocol'] = protocol
-    if support_provisioning is not NORMALone:
+    if support_provisioning is not None:
         payload['support_provisioning'] = support_provisioning
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if vstore_name is not NORMALone:
+    if vstore_name is not None:
         payload['vstore_name'] = vstore_name
-    if storage_id is not NORMALone:
+    if storage_id is not None:
         payload['storage_id'] = storage_id
 
     response = client.post(url, body=payload)
@@ -1452,7 +1452,7 @@ def initiator_list(client: DMEAPIClient, page_size: int = NORMALone, page_no: in
 
 
 def initiator_delete(client: DMEAPIClient, initiator_ids: list,
-                     task_remarks: str = NORMALone) -> dict:
+                     task_remarks: str = None) -> dict:
     """
     Batch delete storage device initiator objects
 
@@ -1470,7 +1470,7 @@ def initiator_delete(client: DMEAPIClient, initiator_ids: list,
         'initiator_ids': initiator_ids
     }
 
-    if task_remarks is not NORMALone:
+    if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
     response = client.post(url, body=payload)
@@ -1478,22 +1478,22 @@ def initiator_delete(client: DMEAPIClient, initiator_ids: list,
 
 
 def initiator_modify(client: DMEAPIClient, initiator_id: str,
-                     vstore_id: str = NORMALone, alias: str = NORMALone,
-                     multi_path: dict = NORMALone) -> dict:
+                     vstore_id: str = None, alias: str = None,
+                     multi_path: dict = None) -> dict:
     """
-    Modify storage initiator object
+    modify  storage侧Initiatorobject
 
-    Modify initiator on the specified storage device. 
+    modify Initiator, This operation modifies storage device上 specified的Initiator. 
 
     Args:
         client: DME API client
         initiator_id: Initiator ID (Required)
-        vstore_id: Tenant ID (Optional, 1~64 characters;  for OceanStor V300R006C30/V500R007C20/Dorado 6.1.3+ when)
+        vstore_id: Tenant ID (Optional, 1~64 characters;  device为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3 and aboveeffective when)
         alias: Initiator alias (Optional, 0~31 characters, supports alphanumeric._-and Chinese characters)
-        multi_path: ModifyMultiPathRequestParamobject (Optional;  for OceanStor V300R003C20/V500R007C20/Dorado V300R001C01+above support).  format: {
+        multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01 and above support).  format: {
                 multi_path_type: InitiatorMultipath type (Optional). Options: default (default), third_party (Third-party multipath),
-                path_type: Initiator路径 type (conditionally required, required when multi_path_type is third_party). Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
-                failover_mode: Initiator switch mode (conditionally required, required when multi_path_type is third_party). Options: early_version_alua, common_alua, alua_not_used, special_alua,
+                path_type: Initiator路径 type (conditionally required, 当multi_path_type为third_partyrequired when). Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
+                failover_mode: Initiator switch mode (conditionally required, 当multi_path_type为third_partyrequired when). Options: early_version_alua, common_alua, alua_not_used, special_alua,
                 special_mode_type: Special mode type (Optional, effective when failover mode is special). Options: 0 (Special mode0), 1 (Special mode1), 2 (Special mode2), 3 (Special mode3)
              }
 
@@ -1504,20 +1504,20 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
 
     payload = {}
 
-    if vstore_id is not NORMALone:
+    if vstore_id is not None:
         payload['vstore_id'] = vstore_id
-    if alias is not NORMALone:
+    if alias is not None:
         payload['alias'] = alias
-    if multi_path is not NORMALone:
+    if multi_path is not None:
         payload['multi_path'] = multi_path
 
     payload = {}
 
-    if vstore_id is not NORMALone:
+    if vstore_id is not None:
         payload['vstore_id'] = vstore_id
-    if alias is not NORMALone:
+    if alias is not None:
         payload['alias'] = alias
-    if multi_path is not NORMALone:
+    if multi_path is not None:
         payload['multi_path'] = multi_path
 
     response = client.put(url, body=payload, params={"initiator_id": initiator_id})
@@ -1527,8 +1527,8 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
 # ============ auth user (account) subtopic functions ============
 
 
-def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = NORMALone,
-                     name: str = NORMALone, page_no: int = 1, page_size: int = 20) -> dict:
+def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
+                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
     QueryStorage devicelocal Auth user info
 
@@ -1541,7 +1541,7 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Local auth user info list, includes total and local_users
+        local Auth user info list, includes  total 和 local_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-users/query"
 
@@ -1550,9 +1550,9 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
         'page_size': page_size
     }
 
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
 
     response = client.post(url, body=payload)
@@ -1560,8 +1560,8 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
 
 
 def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, password: str,
-                      primary_group_raw_id: str, description: str = NORMALone,
-                      group_names: list = NORMALone, vstore_id: str = NORMALone) -> dict:
+                      primary_group_raw_id: str, description: str = None,
+                      group_names: list = None, vstore_id: str = None) -> dict:
     """
     Create local auth user
 
@@ -1572,8 +1572,8 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         description: local Auth user description (1~255 characters, Optional)
         password: local Auth user password (1~255 characters, Required)
         primary_group_raw_id: local auth user所的User groupon device ID (1~64 characters, Required)
-        group_names: create 的local auth user的临时User groupNORMALame list (List<string>, min array members: 0, max array members: 31, Optional)
-        vstore_id: Local auth user tenant ID (1~64 characters, Optional. conditionally required, required when creating local auth user belongs to tenant)
+        group_names: create 的local auth user的临时User groupName list (List<string>, min array members: 0, max array members: 31, Optional)
+        vstore_id: local auth user的 tenant ID (1~64 characters, Optional. conditionally required, When creating localrequired when auth user belongs to tenant)
 
     Returns:
         creation result
@@ -1586,7 +1586,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         'primary_group_raw_id': primary_group_raw_id,
     }
 
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
 
     payload = {
@@ -1595,11 +1595,11 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         'primary_group_raw_id': primary_group_raw_id,
     }
 
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
-    if group_names is not NORMALone:
+    if group_names is not None:
         payload['group_names'] = group_names
-    if vstore_id is not NORMALone:
+    if vstore_id is not None:
         payload['vstore_id'] = vstore_id
 
     response = client.post(url, body=payload)
@@ -1607,22 +1607,22 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
 
 
 def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
-                      primary_group_raw_id: str, raw_id: int = NORMALone,
-                      description: str = NORMALone, password: str = NORMALone,
-                      status_enabled: bool = NORMALone, vstore_raw_id: str = NORMALone) -> dict:
+                      primary_group_raw_id: str, raw_id: int = None,
+                      description: str = None, password: str = None,
+                      status_enabled: bool = None, vstore_raw_id: str = None) -> dict:
     """
-    CreateStorage device UNORMALIX auth user
+    CreateStorage device UNIX auth user
 
     Args:
         client: DME API client
-        storage_id: create  UNORMALIX auth userStorage device ID (1~36 characters, Required)
-        name: UNORMALIX Auth user name (1~255 characters, Required)
-        raw_id: UNORMALIX Auth user on device ID (int64, 0~4294967295, Optional)
-        description: UNORMALIX Auth user description (1~255 characters, Optional)
-        password: UNORMALIX Auth user password (1~255 characters, Optional)
-        status_enabled: UNORMALIX Auth user status (boolean, Optional). Options: true ( start), false ( lock)
-        primary_group_raw_id: create UNORMALIX auth user所的User groupon device ID (1~64 characters, Required)
-        vstore_raw_id: UNORMALIX Auth user tenant on device ID (1~64 characters, Optional. conditionally required, 当create UNORMALIX required when auth user belongs to tenant)
+        storage_id: create  UNIX auth userStorage device ID (1~36 characters, Required)
+        name: UNIX Auth user name (1~255 characters, Required)
+        raw_id: UNIX Auth user on device ID (int64, 0~4294967295, Optional)
+        description: UNIX Auth user description (1~255 characters, Optional)
+        password: UNIX Auth user password (1~255 characters, Optional)
+        status_enabled: UNIX Auth user status (boolean, Optional). Options: true ( start), false ( lock)
+        primary_group_raw_id: create UNIX auth user所的User groupon device ID (1~64 characters, Required)
+        vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional. conditionally required, 当create UNIX required when auth user belongs to tenant)
 
     Returns:
         creation result
@@ -1634,15 +1634,15 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
         'primary_group_raw_id': primary_group_raw_id,
     }
 
-    if raw_id is not NORMALone:
+    if raw_id is not None:
         payload['raw_id'] = raw_id
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
-    if password is not NORMALone:
+    if password is not None:
         payload['password'] = password
-    if status_enabled is not NORMALone:
+    if status_enabled is not None:
         payload['status_enabled'] = status_enabled
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
 
     response = client.post(url, body=payload)
@@ -1650,9 +1650,9 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
 
 
 def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str, password: str,
-                                 raw_id: int = NORMALone, description: str = NORMALone,
-                                 status_enabled: bool = NORMALone,
-                                 vstore_raw_id: str = NORMALone) -> dict:
+                                 raw_id: int = None, description: str = None,
+                                 status_enabled: bool = None,
+                                 vstore_raw_id: str = None) -> dict:
     """
     CreateStorage device Windows auth user
 
@@ -1664,7 +1664,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
         description: Windows Auth user description (1~255 characters, Optional)
         password: Windows Auth user password (1~255 characters, Required)
         status_enabled: Windows Auth user status (boolean, Optional). Options: true ( enable), false ( lock)
-        vstore_raw_id: Create Windows auth user tenant on device ID (1~64 characters, Optional. conditionally required, when creating Windowsrequired when auth user belongs to tenant)
+        vstore_raw_id: create Windows Auth user tenant on device ID (1~64 characters, Optional. conditionally required, 当 Windows required when auth user belongs to tenant)
 
     Returns:
         creation result
@@ -1676,34 +1676,34 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
         'password': password,
     }
 
-    if raw_id is not NORMALone:
+    if raw_id is not None:
         payload['raw_id'] = raw_id
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
-    if status_enabled is not NORMALone:
+    if status_enabled is not None:
         payload['status_enabled'] = status_enabled
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
 
     response = client.post(url, body=payload)
     return response
 
 
-def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = NORMALone,
-                    name: str = NORMALone, page_no: int = 1, page_size: int = 20) -> dict:
+def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
+                    name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage device UNORMALIX Auth user info
+    QueryStorage device UNIX Auth user info
 
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: UNORMALIX auth userTenanton device ID(Optional) 
-        name: UNORMALIX Auth user name, supports fuzzy search(Optional) 
+        vstore_raw_id: UNIX auth userTenanton device ID(Optional) 
+        name: UNIX Auth user name, supports fuzzy search(Optional) 
         page_no: Page number, default 1(Optional) 
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        UNORMALIX Auth user info list, includes total and unix_users
+        UNIX Auth user info list, includes  total 和 unix_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-users/query"
 
@@ -1712,17 +1712,17 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
         'page_size': page_size
     }
 
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
 
     response = client.post(url, body=payload)
     return response
 
 
-def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = NORMALone,
-                       name: str = NORMALone, page_no: int = 1, page_size: int = 20) -> dict:
+def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
+                       name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
     QueryStorage device Windows Auth user info
 
@@ -1735,7 +1735,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Windows auth user info list, includes total and windows_users
+        Windows Auth user info list, includes  total 和 windows_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-users/query"
 
@@ -1744,17 +1744,17 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
         'page_size': page_size
     }
 
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
 
     response = client.post(url, body=payload)
     return response
 
 
-def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = NORMALone,
-                           name: str = NORMALone, page_no: int = 1, page_size: int = 20) -> dict:
+def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
+                           name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
     QueryStorage devicelocal Auth user group info
 
@@ -1767,7 +1767,7 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Local auth user group info list, includes total and local_user_groups
+        local Auth user group info list, includes  total 和 local_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-user-groups/query"
 
@@ -1776,30 +1776,30 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
         'page_size': page_size
     }
 
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
 
     response = client.post(url, body=payload)
     return response
 
 
-def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = NORMALone,
-                          name: str = NORMALone, page_no: int = 1, page_size: int = 20) -> dict:
+def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
+                          name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage device UNORMALIX Auth user group info
+    QueryStorage device UNIX Auth user group info
 
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: UNORMALIX  authUser groupTenanton device ID(Optional) 
-        name: UNORMALIX Auth user group name, supports fuzzy search(Optional) 
+        vstore_raw_id: UNIX  authUser groupTenanton device ID(Optional) 
+        name: UNIX Auth user group name, supports fuzzy search(Optional) 
         page_no: Page number, default 1(Optional) 
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        UNORMALIX Auth user group info list, includes total and unix_user_groups
+        UNIX Auth user group info list, includes  total 和 unix_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-user-groups/query"
 
@@ -1808,17 +1808,17 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
         'page_size': page_size
     }
 
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
 
     response = client.post(url, body=payload)
     return response
 
 
-def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = NORMALone,
-                             name: str = NORMALone, page_no: int = 1, page_size: int = 20) -> dict:
+def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
+                             name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
     QueryStorage device Windows Auth user group info
 
@@ -1831,7 +1831,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Windows auth user group info list, includes total and windows_user_groups
+        Windows Auth user group info list, includes  total 和 windows_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-user-groups/query"
 
@@ -1840,9 +1840,9 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
         'page_size': page_size
     }
 
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
 
     response = client.post(url, body=payload)
@@ -1852,31 +1852,31 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
 # ============ QoS subtopic functions ============
 
 
-def qos_list(client: DMEAPIClient, storage_id: str, name: str = NORMALone,
-             raw_id: str = NORMALone, enable_status: bool = NORMALone,
-             running_status: str = NORMALone, zone_id: str = NORMALone,
-             resource_type_list: list = NORMALone, vstore_id: str = NORMALone,
-             vstore_name: str = NORMALone, alarm_status: str = NORMALone,
-             io_policy_type: str = NORMALone, page_no: int = 1,
-             page_size: int = 10, sort_key: str = NORMALone,
-             sort_dir: str = NORMALone) -> dict:
+def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
+             raw_id: str = None, enable_status: bool = None,
+             running_status: str = None, zone_id: str = None,
+             resource_type_list: list = None, vstore_id: str = None,
+             vstore_name: str = None, alarm_status: str = None,
+             io_policy_type: str = None, page_no: int = 1,
+             page_size: int = 10, sort_key: str = None,
+             sort_dir: str = None) -> dict:
     """
     Batch query QoS  policy
 
     Args:
         client: DME API client
         storage_id: Storage device ID (Required) 
-        name: QoS  policyNORMALame (Optional,1~256  character) 
+        name: QoS  policyName (Optional,1~256  character) 
         raw_id: QoS  policydevice side ID(Optional) 
         enable_status: Active status(Optional, true/false) 
         running_status: Running status(Optional, running/inactive/waiting) 
-        zone_id:  ZONORMALE ID(Optional) 
-        resource_type_list:  Controlled resource type list(Optional, file_system, vstore, none) 
+        zone_id:  ZONE ID(Optional) 
+        resource_type_list:  control的Resource type list(Optional, file_system/vstore/none) 
         vstore_id: Tenant ID(Optional) 
         vstore_name: Tenant name(Optional) 
         alarm_status: Alarm status(Optional, normal/event/alarm/invalid) 
         io_policy_type: IO Policy type(Optional, total_perf_upper_limit/read_or_write_upper_limit) 
-        page_no: Page number (Optional, default 1) 
+        page_no: 页码(Optional, default 1) 
         page_size: per pagecount(Optional, default 10,  max 1000) 
         sort_key: Sort field(Optional, name/raw_id) 
         sort_dir: Sort method(Optional, asc/desc) 
@@ -1889,29 +1889,29 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = NORMALone,
         'page_size': page_size
     }
 
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if raw_id is not NORMALone:
+    if raw_id is not None:
         payload['raw_id'] = raw_id
-    if enable_status is not NORMALone:
+    if enable_status is not None:
         payload['enable_status'] = enable_status
-    if running_status is not NORMALone:
+    if running_status is not None:
         payload['running_status'] = running_status
-    if zone_id is not NORMALone:
+    if zone_id is not None:
         payload['zone_id'] = zone_id
-    if resource_type_list is not NORMALone:
+    if resource_type_list is not None:
         payload['resource_type_list'] = resource_type_list
-    if vstore_id is not NORMALone:
+    if vstore_id is not None:
         payload['vstore_id'] = vstore_id
-    if vstore_name is not NORMALone:
+    if vstore_name is not None:
         payload['vstore_name'] = vstore_name
-    if alarm_status is not NORMALone:
+    if alarm_status is not None:
         payload['alarm_status'] = alarm_status
-    if io_policy_type is not NORMALone:
+    if io_policy_type is not None:
         payload['io_policy_type'] = io_policy_type
-    if sort_key is not NORMALone:
+    if sort_key is not None:
         payload['sort_key'] = sort_key
-    if sort_dir is not NORMALone:
+    if sort_dir is not None:
         payload['sort_dir'] = sort_dir
 
     response = client.post(url, body=payload)
@@ -1933,23 +1933,23 @@ def qos_show(client: DMEAPIClient, qos_policy_id: str) -> dict:
 
 def qos_create(client: DMEAPIClient, name: str, storage_id: str,
                resource_type: str, resource_ids: list,
-               description: str = NORMALone, zone_id: str = NORMALone,
-               vstore_id: str = NORMALone, enable_status: str = 'enable',
-               io_policy_type: str = NORMALone, min_bandwidth: int = NORMALone,
-               max_bandwidth: int = NORMALone, burst_bandwidth: int = NORMALone,
-               min_iops: int = NORMALone, max_iops: int = NORMALone,
-               burst_iops: int = NORMALone, burst_time: int = NORMALone,
-               latency: int = NORMALone, max_read_bandwidth: int = NORMALone,
-               max_write_bandwidth: int = NORMALone,
-               burst_read_bandwidth: int = NORMALone,
-               burst_write_bandwidth: int = NORMALone,
-               max_read_iops: int = NORMALone, max_write_iops: int = NORMALone,
-               burst_read_iops: int = NORMALone, burst_write_iops: int = NORMALone,
-               alarm_switch: str = NORMALone, alarm_level: str = NORMALone,
-               alarm_threshold: int = NORMALone, resume_threshold: int = NORMALone,
-               schedule_policy: str = NORMALone, schedule_start_date: str = NORMALone,
-               start_time: str = NORMALone, duration: int = NORMALone,
-               weekly_days: list = NORMALone) -> dict:
+               description: str = None, zone_id: str = None,
+               vstore_id: str = None, enable_status: str = 'enable',
+               io_policy_type: str = None, min_bandwidth: int = None,
+               max_bandwidth: int = None, burst_bandwidth: int = None,
+               min_iops: int = None, max_iops: int = None,
+               burst_iops: int = None, burst_time: int = None,
+               latency: int = None, max_read_bandwidth: int = None,
+               max_write_bandwidth: int = None,
+               burst_read_bandwidth: int = None,
+               burst_write_bandwidth: int = None,
+               max_read_iops: int = None, max_write_iops: int = None,
+               burst_read_iops: int = None, burst_write_iops: int = None,
+               alarm_switch: str = None, alarm_level: str = None,
+               alarm_threshold: int = None, resume_threshold: int = None,
+               schedule_policy: str = None, schedule_start_date: str = None,
+               start_time: str = None, duration: int = None,
+               weekly_days: list = None) -> dict:
     """
     create  QoS  policy
 
@@ -1959,29 +1959,29 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         name: QoS Policy name (Required, 1~31  character) 
         storage_id: Storage device ID (Required) 
-        resource_type:  Controlled resource type (Required, file_system/vstore) 
-        resource_ids:  Controlled resource ID  list (Required, array of 1-512 members) 
+        resource_type:  control的Resource type (Required, file_system/vstore) 
+        resource_ids:  control的 resource ID  list (Required, 数组 1~512 个 member) 
         description:  description(Optional, 1~255  character) 
-        zone_id:  ZONORMALE ID(Optional, A series storageRequired) 
-        vstore_id: Tenant ID(Optional, required when resource_type is file_system) 
+        zone_id:  ZONE ID(Optional, A series storageRequired) 
+        vstore_id: Tenant ID(Optional, resource_type 为 file_system 时Required) 
         enable_status: Active status(Optional, enable/disable, default enable) 
         io_policy_type: IO Policy type(Optional, total_perf_upper_limit/read_or_write_upper_limit) 
         min_bandwidth: Min bandwidth MB/s(Optional) 
         max_bandwidth: Max bandwidth MB/s(Optional) 
-        burst_bandwidth: Burst bandwidth in MB/s(Optional, must be greater than max_bandwidth) 
+        burst_bandwidth: Burst bandwidth MB/s(Optional, 需greater than max_bandwidth) 
         min_iops:  min IOPS(Optional) 
         max_iops:  max IOPS(Optional) 
-        burst_iops: Burst IOPS(Optional, must be greater than max_iops) 
+        burst_iops: burst IOPS(Optional, 需greater than max_iops) 
         burst_time:  maxburstduration seconds(Optional, 1~999999999) 
         latency: IO  latency metric micro seconds(Optional, 500/1500) 
         max_read_bandwidth:  maxRead bandwidth MB/s(Optional) 
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional) 
         burst_read_bandwidth: burstRead bandwidth MB/s(Optional) 
         burst_write_bandwidth: burstWrite bandwidth MB/s(Optional) 
-        max_read_iops:  Max read IOPS(Optional) 
-        max_write_iops:  Max write IOPS(Optional) 
-        burst_read_iops: Burst read IOPS(Optional) 
-        burst_write_iops: Burst write IOPS(Optional) 
+        max_read_iops:  max读 IOPS(Optional) 
+        max_write_iops:  max写 IOPS(Optional) 
+        burst_read_iops: burst读 IOPS(Optional) 
+        burst_write_iops: burst写 IOPS(Optional) 
         alarm_switch: alarm switch(Optional, on/off) 
         alarm_level: Alarm severity(Optional, event/alarm) 
         alarm_threshold: alarmthreshold%(Optional, 0~100) 
@@ -1990,7 +1990,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         schedule_start_date: Effective start date(Optional, yyyy-MM-dd) 
         start_time: effectiveStart time(Optional, hh:mm) 
         duration: effectiveduration seconds(Optional, 1800~86400) 
-        weekly_days: Weekly scheduling policy (Optional, [0-6]  corresponding to Sunday to Saturday) 
+        weekly_days: Weekly scheduling policy(Optional, [0-6]  correspondingweek(s)日到week(s)六) 
     """
     url = "/rest/storagepolicy/v1/qos"
 
@@ -2001,75 +2001,75 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         'resource_ids': resource_ids
     }
 
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
-    if zone_id is not NORMALone:
+    if zone_id is not None:
         payload['zone_id'] = zone_id
-    if vstore_id is not NORMALone:
+    if vstore_id is not None:
         payload['vstore_id'] = vstore_id
-    if enable_status is not NORMALone:
+    if enable_status is not None:
         payload['enable_status'] = enable_status
 
     io_param = {}
-    if io_policy_type is not NORMALone:
+    if io_policy_type is not None:
         io_param['io_policy_type'] = io_policy_type
-    if min_bandwidth is not NORMALone:
+    if min_bandwidth is not None:
         io_param['min_bandwidth'] = min_bandwidth
-    if max_bandwidth is not NORMALone:
+    if max_bandwidth is not None:
         io_param['max_bandwidth'] = max_bandwidth
-    if burst_bandwidth is not NORMALone:
+    if burst_bandwidth is not None:
         io_param['burst_bandwidth'] = burst_bandwidth
-    if min_iops is not NORMALone:
+    if min_iops is not None:
         io_param['min_iops'] = min_iops
-    if max_iops is not NORMALone:
+    if max_iops is not None:
         io_param['max_iops'] = max_iops
-    if burst_iops is not NORMALone:
+    if burst_iops is not None:
         io_param['burst_iops'] = burst_iops
-    if burst_time is not NORMALone:
+    if burst_time is not None:
         io_param['burst_time'] = burst_time
-    if latency is not NORMALone:
+    if latency is not None:
         io_param['latency'] = latency
-    if max_read_bandwidth is not NORMALone:
+    if max_read_bandwidth is not None:
         io_param['max_read_bandwidth'] = max_read_bandwidth
-    if max_write_bandwidth is not NORMALone:
+    if max_write_bandwidth is not None:
         io_param['max_write_bandwidth'] = max_write_bandwidth
-    if burst_read_bandwidth is not NORMALone:
+    if burst_read_bandwidth is not None:
         io_param['burst_read_bandwidth'] = burst_read_bandwidth
-    if burst_write_bandwidth is not NORMALone:
+    if burst_write_bandwidth is not None:
         io_param['burst_write_bandwidth'] = burst_write_bandwidth
-    if max_read_iops is not NORMALone:
+    if max_read_iops is not None:
         io_param['max_read_iops'] = max_read_iops
-    if max_write_iops is not NORMALone:
+    if max_write_iops is not None:
         io_param['max_write_iops'] = max_write_iops
-    if burst_read_iops is not NORMALone:
+    if burst_read_iops is not None:
         io_param['burst_read_iops'] = burst_read_iops
-    if burst_write_iops is not NORMALone:
+    if burst_write_iops is not None:
         io_param['burst_write_iops'] = burst_write_iops
 
     if io_param:
         payload['io_param'] = io_param
 
-    if alarm_switch is not NORMALone:
+    if alarm_switch is not None:
         payload['alarm_switch'] = alarm_switch
-    if alarm_level is not NORMALone:
+    if alarm_level is not None:
         payload['alarm_level'] = alarm_level
-    if alarm_threshold is not NORMALone:
+    if alarm_threshold is not None:
         payload['alarm_threshold'] = alarm_threshold
-    if resume_threshold is not NORMALone:
+    if resume_threshold is not None:
         payload['resume_threshold'] = resume_threshold
 
-    if schedule_policy is not NORMALone or schedule_start_date is not NORMALone or \
-       start_time is not NORMALone or duration is not NORMALone or weekly_days is not NORMALone:
+    if schedule_policy is not None or schedule_start_date is not None or \
+       start_time is not None or duration is not None or weekly_days is not None:
         schedule_start_time = {}
-        if schedule_policy is not NORMALone:
+        if schedule_policy is not None:
             schedule_start_time['schedule_policy'] = schedule_policy
-        if schedule_start_date is not NORMALone:
+        if schedule_start_date is not None:
             schedule_start_time['schedule_start_date'] = schedule_start_date
-        if start_time is not NORMALone:
+        if start_time is not None:
             schedule_start_time['start_time'] = start_time
-        if duration is not NORMALone:
+        if duration is not None:
             schedule_start_time['duration'] = duration
-        if weekly_days is not NORMALone:
+        if weekly_days is not None:
             schedule_start_time['weekly_days'] = weekly_days
         payload['schedule_start_time'] = schedule_start_time
 
@@ -2078,23 +2078,23 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
 
 
 def qos_modify(client: DMEAPIClient, qos_policy_id: str,
-               name: str = NORMALone, description: str = NORMALone,
-               io_policy_type: str = NORMALone, min_bandwidth: int = NORMALone,
-               max_bandwidth: int = NORMALone, burst_bandwidth: int = NORMALone,
-               min_iops: int = NORMALone, max_iops: int = NORMALone,
-               burst_iops: int = NORMALone, burst_time: int = NORMALone,
-               latency: int = NORMALone, max_read_bandwidth: int = NORMALone,
-               max_write_bandwidth: int = NORMALone,
-               burst_read_bandwidth: int = NORMALone,
-               burst_write_bandwidth: int = NORMALone,
-               max_read_iops: int = NORMALone, max_write_iops: int = NORMALone,
-               burst_read_iops: int = NORMALone, burst_write_iops: int = NORMALone,
-               alarm_switch: str = NORMALone, alarm_level: str = NORMALone,
-               alarm_threshold: int = NORMALone, resume_threshold: int = NORMALone) -> dict:
+               name: str = None, description: str = None,
+               io_policy_type: str = None, min_bandwidth: int = None,
+               max_bandwidth: int = None, burst_bandwidth: int = None,
+               min_iops: int = None, max_iops: int = None,
+               burst_iops: int = None, burst_time: int = None,
+               latency: int = None, max_read_bandwidth: int = None,
+               max_write_bandwidth: int = None,
+               burst_read_bandwidth: int = None,
+               burst_write_bandwidth: int = None,
+               max_read_iops: int = None, max_write_iops: int = None,
+               burst_read_iops: int = None, burst_write_iops: int = None,
+               alarm_switch: str = None, alarm_level: str = None,
+               alarm_threshold: int = None, resume_threshold: int = None) -> dict:
     """
     modify  QoS  policy
 
-    Modify existing QoS policy configuration. 
+    modify 现有 QoS  policy的 config. 
 
     Args:
         client: DME API client
@@ -2104,20 +2104,20 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         io_policy_type: IO Policy type(Optional) 
         min_bandwidth: Min bandwidth MB/s(Optional) 
         max_bandwidth: Max bandwidth MB/s(Optional) 
-        burst_bandwidth: Burst bandwidth in MB/s(Optional) 
+        burst_bandwidth: Burst bandwidth MB/s(Optional) 
         min_iops:  min IOPS(Optional) 
         max_iops:  max IOPS(Optional) 
-        burst_iops: Burst IOPS(Optional) 
+        burst_iops: burst IOPS(Optional) 
         burst_time:  maxburstduration seconds(Optional) 
         latency: IO  latency metric micro seconds(Optional) 
         max_read_bandwidth:  maxRead bandwidth MB/s(Optional) 
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional) 
         burst_read_bandwidth: burstRead bandwidth MB/s(Optional) 
         burst_write_bandwidth: burstWrite bandwidth MB/s(Optional) 
-        max_read_iops:  Max read IOPS(Optional) 
-        max_write_iops:  Max write IOPS(Optional) 
-        burst_read_iops: Burst read IOPS(Optional) 
-        burst_write_iops: Burst write IOPS(Optional) 
+        max_read_iops:  max读 IOPS(Optional) 
+        max_write_iops:  max写 IOPS(Optional) 
+        burst_read_iops: burst读 IOPS(Optional) 
+        burst_write_iops: burst写 IOPS(Optional) 
         alarm_switch: alarm switch(Optional) 
         alarm_level: Alarm severity(Optional) 
         alarm_threshold: alarmthreshold%(Optional) 
@@ -2127,66 +2127,66 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
 
     payload = {}
 
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
 
     io_param = {}
 
     payload = {}
 
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if description is not NORMALone:
+    if description is not None:
         payload['description'] = description
 
     io_param = {}
-    if io_policy_type is not NORMALone:
+    if io_policy_type is not None:
         io_param['io_policy_type'] = io_policy_type
-    if min_bandwidth is not NORMALone:
+    if min_bandwidth is not None:
         io_param['min_bandwidth'] = min_bandwidth
-    if max_bandwidth is not NORMALone:
+    if max_bandwidth is not None:
         io_param['max_bandwidth'] = max_bandwidth
-    if burst_bandwidth is not NORMALone:
+    if burst_bandwidth is not None:
         io_param['burst_bandwidth'] = burst_bandwidth
-    if min_iops is not NORMALone:
+    if min_iops is not None:
         io_param['min_iops'] = min_iops
-    if max_iops is not NORMALone:
+    if max_iops is not None:
         io_param['max_iops'] = max_iops
-    if burst_iops is not NORMALone:
+    if burst_iops is not None:
         io_param['burst_iops'] = burst_iops
-    if burst_time is not NORMALone:
+    if burst_time is not None:
         io_param['burst_time'] = burst_time
-    if latency is not NORMALone:
+    if latency is not None:
         io_param['latency'] = latency
-    if max_read_bandwidth is not NORMALone:
+    if max_read_bandwidth is not None:
         io_param['max_read_bandwidth'] = max_read_bandwidth
-    if max_write_bandwidth is not NORMALone:
+    if max_write_bandwidth is not None:
         io_param['max_write_bandwidth'] = max_write_bandwidth
-    if burst_read_bandwidth is not NORMALone:
+    if burst_read_bandwidth is not None:
         io_param['burst_read_bandwidth'] = burst_read_bandwidth
-    if burst_write_bandwidth is not NORMALone:
+    if burst_write_bandwidth is not None:
         io_param['burst_write_bandwidth'] = burst_write_bandwidth
-    if max_read_iops is not NORMALone:
+    if max_read_iops is not None:
         io_param['max_read_iops'] = max_read_iops
-    if max_write_iops is not NORMALone:
+    if max_write_iops is not None:
         io_param['max_write_iops'] = max_write_iops
-    if burst_read_iops is not NORMALone:
+    if burst_read_iops is not None:
         io_param['burst_read_iops'] = burst_read_iops
-    if burst_write_iops is not NORMALone:
+    if burst_write_iops is not None:
         io_param['burst_write_iops'] = burst_write_iops
 
     if io_param:
         payload['io_param'] = io_param
 
-    if alarm_switch is not NORMALone:
+    if alarm_switch is not None:
         payload['alarm_switch'] = alarm_switch
-    if alarm_level is not NORMALone:
+    if alarm_level is not None:
         payload['alarm_level'] = alarm_level
-    if alarm_threshold is not NORMALone:
+    if alarm_threshold is not None:
         payload['alarm_threshold'] = alarm_threshold
-    if resume_threshold is not NORMALone:
+    if resume_threshold is not None:
         payload['resume_threshold'] = resume_threshold
 
     response = client.put(url, body=payload, params={"qos_policy_id": qos_policy_id})
@@ -2282,7 +2282,7 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
     """
     QoS Disassociate policy from control resource
 
-    Disassociate resource from QoS policy. 
+    将 resource从 QoS  policy解 associated. 
 
     Args:
         client: DME API client
@@ -2304,8 +2304,8 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
 # ============  storageLogic port (logic_port) subtopic functions ============
 
 
-def logic_port_list(client: DMEAPIClient, storage_id: str = NORMALone, vstore_raw_id: str = NORMALone,
-                    zone_raw_id: str = NORMALone, scope: str = NORMALone, page_no: int = 1,
+def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id: str = None,
+                    zone_raw_id: str = None, scope: str = None, page_no: int = 1,
                     page_size: int = 100) -> dict:
     """
     query storage deviceLogic port list
@@ -2315,7 +2315,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = NORMALone, vstore_ra
         storage_id: Storage device ID(Optional, 1~64 characters) 
         vstore_raw_id: vStoreon the storage deviceid(Optional, 1~64 characters) 
         zone_raw_id: Zoneon the deviceID(Optional, 1~64 characters) , OceanStor A800 series only
-        scope:  range(Optional). Options: hyperscale, default. OceanStor A800 series only
+        scope:  range(Optional). Options: hyperscale ( global), default (local ). OceanStor A800 series only
         page_no: Page number(Optional, 1~10000, default 1) 
         page_size: Page size(Optional, 1~1000, default 100) 
 
@@ -2326,29 +2326,29 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = NORMALone, vstore_ra
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options: UNORMALKNORMALOWNORMAL, NORMALORMAL, RUNORMALNORMALINORMALG (running), LINORMALK_UP, LINORMALK_DOWNORMALconnected), TO_BE_RECOVERED (待 resume), INORMALITIALIZINORMALG (Initializing), STANORMALDBY ( pending), POWERINORMALG_ONORMAL ( powering on), POWERED_OFF ( powered off), POWER_ONORMAL_FAILEDED ( power on failure),
-                operational_status: Active status. Options: ACTIVATED ( activate), NORMALOT_ACTIVATED (inactive),
+                running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
+                operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
-                ipv4_mask: Logic portIPNORMALetmask(IPV4) (1~64 characters),
+                ipv4_mask: Logic portIPNetmask(IPV4) (1~64 characters),
                 mgmt_ipv6: ipv6 address (1~255 characters),
-                ipv6_mask: Logic portIPNORMALetmask(IPV6) (1~128 characters),
+                ipv6_mask: Logic portIPNetmask(IPV6) (1~128 characters),
                 ipv6_gateway: Logic port gatewayIP address(IPV6) (1~128 characters),
                 home_port_raw_id: Parent porton the storage deviceID (1~255 characters),
-                home_port_name: Parent port name (1~255 characters),
-                home_port_type: Parent port type. Options: ETHERNORMALET_PORT, BONORMALD, VLANORMAL, VIPIP), SIP (SIP), IB (IB),
+                home_port_name: 父Port name (1~255 characters),
+                home_port_type: 父Port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
                 home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
                 current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
                 current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-                role:  Port role (1~10 characters). Options: 0, 1, 2, 3, 4eplication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
-                ddns_status: Dynamic DNORMALS status. Options: INORMALVALID, ENORMALABLE, DISABLED,
-                failover_group_raw_id: Failover group ID on storage device (1~255 characters),
+                role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 ( replication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
+                ddns_status: 动态DNS enable status. Options: INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
+                failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
                 failover_group_name: Failover group name (1~255 characters),
-                support_protocol: Logic port supported protocols. Options: NORMALONORMALE, NORMALFS, CIFSIFS protocol), NORMALFS_ANORMALD_CIFS (NORMALFS和CIFS protocol), NORMALFS_OVER_RDMA (NORMALFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NORMALVME_OVER_ROCE (NORMALVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NORMALFS_OVER_IB (NORMALFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_ANORMALD_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NORMALAS_ANORMALD_OBJECT (NORMALAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
-                logical_type:  Logical type. Options: SERVICE, MANORMALAGEMENORMALT, MAINORMALTENORMALANORMALCEaintenance port),
-                listen_dns_query_enabled:  Whether to listen for DNORMALS queries (1~255 characters). Options: NORMALO, YES,
+                support_protocol: Logic portSupported data access protocols. Options: NONE (N/A protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+                logical_type:  logical type. Options: SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
+                listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters). Options: NO ( disable), YES ( open),
                 management_access: Management access method (1~255 characters),
-                vstore_raw_id: Logic port vStore ID on device (1~255 characters),
+                vstore_raw_id: Logic portvStoreassigned on the deviceid (1~255 characters),
                 vstore_name: Logic portvStore name (1~255 characters),
                 storage_id: Storage device ID (1~255 characters),
                 storage_name: Storage device name (1~255 characters),
@@ -2356,12 +2356,12 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = NORMALone, vstore_ra
                 zone_id: Zone ID (1~64 characters), OceanStor A800 series only,
                 zone_name: zone name (1~255 characters), OceanStor A800 series only,
                 zone_ip: zone IP (1~255 characters),
-                dns_zone_name: DNORMALS Zone name (1~255 characters),
-                current_port_type: Logic portPhysical port type. Options: ETHERNORMALET_PORT, BONORMALD, VLANORMAL, VIPIP), SIP (SIP), IB (IB),
+                dns_zone_name: DNS Zone name (1~255 characters),
+                current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
                 address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
-                can_failover: Enable IP address drift (boolean). Options: true, false,
-                failback_mode: Drift-back mode. Options: not_support, manual, automatic,
-                scope:  range. Options: hyperscale, default. OceanStor A800 series only,
+                can_failover: EnableIPAddress drift (boolean). Options: true, false,
+                failback_mode: Drift-back mode. Options: not_support (feature not supported), manual, automatic ( auto),
+                scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only,
                 logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                     id:  tag ID (1~32 characters),
                     tag_type_name: Tag type name (1~64 characters),
@@ -2379,13 +2379,13 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = NORMALone, vstore_ra
         'page_size': page_size
     }
 
-    if storage_id is not NORMALone:
+    if storage_id is not None:
         payload['storage_id'] = storage_id
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if zone_raw_id is not NORMALone:
+    if zone_raw_id is not None:
         payload['zone_raw_id'] = zone_raw_id
-    if scope is not NORMALone:
+    if scope is not None:
         payload['scope'] = scope
 
     response = client.post(url, body=payload)
@@ -2398,36 +2398,36 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
 
     Args:
         client: DME API client
-        logic_port_id: Logic port ID (Required, 1~64  characters, UUID format or 32-bit hex) 
+        logic_port_id: Logic port的 ID (Required, 1~64  characters, UUID format or 32-bit hex) 
 
     Returns:
         {
             id:  logicalPort ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options: UNORMALKNORMALOWNORMAL, NORMALORMAL, RUNORMALNORMALINORMALG (running), LINORMALK_UP, LINORMALK_DOWNORMALconnected), TO_BE_RECOVERED (待 resume), INORMALITIALIZINORMALG (Initializing), STANORMALDBY ( pending), POWERINORMALG_ONORMAL ( powering on), POWERED_OFF ( powered off), POWER_ONORMAL_FAILEDED ( power on failure),
-            operational_status: Active status. Options: ACTIVATED ( activate), NORMALOT_ACTIVATED (inactive),
+            running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
+            operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
-            ipv4_mask: Logic portIPNORMALetmask(IPV4) (1~64 characters),
+            ipv4_mask: Logic portIPNetmask(IPV4) (1~64 characters),
             mgmt_ipv6: ipv6 address (1~255 characters),
-            ipv6_mask: Logic portIPNORMALetmask(IPV6) (1~128 characters),
+            ipv6_mask: Logic portIPNetmask(IPV6) (1~128 characters),
             ipv6_gateway: Logic port gatewayIP address(IPV6) (1~128 characters),
             home_port_raw_id: Parent porton the storage deviceID (1~255 characters),
-            home_port_name: Parent port name (1~255 characters),
-            home_port_type: Parent port type. Options: ETHERNORMALET_PORT, BONORMALD, VLANORMAL, VIPIP), SIP (SIP), IB (IB),
+            home_port_name: 父Port name (1~255 characters),
+            home_port_type: 父Port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
             home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
             current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
             current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-            role:  Port role (1~10 characters). Options: 0, 1, 2, 3, 4eplication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
-            ddns_status: Dynamic DNORMALS status. Options: INORMALVALID, ENORMALABLE, DISABLED,
-            failover_group_raw_id: Failover group ID on storage device (1~255 characters),
+            role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 ( replication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
+            ddns_status: 动态DNS enable status. Options: INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
+            failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
             failover_group_name: Failover group name (1~255 characters),
-            support_protocol: Logic port supported protocols. Options: NORMALONORMALE, NORMALFS, CIFSIFS protocol), NORMALFS_ANORMALD_CIFS (NORMALFS和CIFS protocol), NORMALFS_OVER_RDMA (NORMALFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NORMALVME_OVER_ROCE (NORMALVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NORMALFS_OVER_IB (NORMALFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_ANORMALD_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NORMALAS_ANORMALD_OBJECT (NORMALAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
-            logical_type:  Logical type. Options: SERVICE, MANORMALAGEMENORMALT, MAINORMALTENORMALANORMALCEaintenance port),
-            listen_dns_query_enabled:  Whether to listen for DNORMALS queries (1~255 characters). Options: NORMALO, YES,
+            support_protocol: Logic portSupported data access protocols. Options: NONE (N/A protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+            logical_type:  logical type. Options: SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
+            listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters). Options: NO ( disable), YES ( open),
             management_access: Management access method (1~255 characters),
-            vstore_raw_id: Logic port vStore ID on device (1~255 characters),
+            vstore_raw_id: Logic portvStoreassigned on the deviceid (1~255 characters),
             vstore_name: Logic portvStore name (1~255 characters),
             storage_id: Storage device ID (1~255 characters),
             storage_name: Storage device name (1~255 characters),
@@ -2435,12 +2435,12 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             zone_id: Zone ID (1~64 characters), OceanStor A800 series only,
             zone_name: zone name (1~255 characters), OceanStor A800 series only,
             zone_ip: zone IP (1~255 characters),
-            dns_zone_name: DNORMALS Zone name (1~255 characters),
-            current_port_type: Logic portPhysical port type. Options: ETHERNORMALET_PORT, BONORMALD, VLANORMAL, VIPIP), SIP (SIP), IB (IB),
+            dns_zone_name: DNS Zone name (1~255 characters),
+            current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
             address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
-            can_failover: Enable IP address drift (boolean). Options: true, false,
-            failback_mode: Drift-back mode. Options: not_support, manual, automatic,
-            scope:  range. Options: hyperscale, default. OceanStor A800 series only,
+            can_failover: EnableIPAddress drift (boolean). Options: true, false,
+            failback_mode: Drift-back mode. Options: not_support (feature not supported), manual, automatic ( auto),
+            scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only,
             logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                 id:  tag ID (1~32 characters),
                 tag_type_name: Tag type name (1~64 characters),
@@ -2458,42 +2458,42 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
 
 def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_family: str,
                       home_port_type: str, zone_raw_id: str, scope: str,
-                      mgmt_ip: str = NORMALone, ipv4_mask: str = NORMALone, ipv4_gateway: str = NORMALone,
-                      mgmt_ipv6: str = NORMALone, ipv6_mask: str = NORMALone, ipv6_gateway: str = NORMALone,
-                      home_port_raw_id: str = NORMALone, support_protocol: str = NORMALone,
-                      operational_status: str = NORMALone, home_controller_id: str = NORMALone,
-                      failover_group_raw_id: str = NORMALone, vstore_raw_id: str = NORMALone,
-                      role: str = NORMALone, dns_zone_name: str = NORMALone,
-                      listen_dns_query_enabled: str = NORMALone, can_failover: bool = NORMALone,
-                      failback_mode: str = NORMALone) -> dict:
+                      mgmt_ip: str = None, ipv4_mask: str = None, ipv4_gateway: str = None,
+                      mgmt_ipv6: str = None, ipv6_mask: str = None, ipv6_gateway: str = None,
+                      home_port_raw_id: str = None, support_protocol: str = None,
+                      operational_status: str = None, home_controller_id: str = None,
+                      failover_group_raw_id: str = None, vstore_raw_id: str = None,
+                      role: str = None, dns_zone_name: str = None,
+                      listen_dns_query_enabled: str = None, can_failover: bool = None,
+                      failback_mode: str = None) -> dict:
     """
-    Create logic port (OceanStor A800 only) 
+    create Storage device的Logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~64 characters) 
-        name: Port name (Required, 1~255 characters) . Only letters and digits allowed, "_", "-", "."and Chinese characters
+        name: Port name (Required, 1~255 characters) . Only letters allowed, 数字, "_", "-", "."and Chinese characters
         address_family: IPProtocol version (Required). Options: IPv4 (IPv4), IPv6 (IPv6)
-        home_port_type: Parent port type (Required). Options: ETHERNORMALET_PORT, BONORMALD, VLANORMAL, VIPIP), SIP (SIP), IB (IB)
+        home_port_type: 父Port type (Required). Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB)
         zone_raw_id: Zoneon the deviceID (Required, 1~64 characters) , OceanStor A800 series only
-        Scope (Required). Options: hyperscale, default. OceanStor A800 series only. Data accesscess protocol isTCP时 valueonly supportsdefault
+        scope:  range (Required). Options: hyperscale ( global), default (local ). OceanStor A800 series only. Data access protocol isKB_OVER_TCP时 valueonly supportsdefault
         mgmt_ip: Logic portIP address(IPV4)(Optional, max64 characters, IPv4 format) 
-        ipv4_mask: Logic portIPNORMALetmask(IPV4)(Optional, max64 characters) 
+        ipv4_mask: Logic portIPNetmask(IPV4)(Optional, max64 characters) 
         ipv4_gateway: Logic port gatewayIP address(IPV4)(Optional, max64 characters) 
         mgmt_ipv6: Logic portIP address(IPV6)(Optional, max128 characters) 
-        ipv6_mask: Logic portIPNORMALetmask(IPV6)(Optional, max128 characters) 
+        ipv6_mask: Logic portIPNetmask(IPV6)(Optional, max128 characters) 
         ipv6_gateway: Logic port gatewayIP address(IPV6)(Optional, max128 characters) 
         home_port_raw_id: Parent porton the storage deviceID(Optional, 1~64 characters) 
-        support_protocol: Logic port supported protocols(Optional). Options: NORMALFS, DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NORMALFS_OVER_RDMA (NORMALFS over RDMA protocol), NORMALFS_OVER_IB (NORMALFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_ANORMALD_TCP (DataTurbo over RoCE和TCP protocol), OBJECT (S3 protocol), NORMALAS_ANORMALD_OBJECT (NORMALAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). when role is CLIENORMALT, do not send this field
-        operational_status: Active status(Optional). Options: ACTIVATED ( activate), NORMALOT_ACTIVATED (inactive)
-        home_controller_id: ControllerID(Optional, 1~64 characters) . when role is HEALTH_CHECK, this field is required
-        failover_group_raw_id: Failover group ID on storage device(Optional, max64 characters) . Data accesscess protocol isTCP时, this field is required
-        vstore_raw_id: Logic port vStore ID on device(Optional, max64 characters) . when role is CLIENORMALT, do not send this field
-        role: Logic Port role(Optional, default DATA). Options: MANORMALAGEMENORMALT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANORMALAGEMENORMALT_ANORMALD_DATA (management + data), CLIENORMALT (Client)
-        dns_zone_name: DNORMALS zone name (Optional, max255 characters) . when role is CLIENORMALT或Data accesscess protocol isTCP时, do not send this field
-        listen_dns_query_enabled:  Whether to listen for DNORMALS queries(Optional,  regex: NORMALO|YES). Options: NORMALO, YES. when role is CLIENORMALT或Data accesscess protocol isTCP时, do not send this field
-        can_failover: Enable IP address drift(Optional, boolean). Options: true, false. Data accesscess protocol isTCP时, do not send this field
-        failback_mode: Drift-back mode(Optional). Options: not_support, manual, automatic. Data accesscess protocol isTCP时, do not send this field
+        support_protocol: Logic portSupported data access protocols(Optional). Options: NFS (NFS protocol), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NFS_OVER_RDMA (NFS over RDMA protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). role isCLIENT时, do not send this field
+        operational_status: Active status(Optional). Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive)
+        home_controller_id: ControllerID(Optional, 1~64 characters) . role isHEALTH_CHECK时, this field is required
+        failover_group_raw_id: Failover groupon the storage deviceID(Optional, max64 characters) . Data access protocol isKB_OVER_TCP时, this field is required
+        vstore_raw_id: Logic portvStoreassigned on the deviceid(Optional, max64 characters) . role isCLIENT时, do not send this field
+        role: Logic port role(Optional, default DATA). Options: MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
+        dns_zone_name: DNS ZoneName (Optional, max255 characters) . role isCLIENT或Data access protocol isKB_OVER_TCP时, do not send this field
+        listen_dns_query_enabled:  whether listenDNSQuery request(Optional,  regex NO|YES). Options: NO ( disable), YES ( open). role isCLIENT或Data access protocol isKB_OVER_TCP时, do not send this field
+        can_failover: EnableIPAddress drift(Optional, boolean). Options: true, false. Data access protocol isKB_OVER_TCP时, do not send this field
+        failback_mode: Drift-back mode(Optional). Options: not_support (feature not supported), manual, automatic ( auto). Data access protocol isKB_OVER_TCP时, do not send this field
 
     Returns:
         {
@@ -2511,39 +2511,39 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         'scope': scope
     }
 
-    if mgmt_ip is not NORMALone:
+    if mgmt_ip is not None:
         payload['mgmt_ip'] = mgmt_ip
-    if ipv4_mask is not NORMALone:
+    if ipv4_mask is not None:
         payload['ipv4_mask'] = ipv4_mask
-    if ipv4_gateway is not NORMALone:
+    if ipv4_gateway is not None:
         payload['ipv4_gateway'] = ipv4_gateway
-    if mgmt_ipv6 is not NORMALone:
+    if mgmt_ipv6 is not None:
         payload['mgmt_ipv6'] = mgmt_ipv6
-    if ipv6_mask is not NORMALone:
+    if ipv6_mask is not None:
         payload['ipv6_mask'] = ipv6_mask
-    if ipv6_gateway is not NORMALone:
+    if ipv6_gateway is not None:
         payload['ipv6_gateway'] = ipv6_gateway
-    if home_port_raw_id is not NORMALone:
+    if home_port_raw_id is not None:
         payload['home_port_raw_id'] = home_port_raw_id
-    if support_protocol is not NORMALone:
+    if support_protocol is not None:
         payload['support_protocol'] = support_protocol
-    if operational_status is not NORMALone:
+    if operational_status is not None:
         payload['operational_status'] = operational_status
-    if home_controller_id is not NORMALone:
+    if home_controller_id is not None:
         payload['home_controller_id'] = home_controller_id
-    if failover_group_raw_id is not NORMALone:
+    if failover_group_raw_id is not None:
         payload['failover_group_raw_id'] = failover_group_raw_id
-    if vstore_raw_id is not NORMALone:
+    if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
-    if role is not NORMALone:
+    if role is not None:
         payload['role'] = role
-    if dns_zone_name is not NORMALone:
+    if dns_zone_name is not None:
         payload['dns_zone_name'] = dns_zone_name
-    if listen_dns_query_enabled is not NORMALone:
+    if listen_dns_query_enabled is not None:
         payload['listen_dns_query_enabled'] = listen_dns_query_enabled
-    if can_failover is not NORMALone:
+    if can_failover is not None:
         payload['can_failover'] = can_failover
-    if failback_mode is not NORMALone:
+    if failback_mode is not None:
         payload['failback_mode'] = failback_mode
 
     response = client.post(url, body=payload)
@@ -2551,15 +2551,15 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
 
 
 def logic_port_update(client: DMEAPIClient, logic_port_id: str,
-                      name: str = NORMALone, address_family: str = NORMALone,
-                      mgmt_ip: str = NORMALone, ipv4_mask: str = NORMALone, ipv4_gateway: str = NORMALone,
-                      mgmt_ipv6: str = NORMALone, ipv6_mask: str = NORMALone, ipv6_gateway: str = NORMALone,
-                      home_port_raw_id: str = NORMALone, home_port_type: str = NORMALone,
-                      operational_status: str = NORMALone, failover_group_raw_id: str = NORMALone,
-                      dns_zone_name: str = NORMALone, listen_dns_query_enabled: str = NORMALone,
-                      can_failover: bool = NORMALone, failback_mode: str = NORMALone) -> dict:
+                      name: str = None, address_family: str = None,
+                      mgmt_ip: str = None, ipv4_mask: str = None, ipv4_gateway: str = None,
+                      mgmt_ipv6: str = None, ipv6_mask: str = None, ipv6_gateway: str = None,
+                      home_port_raw_id: str = None, home_port_type: str = None,
+                      operational_status: str = None, failover_group_raw_id: str = None,
+                      dns_zone_name: str = None, listen_dns_query_enabled: str = None,
+                      can_failover: bool = None, failback_mode: str = None) -> dict:
     """
-    Modify storage device logic port (仅 OceanStor A800 series storage only) 
+    Modify storage device的Logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
@@ -2567,17 +2567,17 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
         name: Port name(Optional) 
         address_family: IP Protocol version(Optional) 
         mgmt_ip: Logic port IP  address (IPV4)(Optional) 
-        ipv4_mask: Logic port IP NORMALetmask (IPV4)(Optional) 
+        ipv4_mask: Logic port IP Netmask (IPV4)(Optional) 
         ipv4_gateway: Logic port gateway IP  address (IPV4)(Optional) 
         mgmt_ipv6: Logic port IP  address (IPV6)(Optional) 
-        ipv6_mask: Logic port IP NORMALetmask (IPV6)(Optional) 
+        ipv6_mask: Logic port IP Netmask (IPV6)(Optional) 
         ipv6_gateway: Logic port gateway IP  address (IPV6)(Optional) 
         home_port_raw_id: Parent porton the storage device ID(Optional) 
-        home_port_type: Parent port type(Optional) 
+        home_port_type: 父Port type(Optional) 
         operational_status: Active status(Optional) 
         failover_group_raw_id: Failover groupon the storage device ID(Optional) 
-        dns_zone_name: DNORMALS Zone  name(Optional) 
-        listen_dns_query_enabled:  whether listen DNORMALS Query request(Optional) 
+        dns_zone_name: DNS Zone  name(Optional) 
+        listen_dns_query_enabled:  whether listen DNS Query request(Optional) 
         can_failover: Enable IP Address drift(Optional) 
         failback_mode: Drift-back mode(Optional) 
 
@@ -2590,46 +2590,46 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
 
     payload = {}
 
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if address_family is not NORMALone:
+    if address_family is not None:
         payload['address_family'] = address_family
-    if mgmt_ip is not NORMALone:
+    if mgmt_ip is not None:
         payload['mgmt_ip'] = mgmt_ip
 
     payload = {}
 
-    if name is not NORMALone:
+    if name is not None:
         payload['name'] = name
-    if address_family is not NORMALone:
+    if address_family is not None:
         payload['address_family'] = address_family
-    if mgmt_ip is not NORMALone:
+    if mgmt_ip is not None:
         payload['mgmt_ip'] = mgmt_ip
-    if ipv4_mask is not NORMALone:
+    if ipv4_mask is not None:
         payload['ipv4_mask'] = ipv4_mask
-    if ipv4_gateway is not NORMALone:
+    if ipv4_gateway is not None:
         payload['ipv4_gateway'] = ipv4_gateway
-    if mgmt_ipv6 is not NORMALone:
+    if mgmt_ipv6 is not None:
         payload['mgmt_ipv6'] = mgmt_ipv6
-    if ipv6_mask is not NORMALone:
+    if ipv6_mask is not None:
         payload['ipv6_mask'] = ipv6_mask
-    if ipv6_gateway is not NORMALone:
+    if ipv6_gateway is not None:
         payload['ipv6_gateway'] = ipv6_gateway
-    if home_port_raw_id is not NORMALone:
+    if home_port_raw_id is not None:
         payload['home_port_raw_id'] = home_port_raw_id
-    if home_port_type is not NORMALone:
+    if home_port_type is not None:
         payload['home_port_type'] = home_port_type
-    if operational_status is not NORMALone:
+    if operational_status is not None:
         payload['operational_status'] = operational_status
-    if failover_group_raw_id is not NORMALone:
+    if failover_group_raw_id is not None:
         payload['failover_group_raw_id'] = failover_group_raw_id
-    if dns_zone_name is not NORMALone:
+    if dns_zone_name is not None:
         payload['dns_zone_name'] = dns_zone_name
-    if listen_dns_query_enabled is not NORMALone:
+    if listen_dns_query_enabled is not None:
         payload['listen_dns_query_enabled'] = listen_dns_query_enabled
-    if can_failover is not NORMALone:
+    if can_failover is not None:
         payload['can_failover'] = can_failover
-    if failback_mode is not NORMALone:
+    if failback_mode is not None:
         payload['failback_mode'] = failback_mode
 
     response = client.put(url, body=payload, params={"logic_port_id": logic_port_id})
@@ -2638,11 +2638,11 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
 
 def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Delete storage device logic port (仅 OceanStor A800 series storage only) 
+    delete Storage device的Logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
-        ids: Logic port ID  list (Required, 1-1000 IDs) 
+        ids: Logic port ID  list (Required, 1~1000 个 ID) 
 
     Returns:
         {
@@ -2661,7 +2661,7 @@ def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
     """
-    Failback storage device logic port (仅 OceanStor A800 series storage only) 
+    回切Storage device的Logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
@@ -2685,22 +2685,22 @@ def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
 # ============ Storage port (port) subtopic functions ============
 
 
-def port_list(client: DMEAPIClient, storage_id: str = NORMALone, port_type: str = NORMALone,
-              location: str = NORMALone, ipv4: str = NORMALone, ipv6: str = NORMALone,
-              port_name: str = NORMALone, zone_id: str = NORMALone,
+def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = None,
+              location: str = None, ipv4: str = None, ipv6: str = None,
+              port_name: str = None, zone_id: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-     Query storage device port info,  supports ETH, FC, IB, Bond, SAS types
+     queryStorage device port info,  support ETH, FC, IB, Bond, SAS 五种 type
 
     Args:
         client: DME API client
         storage_id: Storage device ID(Optional, 1~36  characters) 
         port_type: Port type(Optional, eth/fc/ib/bond/sas, returns all types if not specified) 
-        location: location(Optional, ETH port only, 1~255  characters) 
-        ipv4: IPv4  address(Optional, ETH port only, 1~255  characters) 
-        ipv6: IPv6  address(Optional, ETH port only, 1~255  characters) 
-        port_name: Port name(Optional, ETH port only, 1~255  characters) 
-        zone_id: Storage device的 Zone ID(Optional, Bond port only, 1~36  characters) 
+        location: location(Optional, 仅 ETH port support, 1~255  characters) 
+        ipv4: IPv4  address(Optional, 仅 ETH port support, 1~255  characters) 
+        ipv6: IPv6  address(Optional, 仅 ETH port support, 1~255  characters) 
+        port_name: Port name(Optional, 仅 ETH port support, 1~255  characters) 
+        zone_id: Storage device的 Zone ID(Optional, 仅 Bond port support, 1~36  characters) 
         page_no: Page number(Optional, FC/SAS port support, 1~10000, default 1) 
         page_size: per pagecount(Optional, FC/SAS port support, 1~1000, default 20) 
 
@@ -2709,57 +2709,57 @@ def port_list(client: DMEAPIClient, storage_id: str = NORMALone, port_type: str 
             task_id: Task ID (string, 1~64 characters),
         }, includes port list
     """
-    if port_type is not NORMALone and port_type.lower() == 'eth':
+    if port_type is not None and port_type.lower() == 'eth':
         # ETH port query
         url = "/rest/storagemgmt/v1/storages/eth-ports/query"
         payload = {}
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             payload['storage_id'] = storage_id
-        if location is not NORMALone:
+        if location is not None:
             payload['location'] = location
-        if ipv4 is not NORMALone:
+        if ipv4 is not None:
             payload['ipv4'] = ipv4
-        if ipv6 is not NORMALone:
+        if ipv6 is not None:
             payload['ipv6'] = ipv6
-        if port_name is not NORMALone:
+        if port_name is not None:
             payload['port_name'] = port_name
         response = client.post(url, body=payload)
         return response
-    elif port_type is not NORMALone and port_type.lower() == 'bond':
+    elif port_type is not None and port_type.lower() == 'bond':
         # Bond port query
         url = "/rest/storagemgmt/v1/bond-ports/query"
         payload = {'storage_id': storage_id}
-        if zone_id is not NORMALone:
+        if zone_id is not None:
             payload['zone_id'] = zone_id
         response = client.post(url, body=payload)
         return response
-    elif port_type is not NORMALone and port_type.lower() == 'fc':
+    elif port_type is not None and port_type.lower() == 'fc':
         # FC port query
         url = "/rest/storagemgmt/v1/frontend-ports/fc-ports/query"
         payload = {
             'page_no': page_no,
             'page_size': page_size
         }
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             payload['storage_id'] = storage_id
         response = client.post(url, body=payload)
         return response
-    elif port_type is not NORMALone and port_type.lower() == 'ib':
+    elif port_type is not None and port_type.lower() == 'ib':
         # IB port query
         url = "/rest/storagemgmt/v1/storages/ib-ports/query"
         payload = {}
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             payload['storage_id'] = storage_id
         response = client.post(url, body=payload)
         return response
-    elif port_type is not NORMALone and port_type.lower() == 'sas':
+    elif port_type is not None and port_type.lower() == 'sas':
         # SAS port query
         url = "/rest/storagemgmt/v1/backend-ports/sas-ports/query"
         payload = {
             'page_no': page_no,
             'page_size': page_size
         }
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             payload['storage_id'] = storage_id
         response = client.post(url, body=payload)
         return response
@@ -2774,18 +2774,18 @@ def port_list(client: DMEAPIClient, storage_id: str = NORMALone, port_type: str 
         #  query ETH  port
         eth_url = "/rest/storagemgmt/v1/storages/eth-ports/query"
         eth_payload = {}
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             eth_payload['storage_id'] = storage_id
-        if location is not NORMALone:
+        if location is not None:
             eth_payload['location'] = location
-        if ipv4 is not NORMALone:
+        if ipv4 is not None:
             eth_payload['ipv4'] = ipv4
-        if ipv6 is not NORMALone:
+        if ipv6 is not None:
             eth_payload['ipv6'] = ipv6
-        if port_name is not NORMALone:
+        if port_name is not None:
             eth_payload['port_name'] = port_name
         eth_response = client.post(eth_url, body=eth_payload)
-        # ETH  port API Return structure: {'total': NORMAL, 'eth_ports': [...]}
+        # ETH  port API Return structure: {'total': N, 'eth_ports': [...]}
         if 'eth_ports' in eth_response:
             all_eth_ports = eth_response.get('eth_ports', [])
             total_count += len(all_eth_ports)
@@ -2796,10 +2796,10 @@ def port_list(client: DMEAPIClient, storage_id: str = NORMALone, port_type: str 
             'page_no': page_no,
             'page_size': page_size
         }
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             fc_payload['storage_id'] = storage_id
         fc_response = client.post(fc_url, body=fc_payload)
-        # FC  port API Return structure: {'total': NORMAL, 'ports': [...]}
+        # FC  port API Return structure: {'total': N, 'ports': [...]}
         if 'ports' in fc_response:
             all_fc_ports = fc_response.get('ports', [])
             total_count += len(all_fc_ports)
@@ -2807,7 +2807,7 @@ def port_list(client: DMEAPIClient, storage_id: str = NORMALone, port_type: str 
         #  query IB  port
         ib_url = "/rest/storagemgmt/v1/storages/ib-ports/query"
         ib_payload = {}
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             ib_payload['storage_id'] = storage_id
         ib_response = client.post(ib_url, body=ib_payload)
         # IB  port API Return structure: {'ib_ports': [...]}
@@ -2821,10 +2821,10 @@ def port_list(client: DMEAPIClient, storage_id: str = NORMALone, port_type: str 
             'page_no': page_no,
             'page_size': page_size
         }
-        if storage_id is not NORMALone:
+        if storage_id is not None:
             sas_payload['storage_id'] = storage_id
         sas_response = client.post(sas_url, body=sas_payload)
-        # SAS  port API Return structure: {'total': NORMAL, 'ports': [...]}
+        # SAS  port API Return structure: {'total': N, 'ports': [...]}
         if 'ports' in sas_response:
             all_sas_ports = sas_response.get('ports', [])
             total_count += len(all_sas_ports)
@@ -2849,7 +2849,7 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes total and eth_ports fields
+        }, includes  total 和 eth_ports  field
     """
     url = "/rest/storagemgmt/v1/bond-ports/{bond_port_id}/eth-ports"
 
@@ -2860,17 +2860,17 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
 # ============  storagePort group (port_group) subtopic functions ============
 
 
-# ============  storage VLANORMAL subtopic functions ============
+# ============  storage VLAN subtopic functions ============
 
 
-def vlan_list(client: DMEAPIClient, name: str = NORMALone, storage_id: str = NORMALone,
+def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
               page_no: int = 1, page_size: int = 100) -> dict:
     """
-    Batch query VLANORMAL  list
+    Batch query VLAN  list
 
     Args:
         client: DME API client
-        name: VLANORMAL  name (supports fuzzy search) 
+        name: VLAN  name (supports fuzzy search) 
         storage_id: Storage device ID
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 100
@@ -2878,7 +2878,7 @@ def vlan_list(client: DMEAPIClient, name: str = NORMALone, storage_id: str = NOR
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  VLANORMAL  list
+        }, includes  VLAN  list
     """
     url = "/rest/vlanmgmt/v1/vlans/query"
 
@@ -2887,9 +2887,9 @@ def vlan_list(client: DMEAPIClient, name: str = NORMALone, storage_id: str = NOR
         'page_size': page_size
     }
 
-    if name is not NORMALone:
+    if name is not None:
         body_params['name'] = name
-    if storage_id is not NORMALone:
+    if storage_id is not None:
         body_params['storage_id'] = storage_id
 
     response = client.post(url, body=body_params)
@@ -2897,23 +2897,23 @@ def vlan_list(client: DMEAPIClient, name: str = NORMALone, storage_id: str = NOR
 
 
 def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
-                storage_id: str, description: str = NORMALone) -> dict:
+                storage_id: str, description: str = None) -> dict:
     """
-    create  VLANORMAL
+    create  VLAN
 
      note: only supports OceanStor A800, A600 series storage. 
 
     Args:
         client: DME API client
-        name: VLANORMAL  name (Required) 
-        vlan_id: VLANORMAL ID (Required, 1~4094) 
+        name: VLAN  name (Required) 
+        vlan_id: VLAN ID (Required, 1~4094) 
         storage_id: Storage device ID (Required) 
-        description: VLANORMAL  description(Optional) 
+        description: VLAN  description(Optional) 
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes newly created VLANORMAL ID
+        }, includes newly created VLAN ID
     """
     url = "/rest/vlanmgmt/v1/vlans"
 
@@ -2923,7 +2923,7 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
         'storage_id': storage_id
     }
 
-    if description is not NORMALone:
+    if description is not None:
         body_params['description'] = description
 
     response = client.post(url, data=body_params)
@@ -2932,13 +2932,13 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
 
 def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
     """
-    delete  VLANORMAL
+    delete  VLAN
 
      note: only supports OceanStor A800, A600 series storage. 
 
     Args:
         client: DME API client
-        vlan_id: VLANORMAL ID
+        vlan_id: VLAN ID
 
     Returns:
         {
@@ -2951,18 +2951,18 @@ def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
     return response
 
 
-def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = NORMALone,
-                description: str = NORMALone) -> dict:
+def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
+                description: str = None) -> dict:
     """
-    modify  VLANORMAL
+    modify  VLAN
 
      note: only supports OceanStor A800, A600 series storage. 
 
     Args:
         client: DME API client
-        vlan_id: VLANORMAL ID
-        name: VLANORMAL  name(Optional) 
-        description: VLANORMAL  description(Optional) 
+        vlan_id: VLAN ID
+        name: VLAN  name(Optional) 
+        description: VLAN  description(Optional) 
 
     Returns:
         {
@@ -2972,9 +2972,9 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = NORMALone,
     url = "/rest/vlanmgmt/v1/vlans/{vlan_id}"
 
     body_params = {}
-    if name is not NORMALone:
+    if name is not None:
         body_params['name'] = name
-    if description is not NORMALone:
+    if description is not None:
         body_params['description'] = description
 
     response = client.put(url, params={"vlan_id": vlan_id})
@@ -2985,18 +2985,18 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = NORMALone,
 
 
 def failover_group_list(client: DMEAPIClient, storage_id: str,
-                        failover_group_type: str = NORMALone,
-                        zone_id: str = NORMALone,
-                        failover_group_service_type: list = NORMALone) -> dict:
+                        failover_group_type: str = None,
+                        zone_id: str = None,
+                        failover_group_service_type: list = None) -> dict:
     """
      queryFailover group list
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
-        failover_group_type: Failover group type(Optional). Options: system, VLANORMAL, customized
+        storage_id: Storage device ID (Required, 1~36 characters, 且satisfies regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
+        failover_group_type: Failover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NORMALASProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNORMALFS over RDMA, NORMALFS, OBJECT protocolLogic port的Failover group), IB (used to associateNORMALAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group)
+        failover_group_service_type: Failover groupBusiness type list(Optional, List<string>, max array members: 10). Options: NAS (used to associateNFS, CIFS, NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group)
 
     Returns:
         {
@@ -3004,12 +3004,12 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
             failover_groups: Failover group list (List<FailoverGroupResp>). 参数格式如下：[{
                 id: Failover groupid (1~64 characters),
                 name: Failover group name (1~64 characters),
-                failover_group_type: Failover group type (1~255 characters). Options: system, VLANORMAL, customized,
-                raw_id: Failover group ID on storage device (1~255 characters),
+                failover_group_type: Failover group type (1~255 characters). Options: system, VLAN, customized,
+                raw_id: Failover groupon the storage deviceID (1~255 characters),
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only,
-                zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
-                zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
-                failover_group_service_type: Failover group business type. Options: NORMALASProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNORMALFS over RDMA, NORMALFS, OBJECT protocolLogic port的Failover group), IB (used to associateNORMALAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group),
+                zone_raw_id: Zone在Storage deviceassigned onID (1~255 characters), OceanStor A800 series only,
+                zone_id: Storage device的Zone ID (1~255 characters), OceanStor A800 series only,
+                failover_group_service_type: Failover groupBusiness type. Options: NAS (used to associateNFS, CIFS, NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group),
             }, ...]
         }
     """
@@ -3019,11 +3019,11 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         'storage_id': storage_id
     }
 
-    if failover_group_type is not NORMALone:
+    if failover_group_type is not None:
         payload['failover_group_type'] = failover_group_type
-    if zone_id is not NORMALone:
+    if zone_id is not None:
         payload['zone_id'] = zone_id
-    if failover_group_service_type is not NORMALone:
+    if failover_group_service_type is not None:
         payload['failover_group_service_type'] = failover_group_service_type
 
     response = client.post(url, body=payload)
@@ -3031,9 +3031,9 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
 
 
 def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
-                               port_type: str = NORMALone) -> dict:
+                               port_type: str = None) -> dict:
     """
-     Query failover group under port ( supports bond, eth, ib types) 
+     queryFailover group under port ( support bond, eth, ib 三种 type) 
 
     Args:
         client: DME API client
@@ -3059,7 +3059,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
         resp = client.get(url, params={"failover_group_id": failover_group_id})
         return (ptype, resp)
 
-    if port_type is NORMALone:
+    if port_type is None:
         # type not specified, Returns all three port types,  flat structure
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             futures = [executor.submit(query_port_type, 'bond'),
@@ -3087,7 +3087,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
 
 def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> dict:
     """
-     queryFailover group under VLANORMAL
+     queryFailover group under VLAN
 
     Args:
         client: DME API client
@@ -3107,18 +3107,18 @@ def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> d
 # ============ Zone (OceanStor A800  cluster zone) subtopic functions ============
 
 
-def zone_list(client: DMEAPIClient, name: str = NORMALone, ip: str = NORMALone,
-              status: list = NORMALone, sync_status: list = NORMALone,
-              sn: str = NORMALone, storage_ids: list = NORMALone) -> dict:
+def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
+              status: list = None, sync_status: list = None,
+              sn: str = None, storage_ids: list = None) -> dict:
     """
-     Query zone info in OceanStor A800 cluster
+     queryOceanStor A800 cluster中zone info
 
     Args:
         client: DME API client
-        name: zoneNORMALame (Optional,1~256 characters) , exact match
-        ip: zone ip addressNORMALame (Optional,1~256 characters) , exact match
-        status: Zone status list(Optional, List<string>, max array members: 6). Options: OFFLINORMALE, NORMALORMAL, FAULT, DEGRADED, ABNORMALORMAL (未management ), UNORMALKNORMALOWNORMAL
-        sync_status: Zone sync status list(Optional, List<string>, max array members: 5). Options: UNORMALSYNORMALC, SYNORMALC, NORMALORMAL (Sync completed), FAILEDED (Sync failure), UNORMALKNORMALOWNORMAL
+        name: zoneName (Optional,1~256 characters) , exact match
+        ip: zone ip addressName (Optional,1~256 characters) , exact match
+        status: Zonestatus list(Optional, List<string>, max array members: 6). Options: OFFLINE (offline), NORMAL, FAULT, DEGRADED, ABNORMAL (未management ), UNKNOWN
+        sync_status: ZoneSyncstatus list(Optional, List<string>, max array members: 5). Options: UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync completed), FAILED (Sync failure), UNKNOWN
         sn: ZoneSerial number(Optional, 1~128 characters) , exact match
         storage_ids: OceanStor A800 clusterid list(Optional, List<string>, max array members: 100,  min membercount: 1) , exact match
 
@@ -3126,23 +3126,23 @@ def zone_list(client: DMEAPIClient, name: str = NORMALone, ip: str = NORMALone,
         {
             total: ZoneTotal count (int32),
             datas: Zone list (List<OceanStorA800ZoneInfo>). 参数格式如下：[{
-                id: Zone CMDB ID (1~64 characters),
+                id: Zone在CMDBID (1~64 characters),
                 native_id: native id (1~64 characters),
                 name: Zone name (1~128 characters),
                 ip: Zone IP address (1~32 characters),
-                status:  Status. Options: OFFLINORMALE, NORMALORMAL, FAULT, DEGRADED, ABNORMALORMAL (未management ),
-                sync_status: Sync Status. Options: UNORMALSYNORMALC, SYNORMALC, NORMALORMAL (Sync completed), FAILEDED (Sync failure),
+                status:  status (1~32 characters). Options: OFFLINE (offline), NORMAL, FAULT, DEGRADED, ABNORMAL (未management ),
+                sync_status: Sync status (1~32 characters). Options: UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync completed), FAILED (Sync failure),
                 sn: ZoneDevice serial number (1~64 characters),
-                wwn: Zone deviceWWNORMAL号 (1~32 characters),
+                wwn: Zone deviceWWN号 (1~32 characters),
                 vendor: Zone vendor (1~32 characters),
                 model: ZoneProduct model (1~64 characters),
-                owning_ne_type: Storage device NE type. Options: dorado, OceanStor A800,
+                owning_ne_type: Storage device网元 type. Options: dorado (doradoseries storage), OceanStor A800 (OceanStor A800),
                 location: Zonelocation info (0~512 characters),
                 version: Version info (0~64 characters),
                 patch_version: Patch version info (0~64 characters),
                 add_time: Device access time (0~32 characters), UTCTimestamp ( precise to ms seconds) ,
                 last_sync_time:  lastSync time (0~32 characters), UTCTimestamp ( precise to ms seconds) ,
-                sync_process: Sync progress (int32),
+                sync_process: Sync进度 (int32),
                 alarm_num: alarmcount (number),
                 parent_id:  clusterid,
                 zone_raw_id: zone raw id,
@@ -3164,7 +3164,7 @@ def zone_list(client: DMEAPIClient, name: str = NORMALone, ip: str = NORMALone,
     }
 
     for key, value in param_map.items():
-        if value is not NORMALone:
+        if value is not None:
             payload[key] = value
 
     response = client.post(url, body=payload)
@@ -3173,45 +3173,45 @@ def zone_list(client: DMEAPIClient, name: str = NORMALone, ip: str = NORMALone,
 
 # Action list for CLI help
 #  format: action_key: {func, description, params, subtopic}
-# subtopic Indicates which subtopic the action belongs to, NORMALone 表示Direct action
+# subtopic Indicates which subtopic the action belongs toSubtopic, None 表示Direct action
 
-ACTIONORMALS = {
+ACTIONS = {
     # Direct action (Two-level structure: <topic> <action>) 
     'list': {
         'func': list,
         'description': 'Batch query storage devices',
         'params': ['az', 'source', 'dc_id', 'tag_ids', 'start', 'limit', 'ext_attrs'],
-        'subtopic': NORMALone
+        'subtopic': None
     },
     'show': {
         'func': show,
         'description': 'QueryStorage device',
         'params': ['storage_id'],
-        'subtopic': NORMALone
+        'subtopic': None
     },
     'add': {
         'func': add,
-        'description': 'Add storage device (offline info entry only) ',
+        'description': 'add Storage device (only supports录入offlineStorage device info) ',
         'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenance_start', 'maintenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
-        'subtopic': NORMALone
+        'subtopic': None
     },
     'remove': {
         'func': remove,
         'description': 'batchRemove storage device',
         'params': ['storage_ids'],
-        'subtopic': NORMALone
+        'subtopic': None
     },
     'sync': {
         'func': sync,
         'description': 'SyncStorage device info',
         'params': ['storage_id'],
-        'subtopic': NORMALone
+        'subtopic': None
     },
     'modify': {
         'func': modify,
         'description': 'Modify storage device (only supportsModify recorded offlineStorage device info) ',
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
-        'subtopic': NORMALone
+        'subtopic': None
     },
     # subtopic actions (Three-level structure: <topic> <subtopic> <action>) 
     'bbu_list': {
@@ -3253,7 +3253,7 @@ ACTIONORMALS = {
     },
     'node_list': {
         'func': node_list,
-        'description': 'query storage deviceNORMALode list',
+        'description': 'query storage deviceNode list',
         'params': ['storage_id', 'raw_id', 'storage_name', 'name', 'ids',
                    'mgmt_ip', 'frame_number', 'slot_number', 'status', 'roles',
                    'page_no', 'page_size', 'sort_key', 'sort_dir'],
@@ -3351,7 +3351,7 @@ ACTIONORMALS = {
     },
     'initiator_modify': {
         'func': initiator_modify,
-        'description': 'Modify storage initiator object',
+        'description': 'modify  storage侧Initiatorobject',
         'params': ['initiator_id', 'vstore_id', 'alias', 'multi_path'],
         'subtopic': 'initiator'
     },
@@ -3370,7 +3370,7 @@ ACTIONORMALS = {
     },
     'account_create_unix_user': {
         'func': account_create_unix_user,
-        'description': 'CreateStorage device UNORMALIX auth user',
+        'description': 'CreateStorage device UNIX auth user',
         'params': ['storage_id', 'name', 'primary_group_raw_id', 'raw_id', 'description', 'password', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
@@ -3382,7 +3382,7 @@ ACTIONORMALS = {
     },
     'account_show_unix_users': {
         'func': account_show_unix_users,
-        'description': 'QueryStorage device UNORMALIX Auth user info',
+        'description': 'QueryStorage device UNIX Auth user info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
@@ -3400,7 +3400,7 @@ ACTIONORMALS = {
     },
     'account_show_unix_user_groups': {
         'func': account_show_unix_user_groups,
-        'description': 'QueryStorage device UNORMALIX Auth user group info',
+        'description': 'QueryStorage device UNIX Auth user group info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
@@ -3498,7 +3498,7 @@ ACTIONORMALS = {
     },
     'logic_port_create': {
         'func': logic_port_create,
-        'description': 'Create logic port (OceanStor A800 only) ',
+        'description': 'create Storage device的Logic port (仅 OceanStor A800 series storage only) ',
         'params': ['storage_id', 'name', 'address_family', 'home_port_type', 'zone_raw_id', 'scope',
                    'mgmt_ip', 'ipv4_mask', 'ipv4_gateway', 'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway',
                    'home_port_raw_id', 'support_protocol', 'operational_status', 'home_controller_id',
@@ -3508,7 +3508,7 @@ ACTIONORMALS = {
     },
     'logic_port_update': {
         'func': logic_port_update,
-        'description': 'Modify storage device logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Modify storage device的Logic port (仅 OceanStor A800 series storage only) ',
         'params': ['logic_port_id', 'name', 'address_family', 'mgmt_ip', 'ipv4_mask', 'ipv4_gateway',
                    'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway', 'home_port_raw_id', 'home_port_type',
                    'operational_status', 'failover_group_raw_id', 'dns_zone_name',
@@ -3517,20 +3517,20 @@ ACTIONORMALS = {
     },
     'logic_port_delete': {
         'func': logic_port_delete,
-        'description': 'Delete storage device logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'delete Storage device的Logic port (仅 OceanStor A800 series storage only) ',
         'params': ['ids'],
         'subtopic': 'logic_port'
     },
     'logic_port_failback': {
         'func': logic_port_failback,
-        'description': 'Failback storage device logic port (仅 OceanStor A800 series storage only) ',
+        'description': '回切Storage device的Logic port (仅 OceanStor A800 series storage only) ',
         'params': ['id'],
         'subtopic': 'logic_port'
     },
     # port subtopic actions (Storage port) 
     'port_list': {
         'func': port_list,
-        'description': ' Query storage device port info,  support ETH, FC, IB, Bond 四种 type',
+        'description': ' queryStorage device port info,  support ETH, FC, IB, Bond 四种 type',
         'params': ['storage_id', 'port_type', 'location', 'ipv4', 'ipv6', 'port_name', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
@@ -3540,28 +3540,28 @@ ACTIONORMALS = {
         'params': ['bond_port_id'],
         'subtopic': 'port'
     },
-    # vlan subtopic actions ( storage VLANORMAL) 
+    # vlan subtopic actions ( storage VLAN) 
     'vlan_list': {
         'func': vlan_list,
-        'description': 'Batch query VLANORMAL  list',
+        'description': 'Batch query VLAN  list',
         'params': ['name', 'storage_id', 'page_no', 'page_size'],
         'subtopic': 'vlan'
     },
     'vlan_create': {
         'func': vlan_create,
-        'description': 'create  VLANORMAL (only supports OceanStor A800, A600 series storage) ',
+        'description': 'create  VLAN (only supports OceanStor A800, A600 series storage) ',
         'params': ['name', 'vlan_id', 'storage_id', 'description'],
         'subtopic': 'vlan'
     },
     'vlan_delete': {
         'func': vlan_delete,
-        'description': 'delete  VLANORMAL (only supports OceanStor A800, A600 series storage) ',
+        'description': 'delete  VLAN (only supports OceanStor A800, A600 series storage) ',
         'params': ['vlan_id'],
         'subtopic': 'vlan'
     },
     'vlan_modify': {
         'func': vlan_modify,
-        'description': 'modify  VLANORMAL (only supports OceanStor A800, A600 series storage) ',
+        'description': 'modify  VLAN (only supports OceanStor A800, A600 series storage) ',
         'params': ['vlan_id', 'name', 'description'],
         'subtopic': 'vlan'
     },
@@ -3574,20 +3574,20 @@ ACTIONORMALS = {
     },
     'failover_group_show_ports': {
         'func': failover_group_show_ports,
-        'description': ' Query failover group under port ( supports bond, eth, ib types) ',
+        'description': ' queryFailover group under port ( support bond, eth, ib 三种 type) ',
         'params': ['failover_group_id', 'port_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_vlans': {
         'func': failover_group_show_vlans,
-        'description': ' queryFailover group under VLANORMAL',
+        'description': ' queryFailover group under VLAN',
         'params': ['failover_group_id'],
         'subtopic': 'failover_group'
     },
     # zone subtopic actions (OceanStor A800  cluster zone) 
     'zone_list': {
         'func': zone_list,
-        'description': ' Query zone info in OceanStor A800 cluster',
+        'description': ' queryOceanStor A800 cluster中zone info',
         'params': ['name', 'ip', 'status', 'sync_status', 'sn', 'storage_ids'],
         'subtopic': 'zone'
     },
