@@ -2157,7 +2157,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         create_cifs_share_param: 自动创建CIFS共享参数（可选）。See action help for format：nas cifs_share create
         create_nfs_share_param: 自动创建NFS共享参数（可选）。See action help for format：nas nfs_share create
         create_dpc_share_param: 自动创建DataTurbo共享参数（可选）。See action help for format：nas dataturbo_share create
-        owning_controller: 归属控制器（可选），2~16个字符，格式如0A、1B
+        owning_controller: 归属Controller（可选），2~16个字符，格式如0A、1B
         snapshot_expired_enabled: Delete old read-only snapshots（可选）。true/false，default off
         checksum_enabled: Data verification switch（可选）。true/false，默认开启
         ads_enabled: Enable data flow switching（可选）。true/false，默认开启
@@ -2352,7 +2352,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
         quota_switch: Enable quota，true启用/falsedisabled（可选）
         vaai_switch: VAAI 开关，启用后不能关闭，true启用/false未启用（可选）
-        owning_controller: 归属控制器，2~16个字符（可选）
+        owning_controller: 归属Controller，2~16个字符（可选）
         snapshot_expired_enabled: Delete old read-only snapshots，true开启/false关闭（可选）
         checksum_enabled: Data verification switch，true开启/false关闭（可选）
         ads_enabled: Enable data flow switching，true开启/false关闭，开启后不允许关闭（可选）
@@ -2530,7 +2530,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         pool_name: Storage pool name（可选），1~256 个字符，支持fuzzy search
         storage_id: 归属Storage device ID（可选），1~255 个字符
         enable_encrypt: Enable encryption（可选），true：是；false：否
-        support_provisioning: 是否支持Service provisioning（可选），true：是；false：否；send this field to filter unsupportedService provisioning设备的资源，当前不支持Service provisioning的设备有 DataTurbo 系列
+        support_provisioning: supportsService provisioning（可选），true：是；false：否；send this field to filter unsupportedService provisioning设备的资源，当前不支持Service provisioning的设备有 DataTurbo 系列
         gfs_id: Global namespace ID（可选），1~64 个字符
         gfs_name: 全局Namespace name（可选），1~256 个字符
         has_gfs: 是否包含所属Global namespace的Namespace（可选），true：是；false：否；has_gfs 为 false 时不支持下发 gfs_id
@@ -2677,53 +2677,53 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_lock_unit: Auto-lock time单位 (可选, 默认hour)。Options：day, minute, hour,
                 legal_hold_modify: 诉讼保留文件修改保留期开关 (可选, 默认false)。Options：true, false,
              }
-        qos_policy: QoS 策略配置。参数格式如下：{
+        qos_policy: QoS Policy configuration。参数格式如下：{
                 qos_scale: upper limit控制维度 (Required)。Options：namespace, client, account, user, innertask,
                 name: QoS policy名称 (可选, 1~63字符, 正则^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit),
                 qos_mode: QoS模式 (Required)。Options：by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
                 account_raw_id: 帐户on the storage deviceid (可选, 0~4294967293; 当qos_scale为namespace/account/user时Required),
-                package_size: 包容量GB (可选, 0~94371840; 当qos_mode为by_package时Required),
+                package_size: package capacityGB (可选, 0~94371840; 当qos_mode为by_package时Required),
                 max_iops: IOPSupper limit (可选, 0~1073741824000; Batch createwhen namespaceRequired),
                 max_mbps: 带宽upper limitMbps (可选, 0~1073741824; 当qos_mode为manual时Required),
                 max_band_width: Max bandwidthMbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                basic_band_width: 基础带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                basic_band_width: base bandwidthMbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+                bps_density: bandwidth densityMbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
-                max_lock_cluster: 最大锁count (可选),
+                max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
-        public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
+        public_network_qos_policy: 公网 QoS Policy configuration。参数格式如下：{
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
                         qos_mode: QoS 模式（条件Required），Options：by_usage（by used amount）、by_package（by fixed capacity）、manual（按upper limit）；Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
+                        package_size: package capacity（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
                         max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        basic_band_width: base bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                bps_density: bandwidth densityMbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
-                max_lock_cluster: 最大锁count (可选),
+                max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
-        private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
+        private_network_qos_policy: 私网 QoS Policy configuration。参数格式如下：{
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
                         qos_mode: QoS 模式（条件Required），Options：by_usage（by used amount）、by_package（by fixed capacity）、manual（按upper limit）；Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
+                        package_size: package capacity（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
                         max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        basic_band_width: base bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                bps_density: bandwidth densityMbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
-                max_lock_cluster: 最大锁count (可选),
+                max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
@@ -2833,54 +2833,54 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                         native（与 Mixed 模式适用于相同的场景），
                         ntfs（适用于 CIFS User permissions determined by Windows NT ACL 权限控制）
         enable_encrypt: Enable encryption，true：开启；false：关闭
-        qos_policy: QoS 策略配置。参数格式如下：{
+        qos_policy: QoS Policy configuration。参数格式如下：{
                 qos_switch: QoS开关 (Required)。Options：on, off,
                 name: QoS policy名称 (可选, 1~63字符, 正则^[a-zA-Z0-9][a-zA-Z0-9_-]*),
                 qos_mode: QoS模式 (条件Required)。Options：by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
-                package_size: 包容量GB (可选, 0~94371840; 当qos_mode为by_package时Required),
+                package_size: package capacityGB (可选, 0~94371840; 当qos_mode为by_package时Required),
                 max_iops: IOPSupper limit (条件Required, 0~1073741824000),
                 max_mbps: 带宽upper limitMbps (可选, 0~1073741824; 当qos_mode为manual时Required),
                 max_band_width: Max bandwidthMbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                basic_band_width: 基础带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                basic_band_width: base bandwidthMbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+                bps_density: bandwidth densityMbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
-                max_lock_cluster: 最大锁count (可选),
+                max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
-        public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
+        public_network_qos_policy: 公网 QoS Policy configuration。参数格式如下：{
                         qos_switch: QoS 开关（Required），Options：on、off,
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
                         qos_mode: QoS 模式（条件Required），Options：by_usage（by used amount）、by_package（by fixed capacity）、manual（按upper limit）；Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
+                        package_size: package capacity（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
                         max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        basic_band_width: base bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                bps_density: bandwidth densityMbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
-                max_lock_cluster: 最大锁count (可选),
+                max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
              }
-        private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
+        private_network_qos_policy: 私网 QoS Policy configuration。参数格式如下：{
                         qos_switch: QoS 开关（Required），Options：on、off,
                         name: QoS Policy name（可选），1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*，must start with letter or digit,
                         qos_mode: QoS 模式（条件Required），Options：by_usage（by used amount）、by_package（by fixed capacity）、manual（按upper limit）；Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
+                        package_size: package capacity（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
                         max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        basic_band_width: base bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                bps_density: bandwidth densityMbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
-                max_lock_cluster: 最大锁count (可选),
+                max_lock_cluster: max lockcount (可选),
                 max_open_file_cluster: Max open file count (可选),
                 read_ops: 读OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
                 write_ops: 写OPS限制 (可选, 0~1073741824000; 仅当qos_mode为manual且qos_scale不为accountwhen Optional),
@@ -3151,7 +3151,7 @@ def account_unix_user_group_create(client: DMEAPIClient, storage_id: str, name: 
         zone_id: 所属 Zone ID (1~64个字符, Optional。仅 OceanStor A800 存储支持)
 
     Returns:
-        创建结果
+        creation result
     """
     url = "/rest/fileservice/v1/unix-user-groups"
 
@@ -3466,7 +3466,7 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         secondary_group_name_list: 用户secondary group名称列表 (List<string>, min array members: 0, max array members: 100, Optional)
 
     Returns:
-        创建结果
+        creation result
     """
     url = "/rest/fileservice/v1/unix-users"
 
@@ -3519,7 +3519,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
              }, ...]
 
     Returns:
-        创建结果
+        creation result
     """
     url = "/rest/kvcachemgmt/v1/kv-cache-stores"
 

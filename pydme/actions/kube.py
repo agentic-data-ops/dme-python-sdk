@@ -126,7 +126,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
 def namespace_list(client: DMEAPIClient, cluster_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器Namespace列表
+    Query containerNamespace列表
     
     Args:
         client: DME API client
@@ -160,7 +160,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器PVC list
+    Query containerPVC list
     
     Args:
         client: DME API client
@@ -200,9 +200,9 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
 def pv_list(client: DMEAPIClient, cluster_id: str = None,
              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器PV list
+    Query containerPV list
     
-    查询容器Persistent volume（PV）列表，支持按集群 ID 和名称过滤。
+    Query containerPersistent volume（PV）列表，支持按集群 ID 和名称过滤。
     
     Args:
         client: DME API client
@@ -262,21 +262,21 @@ ACTIONS = {
     # Namespace管理
     'namespace_list': {
         'func': namespace_list,
-        'description': '查询容器Namespace列表',
+        'description': 'Query containerNamespace列表',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
     # Persistent volume声明管理
     'pvc_list': {
         'func': pvc_list,
-        'description': '查询容器PVC list',
+        'description': 'Query containerPVC list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pvc'
     },
     # Persistent volume管理
     'pv_list': {
         'func': pv_list,
-        'description': '查询容器PV list',
+        'description': 'Query containerPV list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'pv'
     },

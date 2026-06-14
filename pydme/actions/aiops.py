@@ -359,7 +359,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - ETH_PORT: 以太端口
             - LUN_GROUP: LUN 组
             - LOGIC_PORT: Logic port
-            - CONTROLLER: 控制器
+            - CONTROLLER: Controller
             - NAMESPACE: Namespace
         begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
         end_time: 分析End time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点
@@ -659,7 +659,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         object_type: Object type（Required）
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
                            storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤Switch port）,
-                           storage_file_system（Filesystem）, controller（控制器）, replication_cg（Remote replicationConsistency group）,
+                           storage_file_system（Filesystem）, controller（Controller）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
@@ -1258,7 +1258,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - storage_pool: Storage pool
             - hyper_scale_pool: 超大规模池
             - file_system: Filesystem
-            - controller: 控制器
+            - controller: Controller
             - eth_port: 以太网端口
             - ib_port: InfiniBand 端口
             - logic_port: Logic port

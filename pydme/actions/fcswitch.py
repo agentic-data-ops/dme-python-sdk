@@ -257,7 +257,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         name: Zone 名称（Optional），supports fuzzy search，1~1024 个字符
         cfg_name: 所属 CFG 名称（Optional），supports fuzzy search，0~1024 个字符
         zone_set: 所属 Zone 集合（Optional），supports fuzzy search，0~1024 个字符
-        active_status: Zone 状态列表（Optional），max array members：2
+        active_status: Zone status list（Optional），max array members：2
         member_count: 成员count（Optional），0~2147483647
         sort_key: Sort field（Optional），支持 member_count
         sort_dir: Sort direction（Optional），asc：升序；desc：降序
@@ -368,11 +368,11 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
         client: DME API client
         zone_id: Zone ID（Required）
         zone_name: Zone 名称（Optional）
-        wwn_members: WWN 成员修改（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
+        wwn_members: WWN member modification（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
         alias_members: Alias member modification（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
-        fwwn_members: FWWN 成员修改（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
+        fwwn_members: FWWN member modification（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
         port_members: Port member modification（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
-        fcid_members: FCID 成员修改（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
+        fcid_members: FCID member modification（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
         device_alias_members: Device alias member modification（Optional），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
 
     Returns:
@@ -608,10 +608,10 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
         client: DME API client
         alias_id: Alias ID（Required）
         name: Alias 名称（Optional）
-        wwn_members: WWN 成员修改（Optional，格式：{'added_members': [...], 'removed_members': [...]}）
-        fwwn_members: FWWN 成员修改（Optional）
+        wwn_members: WWN member modification（Optional，格式：{'added_members': [...], 'removed_members': [...]}）
+        fwwn_members: FWWN member modification（Optional）
         port_members: Port member modification（Optional）
-        fcid_members: FCID 成员修改（Optional）
+        fcid_members: FCID member modification（Optional）
         device_alias_members: Device alias member modification（Optional）
     
     Returns:
@@ -727,7 +727,7 @@ ACTIONS = {
     },
     'controller_list': {
         'func': controller_list,
-        'description': '查询Switch控制器列表',
+        'description': '查询SwitchController列表',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },

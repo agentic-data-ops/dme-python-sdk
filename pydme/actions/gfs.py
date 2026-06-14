@@ -341,7 +341,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_id: Namespace ID (1~32个字符, Optional)
         namespace_raw_id: Namespace在device side ID (1~256个字符, Optional)
         local_path: Namespace下的路径，supports fuzzy search (1~256个字符, Optional, Default: "/")
-        status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据Syncing), completed (完成), suspended (Paused), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
+        status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据Syncing), completed (完成), suspended (Paused), faulty (故障), to_be_scheduled (待调度), partially_success (partial success), failed (失败), unknown (未知)
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
         execute_mode: 执行模式列表 (List<string>, max array members: 2, Optional)
         page_no: Page number (int32, 1~1000, Default: 1, Optional)

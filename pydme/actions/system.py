@@ -335,7 +335,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         is_group: 是否群组任务（Optional）
         start: 分页Start position（Optional，0~10000000）
         limit: 分页count（Optional，1~1000）
-        status: Pending task group状态列表（Optional，1-Pending/2-Executing/3-Completed/4-已关闭）
+        status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已关闭）
         todo_item_status: Pending item status list（Optional，0-待确认/1-未完成/2-Executing/3-Completed）
         start_time_from: Start time起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         start_time_to: Start time结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: 业务类型（Required，wfa_execute_activity-自动化编排）
-        status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
+        status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-partial success/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
         page_no: 页索引号（Optional，默认 1）
         page_size: 每页count（Optional，1~10，默认 10）
 
@@ -592,7 +592,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - description: 任务描述
         - parent_id: 父任务 ID
         - seq_no: 任务序号
-        - status: 状态（1-初始状态;2-Executing;3-成功;4-部分成功;5-失败;6-超时）
+        - status: 状态（1-初始状态;2-Executing;3-成功;4-partial success;5-失败;6-超时）
         - progress: 任务进度
         - owner_name: Create task user名称
         - owner_id: Create task user ID
@@ -601,8 +601,8 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - end_time: 任务End time（UTC 毫second(s)数）
         - detail_en: 任务英文详情
         - detail_cn: 任务中文详情
-        - is_support_retry: 是否支持重试
-        - is_support_rollback: 是否支持回滚
+        - is_support_retry: supports重试
+        - is_support_rollback: supports回滚
         - remarks: Remark
         - resources: 任务关联的资源列表
     """
@@ -624,7 +624,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: 分页Start position，默认 1
         limit: Page size, default 100
         task_name: 任务名称过滤（Optional）
-        status: 状态过滤（Optional，1-初始状态;2-Executing;3-成功;4-部分成功;5-失败;6-超时）
+        status: 状态过滤（Optional，1-初始状态;2-Executing;3-成功;4-partial success;5-失败;6-超时）
         owner_id: Create task user ID 过滤（Optional）
         create_time_from: Creation time起始（Optional，UTC 毫second(s)数）
         create_time_to: Creation time结束（Optional，UTC 毫second(s)数）
@@ -690,7 +690,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         任务最终状态详情
         status 说明：
         - 3: 成功
-        - 4: 部分成功
+        - 4: partial success
         - 5: 失败
         - 6: 超时
     """
@@ -708,7 +708,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         status = root_task.get('status')
 
         # 检查任务是否完成
-        if status in [3, 4, 5, 6]:  # 成功、部分成功、失败、超时
+        if status in [3, 4, 5, 6]:  # 成功、partial success、失败、超时
             return root_task
 
         # 检查是否超时
@@ -1133,7 +1133,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
 
     Args:
         client: DME API client
-        ids: Region的ID列表，支持exact match (Optional, List[string], max array members：100)
+        ids: RegionID list，支持exact match (Optional, List[string], max array members：100)
         name: Region的名称，supports fuzzy search (Optional, string, 最多256个字符)
         active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256个字符)
         standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256个字符)

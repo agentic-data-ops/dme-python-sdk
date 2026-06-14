@@ -34,7 +34,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
         storage_ip: Storage device IP (Optional, string, 1~255 characters)
         storage_name: Storage device name (Optional, string, 1~255 characters)
         zone_id: Zone ID (Optional, string, 1~64 characters)。仅OceanStor Aseries storage only。
-        status: Tenant状态 (Optional, string)。Options：active (已激活), inactive (未激活)
+        status: Tenant状态 (Optional, string)。Options：active (已激活), inactive (inactive)
         nas_capacity_quota_alarm_switch: NASCapacity quota alarm switch (Optional, boolean, true,false)。仅OceanStor Aseries storage only。
         sort_key: Sort field (Optional, string)
         sort_dir: Sort direction (Optional, string)。Options：asc (升序), desc (降序)
@@ -55,7 +55,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
                 name: Tenant名称 (string, 1~256 characters),
                 description: Tenant description (string, 0~255 characters),
                 running_status: Running status (string)。Options：normal (正常), initializing (初始化),
-                status: Tenant状态 (string)。Options：active (已激活), inactive (未激活),
+                status: Tenant状态 (string)。Options：active (已激活), inactive (inactive),
                 encrypt_option: Tenant的加密选项 (boolean, true,false),
             }, ...]
         }
@@ -112,7 +112,7 @@ def vstore_show(client: DMEAPIClient, id: str) -> dict:
             name: Tenant名称 (string, 1~256 characters),
             description: Tenant description (string, 0~255 characters),
             storage_id: Device ID (string, 1~64 characters),
-            status: Tenant状态 (string)。Options：active (已激活), inactive (未激活),
+            status: Tenant状态 (string)。Options：active (已激活), inactive (inactive),
             running_status: Running status (string)。Options：normal (正常), initializing (初始化),
         }
     """
@@ -230,7 +230,7 @@ def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API client
-        ids: 租户的ID列表 (Required, List[string], max array members：100, min array members：1)
+        ids: 租户ID list (Required, List[string], max array members：100, min array members：1)
 
     Returns:
         {
@@ -650,7 +650,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         disk_pool_id: Disk pool或Disk poolID (可选, 1~64 characters)。仅华为Storage device，third-party device supports this field。
         storage_pool_id: Storage pool ID (Optional, 1~64 characters)。
         bar_code: 硬盘条码 (可选, 1~256 characters)。
-        sn: 硬盘序列号 (可选, 1~256 characters)。仅华为Storage device，third-party device supports this field。
+        sn: 硬盘Serial number (可选, 1~256 characters)。仅华为Storage device，third-party device supports this field。
         speed: 转速 (可选, max: 2147483647, 单位: RPM)。
         storage_ip: 所属设备ip地址 (可选, 1~255 characters)。
         management_ip: 管理设备ip地址 (可选, 1~256 characters)。
@@ -673,7 +673,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
                 health_status: Health status (string),
                 physical_type: Disk type (string),
                 capacity: Total capacity (integer),
-                sn: 硬盘序列号 (string),
+                sn: 硬盘Serial number (string),
             }, ...],
         }
     """
@@ -925,7 +925,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 frame_number: 机柜/机架号 (1~255 characters),
                 slot_number: 槽位/机架内Slot number (1~255 characters),
                 roles: 节点Role list (List<string>)。Options：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算),
-                node_sn: 序列号信息 (1~255 characters),
+                node_sn: Serial number信息 (1~255 characters),
                 storage_id: Storage deviceid (1~64 characters),
                 storage_name: Storage device名称 (1~255 characters),
                 eos_time: 存储EOS时间 (int64)，格林威治时间1970year(s)01month(s)01日00时00分00second(s)起至现在的总毫second(s)数,
@@ -985,7 +985,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
         power_mode: Power supply模式(Optional). Options：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply)
         location: 位置（可选，1~256 characters），supports fuzzy match
         model: 型号（可选，1~256 characters），supports fuzzy match
-        sn: 序列号（可选，1~256 characters），supports fuzzy match
+        sn: Serial number（可选，1~256 characters），supports fuzzy match
         enclosure_name: 所属EnclosureName (Optional,1~256 characters），supports fuzzy match
         zone_id: Zone ID（可选，1~64 characters），仅OceanStor A800series storage only
         page_no: Page number（可选，1~2147483647，默认 1）
@@ -1001,7 +1001,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
                 running_status: Running status. Options：unknown (未知), normal (正常), running (运行), online (在线), offline (离线),
                 power_type: Power supply类型。Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply),
                 model: 型号 (1~255 characters),
-                sn: 序列号 (1~255 characters),
+                sn: Serial number (1~255 characters),
                 manufacturer: 生产厂商 (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
                 production_date: 生产日期 (1~255 characters),
@@ -1014,7 +1014,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
                 storage_id: Storage deviceID (1~64 characters),
                 storage_name: Storage device名称 (1~128 characters),
                 storage_ip: Storage deviceIP地址 (1~32个字符),
-                storage_sn: Storage device序列号 (1~64 characters),
+                storage_sn: Storage deviceSerial number (1~64 characters),
             }, ...],
         }
     """
@@ -1204,7 +1204,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     """
     QueryStorage devicecontroller info
     
-    query storage device控制器List info。
+    query storage deviceControllerList info。
     
     Args:
         client: DME API client
@@ -1214,8 +1214,8 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
         {
             task_id: Task ID (string, 1~64 characters),
         }，包含 total 和 controllers 字段
-        - total: 控制器Total count
-        - controllers: 控制器列表，包含 id, name, status, type 等信息
+        - total: ControllerTotal count
+        - controllers: Controller列表，包含 id, name, status, type 等信息
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/controllers"
     
@@ -1320,7 +1320,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         zone_id: Zone ID列表（可选，List<string>，max array members：100），仅OceanStor A800series storage only
         running_status: Running status列表（可选，List<string>，max array members：7). Options：unknown (未知), normal (正常), running (运行), sleep_in_high_temperature (高温休眠), online (在线), offline (离线)
         power_mode: Power supply模式列表（可选，List<string>，max array members：2). Options：load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
-        esn: Enclosure序列号（可选，1~256 characters），supports fuzzy match
+        esn: EnclosureSerial number（可选，1~256 characters），supports fuzzy match
         mac: MAC地址（可选，1~256 characters），supports fuzzy match
         sort_key: Sort field(Optional). Options：temperature (温度)
         sort_dir: Sort direction(Optional). Options：asc (升序), desc (降序)。默认按升序返回
@@ -1341,12 +1341,12 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     storage_id: Storage deviceID (1~64 characters),
                     storage_name: Storage device名称 (1~128 characters),
                     storage_ip: Storage deviceIP地址 (1~32个字符),
-                    storage_sn: Storage device序列号 (1~64 characters),
+                    storage_sn: Storage deviceSerial number (1~64 characters),
                     storage_location: Storage device的位置 (0~512个字符),
                     zone_name: Zone名称 (0~512个字符)，仅OceanStor A800series storage only,
                     zone_ip: Zone IP地址 (1~128 characters)，仅OceanStor A800series storage only,
                     zone_id: Zone ID (0~512个字符)，仅OceanStor A800存储支持,
-                    esn: Enclosure序列号 (0~512个字符),
+                    esn: EnclosureSerial number (0~512个字符),
                     mac: MAC地址 (0~512个字符),
                     power_mode: Power supply模式。Options：load_balance (Load balancing mode), active_standby_power (Primary/standby power mode),
                     bar_code: 条形码 (0~256个字符),
@@ -1408,7 +1408,7 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
         associated_host_id: Initiator关联Host ID (可选, 0~64 characters; 空字段查询未添加到主机的Initiator)
         multipath_type: Third-party multipath策略 (可选, 仅针对非Dorado V6产品)。Options：default (默认), third_party (Third-party multipath)
         protocol: Initiator type (可选)。Options：fc, iscsi, nvme_over_roce, sas, nvme_over_fabric, unknown
-        support_provisioning: 是否支持发放 (可选)。Options：true, false
+        support_provisioning: supports发放 (可选)。Options：true, false
         vstore_raw_id: Tenant ID (Optional)
         vstore_name: Tenant name (Optional)
         storage_id: Storage device ID (Optional, 0~64 characters)
@@ -1492,8 +1492,8 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
         alias: Initiator alias (可选, 0~31个字符, supports alphanumeric._-and Chinese characters)
         multi_path: ModifyMultiPathRequestParamobject (可选; 设备为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01及以上支持)。属性格式如下：{
                 multi_path_type: InitiatorMultipath type (可选)。Options：default (默认), third_party (Third-party multipath),
-                path_type: Initiator路径类型 (条件必传, 当multi_path_type为third_party时必传)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
-                failover_mode: Initiator切换模式 (条件必传, 当multi_path_type为third_party时必传)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
+                path_type: Initiator路径类型 (条件必传, 当multi_path_type为third_partyrequired when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
+                failover_mode: Initiator切换模式 (条件必传, 当multi_path_type为third_partyrequired when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                 special_mode_type: Special mode type (可选, effective when failover mode is special)。Options：0 (特殊模式0), 1 (特殊模式1), 2 (特殊模式2), 3 (特殊模式3)
              }
 
@@ -1576,7 +1576,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         vstore_id: 本地auth user所属的租户 ID (1~64 characters, Optional。条件必传，当创建的本地required when auth user belongs to tenant)
 
     Returns:
-        创建结果
+        creation result
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-users"
 
@@ -1625,7 +1625,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
         vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional。条件必传，当创建的 UNIX required when auth user belongs to tenant)
 
     Returns:
-        创建结果
+        creation result
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-users"
 
@@ -1667,7 +1667,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
         vstore_raw_id: 创建的 Windows Auth user tenant on device ID (1~64 characters, Optional。条件必传，当 Windows required when auth user belongs to tenant)
 
     Returns:
-        创建结果
+        creation result
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-users"
 
@@ -2327,7 +2327,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name: 逻辑Port name (1~255 characters),
                 running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
-                operational_status: Active status。Options：ACTIVATED (激活), NOT_ACTIVATED (未激活),
+                operational_status: Active status。Options：ACTIVATED (激活), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4地址 (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP地址(IPV4) (1~64 characters),
                 ipv4_mask: Logic portIPNetmask(IPV4) (1~64 characters),
@@ -2406,7 +2406,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name: 逻辑Port name (1~255 characters),
             running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
-            operational_status: Active status。Options：ACTIVATED (激活), NOT_ACTIVATED (未激活),
+            operational_status: Active status。Options：ACTIVATED (激活), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4地址 (1~255 characters),
             ipv4_gateway: Logic port gatewayIP地址(IPV4) (1~64 characters),
             ipv4_mask: Logic portIPNetmask(IPV4) (1~64 characters),
@@ -2485,8 +2485,8 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         ipv6_gateway: Logic port gatewayIP地址(IPV6)(Optional, max128个字符）
         home_port_raw_id: 父端口on the storage deviceID（可选，1~64 characters）
         support_protocol: Logic portSupported data access protocols(Optional). Options：NFS (NFS协议), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE协议), NFS_OVER_RDMA (NFS over RDMA协议), NFS_OVER_IB (NFS over IB协议), DATA_TURBO_OVER_IB (DataTurbo over IB协议), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE和TCP协议), OBJECT (S3协议), NAS_AND_OBJECT (NAS与object存储协议), KB_OVER_TCP (KnowledgeBase over TCP协议)。角色为CLIENT时，do not send this field
-        operational_status: 激活状态(Optional). Options：ACTIVATED (激活), NOT_ACTIVATED (未激活)
-        home_controller_id: 控制器ID（可选，1~64 characters）。角色为HEALTH_CHECK时，this field is required
+        operational_status: 激活状态(Optional). Options：ACTIVATED (激活), NOT_ACTIVATED (inactive)
+        home_controller_id: ControllerID（可选，1~64 characters）。角色为HEALTH_CHECK时，this field is required
         failover_group_raw_id: Failover groupon the storage deviceID(Optional, max64个字符）。Data access protocol isKB_OVER_TCP时，this field is required
         vstore_raw_id: Logic port所属vStoreassigned on the deviceid(Optional, max64个字符）。角色为CLIENT时，do not send this field
         role: Logic port角色（可选，默认 DATA). Options：MANAGEMENT (管理), DATA (数据), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (管理+数据), CLIENT (Client)
@@ -2696,13 +2696,13 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         client: DME API client
         storage_id: Storage device ID（可选，1~36 个字符）
         port_type: Port type（可选，eth/fc/ib/bond/sas，returns all types if not specified）
-        location: 位置（可选，仅 ETH 端口支持，1~255 个字符）
-        ipv4: IPv4 地址（可选，仅 ETH 端口支持，1~255 个字符）
-        ipv6: IPv6 地址（可选，仅 ETH 端口支持，1~255 个字符）
-        port_name: Port name（可选，仅 ETH 端口支持，1~255 个字符）
-        zone_id: Storage device的 Zone ID（可选，仅 Bond 端口支持，1~36 个字符）
-        page_no: Page number（可选，FC/SAS 端口支持，1~10000，默认 1）
-        page_size: 每页count（可选，FC/SAS 端口支持，1~1000，默认 20）
+        location: 位置（可选，仅 ETH port support，1~255 个字符）
+        ipv4: IPv4 地址（可选，仅 ETH port support，1~255 个字符）
+        ipv6: IPv6 地址（可选，仅 ETH port support，1~255 个字符）
+        port_name: Port name（可选，仅 ETH port support，1~255 个字符）
+        zone_id: Storage device的 Zone ID（可选，仅 Bond port support，1~36 个字符）
+        page_no: Page number（可选，FC/SAS port support，1~10000，默认 1）
+        page_size: 每页count（可选，FC/SAS port support，1~1000，默认 20）
 
     Returns:
         {
@@ -3117,9 +3117,9 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
         client: DME API client
         name: zoneName (Optional,1~256 characters），exact match
         ip: zone ip地址Name (Optional,1~256 characters），exact match
-        status: Zone状态列表（可选，List<string>，max array members：6). Options：OFFLINE (离线), NORMAL (正常), FAULT (故障), DEGRADED (降级), ABNORMAL (未管理), UNKNOWN (未知)
-        sync_status: ZoneSync状态列表（可选，List<string>，max array members：5). Options：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync完成), FAILED (Sync失败), UNKNOWN (未知)
-        sn: Zone序列号（可选，1~128 characters），exact match
+        status: Zonestatus list（可选，List<string>，max array members：6). Options：OFFLINE (离线), NORMAL (正常), FAULT (故障), DEGRADED (降级), ABNORMAL (未管理), UNKNOWN (未知)
+        sync_status: ZoneSyncstatus list（可选，List<string>，max array members：5). Options：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync完成), FAILED (Sync失败), UNKNOWN (未知)
+        sn: ZoneSerial number（可选，1~128 characters），exact match
         storage_ids: OceanStor A800集群id列表（可选，List<string>，max array members：100，最小成员count：1），exact match
 
     Returns:

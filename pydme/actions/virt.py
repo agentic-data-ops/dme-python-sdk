@@ -27,7 +27,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         host_name: Virtual machine所属Host name（supports fuzzy search）
         name: Virtual machine名称（supports fuzzy search）
         ip_address: Virtual machine IP 地址（supports fuzzy search）
-        status: Virtual machine状态列表
+        status: Virtual machinestatus list
                 取值：running, stopped, unknown, hibernated, creating, shutting-down,
                      migrating, fault-resuming, starting, stopping, hibernating, pause,
                      recycling, deactivated, active, saving, deleted, other, uploading,
@@ -136,13 +136,13 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         host_id: Datastore所关联的主机 ID
         dc_id: Datastore所在Data center ID
         name: Datastore名称（supports fuzzy search）
-        status: Datastore状态列表
+        status: Datastorestatus list
                 取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
         storage_type: 数据Storage class型列表
                       取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: 是否支持精简模式（仅 FusionCompute 场景支持）
+        allocate_type: supports精简模式（仅 FusionCompute 场景支持）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: Datastore所属的 vCenter Data center ID（仅 vCenter 场景支持）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
