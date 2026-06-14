@@ -1074,7 +1074,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
              }, ...]
         apply_default_acl: 是否添加默认 ACL
         file_extension_filter_enabled: EnableFile extension过滤特性
-        show_previous_versions_enabled: Enable显示以前的版本的功能
+        show_previous_versions_enabled: EnableShow previous versions feature
         show_snapshot_enabled: Enable显示 Snapshot 的功能
         user_and_user_group_info: 用户和User group list (可选)。参数格式如下：[{
                 update_type: Change type (可选, 默认add)。Options：add (新增), delete (删除), modify (修改),
@@ -1767,12 +1767,12 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         quota_id: 配额 ID
         space_soft_quota: 空间软配额（可选），单位 Byte，-1 field is invalid；When both space hard/soft quotas arewhen both valid，Hard quota must exceed soft quota
         space_hard_quota: 空间硬配额（可选），单位 Byte，-1 field is invalid；When both space hard/soft quotas arewhen both valid，Hard quota must exceed soft quota
-        space_advisory_quota: 空间建议配额（可选），单位 Byte，-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，空间建议配额需小于空间硬配额或空间软配额
+        space_advisory_quota: 空间建议配额（可选），单位 Byte，-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，Advisory quota must be less than hard or soft quota
         file_soft_quota: 文件数软配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_hard_quota: 文件数硬配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，Advisory quota must be less than hard or soft quota
         snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：Exclude snapshot space；仅 OceanStor Pacific Device support
-        soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；not sent或取值 0 soft quota reached, warning only；仅 OceanStor Pacific 支持
+        soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；Grace period before soft limit becomes hard limit；not sent或取值 0 soft quota reached, warning only；仅 OceanStor Pacific 支持
         task_remarks: Async taskRemark
 
     Returns:
@@ -2675,7 +2675,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_lock_enabled: WORM是否自动锁定 (可选, 默认false)。Options：true, false,
                 auto_lock_time: Auto-lock time (可选, 1~64800, 默认2; 单位day时1~45, hour时1~1080, minute时1~64800),
                 auto_lock_unit: Auto-lock time单位 (可选, 默认hour)。Options：day, minute, hour,
-                legal_hold_modify: 诉讼保留文件修改保留期开关 (可选, 默认false)。Options：true, false,
+                legal_hold_modify: Legal hold file retention period modification switch (可选, 默认false)。Options：true, false,
              }
         qos_policy: QoS Policy configuration。参数格式如下：{
                 qos_scale: upper limit控制维度 (Required)。Options：namespace, client, account, user, innertask,
@@ -2830,7 +2830,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         atime_update_mode: atime 更新Frequency，4294967295：关闭更新；3600：1 hour(s)更新；86400：1 day(s)更新
         acl_policy_type: NamespaceSecurity mode，Options：mixed（同时支持 UNIX 和 Windows 权限），
                         unix（适用于 NFS User permissions determined by Unix Mode/NFSv4 ACL 权限控制），
-                        native（与 Mixed 模式适用于相同的场景），
+                        native（与 Mixed Mode适用于相同的场景 applicable to same scenario），
                         ntfs（适用于 CIFS User permissions determined by Windows NT ACL 权限控制）
         enable_encrypt: Enable encryption，true：开启；false：关闭
         qos_policy: QoS Policy configuration。参数格式如下：{
@@ -3046,7 +3046,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         name: DataTurbo Admin名，支持fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (可选)。Options：offline (离线), online (在线)
         lock_status: DataTurbo AdminLock status (可选)。Options：unlocked (未锁定), locked (锁定)
-        account_state: DataTurbo Admin密码状态 (可选)。Options：normal (正常), expired (密码过期), initial (用户密码处于初始化状态，需要修改), expiring_soon (密码即将到期), change_required (Must change password on next login), never (密码永不过期)
+        account_state: DataTurbo Admin密码状态 (可选)。Options：normal (正常), expired (密码过期), initial (User password is in initial state，需要修改), expiring_soon (密码即将到期), change_required (Must change password on next login), never (密码永不过期)
         sort_key: sort by specified field (可选)。Options：create_time
         sort_dir: 指定Sort direction (可选)。Options：asc (升序), desc (降序)
         page_no: Page queryStart page (int32, min: 1, Default: 1, Optional)
@@ -3459,7 +3459,7 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         raw_id: UNIX 用户 ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310 存储Required)
         description: UNIX 用户描述 (0~255 characters, Optional)
         primary_group_raw_id: 用户主组 ID (int64, 0~4294967294, Optional。与 primary_group_name provide at least one，若都下发仅 primary_group_name 生效)
-        primary_group_name: 用户所归属的主组名称 (1~64 characters, Optional。与 primary_group_raw_id provide at least one，若都下发仅 primary_group_name 生效)
+        primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id provide at least one，若都下发仅 primary_group_name 生效)
         vstore_raw_id: 用户Tenanton the storage device ID (1~32 characters, Required)
         zone_id: 所属 Zone ID (1~64 characters, Optional。仅 OceanStor A800 storage support)
         status: User status (boolean, Optional。Default：true)。Options：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 series storage only

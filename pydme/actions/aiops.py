@@ -198,7 +198,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         page_no: Page queryStart page,默认 1
         page_size: 每页count,1~1000,默认 100(Current alarm查询用)
         cleared: 是否已清除,true/false(History alarm查询用)
-        size: 返回的结果集最大条数,1~1000,默认 100(History alarm查询用)
+        size: Max number of returned results,1~1000,默认 100(History alarm查询用)
         iterator: 迭代子,首次查询无需传入,Subsequent queries use last returned iterator(History alarm查询用)
         include_history: 开关参数,指定则同时查询History alarm
 
@@ -464,13 +464,13 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Query historyPerformance data
 
     根据传入参数中的"range"Enum values or from start toEnd time范围内的查询数据.
-    With aggregated data,返回结果序列是平均值序列,并包含max,min以及对应Timestamp.
+    With aggregated data,Returned result sequence is average,并包含max,min以及对应Timestamp.
 
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
     - object ID (CMDB 实例 ID) 获取步骤:
       1. 运行 `cmdb instance list --help` View help,see class definition and query method
-      2. 根据帮助信息,从 CMDB 资源模型中确定要查询的Resource type (Class 名称)
+      2. 根据帮助信息,从 CMDB Determine what to query from resource modelResource type (Class 名称)
       3. 使用 `cmdb instance list --class_name <Class 名称>` 查询实例列表
       4. obtain from response对应资源的 instance_id (即 obj_ids 参数)
 
@@ -483,7 +483,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         obj_ids: 监控objectIdentifier list(Required,最多 512 个),对应 CMDB 实例 ID
                  获取方式:
                  1. 运行 `cmdb instance list --help` View help,了解类定义
-                 2. 根据帮助确定要查询的Resource type (Class 名称)
+                 2. Determine what to query based on helpResource type (Class 名称)
                  3. 运行 `cmdb instance list --class_name <Class 名称>` 查询实例
                  4. obtain from response instance_id
         obj_type: 监控Object type(Optional,1~512  characters)

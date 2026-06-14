@@ -200,7 +200,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     """
     Query step log
     
-    查询Workflow实例中指定步骤的执行日志。
+    查询WorkflowExecution log of specified step in instance。
     
     Args:
         client: DME API client
