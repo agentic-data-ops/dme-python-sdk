@@ -1572,7 +1572,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
         page_no: Page number(Optional) , 1~10000000, default 1
         page_size: Items per page(Optional) , 1~1000, default 10
         user_id: DataTurbo Admin ID(Optional) , 1~64  characters, exact match
-        user_name: DataTurbo Admin name(Optional) , 1~256  characters,  supportfuzzy search
+        user_name: DataTurbo Admin name(Optional) , 1~256  characters,  supports fuzzy search
         permission: DataTurbo Admin permission(Optional) , Options: read_and_write (read/write)
 
     Returns:
@@ -1772,7 +1772,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_hard_quota: File hard quota(Optional) , -1 field is invalid; When both file hard/soft quotas arewhen both valid, File hard quota must exceed soft quota
         file_advisory_quota: File advisory quota(Optional) , -1 field is invalid; OceanStor Pacific only; When advisory quota and hard/soft quota are both valid hard/soft quotawhen both valid, Advisory quota must be less than hard or soft quota
         snap_space_switch: Include snapshot space(Optional) , true: Include snapshot space; false: Exclude snapshot space; OceanStor Pacific only
-        soft_grace_time:  Grace period (Optional) , 0~4294967294, in days; Grace period before soft limit becomes hard limit; not sent or value 0: soft quota warning onlyft quota reached, warning only; 仅 OceanStor Pacific  support
+        soft_grace_time:  Grace period (Optional) , 0~4294967294, in days; Grace period before soft limit becomes hard limit; not sent or value 0: soft quota warning only quota warning onlyft quota reached, warning only; 仅 OceanStor Pacific  support
         task_remarks: Async taskRemark
 
     Returns:
@@ -1892,7 +1892,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         project_id: Project group ID(Optional) , 1~256  characters, mutually exclusive with project_name, exact match
         storage_id: Storage device ID(Optional) , 1~256  characters, mutually exclusive with storage_name, exact match
         fs_raw_id: Filesystem ID on device(Optional) , 1~256  characters, mutually exclusive with name
-        health_status: Health status(Optional) , Options: normal (normal), faulty (fault), unknown (unknown)
+        health_status: Health status(Optional) , Options: normal, faulty (fault), unknown (unknown)
         running_status: Running status(Optional) , Options: online, offline, invalid , 
                        initializing (Initializing) , unknown (unknown)
         alloc_type: Filesystem allocation type(Optional) , Options: thin ( thin provisioning) , thick (Fixed allocation) 
@@ -1903,7 +1903,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         dc_id: Data center ID(Optional) , 1~128  characters, regex ^[_A-Fa-f0-9\\-]+$
         dc_name: Data center name(Optional) , 1~256  characters
         zone_id:  zone ID(Optional) , 1~256  characters; OceanStor A800 filesystem only, passing clusterID queries global filesystem
-        product_name: FilesystemDevice product name(Optional) , 1~256  characters,  supportfuzzy search
+        product_name: FilesystemDevice product name(Optional) , 1~256  characters,  supports fuzzy search
         description: FilesystemDescription(Optional) , 1~255  characters
         tag_filters: Tag filter list(Optional) , List<TagFilters>  type, max array members 11. 参数格式如下：[{
                         tag_ids:  tag ID  list(Optional) , max array members 10, Tags are OR-related,
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format: {
-                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_mode), audit_log (Audit log), non_worm (非WORM),
+                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_modelog (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default 0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2289,7 +2289,7 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
         feature_type: Feature type, currently only supports remote_replication (Remote replication) 
         local_storage_id: local Storage device ID
         remote_storage_id: Remote storage device ID (required when feature_type is remote_replication) 
-        name: local Filesystem name,  supportfuzzy search
+        name: local Filesystem name,  supports fuzzy search
         page_no: Page number, default 1
         page_size: Items per page, default 20
         sort_key: Sort field, name or capacity (Filesystem capacity) 
@@ -2522,12 +2522,12 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         page_size: Items per page(Optional) , 1~1000, default 100
         sort_dir:  specifiedSort direction(Optional) , Options: asc (ascending) , desc (descending) 
         sort_key: Sort key(Optional) , Options: namespace_used_rate, file_used_rate
-        name: Namespace name(Optional) , 1~256  characters,  supportfuzzy search
-        vstore_name: NamespaceTenant name(Optional) , 1~256  characters,  supportfuzzy search
+        name: Namespace name(Optional) , 1~256  characters,  supports fuzzy search
+        vstore_name: NamespaceTenant name(Optional) , 1~256  characters,  supports fuzzy search
         vstore_raw_id: Namespace vStore assigned ID on storage device(Optional) , 1~128  characters
         vstore_id: Namespace vStore ID(Optional) , 1~128  characters
         raw_id: Namespaceon the storage device ID(Optional) , 1~256  characters
-        pool_name: Storage pool name(Optional) , 1~256  characters,  supportfuzzy search
+        pool_name: Storage pool name(Optional) , 1~256  characters,  supports fuzzy search
         storage_id: Storage device ID(Optional) , 1~255  characters
         enable_encrypt: Enable encryption (Optional) , true: yes; false: no
         support_provisioning: Supports service provisioning(Optional) , true: yes; false: no; send this field to filter unsupported service provisioningg device的 resource,  currently not supportService provisioning的 device有 DataTurbo 系列
@@ -2991,7 +2991,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         nfs_share_id: NFS  share ID(Optional) , 1~64  characters
         storage_id: Storage device ID(Optional) , 1~64  characters; if nfs_share_id is specified, this parameter is invalid
         vstore_id_in_storage: vStore ID(Optional) , 1~256  characters; vStore must be sent in this scenario
-        name: Client IP or hostname or netgroup name(Optional) , 1~256  characters;  specified nfs_share_id  condition下 supportfuzzy search
+        name: Client IP or hostname or netgroup name(Optional) , 1~256  characters;  supports fuzzy search when nfs_share_id is specified search
         client_id_in_storage: NFS  shareClient ID(Optional) , 1~256  characters
         sort_key: Sort field(Optional) , Options: raw_id, name
         sort_dir: Sort direction(Optional) , Options: asc (ascending) , desc (descending) , default asc
@@ -3040,20 +3040,20 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
     Args:
         client: DME API Client
         storage_id:  device ID (1~64 characters, Optional)
-        vstore_id:  tenant的 ID (1~64 characters, Optional)
-        vstore_name:  tenant name,  supportfuzzy search (1~256 characters, Optional)
-        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device Id; When resource scope is local, Zone ID 为 Zone 的 ID. OceanStor A800 series only
-        name: DataTurbo Admin名,  supportfuzzy search (1~256 characters, Optional)
+        vstore_id:  Tenant ID (1~64 characters, Optional)
+        vstore_name:  tenant name,  supports fuzzy search (1~256 characters, Optional)
+        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device Id; When resource scope is local, Zone ID 为 Zone ID. OceanStor A800 series only
+        name: DataTurbo admin name,  supports fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (Optional). Options: offline, online
-        lock_status: DataTurbo AdminLock status (Optional). Options: unlocked (未 lock), locked ( lock)
-        account_state: DataTurbo Admin密码 status (Optional). Options: normal (normal), expired (Password expired), initial (User password is in initial state,  needmodify ), expiring_soon (Password expiring soon), change_required (Must change password on next login), never (Password never expires)
+        lock_status: DataTurbo admin lock status (Optional). Options: unlocked, locked
+        account_state: DataTurbo admin password status (Optional). Options: normal, expired, initialssword is in initial state,  needmodify ), expiring_soon (Password expiring soon), change_required (Must change password on next login), never (Password never expires)
         sort_key: sort by specified field (Optional). Options: create_time
         sort_dir:  specifiedSort direction (Optional). Options: asc (ascending), desc (descending)
         page_no: Page queryStart page (int32, min: 1, Default: 1, Optional)
         page_size: shown per pagecount (int32, min: 1, max: 1000, Default: 20, Optional)
 
     Returns:
-        DataTurbo Admin list, includes  total 和 administrators
+        DataTurbo admin list, includes  total and administrators
     """
     url = "/rest/fileservice/v1/dpc-administrators/query"
 
@@ -3096,12 +3096,12 @@ def account_unix_user_modify(client: DMEAPIClient, id: str, raw_id: int = None,
 
     Args:
         client: DME API Client
-        id: UNIX user  ID (1~32 characters, Required)
+        id: UNIX user ID (1~32 characters, Required)
         raw_id: UNIX user on the storage device ID (int64, 0~4294967294, Optional)
         description: UNIX user  description (0~255 characters, Optional)
-        primary_group_name: User primary group name (1~64 characters, Optional. 与 primary_group_raw_id  both sent only primary_group_raw_id effective)
-        primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional. 与 primary_group_name  both sent only primary_group_raw_id effective)
-        status_enable: User status (boolean, Optional). Options: true ( enable), false ( lock). 仅 OceanStor Pacific 和 OceanStor A310 series storage only
+        primary_group_name: User primary group name (1~64 characters, Optional. if both sent, only primary_group_raw_id is usedup_raw_id effective)
+        primary_group_raw_id: user primary group ID (int64, 0~4294967294, Optional. if both sent, only primary_group_raw_id is used effective)
+        status_enable: User status (boolean, Optional). Options: true, false. OceanStor Pacific and A310 only10 series storage only
 
     Returns:
         Modification result
@@ -3145,10 +3145,10 @@ def account_unix_user_group_create(client: DMEAPIClient, storage_id: str, name: 
         client: DME API Client
         storage_id: create  UNIX User groupStorage device ID (1~64 characters, Required)
         name: UNIX User group name (1~64 characters, Required)
-        raw_id: UNIX User group ID (int64, 0~4294967294, Optional. OceanStor Pacific 和 OceanStor A310  storageRequired)
+        raw_id: UNIX User group ID (int64, 0~4294967294, Optional. OceanStor Pacific and A310 required)
         description: UNIX User group description (0~255 characters, Optional)
         vstore_raw_id: user Tenanton the storage device ID (1~32 characters, Required)
-        zone_id:  Zone ID (1~64 characters, Optional. 仅 OceanStor A800 storage support)
+        zone_id:  Zone ID (1~64 characters, Optional. OceanStor A800 only)
 
     Returns:
         creation result
@@ -3178,7 +3178,7 @@ def account_unix_user_batch_delete(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API Client
-        ids: UNIX user  ID  list (List<string>, min array members: 1, max array members: 100, Required)
+        ids: UNIX user ID  list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3210,10 +3210,10 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         page_size: Items per page (int32, 10~100, Default: 100, Optional)
         storage_name: Device name,  supportfuzzy match filter (1~256 characters, Optional)
         vstore_raw_id: Tenanton the storage device ID (1~64 characters, Optional)
-        vstore_name: Tenant name,  supportfuzzy search filter (1~256 characters, Optional)
-        name: User group name,  supportfuzzy search filter (1~256 characters, Optional)
+        vstore_name: Tenant name,  supports fuzzy search filter (1~256 characters, Optional)
+        name: User group name,  supports fuzzy search filter (1~256 characters, Optional)
         raw_id: User groupon the storage device ID (1~256 characters, Optional)
-        zone_id: Zone ID (1~64 characters, Optional). 仅 OceanStor A800 auth under storageUser groupsupports filtering by this field
+        zone_id: Zone ID (1~64 characters, Optional). OceanStor A800 auth user groups onlyd
         sort_key: sort by specified field (Optional). Options: name (User group name), raw_id (User groupon the storage device ID), create_time (Creation time). Default: create_time
         storage_id: Storage device ID (1~36 characters, Optional)
         sort_dir:  specifiedSort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
@@ -3302,7 +3302,7 @@ def account_unix_user_group_batch_delete(client: DMEAPIClient, ids: list) -> dic
 
     Args:
         client: DME API Client
-        ids: UNIX User group的 ID  list (List<string>, min array members: 1, max array members: 100, Required)
+        ids: UNIX user group ID list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3320,11 +3320,11 @@ def account_unix_user_group_batch_delete(client: DMEAPIClient, ids: list) -> dic
 def account_unix_user_remove_group(client: DMEAPIClient, user_id: str,
                                     secondary_group_name_list: list) -> dict:
     """
-    移除 UNIX user secondary group
+    Remove UNIX user secondary group
 
     Args:
         client: DME API Client
-        user_id: UNIX user  ID (1~32 characters, Required)
+        user_id: UNIX user ID (1~32 characters, Required)
         secondary_group_name_list: secondary groupName list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
@@ -3371,14 +3371,14 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API Client
         page_no: Page queryStart position (int32, 1~2147483647, Default: 1, Optional)
         page_size: Items per page (int32, 10~100, Default: 100, Optional)
-        storage_name: Device name,  supportfuzzy search filter (1~256 characters, Optional)
+        storage_name: Device name,  supports fuzzy search filter (1~256 characters, Optional)
         vstore_raw_id: Tenanton the storage device ID (1~64 characters, Optional)
-        vstore_name: Tenant name,  supportfuzzy search filter (1~256 characters, Optional)
-        name: Username称,  supportfuzzy search filter (1~256 characters, Optional)
-        primary_group_name: 主组 name,  supportfuzzy search filter (1~256 characters, Optional)
+        vstore_name: Tenant name,  supports fuzzy search filter (1~256 characters, Optional)
+        name: Username,  supports fuzzy search filter (1~256 characters, Optional)
+        primary_group_name: Primary group name,  supports fuzzy search filter (1~256 characters, Optional)
         raw_id: user on the storage device ID (1~255 characters, Optional)
         zone_id: Zone ID (1~64 characters, Optional). 仅 OceanStor A800  storage underauth usersupports filtering by this field
-        user_status: User status (Optional). Options: enable ( enable), disable (禁用)
+        user_status: User status (Optional). Options: enable, disable
         sort_key: sort by specified field (Optional). Options: name (Username), raw_id (user on the storage device ID), primary_group_name ( primary group name), create_time (Creation time). Default: create_time
         storage_id: Storage device ID (1~36 characters, Optional)
         sort_dir:  specifiedSort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
@@ -3427,7 +3427,7 @@ def account_unix_user_add_group(client: DMEAPIClient, user_id: str,
 
     Args:
         client: DME API Client
-        user_id: UNIX user  ID (1~32 characters, Required)
+        user_id: UNIX user ID (1~32 characters, Required)
         secondary_group_name_list: secondary groupName list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
@@ -3455,14 +3455,14 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
     Args:
         client: DME API Client
         storage_id: create  UNIX user Storage device ID (1~64 characters, Required)
-        name: UNIX Username称 (1~64 characters, Required)
-        raw_id: UNIX user  ID (int64, 0~4294967294, Optional. OceanStor Pacific 和 OceanStor A310  storageRequired)
+        name: UNIX Username (1~64 characters, Required)
+        raw_id: UNIX user ID (int64, 0~4294967294, Optional. OceanStor Pacific and A310 required)
         description: UNIX user  description (0~255 characters, Optional)
-        primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional. 与 primary_group_name provide at least one,  if both sent, only primary_group_name effective)
+        primary_group_raw_id: user primary group ID (int64, 0~4294967294, Optional. provide at least one with primary_group_name,  if both sent, only primary_group_name effective)
         primary_group_name: User primary group name (1~64 characters, Optional. 与 primary_group_raw_id provide at least one,  if both sent, only primary_group_name effective)
         vstore_raw_id: user Tenanton the storage device ID (1~32 characters, Required)
-        zone_id:  Zone ID (1~64 characters, Optional. 仅 OceanStor A800 storage support)
-        status: User status (boolean, Optional. Default: true). Options: true ( enable), false ( lock). 仅 OceanStor Pacific 和 OceanStor A310 series storage only
+        zone_id:  Zone ID (1~64 characters, Optional. OceanStor A800 only)
+        status: User status (boolean, Optional. Default: true). Options: true, false. OceanStor Pacific and A310 only10 series storage only
         secondary_group_name_list: user secondary groupName list (List<string>, min array members: 0, max array members: 100, Optional)
 
     Returns:
@@ -3500,22 +3500,22 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
                           data_cleanup_switch: str = None,
                           max_survival_time: int = None) -> dict:
     """
-    Batch create KV Cache 库
+    Batch create KV cache stores
 
     Args:
         client: DME API Client
         storage_id: Storage device ID (length is36 characters, Required)
-        zone_id:  Zone 的 ID (length is36 characters, Required)
-        pool_raw_id: Storage pool在 Zone 上的 ID (1~64 characters, Required)
+        zone_id:  Zone ID (length is36 characters, Required)
+        pool_raw_id: Storage pool ID in zone (1~64 characters, Required)
         vstore_id:  tenant ID (length is32 characters, Required)
         data_cleanup_switch: Cleanup switch (Optional). Options: on ( open), off ( disable). Default: off
-        max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. 当 data_cleanup_switch 为 on 时Required)
-        kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required). 参数格式如下：[{
-                name: KV Cache 库 name (1~255 characters, Required),
-                capacity: KV Cache 库 capacity (int64, 20971520~70368744177664, unit :  sector count, 1 sector=512 byte, Required),
+        max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. required when data_cleanup_switch is on)
+        kv_cache_stores: KV cache store list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required). 参数格式如下：[{
+                name: KV cache store name (1~255 characters, Required),
+                capacity: KV cache store capacity (int64, 20971520~70368744177664, in sectors (1 sector = 512 bytes), Required),
                 description: Description (1~255 characters, Optional),
-                count: Batch create KV Cache 库的count (int32, 1~100, Default: 1, Optional),
-                start_suffix: Starting suffix number (int32, 0~9999, Optional. Starting suffix number+KV Cache库count<=9999),
+                count: Batch create KV cache stores的count (int32, 1~100, Default: 1, Optional),
+                start_suffix: Starting suffix number (int32, 0~9999, Optional. start suffix + store count <= 9999),
              }, ...]
 
     Returns:
@@ -3544,15 +3544,15 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
                     description: str = None, data_cleanup_switch: str = None,
                     max_survival_time: int = None) -> dict:
     """
-    modify  KV Cache 库
+    Modify KV cache store
 
     Args:
         client: DME API Client
-        kv_cache_stores_id: KV Cache 库 ID (1~64 characters, Required)
-        name: KV Cache 库 name (1~255 characters, Optional)
+        kv_cache_stores_id: KV cache store ID (1~64 characters, Required)
+        name: KV cache store name (1~255 characters, Optional)
         description: Description (0~255 characters, Optional)
         data_cleanup_switch: Cleanup switch (Optional). Options: on ( open), off ( disable). Default: off
-        max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. 当 data_cleanup_switch 为 on 时Required)
+        max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. required when data_cleanup_switch is on)
 
     Returns:
         Modification result
@@ -3585,11 +3585,11 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
 
 def kvcache_batch_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch delete KV Cache 库
+    Batch delete KV cache stores
 
     Args:
         client: DME API Client
-        ids: KV Cache 库 ID  list (List<string>, min array members: 1, max array members: 100, Required)
+        ids: KV cache store ID  list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3612,16 +3612,16 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
                   page_no: int = 1, page_size: int = 20,
                   sort_dir: str = None, sort_key: str = None) -> dict:
     """
-     query KV Cache 库
+     Query KV cache stores
 
     Args:
         client: DME API Client
         storage_id: Storage device ID (length is36 characters, Optional)
-        id: KV Cache 库 ID (length is32 characters, Optional)
-        raw_id: KV Cache 库在 Zone 上的 ID (1~256 characters, Optional)
-        name: KV Cache 库 name (1~256 characters, Optional)
-        zone_id:  Zone 的 ID (length is36 characters, Optional)
-        pool_raw_id: Storage pool在 Zone 上的 ID (1~64 characters, Optional)
+        id: KV cache store ID (length is32 characters, Optional)
+        raw_id: KV cache store ID in zone (1~256 characters, Optional)
+        name: KV cache store name (1~256 characters, Optional)
+        zone_id:  Zone ID (length is36 characters, Optional)
+        pool_raw_id: Storage pool ID in zone (1~64 characters, Optional)
         vstore_id:  tenant ID (length is32 characters, Optional)
         vstore_name: Tenant name (1~256 characters, Optional)
         fs_id: Filesystem ID (length is32 characters, Optional)
@@ -3630,10 +3630,10 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         page_no: Page number (int32, 1~10000, Default: 1, Optional)
         page_size: Items per page (int32, 1~100, Default: 20, Optional)
         sort_dir:  specifiedSort direction (Optional). Options: asc (ascending), desc (descending). Default: asc
-        sort_key: Sort key (Optional). Options: capacity (Total capacity), used_capacity (Used capacity), used_tokens (已 use的 token count), hit_ratio ( hit ratio)
+        sort_key: Sort key (Optional). Options: capacity (Total capacity), used_capacity (Used capacity), used_tokens (used tokens count), hit_ratio ( hit ratio)
 
     Returns:
-        KV Cache 库 list
+        KV cache store list
     """
     url = "/rest/kvcachemgmt/v1/kv-cache-stores/query"
 

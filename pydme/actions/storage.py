@@ -335,8 +335,8 @@ def show(client: DMEAPIClient, storage_id: str) -> dict:
 def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         vendor: str = None, model: str = None, version: str = None,
         patch_version: str = None, dc_id: str = None, az: str = None,
-        location: str = None, maintenance_start: int = None,
-        maintenance_overtime: int = None, total_capacity: float = None,
+        location: str = None, maintenancetenance_start: int = None,
+        maintenancetenance_overtime: int = None, total_capacity: float = None,
         total_effective_capacity: float = None, total_pool_capacity: float = None,
         used_capacity: float = None, free_capacity: float = None,
         subscription_capacity: float = None, tag_ids: list = None) -> dict:
@@ -357,8 +357,8 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         version: Version info (Optional, 0~64 characters). 
         patch_version: Patch version info (Optional, 0~64 characters). 
         location: Device location (Optional, 0~512 characters). 
-        maintenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenance start time and value must be greater. 
+        maintenancetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
+        maintenancetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenancetenance start time and value must be greater. 
         total_capacity: Raw capacity (Optional, 0~2147483647, in MB). 
         total_effective_capacity: Available capacity (Optional, 0~2147483647, in MB). 
         total_pool_capacity: Available capacity (Optional, 0~2147483647, in MB). 
@@ -400,10 +400,10 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         payload['az'] = az
     if location is not None:
         payload['location'] = location
-    if maintenance_start is not None:
-        payload['maintenance_start'] = maintenance_start
-    if maintenance_overtime is not None:
-        payload['maintenance_overtime'] = maintenance_overtime
+    if maintenancetenance_start is not None:
+        payload['maintenancetenance_start'] = maintenancetenance_start
+    if maintenancetenance_overtime is not None:
+        payload['maintenancetenance_overtime'] = maintenancetenance_overtime
     if total_capacity is not None:
         payload['total_capacity'] = total_capacity
     if total_effective_capacity is not None:
@@ -645,13 +645,13 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         physical_type: Disk type (Optional). Options: unknown, sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card, scm, nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
         new_physical_type: Actual disk type (Optional). Options: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB). 
-        role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaint, maintenancece), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
+        role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaintenancet, maintenancetenancece), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
         disk_pool_name: Disk pool name (Optional, 1~256 characters). supports fuzzy search. 
         disk_pool_id: Disk pool ID (Optional, 1~64 characters).  Huawei storage device only, third-party device supports this field. 
         storage_pool_id: Storage pool ID (Optional, 1~64 characters). 
         bar_code:  Disk barcode (Optional, 1~256 characters). 
         sn:  diskSerial number (Optional, 1~256 characters).  Huawei storage device only, third-party device supports this field. 
-        speed: 转速 (Optional, max: 2147483647, in RPM). 
+        speed: Rotation speed (Optional, max: 2147483647, in RPM). 
         storage_ip:  deviceip address (Optional, 1~255 characters). 
         management_ip: management  deviceip address (Optional, 1~256 characters). 
         node_name: Node name (Optional, 1~256 characters). 
@@ -659,7 +659,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         status: Running status (Optional). Options: unknown, normal, abnormal ( fault), online, offline. 
         enclosure_name: Fan enclosure name on storage device (Optional, 1~255 characters). supports fuzzy search. 
         zone_id: Storage device zone ID (Optional, 1~255 characters). OceanStor A800 series only. 
-        sort_key: Sort field (Optional). Options: capacity (Total capacity), speed, remainLife, name (disk name), management_ip (management  deviceip address), slot_number (location). 
+        sort_key: Sort field (Optional). Options: capacity (Total capacity), speed, remaintenanceLife, name (disk name), management_ip (management  deviceip address), slot_number (location). 
         sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). 
         page_no: Page number (Optional, 1~2147483647, Default: 1). 
         page_size: Page size (Optional, 1~1000, Default: 20). 
@@ -786,7 +786,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 raid_level: RAID level list (List<string>). Options: RAID0, RAID1, RAID2, RAID3, RAID5, RAID6, RAID10, RAID50, RAID_TP. Flash storage only, OceanDisk, OceanStor A800Device support,
                 disk_pool_id: Disk pool ID (1~64 characters). Supports flash devices, Pacific, A310 and OceanStor A800Device support,
                 disk_pool_name: Disk pool name (1~256 characters),
-                media_type: Storage pool main memory type. Options: sas_disk, sata_disk, ssd_card, ssd_disk. OceanStor Pacific, OceanStor A310, OceanStor 100DDevice support,
+                media_type: Storage pool maintenance memory type. Options: sas_disk, sata_disk, ssd_card, ssd_disk. OceanStor Pacific, OceanStor A310, OceanStor 100DDevice support,
             }, ...]
         }
     """
@@ -1082,8 +1082,8 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            ip: str = None, vendor: str = None, model: str = None,
            version: str = None, patch_version: str = None,
-           location: str = None, maintenance_start: int = None,
-           maintenance_overtime: int = None, total_capacity: float = None,
+           location: str = None, maintenancetenance_start: int = None,
+           maintenancetenance_overtime: int = None, total_capacity: float = None,
            total_effective_capacity: float = None, total_pool_capacity: float = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
@@ -1100,8 +1100,8 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         version: Version info (Optional, 0~64 characters). 
         patch_version: Patch version info (Optional, 0~64 characters). 
         location:  devicelocation (Optional, 0~512 characters). 
-        maintenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenance start time and value greater thanStart time. 
+        maintenancetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
+        maintenancetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenancetenance start time and value greater thanStart time. 
         total_capacity: Raw capacity (Optional, -1~2147483647, in MB). Storage devicesum of all disk physical capacities, -1Indicates no raw capacity. 
         total_effective_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage device writable user data total, -1Indicates no available capacity. 
         total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Actual available disk physical space (Excluding RAID, metadata consumption) , -1Indicates N/AAvailable capacity. 
@@ -1133,10 +1133,10 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         payload['patch_version'] = patch_version
     if location is not None:
         payload['location'] = location
-    if maintenance_start is not None:
-        payload['maintenance_start'] = maintenance_start
-    if maintenance_overtime is not None:
-        payload['maintenance_overtime'] = maintenance_overtime
+    if maintenancetenance_start is not None:
+        payload['maintenancetenance_start'] = maintenancetenance_start
+    if maintenancetenance_overtime is not None:
+        payload['maintenancetenance_overtime'] = maintenancetenance_overtime
     if total_capacity is not None:
         payload['total_capacity'] = total_capacity
     if total_effective_capacity is not None:
@@ -1223,7 +1223,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
+def disk_domaintenance_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
     Batch query disk pools
@@ -1481,19 +1481,19 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
                      vstore_id: str = None, alias: str = None,
                      multi_path: dict = None) -> dict:
     """
-    modify  storage侧Initiatorobject
+    modify  storage initiatorobject
 
-    modify Initiator, This operation modifies storage device上 specified的Initiator. 
+    modify Initiator, This operation modifies storage specified on the deviceInitiator. 
 
     Args:
         client: DME API client
         initiator_id: Initiator ID (Required)
-        vstore_id: Tenant ID (Optional, 1~64 characters;  device为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3 and aboveeffective when)
+        vstore_id: Tenant ID (Optional, 1~64 characters;  effective for OceanStor V300R006C30/V500R007C20/Dorado 6.1.3+ when)
         alias: Initiator alias (Optional, 0~31 characters, supports alphanumeric._-and Chinese characters)
-        multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01 and above support).  format: {
+        multi_path: ModifyMultiPathRequestParam object (Optional;  effective for OceanStor V300R003C20/V500R007C20/Dorado V300R001C01+above support).  format: {
                 multi_path_type: InitiatorMultipath type (Optional). Options: default (default), third_party (Third-party multipath),
-                path_type: Initiator路径 type (conditionally required, 当multi_path_type为third_partyrequired when). Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
-                failover_mode: Initiator switch mode (conditionally required, 当multi_path_type为third_partyrequired when). Options: early_version_alua, common_alua, alua_not_used, special_alua,
+                path_type: Initiator path type (conditionally required, required when multi_path_type is third_party). Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
+                failover_mode: Initiator switch mode (conditionally required, required when multi_path_type is third_party). Options: early_version_alua, common_alua, alua_not_used, special_alua,
                 special_mode_type: Special mode type (Optional, effective when failover mode is special). Options: 0 (Special mode0), 1 (Special mode1), 2 (Special mode2), 3 (Special mode3)
              }
 
@@ -1541,7 +1541,7 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        local Auth user info list, includes  total 和 local_users
+        local Auth user info list, includes total and local_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-users/query"
 
@@ -1571,9 +1571,9 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         name: local Auth user name (1~255 characters, Required)
         description: local Auth user description (1~255 characters, Optional)
         password: local Auth user password (1~255 characters, Required)
-        primary_group_raw_id: local auth user所的User groupon device ID (1~64 characters, Required)
-        group_names: create 的local auth user的临时User groupName list (List<string>, min array members: 0, max array members: 31, Optional)
-        vstore_id: local auth user的 tenant ID (1~64 characters, Optional. conditionally required, When creating localrequired when auth user belongs to tenant)
+        primary_group_raw_id: local auth user所user group ID on device (1~64 characters, Required)
+        group_names: create 的local auth usertemporary user group name list (List<string>, min array members: 0, max array members: 31, Optional)
+        vstore_id: local auth usertenant ID (1~64 characters, Optional. conditionally required, required when creating local auth user belongs to tenant)
 
     Returns:
         creation result
@@ -1621,8 +1621,8 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
         description: UNIX Auth user description (1~255 characters, Optional)
         password: UNIX Auth user password (1~255 characters, Optional)
         status_enabled: UNIX Auth user status (boolean, Optional). Options: true ( start), false ( lock)
-        primary_group_raw_id: create UNIX auth user所的User groupon device ID (1~64 characters, Required)
-        vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional. conditionally required, 当create UNIX required when auth user belongs to tenant)
+        primary_group_raw_id: create UNIX auth user所user group ID on device (1~64 characters, Required)
+        vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional. conditionally required, when creating UNIXd when auth user belongs to tenant)
 
     Returns:
         creation result
@@ -1664,7 +1664,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
         description: Windows Auth user description (1~255 characters, Optional)
         password: Windows Auth user password (1~255 characters, Required)
         status_enabled: Windows Auth user status (boolean, Optional). Options: true ( enable), false ( lock)
-        vstore_raw_id: create Windows Auth user tenant on device ID (1~64 characters, Optional. conditionally required, 当 Windows required when auth user belongs to tenant)
+        vstore_raw_id: create Windows Auth user tenant on device ID (1~64 characters, Optional. conditionally required, when creating Windowsrequired when auth user belongs to tenant)
 
     Returns:
         creation result
@@ -1703,7 +1703,7 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        UNIX Auth user info list, includes  total 和 unix_users
+        UNIX Auth user info list, includes total and unix_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-users/query"
 
@@ -1735,7 +1735,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Windows Auth user info list, includes  total 和 windows_users
+        Windows Auth user info list, includes total and windows_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-users/query"
 
@@ -1767,7 +1767,7 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        local Auth user group info list, includes  total 和 local_user_groups
+        local Auth user group info list, includes total and local_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-user-groups/query"
 
@@ -1799,7 +1799,7 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        UNIX Auth user group info list, includes  total 和 unix_user_groups
+        UNIX Auth user group info list, includes total and unix_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-user-groups/query"
 
@@ -1831,7 +1831,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Windows Auth user group info list, includes  total 和 windows_user_groups
+        Windows Auth user group info list, includes total and windows_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-user-groups/query"
 
@@ -1871,12 +1871,12 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         enable_status: Active status(Optional, true/false) 
         running_status: Running status(Optional, running/inactive/waiting) 
         zone_id:  ZONE ID(Optional) 
-        resource_type_list:  control的Resource type list(Optional, file_system/vstore/none) 
+        resource_type_list:  Controlled resource type list(Optional, file_system/vstore/none) 
         vstore_id: Tenant ID(Optional) 
         vstore_name: Tenant name(Optional) 
         alarm_status: Alarm status(Optional, normal/event/alarm/invalid) 
         io_policy_type: IO Policy type(Optional, total_perf_upper_limit/read_or_write_upper_limit) 
-        page_no: 页码(Optional, default 1) 
+        page_no: Page number(Optional, default 1) 
         page_size: per pagecount(Optional, default 10,  max 1000) 
         sort_key: Sort field(Optional, name/raw_id) 
         sort_dir: Sort method(Optional, asc/desc) 
@@ -1959,29 +1959,29 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         name: QoS Policy name (Required, 1~31  character) 
         storage_id: Storage device ID (Required) 
-        resource_type:  control的Resource type (Required, file_system/vstore) 
-        resource_ids:  control的 resource ID  list (Required, 数组 1~512 个 member) 
+        resource_type:  Controlled resource type (Required, file_system/vstore) 
+        resource_ids:  controlled resource ID  list (Required, array of 1-512 members) 
         description:  description(Optional, 1~255  character) 
         zone_id:  ZONE ID(Optional, A series storageRequired) 
-        vstore_id: Tenant ID(Optional, resource_type 为 file_system 时Required) 
+        vstore_id: Tenant ID(Optional, required when resource_type is file_system) 
         enable_status: Active status(Optional, enable/disable, default enable) 
         io_policy_type: IO Policy type(Optional, total_perf_upper_limit/read_or_write_upper_limit) 
         min_bandwidth: Min bandwidth MB/s(Optional) 
         max_bandwidth: Max bandwidth MB/s(Optional) 
-        burst_bandwidth: Burst bandwidth MB/s(Optional, 需greater than max_bandwidth) 
+        burst_bandwidth: Burst bandwidth MB/s(Optional, must be greater than max_bandwidth) 
         min_iops:  min IOPS(Optional) 
         max_iops:  max IOPS(Optional) 
-        burst_iops: burst IOPS(Optional, 需greater than max_iops) 
+        burst_iops: burst IOPS(Optional, must be greater than max_iops) 
         burst_time:  maxburstduration seconds(Optional, 1~999999999) 
         latency: IO  latency metric micro seconds(Optional, 500/1500) 
         max_read_bandwidth:  maxRead bandwidth MB/s(Optional) 
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional) 
         burst_read_bandwidth: burstRead bandwidth MB/s(Optional) 
         burst_write_bandwidth: burstWrite bandwidth MB/s(Optional) 
-        max_read_iops:  max读 IOPS(Optional) 
-        max_write_iops:  max写 IOPS(Optional) 
-        burst_read_iops: burst读 IOPS(Optional) 
-        burst_write_iops: burst写 IOPS(Optional) 
+        max_read_iops:  Max read IOPS(Optional) 
+        max_write_iops:  Max write IOPS(Optional) 
+        burst_read_iops: Burst read IOPS(Optional) 
+        burst_write_iops: Burst write IOPS(Optional) 
         alarm_switch: alarm switch(Optional, on/off) 
         alarm_level: Alarm severity(Optional, event/alarm) 
         alarm_threshold: alarmthreshold%(Optional, 0~100) 
@@ -1990,7 +1990,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         schedule_start_date: Effective start date(Optional, yyyy-MM-dd) 
         start_time: effectiveStart time(Optional, hh:mm) 
         duration: effectiveduration seconds(Optional, 1800~86400) 
-        weekly_days: Weekly scheduling policy(Optional, [0-6]  correspondingweek(s)日到week(s)六) 
+        weekly_days: Weekly scheduling policy(Optional, [0-6]  corresponding to Sunday to Saturday) 
     """
     url = "/rest/storagepolicy/v1/qos"
 
@@ -2094,7 +2094,7 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
     """
     modify  QoS  policy
 
-    modify 现有 QoS  policy的 config. 
+    Modify existing QoS policy configuration. 
 
     Args:
         client: DME API client
@@ -2114,10 +2114,10 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional) 
         burst_read_bandwidth: burstRead bandwidth MB/s(Optional) 
         burst_write_bandwidth: burstWrite bandwidth MB/s(Optional) 
-        max_read_iops:  max读 IOPS(Optional) 
-        max_write_iops:  max写 IOPS(Optional) 
-        burst_read_iops: burst读 IOPS(Optional) 
-        burst_write_iops: burst写 IOPS(Optional) 
+        max_read_iops:  Max read IOPS(Optional) 
+        max_write_iops:  Max write IOPS(Optional) 
+        burst_read_iops: Burst read IOPS(Optional) 
+        burst_write_iops: Burst write IOPS(Optional) 
         alarm_switch: alarm switch(Optional) 
         alarm_level: Alarm severity(Optional) 
         alarm_threshold: alarmthreshold%(Optional) 
@@ -2282,7 +2282,7 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
     """
     QoS Disassociate policy from control resource
 
-    将 resource从 QoS  policy解 associated. 
+    Disassociate resource from QoS policy. 
 
     Args:
         client: DME API client
@@ -2315,7 +2315,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
         storage_id: Storage device ID(Optional, 1~64 characters) 
         vstore_raw_id: vStoreon the storage deviceid(Optional, 1~64 characters) 
         zone_raw_id: Zoneon the deviceID(Optional, 1~64 characters) , OceanStor A800 series only
-        scope:  range(Optional). Options: hyperscale ( global), default (local ). OceanStor A800 series only
+        scope:  range(Optional). Options: hyperscale, default. OceanStor A800 series only
         page_no: Page number(Optional, 1~10000, default 1) 
         page_size: Page size(Optional, 1~1000, default 100) 
 
@@ -2326,7 +2326,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
+                running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
                 operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2335,20 +2335,20 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 ipv6_mask: Logic portIPNetmask(IPV6) (1~128 characters),
                 ipv6_gateway: Logic port gatewayIP address(IPV6) (1~128 characters),
                 home_port_raw_id: Parent porton the storage deviceID (1~255 characters),
-                home_port_name: 父Port name (1~255 characters),
-                home_port_type: 父Port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
+                home_port_name: Parent port name (1~255 characters),
+                home_port_type: Parent port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
                 home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
                 current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
                 current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-                role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 ( replication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
-                ddns_status: 动态DNS enable status. Options: INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
-                failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
-                failover_group_name: Failover group name (1~255 characters),
-                support_protocol: Logic portSupported data access protocols. Options: NONE (N/A protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
-                logical_type:  logical type. Options: SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
-                listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters). Options: NO ( disable), YES ( open),
+                role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4eplication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
+                ddns_status: Dynamic DNS status. Options: INVALID, ENABLE, DISABLED,
+                failover_group_raw_id: Failover group business typelover group ID on storage device (1~255 characters),
+                failover_group_name: Failover group business typelover group name (1~255 characters),
+                support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+                logical_type:  logical type. Options: SERVICE, MANAGEMENT, MAINTENANCEaintenancetenance port),
+                listen_dns_query_enabled:  Whether to listen for DNS queries (1~255 characters). Options: NO, YES,
                 management_access: Management access method (1~255 characters),
-                vstore_raw_id: Logic portvStoreassigned on the deviceid (1~255 characters),
+                vstore_raw_id: Logic port vStore ID on device (1~255 characters),
                 vstore_name: Logic portvStore name (1~255 characters),
                 storage_id: Storage device ID (1~255 characters),
                 storage_name: Storage device name (1~255 characters),
@@ -2357,11 +2357,11 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 zone_name: zone name (1~255 characters), OceanStor A800 series only,
                 zone_ip: zone IP (1~255 characters),
                 dns_zone_name: DNS Zone name (1~255 characters),
-                current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
+                current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
                 address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
-                can_failover: EnableIPAddress drift (boolean). Options: true, false,
-                failback_mode: Drift-back mode. Options: not_support (feature not supported), manual, automatic ( auto),
-                scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only,
+                can_failover: Enable IP address drift (boolean). Options: true, false,
+                failback_mode: Drift-back mode. Options: not_support, manual, automatic,
+                scope:  range. Options: hyperscale, default. OceanStor A800 series only,
                 logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                     id:  tag ID (1~32 characters),
                     tag_type_name: Tag type name (1~64 characters),
@@ -2398,14 +2398,14 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
 
     Args:
         client: DME API client
-        logic_port_id: Logic port的 ID (Required, 1~64  characters, UUID format or 32-bit hex) 
+        logic_port_id: Logic port ID (Required, 1~64  characters, UUID format or 32-bit hex) 
 
     Returns:
         {
             id:  logicalPort ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
+            running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
             operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2414,20 +2414,20 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             ipv6_mask: Logic portIPNetmask(IPV6) (1~128 characters),
             ipv6_gateway: Logic port gatewayIP address(IPV6) (1~128 characters),
             home_port_raw_id: Parent porton the storage deviceID (1~255 characters),
-            home_port_name: 父Port name (1~255 characters),
-            home_port_type: 父Port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
+            home_port_name: Parent port name (1~255 characters),
+            home_port_type: Parent port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
             home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
             current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
             current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-            role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 ( replication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
-            ddns_status: 动态DNS enable status. Options: INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
-            failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
-            failover_group_name: Failover group name (1~255 characters),
-            support_protocol: Logic portSupported data access protocols. Options: NONE (N/A protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
-            logical_type:  logical type. Options: SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
-            listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters). Options: NO ( disable), YES ( open),
+            role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4eplication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
+            ddns_status: Dynamic DNS status. Options: INVALID, ENABLE, DISABLED,
+            failover_group_raw_id: Failover group business typelover group ID on storage device (1~255 characters),
+            failover_group_name: Failover group business typelover group name (1~255 characters),
+            support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
+            logical_type:  logical type. Options: SERVICE, MANAGEMENT, MAINTENANCEaintenancetenance port),
+            listen_dns_query_enabled:  Whether to listen for DNS queries (1~255 characters). Options: NO, YES,
             management_access: Management access method (1~255 characters),
-            vstore_raw_id: Logic portvStoreassigned on the deviceid (1~255 characters),
+            vstore_raw_id: Logic port vStore ID on device (1~255 characters),
             vstore_name: Logic portvStore name (1~255 characters),
             storage_id: Storage device ID (1~255 characters),
             storage_name: Storage device name (1~255 characters),
@@ -2436,11 +2436,11 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             zone_name: zone name (1~255 characters), OceanStor A800 series only,
             zone_ip: zone IP (1~255 characters),
             dns_zone_name: DNS Zone name (1~255 characters),
-            current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
+            current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
             address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
-            can_failover: EnableIPAddress drift (boolean). Options: true, false,
-            failback_mode: Drift-back mode. Options: not_support (feature not supported), manual, automatic ( auto),
-            scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only,
+            can_failover: Enable IP address drift (boolean). Options: true, false,
+            failback_mode: Drift-back mode. Options: not_support, manual, automatic,
+            scope:  range. Options: hyperscale, default. OceanStor A800 series only,
             logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                 id:  tag ID (1~32 characters),
                 tag_type_name: Tag type name (1~64 characters),
@@ -2467,16 +2467,16 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
                       listen_dns_query_enabled: str = None, can_failover: bool = None,
                       failback_mode: str = None) -> dict:
     """
-    create Storage device的Logic port (仅 OceanStor A800 series storage only) 
+    Create logic port (OceanStor A800 only) 
 
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~64 characters) 
-        name: Port name (Required, 1~255 characters) . Only letters allowed, 数字, "_", "-", "."and Chinese characters
+        name: Port name (Required, 1~255 characters) . Only letters and digits allowed, "_", "-", "."and Chinese characters
         address_family: IPProtocol version (Required). Options: IPv4 (IPv4), IPv6 (IPv6)
-        home_port_type: 父Port type (Required). Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB)
+        home_port_type: Parent port type (Required). Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB)
         zone_raw_id: Zoneon the deviceID (Required, 1~64 characters) , OceanStor A800 series only
-        scope:  range (Required). Options: hyperscale ( global), default (local ). OceanStor A800 series only. Data access protocol isKB_OVER_TCP时 valueonly supportsdefault
+        scope:  range (Required). Options: hyperscale, default. OceanStor A800 series only. Data accesscess protocol is KB_OVER_TCP时 value only supportsdefault
         mgmt_ip: Logic portIP address(IPV4)(Optional, max64 characters, IPv4 format) 
         ipv4_mask: Logic portIPNetmask(IPV4)(Optional, max64 characters) 
         ipv4_gateway: Logic port gatewayIP address(IPV4)(Optional, max64 characters) 
@@ -2484,16 +2484,16 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         ipv6_mask: Logic portIPNetmask(IPV6)(Optional, max128 characters) 
         ipv6_gateway: Logic port gatewayIP address(IPV6)(Optional, max128 characters) 
         home_port_raw_id: Parent porton the storage deviceID(Optional, 1~64 characters) 
-        support_protocol: Logic portSupported data access protocols(Optional). Options: NFS (NFS protocol), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NFS_OVER_RDMA (NFS over RDMA protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). role isCLIENT时, do not send this field
+        support_protocol: Logic port supported protocols(Optional). Options: NFS (NFS protocol), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NFS_OVER_RDMA (NFS over RDMA protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). when role is CLIENT, do not send this field
         operational_status: Active status(Optional). Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive)
-        home_controller_id: ControllerID(Optional, 1~64 characters) . role isHEALTH_CHECK时, this field is required
-        failover_group_raw_id: Failover groupon the storage deviceID(Optional, max64 characters) . Data access protocol isKB_OVER_TCP时, this field is required
-        vstore_raw_id: Logic portvStoreassigned on the deviceid(Optional, max64 characters) . role isCLIENT时, do not send this field
+        home_controller_id: ControllerID(Optional, 1~64 characters) . when role is HEALTH_CHECK, this field is required
+        failover_group_raw_id: Failover group business typelover group ID on storage device(Optional, max64 characters) . Data accesscess protocol is KB_OVER_TCP时, this field is required
+        vstore_raw_id: Logic port vStore ID on device(Optional, max64 characters) . when role is CLIENT, do not send this field
         role: Logic port role(Optional, default DATA). Options: MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
-        dns_zone_name: DNS ZoneName (Optional, max255 characters) . role isCLIENT或Data access protocol isKB_OVER_TCP时, do not send this field
-        listen_dns_query_enabled:  whether listenDNSQuery request(Optional,  regex NO|YES). Options: NO ( disable), YES ( open). role isCLIENT或Data access protocol isKB_OVER_TCP时, do not send this field
-        can_failover: EnableIPAddress drift(Optional, boolean). Options: true, false. Data access protocol isKB_OVER_TCP时, do not send this field
-        failback_mode: Drift-back mode(Optional). Options: not_support (feature not supported), manual, automatic ( auto). Data access protocol isKB_OVER_TCP时, do not send this field
+        dns_zone_name: DNS zone name (Optional, max255 characters) . when role is CLIENT或Data accesscess protocol is KB_OVER_TCP时, do not send this field
+        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when role is CLIENT或Data accesscess protocol is KB_OVER_TCP时, do not send this field
+        can_failover: Enable IP address drift(Optional, boolean). Options: true, false. Data accesscess protocol is KB_OVER_TCP时, do not send this field
+        failback_mode: Drift-back mode(Optional). Options: not_support, manual, automatic. Data accesscess protocol is KB_OVER_TCP时, do not send this field
 
     Returns:
         {
@@ -2559,7 +2559,7 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
                       dns_zone_name: str = None, listen_dns_query_enabled: str = None,
                       can_failover: bool = None, failback_mode: str = None) -> dict:
     """
-    Modify storage device的Logic port (仅 OceanStor A800 series storage only) 
+    Modify logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
@@ -2573,9 +2573,9 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
         ipv6_mask: Logic port IP Netmask (IPV6)(Optional) 
         ipv6_gateway: Logic port gateway IP  address (IPV6)(Optional) 
         home_port_raw_id: Parent porton the storage device ID(Optional) 
-        home_port_type: 父Port type(Optional) 
+        home_port_type: Parent port type(Optional) 
         operational_status: Active status(Optional) 
-        failover_group_raw_id: Failover groupon the storage device ID(Optional) 
+        failover_group_raw_id: Failover group business typelover groupon the storage device ID(Optional) 
         dns_zone_name: DNS Zone  name(Optional) 
         listen_dns_query_enabled:  whether listen DNS Query request(Optional) 
         can_failover: Enable IP Address drift(Optional) 
@@ -2638,11 +2638,11 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
 
 def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    delete Storage device的Logic port (仅 OceanStor A800 series storage only) 
+    Delete logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
-        ids: Logic port ID  list (Required, 1~1000 个 ID) 
+        ids: Logic port ID  list (Required, 1-1000 IDs) 
 
     Returns:
         {
@@ -2661,7 +2661,7 @@ def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
     """
-    回切Storage device的Logic port (仅 OceanStor A800 series storage only) 
+    Failover group business typelback logic port (仅 OceanStor A800 series storage only) 
 
     Args:
         client: DME API client
@@ -2690,17 +2690,17 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
               port_name: str = None, zone_id: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryStorage device port info,  support ETH, FC, IB, Bond, SAS 五种 type
+     Query storage device port info,  supports ETH, FC, IB, Bond, SAS types
 
     Args:
         client: DME API client
         storage_id: Storage device ID(Optional, 1~36  characters) 
         port_type: Port type(Optional, eth/fc/ib/bond/sas, returns all types if not specified) 
-        location: location(Optional, 仅 ETH port support, 1~255  characters) 
-        ipv4: IPv4  address(Optional, 仅 ETH port support, 1~255  characters) 
-        ipv6: IPv6  address(Optional, 仅 ETH port support, 1~255  characters) 
-        port_name: Port name(Optional, 仅 ETH port support, 1~255  characters) 
-        zone_id: Storage device的 Zone ID(Optional, 仅 Bond port support, 1~36  characters) 
+        location: location(Optional, ETH port only, 1~255  characters) 
+        ipv4: IPv4  address(Optional, ETH port only, 1~255  characters) 
+        ipv6: IPv6  address(Optional, ETH port only, 1~255  characters) 
+        port_name: Port name(Optional, ETH port only, 1~255  characters) 
+        zone_id: Storage device的 Zone ID(Optional, Bond port only, 1~36  characters) 
         page_no: Page number(Optional, FC/SAS port support, 1~10000, default 1) 
         page_size: per pagecount(Optional, FC/SAS port support, 1~1000, default 20) 
 
@@ -2849,7 +2849,7 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  total 和 eth_ports  field
+        }, includes total and eth_ports  field
     """
     url = "/rest/storagemgmt/v1/bond-ports/{bond_port_id}/eth-ports"
 
@@ -2981,7 +2981,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     return response
 
 
-# ============  storageFailover group (failover_group) subtopic functions ============
+# ============  storageFailover group business typelover group (failover_group) subtopic functions ============
 
 
 def failover_group_list(client: DMEAPIClient, storage_id: str,
@@ -2989,27 +2989,27 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                         zone_id: str = None,
                         failover_group_service_type: list = None) -> dict:
     """
-     queryFailover group list
+     queryFailover group business typelover group list
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36 characters, 且satisfies regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
-        failover_group_type: Failover group type(Optional). Options: system, VLAN, customized
+        storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
+        failover_group_type: Failover group business typelover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover_group_service_type: Failover groupBusiness type list(Optional, List<string>, max array members: 10). Options: NAS (used to associateNFS, CIFS, NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group)
+        failover_group_service_type: Failover group business typelover group business type list(Optional, List<string>, max array members: 10). Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group)
 
     Returns:
         {
-            total: Failover groupcount (int32),
-            failover_groups: Failover group list (List<FailoverGroupResp>). 参数格式如下：[{
-                id: Failover groupid (1~64 characters),
-                name: Failover group name (1~64 characters),
-                failover_group_type: Failover group type (1~255 characters). Options: system, VLAN, customized,
-                raw_id: Failover groupon the storage deviceID (1~255 characters),
+            total: Failover group business typelover groupcount (int32),
+            failover_groups: Failover group business typelover group list (List<Failover group business typeloverGroupResp>). 参数格式如下：[{
+                id: Failover group business typelover groupid (1~64 characters),
+                name: Failover group business typelover group name (1~64 characters),
+                failover_group_type: Failover group business typelover group type (1~255 characters). Options: system, VLAN, customized,
+                raw_id: Failover group business typelover group ID on storage device (1~255 characters),
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only,
-                zone_raw_id: Zone在Storage deviceassigned onID (1~255 characters), OceanStor A800 series only,
-                zone_id: Storage device的Zone ID (1~255 characters), OceanStor A800 series only,
-                failover_group_service_type: Failover groupBusiness type. Options: NAS (used to associateNFS, CIFS, NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group),
+                zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
+                zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
+                failover_group_service_type: Failover group business typelover group business type. Options: NASProtocol typeLogic port的Failover group business typelover group), BGP (used to associateVIP typeLogic port的Failover group business typelover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group business typelover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group business typelover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group business typelover group),
             }, ...]
         }
     """
@@ -3033,11 +3033,11 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
 def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
                                port_type: str = None) -> dict:
     """
-     queryFailover group under port ( support bond, eth, ib 三种 type) 
+     Query failover group under port ( supports bond, eth, ib types) 
 
     Args:
         client: DME API client
-        failover_group_id: Failover group id (Required, 1~64  characters) 
+        failover_group_id: Failover group business typelover group id (Required, 1~64  characters) 
         port_type: Port type(Optional, bond/eth/ib, returns all types if not specified) 
 
     Returns:
@@ -3087,11 +3087,11 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
 
 def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> dict:
     """
-     queryFailover group under VLAN
+     queryFailover group business typelover group under VLAN
 
     Args:
         client: DME API client
-        failover_group_id: Failover group id (Required, 1~64  characters) 
+        failover_group_id: Failover group business typelover group id (Required, 1~64  characters) 
 
     Returns:
         {
@@ -3111,14 +3111,14 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
               status: list = None, sync_status: list = None,
               sn: str = None, storage_ids: list = None) -> dict:
     """
-     queryOceanStor A800 cluster中zone info
+     Query zone info in OceanStor A800 cluster
 
     Args:
         client: DME API client
         name: zoneName (Optional,1~256 characters) , exact match
         ip: zone ip addressName (Optional,1~256 characters) , exact match
-        status: Zonestatus list(Optional, List<string>, max array members: 6). Options: OFFLINE (offline), NORMAL, FAULT, DEGRADED, ABNORMAL (未management ), UNKNOWN
-        sync_status: ZoneSyncstatus list(Optional, List<string>, max array members: 5). Options: UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync completed), FAILED (Sync failure), UNKNOWN
+        status: Zone status list(Optional, List<string>, max array members: 6). Options: OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL, UNKNOWN
+        sync_status: Zone sync status list(Optional, List<string>, max array members: 5). Options: UNSYNC, SYNC, NORMAL, FAILED (Sync failure), UNKNOWN
         sn: ZoneSerial number(Optional, 1~128 characters) , exact match
         storage_ids: OceanStor A800 clusterid list(Optional, List<string>, max array members: 100,  min membercount: 1) , exact match
 
@@ -3126,23 +3126,23 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
         {
             total: ZoneTotal count (int32),
             datas: Zone list (List<OceanStorA800ZoneInfo>). 参数格式如下：[{
-                id: Zone在CMDBID (1~64 characters),
+                id: Zone CMDB ID (1~64 characters),
                 native_id: native id (1~64 characters),
                 name: Zone name (1~128 characters),
                 ip: Zone IP address (1~32 characters),
-                status:  status (1~32 characters). Options: OFFLINE (offline), NORMAL, FAULT, DEGRADED, ABNORMAL (未management ),
-                sync_status: Sync status (1~32 characters). Options: UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync completed), FAILED (Sync failure),
+                status:  status (1~32 characters). Options: OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL,
+                sync_status: Sync status (1~32 characters). Options: UNSYNC, SYNC, NORMAL, FAILED (Sync failure),
                 sn: ZoneDevice serial number (1~64 characters),
-                wwn: Zone deviceWWN号 (1~32 characters),
+                wwn: Zone device WWN (1~32 characters),
                 vendor: Zone vendor (1~32 characters),
                 model: ZoneProduct model (1~64 characters),
-                owning_ne_type: Storage device网元 type. Options: dorado (doradoseries storage), OceanStor A800 (OceanStor A800),
+                owning_ne_type: Storage device NE type. Options: dorado, OceanStor A800,
                 location: Zonelocation info (0~512 characters),
                 version: Version info (0~64 characters),
                 patch_version: Patch version info (0~64 characters),
                 add_time: Device access time (0~32 characters), UTCTimestamp ( precise to ms seconds) ,
                 last_sync_time:  lastSync time (0~32 characters), UTCTimestamp ( precise to ms seconds) ,
-                sync_process: Sync进度 (int32),
+                sync_process: Sync progress (int32),
                 alarm_num: alarmcount (number),
                 parent_id:  clusterid,
                 zone_raw_id: zone raw id,
@@ -3173,7 +3173,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
 
 # Action list for CLI help
 #  format: action_key: {func, description, params, subtopic}
-# subtopic Indicates which subtopic the action belongs toSubtopic, None 表示Direct action
+# subtopic Indicates which subtopic the action belongs to, None = direct action
 
 ACTIONS = {
     # Direct action (Two-level structure: <topic> <action>) 
@@ -3191,8 +3191,8 @@ ACTIONS = {
     },
     'add': {
         'func': add,
-        'description': 'add Storage device (only supports录入offlineStorage device info) ',
-        'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenance_start', 'maintenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
+        'description': 'Add storage device (offline info entry only) ',
+        'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenancetenance_start', 'maintenancetenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
         'subtopic': None
     },
     'remove': {
@@ -3284,11 +3284,11 @@ ACTIONS = {
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
-    'disk_domain_list': {
-        'func': disk_domain_list,
+    'disk_domaintenance_list': {
+        'func': disk_domaintenance_list,
         'description': 'Batch query disk pools',
         'params': ['storage_id', 'page_no', 'page_size'],
-        'subtopic': 'disk_domain'
+        'subtopic': 'disk_domaintenance'
     },
     'disk_pool_list': {
         'func': disk_pool_list,
@@ -3351,7 +3351,7 @@ ACTIONS = {
     },
     'initiator_modify': {
         'func': initiator_modify,
-        'description': 'modify  storage侧Initiatorobject',
+        'description': 'modify  storage initiatorobject',
         'params': ['initiator_id', 'vstore_id', 'alias', 'multi_path'],
         'subtopic': 'initiator'
     },
@@ -3498,7 +3498,7 @@ ACTIONS = {
     },
     'logic_port_create': {
         'func': logic_port_create,
-        'description': 'create Storage device的Logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Create logic port (OceanStor A800 only) ',
         'params': ['storage_id', 'name', 'address_family', 'home_port_type', 'zone_raw_id', 'scope',
                    'mgmt_ip', 'ipv4_mask', 'ipv4_gateway', 'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway',
                    'home_port_raw_id', 'support_protocol', 'operational_status', 'home_controller_id',
@@ -3508,7 +3508,7 @@ ACTIONS = {
     },
     'logic_port_update': {
         'func': logic_port_update,
-        'description': 'Modify storage device的Logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Modify logic port (仅 OceanStor A800 series storage only) ',
         'params': ['logic_port_id', 'name', 'address_family', 'mgmt_ip', 'ipv4_mask', 'ipv4_gateway',
                    'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway', 'home_port_raw_id', 'home_port_type',
                    'operational_status', 'failover_group_raw_id', 'dns_zone_name',
@@ -3517,20 +3517,20 @@ ACTIONS = {
     },
     'logic_port_delete': {
         'func': logic_port_delete,
-        'description': 'delete Storage device的Logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Delete logic port (仅 OceanStor A800 series storage only) ',
         'params': ['ids'],
         'subtopic': 'logic_port'
     },
     'logic_port_failback': {
         'func': logic_port_failback,
-        'description': '回切Storage device的Logic port (仅 OceanStor A800 series storage only) ',
+        'description': 'Failover group business typelback logic port (仅 OceanStor A800 series storage only) ',
         'params': ['id'],
         'subtopic': 'logic_port'
     },
     # port subtopic actions (Storage port) 
     'port_list': {
         'func': port_list,
-        'description': ' queryStorage device port info,  support ETH, FC, IB, Bond 四种 type',
+        'description': ' Query storage device port info,  support ETH, FC, IB, Bond four types type',
         'params': ['storage_id', 'port_type', 'location', 'ipv4', 'ipv6', 'port_name', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
@@ -3565,29 +3565,29 @@ ACTIONS = {
         'params': ['vlan_id', 'name', 'description'],
         'subtopic': 'vlan'
     },
-    # failover_group subtopic actions ( storageFailover group) 
+    # failover_group subtopic actions ( storageFailover group business typelover group) 
     'failover_group_list': {
         'func': failover_group_list,
-        'description': ' queryFailover group list',
+        'description': ' queryFailover group business typelover group list',
         'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover_group_service_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_ports': {
         'func': failover_group_show_ports,
-        'description': ' queryFailover group under port ( support bond, eth, ib 三种 type) ',
+        'description': ' Query failover group under port ( supports bond, eth, ib types) ',
         'params': ['failover_group_id', 'port_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_vlans': {
         'func': failover_group_show_vlans,
-        'description': ' queryFailover group under VLAN',
+        'description': ' queryFailover group business typelover group under VLAN',
         'params': ['failover_group_id'],
         'subtopic': 'failover_group'
     },
     # zone subtopic actions (OceanStor A800  cluster zone) 
     'zone_list': {
         'func': zone_list,
-        'description': ' queryOceanStor A800 cluster中zone info',
+        'description': ' Query zone info in OceanStor A800 cluster',
         'params': ['name', 'ip', 'status', 'sync_status', 'sn', 'storage_ids'],
         'subtopic': 'zone'
     },

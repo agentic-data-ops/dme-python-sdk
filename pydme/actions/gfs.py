@@ -447,21 +447,21 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         target_namespace_id: Target namespace ID under global namespace (1~32 characters, Required)
         local_path: Namespace path (Optional, Default: "/")
         src_namespace_ids: Source site namespace ID under global namespace  list (List<string>, max array members: 32, Optional)
-        atime_operator: File access time matching rule (Optional). Options: less_or_equal, greaterr than). 与 atime, atime_unit must be sent together
+        atime_operator: File access time matching rule (Optional). Options: less_or_equal, greater. must be sent with atime and atime_unitt be sent together
         atime: File access time interval (int32, 0~26304, Optional). must be sent with atime_operator and atime_unit
         atime_unit:  File access time interval unit (Optional). Options: hour, day. must be sent with atime_operator and atime
-        mtime_operator: File modification time matching rule (Optional). Options: less_or_equal, greaterr than). 与 mtime, mtime_unit must be sent together
+        mtime_operator: File modification time matching rule (Optional). Options: less_or_equal, greater. must be sent with mtime and mtime_unitit must be sent together
         mtime: File modification time interval (int32, 0~26304, Optional). must be sent with mtime_operator and mtime_unit
         mtime_unit:  File modification time interval unit (Optional). Options: hour, day. must be sent with mtime_operator and mtime
-        ctime_operator: File status modification time matching rule (Optional). Options: less_or_equal, greaterr than). 与 ctime, ctime_unit must be sent together
+        ctime_operator: File status modification time matching rule (Optional). Options: less_or_equal, greater. must be sent with ctime and ctime_unittime_unit must be sent together
         ctime: File status modification interval (int32, 0~26304, Optional). must be sent with ctime_operator and ctime_unit
         ctime_unit: File status modification time interval unit (Optional). Options: hour, day. must be sent with ctime_operator and ctiment together
-        crtime_operator:  File creation time matching rule (Optional). Options: less_or_equal, greaterr than). 与 crtime, crtime_unit must be sent together
+        crtime_operator:  File creation time matching rule (Optional). Options: less_or_equal, greater. must be sent with crtime and crtime_unitit must be sent together
         crtime:  File creation time interval (int32, 0~26304, Optional). must be sent with crtime_operator and crtime_unit
         crtime_unit:  File creation time interval unit  (Optional). Options: hour, day. must be sent with crtime_operator and crtimether
         name_operator: Filename matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with name_filter
         name_filter: Filename matching expression list (1~1023 characters, Optional). must be sent with name_operator
-        size_operator: File size matching rule (Optional). Options: less_or_equal, greaterr than). 与 file_size must be sent together
+        size_operator: File size matching rule (Optional). Options: less_or_equal, greater. must be sent with file_sizeer
         file_size:  File size (int64, 0~4398046511104, in KB, Optional). must be sent with size_operator
         tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
         file_paths: Filter by file list upload file ID list (List<string>, max array members: 200, Optional). can only be configured when execute_mode is one_time

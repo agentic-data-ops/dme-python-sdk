@@ -209,7 +209,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                                   Options: automatic, highest_performance, performance, capacity; default automatic
         prefetch_policy: Prefetch policy (Optional) , Affects disk read; 
                         Options: no_prefetch ( no prefetch) , constant_prefetch (Fixed prefetch) , variable_prefetch (Variable prefetch) , intelligent_prefetch (Smart prefetch) ; default intelligent_prefetch
-        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set to fixed or variable prefetchetchfetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
+        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set to fixed or variable prefetchetchetchfetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
         tuning:  tuning (Optional), CustomizeLunTuning object.  parameter format: {
                 smart_tier: Data migration policy. Options: no_migration, automatic_migration, migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
                 deduplication_enabled: Deduplication (Thin LUN only). Options: true, false,
@@ -234,7 +234,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN group ID on storage device (1~31 characters),
                         lun_group_name: LUN group name on storage device (1~255 characters),
-                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existonship时可 specified, 存在Mapping relationship not available when specified),
+                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existip时可 specified, 存在Mapping relationship not available when specified),
                 },
              }
         task_remarks: Async taskRemark(Optional) ,  max 1024  characters
@@ -1634,7 +1634,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                      }, ...],
                 multipath:  multipath config (Optional).  format: {
                         multipath_type: Third-party multipath policy (Required). Options: default (default), third_party (Third-party multipath),
-                        path_type: Initiator path type (Optional,  effective when third-party multipath is enabled). Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
+                        path_type: Initiator path type (Optional,  effective when third-party multipath is enabledmal_path (Preferred path), non_optimal_path (非Preferred path),
                         failover_mode: Initiator switch mode (Optional,  effective when third-party multipath is enabled). Options: early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (Optional, effective when failover mode is special). Options: mode_zero, mode_one, mode_two, mode_three,
                 }

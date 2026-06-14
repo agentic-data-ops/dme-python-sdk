@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: Password reset requiredUsername (Required, string, 1~128 characters)
-        new_value:  New password (Required, string, 8~32 characters). Requirements: 1. Password length must not be less than 8 characters, and not greater than 32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
+        new_value:  New password (Required, string, 8~32 characters). Requirements: 1. Password length must not be less than 8 charactersacters, and not greater thann 32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false). true: Must perform initial password change on next login; false: Direct login next time, No initial modification required. Default: true
 
     Returns:
@@ -113,9 +113,9 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: Username (Required, string,  max 32 characters). Local username cannot be less than 6 characters, and not greater than 32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, and not greater than 32 characters, Cannot contain invisible characters;特殊 character. 
+        name: Username (Required, string,  max 32 characters). Local username cannot be less than 6 charactersacters, and not greater thann 32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, and not greater thann 32 characters, Cannot contain invisible characters;特殊 character. 
         type: User type (Required, integer, N/A). 0: Local user; 2: Remote user. 
-        value: Password (Optional, string, 8~32 characters). Password length cannot be less than 8 characters, and not greater than 32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
+        value: Password (Optional, string, 8~32 characters). Password length cannot be less than 8 charactersacters, and not greater thann 32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
         description:  description (Optional, string,  max127 characters)
         roles: User role (Optional, List[integer], max array members: 10). E.g., Administrators, northbound user group, security admin group, filesystemGroup or custom user role. 
 
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: Business type (Required, wfa_execute_activity- auto orchestration) 
-        status: Pending item status list (Optional, 1-Not executed/2-Executing/3-Success/4-partial success/5-Failure/6-Timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure) 
+        status: Pending item status list (Optional, 1-Not executed/2-Executing/3-Success/4-Partial success/5-Failure/6-Timeout/7-Waitingrning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure) 
         page_no: Page index (Optional, default 1) 
         page_size: per pagecount (Optional, 1~10, default 10) 
 
@@ -592,7 +592,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - description: task  description
         - parent_id: Parent task ID
         - seq_no: Task sequence number
-        - status:  status (1-Initial status;2-Executing;3- success;4-partial success;5- failure;6- timeout) 
+        - status:  status (1-Initial status;2-Executing;3- success;4-Partial success;5- failure;6- timeout) 
         - progress: Task progress
         - owner_name: Create task user name
         - owner_id: Create task user ID
@@ -624,7 +624,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: paginationStart position, default 1
         limit: Page size, default 100
         task_name: Task name filter (Optional) 
-        status:  status filter (Optional, 1-Initial status;2-Executing;3- success;4-partial success;5- failure;6- timeout) 
+        status:  status filter (Optional, 1-Initial status;2-Executing;3- success;4-Partial success;5- failure;6- timeout) 
         owner_id: Create task user ID  filter (Optional) 
         create_time_from: Creation time start (Optional, UTC ms timestamp) 
         create_time_to: Creation time end (Optional, UTC ms timestamp) 
