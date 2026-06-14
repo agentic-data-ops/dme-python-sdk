@@ -1,5 +1,5 @@
 """
-AIOps  intelligent operationsoperations
+AIOps  intelligent operations
 """
 
 import sys

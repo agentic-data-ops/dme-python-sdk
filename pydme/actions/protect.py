@@ -1286,7 +1286,7 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: Storage device ID
 
     Returns:
-        Replication pair creationtion link list
+        Replication pair creation link list
     """
     url = "/rest/protection/v1/replication-links/query"
 
@@ -1769,7 +1769,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         local_storage_id: local Storage device ID, Required for non-V6/non-Dorado V6
         create_mode: Replication pair creation mode, Options: auto , manual 
         existed_pair_ids: Existing replication Pair  ID  list
-        lun_pairs: In manual create mode,  Replication pair creationtion pair source and target LUN ID list
+        lun_pairs: In manual create mode,  Replication pair creation pair source and target LUN ID list
         lun_ids: In auto-create mode, Source LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode

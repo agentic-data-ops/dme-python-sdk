@@ -438,10 +438,10 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
         execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
         start_mode: Task execution mode (Required). Options: manual, auto
-        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediateediate start
+        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediate start
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
-        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidthbandwidth must be sent together
+        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidth must be sent together
         period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). used with period_start_day, period_end_day, period_max_bandwidth must be sent together
         period_max_bandwidth: Bandwidth upper limit for specified period (Optional,  format: "bandwidth1;bandwidth2"). used with period_start_day, period_end_day, period_time must be sent together
         target_namespace_id: Target namespace ID under global namespace (1~32 characters, Required)
@@ -579,12 +579,12 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         id: Data migration task ID (1~32 characters, Required)
         task_name: Task name (1~255 characters, Optional)
         start_mode: Task execution mode (Optional). Options: manual, auto
-        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediateediate start
+        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediate start
         execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval
         execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
-        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidthbandwidth must be sent together
+        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidth must be sent together
         period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). used with period_start_day, period_end_day, period_max_bandwidth must be sent together
         period_max_bandwidth: Bandwidth upper limit for specified period (Optional,  format: "bandwidth1;bandwidth2"). used with period_start_day, period_end_day, period_time must be sent together
 

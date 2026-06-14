@@ -158,7 +158,7 @@ class DMECLI:
         if in_params:
             current_param = None
             param_lines = []
-            in_format_block = 0  #  parameter formatblock nesting depth, >0 skip internal attribute parsing
+            in_format_block = 0  # parameter format block nesting depth, >0 skip internal attribute parsing
             
             for line in lines:
                 raw = line  # preserve original indentation
