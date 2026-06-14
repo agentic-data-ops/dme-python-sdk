@@ -49,7 +49,7 @@ pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git
 pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@dev
 ```
 
-从英文分支安装（稳定版，英文注释）：
+Or install from english branch (stable, english comments):
 
 ```bash
 pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@main-en
