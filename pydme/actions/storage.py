@@ -357,8 +357,8 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         version: 版本信息 (可选, 0~64 characters)。
         patch_version: Patch version info (可选, 0~64 characters)。
         location: 设备位置 (可选, 0~512个字符)。
-        maintenance_start: 维护Start time (可选, 格式是毫second(s)级时间戳)。must appear with warranty expiration time and value must be less。
-        maintenance_overtime: Warranty expiration time (可选, 格式是毫second(s)级时间戳)。需要和维护Start timemust appear together and value greater thanStart time。
+        maintenance_start: 维护Start time (可选, 格式是毫second(s)级Timestamp)。must appear with warranty expiration time and value must be less。
+        maintenance_overtime: Warranty expiration time (可选, 格式是毫second(s)级Timestamp)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸容量 (可选, 0~2147483647, 单位MB)。
         total_effective_capacity: 可得容量 (可选, 0~2147483647, 单位MB)。
         total_pool_capacity: Available capacity (可选, 0~2147483647, 单位MB)。
@@ -1053,10 +1053,10 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 
     Args:
         client: DME API client
-        start_time: Start time戳（Required，13位数字毫second(s)时间戳，正则 ^([0-9]){13}$）
-        end_time: End time戳（Required，13位数字毫second(s)时间戳，正则 ^([0-9]){13}$）
+        start_time: Start time戳（Required，13位数字毫second(s)Timestamp，正则 ^([0-9]){13}$）
+        end_time: End time戳（Required，13位数字毫second(s)Timestamp，正则 ^([0-9]){13}$）
         storage_ids: 存储ID列表（Required，List<string>，max array members：300）
-        time_granularity: 时间粒度（Required). Options：HOUR (hour(s)), DAY (day(s)), MONTH (month(s))
+        time_granularity: Time granularity（Required). Options：HOUR (hour(s)), DAY (day(s)), MONTH (month(s))
 
     Returns:
         {
@@ -1100,8 +1100,8 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         version: 版本信息 (可选, 0~64 characters)。
         patch_version: Patch version info (可选, 0~64 characters)。
         location: 设备位置 (可选, 0~512个字符)。
-        maintenance_start: 维护Start time (可选, 格式是毫second(s)级时间戳)。must appear with warranty expiration time and value must be less。
-        maintenance_overtime: Warranty expiration time (可选, 格式是毫second(s)级时间戳)。需要和维护Start timemust appear together and value greater thanStart time。
+        maintenance_start: 维护Start time (可选, 格式是毫second(s)级Timestamp)。must appear with warranty expiration time and value must be less。
+        maintenance_overtime: Warranty expiration time (可选, 格式是毫second(s)级Timestamp)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。Storage devicesum of all disk physical capacities，-1表示无裸容量。
         total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。Storage device可写入的User data总量，-1表示无可得容量。
         total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage device实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无Available capacity。
@@ -3140,8 +3140,8 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 location: Zone位置信息 (0~512个字符),
                 version: 版本信息 (0~64 characters),
                 patch_version: Patch version info (0~64 characters),
-                add_time: 接入设备时间 (0~32个字符)，UTC时间戳（精确到毫second(s)）,
-                last_sync_time: 上一次Sync time (0~32个字符)，UTC时间戳（精确到毫second(s)）,
+                add_time: 接入设备时间 (0~32个字符)，UTCTimestamp（精确到毫second(s)）,
+                last_sync_time: 上一次Sync time (0~32个字符)，UTCTimestamp（精确到毫second(s)）,
                 sync_process: Sync进度 (int32),
                 alarm_num: 告警count (number),
                 parent_id: 集群id,

@@ -1321,8 +1321,8 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         running_status: 运行状态，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
         source_lun_name: 源 LUN 名称，supports fuzzy search
         parent_name: 父Object name，supports fuzzy search
-        activated_time_from: 查询激活时间的起始点（Unix 时间戳，单位second(s)）
-        activated_time_to: 查询激活时间的结束点（Unix 时间戳，单位second(s)）
+        activated_time_from: 查询激活时间的起始点（Unix Timestamp，单位second(s)）
+        activated_time_to: 查询激活时间的结束点（Unix Timestamp，单位second(s)）
         page_no: Page query开始页，min为 1，Default为 1
         page_size: 每页count，1~1000，默认 20
 

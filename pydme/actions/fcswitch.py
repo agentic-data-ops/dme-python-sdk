@@ -461,7 +461,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     """
     查询 zone 的成员
 
-    查询 Zone 中包含的成员，支持端口成员、WWN members and alias members。
+    查询 Zone members contained in，支持端口成员、WWN members and alias members。
 
     Args:
         client: DME API client
@@ -505,7 +505,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     elif type == 'alias':
         return {'alias_members': result['alias_members']}
     else:
-        # 返回所有成员
+        # returns all members
         all_members = result['port_members'] + result['wwn_members'] + result['alias_members']
         return {'members': all_members}
 
@@ -664,7 +664,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     """
     Query alias members
 
-    查询 Alias 中包含的成员，支持查询端口成员和 WWN 成员。
+    查询 Alias members contained in，支持查询端口成员和 WWN 成员。
 
     Args:
         client: DME API client
@@ -700,7 +700,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     elif type == 'wwn':
         return {'wwn_members': result['wwn_members']}
     else:
-        # 返回所有成员
+        # returns all members
         all_members = result['port_members'] + result['wwn_members']
         return {'members': all_members}
 

@@ -192,8 +192,8 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         dc_id: Data center ID
         product_name: 产品名称
         alarm_name: Alarm name,supports fuzzy match
-        occur_utc_start: 告警发生Start time(毫second(s)时间戳)
-        occur_utc_end: 告警发生End time(毫second(s)时间戳)
+        occur_utc_start: 告警发生Start time(毫second(s)Timestamp)
+        occur_utc_end: 告警发生End time(毫second(s)Timestamp)
         fields: 指定返回的字段列表
         page_no: Page queryStart page,默认 1
         page_size: 每页count,1~1000,默认 100(Current alarm查询用)
@@ -361,8 +361,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: 控制器
             - NAMESPACE: Namespace
-        begin_time: 分析Start time(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
-        end_time: 分析End time(Required),Unix 时间戳(毫second(s)),必须为整minute(s)时间点
+        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
+        end_time: 分析End time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点
                   分析时间间隔范围must be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: 智能分析类型列表(Required),数组大小:1~4,取值范围:
             - highLatency: 高时延
@@ -415,8 +415,8 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
 
     Args:
         client: DME API client
-        begin_time: Start time(Required,Unix 时间戳毫second(s))
-        end_time: End time(Required,Unix 时间戳毫second(s))
+        begin_time: Start time(Required,Unix Timestamp毫second(s))
+        end_time: End time(Required,Unix Timestamp毫second(s))
         object_type_id: Object type ID(Required,1~32 个字符)
         object_ids: object ID 列表(Required,最多 2000 个,ID 长度 1~32 位)
         indicator_ids: 指标 ID 列表(Required,最多 20 个,ID 长度 1~16 位)
@@ -464,7 +464,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     查询历史Performance data
 
     根据传入参数中的"range"字段所取的枚举值或从开始到End time范围内的查询数据.
-    有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应时间戳.
+    有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应Timestamp.
 
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
@@ -492,7 +492,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         interval: 间隔粒度(Optional)
                   取值范围:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
-        range: 时间范围(Optional,默认 LAST_1_HOUR)
+        range: Time range(Optional,默认 LAST_1_HOUR)
                取值范围:LAST_5_MINUTE(最近 5 minute(s)), LAST_1_HOUR(最近 1 hour(s)),
                LAST_1_DAY(最近 1 day(s)), LAST_1_WEEK(最近 1 week(s)), LAST_1_MONTH(最近 1 个month(s)),
                LAST_1_QUARTER(最近 3 个month(s)), HALF_1_YEAR(最近半year(s)), LAST_1_YEAR(最近 1 year(s)),
@@ -970,8 +970,8 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         policy_types: 策略类型列表（最多 30 个）
         cause: 异常原因（supports fuzzy search，1~768 个字符）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
-        first_occur_time: 第一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
-        last_occur_time: 最后一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
+        first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，单位 ms）
+        last_occur_time: 最后一次异常Time range（{beginTime, endTime}，UTC Timestamp，单位 ms）
         page_no: Page number，1~10000，默认 1
         page_size: Items per page，1~2000，默认 20
         sort_key: Sort field（violation_count-异常次数）
