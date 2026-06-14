@@ -335,8 +335,8 @@ def show(client: DMEAPIClient, storage_id: str) -> dict:
 def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         vendor: str = None, model: str = None, version: str = None,
         patch_version: str = None, dc_id: str = None, az: str = None,
-        location: str = None, maintenancetenance_start: int = None,
-        maintenancetenance_overtime: int = None, total_capacity: float = None,
+        location: str = None, maintenancetenancetenance_start: int = None,
+        maintenancetenancetenance_overtime: int = None, total_capacity: float = None,
         total_effective_capacity: float = None, total_pool_capacity: float = None,
         used_capacity: float = None, free_capacity: float = None,
         subscription_capacity: float = None, tag_ids: list = None) -> dict:
@@ -357,8 +357,8 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         version: Version info (Optional, 0~64 characters). 
         patch_version: Patch version info (Optional, 0~64 characters). 
         location: Device location (Optional, 0~512 characters). 
-        maintenancetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenancetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenancetenance start time and value must be greater. 
+        maintenancetenancetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
+        maintenancetenancetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenancetenancetenance start time and value must be greater. 
         total_capacity: Raw capacity (Optional, 0~2147483647, in MB). 
         total_effective_capacity: Available capacity (Optional, 0~2147483647, in MB). 
         total_pool_capacity: Available capacity (Optional, 0~2147483647, in MB). 
@@ -400,10 +400,10 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         payload['az'] = az
     if location is not None:
         payload['location'] = location
-    if maintenancetenance_start is not None:
-        payload['maintenancetenance_start'] = maintenancetenance_start
-    if maintenancetenance_overtime is not None:
-        payload['maintenancetenance_overtime'] = maintenancetenance_overtime
+    if maintenancetenancetenance_start is not None:
+        payload['maintenancetenancetenance_start'] = maintenancetenancetenance_start
+    if maintenancetenancetenance_overtime is not None:
+        payload['maintenancetenancetenance_overtime'] = maintenancetenancetenance_overtime
     if total_capacity is not None:
         payload['total_capacity'] = total_capacity
     if total_effective_capacity is not None:
@@ -645,7 +645,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         physical_type: Disk type (Optional). Options: unknown, sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card, scm, nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
         new_physical_type: Actual disk type (Optional). Options: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB). 
-        role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaint, maintenanceece), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
+        role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaintenancet, maintenancetenanceece), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
         disk_pool_name: Disk pool name (Optional, 1~256 characters). supports fuzzy search. 
         disk_pool_id: Disk pool ID (Optional, 1~64 characters).  Huawei storage device only, third-party device supports this field. 
         storage_pool_id: Storage pool ID (Optional, 1~64 characters). 
@@ -659,7 +659,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         status: Running status (Optional). Options: unknown, normal, abnormal ( fault), online, offline. 
         enclosure_name: Fan enclosure name on storage device (Optional, 1~255 characters). supports fuzzy search. 
         zone_id: Storage device zone ID (Optional, 1~255 characters). OceanStor A800 series only. 
-        sort_key: Sort field (Optional). Options: capacity (Total capacity), speed, remaintenanceLife, name (disk name), management_ip (management  deviceip address), slot_number (location). 
+        sort_key: Sort field (Optional). Options: capacity (Total capacity), speed, remaintenancetenanceLife, name (disk name), management_ip (management  deviceip address), slot_number (location). 
         sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). 
         page_no: Page number (Optional, 1~2147483647, Default: 1). 
         page_size: Page size (Optional, 1~1000, Default: 20). 
@@ -786,7 +786,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 raid_level: RAID level list (List<string>). Options: RAID0, RAID1, RAID2, RAID3, RAID5, RAID6, RAID10, RAID50, RAID_TP. Flash storage only, OceanDisk, OceanStor A800Device support,
                 disk_pool_id: Disk pool ID (1~64 characters). Supports flash devices, Pacific, A310 and OceanStor A800Device support,
                 disk_pool_name: Disk pool name (1~256 characters),
-                media_type: Storage pool maintenance memory type. Options: sas_disk, sata_disk, ssd_card, ssd_disk. OceanStor Pacific, OceanStor A310, OceanStor 100DDevice support,
+                media_type: Storage pool maintenancetenance memory type. Options: sas_disk, sata_disk, ssd_card, ssd_disk. OceanStor Pacific, OceanStor A310, OceanStor 100DDevice support,
             }, ...]
         }
     """
@@ -1082,8 +1082,8 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            ip: str = None, vendor: str = None, model: str = None,
            version: str = None, patch_version: str = None,
-           location: str = None, maintenancetenance_start: int = None,
-           maintenancetenance_overtime: int = None, total_capacity: float = None,
+           location: str = None, maintenancetenancetenance_start: int = None,
+           maintenancetenancetenance_overtime: int = None, total_capacity: float = None,
            total_effective_capacity: float = None, total_pool_capacity: float = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
@@ -1100,8 +1100,8 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         version: Version info (Optional, 0~64 characters). 
         patch_version: Patch version info (Optional, 0~64 characters). 
         location:  devicelocation (Optional, 0~512 characters). 
-        maintenancetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenancetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenancetenance start time and value greater thanStart time. 
+        maintenancetenancetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
+        maintenancetenancetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenancetenancetenance start time and value greater thanStart time. 
         total_capacity: Raw capacity (Optional, -1~2147483647, in MB). Storage devicesum of all disk physical capacities, -1Indicates no raw capacity. 
         total_effective_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage device writable user data total, -1Indicates no available capacity. 
         total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Actual available disk physical space (Excluding RAID, metadata consumption) , -1Indicates N/AAvailable capacity. 
@@ -1133,10 +1133,10 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         payload['patch_version'] = patch_version
     if location is not None:
         payload['location'] = location
-    if maintenancetenance_start is not None:
-        payload['maintenancetenance_start'] = maintenancetenance_start
-    if maintenancetenance_overtime is not None:
-        payload['maintenancetenance_overtime'] = maintenancetenance_overtime
+    if maintenancetenancetenance_start is not None:
+        payload['maintenancetenancetenance_start'] = maintenancetenancetenance_start
+    if maintenancetenancetenance_overtime is not None:
+        payload['maintenancetenancetenance_overtime'] = maintenancetenancetenance_overtime
     if total_capacity is not None:
         payload['total_capacity'] = total_capacity
     if total_effective_capacity is not None:
@@ -1223,7 +1223,7 @@ def controllerr_list(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def disk_domaintenance_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
+def disk_domaintenancetenance_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
     Batch query disk pools
@@ -1332,7 +1332,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     id: EnclosureID (1~64 characters),
                     raw_id: Enclosure ID on storage device (1~64 characters),
                     name:  name (1~256 characters),
-                    model:  Model (1~32 characters). Options: 0 (BMC controllerr enclosure), 1 (2U dual controllerr 6Gbps SAS 12-disk 3.5-inch controllerroller enclosure), 2 (2U dual controllerr 6Gbit/s SAS 24disk slot 2.5inch controllerr enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controllerr 6Gbps SAS 12-disk 3.5-inch controllerroller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controllerr 6Gbit/s SAS 25disk slot 2.5inch controllerr enclosure), 37 (2U dual controllerr 6Gbps SAS 12-disk 3.5-inch controllerroller enclosure), 38 (2U dual controllerr 6Gbit/s SAS 25disk slot 2.5inch controllerr enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controllerr 12Gbit/s SAS 25disk slot 2.5inch controllerr enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerrController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controllerr 12Gbit/s NVMe 25disk slot 2.5inch controllerr enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controllerr SAS 25disk slot 2.5inch controllerr enclosure), 114 (2U dual controllerr SAS 12disk slot 3.5inch controllerr enclosure), 115 (2U dual controllerr NVMe 36disk slotController enclosure), 116 (2U dual controllerr SAS 25disk slot 2.5inch controllerr enclosure), 117 (2U dual controllerr SAS 12disk slot 3.5inch controllerr enclosure), 118 (2U SAS 25disk slot 2.5 inch智能Disk enclosure), 119 (2U SAS 12disk slot 3.5 inch智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controllerr NVMe 25disk slot 2.5inch controllerr enclosure), 132 (4U dual controllerr 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controllerr NVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controllerr 10disk slot 2.5inch controllerr enclosure), 143 (8U NVME dual controllerr 64disk slot 2.5 inch Controller enclosure),
+                    model:  Model (1~32 characters). Options: 0 (BMC controller enclosure), 1 (2U dual controllerr 6Gbps SAS 12-disk 3.5-inch controllerroller enclosure), 2 (2U dual controllerr 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controllerr 6Gbps SAS 12-disk 3.5-inch controllerroller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controllerr 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controllerr 6Gbps SAS 12-disk 3.5-inch controllerroller enclosure), 38 (2U dual controllerr 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controllerr 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerrController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controllerr 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controllerr SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controllerr SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controllerr NVMe 36disk slotController enclosure), 116 (2U dual controllerr SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controllerr SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5 inch智能Disk enclosure), 119 (2U SAS 12disk slot 3.5 inch智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controllerr NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controllerr 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controllerr NVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controllerr 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controllerr 64disk slot 2.5 inch Controller enclosure),
                     height: Height in U (integer),
                     location: Enclosure location (1~128 characters),
                     logic_type:  type. Options: disk_enclosure (Disk enclosure), controllerr_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
@@ -1572,7 +1572,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         description: local Auth user description (1~255 characters, Optional)
         password: local Auth user password (1~255 characters, Required)
         primary_group_raw_id: local auth user user group ID on device (1~64 characters, Required)
-        group_names: create 的local auth usertemporary user group name list (List<string>, min array members: 0, max array members: 31, Optional)
+        group_names: create  local auth usertemporary user group name list (List<string>, min array members: 0, max array members: 31, Optional)
         vstore_id: local auth usertenant ID (1~64 characters, Optional. conditionally required, required when creating local auth user belongs to tenant)
 
     Returns:
@@ -2996,7 +2996,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
         failover_group_type: Failover group busi failover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS. Logic port failover group failover group), BGP (used toassociateVIP typeLogic port的Failover group busi failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group busi failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group busi failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group busi failover group)
+        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS, BGP (used toassociateVIP typeLogic port的Failover group busi failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group busi failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group busi failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group busi failover group)
 
     Returns:
         {
@@ -3009,7 +3009,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only,
                 zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
                 zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
-                failover_group_service_type: Failover group business type. Options: NAS. Logic port failover group failover group), BGP (used toassociateVIP typeLogic port的Failover group busi failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group busi failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group busi failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group busi failover group),
+                failover_group_service_type: Failover group business type. Options: NAS, BGP (used toassociateVIP typeLogic port的Failover group busi failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group busi failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group busi failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group busi failover group),
             }, ...]
         }
     """
@@ -3192,7 +3192,7 @@ ACTIONS = {
     'add': {
         'func': add,
         'description': 'Add storage device (offline info entry only) ',
-        'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenancetenance_start', 'maintenancetenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
+        'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenancetenancetenance_start', 'maintenancetenancetenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
         'subtopic': None
     },
     'remove': {
@@ -3284,11 +3284,11 @@ ACTIONS = {
         'params': ['storage_id'],
         'subtopic': 'controllerr'
     },
-    'disk_domaintenance_list': {
-        'func': disk_domaintenance_list,
+    'disk_domaintenancetenance_list': {
+        'func': disk_domaintenancetenance_list,
         'description': 'Batch query disk pools',
         'params': ['storage_id', 'page_no', 'page_size'],
-        'subtopic': 'disk_domaintenance'
+        'subtopic': 'disk_domaintenancetenance'
     },
     'disk_pool_list': {
         'func': disk_pool_list,

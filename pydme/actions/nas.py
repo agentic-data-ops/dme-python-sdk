@@ -3042,7 +3042,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         storage_id:  device ID (1~64 characters, Optional)
         vstore_id:  Tenant ID (1~64 characters, Optional)
         vstore_name:  tenant name,  supports fuzzy search (1~256 characters, Optional)
-        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device Id; When resource scope is local, Zone ID 为 Zone ID. OceanStor A800 series only
+        zone_id:  zone ID (1~64 characters, Optional). When resource scope is global, Zone ID of the device ID. When resource scope is local, Zone ID 为 Zone ID. OceanStor A800 series only
         name: DataTurbo admin name,  supports fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (Optional). Options: offline, online
         lock_status: DataTurbo admin lock status (Optional). Options: unlocked, locked
