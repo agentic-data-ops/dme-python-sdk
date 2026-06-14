@@ -56,7 +56,7 @@ def logout(client: DMEAPIClient) -> dict:
 def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
                    is_initial_password: bool = True) -> dict:
     """
-    根据指定Username重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。
+    根据指定Username重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全Admin角色。
 
     Args:
         client: DME API client
@@ -117,7 +117,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         type: User type (Required, integer, 无)。0：Local user；2：Remote user。
         value: 密码 (Optional, string, 8~32 characters)。密码长度cannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符。Remote user不涉及。
         description: 描述 (Optional, string, 最多127 characters)
-        roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全管理员组，Filesystem组或用户自定义角色。
+        roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全Admin组，Filesystem组或用户自定义角色。
 
     Returns:
         无

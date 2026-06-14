@@ -1564,19 +1564,19 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
                                       user_id: str = None, user_name: str = None,
                                       permission: str = None) -> dict:
     """
-    查询 DataTurbo 共享管理员Permission list
+    查询 DataTurbo 共享AdminPermission list
 
     Args:
         client: DME API Client
         dataturbo_share_id: DataTurbo 共享 ID
         page_no: Page number（可选），1~10000000，默认 1
         page_size: Items per page（可选），1~1000，默认 10
-        user_id: DataTurbo 管理员 ID（可选），1~64  characters，exact match
-        user_name: DataTurbo 管理员名称（可选），1~256  characters，支持fuzzy search
-        permission: DataTurbo 管理员权限（可选），Options：read_and_write (read/write)
+        user_id: DataTurbo Admin ID（可选），1~64  characters，exact match
+        user_name: DataTurbo Admin名称（可选），1~256  characters，支持fuzzy search
+        permission: DataTurbo Admin权限（可选），Options：read_and_write (read/write)
 
     Returns:
-        DataTurbo 共享管理员Permission list
+        DataTurbo 共享AdminPermission list
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}/dpc-share-auths/query"
 
@@ -2349,9 +2349,9 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         capacity_threshold: Total space capacity alarmthreshold 50-99（可选）
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
         automatic_update_time: 文件被读取后是否更新访问时间，true开启/false关闭（可选）
-        atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
+        atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（not enabled）（可选）
         quota_switch: Enable quota，true启用/falsedisabled（可选）
-        vaai_switch: VAAI 开关，启用后不能关闭，true启用/false未启用（可选）
+        vaai_switch: VAAI 开关，启用后不能关闭，true启用/falsenot enabled（可选）
         owning_controller: 归属Controller，2~16 characters（可选）
         snapshot_expired_enabled: Delete old read-only snapshots，true开启/false关闭（可选）
         checksum_enabled: Data verification switch，true开启/false关闭（可选）
@@ -3033,7 +3033,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
                    sort_dir: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
-    Batch query DataTurbo 管理员
+    Batch query DataTurbo Admin
 
     仅 OceanStor A800 series storage only。
 
@@ -3043,17 +3043,17 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         vstore_id: 租户的 ID (1~64 characters, Optional)
         vstore_name: 租户的名称，支持fuzzy search (1~256 characters, Optional)
         zone_id: 所属 zone 的 ID (1~64 characters, Optional)。当资源所属范围为全局时，Zone ID of the device Id；当资源所属范围为本地时，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 series storage only
-        name: DataTurbo 管理员名，支持fuzzy search (1~256 characters, Optional)
-        online_status: DataTurbo 管理员Online status (可选)。Options：offline (离线), online (在线)
-        lock_status: DataTurbo 管理员Lock status (可选)。Options：unlocked (未锁定), locked (锁定)
-        account_state: DataTurbo 管理员密码状态 (可选)。Options：normal (正常), expired (密码过期), initial (用户密码处于初始化状态，需要修改), expiring_soon (密码即将到期), change_required (Must change password on next login), never (密码永不过期)
+        name: DataTurbo Admin名，支持fuzzy search (1~256 characters, Optional)
+        online_status: DataTurbo AdminOnline status (可选)。Options：offline (离线), online (在线)
+        lock_status: DataTurbo AdminLock status (可选)。Options：unlocked (未锁定), locked (锁定)
+        account_state: DataTurbo Admin密码状态 (可选)。Options：normal (正常), expired (密码过期), initial (用户密码处于初始化状态，需要修改), expiring_soon (密码即将到期), change_required (Must change password on next login), never (密码永不过期)
         sort_key: sort by specified field (可选)。Options：create_time
         sort_dir: 指定Sort direction (可选)。Options：asc (升序), desc (降序)
         page_no: Page queryStart page (int32, min: 1, Default: 1, Optional)
         page_size: 单页显示的count (int32, min: 1, max: 1000, Default: 20, Optional)
 
     Returns:
-        DataTurbo 管理员列表，包含 total 和 administrators
+        DataTurbo Admin列表，包含 total 和 administrators
     """
     url = "/rest/fileservice/v1/dpc-administrators/query"
 
