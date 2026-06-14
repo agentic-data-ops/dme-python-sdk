@@ -20,16 +20,16 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     
     Args:
         client: DME API client
-        page_no: Page index（Required, min：1）
-        page_size: per page querycount（Required, 1~1000）
-        directory_id: Directory ID（Optional, 1~64  characters）
-        group: Template group name, supports fuzzy match（Optional,  max 255  characters）
-        name:  template name, supports fuzzy match（Optional,  max 255  characters）
+        page_no: Page index (Required, min: 1) 
+        page_size: per page querycount (Required, 1~1000) 
+        directory_id: Directory ID (Optional, 1~64  characters) 
+        group: Template group name, supports fuzzy match (Optional,  max 255  characters) 
+        name:  template name, supports fuzzy match (Optional,  max 255  characters) 
     
     Returns:
         {
-            total:  templatecount (integer, max：500),
-            templates: Template list.  parameter format：[{
+            total:  templatecount (integer, max: 500),
+            templates: Template list.  parameter format: [{
                 id:  templateID (string),
                 name:  template name (string),
                 description:  description (string),
@@ -66,8 +66,8 @@ def template_groups(client: DMEAPIClient) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes ：
-        - groups: Template group list, includes  name（Template group name）
+        }, includes : 
+        - groups: Template group list, includes  name (Template group name) 
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
     
@@ -84,13 +84,13 @@ def template_show(client: DMEAPIClient, template_id: str,
     
     Args:
         client: DME API client
-        template_id:  template id（Required, 1~64  characters）
-        template_version_id: Template version id（Optional, 1~64  characters）
+        template_id:  template id (Required, 1~64  characters) 
+        template_version_id: Template version id (Optional, 1~64  characters) 
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes ：
+        }, includes : 
         - template_version_id: Template version id
     """
     url = "/rest/wfamgmt/v1/workflow/templates/{template_id}"
@@ -113,7 +113,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     
     Args:
         client: DME API client
-        instance_id: Instance ID（Required, 1~64  characters）
+        instance_id: Instance ID (Required, 1~64  characters) 
     
     Returns:
         N/A
@@ -132,22 +132,22 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     
     Args:
         client: DME API client
-        instance_id:  queryInstance ID（Required, 1~64  characters）
+        instance_id:  queryInstance ID (Required, 1~64  characters) 
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes ：
+        }, includes : 
         - instance_id: instance id
         - template_id: Instance template id
         - template_name: Instance template name
-        - state:  execute status（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
-        - stage:  execute阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
+        - state:  execute status (EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED) 
+        - stage:  execute阶段 (PRECHECK/MAIN/NORMAL_END/ABNORMAL_END) 
         - params: Execute instance parameters
         - step_list: Instance step list
-        - start_time: instance execute的Start time（毫second(s)）
-        - end_time: instance execute的End time（毫second(s)）
-        - instance_type: instance type（PRECHECK/EXECUTION）
+        - start_time: instance execute的Start time (毫second(s)) 
+        - end_time: instance execute的End time (毫second(s)) 
+        - instance_type: instance type (PRECHECK/EXECUTION) 
         - template_version_id: Instance template version id
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}"
@@ -163,20 +163,20 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     Create and execute instance
     
-    Create and execute workflow instance. by specifying template id 与Template version id（Template version id default if not specified is latest version）
+    Create and execute workflow instance. by specifying template id 与Template version id (Template version id default if not specified is latest version) 
     to create and execute instance, or by specifying instance id  to find correspondingInstance templateCreate and execute instance. 
     
     Args:
         client: DME API client
-        template_id:  template id（Optional, 1~64  characters, satisfies regex）
-        template_version_id: Template version id（Optional, 1~64  characters, satisfies regex）
-        instance_id: Instance ID（Optional, 1~64  characters, satisfies regex）
-        params: Execute instance parameters（Optional）,  format：{"key1": "value1", "key2": "value2"},  max 100 parameter
+        template_id:  template id (Optional, 1~64  characters, satisfies regex) 
+        template_version_id: Template version id (Optional, 1~64  characters, satisfies regex) 
+        instance_id: Instance ID (Optional, 1~64  characters, satisfies regex) 
+        params: Execute instance parameters (Optional) ,  format: {"key1": "value1", "key2": "value2"},  max 100 parameter
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes ：
+        }, includes : 
         - instance_id: instance id
     """
     url = "/rest/wfamgmt/v1/workflow/instances"
@@ -204,14 +204,14 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     
     Args:
         client: DME API client
-        instance_id: instance id（Required, 1~64  characters）
-        step_id: 步骤 id（Required, 1~64  characters）
+        instance_id: instance id (Required, 1~64  characters) 
+        step_id: 步骤 id (Required, 1~64  characters) 
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes ：
-        - logs: Step log list（ max 6000 条）
+        }, includes : 
+        - logs: Step log list ( max 6000 条) 
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"
     

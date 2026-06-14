@@ -21,7 +21,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: LUN basic parameter list to create (List<ServiceVolumeBasicParams>, max array members: 1000).  parameter format：[{
+        volumes: LUN basic parameter list to create (List<ServiceVolumeBasicParams>, max array members: 1000).  parameter format: [{
                 name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
                 capacity:  capacityGB (1~262144),
                 count: create count (1~500),
@@ -29,15 +29,15 @@ def lun_create(client: DMEAPIClient, volumes: list,
                 start_suffix: Starting suffix number (0~9999),
                 suffix_length: Suffix length rule (1~4,  name length+ suffix length<=255),
              }, ...]
-        service_level_id: Service level ID（Required, 0~64  characters）
-        task_remarks: Async task remark（Optional,  max 1024  characters）
-        project_id: Project group ID（Optional, 0~64  characters）
-        availability_zone: Availability zone ID（Optional, 0~64  characters）
-        scheduler_hints: Scheduling policy (Optional, SchedulerHints object).  parameter format：{
+        service_level_id: Service level ID (Required, 0~64  characters) 
+        task_remarks: Async task remark (Optional,  max 1024  characters) 
+        project_id: Project group ID (Optional, 0~64  characters) 
+        availability_zone: Availability zone ID (Optional, 0~64  characters) 
+        scheduler_hints: Scheduling policy (Optional, SchedulerHints object).  parameter format: {
                 affinity: Enable affinity. Options: true (enable), false (disable). Default: disabled,
                 affinity_volume: to be associated LUN ID (Optional, 0~64 characters),
              }
-        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN).  parameter format：{
+        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN).  parameter format: {
                 host_id: Host ID (Optional, 0~64 characters, one of with hostgroup_id),
                 hostgroup_id: Host group ID (Optional, 0~64 characters, one of with host_id),
              }
@@ -78,12 +78,12 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
         client: DME API client
         volume_ids: LUN ID  list
         tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter刷新 LUN （Optional, true/false）
+        attributes_auto_change:  whether based onService level parameter刷新 LUN  (Optional, true/false) 
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }（Async task）
+        } (Async task) 
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
@@ -108,12 +108,12 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
         client: DME API client
         volume_id: LUN ID
         tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter刷新 LUN （Optional, true/false）
+        attributes_auto_change:  whether based onService level parameter刷新 LUN  (Optional, true/false) 
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }（Async task）
+        } (Async task) 
     """
     url = "/rest/blockservice/v1/volumes/add-to-service-level"
 
@@ -140,7 +140,7 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }（Async task）
+        } (Async task) 
     """
     url = "/rest/blockservice/v1/volumes/remove-service-level"
 
@@ -217,15 +217,15 @@ def tier_list(client: DMEAPIClient, name: str = None,
 
     Args:
         client: DME API client
-        name: Service level name（Optional, supports fuzzy search）
-        project_id: Project group ID（Optional）
-        available_zone_id:  availability zone ID（Optional）
-        storage_array_id: Storage device ID（Optional）
+        name: Service level name (Optional, supports fuzzy search) 
+        project_id: Project group ID (Optional) 
+        available_zone_id:  availability zone ID (Optional) 
+        storage_array_id: Storage device ID (Optional) 
         start:  query的Start position, default 0
         limit: per pagecount, 10~1000, default 200
         sort_key: Sort field, name/total_capacity/created_at, default name
         sort_dir: Sort direction, asc/desc, default asc
-        type: Storage class型, FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
+        type: Storage class型, FILE/BLOCK/VIRTUAL_DATASTORE (Optional) 
 
     Returns:
         {
@@ -270,7 +270,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
 
     Args:
         client: DME API client
-        tier_id: Service level ID（Optional）
+        tier_id: Service level ID (Optional) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 10~1000, default 200
 
@@ -305,7 +305,7 @@ def project_list(client: DMEAPIClient, name: str = None,
 
     Args:
         client: DME API client
-        name: Project group name（Optional, supports fuzzy search）
+        name: Project group name (Optional, supports fuzzy search) 
         start: Page number, 从 1  start, default 1
         limit: Page size, 1~512, default 20
 
@@ -337,7 +337,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
 
     Args:
         client: DME API client
-        project_id: Project group ID（Optional）
+        project_id: Project group ID (Optional) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 10~1000, default 200
 

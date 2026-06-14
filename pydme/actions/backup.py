@@ -17,14 +17,14 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     
     Args:
         client: DME API client
-        name: Backup cluster name（Optional, supports fuzzy search）
+        name: Backup cluster name (Optional, supports fuzzy search) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             total:  clusterTotal count (integer),
-            clusters: Backup cluster list.  parameter format：[{
+            clusters: Backup cluster list.  parameter format: [{
                 id:  clusterID (string),
                 name: Cluster name (string),
                 status:  status (string),
@@ -53,7 +53,7 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     
     Args:
         client: DME API client
-        cluster_id:  backup cluster ID（Required）
+        cluster_id:  backup cluster ID (Required) 
     
     Returns:
         {
@@ -78,15 +78,15 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     
     Args:
         client: DME API client
-        cluster_id:  backup cluster ID（Required）
-        quota_type:  quota type（Optional）
+        cluster_id:  backup cluster ID (Required) 
+        quota_type:  quota type (Optional) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             total:  quotaTotal count (integer),
-            quotas: Tenant quota list.  parameter format：[{
+            quotas: Tenant quota list.  parameter format: [{
                 tenant_id: Tenant ID (string),
                 quota:  quota size (integer),
                 used: Used quota (integer),
@@ -109,7 +109,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
 
 # Action list for CLI help
 ACTIONS = {
-    # subtopic actions - cluster（Three-level structure：backup cluster list/capacity/quota）
+    # subtopic actions - cluster (Three-level structure: backup cluster list/capacity/quota) 
     'cluster_list': {
         'func': cluster_list,
         'description': ' queryBackup cluster list',

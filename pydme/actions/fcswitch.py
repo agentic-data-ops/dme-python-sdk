@@ -15,14 +15,14 @@ def list(client: DMEAPIClient, name: str = None,
     
     Args:
         client: DME API client
-        name: Switch name（Optional, supports fuzzy search）
+        name: Switch name (Optional, supports fuzzy search) 
         page_no: Page number, default 1
         page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             total: Total count (integer),
-            fcswitches: Switch list (List<FcSwitchInfo>).  parameter format：[{
+            fcswitches: Switch list (List<FcSwitchInfo>).  parameter format: [{
                 id: SwitchID (string),
                 name: Switch name (string),
                 status: Running status (string),
@@ -49,7 +49,7 @@ def sync(client: DMEAPIClient, switch_id: str) -> dict:
     
     Args:
         client: DME API client
-        switch_id: Switch ID（Required）
+        switch_id: Switch ID (Required) 
     
     Returns:
         {
@@ -70,8 +70,8 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     
     Args:
         client: DME API client
-        switch_id: Switch ID（Optional）
-        port_name: Port name（Optional）
+        switch_id: Switch ID (Optional) 
+        port_name: Port name (Optional) 
         page_no: Page number, default 1
         page_size: per pagecount, 1~1000, default 20
     
@@ -104,7 +104,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     
     Args:
         client: DME API client
-        switch_id: Switch ID（Optional）
+        switch_id: Switch ID (Optional) 
         page_no: Page number, default 1
         page_size: per pagecount, 1~1000, default 20
     
@@ -134,7 +134,7 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     
     Args:
         client: DME API client
-        name: FC network name（Optional, supports fuzzy search）
+        name: FC network name (Optional, supports fuzzy search) 
         page_no: Page number, default 1
         page_size: per pagecount, 1~1000, default 20
     
@@ -164,7 +164,7 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 
     Args:
         client: DME API client
-        fabric_id: Fibre Channel network ID（Required）
+        fabric_id: Fibre Channel network ID (Required) 
         page_no: Page number, default 1
         page_size: per pagecount, 1~1000, default 20
 
@@ -191,9 +191,9 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
     
     Args:
         client: DME API client
-        fabric_id: Fibre Channel network ID（Required）
-        backup_server_id: Backup server ID（Required）
-        backup_type:  backup type, default full（full/incremental）
+        fabric_id: Fibre Channel network ID (Required) 
+        backup_server_id: Backup server ID (Required) 
+        backup_type:  backup type, default full (full/incremental) 
     
     Returns:
         {
@@ -253,16 +253,16 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
 
     Args:
         client: DME API client
-        fabric_wwn: Fibre Channel network WWN（Optional）, 1~1024  characters
-        name: Zone  name（Optional）, supports fuzzy search, 1~1024  characters
-        cfg_name:  CFG  name（Optional）, supports fuzzy search, 0~1024  characters
-        zone_set:  Zone 集合（Optional）, supports fuzzy search, 0~1024  characters
-        active_status: Zone status list（Optional）, max array members：2
-        member_count:  membercount（Optional）, 0~2147483647
-        sort_key: Sort field（Optional）,  support member_count
-        sort_dir: Sort direction（Optional）, asc：ascending; desc：descending
-        page_no: Page number（Optional）, 1~65535
-        page_size: per pagecount（Optional）, 1~1000
+        fabric_wwn: Fibre Channel network WWN (Optional) , 1~1024  characters
+        name: Zone  name (Optional) , supports fuzzy search, 1~1024  characters
+        cfg_name:  CFG  name (Optional) , supports fuzzy search, 0~1024  characters
+        zone_set:  Zone 集合 (Optional) , supports fuzzy search, 0~1024  characters
+        active_status: Zone status list (Optional) , max array members: 2
+        member_count:  membercount (Optional) , 0~2147483647
+        sort_key: Sort field (Optional) ,  support member_count
+        sort_dir: Sort direction (Optional) , asc: ascending; desc: descending
+        page_no: Page number (Optional) , 1~65535
+        page_size: per pagecount (Optional) , 1~1000
 
     Returns:
         {
@@ -306,19 +306,19 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     create  zone
 
-    注： based on DME API  doc, must provide fabric_wwn 或 vsan_wwn, and at least one member type. 
+    注:  based on DME API  doc, must provide fabric_wwn 或 vsan_wwn, and at least one member type. 
 
     Args:
         client: DME API client
-        name: Zone  name（Required）
-        fabric_wwn: Fibre Channel network WWN（ conditionRequired, fabric create  zone 时 need）
-        vsan_wwn: VSAN WWN（ conditionRequired, vsan create  zone 时 need）
-        wwn_members: WWN Member list（Optional）,  format：["<wwn>",...]
-        port_members: Port member list（Optional）,  format：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
-        fwwn_members: FWWN Member list（Optional）,  format：["<fwwn>",...]
-        fcid_members: FCID Member list（Optional）,  format：["<fcid>",...]
-        alias_members: Alias member list（Optional）,  format：["<alias>",...]
-        device_alias_members: Device alias member list（Optional）,  format：["<deviceAlias>",...]
+        name: Zone  name (Required) 
+        fabric_wwn: Fibre Channel network WWN ( conditionRequired, fabric create  zone 时 need) 
+        vsan_wwn: VSAN WWN ( conditionRequired, vsan create  zone 时 need) 
+        wwn_members: WWN Member list (Optional) ,  format: ["<wwn>",...]
+        port_members: Port member list (Optional) ,  format: [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
+        fwwn_members: FWWN Member list (Optional) ,  format: ["<fwwn>",...]
+        fcid_members: FCID Member list (Optional) ,  format: ["<fcid>",...]
+        alias_members: Alias member list (Optional) ,  format: ["<alias>",...]
+        device_alias_members: Device alias member list (Optional) ,  format: ["<deviceAlias>",...]
 
     Returns:
         {
@@ -366,14 +366,14 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 
     Args:
         client: DME API client
-        zone_id: Zone ID（Required）
-        zone_name: Zone  name（Optional）
-        wwn_members: WWN member modification（Optional）,  format：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
-        alias_members: Alias member modification（Optional）,  format：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
-        fwwn_members: FWWN member modification（Optional）,  format：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: Port member modification（Optional）,  format：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}, Brocade switch: specifyport_index, Cisco switch: specifyport_name
-        fcid_members: FCID member modification（Optional）,  format：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
-        device_alias_members: Device alias member modification（Optional）,  format：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
+        zone_id: Zone ID (Required) 
+        zone_name: Zone  name (Optional) 
+        wwn_members: WWN member modification (Optional) ,  format: {"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
+        alias_members: Alias member modification (Optional) ,  format: {"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
+        fwwn_members: FWWN member modification (Optional) ,  format: {"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
+        port_members: Port member modification (Optional) ,  format: {"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}, Brocade switch: specifyport_index, Cisco switch: specifyport_name
+        fcid_members: FCID member modification (Optional) ,  format: {"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
+        device_alias_members: Device alias member modification (Optional) ,  format: {"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
 
     Returns:
         {
@@ -405,11 +405,11 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
     delete  zone
-    注： based on DME API  doc,  use DELETE  method to /zones/{zone_id}
+    注:  based on DME API  doc,  use DELETE  method to /zones/{zone_id}
     
     Args:
         client: DME API client
-        zone_id: Zone ID（Required）
+        zone_id: Zone ID (Required) 
     
     Returns:
         {
@@ -426,20 +426,20 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     """
     Batch create zone
 
-    注： based on DME API  doc,  need is_active_zone 和 zone_list  parameter. 
+    注:  based on DME API  doc,  need is_active_zone 和 zone_list  parameter. 
 
     Args:
         client: DME API client
-        is_active_zone:  whether activate Zone（Required, string "true" 或 "false"）
+        is_active_zone:  whether activate Zone (Required, string "true" 或 "false") 
         zones: Zone  config list, each element should contain:
-            - fabric_wwn: Fibre Channel network WWN（Required）
-            - name: Zone  name（Required）
-            - wwn_members: WWN Member list（Optional）,  format：["<wwn>",...]
-            - port_members: Port member list（Optional）,  format：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
-            - fwwn_members: FWWN Member list（Optional）,  format：["<fwwn>",...]
-            - fcid_members: FCID Member list（Optional）,  format：["<fcid>",...]
-            - alias_members: Alias member list（Optional）,  format：["<alias>",...]
-            - device_alias_members: Device alias member list（Optional）,  format：["<deviceAlias>",...]
+            - fabric_wwn: Fibre Channel network WWN (Required) 
+            - name: Zone  name (Required) 
+            - wwn_members: WWN Member list (Optional) ,  format: ["<wwn>",...]
+            - port_members: Port member list (Optional) ,  format: [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
+            - fwwn_members: FWWN Member list (Optional) ,  format: ["<fwwn>",...]
+            - fcid_members: FCID Member list (Optional) ,  format: ["<fcid>",...]
+            - alias_members: Alias member list (Optional) ,  format: ["<alias>",...]
+            - device_alias_members: Device alias member list (Optional) ,  format: ["<deviceAlias>",...]
 
     Returns:
         {
@@ -465,8 +465,8 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
 
     Args:
         client: DME API client
-        zone_id: Zone ID（Required）
-        type: Member type, Optional值：port（Port member）,wwn（WWN  member）,alias（别名 member）. 
+        zone_id: Zone ID (Required) 
+        type: Member type, Optional值: port (Port member) ,wwn (WWN  member) ,alias (别名 member) . 
              returns all member types if not specified
 
     Returns:
@@ -521,7 +521,7 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     
     Args:
         client: DME API client
-        fabric_wwn: Fibre Channel network WWN（Required）
+        fabric_wwn: Fibre Channel network WWN (Required) 
         page_no: Page number, default 1
         page_size: per pagecount, 1~1000, default 20
     
@@ -549,18 +549,18 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     Create alias
 
-    注： based on DME API  doc, must provide fabric_wwn 或 vsan_wwn, and at least one member type. 
+    注:  based on DME API  doc, must provide fabric_wwn 或 vsan_wwn, and at least one member type. 
 
     Args:
         client: DME API client
-        name: Alias  name（Required）
-        fabric_wwn: Fibre Channel network WWN（ conditionRequired, fabric Alias creation requires）
-        vsan_wwn: VSAN WWN（ conditionRequired, vsan Alias creation requires）
-        wwn_members: WWN Member list（Optional, 思科Switch PWWN  member）
-        port_members: Port member list（Optional）
-        fwwn_members: FWWN Member list（Optional）
-        fcid_members: FCID Member list（Optional）
-        device_alias_members: Device alias member list（Optional）
+        name: Alias  name (Required) 
+        fabric_wwn: Fibre Channel network WWN ( conditionRequired, fabric Alias creation requires) 
+        vsan_wwn: VSAN WWN ( conditionRequired, vsan Alias creation requires) 
+        wwn_members: WWN Member list (Optional, 思科Switch PWWN  member) 
+        port_members: Port member list (Optional) 
+        fwwn_members: FWWN Member list (Optional) 
+        fcid_members: FCID Member list (Optional) 
+        device_alias_members: Device alias member list (Optional) 
     
     Returns:
         {
@@ -602,17 +602,17 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     """
     Modify alias
 
-    注： based on DME API  doc, member modification requires {type}.added_members 和 {type}.removed_members  format. 
+    注:  based on DME API  doc, member modification requires {type}.added_members 和 {type}.removed_members  format. 
 
     Args:
         client: DME API client
-        alias_id: Alias ID（Required）
-        name: Alias  name（Optional）
-        wwn_members: WWN member modification（Optional,  format：{'added_members': [...], 'removed_members': [...]}）
-        fwwn_members: FWWN member modification（Optional）
-        port_members: Port member modification（Optional）
-        fcid_members: FCID member modification（Optional）
-        device_alias_members: Device alias member modification（Optional）
+        alias_id: Alias ID (Required) 
+        name: Alias  name (Optional) 
+        wwn_members: WWN member modification (Optional,  format: {'added_members': [...], 'removed_members': [...]}) 
+        fwwn_members: FWWN member modification (Optional) 
+        port_members: Port member modification (Optional) 
+        fcid_members: FCID member modification (Optional) 
+        device_alias_members: Device alias member modification (Optional) 
     
     Returns:
         {
@@ -643,11 +643,11 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     Delete alias
 
-    注： based on DME API  doc,  use DELETE  method to /aliases/{alias_id}
+    注:  based on DME API  doc,  use DELETE  method to /aliases/{alias_id}
 
     Args:
         client: DME API client
-        alias_id: Alias ID（Required）
+        alias_id: Alias ID (Required) 
     
     Returns:
         {
@@ -668,8 +668,8 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
 
     Args:
         client: DME API client
-        alias_id: Alias ID（Required）
-        type: Member type, Optional值：port（Port member）,wwn（WWN  member）. 
+        alias_id: Alias ID (Required) 
+        type: Member type, Optional值: port (Port member) ,wwn (WWN  member) . 
              returns all member types if not specified
 
     Returns:
@@ -690,7 +690,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     if type is None or type == 'wwn':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/wwn-members/list"
         response = client.get(url, params={"alias_id": alias_id})
-        # API 返回 field为 wwn_member（单数）
+        # API 返回 field为 wwn_member (单数) 
         if response.get('wwn_member'):
             result['wwn_members'] = response.get('wwn_member')
 

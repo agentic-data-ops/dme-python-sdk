@@ -17,13 +17,13 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         client: DME API client
         start: paginationStart position, default 1
         limit: Page size, default 100
-        name: Server name filter（Optional）
-        server_type: Server type filter（Optional）
+        name: Server name filter (Optional) 
+        server_type: Server type filter (Optional) 
     
     Returns:
         {
             total: ServerTotal count (integer),
-            servers: Server list (List<ServerInfo>).  parameter format：[{
+            servers: Server list (List<ServerInfo>).  parameter format: [{
                 id: ServerID (string),
                 name: Server name (string),
                 type: Server type (string),
@@ -53,7 +53,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     
     Args:
         client: DME API client
-        server_id: Server ID (use device_id field, UUID format with hyphens, 如 507cb27f-3eda-44c8-a491-5a81ca035da5）
+        server_id: Server ID (use device_id field, UUID format with hyphens, 如 507cb27f-3eda-44c8-a491-5a81ca035da5) 
     
     Returns:
         {
@@ -154,7 +154,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
 
     Args:
         client: DME API client
-        server_id: Server ID（Optional）
+        server_id: Server ID (Optional) 
         page_no: Page number, default 1
         page_size: per pagecount, 5~1000, default 20
 
@@ -281,7 +281,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
 
 # Action list for CLI help
 ACTIONS = {
-    # Direct action（Two-level structure）
+    # Direct action (Two-level structure) 
     'list': {
         'func': list,
         'description': ' queryServer list',

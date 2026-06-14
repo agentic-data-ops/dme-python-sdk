@@ -98,7 +98,7 @@ class DMECLI:
                             # subtopic actions (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
-                            # extract action name（Remove subtopic prefix, Supports space or underscore separator）
+                            # extract action name (Remove subtopic prefix, Supports space or underscore separator) 
                             action_name = action_key
                             prefix_space = f"{subtopic} "
                             prefix_underscore = f"{subtopic}_"
@@ -108,7 +108,7 @@ class DMECLI:
                                 action_name = action_key[len(prefix_underscore):]
                             topics[topic]['_subtopics'][subtopic].append(action_name)
                         else:
-                            # Direct action（Two-level structure）
+                            # Direct action (Two-level structure) 
                             topics[topic]['_direct'].append(action_key)
                             
             except ImportError as e:
@@ -193,7 +193,7 @@ class DMECLI:
                     param_lines = [param_match.group(2)]
                     
                     # If this param line enters a  parameter format/ format description block, track nesting depth
-                    if ' parameter format：' in stripped or ' format：{' in stripped:
+                    if ' parameter format: ' in stripped or ' format: {' in stripped:
                         in_format_block = stripped.count('{') - stripped.count('}')
                         if in_format_block < 0:
                             in_format_block = 0
@@ -867,7 +867,7 @@ def main():
                                 try:
                                     param_value = param_type(param_value)
                                 except ValueError:
-                                    print(f" warning： parameter {param_name} cannot convert to {param_type.__name__}")
+                                    print(f" warning:  parameter {param_name} cannot convert to {param_type.__name__}")
                             elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                                 import json
                                 try:
@@ -879,7 +879,7 @@ def main():
                                 try:
                                     param_value = json.loads(param_value)
                                 except (ValueError, json.JSONDecodeError):
-                                    print(f" warning： parameter {param_name}  need JSON  format")
+                                    print(f" warning:  parameter {param_name}  need JSON  format")
 
                         typed_params[func_param_name] = param_value
 
@@ -906,8 +906,8 @@ def main():
 
     # 4.  specified了 <topic> <subtopic> <action>, Show action help or execute action
     if args.subtopic and args.action:
-        # try to combine as action_key（Three-level structure：<topic> <subtopic> <action>）
-        #  try subtopic_action format first (supports spaces in action names), 如 "frame list"）
+        # try to combine as action_key (Three-level structure: <topic> <subtopic> <action>) 
+        #  try subtopic_action format first (supports spaces in action names), 如 "frame list") 
         action_key = f"{args.subtopic}_{args.action}"
         
         # if not found, try subtopic action format (space-separated)
@@ -918,26 +918,26 @@ def main():
                 action_key = space_action_key
             else:
                 # still not found, 显示 error
-                print(f" error：Action not found '{args.topic} {args.subtopic} {args.action}'")
+                print(f" error: Action not found '{args.topic} {args.subtopic} {args.action}'")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
-                    print(f"提示：Available actions include：{', '.join(available)}")
+                    print(f"提示: Available actions include: {', '.join(available)}")
                 return
 
         # if specified --help, Show help; otherwise execute action
         if show_help:
-            # Show help（不 need登录）
+            # Show help (不 need登录) 
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
             return
 
-        #  execute动作（ need登录）
+        #  execute动作 ( need登录) 
         endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
         username = args.user or os.environ.get('DME_API_USERNAME')
         password = args.password or os.environ.get('DME_API_PASSWORD')
         auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
         if not auth_token and not (endpoint and username and password):
-            print(" error：must be provided endpoint, user 和 password  parameter, 或者 use --token provide auth token")
+            print(" error: must be provided endpoint, user 和 password  parameter, 或者 use --token provide auth token")
             print(" can pass --endpoint, --user, --password, --token or set via environment variables")
             parser.print_help()
             sys.exit(1)
@@ -961,8 +961,8 @@ def main():
         func = action_info['func']
 
         # three-level structure shown as "topic subtopic action"
-        print(f" execute：{args.topic} {args.subtopic} {args.action}")
-        print(f" description：{action_info.get('description', '')}")
+        print(f" execute: {args.topic} {args.subtopic} {args.action}")
+        print(f" description: {action_info.get('description', '')}")
         print("-" * 60)
 
         try:
@@ -971,7 +971,7 @@ def main():
             sig = inspect.signature(func)
             typed_params = {}
 
-            #  parameter名 mapping：CLI  parameter名 -> 函数 parameter名
+            #  parameter名 mapping: CLI  parameter名 -> 函数 parameter名
             param_mapping = {
                 'name': 'name',
                 'alias_name': 'name',
@@ -1009,7 +1009,7 @@ def main():
                             try:
                                 param_value = param_type(param_value)
                             except ValueError:
-                                print(f" warning： parameter {param_name} cannot convert to {param_type.__name__}")
+                                print(f" warning:  parameter {param_name} cannot convert to {param_type.__name__}")
                         elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                             import json
                             try:
@@ -1021,7 +1021,7 @@ def main():
                             try:
                                 param_value = json.loads(param_value)
                             except (ValueError, json.JSONDecodeError):
-                                print(f" warning： parameter {param_name}  need JSON  format")
+                                print(f" warning:  parameter {param_name}  need JSON  format")
 
                     typed_params[func_param_name] = param_value
 

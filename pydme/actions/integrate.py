@@ -16,14 +16,14 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
 
     Args:
         client: DME API client
-        name: CMDBSystem name（Optional, supports fuzzy search）
+        name: CMDBSystem name (Optional, supports fuzzy search) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
 
     Returns:
         {
             total: Total count (integer),
-            systems: CMDB system list.  parameter format：[{
+            systems: CMDB system list.  parameter format: [{
                 id:  systemID (string),
                 name: System name (string),
                 ip: IP address (string),
@@ -50,16 +50,16 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
 
     Args:
         client: DME API client
-        system_id: CMDB systemID（Optional）
-        name: Host name（Optional, supports fuzzy search）
-        ip: Host IP（Optional）
+        system_id: CMDB systemID (Optional) 
+        name: Host name (Optional, supports fuzzy search) 
+        ip: Host IP (Optional) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
 
     Returns:
         {
             total: Total count (integer),
-            hosts: CMDB host list.  parameter format：[{
+            hosts: CMDB host list.  parameter format: [{
                 id: Host ID (string),
                 name: Host name (string),
                 ip: IP address (string),
@@ -89,7 +89,7 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 
     Args:
         client: DME API client
-        cmdb_host_id: CMDBHost ID（Required）
+        cmdb_host_id: CMDBHost ID (Required) 
 
     Returns:
         {
@@ -114,15 +114,15 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
 
     Args:
         client: DME API client
-        system_id: CMDB systemID（Optional）
-        name: Application name（Optional, supports fuzzy search）
+        system_id: CMDB systemID (Optional) 
+        name: Application name (Optional, supports fuzzy search) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
 
     Returns:
         {
             total: Total count (integer),
-            applications: Application list.  parameter format：[{
+            applications: Application list.  parameter format: [{
                 id:  appID (string),
                 name: Application name (string),
             }, ...],
@@ -149,11 +149,11 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
     Args:
         client: DME API client
-        initiators: Initiator list（Required）
+        initiators: Initiator list (Required) 
 
     Returns:
         {
-            hosts: CMDB host list.  parameter format：[{
+            hosts: CMDB host list.  parameter format: [{
                 id: Host ID (string),
                 name: Host name (string),
             }, ...],

@@ -20,32 +20,32 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     Args:
         client: DME API client
         site_id: Virtual machine site ID
-        cluster_id: Virtual machine cluster ID（HCS  scenario not support）
-        dc_id: Data center ID（FusionCompute only）
-        cluster_name: Virtual machineCluster name（supports fuzzy search, HCS  scenario not support）
+        cluster_id: Virtual machine cluster ID (HCS  scenario not support) 
+        dc_id: Data center ID (FusionCompute only) 
+        cluster_name: Virtual machineCluster name (supports fuzzy search, HCS  scenario not support) 
         host_id: Virtual machinePhysical hostUnique identifier
-        host_name: Virtual machineHost name（supports fuzzy search）
-        name: Virtual machine name（supports fuzzy search）
-        ip_address: Virtual machine IP  address（supports fuzzy search）
+        host_name: Virtual machineHost name (supports fuzzy search) 
+        name: Virtual machine name (supports fuzzy search) 
+        ip_address: Virtual machine IP  address (supports fuzzy search) 
         status: Virtual machinestatus list
-                 value：running, stopped, unknown, hibernated, creating, shutting-down,
+                 value: running, stopped, unknown, hibernated, creating, shutting-down,
                      migrating, fault-resuming, starting, stopping, hibernating, pause,
                      recycling, deactivated, active, saving, deleted, other, uploading,
                      pending_delete, queued, importing, killed, storage_migrating,
                      building, error
-        is_template:  whether template（true/false）
-        os_type: OS type list（Windows, Linux, Other）
-        vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: Datastore data center ID（vCenter only）
-        sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
-        sort_dir: Sort direction（asc, desc）, default asc
+        is_template:  whether template (true/false) 
+        os_type: OS type list (Windows, Linux, Other) 
+        vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS) 
+        datacenter_id: Datastore data center ID (vCenter only) 
+        sort_key: Sort field (name, cpu_core, memory_size, disk_total_size, create_time, ip_address) 
+        sort_dir: Sort direction (asc, desc) , default asc
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             total: Virtual machineTotal count (integer),
-            vms: VM list (List<VmInfo>).  parameter format：[{
+            vms: VM list (List<VmInfo>).  parameter format: [{
                 id: Virtual machineID (string),
                 name: Virtual machine name (string),
                 status:  status (string),
@@ -104,8 +104,8 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     
     Args:
         client: DME API client
-        vm_id: Virtual machine ID（Required）
-        vr_type: Virtualization platform type（Optional）
+        vm_id: Virtual machine ID (Required) 
+        vr_type: Virtualization platform type (Optional) 
     
     Returns:
         Virtual machineDetails, includes  CPU,  memory,  disk,  NIC etcConfiguration info
@@ -135,18 +135,18 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         cluster_id: Datastoreassociated clusters ID
         host_id: Datastoreassociated hosts ID
         dc_id: Datastore data center ID
-        name: Datastore name（supports fuzzy search）
+        name: Datastore name (supports fuzzy search) 
         status: Datastorestatus list
-                 value：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
+                 value: NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
         storage_type:  dataStorage class型 list
-                       value：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
+                       value: LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: supports精简 mode（FusionCompute only）
-        vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: Datastore的 vCenter Data center ID（vCenter only）
-        sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
-        sort_dir: Sort direction（asc, desc）, default asc
+        allocate_type: supports精简 mode (FusionCompute only) 
+        vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS) 
+        datacenter_id: Datastore的 vCenter Data center ID (vCenter only) 
+        sort_key: Sort field (name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate) 
+        sort_dir: Sort direction (asc, desc) , default asc
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
     
@@ -197,8 +197,8 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
     
     Args:
         client: DME API client
-        datastore_id: Datastore ID（Required）
-        vr_type: Virtualization platform type（Optional）
+        datastore_id: Datastore ID (Required) 
+        vr_type: Virtualization platform type (Optional) 
     
     Returns:
         DatastoreDetails
@@ -227,7 +227,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         site_id: Host site ID
         cluster_id: Host cluster ID
         dc_id: Data center ID
-        host_name: Host name（supports fuzzy search）
+        host_name: Host name (supports fuzzy search) 
         ip_address:  host IP  address
         status: Host status list
         vr_type: Virtualization platform type
@@ -273,8 +273,8 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     
     Args:
         client: DME API client
-        host_id:  host ID（Required）
-        vr_type: Virtualization platform type（Optional）
+        host_id:  host ID (Required) 
+        vr_type: Virtualization platform type (Optional) 
     
     Returns:
          hostDetails
@@ -299,7 +299,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
         client: DME API client
         site_id: Cluster site ID
         dc_id: Data center ID
-        name: Cluster name（supports fuzzy search）
+        name: Cluster name (supports fuzzy search) 
         vr_type: Virtualization platform type
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
@@ -337,8 +337,8 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
     
     Args:
         client: DME API client
-        cluster_id:  cluster ID（Required）
-        vr_type: Virtualization platform type（Optional）
+        cluster_id:  cluster ID (Required) 
+        vr_type: Virtualization platform type (Optional) 
     
     Returns:
          clusterDetails
@@ -381,7 +381,7 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
     
     Args:
         client: DME API client
-        site_id:  site ID（Required）
+        site_id:  site ID (Required) 
     
     Returns:
          siteDetails
@@ -402,7 +402,7 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     
     Args:
         client: DME API client
-        host_id:  host ID（Required）
+        host_id:  host ID (Required) 
     
     Returns:
         Storage adapter list
@@ -424,11 +424,11 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
     
     Args:
         client: DME API client
-        site_id: Physical disk site ID（Optional）
-        host_id:  physical diskHost ID（Optional）
-        name:  physical disk name（Optional）
-        disk_type: Disk type list（Optional）
-        status: Disk status list（Optional）
+        site_id: Physical disk site ID (Optional) 
+        host_id:  physical diskHost ID (Optional) 
+        name:  physical disk name (Optional) 
+        disk_type: Disk type list (Optional) 
+        status: Disk status list (Optional) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
     
@@ -468,11 +468,11 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     
     Args:
         client: DME API client
-        site_id: Virtual disk site ID（Optional）
-        vm_id: Virtual diskVirtual machine ID（Optional）
-        name: Virtual disk name（Optional）
-        disk_type: Disk type list（Optional）
-        status: Disk status list（Optional）
+        site_id: Virtual disk site ID (Optional) 
+        vm_id: Virtual diskVirtual machine ID (Optional) 
+        name: Virtual disk name (Optional) 
+        disk_type: Disk type list (Optional) 
+        status: Disk status list (Optional) 
         page_no: Page queryStart page, default 1
         page_size: per pagecount, 1~1000, default 20
     
@@ -509,7 +509,7 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     
     Args:
         client: DME API client
-        virtual_disk_id: Virtual disk ID（Required）
+        virtual_disk_id: Virtual disk ID (Required) 
     
     Returns:
         Virtual diskDetails
