@@ -10,7 +10,7 @@ from pydme.client import DMEAPIClient
 
 def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query EthernetSwitch list info
+    Query Ethernet switch list info
     
     Args:
         client: DME API client
@@ -125,7 +125,7 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
 
 def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query IP SwitchPower supplyList info
+     query IP SwitchPower supply list info
     
     Args:
         client: DME API client
@@ -179,7 +179,7 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
 
 def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query IP Switch portList info
+     query IP Switch port list info
     
     Args:
         client: DME API client
@@ -208,7 +208,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
 ACTIONS = {
     'list': {
         'func': list,
-        'description': 'Query EthernetSwitch list info',
+        'description': 'Query Ethernet switch list info',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
@@ -232,7 +232,7 @@ ACTIONS = {
     },
     'power_list': {
         'func': power_list,
-        'description': ' query IP SwitchPower supplyList info',
+        'description': ' query IP SwitchPower supply list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'power'
     },
@@ -244,7 +244,7 @@ ACTIONS = {
     },
     'port_list': {
         'func': port_list,
-        'description': ' query IP Switch portList info',
+        'description': ' query IP Switch port list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },

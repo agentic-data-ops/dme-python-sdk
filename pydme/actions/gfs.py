@@ -350,7 +350,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         sort_key: Sort key (Optional). Options: progress (Task execution progress), real_start_time (actual start time), real_finish_time (task actualEnd time)
 
     Returns:
-        Data migrationTask list
+        Data migration task list
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/query"
 
@@ -391,7 +391,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
 
 def migration_task_show(client: DMEAPIClient, id: str) -> dict:
     """
-     query Omni-Dataverse Data migrationTask details
+     query Omni-Dataverse Data migration task details
 
     Args:
         client: DME API client
@@ -731,7 +731,7 @@ ACTIONS = {
     },
     'migration_task_show': {
         'func': migration_task_show,
-        'description': ' query Omni-Dataverse Data migrationTask details',
+        'description': ' query Omni-Dataverse Data migration task details',
         'params': ['id'],
         'subtopic': 'migration_task'
     },

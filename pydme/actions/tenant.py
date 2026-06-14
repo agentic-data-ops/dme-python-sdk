@@ -17,7 +17,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
                project_id: str = None, availability_zone: str = None,
                scheduler_hints: dict = None, mapping: dict = None) -> dict:
     """
-    ServiceBatch create LUN
+    SService batch create LUN
 
     Args:
         client: DME API client
@@ -102,7 +102,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 def lun_bind_tier(client: DMEAPIClient, volume_id: str,
                        tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    LUN  associatedService level
+    LUN  assoassociated service level
 
     Args:
         client: DME API client
@@ -155,7 +155,7 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 def lun_bind_project(client: DMEAPIClient, volume_id: str,
                         business_group_id: str) -> dict:
     """
-    LUN  associatedProject group
+    LUN  assoassociated project group
 
     Args:
         client: DME API client
@@ -211,7 +211,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
                         limit: int = 200, sort_key: str = 'name',
                         sort_dir: str = 'asc', type: str = None) -> dict:
     """
-    Batch queryService level
+    Batch query service level
 
      Query service level list, supports filtering by name, project ID, AZ, storage ID and pagination. 
 
@@ -299,9 +299,9 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
 def project_list(client: DMEAPIClient, name: str = None,
                   start: int = 1, limit: int = 20) -> dict:
     """
-    Batch queryProject group
+    Batch query project group
 
-     queryProject group list, supports name filtering and pagination. 
+     query project group list, supports name filtering and pagination. 
 
     Args:
         client: DME API client
@@ -366,7 +366,7 @@ ACTIONS = {
     # tier Subtopic
     'tier_list': {
         'func': tier_list,
-        'description': 'Batch queryService level',
+        'description': 'Batch query service level',
         'params': ['name', 'project_id', 'available_zone_id', 'storage_array_id', 'start', 'limit', 'sort_key', 'sort_dir', 'type'],
         'subtopic': 'tier'
     },
@@ -379,7 +379,7 @@ ACTIONS = {
     # project Subtopic
     'project_list': {
         'func': project_list,
-        'description': 'Batch queryProject group',
+        'description': 'Batch query project group',
         'params': ['name', 'start', 'limit'],
         'subtopic': 'project'
     },
@@ -392,7 +392,7 @@ ACTIONS = {
     # lun Subtopic
     'lun_create': {
         'func': lun_create,
-        'description': 'ServiceBatch create LUN',
+        'description': 'SService batch create LUN',
         'params': ['volumes', 'service_level_id', 'task_remarks', 'project_id', 'availability_zone', 'scheduler_hints', 'mapping'],
         'subtopic': 'lun'
     },
@@ -404,7 +404,7 @@ ACTIONS = {
     },
     'lun_bind_tier': {
         'func': lun_bind_tier,
-        'description': 'LUN  associatedService level',
+        'description': 'LUN  assoassociated service level',
         'params': ['volume_id', 'tier_id'],
         'subtopic': 'lun'
     },
@@ -416,7 +416,7 @@ ACTIONS = {
     },
     'lun_bind_project': {
         'func': lun_bind_project,
-        'description': 'LUN  associatedProject group',
+        'description': 'LUN  assoassociated project group',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },

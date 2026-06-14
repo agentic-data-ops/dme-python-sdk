@@ -110,7 +110,7 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query CMDB systemApplication list. 
+     query CMDB system application list. 
 
     Args:
         client: DME API client
@@ -145,7 +145,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
 
 def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dict:
     """
-     based onInitiator list query CMDB host list. 
+     based on initiator list query CMDB host list. 
 
     Args:
         client: DME API client
@@ -194,13 +194,13 @@ ACTIONS = {
     },
     'cmdb_app_list': {
         'func': cmdb_app_list,
-        'description': ' query CMDB systemApplication list',
+        'description': ' query CMDB system application list',
         'params': ['system_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_query_by_initiators': {
         'func': cmdb_host_query_by_initiators,
-        'description': ' based onInitiator list query CMDB host list',
+        'description': ' based on initiator list query CMDB host list',
         'params': ['initiators'],
         'subtopic': 'cmdb'
     },

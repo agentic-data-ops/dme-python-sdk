@@ -451,7 +451,7 @@ def remove(client: DMEAPIClient, ids: list) -> dict:
 
 def sync(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    SyncStorage device info, This API is async. 
+    Sync storage device info, This API is async. 
 
     Args:
         client: DME API client
@@ -1088,7 +1088,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    Modify storage device (only supportsModify recorded offlineStorage device info) 
+    Modify storage device (only suppsupports modify recorded offline storage device info) 
 
     Args:
         client: DME API client. 
@@ -3203,13 +3203,13 @@ ACTIONS = {
     },
     'sync': {
         'func': sync,
-        'description': 'SyncStorage device info',
+        'description': 'Sync storage device info',
         'params': ['storage_id'],
         'subtopic': None
     },
     'modify': {
         'func': modify,
-        'description': 'Modify storage device (only supportsModify recorded offlineStorage device info) ',
+        'description': 'Modify storage device (only suppsupports modify recorded offline storage device info) ',
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
         'subtopic': None
     },

@@ -3315,7 +3315,7 @@ ACTIONS = {
     # Port groupsubtopic actions (san port_group xxx) 
     'port_group_list': {
         'func': port_group_list,
-        'description': 'Batch queryPort group',
+        'description': 'Batch query port group',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'port_group'
     },

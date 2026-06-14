@@ -72,9 +72,9 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
                         quota_type: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query backup clusterTenant quota list
+    Query backup cluster tenant quota list
     
-    Query backup clusterTenant quota list. 
+    Query backup cluster tenant quota list. 
     
     Args:
         client: DME API client
@@ -124,7 +124,7 @@ ACTIONS = {
     },
     'cluster_quota': {
         'func': cluster_quota,
-        'description': 'Query backup clusterTenant quota list',
+        'description': 'Query backup cluster tenant quota list',
         'params': ['cluster_id', 'quota_type', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },

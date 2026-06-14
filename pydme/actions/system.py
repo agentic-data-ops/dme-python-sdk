@@ -147,7 +147,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    Batch queryUser info. 
+    Batch query user info. 
 
     Args:
         client: DME API client
@@ -180,7 +180,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    Batch queryRole info. 
+    Batch query role info. 
 
     Args:
         client: DME API client
@@ -324,7 +324,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
                end_time_from: str = None, end_time_to: str = None,
                sort_key: str = None, sort_dir: str = None) -> dict:
     """
-     queryPending task group list
+     query pending task group list
 
     Args:
         client: DME API client
@@ -389,7 +389,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
 
 def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
     """
-     executePending task group
+     execute pending task group
 
     Execute specifiedPending task group. 
 
@@ -463,7 +463,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
 def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
-     queryPending itemDetails info
+     query pending itemDetails info
 
     Query pending item details. 
 
@@ -1251,7 +1251,7 @@ ACTIONS = {
     # subtopic actions - user (three-level structure)
     'user_list': {
         'func': user_list,
-        'description': 'Batch queryUser info',
+        'description': 'Batch query user info',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'user'
     },
@@ -1276,7 +1276,7 @@ ACTIONS = {
     # subtopic actions - role (three-level structure)
     'role_list': {
         'func': role_list,
-        'description': 'Batch queryRole info',
+        'description': 'Batch query role info',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
@@ -1290,7 +1290,7 @@ ACTIONS = {
     # subtopic actions - todo_task_group (three-level structure)
     'todo_task_group_list': {
         'func': todo_task_group_list,
-        'description': ' queryPending task group list',
+        'description': ' query pending task group list',
         'params': ['group_id', 'name', 'creator_name', 'is_finished', 'is_group',
                    'start', 'limit', 'status', 'todo_item_status',
                    'start_time_from', 'start_time_to', 'end_time_from',
@@ -1299,7 +1299,7 @@ ACTIONS = {
     },
     'todo_task_group_execute': {
         'func': todo_task_group_execute,
-        'description': ' executePending task group',
+        'description': ' execute pending task group',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },

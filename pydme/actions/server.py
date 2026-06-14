@@ -178,7 +178,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
 def fan_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query on serverFan
+    Query on server fan
     
     Args:
         client: DME API client
@@ -204,7 +204,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
 def power_list(client: DMEAPIClient, server_id: str,
                      start: int = 1, limit: int = 100) -> dict:
     """
-    Query on serverPower supply
+    Query on server power supply
     
     Args:
         client: DME API client
@@ -325,14 +325,14 @@ ACTIONS = {
     # subtopic actions - fan (three-level structure)
     'fan_list': {
         'func': fan_list,
-        'description': 'Query on serverFan',
+        'description': 'Query on server fan',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
     # subtopic actions - power (three-level structure)
     'power_list': {
         'func': power_list,
-        'description': 'Query on serverPower supply',
+        'description': 'Query on server power supply',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },

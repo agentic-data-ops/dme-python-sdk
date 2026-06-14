@@ -126,7 +126,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
 def namespace_list(client: DMEAPIClient, cluster_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query containerNamespace list
+    Query container namespace list
     
     Args:
         client: DME API client

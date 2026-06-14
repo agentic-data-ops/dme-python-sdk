@@ -147,7 +147,7 @@ def group_modify(client: DMEAPIClient, pg_id: str, name: str = None,
 
 def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
     """
-    Batch deleteProtection group
+    Batch delete protection group
 
     >![](public_sys-resources/icon-notice.gif) **: **
     This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
@@ -270,7 +270,7 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           local_vstore_raw_id: str = None, remote_vstore_id: str = None,
                           remote_vstore_raw_id: str = None) -> dict:
     """
-    Batch queryActive-active consistency group
+    Batch query active-active consistency group
 
     Args:
         client: DME API client
@@ -422,7 +422,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
 def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
                              is_self_adapt: bool = None) -> dict:
     """
-    Batch deleteActive-active consistency group
+    Batch delete active-active consistency group
 
     Args:
         client: DME API client
@@ -762,7 +762,7 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
 def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None,
                             is_lun_service_interrupt: bool = None) -> dict:
     """
-    Batch deleteActive-active Pair
+    Batch delete active-active Pair
 
     >![](public_sys-resources/icon-notice.gif) **: **
     This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
@@ -896,7 +896,7 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
                             types: list = None) -> dict:
     """
-    Batch queryActive-active domain
+    Batch query active-active domain
 
     Args:
         client: DME API client
@@ -2460,7 +2460,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
                       health_status: str = None, running_status: str = None,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryActive-active tenant pair list. 
+     query active-active tenant pair list. 
 
     Args:
         client: DME API client
@@ -2537,7 +2537,7 @@ def vstore_pair_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch deleteActive-active tenantPair. 
+    Batch delete active-active tenantPair. 
 
     Args:
         client: DME API client
@@ -2758,7 +2758,7 @@ ACTIONS = {
     },
     'group_delete': {
         'func': group_delete,
-        'description': 'Batch deleteProtection group',
+        'description': 'Batch delete protection group',
         'params': ['pg_ids'],
         'subtopic': 'group'
     },
@@ -2777,7 +2777,7 @@ ACTIONS = {
     # hypermetro_group subtopic actions
     'hypermetro_group_list': {
         'func': hypermetro_group_list,
-        'description': 'Batch queryActive-active consistency group',
+        'description': 'Batch query active-active consistency group',
         'params': ['page_no', 'page_size', 'name', 'raw_id', 'protect_group_id', 'storage_id', 'storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'remote_vstore_id', 'remote_vstore_raw_id'],
         'subtopic': 'hypermetro_group'
     },
@@ -2795,7 +2795,7 @@ ACTIONS = {
     },
     'hypermetro_group_delete': {
         'func': hypermetro_group_delete,
-        'description': 'Batch deleteActive-active consistency group',
+        'description': 'Batch delete active-active consistency group',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'hypermetro_group'
     },
@@ -2850,7 +2850,7 @@ ACTIONS = {
     },
     'hypermetro_pair_delete': {
         'func': hypermetro_pair_delete,
-        'description': 'Batch deleteActive-active Pair',
+        'description': 'Batch delete active-active Pair',
         'params': ['ids', 'delete_mode', 'is_lun_service_interrupt'],
         'subtopic': 'hypermetro_pair'
     },
@@ -2881,7 +2881,7 @@ ACTIONS = {
     # hypermetro_domain subtopic actions
     'hypermetro_domain_list': {
         'func': hypermetro_domain_list,
-        'description': 'Batch queryActive-active domain',
+        'description': 'Batch query active-active domain',
         'params': ['storage_id', 'types'],
         'subtopic': 'hypermetro_domain'
     },
@@ -3142,7 +3142,7 @@ ACTIONS = {
     },
     'vstore_pair_list': {
         'func': vstore_pair_list,
-        'description': ' queryActive-active tenant pair list',
+        'description': ' query active-active tenant pair list',
         'params': ['ids', 'name', 'status', 'local_storage_id', 'remote_storage_id', 'health_status', 'running_status', 'page_no', 'page_size'],
         'subtopic': 'vstore_hypermetro_pair'
     },
@@ -3154,7 +3154,7 @@ ACTIONS = {
     },
     'vstore_pair_delete': {
         'func': vstore_pair_delete,
-        'description': 'Batch deleteActive-active tenantPair',
+        'description': 'Batch delete active-active tenantPair',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },

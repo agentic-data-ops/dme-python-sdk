@@ -727,7 +727,7 @@ ACTIONS = {
     },
     'controller_list': {
         'func': controller_list,
-        'description': ' query switchController list',
+        'description': ' query switch controller list',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },

@@ -248,9 +248,9 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
 
 def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
     r"""
-    Acknowledge alarm
+    Acknowledgege alarm
 
-    Acknowledge (ACK) specified alarm.
+    Acknowledgege (ACK) specified alarm.
 
     Args:
         client: DME API client
@@ -278,7 +278,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
 
 def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     r"""
-     cancelAcknowledge alarm
+     cancelAcknowledgege alarm
 
     Un-acknowledge (UNACK) specified alarm.
 
@@ -401,7 +401,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     return response
 
 
-# ============ Performance monitoringsubtopic functions ============
+# ============ Performancece monitoringsubtopic functions ============
 
 
 def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_time: int,
@@ -447,7 +447,7 @@ def performance_download_collect_result(client: DMEAPIClient, task_id: str) -> d
         task_id: task  ID(Required)
 
     Returns:
-        Performance file download link or content
+        Performancece file download link or content
     """
     url = "/rest/pmmgmt/v1/performance-data/download/{task_id}"
 
@@ -461,7 +461,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
           range: str = None, begin_time: int = None,
           end_time: int = None) -> dict:
     """
-    Query historyPerformance data
+    Query historyPerformancece data
 
     Based on input parameters"range"Enum values or from start toEnd timeQuery data within range.
     With aggregated data,Returned result sequence is average,includes max, min and corresponding timestamps.
@@ -607,11 +607,11 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     """
     Query health-related data
 
-     queryCapacity prediction, Performance prediction, performance anomalyhealth-related data. 
+     queryCapacity prediction, Performancece prediction, performance anomalyhealth-related data. 
 
     Args:
         client: DME API client
-        type: Data type (Required) , Options: capacity_prediction (Capacity prediction) , performance_prediction (Performance prediction) , performance_anomaly (performance anomaly) 
+        type: Data type (Required) , Options: capacity_prediction (Capacity prediction) , performance_prediction (Performancece prediction) , performance_anomaly (performance anomaly) 
         object_id:  resource ID (Required, 1~256  characters) 
         begin_time: Start time (Required) , from Jan 1, 1970 (00:00:00GMT) to current time in ms
         end_time: End time (Required) , from Jan 1, 1970 (00:00:00GMT) to current time in ms
@@ -714,7 +714,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                            dpc, gfs, dpc_client, vbs_client
         health_dimension: Health dimension (Required) 
                         Options: alarm , performance_anomaly (performance anomaly) ,
-                              performance_prediction (Performance warning) , capacity_prediction (Capacity warning) 
+                              performance_prediction (Performancece warning) , capacity_prediction (Capacity warning) 
 
     Returns:
         {
@@ -734,7 +734,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
 
 
-# ============ Performance monitoringsubtopic functions ============
+# ============ Performancece monitoringsubtopic functions ============
 
 
 
@@ -801,7 +801,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         status:  Policy status (normal, checking, failed, queued) 
         policy_type: Policy type (performance threshold, capacity threshold, availability, 
                     configuration- config, recyclable- recyclable resource, lowload- low load resource, 
-                    performance_anomaly-performance anomaly, performance_prediction-Performance warning, 
+                    performance_anomaly-performance anomaly, performance_prediction-Performancece warning, 
                     capacity_prediction-Capacity warning, history_performance-History performance, 
                     load imbalance, high-load resource) 
         policy_source:  source (pre-define, user-define) 
@@ -1326,13 +1326,13 @@ ACTIONS = {
     },
     'alarm_ack': {
         'func': alarm_ack,
-        'description': 'Acknowledge alarm',
+        'description': 'Acknowledgege alarm',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
     'alarm_unack': {
         'func': alarm_unack,
-        'description': ' cancelAcknowledge alarm',
+        'description': ' cancelAcknowledgege alarm',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
@@ -1369,7 +1369,7 @@ ACTIONS = {
     },
     'performance_query': {
         'func': performance_query,
-        'description': 'Query historyPerformance data',
+        'description': 'Query historyPerformancece data',
         'params': ['obj_type_id', 'indicator_ids', 'obj_ids', 'obj_type', 'indicators', 'ext_dimensions', 'interval', 'range', 'begin_time', 'end_time'],
         'subtopic': 'performance'
     },
@@ -1463,7 +1463,7 @@ ACTIONS = {
     # health subtopic actions
     'health_query_data': {
         'func': health_query_data,
-        'description': 'Query health-related data (Capacity prediction/Performance prediction/performance anomaly) ',
+        'description': 'Query health-related data (Capacity prediction/Performancece prediction/performance anomaly) ',
         'params': ['type', 'object_id', 'begin_time', 'end_time', 'object_type', 'indicator'],
         'subtopic': 'health'
     },

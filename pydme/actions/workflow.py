@@ -56,7 +56,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
 
 def template_groups(client: DMEAPIClient) -> dict:
     """
-    Query allTemplate group
+    Query all template group
     
     Query allWorkflowTemplate group. 
     
@@ -78,7 +78,7 @@ def template_groups(client: DMEAPIClient) -> dict:
 def template_show(client: DMEAPIClient, template_id: str,
                   template_version_id: str = None) -> dict:
     """
-     query templateDetails
+     query template details
     
     Query template details.
     
@@ -237,7 +237,7 @@ ACTIONS = {
     },
     'template_show': {
         'func': template_show,
-        'description': ' query templateDetails',
+        'description': ' query template details',
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },
