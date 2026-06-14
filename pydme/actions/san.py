@@ -206,10 +206,10 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         vstore_id:  Tenant ID (Optional), 1~64  characters; for OceanStor V300R006C00, V500R007C00, Dorado 6.1.3, OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: Initial capacity allocation policy(Optional) , Huawei V3/V5 and Dorado series onlyries not support; 
-                                  Options: automatic, highest_performance, performance) , capacity层) ; default automatic
+                                  Options: automatic, highest_performance, performance, capacity; default automatic
         prefetch_policy: Prefetch policy (Optional) , Affects disk read; 
                         Options: no_prefetch ( no prefetch) , constant_prefetch (Fixed prefetch) , variable_prefetch (Variable prefetch) , intelligent_prefetch (Smart prefetch) ; default intelligent_prefetch
-        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set value is fixed or variable prefetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
+        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set to fixed or variablee prefetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
         tuning:  tuning (Optional), CustomizeLunTuning object.  parameter format: {
                 smart_tier: Data migration policy. Options: no_migration, automatic_migration, migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
                 deduplication_enabled: Deduplication (Thin LUN only). Options: true, false,
@@ -218,9 +218,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 smart_qos: Smart QoSobject.  format: {
                         max_bandwidth: Max bandwidth (1~999999999Mbit/s; mutually exclusive with min_bandwidth/min_iops),
                         max_iops: Max IOPS (1~999999999; mutually exclusive with min_bandwidth/min_iops),
-                        min_bandwidth: Min bandwidth (1~999999999Mbit/s; 与max_bandwidth/max_iopsmutually exclusive),
-                        min_iops: Min IOPS (1~999999999; 与max_bandwidth/max_iopsmutually exclusive),
-                        latency: Latency (1~999999999ms; Dorado V6系列unit 为us, Optional值为500/1500; 与max_bandwidth/max_iopsmutually exclusive),
+                        min_bandwidth: Min bandwidth (1~999999999Mbit/s; mutually exclusive with max_bandwidth/max_iops),
+                        min_iops: Min IOPS (1~999999999; mutually exclusive with max_bandwidth/max_iops),
+                        latency: Latency (1~999999999ms; Dorado V6: unit is us, options: 500/1500; mutually exclusive with max_bandwidth/max_iops),
                 },
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
@@ -228,13 +228,13 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 host_id: Host ID (1~64 characters; one of with hostgroup_id, cannot coexist),
                 hostgroup_id: Host group ID (1~64 characters; one of with host_id, cannot coexist),
                 host_type:  mappingHost type. Options: storage_host (Storage host), host ( host). defaulthost,
-                start_host_lun_id: 起始 hostLUN ID (1~4096),
+                start_host_lun_id: Starting host LUN ID (1~4096),
                 mapping_view: Mapping view request info (LunMappingRequestobject).  format: {
                         mapping_view_raw_id: Mapping viewon the storage deviceID (1~31 characters),
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
-                        lun_group_raw_id: LUN组on the storage deviceID (1~31 characters),
-                        lun_group_name: LUN组on the storage device name (1~255 characters),
-                        port_group_raw_id: Port groupon the storage deviceID (1~31 characters; Host or host group does not existMapping relationship时可 specified, 存在Mapping relationship not available when specified),
+                        lun_group_raw_id: LUN group ID on storage device (1~31 characters),
+                        lun_group_name: LUN group name on storage device (1~255 characters),
+                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existpping relationship时可 specified, 存在Mapping relationship not available when specified),
                 },
              }
         task_remarks: Async taskRemark(Optional) ,  max 1024  characters
@@ -247,7 +247,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
     url = "/rest/blockservice/v1/volumes/customize"
 
     if not storage_id:
-        raise ValueError("storage_id 是Required parameter")
+        raise ValueError("storage_id is required")
 
     payload = {
         'storage_id': storage_id
@@ -651,7 +651,7 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
     url = "/rest/blockservice/v1/lun-groups"
 
     if not storage_id or not name:
-        raise ValueError("storage_id 和 name 是Required parameter")
+        raise ValueError("storage_id and name are required")
 
     body_params = {
         'storage_id': storage_id,
@@ -1621,7 +1621,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     Args:
         client: DME API Client
         storage_host_group_id: Storage host group ID (Required)
-        storage_host_id_ids:  storageHost ID list (Optional, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
+        storage_host_id_ids:  Storage host ID list (Optional, mutually exclusive with create_storage_host_params, max array members: 1000)
         create_storage_host_params: create 新的Storage host list (Optional, 与storage_host_id_idsmutually exclusive, max array members: 1000). 参数格式如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
@@ -1629,13 +1629,13 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                 description:  host description (Optional,  max63 characters),
                 initiators: Initiator list (Optional, max array members: 1000). 参数格式如下：[{
                         protocol: Initiator type (Required). Options: fc, iscsi, nvme_over_roce,
-                        raw_id:  hostInitiatorwwpn或iqn或nqn (Required, 1~223 characters),
+                        raw_id:  host initiator WWPN, IQN or NQN (Required, 1~223 characters),
                         alias: Initiator alias (Optional,  max31 characters),
                      }, ...],
                 multipath:  multipath config (Optional).  format: {
                         multipath_type: Third-party multipath policy (Required). Options: default (default), third_party (Third-party multipath),
-                        path_type: Initiator路径 type (Optional,  enableThird-party multipatheffective when). Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
-                        failover_mode: Initiator switch mode (Optional,  enableThird-party multipatheffective when). Options: early_version_alua, common_alua, alua_not_used, special_alua,
+                        path_type: Initiator path type (Optional,  effective when third-party multipath is enabled). Options: optimal_path (Preferred path), non_optimal_path (非Preferred path),
+                        failover_mode: Initiator switch mode (Optional,  effective when third-party multipath is enabled). Options: early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (Optional, effective when failover mode is special). Options: mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
@@ -1674,7 +1674,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     """
     Remove host from storage host group
 
-    从 specified的Storage hostRemove one or more hosts from group. 
+    Remove one or more hosts from the specified storage host group. 
 
     Args:
         client: DME API Client
