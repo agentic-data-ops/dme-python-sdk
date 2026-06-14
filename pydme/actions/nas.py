@@ -1169,16 +1169,16 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
 
 def cifs_share_delete(client: DMEAPIClient, cifs_share_ids: list, task_remarks: str = None) -> dict:
     """
-    批量删除 CIFS 共享
+    Batch delete CIFS shares
 
     Args:
-        client: DME API 客户端
-        cifs_share_ids: 需要删除 CIFS 共享的 ID 列表
-        task_remarks: 异步任务备注信息
+        client: DME API client
+        cifs_share_ids: List of CIFS share IDs to delete
+        task_remarks: Async task remark
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/cifs-shares/delete"
@@ -1201,44 +1201,44 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
                           sort_key: str = None, sort_dir: str = None,
                           page_no: int = 1, page_size: int = 10) -> dict:
     """
-    查询单个 CIFS 共享的权限列表
+    Query CIFS share permission list
 
-    查询 CIFS 共享的用户/用户组、IP 地址/IP 地址段、文件扩展名过滤规则等权限信息。
+    Query user/group, IP address/segment, and file extension filter rules for a CIFS share.
 
     Args:
-        client: DME API 客户端
-        cifs_share_id: CIFS 共享 ID
-        type: 权限类型（可选），可选值：user（用户/用户组）、ip（IP 地址/IP 地址段）、file（文件扩展名过滤规则）；
-              不指定时返回所有类型的权限
+        client: DME API client
+        cifs_share_id: CIFS share ID
+        type: Permission type (Optional). Options: user (user/group), ip (IP address/segment), file (file extension filter);
+              returns all types when not specified
 
-        user_filter: 用户权限过滤参数（可选，dict 类型，type=user 时有效）。参数格式如下：{
-                user_or_user_group_name: 用户/用户组名称（可选），1~256 个字符，用于过滤用户/用户组列表,
-                domain_type: 域类型（可选）。可选值：ad_domain（AD域用户/组）、ldap_domain（LDAP域用户/组）、local（本地用户/组）、nis_domain（NIS域用户/组）,
-                permissions: 权限过滤列表（可选），List<Permission> 类型，数组最大成员个数 4。参数格式如下：[{
-                        permission: 权限（可选）。可选值：read（读）、full_control（完全控制）、forbidden（禁止）、read_and_write（读写）、read_and_write_not_del_rename（读写，不能删除、重命名）。默认 read,
+        user_filter: User permission filter (Optional, dict type, effective when type=user)。参数格式如下：{
+                user_or_user_group_name: User/group name (Optional), 1~256 characters,
+                domain_type: Domain type (Optional). Options: ad_domain, ldap_domain, local, nis_domain,
+                permissions: Permission filter list (Optional), List<Permission> type, max array members 4。参数格式如下：[{
+                        permission: Permission (Optional). Options: read, full_control, forbidden, read_and_write, read_and_write_not_del_rename. Default read,
                 },...],
-                user_or_user_group_raw_id: 用户/用户组在存储设备上的 ID（可选），1~256 个字符,
+                user_or_user_group_raw_id: User/group ID on storage device (Optional), 1~256 characters,
         }
 
-        ip_filter: IP 权限过滤参数（可选，dict 类型，type=ip 时有效）。参数格式如下：{
-                ip_addresses_or_segments: IP 地址/IP 地址段（可选），1~256 个字符,
-                ip_or_segments_raw_id: IP 地址/IP 地址段在存储设备上的 ID（可选），1~256 个字符,
+        ip_filter: IP permission filter (Optional, dict type, effective when type=ip)。参数格式如下：{
+                ip_addresses_or_segments: IP address/segment (Optional), 1~256 characters,
+                ip_or_segments_raw_id: IP address/segment ID on storage device (Optional), 1~256 characters,
         }
 
-        file_filter: 文件扩展名过滤参数（可选，dict 类型，type=file 时有效）。参数格式如下：{
-                rule_type: 文件扩展名类型过滤（可选）。可选值：reject（只拒绝）、permit（只允许）,
-                file_name_extension: 文件扩展名名称过滤（可选），1~256 个字符,
-                file_extension_name_raw_id: 文件扩展名过滤规则在存储上的 ID（可选），1~256 个字符,
+        file_filter: File extension filter (Optional, dict type, effective when type=file)。参数格式如下：{
+                rule_type: File extension type filter (Optional). Options: reject, permit,
+                file_name_extension: File extension name filter (Optional), 1~256 characters,
+                file_extension_name_raw_id: File extension filter rule ID on storage (Optional), 1~256 characters,
         }
 
-        # 通用分页排序参数
-        sort_key: 排序字段（可选），可选值：raw_id、name
-        sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
-        page_no: 分页页码（可选），1~10000000，默认 1
-        page_size: 每页数据条数（可选），1~1000，默认 10
+        # Common pagination and sort parameters
+        sort_key: Sort field (Optional). Options: raw_id, name
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending), default asc
+        page_no: Page number (Optional), 1~10000000, default 1
+        page_size: Items per page (Optional), 1~1000, default 10
 
     Returns:
-        权限列表
+        Permission list
     """
     result = {'user': [], 'ip': [], 'file': []}
 
@@ -1340,7 +1340,7 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
 
 
 # ============================================================================
-# dataturbo_share (DataTurbo 共享) 子主题相关动作
+# DataTurbo share subtopic functions
 # ============================================================================
 
 def dataturbo_share_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
