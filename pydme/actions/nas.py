@@ -302,24 +302,24 @@ def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None
 
 def dtree_show(client: DMEAPIClient, dtree_id: str) -> dict:
     """
-    查询指定 Dtree 详情。
+    Query Dtree details.
 
     Args:
-        client: DME API 客户端
-        dtree_id: Dtree ID (必选, string)
+        client: DME API client
+        dtree_id: Dtree ID (Required, string)
 
     Returns:
         {
             id: Dtree ID (string),
-            name: Dtree 名称 (string),
-            path: 路径 (string),
-            fs_id: 文件系统ID (string),
+            name: Dtree name (string),
+            path: Path (string),
+            fs_id: Filesystem ID (string),
         }
     """
     url = "/rest/fileservice/v1/dtrees/{dtree_id}"
 
     if not dtree_id:
-        raise ValueError("dtree_id 是必选参数")
+        raise ValueError("dtree_id is required")
 
     response = client.get(url, params={"dtree_id": dtree_id})
     return response
@@ -333,59 +333,59 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
                  dataturbo_share: dict = None, create_worm_param: dict = None,
                  unix_permissions: str = None, task_remarks: str = None) -> dict:
     """
-    创建并共享 Dtree
+    Create and share Dtree
 
-    创建 Dtree，同时将 Dtree 以 NFS、CIFS 或 DataTurbo 共享。
+    Create a Dtree and share it via NFS, CIFS, or DataTurbo.
 
     Args:
-        client: DME API 客户端
-        storage_id: dtree 所属存储设备 ID，1~64个字符
-        create_dtrees_param: Dtree 名称和数量信息列表 (条件必传)。参数格式如下：[{
-                dtree_name: Dtree名称 (1~255个字符, 正则: ^[^,//:]+$, 支持字母数字空格和部分特殊字符; 若单次请求创建多个Dtree, 名称从0000起累加区分),
-                count: 单次创建Dtree数量 (int, 单组上限500个, 各组上限总和为500个),
+        client: DME API client
+        storage_id: Storage device ID for the dtree, 1~64 characters
+        create_dtrees_param: Dtree name and count list (Conditionally Required)。参数格式如下：[{
+                dtree_name: Dtree name (1~255 characters, regex: ^[^,//:]+$, supports letters, digits, spaces and special chars; when creating multiple dtrees, names start from 0000),
+                count: Number of dtrees to create (int, max 500 per group, total 500 across groups),
              }, ...]
-        fs_id: dtree 所属文件系统 ID，与 namespace_id 互斥，集中式存储时必填
-        namespace_id: dtree 所属命名空间 ID，与 fs_id 互斥，分布式存储时必填
-        zone_id: dtree 所属 zone 的 ID，仅 OceanStor A800/A600 系列存储支持，长度36个字符
-        parent_dir: 目录父级，分布式存储时有效，1~4008个字符
-        quota_switch: 配额开关，true/false，默认 false
-        security_mode: 安全模式，mixed/native/ntfs/unix。若型号支持则必填。v3系列V300R006C60及以上、v5系列V500R007C50及以上、v6系列6.1.2及以上支持
-        nas_locking_policy: NAS 锁策略，mandatory/advisory/unknown
-        create_nfs_share_param: 关联创建NFS共享。创建多个Dtree时不支持指定该参数。格式参见动作帮助：nas nfs_share create
-        create_cifs_share_param: 关联创建CIFS共享，创建多个Dtree时不支持指定该参数。格式参见动作帮助：nas cifs_share create
-        dataturbo_share: 关联创建DataTurbo共享 (可选)。参数格式如下：{
-                description: DataTurbo共享描述 (可选, 0~255个字符),
-                charset: 字符集编码 (必选, 固定值UTF_8),
-                dpc_share_auth: DataTurbo管理员列表 (可选)。参数格式如下：[{
-                        dpc_user_id: DataTurbo管理员ID (必选, 0~64个字符),
-                        permission: DataTurbo管理员权限 (必选, 固定值read_and_write),
+        fs_id: Filesystem ID for the dtree, mutually exclusive with namespace_id, required for centralized storage
+        namespace_id: Namespace ID for the dtree, mutually exclusive with fs_id, required for distributed storage
+        zone_id: Zone ID for the dtree, OceanStor A800/A600 series only, 36 characters
+        parent_dir: Parent directory, effective for distributed storage, 1~4008 characters
+        quota_switch: Quota switch, true/false, default false
+        security_mode: Security mode, mixed/native/ntfs/unix. Required if supported by model
+        nas_locking_policy: NAS locking policy, mandatory/advisory/unknown
+        create_nfs_share_param: Create NFS share. Not supported when creating multiple dtrees.
+        create_cifs_share_param: Create CIFS share. Not supported when creating multiple dtrees.
+        dataturbo_share: Create DataTurbo share (Optional)。参数格式如下：{
+                description: DataTurbo share description (Optional, 0~255 characters),
+                charset: Character set encoding (Required, fixed value UTF_8),
+                dpc_share_auth: DataTurbo admin list (Optional)。参数格式如下：[{
+                        dpc_user_id: DataTurbo admin ID (Required, 0~64 characters),
+                        permission: DataTurbo admin permission (Required, fixed value read_and_write),
                      }, ...]
              }
-        create_worm_param: WORM配置 (可选)。参数格式如下：{
-                worm_mode: 策略模式 (必选)。可选值：enterprise_mode (企业级), compliance_mode (法规级),
-                min_protected_period: 最小保留时间 (必选, 0~36817920, 0代表无限期),
-                min_protected_period_unit: 最小保留时间单位 (必选)。可选值：day, year, month, hour, minute。A310或OceanStor Pacific 8.2.1及以上支持month/hour/minute,
-                max_protected_period: 最大保留时间 (必选, 0~36817920, 0代表无限期),
-                max_protected_period_unit: 最大保留时间单位 (必选)。可选值：day, year, month, hour, minute, infinite。A310或OceanStor Pacific 8.2.1及以上支持month/hour/minute,
-                def_protected_period: 默认保留时间 (必选, 0~36817920, 0代表无限期),
-                def_protected_period_unit: 默认保留时间单位 (必选)。可选值：day, year, month, hour, minute, infinite。A310或OceanStor Pacific 8.2.1及以上支持month/hour/minute,
-                auto_lock_enabled: 自动锁定开关 (可选, 默认false; 开启后若指定时间内文件未修改则自动锁定),
-                auto_lock_time: 自动锁定时间 (可选, 1~64800; 单位为day时1~45, hour时1~1080, minute时1~64800),
-                auto_lock_unit: 自动锁定时间单位 (可选)。可选值：day, minute, hour,
-                legal_hold_modify: legal hold文件修改权限 (可选, 默认false),
+        create_worm_param: WORM configuration (Optional)。参数格式如下：{
+                worm_mode: Policy mode (Required). Options: enterprise_mode, compliance_mode,
+                min_protected_period: Minimum retention period (Required, 0~36817920, 0 = indefinite),
+                min_protected_period_unit: Minimum retention unit (Required). Options: day, year, month, hour, minute,
+                max_protected_period: Maximum retention period (Required, 0~36817920, 0 = indefinite),
+                max_protected_period_unit: Maximum retention unit (Required). Options: day, year, month, hour, minute, infinite,
+                def_protected_period: Default retention period (Required, 0~36817920, 0 = indefinite),
+                def_protected_period_unit: Default retention unit (Required). Options: day, year, month, hour, minute, infinite,
+                auto_lock_enabled: Auto-lock switch (Optional, default false; auto-locks files unchanged within specified time),
+                auto_lock_time: Auto-lock time (Optional, 1~64800; day:1~45, hour:1~1080, minute:1~64800),
+                auto_lock_unit: Auto-lock time unit (Optional). Options: day, minute, hour,
+                legal_hold_modify: Legal hold file modification permission (Optional, default false),
              }
-        unix_permissions: Dtree 目录权限，正则 [0-7]{3}，如 755。
-        task_remarks: 异步任务备注信息，0~1024个字符
+        unix_permissions: Dtree directory permissions, regex [0-7]{3}, e.g. 755.
+        task_remarks: Async task remark, 0~1024 characters
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/dtrees"
 
     if not storage_id or not create_dtrees_param:
-        raise ValueError("storage_id 和 create_dtrees_param 是必选参数")
+        raise ValueError("storage_id and create_dtrees_param are required")
 
     payload = {
         'storage_id': storage_id,
@@ -425,22 +425,22 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
 
 def dtree_delete(client: DMEAPIClient, dtree_ids: list, task_remarks: str = None) -> dict:
     """
-    批量删除 Dtree。
+    Batch delete Dtree.
 
     Args:
-        client: DME API 客户端
-        dtree_ids: 待删除 Dtree ID 列表 (必选, List[string])
-        task_remarks: 异步任务备注信息 (可选, string, 最多1024个字符)
+        client: DME API client
+        dtree_ids: Dtree ID list to delete (Required, List[string])
+        task_remarks: Async task remark (Optional, string, max 1024 characters)
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/dtrees/delete"
 
     if not dtree_ids or len(dtree_ids) == 0:
-        raise ValueError("dtree_ids 是必选参数")
+        raise ValueError("dtree_ids is required")
 
     payload = {
         'dtree_ids': dtree_ids
@@ -458,21 +458,21 @@ def dtree_modify(client: DMEAPIClient, dtree_id: str, name: str = None,
                  nas_locking_policy: str = None, unix_permissions: str = None,
                  task_remarks: str = None) -> dict:
     """
-    修改指定 Dtree
+    Modify Dtree
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         dtree_id: Dtree ID
-        name: Dtree 名称
-        quota_switch: 配额开关，true/false
-        security_mode: 安全模式，mixed/native/ntfs/unix
-        nas_locking_policy: NAS 锁策略，mandatory/advisory/unknown
-        unix_permissions: Dtree 目录权限，如 755
-        task_remarks: 异步任务备注信息
+        name: Dtree name
+        quota_switch: Quota switch, true/false
+        security_mode: Security mode, mixed/native/ntfs/unix
+        nas_locking_policy: NAS locking policy, mandatory/advisory/unknown
+        unix_permissions: Dtree directory permissions, e.g. 755
+        task_remarks: Async task remark
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/dtrees/{dtree_id}"
