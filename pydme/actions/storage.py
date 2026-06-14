@@ -905,7 +905,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         mgmt_ip: Node managementIP address(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         frame_number: Rack/ rack number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         slot_number: Slot number in rack(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        status: Node status(Optional). Options: UNKNOWN, NORMAL, FAULT, PRE_FAIL, PARTIALLY_DAMAGED, DEGRADED, BAD_SECTORS_FOUND), BIT_ERRORS_FOUNDOUND ( has error code), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
+        status: Node status(Optional). Options: UNKNOWN, NORMAL, FAULT, PRE_FAIL, PARTIALLY_DAMAGED, DEGRADED, BAD_SECTORS_FOUND, BIT_ERRORS_FOUNDOUND ( has error code), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
         roles:  nodeRole list(Optional, List<string>, max array members: 10). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
         page_no: Page number(Optional, 1~10000, default 1) 
         page_size: Page size(Optional, 1~1000, default 20) 
@@ -1170,7 +1170,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
         client: DME API client. 
         storage_id: Storage device id (1~36 characters, must satisfy UUID format). 
         create_type: Create type (Optional, 0~1). Options: 0 ( system preset), 1 (user defined). returns all types if not provided. 
-        template_type: Application type category (Optional, 0~1). Options: 0 (LUN), 1 (NAS). 不传defaultLUN. 
+        template_type: Application type category (Optional, 0~1). Options: 0 (LUN), 1 (NAS). default: LUN if not specified. 
         pool_id: Storage poolid (Optional, 1~64 characters,  letters and digits). 
     
     Returns:
@@ -1318,7 +1318,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         health_status: Health status list(Optional, List<string>, max array members: 3). Options: unknown, normal, faulty ( fault)
         zone_name: ZoneName (Optional,1~255 characters) , OceanStor A800 series only, supports fuzzy match
         zone_id: Zone ID list(Optional, List<string>, max array members: 100) , OceanStor A800 series only
-        running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown, normal, running, sleep_in_high_temperaturee (高温休眠), online, offline
+        running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown, normal, running, sleep_in_high_temperature, online, offline
         power_mode: Power supply mode list(Optional, List<string>, max array members: 2). Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
         esn: EnclosureSerial number(Optional, 1~256 characters) , supports fuzzy match
         mac: MAC address(Optional, 1~256 characters) , supports fuzzy match
@@ -1337,7 +1337,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     location: Enclosure location (1~128 characters),
                     logic_type:  type. Options: disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
                     health_status: Health status. Options: unknown, normal, faulty ( fault),
-                    running_status: Running status. Options: unknown, normal, running, sleep_in_high_temperaturee (高温休眠), online, offline, abnormalxception),
+                    running_status: Running status. Options: unknown, normal, running, sleep_in_high_temperature, online, offline, abnormalxception),
                     storage_id: Storage deviceID (1~64 characters),
                     storage_name: Storage device name (1~128 characters),
                     storage_ip: Storage deviceIP address (1~32 characters),
@@ -1350,9 +1350,9 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     mac: MAC address (0~512 characters),
                     power_mode: Power supply mode. Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode),
                     bar_code:  barcode (0~256 characters),
-                    board_type: 单板 type (0~128 characters),
+                    board_type: Board type (0~128 characters),
                     description:  description (0~1024 characters),
-                    temperature: 温度, unit °C (0~128 characters),
+                    temperature: Temperature in °C (0~128 characters),
                  }, ...]
         }
     """
@@ -1393,9 +1393,9 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
                    support_provisioning: bool = None, vstore_raw_id: str = None,
                    vstore_name: str = None, storage_id: str = None) -> dict:
     """
-    Batch query storage侧Initiatorobject
+    Batch query storage initiator objects
 
-    Batch query storage侧的Initiatorobject list. 
+    Batch query storage initiator object list. 
 
     Args:
         client: DME API client
@@ -1408,7 +1408,7 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
         associated_host_id: Initiator associatedHost ID (Optional, 0~64 characters; Empty field queries hosts not addedInitiator)
         multipath_type: Third-party multipath policy (Optional, only for non-Dorado V6 product). Options: default (default), third_party (Third-party multipath)
         protocol: Initiator type (Optional). Options: fc, iscsi, nvme_over_roce, sas, nvme_over_fabric, unknown
-        support_provisioning: supports发放 (Optional). Options: true, false
+        support_provisioning: Supports provisioning (Optional). Options: true, false
         vstore_raw_id: Tenant ID (Optional)
         vstore_name: Tenant name (Optional)
         storage_id: Storage device ID (Optional, 0~64 characters)
@@ -1454,11 +1454,11 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
 def initiator_delete(client: DMEAPIClient, initiator_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    Batch deleteStorage device的Initiatorobject
+    Batch delete storage device initiator objects
 
     Args:
         client: DME API client
-        initiator_ids: Initiator ID  list (Required, 1~100 个) 
+        initiator_ids: Initiator ID  list (Required, 1-100) 
         task_remarks: Task remark(Optional, max 1024  character) 
 
     Returns:
@@ -2201,7 +2201,7 @@ def qos_delete(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 
     Args:
         client: DME API client
-        qos_policy_ids: QoS  policy ID  list (Required, 1~100 个) 
+        qos_policy_ids: QoS  policy ID  list (Required, 1-100) 
     """
     url = "/rest/storagepolicy/v1/qos/delete"
 
@@ -3336,7 +3336,7 @@ ACTIONS = {
     },
     'initiator_list': {
         'func': initiator_list,
-        'description': 'Batch query storage侧Initiatorobject',
+        'description': 'Batch query storage initiator objects',
         'params': ['page_size', 'page_no', 'raw_id', 'alias', 'status',
                    'associated_host_name', 'associated_host_id', 'multipath_type',
                    'protocol', 'support_provisioning', 'vstore_raw_id',
@@ -3345,7 +3345,7 @@ ACTIONS = {
     },
     'initiator_delete': {
         'func': initiator_delete,
-        'description': 'Batch deleteStorage device的Initiatorobject',
+        'description': 'Batch delete storage device initiator objects',
         'params': ['initiator_ids', 'task_remarks'],
         'subtopic': 'initiator'
     },
