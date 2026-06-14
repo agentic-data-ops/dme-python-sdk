@@ -13,8 +13,8 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     查询以太网交换机列表信息
     
     Args:
-        client: DME API 客户端
-        name: 交换机名称（可选，支持模糊查询）
+        client: DME API client
+        name: 交换机名称（Optional，supports fuzzy search）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -47,8 +47,8 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     查询 IP 交换机机框列表信息
     
     Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
+        client: DME API client
+        ipswitch_id: IP 交换机 ID（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -74,8 +74,8 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     查询 IP 交换机单板列表信息
     
     Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
+        client: DME API client
+        ipswitch_id: IP 交换机 ID（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -101,8 +101,8 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
     查询 IP 交换机子卡列表信息
     
     Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
+        client: DME API client
+        ipswitch_id: IP 交换机 ID（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -128,8 +128,8 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     查询 IP 交换机电源列表信息
     
     Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
+        client: DME API client
+        ipswitch_id: IP 交换机 ID（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -155,8 +155,8 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
     查询 IP 交换机风扇列表信息
     
     Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
+        client: DME API client
+        ipswitch_id: IP 交换机 ID（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -182,8 +182,8 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     查询 IP 交换机端口列表信息
     
     Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
+        client: DME API client
+        ipswitch_id: IP 交换机 ID（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     

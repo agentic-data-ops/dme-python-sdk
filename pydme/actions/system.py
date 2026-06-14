@@ -16,7 +16,7 @@ def login(client: DMEAPIClient) -> dict:
     提示用户可配置环境变量复用认证密钥，避免重复登录。
 
     Args:
-        client: DME API 客户端
+        client: DME API client
 
     Returns:
         {
@@ -42,7 +42,7 @@ def logout(client: DMEAPIClient) -> dict:
     注销当前已经登录的三方会话或普通会话。
 
     Args:
-        client: DME API 客户端
+        client: DME API client
 
     Returns:
         无
@@ -59,10 +59,10 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。
 
     Args:
-        client: DME API 客户端
-        user_name: 需要重置密码的用户名 (必选, string, 1~128个字符)
-        new_value: 新密码 (必选, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
-        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (必选, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。默认值：true
+        client: DME API client
+        user_name: 需要重置密码的用户名 (Required, string, 1~128个字符)
+        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
+        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。默认值：true
 
     Returns:
         无
@@ -71,9 +71,9 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
     # 参数校验
     if not user_name or len(user_name) > 128:
-        raise ValueError("user_name 是必选参数，1~128个字符")
+        raise ValueError("user_name 是required parameter，1~128个字符")
     if not new_value or len(new_value) < 8 or len(new_value) > 32:
-        raise ValueError("new_value 是必选参数，8~32个字符")
+        raise ValueError("new_value 是required parameter，8~32个字符")
 
     payload = {
         'newValue': new_value,
@@ -89,8 +89,8 @@ def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     删除用户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
-        client: DME API 客户端
-        user_id: 用户ID (必选, integer, 11~2147483647)
+        client: DME API client
+        user_id: 用户ID (Required, integer, 11~2147483647)
 
     Returns:
         无
@@ -99,7 +99,7 @@ def user_delete(client: DMEAPIClient, user_id: int) -> dict:
 
     # 参数校验
     if user_id is None:
-        raise ValueError("user_id 是必选参数")
+        raise ValueError("user_id 是required parameter")
 
     response = client.delete(url, params={"user_id": user_id})
     return response
@@ -112,12 +112,12 @@ def user_create(client: DMEAPIClient, name: str, type: int,
     创建用户。
 
     Args:
-        client: DME API 客户端
-        name: 用户名 (必选, string, 最多32个字符)。本地用户名不能小于6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名不能小于1个字符，大于32个字符，不能包含不可见字符和;特殊字符。
-        type: 用户类型 (必选, integer, 无)。0：本地用户；2：远端用户。
-        value: 密码 (可选, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。
-        description: 描述 (可选, string, 最多127个字符)
-        roles: 用户所属角色 (可选, List[integer], 数组最大成员个数：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
+        client: DME API client
+        name: 用户名 (Required, string, 最多32个字符)。本地用户名不能小于6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名不能小于1个字符，大于32个字符，不能包含不可见字符和;特殊字符。
+        type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
+        value: 密码 (Optional, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。
+        description: 描述 (Optional, string, 最多127个字符)
+        roles: 用户所属角色 (Optional, List[integer], 数组最大成员个数：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
 
     Returns:
         无
@@ -126,7 +126,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     # 参数校验
     if not name:
-        raise ValueError("name 是必选参数")
+        raise ValueError("name 是required parameter")
 
     payload = {
         'name': name,
@@ -150,10 +150,10 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     批量查询用户信息。
 
     Args:
-        client: DME API 客户端
-        page_no: 页数 (必选, integer, 最小值：1)。默认值：1
-        page_size: 页面大小 (必选, integer, 5~200)。默认值：10
-        name: 用户名搜索关键字 (可选, string, 最多32个字符)
+        client: DME API client
+        page_no: 页数 (Required, integer, 最小值：1)。默认值：1
+        page_size: 页面大小 (Required, integer, 5~200)。默认值：10
+        name: 用户名搜索关键字 (Optional, string, 最多32个字符)
 
     Returns:
         {
@@ -162,7 +162,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
                 id: 用户ID (integer, 1~2147483647),
                 name: 用户名 (string, 6~32个字符),
                 description: 描述 (string, 最多127个字符),
-                type: 用户类型 (integer)。可选值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
+                type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
                 roles: 角色ID列表 (List<integer>, 数组最大成员个数：50),
             }, ...]
         }
@@ -183,10 +183,10 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     批量查询角色信息。
 
     Args:
-        client: DME API 客户端
-        page_no: 页数 (必选, integer, 最小值：1)。默认值：1
-        page_size: 页面大小 (必选, integer, 5~100)。默认值：10
-        name: 角色名搜索关键字 (可选, string, 最多64个字符)
+        client: DME API client
+        page_no: 页数 (Required, integer, 最小值：1)。默认值：1
+        page_size: 页面大小 (Required, integer, 5~100)。默认值：10
+        name: 角色名搜索关键字 (Optional, string, 最多64个字符)
 
     Returns:
         {
@@ -213,14 +213,14 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
     查询指定用户信息。
 
     Args:
-        client: DME API 客户端
-        user_id: 用户ID (必选, integer, 1~2147483647)
+        client: DME API client
+        user_id: 用户ID (Required, integer, 1~2147483647)
 
     Returns:
         {
             id: 用户ID (integer, 1~2147483647),
             name: 用户名 (string, 最多32个字符),
-            type: 用户类型 (integer)。可选值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
+            type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
             description: 描述 (string, 最多127个字符),
             roles: 用户所属角色 (List<integer>, 数组最大成员个数：50),
         }
@@ -229,7 +229,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
     
     # 参数校验
     if user_id is None:
-        raise ValueError("user_id 是必选参数")
+        raise ValueError("user_id 是required parameter")
 
     response = client.get(url, params={"user_id": user_id})
     return response
@@ -240,7 +240,7 @@ def show(client: DMEAPIClient) -> dict:
     查询产品系统信息。
 
     Args:
-        client: DME API 客户端
+        client: DME API client
 
     Returns:
         {
@@ -259,8 +259,8 @@ def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dic
     获取DME证书。
 
     Args:
-        client: DME API 客户端
-        service_type: 服务类型 (必选, string)。可选值：APIGWService (DME北向网关)
+        client: DME API client
+        service_type: 服务类型 (Required, string)。Optional值：APIGWService (DME北向网关)
 
     Returns:
         {
@@ -271,7 +271,7 @@ def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dic
 
     # 参数校验
     if service_type not in ["APIGWService"]:
-        raise ValueError(f"service_type 可选值：APIGWService")
+        raise ValueError(f"service_type Optional值：APIGWService")
 
     response = client.get(url, params={'service_type': service_type})
     return response
@@ -284,11 +284,11 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     批量查询备份服务器。
 
     Args:
-        client: DME API 客户端
-        address: 备份服务器地址，支持IPv4地址，支持模糊匹配 (可选, string, 1~256个字符)
-        name: 备份服务器名称 (可选, string)
-        page_no: 分页查询的起始页码 (可选, int32)。默认值：1
-        page_size: 每页数量 (可选, int32, 1~1000)。默认值：20
+        client: DME API client
+        address: 备份服务器地址，支持IPv4地址，supports fuzzy match (Optional, string, 1~256个字符)
+        name: 备份服务器名称 (Optional, string)
+        page_no: 分页查询的起始页码 (Optional, int32)。默认值：1
+        page_size: 每页数量 (Optional, int32, 1~1000)。默认值：20
 
     Returns:
         {
@@ -327,22 +327,22 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
     查询待办任务组列表
 
     Args:
-        client: DME API 客户端
-        group_id: 待办任务组 ID（可选）
-        name: 待办任务组名称（可选）
-        creator_name: 创建人名称（可选）
-        is_finished: 是否已完成（可选）
-        is_group: 是否群组任务（可选）
-        start: 分页起始位置（可选，0~10000000）
-        limit: 分页个数（可选，1~1000）
-        status: 待办任务组状态列表（可选，1-待处理/2-执行中/3-已完成/4-已关闭）
-        todo_item_status: 待办项状态列表（可选，0-待确认/1-未完成/2-执行中/3-已完成）
-        start_time_from: 开始时间起始值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        start_time_to: 开始时间结束值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        end_time_from: 结束时间起始值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        end_time_to: 结束时间结束值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        sort_key: 排序字段（可选）
-        sort_dir: 排序方式（可选，asc/desc）
+        client: DME API client
+        group_id: 待办任务组 ID（Optional）
+        name: 待办任务组名称（Optional）
+        creator_name: 创建人名称（Optional）
+        is_finished: 是否已完成（Optional）
+        is_group: 是否群组任务（Optional）
+        start: 分页起始位置（Optional，0~10000000）
+        limit: 分页个数（Optional，1~1000）
+        status: 待办任务组状态列表（Optional，1-待处理/2-执行中/3-已完成/4-已关闭）
+        todo_item_status: 待办项状态列表（Optional，0-待确认/1-未完成/2-执行中/3-已完成）
+        start_time_from: 开始时间起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
+        start_time_to: 开始时间结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
+        end_time_from: 结束时间起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
+        end_time_to: 结束时间结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
+        sort_key: 排序字段（Optional）
+        sort_dir: 排序方式（Optional，asc/desc）
 
     Returns:
         {
@@ -394,8 +394,8 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
     执行指定的待办任务组。
 
     Args:
-        client: DME API 客户端
-        group_id: 待办任务组 ID（必选）
+        client: DME API client
+        group_id: 待办任务组 ID（Required）
 
     Returns:
         执行结果，包含 task_id
@@ -411,8 +411,8 @@ def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     确认执行定时待办任务组
 
     Args:
-        client: DME API 客户端
-        group_id: 待办任务组 ID（必选）
+        client: DME API client
+        group_id: 待办任务组 ID（Required）
 
     Returns:
         确认结果
@@ -434,11 +434,11 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     批量查询待办项列表，支持过滤和分页。
 
     Args:
-        client: DME API 客户端
-        service_type: 业务类型（必选，wfa_execute_activity-自动化编排）
-        status: 待办项状态列表（可选，1-未执行/2-执行中/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
-        page_no: 页索引号（可选，默认 1）
-        page_size: 每页数量（可选，1~10，默认 10）
+        client: DME API client
+        service_type: 业务类型（Required，wfa_execute_activity-自动化编排）
+        status: 待办项状态列表（Optional，1-未执行/2-执行中/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
+        page_no: 页索引号（Optional，默认 1）
+        page_size: 每页数量（Optional，1~10，默认 10）
 
     Returns:
         {
@@ -468,8 +468,8 @@ def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     查询指定待办项的详细信息。
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
+        client: DME API client
+        item_id: 待办项 ID（Required）
 
     Returns:
         待办项详细信息
@@ -487,8 +487,8 @@ def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
     执行指定的待办项。
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
+        client: DME API client
+        item_id: 待办项 ID（Required）
 
     Returns:
         执行结果，包含 task_id
@@ -507,10 +507,10 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
     对待办项进行审核（批准或拒绝）。
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
-        is_approval: 是否批准（必选，true-批准/false-拒绝）
-        suggestion: 审核建议（可选，0-63 字符）
+        client: DME API client
+        item_id: 待办项 ID（Required）
+        is_approval: 是否批准（Required，true-批准/false-拒绝）
+        suggestion: 审核建议（Optional，0-63 字符）
 
     Returns:
         审核结果
@@ -534,8 +534,8 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
     撤销对指定待办项的审核。
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
+        client: DME API client
+        item_id: 待办项 ID（Required）
 
     Returns:
         撤销结果
@@ -553,9 +553,9 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     关闭指定的待办项，需要提供关闭原因。
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
-        reason: 关闭原因（必选，0-63 字符）
+        client: DME API client
+        item_id: 待办项 ID（Required）
+        reason: 关闭原因（Required，0-63 字符）
 
     Returns:
         关闭结果
@@ -581,8 +581,8 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     根据任务唯一标识 TaskId 进行查询。
     
     Args:
-        client: DME API 客户端
-        task_id: 任务 ID（必选，1~36 个字符）
+        client: DME API client
+        task_id: 任务 ID（Required，1~36 个字符）
     
     Returns:
         任务详情列表，包含：
@@ -620,14 +620,14 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     批量查询任务
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
-        task_name: 任务名称过滤（可选）
-        status: 状态过滤（可选，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
-        owner_id: 创建任务用户 ID 过滤（可选）
-        create_time_from: 创建时间起始（可选，UTC 毫秒数）
-        create_time_to: 创建时间结束（可选，UTC 毫秒数）
+        task_name: 任务名称过滤（Optional）
+        status: 状态过滤（Optional，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
+        owner_id: 创建任务用户 ID 过滤（Optional）
+        create_time_from: 创建时间起始（Optional，UTC 毫秒数）
+        create_time_to: 创建时间结束（Optional，UTC 毫秒数）
     
     Returns:
         任务列表
@@ -661,8 +661,8 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
     重试指定的任务，用于任务未完全成功的重试。
 
     Args:
-        client: DME API 客户端
-        task_id: 任务 ID（必选，1~36 个字符）
+        client: DME API client
+        task_id: 任务 ID（Required，1~36 个字符）
 
     Returns:
         重试结果
@@ -681,7 +681,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     轮询查询任务状态，直到任务完成或超时。
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         task_id: 任务 ID
         timeout: 超时时间（秒），默认 300 秒
         poll_interval: 轮询间隔（秒），默认 2 秒
@@ -732,9 +732,9 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
     创建标签类型
     
     Args:
-        client: DME API 客户端
-        name: 标签类型名称（必选）
-        description: 标签类型描述（可选）
+        client: DME API client
+        name: 标签类型名称（Required）
+        description: 标签类型描述（Optional）
     
     Returns:
         创建的标签类型信息
@@ -758,10 +758,10 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     批量查询标签类型
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
-        name: 标签类型名称过滤（可选）
+        name: 标签类型名称过滤（Optional）
     
     Returns:
         标签类型列表
@@ -786,10 +786,10 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
     修改标签类型
     
     Args:
-        client: DME API 客户端
-        tag_type_id: 标签类型 ID（必选）
-        name: 标签类型名称（可选）
-        description: 标签类型描述（可选）
+        client: DME API client
+        tag_type_id: 标签类型 ID（Required）
+        name: 标签类型名称（Optional）
+        description: 标签类型描述（Optional）
     
     Returns:
         修改后的标签类型信息
@@ -812,8 +812,8 @@ def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     批量删除标签类型
     
     Args:
-        client: DME API 客户端
-        tag_type_ids: 标签类型 ID 列表（必选）
+        client: DME API client
+        tag_type_ids: 标签类型 ID 列表（Required）
     
     Returns:
         批量删除结果
@@ -836,12 +836,12 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
     创建标签
     
     Args:
-        client: DME API 客户端
-        name: 标签名称（必选）
-        tag_type_id: 标签类型 ID（必选）
+        client: DME API client
+        name: 标签名称（Required）
+        tag_type_id: 标签类型 ID（Required）
         tag_type_name: 标签类型名称（API 需要）
-        description: 标签描述（可选）
-        color: 标签颜色（可选）
+        description: 标签描述（Optional）
+        color: 标签颜色（Optional）
     
     Returns:
         创建的标签信息
@@ -870,11 +870,11 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     批量查询标签
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
-        name: 标签名称过滤（可选）
-        tag_type_id: 标签类型 ID 过滤（可选）
+        name: 标签名称过滤（Optional）
+        tag_type_id: 标签类型 ID 过滤（Optional）
     
     Returns:
         标签列表
@@ -901,11 +901,11 @@ def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
     修改标签
     
     Args:
-        client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        name: 标签名称（可选）
-        description: 标签描述（可选）
-        color: 标签颜色（可选）
+        client: DME API client
+        tag_id: 标签 ID（Required）
+        name: 标签名称（Optional）
+        description: 标签描述（Optional）
+        color: 标签颜色（Optional）
     
     Returns:
         修改后的标签信息
@@ -930,8 +930,8 @@ def tag_delete(client: DMEAPIClient, tag_ids: list) -> dict:
     批量删除标签
     
     Args:
-        client: DME API 客户端
-        tag_ids: 标签 ID 列表（必选）
+        client: DME API client
+        tag_ids: 标签 ID 列表（Required）
     
     Returns:
         批量删除结果
@@ -951,9 +951,9 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     标签关联资源
     
     Args:
-        client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（必选）
+        client: DME API client
+        tag_id: 标签 ID（Required）
+        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
         关联结果
@@ -973,9 +973,9 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     标签取消关联资源
     
     Args:
-        client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（必选）
+        client: DME API client
+        tag_id: 标签 ID（Required）
+        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
         取消关联结果
@@ -998,12 +998,12 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     批量查询可用分区。
 
     Args:
-        client: DME API 客户端
-        az_name: 可用分区名称，支持模糊匹配 (可选, string, 1~64个字符)
-        operate_status: 可用分区运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (可选, string, 1~16个字符)
-        start: 分页的页号，从1开始 (可选, int32, 1~10000000)。默认值：1
-        limit: 分页的大小 (可选, int32, 1~512)。默认值：512
-        is_sc: 是否运营侧查询 (可选, boolean, true,false)。默认值：false
+        client: DME API client
+        az_name: 可用分区名称，supports fuzzy match (Optional, string, 1~64个字符)
+        operate_status: 可用分区运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (Optional, string, 1~16个字符)
+        start: 分页的页号，从1开始 (Optional, int32, 1~10000000)。默认值：1
+        limit: 分页的大小 (Optional, int32, 1~512)。默认值：512
+        is_sc: 是否运营侧查询 (Optional, boolean, true,false)。默认值：false
 
     Returns:
         {
@@ -1045,8 +1045,8 @@ def dc_list(client: DMEAPIClient, name: str = None,
     查询数据中心列表，支持按名称过滤和分页。
     
     Args:
-        client: DME API 客户端
-        name: 数据中心名称（可选，支持模糊查询）
+        client: DME API client
+        name: 数据中心名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -1076,8 +1076,8 @@ def dc_show(client: DMEAPIClient, dc_id: str) -> dict:
     查询指定数据中心的详细信息。
     
     Args:
-        client: DME API 客户端
-        dc_id: 数据中心 ID（必选）
+        client: DME API client
+        dc_id: 数据中心 ID（Required）
     
     Returns:
         数据中心详细信息
@@ -1095,9 +1095,9 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
     查询指定数据中心的设备列表信息
     
     Args:
-        client: DME API 客户端
-        dc_id: 数据中心 ID（必选）
-        device_type: 设备类型列表（可选）
+        client: DME API client
+        dc_id: 数据中心 ID（Required）
+        device_type: 设备类型列表（Optional）
                      取值：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
         page_no: 分页查询的起始页码，默认 1
@@ -1132,17 +1132,17 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
     批量查询Region。
 
     Args:
-        client: DME API 客户端
-        ids: Region的ID列表，支持精确匹配 (可选, List[string], 数组最大成员个数：100)
-        name: Region的名称，支持模糊搜索 (可选, string, 最多256个字符)
-        active_ip_address: Region主IP地址，支持模糊搜索 (可选, string, 最多256个字符)
-        standby_ip_address: Region备IP地址，支持模糊搜索 (可选, string, 最多256个字符)
-        sync_status: Region同步状态，精确过滤 (可选, List[string], 数组最大成员个数：3)。可选值：normal (正常), sync (同步中), failed (同步失败)
-        role: Region角色，精确过滤 (可选, string)。可选值：parent (上级Region), child (下级Region)
-        sort_key: 排序字段 (可选, string)。可选值：last_sync_time (最近同步时间)
-        sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)。默认值：desc
-        page_no: 分页查询的开始页 (可选, int32, 1~100)。默认值：1
-        page_size: 每页数量 (可选, int32, 1~100)。默认值：20
+        client: DME API client
+        ids: Region的ID列表，支持精确匹配 (Optional, List[string], 数组最大成员个数：100)
+        name: Region的名称，supports fuzzy search (Optional, string, 最多256个字符)
+        active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256个字符)
+        standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256个字符)
+        sync_status: Region同步状态，精确过滤 (Optional, List[string], 数组最大成员个数：3)。Optional值：normal (正常), sync (同步中), failed (同步失败)
+        role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
+        sort_key: 排序字段 (Optional, string)。Optional值：last_sync_time (最近同步时间)
+        sort_dir: 排序方向 (Optional, string)。Optional值：asc (升序), desc (降序)。默认值：desc
+        page_no: 分页查询的开始页 (Optional, int32, 1~100)。默认值：1
+        page_size: 每页数量 (Optional, int32, 1~100)。默认值：20
 
     Returns:
         {
@@ -1188,11 +1188,11 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     查询下级Region资源信息。
 
     Args:
-        client: DME API 客户端
-        region_id: 下级Region的ID (必选, string, 1~64个字符)
-        request_url: 查询下级相应资源北向接口URL (必选, string, 1~8192个字符)
-        request_method: 请求方式 (必选, string)。可选值：get (Get请求), post (Post请求)
-        request_body: 调用下级北向接口请求Body体 (可选, string, 1~20480个字符)
+        client: DME API client
+        region_id: 下级Region的ID (Required, string, 1~64个字符)
+        request_url: 查询下级相应资源北向接口URL (Required, string, 1~8192个字符)
+        request_method: 请求方式 (Required, string)。Optional值：get (Get请求), post (Post请求)
+        request_body: 调用下级北向接口请求Body体 (Optional, string, 1~20480个字符)
 
     Returns:
         无
@@ -1200,9 +1200,9 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     url = "/rest/regionmgmt/v1/regions/{region_id}/resources/query"
 
     if not region_id:
-        raise ValueError("region_id 是必选参数")
+        raise ValueError("region_id 是required parameter")
     if not request_url:
-        raise ValueError("request_url 是必选参数")
+        raise ValueError("request_url 是required parameter")
 
     payload = {
         'request_url': request_url,

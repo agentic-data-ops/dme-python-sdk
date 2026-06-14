@@ -15,8 +15,8 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
     查询CMDB系统列表。
 
     Args:
-        client: DME API 客户端
-        name: CMDB系统名称（可选，支持模糊查询）
+        client: DME API client
+        name: CMDB系统名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
 
@@ -49,10 +49,10 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
     查询CMDB系统中的主机列表。
 
     Args:
-        client: DME API 客户端
-        system_id: CMDB系统ID（可选）
-        name: 主机名称（可选，支持模糊查询）
-        ip: 主机IP（可选）
+        client: DME API client
+        system_id: CMDB系统ID（Optional）
+        name: 主机名称（Optional，supports fuzzy search）
+        ip: 主机IP（Optional）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
 
@@ -88,8 +88,8 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     查询指定CMDB主机详情。
 
     Args:
-        client: DME API 客户端
-        cmdb_host_id: CMDB主机ID（必选）
+        client: DME API client
+        cmdb_host_id: CMDB主机ID（Required）
 
     Returns:
         {
@@ -101,7 +101,7 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     url = "/rest/appmgmt/v1/cmdb-hosts/{cmdb_host_id}"
 
     if not cmdb_host_id:
-        raise ValueError("cmdb_host_id 是必选参数")
+        raise ValueError("cmdb_host_id 是required parameter")
 
     response = client.get(url, params={"cmdb_host_id": cmdb_host_id})
     return response
@@ -113,9 +113,9 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
     查询CMDB系统中的应用列表。
 
     Args:
-        client: DME API 客户端
-        system_id: CMDB系统ID（可选）
-        name: 应用名称（可选，支持模糊查询）
+        client: DME API client
+        system_id: CMDB系统ID（Optional）
+        name: 应用名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
 
@@ -148,8 +148,8 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
     根据启动器列表查询CMDB主机列表。
 
     Args:
-        client: DME API 客户端
-        initiators: 启动器列表（必选）
+        client: DME API client
+        initiators: 启动器列表（Required）
 
     Returns:
         {
@@ -162,7 +162,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
     url = "/rest/appmgmt/v1/cmdb-hosts/query-by-initiators"
 
     if not initiators or len(initiators) == 0:
-        raise ValueError("initiators 是必选参数")
+        raise ValueError("initiators 是required parameter")
 
     payload = {
         'initiators': initiators

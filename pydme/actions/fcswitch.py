@@ -14,8 +14,8 @@ def list(client: DMEAPIClient, name: str = None,
     批量查询交换机
     
     Args:
-        client: DME API 客户端
-        name: 交换机名称（可选，支持模糊查询）
+        client: DME API client
+        name: 交换机名称（Optional，supports fuzzy search）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -48,8 +48,8 @@ def sync(client: DMEAPIClient, switch_id: str) -> dict:
     同步指定交换机
     
     Args:
-        client: DME API 客户端
-        switch_id: 交换机 ID（必选）
+        client: DME API client
+        switch_id: 交换机 ID（Required）
     
     Returns:
         {
@@ -69,9 +69,9 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     批量查询交换机端口
     
     Args:
-        client: DME API 客户端
-        switch_id: 交换机 ID（可选）
-        port_name: 端口名称（可选）
+        client: DME API client
+        switch_id: 交换机 ID（Optional）
+        port_name: 端口名称（Optional）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -103,8 +103,8 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     批量查询交换机控制处理器
     
     Args:
-        client: DME API 客户端
-        switch_id: 交换机 ID（可选）
+        client: DME API client
+        switch_id: 交换机 ID（Optional）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -133,8 +133,8 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     批量查询光纤网络
     
     Args:
-        client: DME API 客户端
-        name: 光纤网络名称（可选，支持模糊查询）
+        client: DME API client
+        name: 光纤网络名称（Optional，supports fuzzy search）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -163,8 +163,8 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
     查询指定光纤网络的端口列表
 
     Args:
-        client: DME API 客户端
-        fabric_id: 光纤网络 ID（必选）
+        client: DME API client
+        fabric_id: 光纤网络 ID（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
 
@@ -190,9 +190,9 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
     执行光纤网络配置文件备份
     
     Args:
-        client: DME API 客户端
-        fabric_id: 光纤网络 ID（必选）
-        backup_server_id: 备份服务器 ID（必选）
+        client: DME API client
+        fabric_id: 光纤网络 ID（Required）
+        backup_server_id: 备份服务器 ID（Required）
         backup_type: 备份类型，默认 full（full/incremental）
     
     Returns:
@@ -220,7 +220,7 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     查询 VSAN 列表
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -252,17 +252,17 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
     查询光纤 Zone 列表。
 
     Args:
-        client: DME API 客户端
-        fabric_wwn: 光纤网络 WWN（可选），1~1024 个字符
-        name: Zone 名称（可选），支持模糊查询，1~1024 个字符
-        cfg_name: 所属 CFG 名称（可选），支持模糊查询，0~1024 个字符
-        zone_set: 所属 Zone 集合（可选），支持模糊查询，0~1024 个字符
-        active_status: Zone 状态列表（可选），数组最大成员个数：2
-        member_count: 成员数量（可选），0~2147483647
-        sort_key: 排序字段（可选），支持 member_count
-        sort_dir: 排序方向（可选），asc：升序；desc：降序
-        page_no: 分页查询的页码（可选），1~65535
-        page_size: 每页数量（可选），1~1000
+        client: DME API client
+        fabric_wwn: 光纤网络 WWN（Optional），1~1024 个字符
+        name: Zone 名称（Optional），supports fuzzy search，1~1024 个字符
+        cfg_name: 所属 CFG 名称（Optional），supports fuzzy search，0~1024 个字符
+        zone_set: 所属 Zone 集合（Optional），supports fuzzy search，0~1024 个字符
+        active_status: Zone 状态列表（Optional），数组最大成员个数：2
+        member_count: 成员数量（Optional），0~2147483647
+        sort_key: 排序字段（Optional），支持 member_count
+        sort_dir: 排序方向（Optional），asc：升序；desc：降序
+        page_no: 分页查询的页码（Optional），1~65535
+        page_size: 每页数量（Optional），1~1000
 
     Returns:
         {
@@ -309,16 +309,16 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
 
     Args:
-        client: DME API 客户端
-        name: Zone 名称（必选）
-        fabric_wwn: 光纤网络 WWN（条件必选，fabric 创建 zone 时需要）
-        vsan_wwn: VSAN WWN（条件必选，vsan 创建 zone 时需要）
-        wwn_members: WWN 成员列表（可选），格式：["<wwn>",...]
-        port_members: 端口成员列表（可选），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
-        fwwn_members: FWWN 成员列表（可选），格式：["<fwwn>",...]
-        fcid_members: FCID 成员列表（可选），格式：["<fcid>",...]
-        alias_members: 别名成员列表（可选），格式：["<alias>",...]
-        device_alias_members: 设备别名成员列表（可选），格式：["<deviceAlias>",...]
+        client: DME API client
+        name: Zone 名称（Required）
+        fabric_wwn: 光纤网络 WWN（条件Required，fabric 创建 zone 时需要）
+        vsan_wwn: VSAN WWN（条件Required，vsan 创建 zone 时需要）
+        wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
+        port_members: 端口成员列表（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
+        fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
+        fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
+        alias_members: 别名成员列表（Optional），格式：["<alias>",...]
+        device_alias_members: 设备别名成员列表（Optional），格式：["<deviceAlias>",...]
 
     Returns:
         {
@@ -365,15 +365,15 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
     修改光纤 Zone 的配置信息。
 
     Args:
-        client: DME API 客户端
-        zone_id: Zone ID（必选）
-        zone_name: Zone 名称（可选）
-        wwn_members: WWN 成员修改（可选），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
-        alias_members: 别名成员修改（可选），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
-        fwwn_members: FWWN 成员修改（可选），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: 端口成员修改（可选），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，其中博科交换机指定port_index，思科交换机指定port_name
-        fcid_members: FCID 成员修改（可选），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
-        device_alias_members: 设备别名成员修改（可选），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
+        client: DME API client
+        zone_id: Zone ID（Required）
+        zone_name: Zone 名称（Optional）
+        wwn_members: WWN 成员修改（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
+        alias_members: 别名成员修改（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
+        fwwn_members: FWWN 成员修改（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
+        port_members: 端口成员修改（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，其中博科交换机指定port_index，思科交换机指定port_name
+        fcid_members: FCID 成员修改（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
+        device_alias_members: 设备别名成员修改（Optional），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
 
     Returns:
         {
@@ -408,8 +408,8 @@ def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     注：根据 DME API 文档，使用 DELETE 方法到 /zones/{zone_id}
     
     Args:
-        client: DME API 客户端
-        zone_id: Zone ID（必选）
+        client: DME API client
+        zone_id: Zone ID（Required）
     
     Returns:
         {
@@ -429,17 +429,17 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     注：根据 DME API 文档，需要 is_active_zone 和 zone_list 参数。
 
     Args:
-        client: DME API 客户端
-        is_active_zone: 是否激活 Zone（必选，字符串 "true" 或 "false"）
+        client: DME API client
+        is_active_zone: 是否激活 Zone（Required，字符串 "true" 或 "false"）
         zones: Zone 配置列表，每个元素应包含:
-            - fabric_wwn: 光纤网络 WWN（必选）
-            - name: Zone 名称（必选）
-            - wwn_members: WWN 成员列表（可选），格式：["<wwn>",...]
-            - port_members: 端口成员列表（可选），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
-            - fwwn_members: FWWN 成员列表（可选），格式：["<fwwn>",...]
-            - fcid_members: FCID 成员列表（可选），格式：["<fcid>",...]
-            - alias_members: 别名成员列表（可选），格式：["<alias>",...]
-            - device_alias_members: 设备别名成员列表（可选），格式：["<deviceAlias>",...]
+            - fabric_wwn: 光纤网络 WWN（Required）
+            - name: Zone 名称（Required）
+            - wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
+            - port_members: 端口成员列表（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
+            - fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
+            - fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
+            - alias_members: 别名成员列表（Optional），格式：["<alias>",...]
+            - device_alias_members: 设备别名成员列表（Optional），格式：["<deviceAlias>",...]
 
     Returns:
         {
@@ -464,9 +464,9 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     查询 Zone 中包含的成员，支持端口成员、WWN 成员和别名成员。
 
     Args:
-        client: DME API 客户端
-        zone_id: Zone ID（必选）
-        type: 成员类型，可选值：port（端口成员）,wwn（WWN 成员）,alias（别名成员）。
+        client: DME API client
+        zone_id: Zone ID（Required）
+        type: 成员类型，Optional值：port（端口成员）,wwn（WWN 成员）,alias（别名成员）。
              不指定时返回所有类型的成员
 
     Returns:
@@ -520,8 +520,8 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     查询光纤 Alias 列表。
     
     Args:
-        client: DME API 客户端
-        fabric_wwn: 光纤网络 WWN（必选）
+        client: DME API client
+        fabric_wwn: 光纤网络 WWN（Required）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -552,15 +552,15 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
 
     Args:
-        client: DME API 客户端
-        name: Alias 名称（必选）
-        fabric_wwn: 光纤网络 WWN（条件必选，fabric 创建别名时需要）
-        vsan_wwn: VSAN WWN（条件必选，vsan 创建别名时需要）
-        wwn_members: WWN 成员列表（可选，思科交换机 PWWN 成员）
-        port_members: 端口成员列表（可选）
-        fwwn_members: FWWN 成员列表（可选）
-        fcid_members: FCID 成员列表（可选）
-        device_alias_members: 设备别名成员列表（可选）
+        client: DME API client
+        name: Alias 名称（Required）
+        fabric_wwn: 光纤网络 WWN（条件Required，fabric 创建别名时需要）
+        vsan_wwn: VSAN WWN（条件Required，vsan 创建别名时需要）
+        wwn_members: WWN 成员列表（Optional，思科交换机 PWWN 成员）
+        port_members: 端口成员列表（Optional）
+        fwwn_members: FWWN 成员列表（Optional）
+        fcid_members: FCID 成员列表（Optional）
+        device_alias_members: 设备别名成员列表（Optional）
     
     Returns:
         {
@@ -605,14 +605,14 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     注：根据 DME API 文档，成员修改需要使用 {type}.added_members 和 {type}.removed_members 格式。
 
     Args:
-        client: DME API 客户端
-        alias_id: Alias ID（必选）
-        name: Alias 名称（可选）
-        wwn_members: WWN 成员修改（可选，格式：{'added_members': [...], 'removed_members': [...]}）
-        fwwn_members: FWWN 成员修改（可选）
-        port_members: 端口成员修改（可选）
-        fcid_members: FCID 成员修改（可选）
-        device_alias_members: 设备别名成员修改（可选）
+        client: DME API client
+        alias_id: Alias ID（Required）
+        name: Alias 名称（Optional）
+        wwn_members: WWN 成员修改（Optional，格式：{'added_members': [...], 'removed_members': [...]}）
+        fwwn_members: FWWN 成员修改（Optional）
+        port_members: 端口成员修改（Optional）
+        fcid_members: FCID 成员修改（Optional）
+        device_alias_members: 设备别名成员修改（Optional）
     
     Returns:
         {
@@ -646,8 +646,8 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     注：根据 DME API 文档，使用 DELETE 方法到 /aliases/{alias_id}
 
     Args:
-        client: DME API 客户端
-        alias_id: Alias ID（必选）
+        client: DME API client
+        alias_id: Alias ID（Required）
     
     Returns:
         {
@@ -667,9 +667,9 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     查询 Alias 中包含的成员，支持查询端口成员和 WWN 成员。
 
     Args:
-        client: DME API 客户端
-        alias_id: Alias ID（必选）
-        type: 成员类型，可选值：port（端口成员）,wwn（WWN 成员）。
+        client: DME API client
+        alias_id: Alias ID（Required）
+        type: 成员类型，Optional值：port（端口成员）,wwn（WWN 成员）。
              不指定时返回所有类型的成员
 
     Returns:

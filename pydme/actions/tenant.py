@@ -20,7 +20,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
     服务化批量创建 LUN
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, 数组最大成员个数: 1000)。参数格式如下：[{
                 name: LUN名称 (1~255个字符, 支持字母数字._-和中文字符),
                 capacity: 容量GB (1~262144),
@@ -29,17 +29,17 @@ def lun_create(client: DMEAPIClient, volumes: list,
                 start_suffix: 起始后缀编号 (0~9999),
                 suffix_length: 后缀长度规则 (1~4, 名称长度+后缀长度<=255),
              }, ...]
-        service_level_id: 服务等级 ID（必填，0~64 个字符）
-        task_remarks: 异步任务备注信息（可选，最多 1024 个字符）
-        project_id: 业务群组 ID（可选，0~64 个字符）
-        availability_zone: 可用分区 ID（可选，0~64 个字符）
-        scheduler_hints: 调度策略 (可选, SchedulerHints 对象)。参数格式如下：{
-                affinity: 是否开启亲和性。可选值：true (开启), false (不开启)。默认不开启,
-                affinity_volume: 待亲和的 LUN ID (可选, 0~64个字符),
+        service_level_id: 服务等级 ID（Required，0~64 个字符）
+        task_remarks: Async task remark（Optional，最多 1024 个字符）
+        project_id: 业务群组 ID（Optional，0~64 个字符）
+        availability_zone: 可用分区 ID（Optional，0~64 个字符）
+        scheduler_hints: 调度策略 (Optional, SchedulerHints 对象)。参数格式如下：{
+                affinity: 是否开启亲和性。Optional值：true (开启), false (不开启)。默认不开启,
+                affinity_volume: 待亲和的 LUN ID (Optional, 0~64个字符),
              }
-        mapping: 映射信息 (可选, ServiceVolumeMapping 对象, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
-                host_id: 主机ID (可选, 0~64个字符, 与hostgroup_id二选其一),
-                hostgroup_id: 主机组ID (可选, 0~64个字符, 与host_id二选其一),
+        mapping: 映射信息 (Optional, ServiceVolumeMapping 对象, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
+                host_id: 主机ID (Optional, 0~64个字符, 与hostgroup_id二选其一),
+                hostgroup_id: 主机组ID (Optional, 0~64个字符, 与host_id二选其一),
              }
 
     Returns:
@@ -75,10 +75,10 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
     批量更新 LUN 的服务等级
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         volume_ids: LUN ID 列表
         tier_id: 服务等级 ID
-        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（可选，true/false）
+        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（Optional，true/false）
 
     Returns:
         {
@@ -105,10 +105,10 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
     LUN 关联服务等级
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         volume_id: LUN ID
         tier_id: 服务等级 ID
-        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（可选，true/false）
+        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（Optional，true/false）
 
     Returns:
         {
@@ -134,7 +134,7 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
     解除 LUN 与服务等级关联
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         volume_id: LUN ID
 
     Returns:
@@ -158,7 +158,7 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
     LUN 关联业务群组
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         volume_id: LUN ID
         business_group_id: 业务群组 ID
 
@@ -183,7 +183,7 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
     解除 LUN 与业务群组间关联
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         volume_id: LUN ID
         business_group_id: 业务群组 ID
 
@@ -216,16 +216,16 @@ def tier_list(client: DMEAPIClient, name: str = None,
     查询服务等级列表，支持按名称、项目 ID、可用区、存储 ID 等过滤和分页。
 
     Args:
-        client: DME API 客户端
-        name: 服务等级名称（可选，支持模糊查询）
-        project_id: 业务群组 ID（可选）
-        available_zone_id: 可用区 ID（可选）
-        storage_array_id: 存储设备 ID（可选）
+        client: DME API client
+        name: 服务等级名称（Optional，supports fuzzy search）
+        project_id: 业务群组 ID（Optional）
+        available_zone_id: 可用区 ID（Optional）
+        storage_array_id: 存储设备 ID（Optional）
         start: 查询的起始位置，默认 0
         limit: 每页数量，10~1000，默认 200
         sort_key: 排序字段，name/total_capacity/created_at，默认 name
         sort_dir: 排序方向，asc/desc，默认 asc
-        type: 存储类型，FILE/BLOCK/VIRTUAL_DATASTORE（可选）
+        type: 存储类型，FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
 
     Returns:
         {
@@ -269,8 +269,8 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     查询业务群组与服务等级的关联关系列表，支持按服务等级 ID 过滤。
 
     Args:
-        client: DME API 客户端
-        tier_id: 服务等级 ID（可选）
+        client: DME API client
+        tier_id: 服务等级 ID（Optional）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，10~1000，默认 200
 
@@ -304,8 +304,8 @@ def project_list(client: DMEAPIClient, name: str = None,
     查询业务群组列表，支持按名称过滤和分页。
 
     Args:
-        client: DME API 客户端
-        name: 业务群组名称（可选，支持模糊查询）
+        client: DME API client
+        name: 业务群组名称（Optional，supports fuzzy search）
         start: 分页的页号，从 1 开始，默认 1
         limit: 分页的大小，1~512，默认 20
 
@@ -336,8 +336,8 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     查询指定业务群组的关联服务等级列表。
 
     Args:
-        client: DME API 客户端
-        project_id: 业务群组 ID（可选）
+        client: DME API client
+        project_id: 业务群组 ID（Optional）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，10~1000，默认 200
 

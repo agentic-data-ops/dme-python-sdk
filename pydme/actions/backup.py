@@ -16,8 +16,8 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     查询备份集群列表
     
     Args:
-        client: DME API 客户端
-        name: 备份集群名称（可选，支持模糊查询）
+        client: DME API client
+        name: 备份集群名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -52,8 +52,8 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     查询指定备份集群的容量信息。
     
     Args:
-        client: DME API 客户端
-        cluster_id: 备份集群 ID（必选）
+        client: DME API client
+        cluster_id: 备份集群 ID（Required）
     
     Returns:
         {
@@ -77,9 +77,9 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     查询指定备份集群下的租户配额列表。
     
     Args:
-        client: DME API 客户端
-        cluster_id: 备份集群 ID（必选）
-        quota_type: 配额类型（可选）
+        client: DME API client
+        cluster_id: 备份集群 ID（Required）
+        quota_type: 配额类型（Optional）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     

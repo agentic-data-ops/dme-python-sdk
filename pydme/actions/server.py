@@ -14,11 +14,11 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     查询服务器列表
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
-        name: 服务器名称过滤（可选）
-        server_type: 服务器类型过滤（可选）
+        name: 服务器名称过滤（Optional）
+        server_type: 服务器类型过滤（Optional）
     
     Returns:
         {
@@ -52,7 +52,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     查询指定服务器的概览信息
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID（注意：需要使用 device_id 字段，即带连字符的 UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
@@ -75,7 +75,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
     查询服务器上的所有 CPU 列表
 
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
@@ -101,7 +101,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
     查询服务器上的内存
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
@@ -127,7 +127,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
     查询服务器上的硬盘集合
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
@@ -153,8 +153,8 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
     查询服务器上的网卡集合
 
     Args:
-        client: DME API 客户端
-        server_id: 服务器 ID（可选）
+        client: DME API client
+        server_id: 服务器 ID（Optional）
         page_no: 分页查询的页码，默认 1
         page_size: 每页数量，5~1000，默认 20
 
@@ -181,7 +181,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
     查询服务器上的风扇
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
@@ -207,7 +207,7 @@ def power_list(client: DMEAPIClient, server_id: str,
     查询服务器上的电源
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
@@ -233,7 +233,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
     查询服务器上的 RAID 卡详情
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
@@ -259,7 +259,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     查询服务器上的 PCIe 卡信息
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         server_id: 服务器 ID
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100

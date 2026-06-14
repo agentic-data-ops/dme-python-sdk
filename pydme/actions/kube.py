@@ -14,8 +14,8 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     查询容器集群列表
     
     Args:
-        client: DME API 客户端
-        name: 容器集群名称（可选，支持模糊查询）
+        client: DME API client
+        name: 容器集群名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -49,9 +49,9 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
     查询容器节点列表
     
     Args:
-        client: DME API 客户端
-        cluster_id: 容器集群 ID（可选）
-        name: 容器节点名称（可选，支持模糊查询）
+        client: DME API client
+        cluster_id: 容器集群 ID（Optional）
+        name: 容器节点名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -89,10 +89,10 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     查询容器组（Pod）列表，支持按集群 ID、命名空间和名称过滤。
     
     Args:
-        client: DME API 客户端
-        cluster_id: 容器集群 ID（可选）
-        namespace: 容器命名空间（可选）
-        name: 容器组名称（可选，支持模糊查询）
+        client: DME API client
+        cluster_id: 容器集群 ID（Optional）
+        namespace: 容器命名空间（Optional）
+        name: 容器组名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -129,9 +129,9 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
     查询容器命名空间列表
     
     Args:
-        client: DME API 客户端
-        cluster_id: 容器集群 ID（可选）
-        name: 命名空间名称（可选，支持模糊查询）
+        client: DME API client
+        cluster_id: 容器集群 ID（Optional）
+        name: 命名空间名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -163,10 +163,10 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
     查询容器持久卷声明列表
     
     Args:
-        client: DME API 客户端
-        cluster_id: 容器集群 ID（可选）
-        namespace: 容器命名空间（可选）
-        name: 持久卷声明名称（可选，支持模糊查询）
+        client: DME API client
+        cluster_id: 容器集群 ID（Optional）
+        namespace: 容器命名空间（Optional）
+        name: 持久卷声明名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -205,9 +205,9 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     查询容器持久卷（PV）列表，支持按集群 ID 和名称过滤。
     
     Args:
-        client: DME API 客户端
-        cluster_id: 容器集群 ID（可选）
-        name: 持久卷名称（可选，支持模糊查询）
+        client: DME API client
+        cluster_id: 容器集群 ID（Optional）
+        name: 持久卷名称（Optional，supports fuzzy search）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     

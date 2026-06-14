@@ -19,12 +19,12 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     分页查询工作流模板列表。
     
     Args:
-        client: DME API 客户端
-        page_no: 页索引号（必选，最小值：1）
-        page_size: 每页查询数量（必选，1~1000）
-        directory_id: 目录 id（可选，1~64 个字符）
-        group: 模板所属分组名称，支持模糊匹配（可选，最多 255 个字符）
-        name: 模板名称，支持模糊匹配（可选，最多 255 个字符）
+        client: DME API client
+        page_no: 页索引号（Required，最小值：1）
+        page_size: 每页查询数量（Required，1~1000）
+        directory_id: 目录 id（Optional，1~64 个字符）
+        group: 模板所属分组名称，supports fuzzy match（Optional，最多 255 个字符）
+        name: 模板名称，supports fuzzy match（Optional，最多 255 个字符）
     
     Returns:
         {
@@ -61,7 +61,7 @@ def template_groups(client: DMEAPIClient) -> dict:
     查询所有工作流模板分组。
     
     Args:
-        client: DME API 客户端
+        client: DME API client
     
     Returns:
         {
@@ -83,9 +83,9 @@ def template_show(client: DMEAPIClient, template_id: str,
     查询指定模板的详细信息。
     
     Args:
-        client: DME API 客户端
-        template_id: 模板 id（必选，1~64 个字符）
-        template_version_id: 模板版本 id（可选，1~64 个字符）
+        client: DME API client
+        template_id: 模板 id（Required，1~64 个字符）
+        template_version_id: 模板版本 id（Optional，1~64 个字符）
     
     Returns:
         {
@@ -112,8 +112,8 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     停止正在执行的工作流实例。
     
     Args:
-        client: DME API 客户端
-        instance_id: 实例的 id（必选，1~64 个字符）
+        client: DME API client
+        instance_id: 实例的 id（Required，1~64 个字符）
     
     Returns:
         无
@@ -131,8 +131,8 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     查询指定工作流实例的详细信息。
     
     Args:
-        client: DME API 客户端
-        instance_id: 查询实例的 id（必选，1~64 个字符）
+        client: DME API client
+        instance_id: 查询实例的 id（Required，1~64 个字符）
     
     Returns:
         {
@@ -167,11 +167,11 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     来创建实例并执行，也可以通过指定实例 id 来找到对应实例对应的模板创建实例并执行。
     
     Args:
-        client: DME API 客户端
-        template_id: 模板 id（可选，1~64 个字符，满足正则）
-        template_version_id: 模板版本 id（可选，1~64 个字符，满足正则）
-        instance_id: 实例的 id（可选，1~64 个字符，满足正则）
-        params: 执行实例参数（可选），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
+        client: DME API client
+        template_id: 模板 id（Optional，1~64 个字符，满足正则）
+        template_version_id: 模板版本 id（Optional，1~64 个字符，满足正则）
+        instance_id: 实例的 id（Optional，1~64 个字符，满足正则）
+        params: 执行实例参数（Optional），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
     
     Returns:
         {
@@ -203,9 +203,9 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     查询工作流实例中指定步骤的执行日志。
     
     Args:
-        client: DME API 客户端
-        instance_id: 实例 id（必选，1~64 个字符）
-        step_id: 步骤 id（必选，1~64 个字符）
+        client: DME API client
+        instance_id: 实例 id（Required，1~64 个字符）
+        step_id: 步骤 id（Required，1~64 个字符）
     
     Returns:
         {

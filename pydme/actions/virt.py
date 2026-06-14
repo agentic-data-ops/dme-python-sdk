@@ -18,15 +18,15 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     查询虚拟机列表
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         site_id: 虚拟机所属站点 ID
         cluster_id: 虚拟机所属集群 ID（HCS 场景不支持）
         dc_id: 数据中心 ID（仅 FusionCompute 场景支持）
-        cluster_name: 虚拟机所属集群名称（支持模糊搜索，HCS 场景不支持）
+        cluster_name: 虚拟机所属集群名称（supports fuzzy search，HCS 场景不支持）
         host_id: 虚拟机所属物理主机唯一标识
-        host_name: 虚拟机所属主机名称（支持模糊搜索）
-        name: 虚拟机名称（支持模糊搜索）
-        ip_address: 虚拟机 IP 地址（支持模糊搜索）
+        host_name: 虚拟机所属主机名称（supports fuzzy search）
+        name: 虚拟机名称（supports fuzzy search）
+        ip_address: 虚拟机 IP 地址（supports fuzzy search）
         status: 虚拟机状态列表
                 取值：running, stopped, unknown, hibernated, creating, shutting-down,
                      migrating, fault-resuming, starting, stopping, hibernating, pause,
@@ -103,9 +103,9 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     查询虚拟机的详细信息。
     
     Args:
-        client: DME API 客户端
-        vm_id: 虚拟机 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
+        client: DME API client
+        vm_id: 虚拟机 ID（Required）
+        vr_type: 虚拟化平台类型（Optional）
     
     Returns:
         虚拟机详细信息，包含 CPU、内存、磁盘、网卡等配置信息
@@ -130,12 +130,12 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     查询数据存储列表
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         site_id: 数据存储所在的站点 ID
         cluster_id: 数据存储所关联的集群 ID
         host_id: 数据存储所关联的主机 ID
         dc_id: 数据存储所在数据中心 ID
-        name: 数据存储名称（支持模糊查询）
+        name: 数据存储名称（supports fuzzy search）
         status: 数据存储状态列表
                 取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
@@ -196,9 +196,9 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
     查询数据存储的详细信息。
     
     Args:
-        client: DME API 客户端
-        datastore_id: 数据存储 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
+        client: DME API client
+        datastore_id: 数据存储 ID（Required）
+        vr_type: 虚拟化平台类型（Optional）
     
     Returns:
         数据存储详细信息
@@ -223,11 +223,11 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     查询物理主机列表，支持多种过滤条件。
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         site_id: 主机所属站点 ID
         cluster_id: 主机所属集群 ID
         dc_id: 数据中心 ID
-        host_name: 主机名称（支持模糊搜索）
+        host_name: 主机名称（supports fuzzy search）
         ip_address: 主机 IP 地址
         status: 主机状态列表
         vr_type: 虚拟化平台类型
@@ -272,9 +272,9 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     查询物理主机的详细信息。
     
     Args:
-        client: DME API 客户端
-        host_id: 主机 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
+        client: DME API client
+        host_id: 主机 ID（Required）
+        vr_type: 虚拟化平台类型（Optional）
     
     Returns:
         主机详细信息
@@ -296,10 +296,10 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     查询集群列表
     
     Args:
-        client: DME API 客户端
+        client: DME API client
         site_id: 集群所属站点 ID
         dc_id: 数据中心 ID
-        name: 集群名称（支持模糊搜索）
+        name: 集群名称（supports fuzzy search）
         vr_type: 虚拟化平台类型
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
@@ -336,9 +336,9 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
     查询集群的详细信息。
     
     Args:
-        client: DME API 客户端
-        cluster_id: 集群 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
+        client: DME API client
+        cluster_id: 集群 ID（Required）
+        vr_type: 虚拟化平台类型（Optional）
     
     Returns:
         集群详细信息
@@ -360,7 +360,7 @@ def site_list(client: DMEAPIClient) -> dict:
     查询所有虚拟化站点列表。
     
     Args:
-        client: DME API 客户端
+        client: DME API client
     
     Returns:
         {
@@ -380,8 +380,8 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
     查询虚拟化站点的详细信息。
     
     Args:
-        client: DME API 客户端
-        site_id: 站点 ID（必选）
+        client: DME API client
+        site_id: 站点 ID（Required）
     
     Returns:
         站点详细信息
@@ -401,8 +401,8 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     查询物理主机的存储适配器列表。
     
     Args:
-        client: DME API 客户端
-        host_id: 主机 ID（必选）
+        client: DME API client
+        host_id: 主机 ID（Required）
     
     Returns:
         存储适配器列表
@@ -423,12 +423,12 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
     查询物理磁盘列表，支持多种过滤条件。
     
     Args:
-        client: DME API 客户端
-        site_id: 物理盘所属站点 ID（可选）
-        host_id: 物理盘所属主机 ID（可选）
-        name: 物理盘名称（可选）
-        disk_type: 磁盘类型列表（可选）
-        status: 磁盘状态列表（可选）
+        client: DME API client
+        site_id: 物理盘所属站点 ID（Optional）
+        host_id: 物理盘所属主机 ID（Optional）
+        name: 物理盘名称（Optional）
+        disk_type: 磁盘类型列表（Optional）
+        status: 磁盘状态列表（Optional）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -467,12 +467,12 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     查询虚拟磁盘列表，支持多种过滤条件。
     
     Args:
-        client: DME API 客户端
-        site_id: 虚拟磁盘所属站点 ID（可选）
-        vm_id: 虚拟磁盘所属虚拟机 ID（可选）
-        name: 虚拟磁盘名称（可选）
-        disk_type: 磁盘类型列表（可选）
-        status: 磁盘状态列表（可选）
+        client: DME API client
+        site_id: 虚拟磁盘所属站点 ID（Optional）
+        vm_id: 虚拟磁盘所属虚拟机 ID（Optional）
+        name: 虚拟磁盘名称（Optional）
+        disk_type: 磁盘类型列表（Optional）
+        status: 磁盘状态列表（Optional）
         page_no: 分页查询的起始页码，默认 1
         page_size: 每页数量，1~1000，默认 20
     
@@ -508,8 +508,8 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     查询虚拟磁盘的详细信息。
     
     Args:
-        client: DME API 客户端
-        virtual_disk_id: 虚拟磁盘 ID（必选）
+        client: DME API client
+        virtual_disk_id: 虚拟磁盘 ID（Required）
     
     Returns:
         虚拟磁盘详细信息
