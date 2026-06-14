@@ -22,9 +22,9 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
         client: DME API client
         page_no: 页索引号（Required，min：1）
         page_size: 每页查询count（Required，1~1000）
-        directory_id: 目录 id（Optional，1~64 个字符）
-        group: 模板所属分组名称，supports fuzzy match（Optional，最多 255 个字符）
-        name: 模板名称，supports fuzzy match（Optional，最多 255 个字符）
+        directory_id: 目录 id（Optional，1~64  characters）
+        group: 模板所属分组名称，supports fuzzy match（Optional，最多 255  characters）
+        name: 模板名称，supports fuzzy match（Optional，最多 255  characters）
     
     Returns:
         {
@@ -65,7 +65,7 @@ def template_groups(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含：
         - groups: 模板分组列表，包含 name（模板分组名称）
     """
@@ -84,12 +84,12 @@ def template_show(client: DMEAPIClient, template_id: str,
     
     Args:
         client: DME API client
-        template_id: 模板 id（Required，1~64 个字符）
-        template_version_id: 模板版本 id（Optional，1~64 个字符）
+        template_id: 模板 id（Required，1~64  characters）
+        template_version_id: 模板版本 id（Optional，1~64  characters）
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含：
         - template_version_id: 模板版本 id
     """
@@ -113,7 +113,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     
     Args:
         client: DME API client
-        instance_id: 实例的 id（Required，1~64 个字符）
+        instance_id: 实例的 id（Required，1~64  characters）
     
     Returns:
         无
@@ -132,11 +132,11 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     
     Args:
         client: DME API client
-        instance_id: 查询实例的 id（Required，1~64 个字符）
+        instance_id: 查询实例的 id（Required，1~64  characters）
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含：
         - instance_id: 实例 id
         - template_id: Instance template id
@@ -168,14 +168,14 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     
     Args:
         client: DME API client
-        template_id: 模板 id（Optional，1~64 个字符，满足正则）
-        template_version_id: 模板版本 id（Optional，1~64 个字符，满足正则）
-        instance_id: 实例的 id（Optional，1~64 个字符，满足正则）
+        template_id: 模板 id（Optional，1~64  characters，满足正则）
+        template_version_id: 模板版本 id（Optional，1~64  characters，满足正则）
+        instance_id: 实例的 id（Optional，1~64  characters，满足正则）
         params: Execute instance parameters（Optional），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含：
         - instance_id: 实例 id
     """
@@ -204,12 +204,12 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     
     Args:
         client: DME API client
-        instance_id: 实例 id（Required，1~64 个字符）
-        step_id: 步骤 id（Required，1~64 个字符）
+        instance_id: 实例 id（Required，1~64  characters）
+        step_id: 步骤 id（Required，1~64  characters）
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含：
         - logs: 步骤日志列表（最多 6000 条）
     """

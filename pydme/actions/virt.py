@@ -152,7 +152,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 total 和 datastores 字段
     """
     url = "/rest/vmmgmt/v1/datastores/query"
@@ -236,7 +236,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，includes host list
     """
     url = "/rest/vmmgmt/v1/hosts/query"
@@ -306,7 +306,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，includes cluster list
     """
     url = "/rest/vmmgmt/v1/clusters/query"
@@ -364,7 +364,7 @@ def site_list(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，includes site list
     """
     url = "/rest/vmmgmt/v1/sites/query"

@@ -203,7 +203,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 start_suffix: Suffix start encoding (0~9999, 默认0; 当count大于1effective when),
              }, ...]
         pool_id: Storage pool ID (Conditionally required), 1~64 characters; required when storage mode is not pass-through; obtained via QueryResource type API, Resource type name is SYS_StoragePool
-        vstore_id: 租户 ID（可选），1~64 个字符；当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
+        vstore_id: 租户 ID（可选），1~64  characters；当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5 设备，Dorado 系列不支持；
                                   Options：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；默认 automatic
@@ -225,23 +225,23 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
         mapping: Mapping info (可选), LunMapping object, If present, creates for host or host group LUN。参数格式如下：{
-                host_id: Host ID (1~64个字符; 与hostgroup_idone of, cannot coexist),
-                hostgroup_id: Host group ID (1~64个字符; 与host_idone of, cannot coexist),
+                host_id: Host ID (1~64 characters; 与hostgroup_idone of, cannot coexist),
+                hostgroup_id: Host group ID (1~64 characters; 与host_idone of, cannot coexist),
                 host_type: 映射Host type。Options：storage_host (Storage host), host (主机)。默认host,
                 start_host_lun_id: 起始主机LUN ID (1~4096),
                 mapping_view: Mapping view请求信息 (LunMappingRequestobject)。属性格式如下：{
-                        mapping_view_raw_id: Mapping viewon the storage deviceID (1~31个字符),
-                        mapping_view_name: Mapping viewon the storage device名称 (1~31个字符),
-                        lun_group_raw_id: LUN组on the storage deviceID (1~31个字符),
-                        lun_group_name: LUN组on the storage device名称 (1~255个字符),
-                        port_group_raw_id: Port groupon the storage deviceID (1~31个字符; Host or host group does not existMapping relationship时可指定, 存在Mapping relationship时不可指定),
+                        mapping_view_raw_id: Mapping viewon the storage deviceID (1~31 characters),
+                        mapping_view_name: Mapping viewon the storage device名称 (1~31 characters),
+                        lun_group_raw_id: LUN组on the storage deviceID (1~31 characters),
+                        lun_group_name: LUN组on the storage device名称 (1~255 characters),
+                        port_group_raw_id: Port groupon the storage deviceID (1~31 characters; Host or host group does not existMapping relationship时可指定, 存在Mapping relationship时不可指定),
                 },
              }
-        task_remarks: Async taskRemark（可选），最多 1024 个字符
+        task_remarks: Async taskRemark（可选），最多 1024  characters
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/customize"
@@ -1623,14 +1623,14 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         storage_host_group_id: Storage host组 ID (Required)
         storage_host_id_ids: 存储Host ID列表 (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
         create_storage_host_params: 创建新的Storage host列表 (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。参数格式如下：[{
-                name: Host name (Required, 1~255个字符, supports alphanumeric._-and Chinese characters),
+                name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。Options：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip: 主机ip地址 (可选, 最多127个字符),
-                description: 主机描述 (可选, 最多63个字符),
+                ip: 主机ip地址 (可选, 最多127 characters),
+                description: 主机描述 (可选, 最多63 characters),
                 initiators: Initiator list (可选, max array members: 1000)。参数格式如下：[{
                         protocol: Initiator type (Required)。Options：fc, iscsi, nvme_over_roce,
-                        raw_id: 主机Initiatorwwpn或iqn或nqn (Required, 1~223个字符),
-                        alias: Initiator alias (可选, 最多31个字符),
+                        raw_id: 主机Initiatorwwpn或iqn或nqn (Required, 1~223 characters),
+                        alias: Initiator alias (可选, 最多31 characters),
                      }, ...],
                 multipath: 多路径配置 (可选)。属性格式如下：{
                         multipath_type: Third-party multipath策略 (Required)。Options：default (默认), third_party (Third-party multipath),
@@ -1639,7 +1639,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                         special_mode_type: Special mode type (可选, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
-        task_remarks: Async taskRemark (可选, 最多1024个字符)
+        task_remarks: Async taskRemark (可选, 最多1024 characters)
 
     Returns:
         任务 ID
@@ -1746,7 +1746,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
@@ -1788,7 +1788,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 total 和 lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"

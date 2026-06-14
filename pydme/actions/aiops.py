@@ -375,7 +375,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含:
         - total: 智能分析任务Total count
         - data: 智能分析任务响应结果列表，每项包含:
@@ -417,7 +417,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
         client: DME API client
         begin_time: Start time(Required,Unix Timestamp毫second(s))
         end_time: End time(Required,Unix Timestamp毫second(s))
-        object_type_id: Object type ID(Required,1~32 个字符)
+        object_type_id: Object type ID(Required,1~32  characters)
         object_ids: object ID 列表(Required,最多 2000 个,ID 长度 1~32 位)
         indicator_ids: 指标 ID 列表(Required,最多 20 个,ID 长度 1~16 位)
 
@@ -486,7 +486,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                  2. 根据帮助确定要查询的Resource type (Class 名称)
                  3. 运行 `cmdb instance list --class_name <Class 名称>` 查询实例
                  4. obtain from response instance_id
-        obj_type: 监控Object type(Optional,1~512 个字符)
+        obj_type: 监控Object type(Optional,1~512  characters)
         indicators: Monitoring metric列表(Optional,最多 100 个)
         ext_dimensions: 扩展维度info list(Optional,最多 100 个)
         interval: 间隔粒度(Optional)
@@ -536,7 +536,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
     Args:
         client: DME API client
-        indicators: 监控object指标标识列表(Required,最多 1000 个字符)
+        indicators: 监控object指标标识列表(Required,最多 1000  characters)
                    可以是integer列表或string列表,如 [123, 456] 或 ["123", "456"]
 
     Returns:
@@ -612,7 +612,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     Args:
         client: DME API client
         type: Data type（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
-        object_id: 资源 ID（Required，1~256 个字符）
+        object_id: 资源 ID（Required，1~256  characters）
         begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         object_type: Resource type（Required）
@@ -620,7 +620,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含Query result
     """
     if type == 'capacity_prediction':
@@ -662,16 +662,16 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            storage_file_system（Filesystem）, controller（Controller）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
-        object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
+        object_name: Object name，supports fuzzy search（Optional，最多 256  characters）
         object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
         page_no: Page queryStart position（Optional，min：1）
         page_size: Items per page（Optional，1~100，默认 20）
         sort_key: Sort field（Optional），按分数进行排序，Optional值：health_score
-        sort_dir: 排序方式（Optional），Optional值：asc, desc
+        sort_dir: Sort method（Optional），Optional值：asc, desc
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含object健康度列表
     """
     url = "/rest/healthmgmt/v1/health-result/query"
@@ -706,7 +706,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
     Args:
         client: DME API client
-        object_id: object Id（Required，1~128 个字符）
+        object_id: object Id（Required，1~128  characters）
         object_type: Object type（Required）
                     Optional值：storage, storage_pool, storage_host, storage_disk, storage_port,
                            fcswitch_port, storage_file_system, controller, replication_cg, volume,
@@ -718,7 +718,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含指标扣分列表
     """
     url = "/rest/healthmgmt/v1/health-result/dimension-score/query"
@@ -747,11 +747,11 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
 
     Args:
         client: DME API client
-        task_id: 任务 ID(Required),1~128 个字符
+        task_id: 任务 ID(Required),1~128  characters
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         },包含:
         - task_id: 任务 ID
         - task_status: 任务状态,value range:
@@ -796,7 +796,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
 
     Args:
         client: DME API client
-        policy_name: Policy name（supports fuzzy search，1~256 个字符）
+        policy_name: Policy name（supports fuzzy search，1~256  characters）
         exact_query: 名称是否exact match（true-exact match，false-fuzzy search），默认 false
         status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity-容量threshold，availability-可用性，
@@ -810,7 +810,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         page_no: Page number，1~1000，默认 1
         page_size: Items per page，1~100，默认 20
         sort_key: Sort field（last_check_time-最后检查时间，failed_count-检查不通过的objectcount）
-        sort_dir: 排序方式（asc-正序，desc-降序）
+        sort_dir: Sort method（asc-正序，desc-降序）
         administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
         object_category: object分类（Storage-Storage device，IPSwitch-Ethernet switch，FCSwitch-Fibre Channel switch，
@@ -818,7 +818,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 total（Total count）和 policies（策略列表）
     """
     url = "/rest/policymgmt/v2/policies/query"
@@ -865,11 +865,11 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64 个字符）
+        policy_id: 策略 ID（1~64  characters）
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}/execute"
@@ -886,11 +886,11 @@ def check_policy_enable(client: DMEAPIClient, policy_id: str) -> dict:
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64 个字符）
+        policy_id: 策略 ID（1~64  characters）
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}/enable"
@@ -907,11 +907,11 @@ def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64 个字符）
+        policy_id: 策略 ID（1~64  characters）
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}/disable"
@@ -928,11 +928,11 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64 个字符）
+        policy_id: 策略 ID（1~64  characters）
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/policymgmt/v1/policies/{policy_id}"
@@ -960,26 +960,26 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
 
     Args:
         client: DME API client
-        object_name: Object name（supports fuzzy search，1~256 个字符）
+        object_name: Object name（supports fuzzy search，1~256  characters）
         level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
         object_ids: object ID 列表（最多 100 个）
-        object_native_id: object nativeId（1~384 个字符）
+        object_native_id: object nativeId（1~384  characters）
         object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
-        policy_id: 策略 ID（exact match，1~64 个字符）
-        policy_name: Policy name（supports fuzzy search，1~256 个字符）
+        policy_id: 策略 ID（exact match，1~64  characters）
+        policy_name: Policy name（supports fuzzy search，1~256  characters）
         policy_types: Policy type列表（最多 30 个）
-        cause: 异常原因（supports fuzzy search，1~768 个字符）
+        cause: 异常原因（supports fuzzy search，1~768  characters）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，单位 ms）
         last_occur_time: 最后一次异常Time range（{beginTime, endTime}，UTC Timestamp，单位 ms）
         page_no: Page number，1~10000，默认 1
         page_size: Items per page，1~2000，默认 20
         sort_key: Sort field（violation_count-异常次数）
-        sort_dir: 排序方式（asc-正序，desc-降序）
+        sort_dir: Sort method（asc-正序，desc-降序）
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 total（Total count）和 results（异常检查结果列表）
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/query"
@@ -1030,11 +1030,11 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 
     Args:
         client: DME API client
-        check_result_id: 检查结果 ID（1~64 个字符）
+        check_result_id: 检查结果 ID（1~64  characters）
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含检查结果的Details
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/{check_result_id}"
@@ -1075,7 +1075,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 LUN 拓扑列表
     """
     url = "/rest/topomgmt/v1/topo-data/luns/query"
@@ -1130,7 +1130,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含主机到Storage pool的拓扑结构：
         - ip_san 数据：
           - switches: Switch list
@@ -1214,7 +1214,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含：
         - total: Query resultTotal count
         - vms: VM list
@@ -1286,7 +1286,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含：
         - nodes: 节点列表，每个节点包含 id, type, label, sub_type
         - edges: 边列表，每条边包含 source, target, edge_type

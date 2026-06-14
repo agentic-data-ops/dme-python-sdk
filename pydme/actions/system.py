@@ -20,7 +20,7 @@ def login(client: DMEAPIClient) -> dict:
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 accessSession
         - accessSession: 会话 token，用于后续请求的 X-Auth-Token header
     """
@@ -56,12 +56,12 @@ def logout(client: DMEAPIClient) -> dict:
 def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
                    is_initial_password: bool = True) -> dict:
     """
-    根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。
+    根据指定Username重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。
 
     Args:
         client: DME API client
-        user_name: 需要重置密码的用户名 (Required, string, 1~128个字符)
-        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度cannot be less than8个字符、大于32个字符。2. Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        user_name: 需要重置密码的Username (Required, string, 1~128 characters)
+        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. 密码长度cannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
 
     Returns:
@@ -71,9 +71,9 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
     # Parameter validation
     if not user_name or len(user_name) > 128:
-        raise ValueError("user_name 是required parameter，1~128个字符")
+        raise ValueError("user_name 是required parameter，1~128 characters")
     if not new_value or len(new_value) < 8 or len(new_value) > 32:
-        raise ValueError("new_value 是required parameter，8~32个字符")
+        raise ValueError("new_value 是required parameter，8~32 characters")
 
     payload = {
         'newValue': new_value,
@@ -113,10 +113,10 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: 用户名 (Required, string, 最多32个字符)。本地用户名cannot be less than6个字符，大于32个字符，Cannot contain spaces、转义字符、Invisible and special characters。远端用户名cannot be less than1个字符，大于32个字符，Cannot contain invisible characters;特殊字符。
+        name: Username (Required, string, 最多32 characters)。本地Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义字符、Invisible and special characters。远端Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊字符。
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
-        value: 密码 (Optional, string, 8~32个字符)。密码长度cannot be less than8个字符、大于32个字符。Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符。远端用户不涉及。
-        description: 描述 (Optional, string, 最多127个字符)
+        value: 密码 (Optional, string, 8~32 characters)。密码长度cannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符。远端用户不涉及。
+        description: 描述 (Optional, string, 最多127 characters)
         roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全管理员组，Filesystem组或用户自定义角色。
 
     Returns:
@@ -153,15 +153,15 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
         page_size: 页面大小 (Required, integer, 5~200)。Default：10
-        name: 用户名搜索关键字 (Optional, string, 最多32个字符)
+        name: Username搜索关键字 (Optional, string, 最多32 characters)
 
     Returns:
         {
             total: Total count (integer, max：5000),
             datas: User data (List<UserData>, max array members：5000)。参数格式如下：[{
                 id: 用户ID (integer, 1~2147483647),
-                name: 用户名 (string, 6~32个字符),
-                description: 描述 (string, 最多127个字符),
+                name: Username (string, 6~32 characters),
+                description: 描述 (string, 最多127 characters),
                 type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (Third-party system access user), 2 (远端用户),
                 roles: 角色ID列表 (List<integer>, max array members：50),
             }, ...]
@@ -186,15 +186,15 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
         page_size: 页面大小 (Required, integer, 5~100)。Default：10
-        name: 角色名搜索关键字 (Optional, string, 最多64个字符)
+        name: 角色名搜索关键字 (Optional, string, 最多64 characters)
 
     Returns:
         {
             total: Total count (integer, max：10),
             datas: Role data (List<RoleData>, max array members：5000)。参数格式如下：[{
                 id: 角色ID (integer, 1~2147483647),
-                name: 角色名称 (string, 最多64个字符),
-                description: 描述 (string, 最多127个字符),
+                name: 角色名称 (string, 最多64 characters),
+                description: 描述 (string, 最多127 characters),
             }, ...]
         }
     """
@@ -219,9 +219,9 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
     Returns:
         {
             id: 用户ID (integer, 1~2147483647),
-            name: 用户名 (string, 最多32个字符),
+            name: Username (string, 最多32 characters),
             type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (Third-party system access user), 2 (远端用户),
-            description: 描述 (string, 最多127个字符),
+            description: 描述 (string, 最多127 characters),
             roles: User role (List<integer>, max array members：50),
         }
     """
@@ -244,8 +244,8 @@ def show(client: DMEAPIClient) -> dict:
 
     Returns:
         {
-            version: DME产品版本信息 (string, 最多128个字符),
-            sn: DME产品SN号 (string, 最多64个字符),
+            version: DME产品版本信息 (string, 最多128 characters),
+            sn: DME产品SN号 (string, 最多64 characters),
         }
     """
     url = "/rest/productmgmt/v1/system-info"
@@ -285,7 +285,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
 
     Args:
         client: DME API client
-        address: Backup server地址，支持IPv4地址，supports fuzzy match (Optional, string, 1~256个字符)
+        address: Backup server地址，支持IPv4地址，supports fuzzy match (Optional, string, 1~256 characters)
         name: Backup server名称 (Optional, string)
         page_no: Page queryStart page (Optional, int32)。Default：1
         page_size: 每页count (Optional, int32, 1~1000)。Default：20
@@ -294,7 +294,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
         {
             total: Backup serverTotal count (int32),
             backup_servers: 备份Server list (List<BackupServerInfo>)。参数格式如下：[{
-                id: Backup serverid (string, 1~64个字符),
+                id: Backup serverid (string, 1~64 characters),
             }, ...]
         }
     """
@@ -342,11 +342,11 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         end_time_from: End time起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         end_time_to: End time结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         sort_key: Sort field（Optional）
-        sort_dir: 排序方式（Optional，asc/desc）
+        sort_dir: Sort method（Optional，asc/desc）
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含Pending task group列表和Total count
     """
     url = "/rest/taskmgmt/v1/todo-groups"
@@ -442,7 +442,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含Pending item列表和Total count
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
@@ -582,7 +582,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     
     Args:
         client: DME API client
-        task_id: 任务 ID（Required，1~36 个字符）
+        task_id: 任务 ID（Required，1~36  characters）
     
     Returns:
         Task details列表，包含：
@@ -662,7 +662,7 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
 
     Args:
         client: DME API client
-        task_id: 任务 ID（Required，1~36 个字符）
+        task_id: 任务 ID（Required，1~36  characters）
 
     Returns:
         重试结果
@@ -953,7 +953,7 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     Args:
         client: DME API client
         tag_id: 标签 ID（Required）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
+        resources: 资源列表，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
         关联结果
@@ -975,7 +975,7 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     Args:
         client: DME API client
         tag_id: 标签 ID（Required）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
+        resources: 资源列表，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
         取消关联结果
@@ -999,8 +999,8 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
 
     Args:
         client: DME API client
-        az_name: Availability zone名称，supports fuzzy match (Optional, string, 1~64个字符)
-        operate_status: Availability zone运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (Optional, string, 1~16个字符)
+        az_name: Availability zone名称，supports fuzzy match (Optional, string, 1~64 characters)
+        operate_status: Availability zone运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (Optional, string, 1~16 characters)
         start: 分页的页号，从1开始 (Optional, int32, 1~10000000)。Default：1
         limit: 分页的大小 (Optional, int32, 1~512)。Default：512
         is_sc: 是否运营侧查询 (Optional, boolean, true,false)。Default：false
@@ -1013,7 +1013,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
                 name: Availability zone名称 (string),
                 description: Availability zone描述 (string),
                 operate_status: Availability zone的运营状态 (string)。Default：offline,
-                site_urn: 站点urn (string, 1~64个字符),
+                site_urn: 站点urn (string, 1~64 characters),
             }, ...]
         }
     """
@@ -1052,7 +1052,7 @@ def dc_list(client: DMEAPIClient, name: str = None,
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含 total 和 datacenters 字段
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/query"
@@ -1105,7 +1105,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
     
     Returns:
         {
-            task_id: Task ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }，包含设备列表
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/devices/query"
@@ -1134,9 +1134,9 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Args:
         client: DME API client
         ids: RegionID list，支持exact match (Optional, List[string], max array members：100)
-        name: Region的名称，supports fuzzy search (Optional, string, 最多256个字符)
-        active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256个字符)
-        standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256个字符)
+        name: Region的名称，supports fuzzy search (Optional, string, 最多256 characters)
+        active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256 characters)
+        standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256 characters)
         sync_status: RegionSync状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (Sync失败)
         role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近Sync time)
@@ -1189,10 +1189,10 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
 
     Args:
         client: DME API client
-        region_id: 下级Region的ID (Required, string, 1~64个字符)
-        request_url: 查询下级相应资源北向接口URL (Required, string, 1~8192个字符)
+        region_id: 下级Region的ID (Required, string, 1~64 characters)
+        request_url: 查询下级相应资源北向接口URL (Required, string, 1~8192 characters)
         request_method: 请求方式 (Required, string)。Optional值：get (Get请求), post (Post请求)
-        request_body: 调用下级北向接口请求Body体 (Optional, string, 1~20480个字符)
+        request_body: 调用下级北向接口请求Body体 (Optional, string, 1~20480 characters)
 
     Returns:
         无
