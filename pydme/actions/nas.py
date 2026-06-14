@@ -839,7 +839,7 @@ def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
 
 
 # ============================================================================
-# CIFS 共享子主题相关动作
+# CIFS share subtopic functions
 # ============================================================================
 
 def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
@@ -856,42 +856,42 @@ def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
               support_provisioning: bool = None, dc_id: str = None,
               dc_name: str = None) -> dict:
     """
-    批量查询 CIFS 共享
+    Batch query CIFS shares
 
     Args:
-        client: DME API 客户端
-        raw_id: CIFS 共享在存储设备上的 ID（可选），1~256 个字符
-        name: CIFS 共享名称（可选），1~256 个字符，支持模糊查询
-        share_path: CIFS 共享路径（可选），1~512 个字符，支持模糊查询
-        exact_share_path: 精确搜索 CIFS 共享路径（可选），1~1024 个字符；当 share_path 和 exact_share_path 都有值时，优先选择 exact_share_path
-        fs_id: CIFS 共享所属文件系统的 ID（可选），1~64 个字符
-        fs_name: CIFS 共享所属文件系统名称（可选），1~256 个字符，支持模糊查询
-        dtree_id: CIFS 共享所属 Dtree 的 ID（可选），1~64 个字符
-        dtree_name: CIFS 共享所属 Dtree 名称（可选），1~256 个字符，支持模糊查询
-        storage_id: CIFS 共享所属存储设备的 ID（可选），1~64 个字符
-        storage_name: CIFS 共享所属存储设备名称（可选），1~256 个字符，支持模糊查询
-        vstore_raw_id: CIFS 共享所属 vStore 在存储设备上分配的 ID（可选），1~256 个字符
-        vstore_name: CIFS 共享所属 vStore 名称（可选），1~256 个字符，支持模糊查询
-        manufacturer: 所属存储设备厂商（可选），可选值：huawei（华为）、third_party（第三方）
-        op_lock_enabled: CIFS 共享是否开启 Oplock（可选），true：是；false：否
-        notify_enabled: CIFS 共享是否开启 Notify（可选），true：是；false：否
-        offline_file_modes: CIFS 共享的离线缓存模式列表（可选），List<OfflineFileMode> 类型，数组最大成员个数 4。参数格式如下：[{
-                        mode: 离线缓存模式（可选），可选值：none（关闭）、manual（手动）、documents（文档）、programs（程序），默认 manual,
+        client: DME API client
+        raw_id: CIFS share ID on storage device (Optional), 1~256 characters
+        name: CIFS share name (Optional), 1~256 characters, supports fuzzy search
+        share_path: CIFS share path (Optional), 1~512 characters, supports fuzzy search
+        exact_share_path: Exact CIFS share path (Optional), 1~1024 characters; takes precedence over share_path
+        fs_id: Filesystem ID (Optional), 1~64 characters
+        fs_name: Filesystem name (Optional), 1~256 characters, supports fuzzy search
+        dtree_id: Dtree ID (Optional), 1~64 characters
+        dtree_name: Dtree name (Optional), 1~256 characters, supports fuzzy search
+        storage_id: Storage device ID (Optional), 1~64 characters
+        storage_name: Storage device name (Optional), 1~256 characters, supports fuzzy search
+        vstore_raw_id: vStore ID on storage device (Optional), 1~256 characters
+        vstore_name: vStore name (Optional), 1~256 characters, supports fuzzy search
+        manufacturer: Storage device vendor (Optional). Options: huawei, third_party
+        op_lock_enabled: Oplock enabled (Optional), true/false
+        notify_enabled: Notify enabled (Optional), true/false
+        offline_file_modes: Offline cache mode list (Optional), List<OfflineFileMode> type, max array members 4。参数格式如下：[{
+                        mode: Offline cache mode (Optional). Options: none, manual, documents, programs, default manual,
         },...]
-        file_extension_filter_enabled: CIFS 共享是否开启文件扩展名过滤（可选），true：是；false：否
-        abe_enabled: CIFS 共享是否开启 ABE（可选），true：是；false：否
-        page_no: 分页页码（可选），1~10000000，默认 1
-        page_size: 每页数据条数（可选），1~1000，默认 10
-        sort_key: 排序字段（可选），可选值：name、raw_id；指定 raw_id 排序时仅支持 ID 为数字的对象
-        sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
-        namespace_id: 命名空间 ID（可选），1~64 个字符，仅 OceanStor Pacific 系列存储设备支持
-        namespace_name: 命名空间名称（可选），1~256 个字符，支持模糊查询，仅 OceanStor Pacific 系列存储设备支持
-        support_provisioning: 是否支持业务发放（可选），true：是；false：否；下发此字段可过滤不支持业务发放设备的资源，当前不支持业务发放的设备有 OceanStor Pacific 系列
-        dc_id: 数据中心 ID（可选），1~128 个字符，正则 ^[_A-Fa-f0-9\\-]+$
-        dc_name: 数据中心名称（可选），1~256 个字符
+        file_extension_filter_enabled: File extension filter enabled (Optional), true/false
+        abe_enabled: ABE enabled (Optional), true/false
+        page_no: Page number (Optional), 1~10000000, default 1
+        page_size: Items per page (Optional), 1~1000, default 10
+        sort_key: Sort field (Optional). Options: name, raw_id
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending), default asc
+        namespace_id: Namespace ID (Optional), 1~64 characters, OceanStor Pacific series only
+        namespace_name: Namespace name (Optional), 1~256 characters, supports fuzzy search, OceanStor Pacific series only
+        support_provisioning: Supports provisioning (Optional), true/false
+        dc_id: Data center ID (Optional), 1~128 characters
+        dc_name: Data center name (Optional), 1~256 characters
 
     Returns:
-        CIFS 共享列表
+        CIFS share list
     """
     url = "/rest/fileservice/v1/cifs-shares/query"
 
@@ -958,14 +958,14 @@ def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
 
 def cifs_share_show(client: DMEAPIClient, cifs_share_id: str) -> dict:
     """
-    查询指定 CIFS 共享详情
+    Query CIFS share details
 
     Args:
-        client: DME API 客户端
-        cifs_share_id: CIFS 共享 ID
+        client: DME API client
+        cifs_share_id: CIFS share ID
 
     Returns:
-        CIFS 共享详细信息
+        CIFS share details
     """
     url = "/rest/fileservice/v1/cifs-shares/{cifs_share_id}"
 
@@ -976,28 +976,28 @@ def cifs_share_show(client: DMEAPIClient, cifs_share_id: str) -> dict:
 def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str = None,
                 namespace_id: str = None, task_remarks: str = None) -> dict:
     """
-    创建单个 CIFS 共享
+    Create a single CIFS share
 
     Args:
-        client: DME API 客户端
-        create_cifs_param: 创建 CIFS 共享参数。参数格式如下：{
-                name: 共享名称 (必选),
-                description: 描述信息 (可选),
-                share_path: 共享路径 (必选),
-                op_lock_enabled: Oplock功能开关 (可选),
-                notify_enabled: Notify功能开关 (可选),
-                ca_enabled: Failover连续可用特性开关 (可选),
-                offline_file_mode: 离线缓存模式 (可选)。可选值：none (关闭), manual (手动), documents (文档), programs (程序),
-                ip_control_enabled: IP访问控制特性开关 (可选),
-                abe_enabled: ABE功能开关 (可选),
-                audititem_list: 支持审计的事件列表 (可选)。参数格式如下：[{
-                        audititem: 审计事件类型 (默认none)。可选值：none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
+        client: DME API client
+        create_cifs_param: CIFS share creation parameters。参数格式如下：{
+                name: Share name (Required),
+                description: Description (Optional),
+                share_path: Share path (Required),
+                op_lock_enabled: Oplock switch (Optional),
+                notify_enabled: Notify switch (Optional),
+                ca_enabled: Failover continuous availability switch (Optional),
+                offline_file_mode: Offline cache mode (Optional). Options: none, manual, documents, programs,
+                ip_control_enabled: IP access control switch (Optional),
+                abe_enabled: ABE switch (Optional),
+                audititem_list: Audit event list (Optional)。参数格式如下：[{
+                        audititem: Audit event type (default none). Options: none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
                      }, ...],
-                apply_default_acl: 是否添加默认ACL (可选),
-                file_extension_filter_enabled: 是否开启文件扩展名过滤特性 (可选),
-                show_previous_versions_enabled: 是否开启显示历史版本的功能 (可选),
-                show_snapshot_enabled: 是否开启显示Snapshot的功能 (可选),
-                user_and_user_group_info: 用户和用户组列表 (可选)。参数格式如下：[{
+                apply_default_acl: Apply default ACL (Optional),
+                file_extension_filter_enabled: File extension filter enabled (Optional),
+                show_previous_versions_enabled: Show previous versions enabled (Optional),
+                show_snapshot_enabled: Show snapshot enabled (Optional),
+                user_and_user_group_info: User and user group list (Optional)。参数格式如下：[{
                         user_or_user_group_id_in_storage: 用户或用户组在存储上的id (可选, 1~64字符, 变更时必填),
                         user_or_user_group_name: 用户名或用户组名 (可选, 1~255字符; 用户组名称加前缀@),
                         domain_type: 域类型 (可选, 默认local)。可选值：ad_domain, ldap_domain, local, nis_domain,
