@@ -727,7 +727,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
         description: Description
         character_encoding:  character encoding, Options：utf-8, zh, gbk 等
         audit_items: Audit event list (Optional).  parameter format：[{
-                audititem: Audit event type. Options：none, all (all operations), open, create, read, write, close, delete, rename (重命名), get_security (Get security attribute), set_security (Set security attribute), get_attr (get), set_attr (设置),
+                audititem: Audit event type. Options：none, all (all operations), open, create, read, write, close, delete, rename ( rename), get_security (Get security attribute), set_security (Set security attribute), get_attr (get), set_attr (设置),
              }, ...]
         show_snapshot_enable: Show snapshot
         nfs_share_client_addition:  to add NFS Share client list (Optional).  parameter format：[{
@@ -2665,7 +2665,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         show_snap_dir: Snapshot directory visibility
         rdc: Data redundancy copies, Options：redundancy_2, redundancy_3, redundancy_4
         worm: WORM  config (Optional).  parameter format：{
-                worm_mode: WORM policy mode (Optional). Options：non_worm (None type), enterprise_mode ( enterprise), compliance_mode (法规级),
+                worm_mode: WORM policy mode (Optional). Options：non_worm (None type), enterprise_mode ( enterprise), compliance_mode ( regulatory level),
                 min_protect_period: Min protection period (Optional, 0~4294967295, default 0; 4294967295is indefinite),
                 min_protect_period_unit:  minretention periodunit  (Optional, defaultyear). Options：day, year, month, hour, minute,
                 max_protect_period: Max protection period (Optional, 1~4294967295, default70; 4294967295is indefinite),
@@ -2829,9 +2829,9 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                        list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime  updateFrequency, 4294967295： disable update; 3600：1 hour(s) update; 86400：1 day(s) update
         acl_policy_type: NamespaceSecurity mode, Options：mixed ( simultaneously support UNIX 和 Windows  permission) , 
-                        unix (适用于 NFS User permissions determined by Unix Mode/NFSv4 ACL  permission control) , 
+                        unix ( applicable to NFS User permissions determined by Unix Mode/NFSv4 ACL  permission control) , 
                         native (与 Mixed Mode applicable to same scenario) , 
-                        ntfs (适用于 CIFS User permissions determined by Windows NT ACL  permission control) 
+                        ntfs ( applicable to CIFS User permissions determined by Windows NT ACL  permission control) 
         enable_encrypt: Enable encryption, true： enable; false： disable
         qos_policy: QoS Policy configuration.  parameter format：{
                 qos_switch: QoS switch (Required). Options：on, off,

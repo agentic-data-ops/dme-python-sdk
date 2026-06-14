@@ -645,7 +645,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         physical_type: Disk type (Optional). Options: unknown (unknown), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
         new_physical_type: 真实的Disk type (Optional). Options: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB). 
-        role:  disk role (Optional). Options: unknown (unknown), free (空闲), member ( member), hotSpare (热备), cache (缓存), aggregate (聚合), broken (断开), foreign (外部), labelmaint ( tag maintenance), maintenance ( maintenance), shared ( share), spare (备用), unassigned (未分配), unsupported (不 support), remote (远程), mediator (中介). 
+        role:  disk role (Optional). Options: unknown (unknown), free (空闲), member ( member), hotSpare (热备), cache (缓存), aggregate (聚合), broken (断开), foreign (外部), labelmaint ( tag maintenance), maintenance ( maintenance), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
         disk_pool_name: Disk pool name (Optional, 1~256 characters). supports fuzzy search. 
         disk_pool_id: Disk pool或Disk poolID (Optional, 1~64 characters).  Huawei onlyStorage device, third-party device supports this field. 
         storage_pool_id: Storage pool ID (Optional, 1~64 characters). 
@@ -903,9 +903,9 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         name:  nodeName (Optional,1~256 characters) , supports fuzzy search (case-insensitive) 
         ids:  nodeID list(Optional, List<string>, max array members: 100) 
         mgmt_ip: Node managementIP address(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        frame_number: Rack/机架号(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        slot_number: 槽位/机架内Slot number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        status: Node status(Optional). Options: UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND ( bad block), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
+        frame_number: Rack/ rack number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
+        slot_number: 槽位/ in rackSlot number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
+        status: Node status(Optional). Options: UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND ( bad block), BIT_ERRORS_FOUND ( has error code), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
         roles:  nodeRole list(Optional, List<string>, max array members: 10). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
         page_no: Page number(Optional, 1~10000, default 1) 
         page_size: Page size(Optional, 1~1000, default 20) 
@@ -922,8 +922,8 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 mgmt_ip: Node managementIP address (1~255 characters),
                 status: Node status (1~255 characters). Options: UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PARTIALLY_DAMAGED (部分损坏),
                 node_model:  node model (1~255 characters). 例如: DataTurbo, OceanStor Pacific, RH5288 V3,
-                frame_number: Rack/机架号 (1~255 characters),
-                slot_number: 槽位/机架内Slot number (1~255 characters),
+                frame_number: Rack/ rack number (1~255 characters),
+                slot_number: 槽位/ in rackSlot number (1~255 characters),
                 roles:  nodeRole list (List<string>). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute),
                 node_sn: Serial number info (1~255 characters),
                 storage_id: Storage deviceid (1~64 characters),
@@ -1349,7 +1349,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     esn: EnclosureSerial number (0~512 characters),
                     mac: MAC address (0~512 characters),
                     power_mode: Power supply mode. Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode),
-                    bar_code: 条形码 (0~256 characters),
+                    bar_code:  barcode (0~256 characters),
                     board_type: 单板 type (0~128 characters),
                     description:  description (0~1024 characters),
                     temperature: 温度, unit °C (0~128 characters),
@@ -2326,7 +2326,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
+                running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
                 operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2405,7 +2405,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             id:  logicalPort ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
+            running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
             operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
