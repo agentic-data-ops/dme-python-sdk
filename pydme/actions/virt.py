@@ -15,7 +15,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
              vr_type: str = None, datacenter_id: str = None, sort_key: str = None,
              sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryVM list
+     query VM list
     
     Args:
         client: DME API client
@@ -98,7 +98,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
-    QueryVirtual machine details
+    Query virtual machine details
     
      Query virtual machine details.
     
@@ -191,7 +191,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
 
 def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None) -> dict:
     """
-    QueryDatastore details
+    Query datastore details
     
      Query datastore details. 
     
@@ -220,7 +220,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     """
     Query host list
     
-     queryPhysical host list, supports multiple filter criteria. 
+     query physical host list, supports multiple filter criteria. 
     
     Args:
         client: DME API client
@@ -464,7 +464,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     """
     Query virtual disk info list
     
-     queryVirtual disk list, supports multiple filter criteria. 
+     query virtual disk list, supports multiple filter criteria. 
     
     Args:
         client: DME API client
@@ -503,7 +503,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
 
 def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
-    QueryVirtual disk info
+    Query virtual disk info
     
      Query virtual disk details. 
     
@@ -525,7 +525,7 @@ ACTIONS = {
     # Virtual machinemanagement 
     'vm_list': {
         'func': vm_list,
-        'description': ' queryVM list',
+        'description': ' query VM list',
         'params': ['site_id', 'cluster_id', 'dc_id', 'cluster_name', 'host_id', 
                    'host_name', 'name', 'ip_address', 'status', 'is_template', 
                    'os_type', 'vr_type', 'datacenter_id', 'sort_key', 'sort_dir', 
@@ -534,7 +534,7 @@ ACTIONS = {
     },
     'vm_show': {
         'func': vm_show,
-        'description': 'QueryVirtual machine details',
+        'description': 'Query virtual machine details',
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
@@ -549,7 +549,7 @@ ACTIONS = {
     },
     'datastore_show': {
         'func': datastore_show,
-        'description': 'QueryDatastore details',
+        'description': 'Query datastore details',
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
@@ -615,7 +615,7 @@ ACTIONS = {
     },
     'vdisk_show': {
         'func': vdisk_show,
-        'description': 'QueryVirtual disk info',
+        'description': 'Query virtual disk info',
         'params': ['virtual_disk_id'],
         'subtopic': 'vdisk'
     },

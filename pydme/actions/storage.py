@@ -306,7 +306,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
 
 def show(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    QueryStorage device. 
+    Query storage device. 
 
     Args:
         client: DME API client
@@ -741,7 +741,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
               zone_id: str = None, page_no: int = 1, page_size: int = 10,
               sort_key: str = None, sort_dir: str = None) -> dict:
     """
-     queryStorage deviceStorage pool list
+     query storage deviceStorage pool list
 
     Args:
         client: DME API client
@@ -974,7 +974,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
              enclosure_name: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryStorage devicePower supplyDetails info, only supportsOceanStor A800 storage. 
+     query storage devicePower supplyDetails info, only supportsOceanStor A800 storage. 
 
     Args:
         client: DME API client
@@ -1162,7 +1162,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
                  create_type: int = None, template_type: int = None, 
                  pool_id: str = None) -> dict:
     """
-    QueryStorage device application type
+    Query storage device application type
     
     Dorado series only. 
     
@@ -1202,7 +1202,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
 
 def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    QueryStorage devicecontroller info
+    Query storage devicecontroller info
     
     query storage deviceControllerList info. 
     
@@ -1530,7 +1530,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
 def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                      name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage devicelocal Auth user info
+    Query storage devicelocal Auth user info
 
     Args:
         client: DME API client
@@ -1611,7 +1611,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
                       description: str = None, password: str = None,
                       status_enabled: bool = None, vstore_raw_id: str = None) -> dict:
     """
-    CreateStorage device UNIX auth user
+    Create storage device UNIX auth user
 
     Args:
         client: DME API client
@@ -1654,7 +1654,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
                                  status_enabled: bool = None,
                                  vstore_raw_id: str = None) -> dict:
     """
-    CreateStorage device Windows auth user
+    Create storage device Windows auth user
 
     Args:
         client: DME API client
@@ -1692,7 +1692,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
 def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage device UNIX Auth user info
+    Query storage device UNIX Auth user info
 
     Args:
         client: DME API client
@@ -1724,7 +1724,7 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
 def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                        name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage device Windows Auth user info
+    Query storage device Windows Auth user info
 
     Args:
         client: DME API client
@@ -1756,7 +1756,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
 def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                            name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage devicelocal Auth user group info
+    Query storage devicelocal Auth user group info
 
     Args:
         client: DME API client
@@ -1788,7 +1788,7 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
 def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                           name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage device UNIX Auth user group info
+    Query storage device UNIX Auth user group info
 
     Args:
         client: DME API client
@@ -1820,7 +1820,7 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
 def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryStorage device Windows Auth user group info
+    Query storage device Windows Auth user group info
 
     Args:
         client: DME API client
@@ -2987,16 +2987,16 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
 def failover_group_list(client: DMEAPIClient, storage_id: str,
                         failover_group_type: str = None,
                         zone_id: str = None,
-                        failover_group_service_type: list = None) -> dict:
+                        failover group service type: list = None) -> dict:
     """
-     queryFailover group busi failover group list
+     query failover group busi failover group list
 
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
         failover_group_type: Failover group busi failover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group)
+        failover group service type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group)
 
     Returns:
         {
@@ -3009,7 +3009,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only,
                 zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
                 zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
-                failover_group_service_type: Failover group business type. Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group),
+                failover group service type: Failover group business type. Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group),
             }, ...]
         }
     """
@@ -3023,8 +3023,8 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         payload['failover_group_type'] = failover_group_type
     if zone_id is not None:
         payload['zone_id'] = zone_id
-    if failover_group_service_type is not None:
-        payload['failover_group_service_type'] = failover_group_service_type
+    if failover group service type is not None:
+        payload['failover group service type'] = failover group service type
 
     response = client.post(url, body=payload)
     return response
@@ -3087,7 +3087,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
 
 def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> dict:
     """
-     queryFailover group busi failover group under VLAN
+     query failover group busi failover group under VLAN
 
     Args:
         client: DME API client
@@ -3185,7 +3185,7 @@ ACTIONS = {
     },
     'show': {
         'func': show,
-        'description': 'QueryStorage device',
+        'description': 'Query storage device',
         'params': ['storage_id'],
         'subtopic': None
     },
@@ -3241,7 +3241,7 @@ ACTIONS = {
     },
     'pool_list': {
         'func': pool_list,
-        'description': ' queryStorage deviceStorage pool list',
+        'description': ' query storage deviceStorage pool list',
         'params': ['storage_id', 'raw_id', 'zone_id', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'pool'
     },
@@ -3274,13 +3274,13 @@ ACTIONS = {
     },
     'app_type_list': {
         'func': app_type_list,
-        'description': 'QueryStorage device application type',
+        'description': 'Query storage device application type',
         'params': ['storage_id'],
         'subtopic': 'app_type'
     },
     'controller_list': {
         'func': controller_list,
-        'description': 'QueryStorage devicecontroller info',
+        'description': 'Query storage devicecontroller info',
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
@@ -3358,7 +3358,7 @@ ACTIONS = {
     # account subtopic actions (auth user) 
     'account_show_local_users': {
         'func': account_show_local_users,
-        'description': 'QueryStorage devicelocal Auth user info',
+        'description': 'Query storage devicelocal Auth user info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
@@ -3370,43 +3370,43 @@ ACTIONS = {
     },
     'account_create_unix_user': {
         'func': account_create_unix_user,
-        'description': 'CreateStorage device UNIX auth user',
+        'description': 'Create storage device UNIX auth user',
         'params': ['storage_id', 'name', 'primary_group_raw_id', 'raw_id', 'description', 'password', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_create_windows_user': {
         'func': account_create_windows_user,
-        'description': 'CreateStorage device Windows auth user',
+        'description': 'Create storage device Windows auth user',
         'params': ['storage_id', 'name', 'password', 'raw_id', 'description', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_show_unix_users': {
         'func': account_show_unix_users,
-        'description': 'QueryStorage device UNIX Auth user info',
+        'description': 'Query storage device UNIX Auth user info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_users': {
         'func': account_show_windows_users,
-        'description': 'QueryStorage device Windows Auth user info',
+        'description': 'Query storage device Windows Auth user info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_local_user_groups': {
         'func': account_show_local_user_groups,
-        'description': 'QueryStorage devicelocal Auth user group info',
+        'description': 'Query storage devicelocal Auth user group info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_unix_user_groups': {
         'func': account_show_unix_user_groups,
-        'description': 'QueryStorage device UNIX Auth user group info',
+        'description': 'Query storage device UNIX Auth user group info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_user_groups': {
         'func': account_show_windows_user_groups,
-        'description': 'QueryStorage device Windows Auth user group info',
+        'description': 'Query storage device Windows Auth user group info',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
@@ -3568,8 +3568,8 @@ ACTIONS = {
     # failover_group subtopic actions ( storageFailover group busi failover group) 
     'failover_group_list': {
         'func': failover_group_list,
-        'description': ' queryFailover group busi failover group list',
-        'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover_group_service_type'],
+        'description': ' query failover group busi failover group list',
+        'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover group service type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_ports': {
@@ -3580,7 +3580,7 @@ ACTIONS = {
     },
     'failover_group_show_vlans': {
         'func': failover_group_show_vlans,
-        'description': ' queryFailover group busi failover group under VLAN',
+        'description': ' query failover group busi failover group under VLAN',
         'params': ['failover_group_id'],
         'subtopic': 'failover_group'
     },

@@ -13,7 +13,7 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryBackup cluster list
+     query backup cluster list
     
     Args:
         client: DME API client
@@ -49,7 +49,7 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
     Query backup cluster capacity
     
-    QueryBackup cluster capacity info. 
+    Query backup cluster capacity info. 
     
     Args:
         client: DME API client
@@ -74,7 +74,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     """
     Query backup clusterTenant quota list
     
-    QueryBackup clusterTenant quota list. 
+    Query backup clusterTenant quota list. 
     
     Args:
         client: DME API client
@@ -112,7 +112,7 @@ ACTIONS = {
     # subtopic actions - cluster (Three-level structure: backup cluster list/capacity/quota) 
     'cluster_list': {
         'func': cluster_list,
-        'description': ' queryBackup cluster list',
+        'description': ' query backup cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },

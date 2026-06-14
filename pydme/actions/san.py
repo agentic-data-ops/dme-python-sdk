@@ -1198,7 +1198,7 @@ def storage_host_create(client: DMEAPIClient, storage_id: str,
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~64 characters)
-        host_info: CreateStorageHostInfo object (Required).  format: {
+        host_info: Create storageHostInfo object (Required).  format: {
                 name: Host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese),
                 os_type: Host type (Required). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: Host IP address (Optional, max 127 characters),
@@ -3405,7 +3405,7 @@ ACTIONS = {
     },
     'physical_host_query_sshkey': {
         'func': physical_host_query_sshkey,
-        'description': 'QueryPhysical hostSSH public key',
+        'description': 'Query physical hostSSH public key',
         'params': ['ip', 'port'],
         'subtopic': 'physical_host'
     },

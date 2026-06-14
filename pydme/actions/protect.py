@@ -19,7 +19,7 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
                sort_key: str = None, sort_dir: str = None,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch queryProtection group
+    Batch query protection group
 
     Args:
         client: DME API client
@@ -2740,7 +2740,7 @@ ACTIONS = {
     # group subtopic actions
     'group_list': {
         'func': group_list,
-        'description': 'Batch queryProtection group',
+        'description': 'Batch query protection group',
         'params': ['name', 'project_id', 'storage_name', 'storage_id', 'raw_id', 'lun_group_raw_id', 'vstore_id', 'vstore_raw_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'group'
     },

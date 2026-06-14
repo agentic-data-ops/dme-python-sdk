@@ -137,7 +137,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
                    sort_key: str = None, sort_dir: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch queryGlobal namespace
+    Batch query global namespace
 
     Args:
         client: DME API client
@@ -179,7 +179,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
 
 def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = None) -> dict:
     """
-     queryGlobal namespace details
+     query global namespace details
 
     Args:
         client: DME API client
@@ -694,13 +694,13 @@ ACTIONS = {
     # Namespace subtopic actions
     'namespace_list': {
         'func': namespace_list,
-        'description': 'Batch queryGlobal namespace',
+        'description': 'Batch query global namespace',
         'params': ['name', 'gfs_group_name', 'gfs_group_id', 'gfs_type', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
     'namespace_show': {
         'func': namespace_show,
-        'description': ' queryGlobal namespace details',
+        'description': ' query global namespace details',
         'params': ['id', 'name_locator'],
         'subtopic': 'namespace'
     },

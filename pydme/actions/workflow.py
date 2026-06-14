@@ -132,7 +132,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     
     Args:
         client: DME API client
-        instance_id:  queryInstance ID (Required, 1~64  characters) 
+        instance_id:  query instance ID (Required, 1~64  characters) 
     
     Returns:
         {

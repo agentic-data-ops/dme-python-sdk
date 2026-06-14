@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, name: str = None, 
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch querySwitch
+    Batch query switch
     
     Args:
         client: DME API client
@@ -66,7 +66,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
                        port_name: str = None, page_no: int = 1, 
                        page_size: int = 20) -> dict:
     """
-    Batch querySwitch port
+    Batch query switch port
     
     Args:
         client: DME API client
@@ -100,7 +100,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
 def controller_list(client: DMEAPIClient, switch_id: str = None,
                              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch querySwitch control processor
+    Batch query switch control processor
     
     Args:
         client: DME API client
@@ -130,7 +130,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
 def fabric_list(client: DMEAPIClient, name: str = None, 
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch queryFibre Channel network
+    Batch query fibre Channel network
     
     Args:
         client: DME API client
@@ -709,7 +709,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
 ACTIONS = {
     'list': {
         'func': list,
-        'description': 'Batch queryFibre Channel switch',
+        'description': 'Batch query fibre Channel switch',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
@@ -721,13 +721,13 @@ ACTIONS = {
     },
     'port_list': {
         'func': port_list,
-        'description': ' querySwitch port list',
+        'description': ' query switch port list',
         'params': ['switch_id', 'port_name', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'controller_list': {
         'func': controller_list,
-        'description': ' querySwitchController list',
+        'description': ' query switchController list',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },

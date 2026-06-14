@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryContainer cluster list
+     query container cluster list
     
     Args:
         client: DME API client
@@ -46,7 +46,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
 def node_list(client: DMEAPIClient, cluster_id: str = None,
                name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryContainer node list
+     query container node list
     
     Args:
         client: DME API client
@@ -84,7 +84,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryPod list
+     query pod list
     
      Query pod list,  supports filtering by cluster ID, namespace and name. 
     
@@ -241,21 +241,21 @@ ACTIONS = {
     #  clustermanagement 
     'cluster_list': {
         'func': cluster_list,
-        'description': ' queryContainer cluster list',
+        'description': ' query container cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     # Node management
     'node_list': {
         'func': node_list,
-        'description': ' queryContainer node list',
+        'description': ' query container node list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'node'
     },
     # Podmanagement 
     'pod_list': {
         'func': pod_list,
-        'description': ' queryPod list',
+        'description': ' query pod list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },

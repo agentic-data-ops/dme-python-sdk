@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
          name: str = None, server_type: str = None) -> dict:
     """
-     queryServer list
+     query server list
     
     Args:
         client: DME API client
@@ -49,7 +49,7 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 
 def show(client: DMEAPIClient, server_id: str) -> dict:
     """
-    QueryServer overview info
+    Query server overview info
     
     Args:
         client: DME API client
@@ -284,13 +284,13 @@ ACTIONS = {
     # Direct action (Two-level structure) 
     'list': {
         'func': list,
-        'description': ' queryServer list',
+        'description': ' query server list',
         'params': ['start', 'limit', 'name', 'server_type'],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': 'QueryServer overview info',
+        'description': 'Query server overview info',
         'params': ['server_id'],
         'subtopic': None
     },
