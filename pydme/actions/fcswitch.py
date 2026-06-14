@@ -405,7 +405,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
     delete  zone
-    注： based on DME API  doc， use DELETE 方法到 /zones/{zone_id}
+    注： based on DME API  doc， use DELETE  method to /zones/{zone_id}
     
     Args:
         client: DME API client
@@ -643,7 +643,7 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     Delete alias
 
-    注： based on DME API  doc， use DELETE 方法到 /aliases/{alias_id}
+    注： based on DME API  doc， use DELETE  method to /aliases/{alias_id}
 
     Args:
         client: DME API client

@@ -739,7 +739,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 write_mode: Write mode (Optional)。Options：synchronization (Sync), asynchronization (异步),
                 permission_constraint: Permission constraint (Required)。Options：all_squash, no_all_squash,
                 root_permission_constraint: rootPermission constraint (Required)。Options：root_squash, no_root_squash,
-                source_port_verification: Source port verification (Optional)。Options：secure (安全), insecure (不安全),
+                source_port_verification: Source port verification (Optional)。Options：secure (安全), insecure ( insecure),
                 anonymous_user_id: Anonymous userID (Optional, 0~4294967294),
              }, ...]
         nfs_share_client_modification:  needmodify 的 NFS Share client list (Optional)。 parameter format：[{
@@ -751,7 +751,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 write_mode: Write mode (Optional)。Options：synchronization (Sync), asynchronization (异步),
                 permission_constraint: Permission constraint (Required)。Options：all_squash, no_all_squash,
                 root_permission_constraint: rootPermission constraint (Required)。Options：root_squash, no_root_squash,
-                source_port_verification: Source port verification (Optional)。Options：secure (安全), insecure (不安全),
+                source_port_verification: Source port verification (Optional)。Options：secure (安全), insecure ( insecure),
                 anonymous_user_id: Anonymous userID (Optional, 0~4294967294),
              }, ...]
         nfs_share_client_deletion:  needdelete 的 NFS Share client list (Optional)。 parameter format：[{
@@ -2127,7 +2127,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         burst_band_width: Burst bandwidthMB/s (Optional),
                         burst_iops: burstIOPS (Optional),
                         burst_time: Max burst timesecond(s) (Optional),
-                        latency: 时延 (Optional, 仅保护lower limit support),
+                        latency: 时延 (Optional,  protect onlylower limit support),
                         max_read_bandwidth:  maxRead bandwidthMB/s (Optional),
                         max_write_bandwidth:  maxWrite bandwidthMB/s (Optional),
                         burst_read_band_width: burstRead bandwidthMB/s (Optional),
@@ -2179,7 +2179,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear)。Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
                 max_protect_period_unit: Max protection period unit (Optional, defaultyear)。Options：minute, hour, day, month, year,
-                def_protect_period: Default protection period (Optional, 不小于 min, 不greater than max, default70),
+                def_protect_period: Default protection period (Optional,  not less than min, 不greater than max, default70),
                 def_protect_period_unit: Default protection period unit (Optional, defaultyear)。Options：minute, hour, day, month, year,
                 auto_lock: WORMAuto-lock mode (Optional, Enabled by default)。Options：true, false,
                 auto_lock_time: Auto-lock time (Optional, default2),
@@ -2661,11 +2661,11 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         acl_policy_type: Security mode，Options：mixed, unix, native, ntfs，default unix
         enable_encrypt: Enable encryption
         crypt_alg: Encryption algorithm type，Options：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
-        case_sensitive: Case sensitive，default不敏感
+        case_sensitive: Case sensitive，default insensitive
         show_snap_dir: Snapshot directory visibility
         rdc: Data redundancy copies，Options：redundancy_2, redundancy_3, redundancy_4
         worm: WORM  config (Optional)。 parameter format：{
-                worm_mode: WORM policy mode (Optional)。Options：non_worm (None type), enterprise_mode (企业级), compliance_mode (法规级),
+                worm_mode: WORM policy mode (Optional)。Options：non_worm (None type), enterprise_mode ( enterprise), compliance_mode (法规级),
                 min_protect_period: Min protection period (Optional, 0~4294967295, default0; 4294967295is indefinite),
                 min_protect_period_unit:  minretention periodunit  (Optional, defaultyear)。Options：day, year, month, hour, minute,
                 max_protect_period: Max protection period (Optional, 1~4294967295, default70; 4294967295is indefinite),
@@ -2731,7 +2731,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
              }
         create_s3_param: create  S3  protocol parameter (Optional)。 parameter format：{
-                bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (Public read/write),
+                bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only ( public write), public_read_write (Public read/write),
                 version_status: object多 version status (Optional, 0~2)。Options：0 ( disable), 1 ( open), 2 ( pause),
              }
         application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（ general scenario）
@@ -2822,7 +2822,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         trash_enable: Recycle bin enabled，true： enable；false：disabled，defaultdisabled
         interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，不 autodelete ， max 4294967295
         dps_switch: Metadata search switch，true： enable；false： disable
-        forbidden_dpc:  whether禁止 dpc 挂载，true：禁止；false：不禁止
+        forbidden_dpc:  whether禁止 dpc 挂载，true：禁止；false： not prohibited
         audit_log_switch: EnableAudit log，缺省 disable，true： enable；false： disable
         audit_log_rule: Audit log rule list，Options：open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
@@ -3379,7 +3379,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         raw_id: user on the storage device ID (1~255 characters, Optional)
         zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800  storage underauth usersupports filtering by this field
         user_status: User status (Optional)。Options：enable ( enable), disable (禁用)
-        sort_key: sort by specified field (Optional)。Options：name (Username), raw_id (user on the storage device ID), primary_group_name (主组名), create_time (Creation time)。Default：create_time
+        sort_key: sort by specified field (Optional)。Options：name (Username), raw_id (user on the storage device ID), primary_group_name ( primary group name), create_time (Creation time)。Default：create_time
         storage_id: Storage device ID (1~36 characters, Optional)
         sort_dir:  specifiedSort direction (Optional)。Options：asc (ascending), desc (descending)。Default：desc
 

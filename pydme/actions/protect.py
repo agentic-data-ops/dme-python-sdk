@@ -88,8 +88,8 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         name: Protection group name
         storage_id: Storage device ID
-        lun_ids: LUN 的 ID  list， conditionRequired，当基于 LUN create Protection grouprequired when
-        lun_group_id: LUN 组 ID， conditionRequired，当基于 LUN 组形式create Protection grouprequired when
+        lun_ids: LUN 的 ID  list， conditionRequired， when based on LUN create Protection grouprequired when
+        lun_group_id: LUN 组 ID， conditionRequired， when based on LUN  group formcreate Protection grouprequired when
         description: Protection group description
 
     Returns:
@@ -181,9 +181,9 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: 待add 到Protection group的 LUN 的 ID  list（Optional），max array members 100，与 hyper_metro 和 rem_reps 的 parameter lun_pairs mutually exclusive；Protection group不存在Active-active、 replication、环形 3DC parameter effective when feature
+        lun_ids: 待add 到Protection group的 LUN 的 ID  list（Optional），max array members 100，与 hyper_metro 和 rem_reps 的 parameter lun_pairs mutually exclusive；Protection group does not existActive-active、 replication、环形 3DC parameter effective when feature
         hyper_metro: add  LUN 到有Active-active特性Protection group的 request parameter（Optional），与 lun_ids  parametermutually exclusive；Protection group存在Active-activeparameter effective when feature。 format：{
-                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair  joinConsistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接 pauseConsistency group和新 Pair，将新 Pair  joinConsistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status， will waitSyncafter completion, new Pair  joinConsistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status， directly pauseConsistency group和新 Pair，将新 Pair  joinConsistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource nameStay consistent）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
@@ -195,7 +195,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         },...]
         }
         rem_reps: add  LUN to replication-capableProtection group的 request parameter（Optional），max array members 2，与 lun_ids  parametermutually exclusive；Protection group存在 replicationparameter effective when feature。 format：[{
-                        is_delay: Deferred execution（Optional），default true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair  joinConsistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair  joinConsistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Optional），default true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync" status， will waitSyncafter completion, new Pair  joinConsistency group；when deferred execution is false 时： directlySplitConsistency group和新 Pair，将新 Pair  joinConsistency group，再SyncConsistency group
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_id: remote Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$； replication Pair creation mode为 auto effective when
@@ -239,7 +239,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
         client: DME API client
         pg_id: Protection group ID
         lun_ids: to be removedProtection group member LUN 的 ID  list
-        is_delay: Deferred execution。在Remote replication，Sync + Async ring 3DC 情况下，此 parameter无效
+        is_delay: Deferred execution。在Remote replication，Sync + Async ring 3DC  case，此 parameter无效
 
     Returns:
         {
@@ -730,7 +730,7 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
         client: DME API client
         pair_id: Active-active Pair instance ID
         speed: Active-active Pair Sync rate，Optional值：low, medium, high, highest, custom
-        bandwidth: 自定义 rate（MB/s），当 speed 为 custom 时Required
+        bandwidth:  custom rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time:  isolationthreshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
@@ -1765,7 +1765,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         remote_storage_id: remote Storage device ID
         local_pg_id: local Protection group的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 required when
         description: Description
-        remote_lun_group_id: remote  LUN 组的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时且local Protection group是基于 LUN 组create 的required when
+        remote_lun_group_id: remote  LUN 组的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时且local Protection group is based on LUN 组create 的required when
         local_storage_id: local Storage device ID，当Storage device version不是 OceanStor V6、OceanStor Dorado V6 required when
         create_mode:  replication Pair creation mode，Optional值：auto（ auto）, manual（ manual）
         existed_pair_ids: Existing replication Pair 的 ID  list

@@ -907,12 +907,12 @@ def main():
     # 4.  specified了 <topic> <subtopic> <action>，Show action help or execute action
     if args.subtopic and args.action:
         # try to combine as action_key（Three-level structure：<topic> <subtopic> <action>）
-        # 先尝试 subtopic_action  format（Supports action names with spaces，如 "frame list"）
+        #  try first subtopic_action  format（Supports action names with spaces，如 "frame list"）
         action_key = f"{args.subtopic}_{args.action}"
         
         # if not found，尝试 subtopic action  format（space-separated）
         if action_key not in actions_info:
-            # 尝试将 subtopic 和 action Combine into space-separated format
+            #  try to subtopic 和 action Combine into space-separated format
             space_action_key = f"{args.subtopic} {args.action}"
             if space_action_key in actions_info:
                 action_key = space_action_key
@@ -938,7 +938,7 @@ def main():
 
         if not auth_token and not (endpoint and username and password):
             print(" error：must be provided endpoint、user 和 password  parameter，或者 use --token provide auth token")
-            print("可通过 --endpoint, --user, --password, --token or set via environment variables")
+            print(" can pass --endpoint, --user, --password, --token or set via environment variables")
             parser.print_help()
             sys.exit(1)
 

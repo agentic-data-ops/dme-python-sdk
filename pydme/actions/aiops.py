@@ -411,7 +411,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     Create performance file collection task
 
     Collect performance files from start to end date,只 support收集 7 day(s)内的 data,
-     each passedobjectmultiplied by metric count不超过 2000.
+     each passedobjectmultiplied by metric count not exceed 2000.
 
     Args:
         client: DME API client
@@ -537,7 +537,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     Args:
         client: DME API client
         indicators:  monitorobject指标Identifier list(Required, max 1000  characters)
-                   可以是integer list或string list,如 [123, 456] 或 ["123", "456"]
+                    can beinteger list或string list,如 [123, 456] 或 ["123", "456"]
 
     Returns:
         Monitoring metric info,includes  kpi, data_type, data_unit, en_us, zh_cn 等 field
@@ -576,7 +576,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     Args:
         client: DME API client
-        filter:  filter关键字(Optional),用于fuzzy match zh_cn 和 en_us  field
+        filter:  filter keyword(Optional),用于fuzzy match zh_cn 和 en_us  field
                 if provided,returns only matchesObject type
 
     Returns:
@@ -650,7 +650,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                       object_ids: list = None, page_no: int = None, page_size: int = None,
                       sort_key: str = None, sort_dir: str = None) -> dict:
     """
-     queryobject健康度
+     queryobject health
 
     Query typeobjecthealth info。
 
@@ -672,7 +672,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes object健康度 list
+        }，includes object health list
     """
     url = "/rest/healthmgmt/v1/health-result/query"
 
@@ -800,11 +800,11 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         exact_query:  name whetherexact match（true-exact match，false-fuzzy search），default false
         status:  policy status（normal-normal，checking-检查中，failed-检查 failure，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity- capacitythreshold，availability-可用性，
-                    configuration- config，recyclable-可回收 resource，lowload-低负载 resource，
+                    configuration- config，recyclable- recyclable resource，lowload- low load resource，
                     performance_anomaly-Performance anomaly，performance_prediction-Performance warning，
                     capacity_prediction-Capacity warning，history_performance-History performance，
                     load_imbalance- load imbalance，highload-高负载 resource）
-        policy_source:  source（pre-define-预置，user-define-自定义）
+        policy_source:  source（pre-define-预置，user-define- custom）
         alarm_type: Alarm type（violation- exception，alarm-alarm，event- event）
         object_type: Object type（storage- storage，lun-Logical unit，host- host等）
         page_no: Page number，1~1000，default 1
@@ -1125,8 +1125,8 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - storage_pool: Storage pool
         san_type: SAN  type（Optional），Optional值：ip_san, fc_san
                   - 不 specified时，call simultaneously IP_SAN 和 FC_SAN 两个 API，Combined return data
-                  -  specified为 ip_san 时，仅调用 IP_SAN API
-                  -  specified为 fc_san 时，仅调用 FC_SAN API
+                  -  specified为 ip_san 时， only call IP_SAN API
+                  -  specified为 fc_san 时， only call FC_SAN API
 
     Returns:
         {
@@ -1259,7 +1259,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - hyper_scale_pool:  large-scale pool
             - file_system: Filesystem
             - controller: Controller
-            - eth_port: 以太网 port
+            - eth_port:  ethernet port
             - ib_port: InfiniBand  port
             - logic_port: Logic port
             - ip_client: IP Client
@@ -1469,7 +1469,7 @@ ACTIONS = {
     },
     'health_show_score': {
         'func': health_show_score,
-        'description': ' queryobject健康度',
+        'description': ' queryobject health',
         'params': ['object_type', 'object_name', 'object_ids', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'health'
     },

@@ -213,13 +213,13 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryService level
 
-     queryService level list， support按 name、项目 ID、可用区、 storage ID filtering and pagination。
+     queryService level list， support按 name、项目 ID、 availability zone、 storage ID filtering and pagination。
 
     Args:
         client: DME API client
         name: Service level name（Optional，supports fuzzy search）
         project_id: Project group ID（Optional）
-        available_zone_id: 可用区 ID（Optional）
+        available_zone_id:  availability zone ID（Optional）
         storage_array_id: Storage device ID（Optional）
         start:  query的Start position，default 0
         limit: per pagecount，10~1000，default 200

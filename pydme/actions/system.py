@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: Password reset requiredUsername (Required, string, 1~128 characters)
-        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、greater than32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（ repeat count is4，Consecutive character count1）。4. Password cannot containUsername和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        new_value:  new password (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、greater than32 characters。2. Password must contain at least2 letters，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（ repeat count is4，Consecutive character count1）。4. Password cannot containUsername和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，No initial modification required。Default：true
 
     Returns:
@@ -115,7 +115,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         client: DME API client
         name: Username (Required, string,  max32 characters)。local Usernamecannot be less than6 characters，greater than32 characters，Cannot contain spaces、转义 character、Invisible and special characters。remote Usernamecannot be less than1 characters，greater than32 characters，Cannot contain invisible characters;特殊 character。
         type: User type (Required, integer, 无)。0：Local user；2：Remote user。
-        value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、greater than32 characters。Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user不涉及。
+        value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、greater than32 characters。Password must contain at least2 letters，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user not involve。
         description:  description (Optional, string,  max127 characters)
         roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全Admin组，FilesystemGroup or custom user role。
 
@@ -336,7 +336,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         start: paginationStart position（Optional，0~10000000）
         limit: paginationcount（Optional，1~1000）
         status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已 disable）
-        todo_item_status: Pending item status list（Optional，0-待确认/1-未 completed/2-Executing/3-Completed）
+        todo_item_status: Pending item status list（Optional，0- pending confirm/1-未 completed/2-Executing/3-Completed）
         start_time_from: Start time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
         start_time_to: Start time end值（Optional， format：yyyy-MM-dd HH:mm:ss）
         end_time_from: End time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
@@ -435,8 +435,8 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
     Args:
         client: DME API client
-        service_type: Business type（Required，wfa_execute_activity- auto化编排）
-        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9-待审核/10-Review rejected/21- pre-checking/22-预检查 failure）
+        service_type: Business type（Required，wfa_execute_activity- auto orchestration）
+        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22-预检查 failure）
         page_no: Page index（Optional，default 1）
         page_size: per pagecount（Optional，1~10，default 10）
 
@@ -504,7 +504,7 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
     """
     Review pending task
 
-    对Pending itemReview（批准或 reject）。
+    对Pending itemReview（ approve or reject）。
 
     Args:
         client: DME API client
@@ -531,7 +531,7 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
     """
     Cancel review pending item
 
-    撤销对 specifiedPending item的审核。
+     revoke specifiedPending item的审核。
 
     Args:
         client: DME API client

@@ -147,7 +147,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         gfs_type: Global namespace type (Optional)。Optional值：enable_object_multi_version ( supportobject多 version), disable_object_multi_version (不 supportobject多 version)
         sort_key: sort by specified field (Optional)。Optional值：child_name_space_num
         sort_dir:  specifiedSort direction (Optional)。Optional值：asc (ascending), desc (descending)。Default：asc
-        page_no: pagination起始页 (int32, 1~1000, Default: 1, Optional)
+        page_no: pagination start page (int32, 1~1000, Default: 1, Optional)
         page_size: per page query的count (int32, 1~1000, Default: 20, Optional)
 
     Returns:
@@ -218,7 +218,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (Only one member can write)
         smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode  value为 smart_share 时Required)。 parameter format：[{
                 id: Namespace ID (1~64 characters, Required),
-                pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
+                pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand ( read on demand)。Default：on_demand,
                 cache_time: cache duration (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time  value时Required。Default：hour,
                 single_write_mode: Single write mode policy (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
@@ -260,7 +260,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         name_locator: Name locator，format is：Global namespace name@Global data space name (3~507 characters, Optional。与 id cannot both be empty; takes precedence when both have values id)
         smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的 mode为 smart_share parameter effective when)。 parameter format：[{
                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
-                pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
+                pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand ( read on demand),
                 cache_time: cache duration (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time  value时Required,
              }, ...]
@@ -341,7 +341,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_id: Namespace ID (1~32 characters, Optional)
         namespace_raw_id: Namespace在device side ID (1~256 characters, Optional)
         local_path: Namespace under路径，supports fuzzy search (1~256 characters, Optional, Default: "/")
-        status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled (待调度), partially_success (partial success), failed ( failure), unknown (unknown)
+        status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled ( pending), partially_success (partial success), failed ( failure), unknown (unknown)
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
         execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
         page_no: Page number (int32, 1~1000, Default: 1, Optional)
@@ -438,7 +438,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         execute_time: week(s)Task executiontime interval (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         execute_time_unit: week(s)Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         start_mode: Task execution mode (Required)。Optional值：manual ( manual), auto ( auto)
-        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config,  value为 0 Immediate start
+        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto  allowed when config,  value为 0 Immediate start
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
@@ -449,7 +449,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         src_namespace_ids: Global namespace下源 siteNamespace ID  list (List<string>, max array members: 32, Optional)
         atime_operator: File access time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 atime、atime_unit must be sent together
         atime: File access time interval (int32, 0~26304, Optional)。与 atime_operator、atime_unit must be sent together
-        atime_unit:  file的访问Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 atime_operator、atime must be sent together
+        atime_unit:  file accessTime interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 atime_operator、atime must be sent together
         mtime_operator: File modification time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 mtime、mtime_unit must be sent together
         mtime: File modification time interval (int32, 0~26304, Optional)。与 mtime_operator、mtime_unit must be sent together
         mtime_unit:  file的modify Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 mtime_operator、mtime must be sent together
@@ -459,16 +459,16 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         crtime_operator:  file的Creation time匹配 rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 crtime、crtime_unit must be sent together
         crtime:  file的Creation time间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
         crtime_unit:  file的Creation time间隔unit  (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
-        name_operator: Filename matching rule (Optional)。Optional值：equal (相等), not_equal (不相等)。与 name_filter must be sent together
+        name_operator: Filename matching rule (Optional)。Optional值：equal (相等), not_equal ( not equal)。与 name_filter must be sent together
         name_filter: Filename matching expression list (1~1023 characters, Optional)。与 name_operator must be sent together
-        size_operator: File size的匹配 rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 file_size must be sent together
+        size_operator: File size matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 file_size must be sent together
         file_size:  file的 size (int64, 0~4398046511104, unit : KB, Optional)。与 size_operator must be sent together
         tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
         file_paths: filter by file listfilter policy uploaded fileIdentifier list (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可 config
         authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIXlocal  auth), nis_domain (NIS域)
-        user_operator: Username匹配 rule (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
+        user_operator: Username匹配 rule (Optional)。Optional值：equal (相等), not_equal ( not equal)。与 authentication_type、user_name must be sent together
         user_name: Username (1~255 characters, Optional)。与 authentication_type、user_operator must be sent together
-        group_operator: User group名匹配 rule (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
+        group_operator: User group name match rule (Optional)。Optional值：equal (相等), not_equal ( not equal)。与 authentication_type、group_name must be sent together
         group_name: User group名 (1~255 characters, Optional)。与 authentication_type、group_operator must be sent together
         files_filter: filter by file list滤 request parameter (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可 config。 parameter format：{
                 file_id: filter by file listfilter policy uploaded file ID (1~63 characters, Required),
@@ -579,7 +579,7 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         id: Data migration task ID (1~32 characters, Required)
         task_name: Task name (1~255 characters, Optional)
         start_mode: Task execution mode (Optional)。Optional值：manual ( manual), auto ( auto)
-        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config,  value为 0 Immediate start
+        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto  allowed when config,  value为 0 Immediate start
         execute_time: week(s)Task executiontime interval (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when
         execute_time_unit: week(s)Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)

@@ -163,8 +163,8 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     Create and execute instance
     
-    Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified为最新 version）
-    to create and execute instance，or by specifying instance id 来找到 correspondingInstance templateCreate and execute instance。
+    Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified is latest version）
+    to create and execute instance，or by specifying instance id  to find correspondingInstance templateCreate and execute instance。
     
     Args:
         client: DME API client

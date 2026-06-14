@@ -54,7 +54,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
                 storage_name: Device name (string, 1~255 characters),
                 name: Tenant name (string, 1~256 characters),
                 description: Tenant description (string, 0~255 characters),
-                running_status: Running status (string)。Options：normal (normal), initializing (初始化),
+                running_status: Running status (string)。Options：normal (normal), initializing ( initialize),
                 status: Tenant status (string)。Options：active (已 activate), inactive (inactive),
                 encrypt_option: Tenant的加密选项 (boolean, true,false),
             }, ...]
@@ -113,7 +113,7 @@ def vstore_show(client: DMEAPIClient, id: str) -> dict:
             description: Tenant description (string, 0~255 characters),
             storage_id: Device ID (string, 1~64 characters),
             status: Tenant status (string)。Options：active (已 activate), inactive (inactive),
-            running_status: Running status (string)。Options：normal (normal), initializing (初始化),
+            running_status: Running status (string)。Options：normal (normal), initializing ( initialize),
         }
     """
     url = "/rest/fileservice/v1/vstores/{id}"
@@ -641,16 +641,16 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         name: Disk name (Optional, 1~256 characters)。
         slot_number: Slot number，location (Optional, 1~256 characters)。supports fuzzy search。
         bom_id: BOM ID (Optional, 1~256 characters)。
-        health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link (单链路), no_redundant_link ( no redundant link), subhealthy (亚健康), offline (offline)。
+        health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link (单链路), no_redundant_link ( no redundant link), subhealthy ( sub-health), offline (offline)。
         physical_type: Disk type (Optional)。Options：unknown (unknown), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
         new_physical_type: 真实的Disk type (Optional)。Options：SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD。
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB)。
         role:  disk role (Optional)。Options：unknown (unknown), free (空闲), member ( member), hotSpare (热备), cache (缓存), aggregate (聚合), broken (断开), foreign (外部), labelmaint ( tag maintenance), maintenance ( maintenance), shared ( share), spare (备用), unassigned (未分配), unsupported (不 support), remote (远程), mediator (中介)。
         disk_pool_name: Disk pool name (Optional, 1~256 characters)。supports fuzzy search。
-        disk_pool_id: Disk pool或Disk poolID (Optional, 1~64 characters)。仅华为Storage device，third-party device supports this field。
+        disk_pool_id: Disk pool或Disk poolID (Optional, 1~64 characters)。 Huawei onlyStorage device，third-party device supports this field。
         storage_pool_id: Storage pool ID (Optional, 1~64 characters)。
         bar_code:  disk条码 (Optional, 1~256 characters)。
-        sn:  diskSerial number (Optional, 1~256 characters)。仅华为Storage device，third-party device supports this field。
+        sn:  diskSerial number (Optional, 1~256 characters)。 Huawei onlyStorage device，third-party device supports this field。
         speed: 转速 (Optional, max: 2147483647, unit : RPM)。
         storage_ip:  deviceip address (Optional, 1~255 characters)。
         management_ip: management  deviceip address (Optional, 1~256 characters)。
@@ -772,7 +772,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 filesystem_subscribed_capacity: FilesystemTotal subscribed capacity，unit MB (number)，仅OceanStor Dorado V6 storage6.1.0supported in version,
                 health_status: Health status。Options：normal (normal), fault ( fault), degraded ( degraded), unknown (unknown)。flash and third-party storage only,
                 running_status: Running status. Options：pre-copy (Pre-copy), rebuilt ( refactor), online (online), offline (offline), balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown (unknown)。flash storage only,
-                pool_status: Storage pool status。Options：normal (normal), fault ( fault), write-protect (写保护), stopped ( stop), fault-and-write-protect (Fault with write protection), migrating-data (Data migration), degraded ( degraded), rebuilding-data ( data refactor), migrating-services ( service migration), all-copies-failed (全副本 fault), all-copies-failed-and-write-protect (All replicas failed with write protection), deleting (Deleting), deletion-failed (delete  failure), unknown (unknown)。distributed storage only,
+                pool_status: Storage pool status。Options：normal (normal), fault ( fault), write-protect ( write protect), stopped ( stop), fault-and-write-protect (Fault with write protection), migrating-data (Data migration), degraded ( degraded), rebuilding-data ( data refactor), migrating-services ( service migration), all-copies-failed ( all replicas fault), all-copies-failed-and-write-protect (All replicas failed with write protection), deleting (Deleting), deletion-failed (delete  failure), unknown (unknown)。distributed storage only,
                 disk_types: Disk type list (List<string>)，flash storage only,
                 capacity_usage: Capacity utilization,
                 redundancy_policy: 冗余 policy。Options：replication (副本), ec (EC)。仅FusionStorage、OceanStor 100D和OceanStor Pacificseries device support,
@@ -905,7 +905,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         mgmt_ip: Node managementIP address(Optional，1~256 characters），supports fuzzy search（case-insensitive）
         frame_number: 机柜/机架号(Optional，1~256 characters），supports fuzzy search（case-insensitive）
         slot_number: 槽位/机架内Slot number(Optional，1~256 characters），supports fuzzy search（case-insensitive）
-        status: Node status(Optional). Options：UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND (有坏块), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT (不一致), BUSY (繁忙), NO_INPUT (无输入), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT (单链路 fault)
+        status: Node status(Optional). Options：UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND (有坏块), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT (无输入), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT (单链路 fault)
         roles:  nodeRole list(Optional，List<string>，max array members：10). Options：management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
         page_no: Page number(Optional，1~10000，default 1）
         page_size: Page size(Optional，1~1000，default 20）
@@ -979,7 +979,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     Args:
         client: DME API client
         storage_id: Storage deviceID（Required，1~64 characters）
-        health_status: Health status(Optional). Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent (不一致), no_input (无输入)
+        health_status: Health status(Optional). Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent ( inconsistent), no_input (无输入)
         running_status: Running status(Optional). Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline)
         power_type: Power supply type(Optional). Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply)
         power_mode: Power supply mode(Optional). Options：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply)
@@ -997,7 +997,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
             storage_powers: Power list (List<StoragePowerInfo>)。 parameter format：[{
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
-                health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent (不一致), no_input (无输入),
+                health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent ( inconsistent), no_input (无输入),
                 running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline),
                 power_type: Power supply type。Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply),
                 model:  model (1~255 characters),
@@ -1105,9 +1105,9 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         total_capacity: 裸 capacity (Optional, -1~2147483647, unit MB)。Storage devicesum of all disk physical capacities，-1Indicates no raw capacity。
         total_effective_capacity: 可得 capacity (Optional, -1~2147483647, unit MB)。Storage device writableUser data总量，-1Indicates no available capacity。
         total_pool_capacity: Available capacity (Optional, -1~2147483647, unit MB)。Storage deviceActual available disk physical space（扣除RAID、metadata consumption），-1表示无Available capacity。
-        used_capacity: Used capacity (Optional, -1~2147483647, unit MB)。Storage device中所有Storage poolsum of used capacity，-1表示无Used capacity。
+        used_capacity: Used capacity (Optional, -1~2147483647, unit MB)。Storage device all inStorage poolsum of used capacity，-1表示无Used capacity。
         free_capacity: Free capacity (Optional, -1~2147483647, unit MB)。Storage device的Available capacity与Used capacity的差值，-1表示无Free capacity。
-        subscription_capacity: 订阅 capacity (Optional, -1~2147483647, unit MB)。Storage device中所有Storage poolsum of subscribed capacity，-1Indicates no subscribed capacity。
+        subscription_capacity: 订阅 capacity (Optional, -1~2147483647, unit MB)。Storage device all inStorage poolsum of subscribed capacity，-1Indicates no subscribed capacity。
         tag_ids:  tagID list (Optional, string, 0~512 characters)。数组 formatstring，supports up to10个 tag，空数组代表Remove storage deviceall associated tags。
 
     Returns:
@@ -3141,7 +3141,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 version: Version info (0~64 characters),
                 patch_version: Patch version info (0~64 characters),
                 add_time: Device access time (0~32 characters)，UTCTimestamp（精确到毫second(s)）,
-                last_sync_time: 上一次Sync time (0~32 characters)，UTCTimestamp（精确到毫second(s)）,
+                last_sync_time:  lastSync time (0~32 characters)，UTCTimestamp（精确到毫second(s)）,
                 sync_process: Sync进度 (int32),
                 alarm_num: alarmcount (number),
                 parent_id:  clusterid,

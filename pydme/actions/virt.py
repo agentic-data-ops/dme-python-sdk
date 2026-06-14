@@ -20,9 +20,9 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     Args:
         client: DME API client
         site_id: Virtual machine site ID
-        cluster_id: Virtual machine cluster ID（HCS 场景不 support）
+        cluster_id: Virtual machine cluster ID（HCS  scenario not support）
         dc_id: Data center ID（仅 FusionCompute Scenario support）
-        cluster_name: Virtual machineCluster name（supports fuzzy search，HCS 场景不 support）
+        cluster_name: Virtual machineCluster name（supports fuzzy search，HCS  scenario not support）
         host_id: Virtual machinePhysical hostUnique identifier
         host_name: Virtual machineHost name（supports fuzzy search）
         name: Virtual machine name（supports fuzzy search）
@@ -108,7 +108,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        Virtual machineDetails，includes  CPU、 memory、 disk、网卡等Configuration info
+        Virtual machineDetails，includes  CPU、 memory、 disk、 NIC etcConfiguration info
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -131,7 +131,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     
     Args:
         client: DME API client
-        site_id: Datastore所在的 site ID
+        site_id: Datastore located site ID
         cluster_id: Datastoreassociated clusters ID
         host_id: Datastoreassociated hosts ID
         dc_id: Datastore所在Data center ID
@@ -425,8 +425,8 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
     Args:
         client: DME API client
         site_id: Physical disk site ID（Optional）
-        host_id: 物理盘Host ID（Optional）
-        name: 物理盘 name（Optional）
+        host_id:  physical diskHost ID（Optional）
+        name:  physical disk name（Optional）
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
         page_no: Page queryStart page，default 1
@@ -599,7 +599,7 @@ ACTIONS = {
         'params': ['site_id'],
         'subtopic': 'site'
     },
-    # 物理盘management 
+    #  physical diskmanagement 
     'disk_list': {
         'func': disk_list,
         'description': 'Query physical disk info',
