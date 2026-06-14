@@ -205,7 +205,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         pool_id: Storage pool ID (Conditionally required), 1~64 characters; required when storage mode is not pass-through; obtained via QueryResource type API, Resource type name is SYS_StoragePool
         vstore_id: 租户 ID（可选），1~64 个字符；当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 及其以上版本时有效
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
-        initial_distribute_policy: 容量初始分配策略（可选），仅支持华为 V3/V5 设备，Dorado 系列不支持；
+        initial_distribute_policy: Initial capacity allocation policy（可选），仅支持华为 V3/V5 设备，Dorado 系列不支持；
                                   可选值：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；默认 automatic
         prefetch_policy: 预取策略（可选），影响磁盘读取；
                         可选值：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；默认 intelligent_prefetch
@@ -1623,7 +1623,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         storage_host_group_id: Storage host组 ID (Required)
         storage_host_id_ids: 存储Host ID列表 (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
         create_storage_host_params: 创建新的Storage host列表 (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。参数格式如下：[{
-                name: Host name (Required, 1~255个字符, 支持字母数字._-and Chinese characters),
+                name: Host name (Required, 1~255个字符, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。可选值：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: 主机ip地址 (可选, 最多127个字符),
                 description: 主机描述 (可选, 最多63个字符),
@@ -1633,9 +1633,9 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                         alias: Initiator alias (可选, 最多31个字符),
                      }, ...],
                 multipath: 多路径配置 (可选)。属性格式如下：{
-                        multipath_type: 第三方多路径策略 (Required)。可选值：default (默认), third_party (第三方多路径),
-                        path_type: Initiator路径类型 (可选, 开启第三方多路径时有效)。可选值：optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: Initiator切换模式 (可选, 开启第三方多路径时有效)。可选值：early_version_alua, common_alua, alua_not_used, special_alua,
+                        multipath_type: Third-party multipath策略 (Required)。可选值：default (默认), third_party (Third-party multipath),
+                        path_type: Initiator路径类型 (可选, 开启Third-party multipath时有效)。可选值：optimal_path (优选路径), non_optimal_path (非优选路径),
+                        failover_mode: Initiator切换模式 (可选, 开启Third-party multipath时有效)。可选值：early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: 特殊模式类型 (可选, 切换模式为特殊模式时有效)。可选值：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]

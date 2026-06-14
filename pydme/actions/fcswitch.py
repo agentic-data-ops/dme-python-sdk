@@ -314,7 +314,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         fabric_wwn: 光纤网络 WWN（条件Required，fabric 创建 zone 时需要）
         vsan_wwn: VSAN WWN（条件Required，vsan 创建 zone 时需要）
         wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
-        port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
+        port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
         fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
         alias_members: 别名成员列表（Optional），格式：["<alias>",...]
@@ -371,7 +371,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
         wwn_members: WWN 成员修改（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
         alias_members: 别名成员修改（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
         fwwn_members: FWWN 成员修改（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: 端口成员修改（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，其中博科交换机指定port_index，思科交换机指定port_name
+        port_members: 端口成员修改（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fcid_members: FCID 成员修改（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
         device_alias_members: 设备别名成员修改（Optional），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
 
@@ -435,7 +435,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
             - fabric_wwn: 光纤网络 WWN（Required）
             - name: Zone 名称（Required）
             - wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
-            - port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
+            - port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
             - fwwn_members: FWWN 成员列表（Optional），格式：["<fwwn>",...]
             - fcid_members: FCID 成员列表（Optional），格式：["<fcid>",...]
             - alias_members: 别名成员列表（Optional），格式：["<alias>",...]

@@ -467,7 +467,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应时间戳.
 
     使用说明:
-    - Object type和指标定义:从Performance metrics模型文档获取 (reference/dme_performance_model/index.md)
+    - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
     - object ID (CMDB 实例 ID) 获取步骤:
       1. 运行 `cmdb instance list --help` 查看帮助,了解类定义和查询方式
       2. 根据帮助信息,从 CMDB 资源模型中确定要查询的Resource type (Class 名称)
@@ -477,9 +477,9 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Args:
         client: DME API client
         obj_type_id: 监控Object type标识(Required),对应监控Object type ID
-                     从Performance metrics模型文档获取:reference/dme_performance_model/index.md
+                     从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
         indicator_ids: 监控指标标识列表(Required,最多 100 个),对应指标 ID
-                       从Performance metrics模型文档获取:reference/dme_performance_model/index.md
+                       从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
         obj_ids: 监控object标识列表(Required,最多 512 个),对应 CMDB 实例 ID
                  获取方式:
                  1. 运行 `cmdb instance list --help` 查看帮助,了解类定义
@@ -956,7 +956,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
     """
     查询检查策略异常检查结果列表
 
-    查询检查策略的异常检查结果，支持多种过滤条件和分页查询。
+    查询检查策略的异常检查结果，supports multiple filter criteria和Pagination。
 
     Args:
         client: DME API client
@@ -1053,7 +1053,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
     r"""
     查询拓扑图 Lun 列表
 
-    根据指定入口object查询拓扑图中的 LUN 列表。
+    via specified entryobject查询拓扑图中的 LUN 列表。
 
     Args:
         client: DME API client
@@ -1108,7 +1108,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     r"""
     查询 SAN 路径拓扑结构
 
-    根据指定入口object查询 SAN 网络中从主机到Storage pool之间的拓扑结构。
+    via specified entryobject查询 SAN 网络中从主机到Storage pool之间的拓扑结构。
     支持 IP_SAN 和 FC_SAN 两种类型。
 
     Args:
@@ -1193,7 +1193,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     r"""
     查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表
 
-    根据指定入口object查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
+    via specified entryobject查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
     或者查询 BMS（裸金属服务器）下的物理磁盘列表。
 
     Args:
@@ -1248,7 +1248,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     r"""
     查询拓扑图库信息
 
-    根据指定入口资源查询拓扑图库信息，支持 NAS、K8s、DB 等业务类型。
+    via specified entry资源查询拓扑图库信息，支持 NAS、K8s、DB 等业务类型。
 
     Args:
         client: DME API client

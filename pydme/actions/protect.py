@@ -24,11 +24,11 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
     Args:
         client: DME API client
         name: Protection group名称，supports fuzzy search
-        project_id: Project group ID，支持条件过滤
+        project_id: Project group ID，supports conditional filtering
         storage_name: Storage device name，supports fuzzy search
-        storage_id: Storage device ID，支持条件过滤
-        raw_id: Protection groupon the device ID，支持精确搜索，支持排序
-        lun_group_raw_id: LUN 组on the device ID，支持条件过滤
+        storage_id: Storage device ID，supports conditional filtering
+        raw_id: Protection groupon the device ID，supports exact search，支持排序
+        lun_group_raw_id: LUN 组on the device ID，supports conditional filtering
         vstore_id: Tenant的 ID，该参数和 vstore_raw_id mutually exclusive
         vstore_raw_id: Tenanton the device ID，该参数和 vstore_id mutually exclusive
         sort_key: Sort field，Optional值：sort_id
@@ -183,7 +183,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         pg_id: Protection group ID
         lun_ids: 待添加到Protection group的 LUN 的 ID 列表（Optional），max array members 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs mutually exclusive；Protection group不存在Active-active、复制、环形 3DC 特性时此参数有效
         hyper_metro: 添加 LUN 到有Active-active特性Protection group的请求参数（Optional），与 lun_ids 参数mutually exclusive；Protection group存在Active-active特性时此参数有效。格式：{
-                        is_delay: 是否延迟执行（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync"状态，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync"状态，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
@@ -195,7 +195,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         },...]
         }
         rem_reps: 添加 LUN 到有复制特性Protection group的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；Protection group存在复制特性时此参数有效。格式：[{
-                        is_delay: 是否延迟执行（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair 创建模式为 auto 时有效
@@ -239,7 +239,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
         client: DME API client
         pg_id: Protection group ID
         lun_ids: 待移除的Protection group成员 LUN 的 ID 列表
-        is_delay: 是否延迟执行。在Remote replication，Sync + 异步的环形 3DC 情况下，此参数无效
+        is_delay: Deferred execution。在Remote replication，Sync + 异步的环形 3DC 情况下，此参数无效
 
     Returns:
         {
@@ -281,10 +281,10 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         protect_group_id: Protection group ID
         storage_id: Storage device ID，支持本端存储 ID 过滤
         storage_name: Storage device name，支持本端存储名称fuzzy match
-        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
-        local_vstore_raw_id: 所属本端租户on the device ID，该参数和 local_vstore_id mutually exclusive
-        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id mutually exclusive
-        remote_vstore_raw_id: 所属远端租户on the device ID，该参数和 remote_vstore_id mutually exclusive
+        local_vstore_id: local tenant ID，该参数和 local_vstore_raw_id mutually exclusive
+        local_vstore_raw_id: local tenanton the device ID，该参数和 local_vstore_id mutually exclusive
+        remote_vstore_id: remote tenant ID，该参数和 remote_vstore_raw_id mutually exclusive
+        remote_vstore_raw_id: remote tenanton the device ID，该参数和 remote_vstore_id mutually exclusive
 
     Returns:
         Active-active consistency group列表
@@ -338,7 +338,7 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         remote_vstore_id: Remote device tenant ID，条件Required：当 create_mode 为 auto 且设备为 OceanStor Dorado 6.1.3 及以上版本时
         remote_storage_pool_id: 远端Storage pool ID，条件Required：当 create_mode 为 auto 时
         lun_ids: LUN 的 ID 列表，条件Optional：当 create_mode 为 auto 时
-        remote_resource_name_rule: 远端资源的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
+        remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
 
     Returns:
         {
@@ -600,12 +600,12 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         pair_raw_id: Active-active Pair on the storage device ID
         local_storage_id: 本端Storage device ID
         local_storage_name: 本端Storage device name，supports fuzzy match
-        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
-        local_vstore_raw_id: 所属本端租户on the device ID，该参数和 local_vstore_id mutually exclusive
+        local_vstore_id: local tenant ID，该参数和 local_vstore_raw_id mutually exclusive
+        local_vstore_raw_id: local tenanton the device ID，该参数和 local_vstore_id mutually exclusive
         local_volume_name: 本端 LUN 名称，supports fuzzy match
         local_host_access_state: 本地资源主机访问状态，Optional值：access_forbidden, read_only, read_write
-        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id mutually exclusive
-        remote_vstore_raw_id: 所属远端租户on the device ID，该参数和 remote_vstore_id mutually exclusive
+        remote_vstore_id: remote tenant ID，该参数和 remote_vstore_raw_id mutually exclusive
+        remote_vstore_raw_id: remote tenanton the device ID，该参数和 remote_vstore_id mutually exclusive
         remote_volume_name: 远端 LUN 名称，supports fuzzy match
 
     Returns:
@@ -942,11 +942,11 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         pair_raw_id: 复制 Pair on the storage device ID
         local_storage_id: 本端Storage device ID
         local_storage_name: 本端Storage device name，supports fuzzy match
-        local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
-        local_vstore_raw_id: 所属本端租户on the device ID，该参数和 local_vstore_id mutually exclusive
+        local_vstore_id: local tenant ID，该参数和 local_vstore_raw_id mutually exclusive
+        local_vstore_raw_id: local tenanton the device ID，该参数和 local_vstore_id mutually exclusive
         local_volume_name: 本端 LUN 名称，supports fuzzy match
-        remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id mutually exclusive
-        remote_vstore_raw_id: 所属远端租户on the device ID，该参数和 remote_vstore_id mutually exclusive
+        remote_vstore_id: remote tenant ID，该参数和 remote_vstore_raw_id mutually exclusive
+        remote_vstore_raw_id: remote tenanton the device ID，该参数和 remote_vstore_id mutually exclusive
         remote_volume_name: 远端 LUN 名称，supports fuzzy match
 
     Returns:
@@ -1006,7 +1006,7 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         remote_storage_id: 远端Storage device ID
         remote_storage_pool_id: 远端Storage pool ID
         remote_vstore_id: Remote device tenant ID
-        remote_resource_name_rule: 远端资源的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
+        remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: 远端Resource name前缀
         name_suffix: 远端Resource name后缀
         speed: Sync速率，Optional值：low, medium, high, highest, custom
@@ -1015,11 +1015,11 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为Sync模式时有效
+        rep_io_timeout: 远端 IO timeout（second(s)），when replication mode isSync模式时有效
         sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: 从端用户快照保留count
-        switch_to_async: SyncRemote replication自动转换为异步Remote replication的开关
-        enable_compress: 链路压缩，当复制模式为异步模式时Required
+        user_snap_retention_num: Slave user snapshot retentioncount
+        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
+        enable_compress: 链路压缩，when replication mode is异步模式时Required
 
     Returns:
         {
@@ -1086,14 +1086,14 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
-        enable_compress: 链路压缩，当复制模式为异步模式时Required
+        enable_compress: 链路压缩，when replication mode is异步模式时Required
         sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为Sync模式时有效
+        rep_io_timeout: 远端 IO timeout（second(s)），when replication mode isSync模式时有效
         sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: 从端用户快照保留count
-        switch_to_async: SyncRemote replication自动转换为异步Remote replication的开关
+        user_snap_retention_num: Slave user snapshot retentioncount
+        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
 
     Returns:
         {
@@ -1421,7 +1421,7 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
     Args:
         client: DME API client
         snapshot_ids: 快照 ID 列表
-        is_delete_target_lun: 是否删除目标 LUN，默认 true
+        is_delete_target_lun: Delete target LUN，默认 true
         is_auto_deactivate: 是否在删除前自动Deactivate快照，默认 false
 
     Returns:
@@ -1488,7 +1488,7 @@ def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete
     Args:
         client: DME API client
         snapshot_cg_ids: Snapshot consistency group ID 列表
-        is_delete_target_lun: 是否删除目标 LUN，仅 Dorado 6.1.2 及以上版本支持，默认 true
+        is_delete_target_lun: Delete target LUN，仅 Dorado 6.1.2 及以上版本支持，默认 true
 
     Returns:
         {
@@ -1721,7 +1721,7 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
     Args:
         client: DME API client
         ids: 克隆Consistency group ID 列表
-        is_delete_dst_lun: 是否删除目标 LUN
+        is_delete_dst_lun: Delete target LUN
         is_recycle_dst_lun_data: 是否回收目标 LUN 数据
 
     Returns:
@@ -1773,7 +1773,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         lun_ids: 自动创建模式下，源 LUN 的 ID 列表
         remote_storage_pool_id: 远端Storage pool ID，effective in auto-create mode
         remote_vstore_id: Remote device tenant ID，effective in auto-create mode
-        remote_resource_name_rule: 远端资源的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
+        remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: 远端Resource name前缀
         name_suffix: 远端Resource name后缀
 
@@ -1838,14 +1838,14 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
-        enable_compress: 链路压缩，当复制模式为异步模式时Required
+        enable_compress: 链路压缩，when replication mode is异步模式时Required
         sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为Sync模式时有效
+        rep_io_timeout: 远端 IO timeout（second(s)），when replication mode isSync模式时有效
         sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: 从端用户快照保留count
-        switch_to_async: SyncRemote replication自动转换为异步Remote replication的开关
+        user_snap_retention_num: Slave user snapshot retentioncount
+        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
 
     Returns:
         {

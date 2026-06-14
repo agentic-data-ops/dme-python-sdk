@@ -22,11 +22,11 @@ def lun_create(client: DMEAPIClient, volumes: list,
     Args:
         client: DME API client
         volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
-                name: LUN名称 (1~255个字符, 支持字母数字._-and Chinese characters),
+                name: LUN名称 (1~255个字符, supports alphanumeric._-and Chinese characters),
                 capacity: 容量GB (1~262144),
                 count: 创建count (1~500),
                 description: 描述 (0~255个字符),
-                start_suffix: 起始后缀编号 (0~9999),
+                start_suffix: Starting suffix number (0~9999),
                 suffix_length: 后缀长度规则 (1~4, 名称长度+后缀长度<=255),
              }, ...]
         service_level_id: Service level ID（Required，0~64 个字符）

@@ -434,9 +434,9 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         gfs_id: Global namespace ID (1~64个字符, Required)
         task_name: 任务名称 (1~255个字符, Optional)
         task_mode: 任务模式 (Required)。Optional值：pre_fetch (预取缓存), tier (数据拉取)
-        execute_mode: 执行模式 (Optional)。Optional值：interval (week(s)期性), one_time (只执行一次)。当 task_mode 为 pre_fetch 时该参数无效
-        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
-        execute_time_unit: week(s)期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
+        execute_mode: 执行模式 (Optional)。Optional值：interval (week(s)期性), one_time (只执行一次)。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time_unit: week(s)期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch this parameter is ineffective
         start_mode: Task execution模式 (Required)。Optional值：manual (手动), auto (自动)
         start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
         max_bandwidth: 最大Sync速率 (int32, 1~10240, 单位: MB/s, Required)

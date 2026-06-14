@@ -14,9 +14,9 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
                   directory_id: str = None, group: str = None,
                   name: str = None) -> dict:
     """
-    分页查询Template list
+    PaginationTemplate list
     
-    分页查询工作流Template list。
+    Pagination工作流Template list。
     
     Args:
         client: DME API client
@@ -225,7 +225,7 @@ ACTIONS = {
     # template subtopic actions
     'template_list': {
         'func': template_list,
-        'description': '分页查询Template list',
+        'description': 'PaginationTemplate list',
         'params': ['page_no', 'page_size', 'directory_id', 'group', 'name'],
         'subtopic': 'template'
     },

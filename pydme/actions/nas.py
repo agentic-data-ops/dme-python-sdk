@@ -682,7 +682,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                         access_protocol: 访问协议 (可选)。可选值：nfsv3_and_nfsv4 (NFSv3和NFSv4), nfsv3 (仅NFSv3), nfsv4 (仅NFSv4),
                      }, ...],
                 file_name_extension_filters: File extension过滤规则列表 (可选)。参数格式如下：[{
-                        file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, 变更已添加规则时Required),
+                        file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *只能位于最后一个字符),
                         rule_type: 规则允许/拒绝 (可选, 默认reject)。可选值：reject, permit,
                         fileoperations: Operation type list (可选)。可选值：close, create, create_dir, delete, delete_dir, getattr, link, lookup, open, read, write, rename, rename_dir, setattr, symlink,
@@ -730,8 +730,8 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 audititem: 审计事件类型。可选值：none (无操作), all (所有操作), open (打开), create (创建), read (读), write (写), close (关闭), delete (删除), rename (重命名), get_security (获取安全属性), set_security (设置安全属性), get_attr (获取属性), set_attr (设置属性),
              }, ...]
         show_snapshot_enable: 是否显示快照
-        nfs_share_client_addition: 需要新增的 NFS 共享客户端列表 (可选)。参数格式如下：[{
-                name: 客户端IP或主机名或网络组名 (Required, 1~255字符),
+        nfs_share_client_addition: 需要新增的 NFS Share client list (可选)。参数格式如下：[{
+                name: 客户端IPor hostname or netgroup name (Required, 1~255字符),
                 permission: 权限 (Required)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5: krb5权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5i: krb5i权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
@@ -742,7 +742,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
                 anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
              }, ...]
-        nfs_share_client_modification: 需要修改的 NFS 共享客户端列表 (可选)。参数格式如下：[{
+        nfs_share_client_modification: 需要修改的 NFS Share client list (可选)。参数格式如下：[{
                 nfs_share_client_id_in_storage: 客户端在存储上的ID (Required, 1~32字符),
                 permission: 权限 (Required)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5: krb5权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
@@ -754,9 +754,9 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
                 anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
              }, ...]
-        nfs_share_client_deletion: 需要删除的 NFS 共享客户端列表 (可选)。参数格式如下：[{
+        nfs_share_client_deletion: 需要删除的 NFS Share client list (可选)。参数格式如下：[{
                 nfs_share_client_id_in_storage: 客户端在存储上的ID (Required, 1~32字符),
-                name: 客户端IP或主机名或网络组名 (可选, 1~32000字符),
+                name: 客户端IPor hostname or netgroup name (可选, 1~32000字符),
              }, ...]
         file_name_ex_filters: 扩展名过滤规则列表 (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
@@ -1008,7 +1008,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                         ip_addresses_or_segments: IP地址(段) (可选, 1~128字符, 最多32条),
                      }, ...],
                 file_name_extension_filters: File extension过滤规则列表 (可选)。参数格式如下：[{
-                        file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, 变更已添加规则时Required),
+                        file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*),
                         rule_type: 规则类型 (可选, 默认reject)。可选值：reject, permit,
                         fileoperations: Operation type list (可选),
@@ -1095,7 +1095,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         file_name_ex_filters: 扩展名过滤规则列表 (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
                 param: 扩展名过滤规则object (可选)。属性格式如下：{
-                        file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, 变更已添加规则时Required),
+                        file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *只能位于最后一个字符),
                         rule_type: 规则类型 (可选, 默认reject)。可选值：reject (拒绝), permit (允许),
                         fileoperations: Operation type list (可选, 最多100个),
@@ -2108,7 +2108,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         schedule_name: 定时 HyperCDP 计划名称（可选）
         quota_switch: 是否启用配额（可选）
         vaai_switch: VAAI 开关（可选）
-        initial_distribute_policy: 容量初始分配策略，auto/highest_perf/performance/capacity（可选）
+        initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
         capacity_threshold: 总空间容量告警threshold 50-99（可选）
         tuning: 调优参数 (可选)。参数格式如下：{
                 deduplication_enabled: 是否开启重复数据删除 (可选, 默认false)。可选值：true, false,
@@ -2137,7 +2137,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         burst_read_iops: 突发读iops (可选),
                         burst_write_iops: 突发写iops (可选),
                         schedule_policy: Scheduling policy (可选)。可选值：once, daily, weekly,
-                        schedule_start_date: 生效开始日期 (可选, 格式yyyy-MM-dd),
+                        schedule_start_date: Effective start date (可选, 格式yyyy-MM-dd),
                         start_time: 生效Start time (可选, 格式hh:mm),
                         duration: 生效durationsecond(s) (可选, 1800~86400),
                         weekly_days: week(s)Scheduling policy (可选, 1~6对应week(s)一到week(s)六),
@@ -2154,9 +2154,9 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         global_flag: 是否全局 (可选),
                 }
              }
-        create_cifs_share_param: 自动创建CIFS共享参数（可选）。格式参见动作帮助：nas cifs_share create
-        create_nfs_share_param: 自动创建NFS共享参数（可选）。格式参见动作帮助：nas nfs_share create
-        create_dpc_share_param: 自动创建DataTurbo共享参数（可选）。格式参见动作帮助：nas dataturbo_share create
+        create_cifs_share_param: 自动创建CIFS共享参数（可选）。See action help for format：nas cifs_share create
+        create_nfs_share_param: 自动创建NFS共享参数（可选）。See action help for format：nas nfs_share create
+        create_dpc_share_param: 自动创建DataTurbo共享参数（可选）。See action help for format：nas dataturbo_share create
         owning_controller: 归属控制器（可选），2~16个字符，格式如0A、1B
         snapshot_expired_enabled: 是否开启删除旧的只读快照（可选）。true/false，默认关闭
         checksum_enabled: 数据校验开关（可选）。true/false，默认开启
@@ -2182,8 +2182,8 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 def_protect_period: 默认保护期 (可选, 不小于最小, 不大于最大, 默认70),
                 def_protect_period_unit: 默认保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
                 auto_lock: WORM自动锁定模式 (可选, 默认开启)。可选值：true, false,
-                auto_lock_time: 自动锁定时间 (可选, 默认2),
-                auto_lock_time_unit: 自动锁定时间单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
+                auto_lock_time: Auto-lock time (可选, 默认2),
+                auto_lock_time_unit: Auto-lock time单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
                 auto_del: 自动删除模式 (可选, 默认关闭)。可选值：true, false,
                 is_worm_audit_log_fs: WORMAudit logFilesystem (可选, 默认关闭)。可选值：true, false,
                 worm_append_unit: WORM追加态文件保护粒度 (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
@@ -2347,7 +2347,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         description: Description，0~255个字符（可选）
         capacity: Filesystem容量，单位 GB，1~33554432（可选）
         capacity_threshold: 总空间容量告警threshold 50-99（可选）
-        initial_distribute_policy: 容量初始分配策略，auto/highest_perf/performance/capacity（可选）
+        initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
         automatic_update_time: 文件被读取后是否更新访问时间，true开启/false关闭（可选）
         atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
         quota_switch: 是否启用配额，true启用/falsedisabled（可选）
@@ -2380,7 +2380,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         burst_read_iops: 突发Read IOPS (可选, 1~999999999; read/write upper limit policy only),
                         burst_write_iops: 突发Write IOPS (可选, 1~999999999; read/write upper limit policy only),
                         schedule_policy: Scheduling policy (可选)。可选值：once, daily, weekly,
-                        schedule_start_date: 生效开始日期 (可选, 格式yyyy-MM-dd, 0~64字符),
+                        schedule_start_date: Effective start date (可选, 格式yyyy-MM-dd, 0~64字符),
                         start_time: 生效Start time (可选, 格式hh:mm, 0~64字符),
                         duration: 生效durationsecond(s) (可选, 1800~86400),
                         weekly_days: week(s)Scheduling policy (可选, 0-6对应week(s)日到week(s)六, 最多7个; schedule_policy为weekly时生效),
@@ -2421,8 +2421,8 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 def_protect_period: 默认保护期 (可选, 0~4294967295, 默认70; 不小于最小且不大于最大),
                 def_protect_period_unit: 默认保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
                 auto_lock: WORM自动锁定模式 (可选, 默认开启; advance_mode不支持)。可选值：true, false,
-                auto_lock_time: 自动锁定时间 (可选, min1, 默认2),
-                auto_lock_time_unit: 自动锁定时间单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
+                auto_lock_time: Auto-lock time (可选, min1, 默认2),
+                auto_lock_time_unit: Auto-lock time单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
                 auto_del: 自动删除模式 (可选, 默认关闭; advance_mode不支持)。可选值：true, false,
                 is_worm_audit_log_fs: WORMAudit logFilesystem (可选, 默认关闭; 一个租户只能有一个),
                 worm_append_unit: WORM追加态文件保护粒度 (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
@@ -2644,7 +2644,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         namespace_specs: Namespace批量参数。参数格式如下：[{
                 name: 名称 (Required, 1~255字符, 支持数字字母下划线.-),
                 count: count (Required, 1~500),
-                start_suffix: 起始后缀编号 (可选, 0~9999; 起始后缀+count<=9999),
+                start_suffix: Starting suffix number (可选, 0~9999; 起始后缀+count<=9999),
                 isInGfs: 是否在Global namespace中 (可选)。可选值：true, false,
              }, ...]
         enable_update_atime: 是否更新 Atime
@@ -2673,8 +2673,8 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 def_protect_period: 默认保护期 (可选, 0~4294967295, 默认70),
                 def_protect_period_unit: 默认retention period单位 (可选, 默认year)。可选值：day, year, month, hour, minute, infinite,
                 auto_lock_enabled: WORM是否自动锁定 (可选, 默认false)。可选值：true, false,
-                auto_lock_time: 自动锁定时间 (可选, 1~64800, 默认2; 单位day时1~45, hour时1~1080, minute时1~64800),
-                auto_lock_unit: 自动锁定时间单位 (可选, 默认hour)。可选值：day, minute, hour,
+                auto_lock_time: Auto-lock time (可选, 1~64800, 默认2; 单位day时1~45, hour时1~1080, minute时1~64800),
+                auto_lock_unit: Auto-lock time单位 (可选, 默认hour)。可选值：day, minute, hour,
                 legal_hold_modify: 诉讼保留文件修改保留期开关 (可选, 默认false)。可选值：true, false,
              }
         qos_policy: QoS 策略配置。参数格式如下：{
@@ -2991,7 +2991,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         nfs_share_id: NFS 共享 ID（可选），1~64 个字符
         storage_id: Storage device ID（可选），1~64 个字符；如果指定 nfs_share_id，则此参数无效
         vstore_id_in_storage: vStore ID（可选），1~256 个字符；vStore 场景下必须下发
-        name: 客户端 IP 或主机名或网络组名（可选），1~256 个字符；指定 nfs_share_id 条件下支持fuzzy search
+        name: 客户端 IP or hostname or netgroup name（可选），1~256 个字符；指定 nfs_share_id 条件下支持fuzzy search
         client_id_in_storage: NFS 共享客户端 ID（可选），1~256 个字符
         sort_key: Sort field（可选），可选值：raw_id、name
         sort_dir: Sort direction（可选），可选值：asc（升序）、desc（降序），默认 asc
@@ -3515,7 +3515,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
                 capacity: KV Cache 库容量 (int64, 20971520~70368744177664, 单位: 扇区数, 1扇区=512字节, Required),
                 description: Description (1~255个字符, Optional),
                 count: Batch create KV Cache 库的count (int32, 1~100, Default: 1, Optional),
-                start_suffix: 起始后缀编号 (int32, 0~9999, Optional。起始后缀编号+KV Cache库count<=9999),
+                start_suffix: Starting suffix number (int32, 0~9999, Optional。Starting suffix number+KV Cache库count<=9999),
              }, ...]
 
     Returns:

@@ -220,7 +220,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     """
     查询主机列表
     
-    查询Physical host列表，支持多种过滤条件。
+    查询Physical host列表，supports multiple filter criteria。
     
     Args:
         client: DME API client
@@ -420,12 +420,12 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
     """
     查询物理盘信息
     
-    查询物理磁盘列表，支持多种过滤条件。
+    查询物理磁盘列表，supports multiple filter criteria。
     
     Args:
         client: DME API client
         site_id: 物理盘所属站点 ID（Optional）
-        host_id: 物理盘所属主机 ID（Optional）
+        host_id: 物理盘Host ID（Optional）
         name: 物理盘名称（Optional）
         disk_type: 磁盘类型列表（Optional）
         status: 磁盘状态列表（Optional）
@@ -464,7 +464,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     """
     查询虚拟磁盘信息列表
     
-    查询虚拟磁盘列表，支持多种过滤条件。
+    查询虚拟磁盘列表，supports multiple filter criteria。
     
     Args:
         client: DME API client
