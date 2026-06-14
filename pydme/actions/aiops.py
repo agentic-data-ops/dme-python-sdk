@@ -204,7 +204,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
 
     Returns:
         {
-            current_alarms: Current alarm list (List<AlarmInfo>).  parameter format: [{
+            current_alarms: Current alarm list (List<AlarmInfo>). 参数格式如下：[{
                 alarm_id: Alarm ID (string),
                 alarm_name: Alarm name (string),
                 severity: Alarm severity (string),

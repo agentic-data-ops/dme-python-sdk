@@ -24,7 +24,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total:  clusterTotal count (integer),
-            clusters: Backup cluster list.  parameter format: [{
+            clusters: Backup cluster list. 参数格式如下：[{
                 id:  clusterID (string),
                 name: Cluster name (string),
                 status:  status (string),
@@ -86,7 +86,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     Returns:
         {
             total:  quotaTotal count (integer),
-            quotas: Tenant quota list.  parameter format: [{
+            quotas: Tenant quota list. 参数格式如下：[{
                 tenant_id: Tenant ID (string),
                 quota:  quota size (integer),
                 used: Used quota (integer),

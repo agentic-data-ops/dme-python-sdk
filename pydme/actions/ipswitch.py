@@ -21,7 +21,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     Returns:
         {
             total: Total count (integer),
-            data_list: Switch list.  parameter format: [{
+            data_list: Switch list. 参数格式如下：[{
                 id: SwitchID (string),
                 name: Switch name (string),
                 status:  status (string),

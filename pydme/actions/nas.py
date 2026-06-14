@@ -38,7 +38,7 @@ def dpc_list(client: DMEAPIClient, ids: list = None, hostname: str = None, ip: s
     Returns:
         {
             total: Total DPC count (integer),
-            dpcs: DPC list (List<DpcInfo>).  parameter format: [{
+            dpcs: DPC list (List<DpcInfo>). 参数格式如下：[{
                 id: DPC ID (string),
                 hostname: Hostname (string),
                 ip: Management IP (string),
@@ -133,7 +133,7 @@ def dpc_client_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: Total count (integer),
-            data: DPC client data (List<DpcClient>).  parameter format: [{
+            data: DPC client data (List<DpcClient>). 参数格式如下：[{
                 id: ID (string),
                 storage_id: Storage ID (string),
                 process_id: DPC client process ID (string),
@@ -243,7 +243,7 @@ def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None
     Returns:
         {
             total: Total Dtree count (integer),
-            dtrees: Dtree list (List<DtreeInfo>).  parameter format: [{
+            dtrees: Dtree list (List<DtreeInfo>). 参数格式如下：[{
                 id: Dtree ID (string),
                 name: Dtree name (string),
                 path: Path (string),
@@ -340,7 +340,7 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
     Args:
         client: DME API client
         storage_id: Storage device ID for the dtree, 1~64 characters
-        create_dtrees_param: Dtree name and count list (Conditionally Required).  parameter format: [{
+        create_dtrees_param: Dtree name and count list (Conditionally Required). 参数格式如下：[{
                 dtree_name: Dtree name (1~255 characters, regex: ^[^,//:]+$, supports letters, digits, spaces and special chars; when creating multiple dtrees, names start from 0000),
                 count: Number of dtrees to create (int, max 500 per group, total 500 across groups),
              }, ...]
@@ -356,7 +356,7 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
         dataturbo_share: Create DataTurbo share (Optional).  parameter format: {
                 description: DataTurbo share description (Optional, 0~255 characters),
                 charset: Character set encoding (Required, fixed value UTF_8),
-                dpc_share_auth: DataTurbo admin list (Optional).  parameter format: [{
+                dpc_share_auth: DataTurbo admin list (Optional). 参数格式如下：[{
                         dpc_user_id: DataTurbo admin ID (Required, 0~64 characters),
                         permission: DataTurbo admin permission (Required, fixed value read_and_write),
                      }, ...]
@@ -557,7 +557,7 @@ def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = 
     Returns:
         {
             total: Total NFS shares (integer),
-            nfs_shares: NFS share list.  parameter format: [{
+            nfs_shares: NFS share list. 参数格式如下：[{
                 id: Share ID (string),
                 name: Share name (string),
                 path: Path (string),
@@ -664,11 +664,11 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                 description: Description (Optional),
                 share_path: Share path (Required),
                 character_encoding: Character encoding (Optional),
-                audit_items: Audit event list (Optional).  parameter format: [{
+                audit_items: Audit event list (Optional). 参数格式如下：[{
                         audititem: Audit event type. Options: none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr,
                      }, ...],
                 show_snapshot_enable: Show snapshot (Optional). Options: true, false,
-                nfs_share_client_addition: NFS share client permissions (Optional).  parameter format: [{
+                nfs_share_client_addition: NFS share client permissions (Optional). 参数格式如下：[{
                         name: Client IP, hostname, or netgroup name (Required, 1~255 chars; netgroup starts with @),
                         permission: Permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                         accesskrb5: krb5 permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
@@ -681,7 +681,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                         anonymous_user_id: Anonymous userID (Optional),
                         access_protocol: Access protocol (Optional). Options: nfsv3_and_nfsv4 (NFSv3 and NFSv4), nfsv3 (NFSv3 only), nfsv4 (NFSv4 only),
                      }, ...],
-                file_name_extension_filters: File extensionFilter rule list (Optional).  parameter format: [{
+                file_name_extension_filters: File extensionFilter rule list (Optional). 参数格式如下：[{
                         file_name_ex_id_in_storage: rule ID on storage (Optional, 1~64 character, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127 character, supports wildcards ? and *, *must be at the last character),
                         rule_type:  rule allow/reject (Optional, default reject). Options: reject, permit,
@@ -726,11 +726,11 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
         nfs_share_id: NFS  share ID
         description: Description
         character_encoding:  character encoding, Options: utf-8, zh, gbk 等
-        audit_items: Audit event list (Optional).  parameter format: [{
+        audit_items: Audit event list (Optional). 参数格式如下：[{
                 audititem: Audit event type. Options: none, all (all operations), open, create, read, write, close, delete, rename ( rename), get_security (Get security attribute), set_security (Set security attribute), get_attr (get), set_attr (设置),
              }, ...]
         show_snapshot_enable: Show snapshot
-        nfs_share_client_addition:  to add NFS Share client list (Optional).  parameter format: [{
+        nfs_share_client_addition:  to add NFS Share client list (Optional). 参数格式如下：[{
                 name: ClientIPor hostname or netgroup name (Required, 1~255 character),
                 permission:  permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5: krb5 permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
@@ -742,7 +742,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 source_port_verification: Source port verification (Optional). Options: secure, insecure,
                 anonymous_user_id: Anonymous userID (Optional, 0~4294967294),
              }, ...]
-        nfs_share_client_modification:  to modify NFS Share client list (Optional).  parameter format: [{
+        nfs_share_client_modification:  to modify NFS Share client list (Optional). 参数格式如下：[{
                 nfs_share_client_id_in_storage: Client on storageID (Required, 1~32 character),
                 permission:  permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5: krb5 permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
@@ -754,11 +754,11 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 source_port_verification: Source port verification (Optional). Options: secure, insecure,
                 anonymous_user_id: Anonymous userID (Optional, 0~4294967294),
              }, ...]
-        nfs_share_client_deletion:  to delete NFS Share client list (Optional).  parameter format: [{
+        nfs_share_client_deletion:  to delete NFS Share client list (Optional). 参数格式如下：[{
                 nfs_share_client_id_in_storage: Client on storageID (Required, 1~32 character),
                 name: ClientIPor hostname or netgroup name (Optional, 1~32000 character),
              }, ...]
-        file_name_ex_filters:  extensionFilter rule list (Optional).  parameter format: [{
+        file_name_ex_filters:  extensionFilter rule list (Optional). 参数格式如下：[{
                 update_type: Change type (Optional, defaultadd). Options: add ( add), delete, modify (modify ),
                 param: Extension filter rule.  format: {
                         file_name_ex_id_in_storage: rule ID on storage (Optional, 1~64 character, required when modifying),
@@ -875,7 +875,7 @@ def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
         manufacturer: Storage device vendor (Optional). Options: huawei, third_party
         op_lock_enabled: Oplock enabled (Optional), true/false
         notify_enabled: Notify enabled (Optional), true/false
-        offline_file_modes: Offline cache mode list (Optional), List<OfflineFileMode> type, max array members 4.  parameter format: [{
+        offline_file_modes: Offline cache mode list (Optional), List<OfflineFileMode> type, max array members 4. 参数格式如下：[{
                         mode: Offline cache mode (Optional). Options: none, manual, documents, programs, default manual,
         },...]
         file_extension_filter_enabled: File extension filter enabled (Optional), true/false
@@ -990,24 +990,24 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                 offline_file_mode: Offline cache mode (Optional). Options: none, manual, documents, programs,
                 ip_control_enabled: IP access control switch (Optional),
                 abe_enabled: ABE switch (Optional),
-                audititem_list: Audit event list (Optional).  parameter format: [{
+                audititem_list: Audit event list (Optional). 参数格式如下：[{
                         audititem: Audit event type (default none). Options: none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
                      }, ...],
                 apply_default_acl: Apply default ACL (Optional),
                 file_extension_filter_enabled: File extension filter enabled (Optional),
                 show_previous_versions_enabled: Show previous versions enabled (Optional),
                 show_snapshot_enabled: Show snapshot enabled (Optional),
-                user_and_user_group_info: User and user group list (Optional).  parameter format: [{
+                user_and_user_group_info: User and user group list (Optional). 参数格式如下：[{
                         user_or_user_group_id_in_storage: user or user group on storageid (Optional, 1~64 character,  required when changing),
                         user_or_user_group_name: Username or group name (Optional, 1~255 character; Group name with prefix@),
                         domain_type: domain type (Optional, default local). Options: ad_domain, ldap_domain, local, nis_domain,
                         permission:  permission (Optional, defaultread). Options: read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
                      }, ...],
-                ip_addresses_and_segments: IP address and IP address segment list (Optional).  parameter format: [{
+                ip_addresses_and_segments: IP address and IP address segment list (Optional). 参数格式如下：[{
                         ip_or_segments_id_in_storage: IP address (segment) ID on storage (Optional, 1~64 character,  required when changing),
                         ip_addresses_or_segments: IP address (segment) (Optional, 1~128 character,  max 32 entries),
                      }, ...],
-                file_name_extension_filters: File extensionFilter rule list (Optional).  parameter format: [{
+                file_name_extension_filters: File extensionFilter rule list (Optional). 参数格式如下：[{
                         file_name_ex_id_in_storage: rule ID on storage (Optional, 1~64 character, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127 character, supports wildcards ? and *),
                         rule_type:  rule type (Optional, default reject). Options: reject, permit,
@@ -1069,14 +1069,14 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         offline_file_mode: offlineCache mode, none/manual/documents/programs
         ip_control_enabled: IP Access control feature switch
         abe_enabled: ABE Feature switch
-        audititem_list: Supported audit event list (Optional).  parameter format: [{
+        audititem_list: Supported audit event list (Optional). 参数格式如下：[{
                 audititem: Audit event type (defaultnone). Options: none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
              }, ...]
         apply_default_acl: Add default ACL
         file_extension_filter_enabled: Enable file extension filter
         show_previous_versions_enabled: EnableShow previous versions feature
         show_snapshot_enabled: Enable show snapshot
-        user_and_user_group_info: user and user group list (Optional).  parameter format: [{
+        user_and_user_group_info: user and user group list (Optional). 参数格式如下：[{
                 update_type: Change type (Optional, defaultadd). Options: add ( add), delete, modify (modify ),
                 param: user and user group infoobject (Optional).  format: {
                         user_or_user_group_id_in_storage: user or user group on storageid (Optional, 1~64 character,  required when changing),
@@ -1085,14 +1085,14 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                         permission:  permission (Optional, defaultread). Options: read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
                 }
              }, ...]
-        ip_and_segments: IP address and IP address segment list (Optional).  parameter format: [{
+        ip_and_segments: IP address and IP address segment list (Optional). 参数格式如下：[{
                 update_type: Change type (Optional, defaultadd). Options: add ( add), delete, modify (modify ),
                 param: IP address and IP address segment infoobject (Optional).  format: {
                         ip_or_segments_id_in_storage: IP address (segment) ID on storage (Optional, 1~64 character,  required when changing),
                         ip_addresses_or_segments: IP address (segment) (Optional, 1~128 character,  max 32 entries),
                 }
              }, ...]
-        file_name_ex_filters:  extensionFilter rule list (Optional).  parameter format: [{
+        file_name_ex_filters:  extensionFilter rule list (Optional). 参数格式如下：[{
                 update_type: Change type (Optional, defaultadd). Options: add ( add), delete, modify (modify ),
                 param: Extension filter ruleobject (Optional).  format: {
                         file_name_ex_id_in_storage: rule ID on storage (Optional, 1~64 character, when changing added rulesRequired),
@@ -1214,7 +1214,7 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
         user_filter: User permission filter (Optional, dict type, effective when type=user).  parameter format: {
                 user_or_user_group_name: User/group name (Optional), 1~256 characters,
                 domain_type: Domain type (Optional). Options: ad_domain, ldap_domain, local, nis_domain,
-                permissions: Permission filter list (Optional), List<Permission> type, max array members 4.  parameter format: [{
+                permissions: Permission filter list (Optional), List<Permission> type, max array members 4. 参数格式如下：[{
                         permission: Permission (Optional). Options: read, full_control, forbidden, read_and_write, read_and_write_not_del_rename. Default read,
                 },...],
                 user_or_user_group_raw_id: User/group ID on storage device (Optional), 1~256 characters,
@@ -1450,7 +1450,7 @@ def dataturbo_share_create(client: DMEAPIClient, charset: str, fs_id: str = None
         fs_id: Filesystem ID to share, mutually exclusive with dtree_id, one required
         dtree_id: Dtree ID to share, mutually exclusive with fs_id, one required
         description: DataTurbo share description
-        dataturbo_share_auth: DataTurbo admin list (Optional).  parameter format: [{
+        dataturbo_share_auth: DataTurbo admin list (Optional). 参数格式如下：[{
                 dpc_user_id: DataTurbo admin ID (Required, 1~64 characters),
                 permission: DataTurbo admin permission (Required, fixed value read_and_write),
              }, ...]
@@ -1493,7 +1493,7 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
         client: DME API client
         dataturbo_share_id: DataTurbo share ID
         description: DataTurbo share description
-        dataturbo_share_auth_addition: DataTurbo admin list to add (Optional).  parameter format: [{
+        dataturbo_share_auth_addition: DataTurbo admin list to add (Optional). 参数格式如下：[{
                 dpc_user_id: DataTurbo admin ID (Required, 0~64 characters),
                 permission: DataTurbo admin permission (Required, fixed value read_and_write),
              }, ...]
@@ -1905,7 +1905,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         zone_id:  zone ID(Optional) , 1~256  characters; OceanStor A800 filesystem only, passing clusterID queries global filesystem
         product_name: FilesystemDevice product name(Optional) , 1~256  characters,  supportfuzzy search
         description: FilesystemDescription(Optional) , 1~255  characters
-        tag_filters: Tag filter list(Optional) , List<TagFilters>  type, max array members 11.  parameter format: [{
+        tag_filters: Tag filter list(Optional) , List<TagFilters>  type, max array members 11. 参数格式如下：[{
                         tag_ids:  tag ID  list(Optional) , max array members 10, Tags are OR-related,
                         tag_type_id: Tag type ID(Optional) ,  regex ^[a-fA-F0-9]{32}$,
                         operator:  filter condition (Required) , Options: contain (includes ) , not_contain (不includes ) ,
@@ -2034,7 +2034,7 @@ def filesystem_batch_modify(client: DMEAPIClient, filesystems: list, task_remark
 
     Args:
         client: DME API client
-        filesystems: Filesystem info list to modify (Required), List<UpdateFileSystemInfo> type, max array members 1000.  parameter format: [{
+        filesystems: Filesystem info list to modify (Required), List<UpdateFileSystemInfo> type, max array members 1000. 参数格式如下：[{
                         file_system_id: Filesystem unique ID (Required), 1~64 characters,
                         name: Filesystem name (Required), 1~255 characters,
         },...]
@@ -2092,7 +2092,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         client: DME API client
         storage_id: Storage device ID
         pool_raw_id: Storage pool ID on the storage device
-        filesystem_specs: Filesystem spec list.  parameter format: [{
+        filesystem_specs: Filesystem spec list. 参数格式如下：[{
                 name: Name (Required, 1~255 characters),
                 count: Count (Required, 1~500),
                 start_suffix: Starting suffix number (Optional, 0~9999),
@@ -2641,7 +2641,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         client: DME API Client
         storage_id: Storage device ID (Required) 
         pool_raw_id: Storage poolon the storage device ID (Required) 
-        namespace_specs: Namespacebatch parameter.  parameter format: [{
+        namespace_specs: Namespacebatch parameter. 参数格式如下：[{
                 name:  name (Required, 1~255 character, supports letters, digits, underscores.-),
                 count: count (Required, 1~500),
                 start_suffix: Starting suffix number (Optional, 0~9999; 起始 suffix+count<=9999),
@@ -3510,7 +3510,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         vstore_id:  tenant ID (length is32 characters, Required)
         data_cleanup_switch: Cleanup switch (Optional). Options: on ( open), off ( disable). Default: off
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. 当 data_cleanup_switch 为 on 时Required)
-        kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required).  parameter format: [{
+        kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required). 参数格式如下：[{
                 name: KV Cache 库 name (1~255 characters, Required),
                 capacity: KV Cache 库 capacity (int64, 20971520~70368744177664, unit :  sector count, 1扇区=512 byte, Required),
                 description: Description (1~255 characters, Optional),

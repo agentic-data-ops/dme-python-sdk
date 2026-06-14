@@ -44,7 +44,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
     Returns:
         {
             total: TenantTotal count (integer),
-            vstores: Tenant list (List<VstoreResp>, max array members: 1000).  parameter format: [{
+            vstores: Tenant list (List<VstoreResp>, max array members: 1000). 参数格式如下：[{
                 id: Tenant unique identifier (string, 1~64 characters),
                 qos_id: QoS policyID (string, 1~64 characters),
                 raw_id: tenant ID on device (string, 1~64 characters),
@@ -271,7 +271,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
     Returns:
         {
             total: Storage deviceTotal count (int32),
-            datas: Storage device list (List<StorageSummaryInfo>).  parameter format: [{
+            datas: Storage device list (List<StorageSummaryInfo>). 参数格式如下：[{
                 id: Storage device ID (string),
                 name: Storage device name (string),
                 ip: IP  address (string),
@@ -494,7 +494,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
     
     Returns:
         {
-            backup_powers: BBU list (List<StorageBackupPowerInfo>).  parameter format: [{
+            backup_powers: BBU list (List<StorageBackupPowerInfo>). 参数格式如下：[{
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status. Options: unknown (unknown), normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
@@ -579,7 +579,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: Fancount (integer),
-            fans: Fan list (List<StorageFanInfo>).  parameter format: [{
+            fans: Fan list (List<StorageFanInfo>). 参数格式如下：[{
                 name:  name (1~128 characters),
                 location: location (1~256 characters),
                 health_status: Health status. Options: unknown (unknown), normal, faulty ( fault),
@@ -667,7 +667,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
     Returns:
         {
             total:  disk的count (integer),
-            disks: Disk list (List<DiskInfo>).  parameter format: [{
+            disks: Disk list (List<DiskInfo>). 参数格式如下：[{
                 id:  diskID (string),
                 name: Disk name (string),
                 health_status: Health status (string),
@@ -756,7 +756,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total: Storage poolcount (int32),
-            datas: Storage pool basic info list (List<StoragePoolBasicInfo>).  parameter format: [{
+            datas: Storage pool basic info list (List<StoragePoolBasicInfo>). 参数格式如下：[{
                 id: Storage pool ID (1~32 characters),
                 name: Storage pool name (1~31 characters),
                 raw_id: Storage poolon the storage deviceID (1~64 characters),
@@ -838,7 +838,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
     Returns:
         {
             total: HyperScaleStorage poolTotal count (int32),
-            data: HyperScale storage pool list (List<HyperScalePoolInfo>).  parameter format: [{
+            data: HyperScale storage pool list (List<HyperScalePoolInfo>). 参数格式如下：[{
                 id: HyperScaleStorage pool ID (1~64 characters),
                 raw_id: Storage poolon the storage deviceID (1~64 characters),
                 name: HyperScaleStorage pool name (1~256 characters),
@@ -915,7 +915,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total:  node的count (integer),
-            nodes: Node list (List<StorageNodeBaseInfo>).  parameter format: [{
+            nodes: Node list (List<StorageNodeBaseInfo>). 参数格式如下：[{
                 id:  nodeid (1~64 characters),
                 name: Node name (1~255 characters),
                 raw_id:  nodeon the storage deviceID (1~64 characters),
@@ -930,7 +930,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 storage_name: Storage device name (1~255 characters),
                 eos_time:  storageEOS时间 (int64), Greenwich Mean Time1970year(s)01month(s)01日00时00分00second(s)total ms from start to nowsecond(s)数,
                 installation_status: Storage software installation status. Options: installed (Storage software installed), not_installed (Storage software not installed),
-                ip_address_list: Node IP address list (List<StorageNodeIpInfo>).  parameter format: [{
+                ip_address_list: Node IP address list (List<StorageNodeIpInfo>). 参数格式如下：[{
                     ip_address: Node IP address (1~256 characters),
                     usage: Node IPAddress purpose list (List<string>). Options: storage_frontend (Storage frontend networkIP), storage_backend (Storage backend networkIP), management_external_float (Management external network floatingIP), management_internal_float (Management internal network floatingIP), management_external (Management external networkIP), management_internal (Management internal networkIP), replication ( replication networkIP), quorum (仲裁 networkIP), iscsi (ISCSI networkIP),
                 }, ...],
@@ -994,7 +994,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: Power supply的count (int32),
-            storage_powers: Power list (List<StoragePowerInfo>).  parameter format: [{
+            storage_powers: Power list (List<StoragePowerInfo>). 参数格式如下：[{
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status. Options: unknown (unknown), normal, faulty ( fault), inconsistent ( inconsistent), no_input ( no input),
@@ -1060,7 +1060,7 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 
     Returns:
         {
-            storage_power_list: Storage power list (List<StoragePower>).  parameter format: [{
+            storage_power_list: Storage power list (List<StoragePower>). 参数格式如下：[{
                 storage_id:  storageID,
                 power:  storage功率, unit 千瓦 (number),
             }, ...],
@@ -1237,7 +1237,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
     Returns:
         {
             total: Disk poolcount (int32),
-            disk_pools: Disk pool list (List<DiskPoolInfo>).  parameter format: [{
+            disk_pools: Disk pool list (List<DiskPoolInfo>). 参数格式如下：[{
                     id: Disk poolid (1~64 characters),
                     raw_id: Disk poolon the deviceid (1~64 characters),
                     name: Disk pool name (1~128 characters),
@@ -1279,7 +1279,7 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: Total count (int32),
-            disk_pools: Disk pool list.  parameter format: [{
+            disk_pools: Disk pool list. 参数格式如下：[{
                 id: Disk poolID (string),
                 name: Disk pool name (string),
                 status:  status (string),
@@ -1328,7 +1328,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
     Returns:
         {
             total: Enclosurecount (integer),
-            data: Enclosure list (List<EnclosureItem>).  parameter format: [{
+            data: Enclosure list (List<EnclosureItem>). 参数格式如下：[{
                     id: EnclosureID (1~64 characters),
                     raw_id: Enclosure ID on storage device (1~64 characters),
                     name:  name (1~256 characters),
@@ -2322,7 +2322,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
     Returns:
         {
             total: Logic port的count (integer),
-            logic_ports: Logic port list (List<StorageLogicPortResp>).  parameter format: [{
+            logic_ports: Logic port list (List<StorageLogicPortResp>). 参数格式如下：[{
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
@@ -2362,7 +2362,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 can_failover: EnableIPAddress drift (boolean). Options: true, false,
                 failback_mode: Drift-back mode. Options: not_support (feature not supported), manual ( manual), automatic ( auto),
                 scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only storage only,
-                logicPortTags: Associated tag set (List<Tag>).  parameter format: [{
+                logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                     id:  tag的ID (1~32 characters),
                     tag_type_name: Tag type name (1~64 characters),
                     name: Tag name (1~128 characters),
@@ -2441,7 +2441,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             can_failover: EnableIPAddress drift (boolean). Options: true, false,
             failback_mode: Drift-back mode. Options: not_support (feature not supported), manual ( manual), automatic ( auto),
             scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only storage only,
-            logicPortTags: Associated tag set (List<Tag>).  parameter format: [{
+            logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                 id:  tag的ID (1~32 characters),
                 tag_type_name: Tag type name (1~64 characters),
                 name: Tag name (1~128 characters),
@@ -3001,7 +3001,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: Failover groupcount (int32),
-            failover_groups: Failover group list (List<FailoverGroupResp>).  parameter format: [{
+            failover_groups: Failover group list (List<FailoverGroupResp>). 参数格式如下：[{
                 id: Failover groupid (1~64 characters),
                 name: Failover group name (1~64 characters),
                 failover_group_type: Failover group type (1~255 characters). Options: system, VLAN, customized,
@@ -3125,7 +3125,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
     Returns:
         {
             total: ZoneTotal count (int32),
-            datas: Zone list (List<OceanStorA800ZoneInfo>).  parameter format: [{
+            datas: Zone list (List<OceanStorA800ZoneInfo>). 参数格式如下：[{
                 id: Zone在CMDBID (1~64 characters),
                 native_id: native id (1~64 characters),
                 name: Zone name (1~128 characters),

@@ -29,7 +29,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     Returns:
         {
             total:  templatecount (integer, max: 500),
-            templates: Template list.  parameter format: [{
+            templates: Template list. 参数格式如下：[{
                 id:  templateID (string),
                 name:  template name (string),
                 description:  description (string),

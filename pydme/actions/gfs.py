@@ -30,7 +30,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
     Returns:
         {
             total: Total count (integer),
-            gfs_groups: Omni-Dataverse  list.  parameter format: [{
+            gfs_groups: Omni-Dataverse  list. 参数格式如下：[{
                 id: ID (string),
                 name:  name (string),
                 status:  status (string),
@@ -216,7 +216,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         gfs_group_name: Global data space name (1~255 characters, Optional. 与 gfs_group_id cannot both be empty; takes precedence when both have valuess_group_id)
         gfs_mode: Global namespace mode. Options: smart_share. Default: smart_share
         single_write_switch: Single write mode switch. Options: close (any member can write), open (only one member can write)
-        smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional. required when gfs_mode is smart_share).  parameter format: [{
+        smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional. required when gfs_mode is smart_share). 参数格式如下：[{
                 id: Namespace ID (1~64 characters, Required),
                 pull_mode: Read mode. Options: no_cache (forwarded read), on_demand (read on demand). Default: on_demand,
                 cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,
@@ -258,7 +258,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         client: DME API client
         id: Global namespace ID (1~32 characters, Optional. cannot both be empty with name_locator; takes precedence when both have values id)
         name_locator: Name locator, format is: Global namespace name@Global data space name (3~507 characters, Optional. 与 id cannot both be empty; takes precedence when both have values id)
-        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. 当Global namespace的 mode为 smart_share parameter effective when).  parameter format: [{
+        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. 当Global namespace的 mode为 smart_share parameter effective when). 参数格式如下：[{
                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
                 pull_mode: 读 data mode (Optional). Optional值: no_cache ( forwarded read), on_demand ( read on demand),
                 cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,

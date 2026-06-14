@@ -39,7 +39,7 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
     Returns:
         {
             total: Protection groupTotal count (integer),
-            protection_groups: Protection group list (List<ProtectionGroupInfo>).  parameter format: [{
+            protection_groups: Protection group list (List<ProtectionGroupInfo>). 参数格式如下：[{
                 id: Protection group ID (string),
                 name: Protection group name (string),
                 status:  status (string),
@@ -2149,7 +2149,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
     Returns:
         {
             total: Total count (integer),
-            filesystem_pairs: Filesystem active-active pair list.  parameter format: [{
+            filesystem_pairs: Filesystem active-active pair list. 参数格式如下：[{
                 id: Pair ID (string),
                 name:  name (string),
                 status:  status (string),
@@ -2329,7 +2329,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
     Returns:
         {
             total: Total count (integer),
-            snapshots: Filesystem snapshot list.  parameter format: [{
+            snapshots: Filesystem snapshot list. 参数格式如下：[{
                 id:  snapshotID (string),
                 name: Snapshot name (string),
                 status:  status (string),
@@ -2477,7 +2477,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            vstore_pairs: Active-active tenant pair list.  parameter format: [{
+            vstore_pairs: Active-active tenant pair list. 参数格式如下：[{
                 id: Pair ID (string),
                 name:  name (string),
                 status:  status (string),
@@ -2719,7 +2719,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
 
     Returns:
         {
-            optional_target_luns: Optional targetLUN list.  parameter format: [{
+            optional_target_luns: Optional targetLUN list. 参数格式如下：[{
                 lun_id: LUN ID (string),
                 lun_name: LUN name (string),
                 capacity:  capacity (integer),

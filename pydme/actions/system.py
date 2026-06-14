@@ -158,7 +158,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: Total count (integer, max: 5000),
-            datas: User data (List<UserData>, max array members: 5000).  parameter format: [{
+            datas: User data (List<UserData>, max array members: 5000). 参数格式如下：[{
                 id: user ID (integer, 1~2147483647),
                 name: Username (string, 6~32 characters),
                 description:  description (string,  max127 characters),
@@ -191,7 +191,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: Total count (integer, max: 10),
-            datas: Role data (List<RoleData>, max array members: 5000).  parameter format: [{
+            datas: Role data (List<RoleData>, max array members: 5000). 参数格式如下：[{
                 id:  roleID (integer, 1~2147483647),
                 name:  role name (string,  max64 characters),
                 description:  description (string,  max127 characters),
@@ -293,7 +293,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     Returns:
         {
             total: Backup serverTotal count (int32),
-            backup_servers:  backupServer list (List<BackupServerInfo>).  parameter format: [{
+            backup_servers:  backupServer list (List<BackupServerInfo>). 参数格式如下：[{
                 id: Backup serverid (string, 1~64 characters),
             }, ...]
         }
@@ -1008,7 +1008,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     Returns:
         {
             total: Availability zoneTotal count (integer),
-            az_list: Availability zone list (List<GetAzResponse>).  parameter format: [{
+            az_list: Availability zone list (List<GetAzResponse>). 参数格式如下：[{
                 id: Availability zoneid (string),
                 name: Availability zone name (string),
                 description: Availability zone description (string),
@@ -1147,7 +1147,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            regions: Region list.  parameter format: [{
+            regions: Region list. 参数格式如下：[{
                 id: Region ID (string),
                 name: Region name (string),
                 role: Region role (string),
