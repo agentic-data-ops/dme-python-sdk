@@ -86,7 +86,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     """
      queryPod list
     
-     queryPod（Pod） list，支持按集群 ID、Namespace和 name filter。
+     queryPod（Pod） list， support按集群 ID、Namespace和 name filter。
     
     Args:
         client: DME API client
@@ -175,7 +175,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
             pvcs: PVC list。 parameter format如下：[{
                 name: PVC name (string),
                 status:  status (string),
-                capacity: 容量 (string),
+                capacity:  capacity (string),
             }, ...],
         }
     """
@@ -202,7 +202,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     """
     Query containerPV list
     
-    Query containerPersistent volume（PV） list，支持按集群 ID 和 name filter。
+    Query containerPersistent volume（PV） list， support按集群 ID 和 name filter。
     
     Args:
         client: DME API client
@@ -216,7 +216,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
             pvs: PV list。 parameter format如下：[{
                 name: PV name (string),
                 status:  status (string),
-                capacity: 容量 (string),
+                capacity:  capacity (string),
             }, ...],
         }
     """

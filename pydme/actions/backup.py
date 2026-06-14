@@ -88,7 +88,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
             total: 配额Total count (integer),
             quotas: Tenant quota list。 parameter format如下：[{
                 tenant_id: Tenant ID (string),
-                quota: 配额大小 (integer),
+                quota: 配额 size (integer),
                 used: Used quota (integer),
             }, ...],
         }

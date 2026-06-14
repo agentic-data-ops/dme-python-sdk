@@ -27,7 +27,7 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
         project_id: Project group ID，supports conditional filtering
         storage_name: Storage device name，supports fuzzy search
         storage_id: Storage device ID，supports conditional filtering
-        raw_id: Protection groupon the device ID，supports exact search，支持排序
+        raw_id: Protection groupon the device ID，supports exact search， support排序
         lun_group_raw_id: LUN 组on the device ID，supports conditional filtering
         vstore_id: Tenant的 ID，this parameter and vstore_raw_id mutually exclusive
         vstore_raw_id: Tenanton the device ID，this parameter and vstore_id mutually exclusive
@@ -176,7 +176,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     """
     Protection group中Add member LUN
 
-    向指定Protection group中Add member LUN。
+    向 specifiedProtection group中Add member LUN。
 
     Args:
         client: DME API client
@@ -184,25 +184,25 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         lun_ids: 待add 到Protection group的 LUN 的 ID  list（Optional），max array members 100，与 hyper_metro 和 rem_reps 的 parameter lun_pairs mutually exclusive；Protection group不存在Active-active、 replication、环形 3DC parameter effective when feature
         hyper_metro: add  LUN 到有Active-active特性Protection group的请求 parameter（Optional），与 lun_ids  parametermutually exclusive；Protection group存在Active-activeparameter effective when feature。 format：{
                         is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接 pauseConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
-                        create_mode: Active-active Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
+                        create_mode: Active-active Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+ auto序号）；effective in auto-create mode
                         name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
                         name_suffix: remote  LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs: 手动配置的Active-active Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
+                        lun_pairs:  manual config的Active-active Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
                                 local_lun_id: local  LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
                                 remote_lun_id: remote  LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
         rem_reps: add  LUN to replication-capableProtection group的请求 parameter（Optional），max array members 2，与 lun_ids  parametermutually exclusive；Protection group存在 replicationparameter effective when feature。 format：[{
                         is_delay: Deferred execution（Optional），default true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
-                        create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
+                        create_mode: Remote replication Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_id: remote Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$； replication Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+ auto序号）；effective in auto-create mode
                         name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
                         name_suffix: remote  LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs: 手动配置的Remote replication Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
+                        lun_pairs:  manual config的Remote replication Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
                                 local_lun_id: local  LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
                                 remote_lun_id: remote  LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
@@ -334,7 +334,7 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         local_storage_id: local 设备 ID
         local_pg_id: local Protection group的 ID， conditionRequired：when device type is OceanStor Dorado V6、OceanStor V6 时Required
         description: Description
-        create_mode: Active-active Pair creation mode，Optional值：auto（自动 mode）, manual（手动 mode）
+        create_mode: Active-active Pair creation mode，Optional值：auto（ auto mode）, manual（ manual mode）
         remote_vstore_id: Remote device tenant ID， conditionRequired：当 create_mode 为 auto 且设备为 OceanStor Dorado 6.1.3 version and above
         remote_storage_pool_id: remote Storage pool ID， conditionRequired：当 create_mode 为 auto 时
         lun_ids: LUN 的 ID  list， conditionOptional：当 create_mode 为 auto 时
@@ -385,9 +385,9 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         group_id: Active-active consistency group ID
         name: Active-active consistency group name
         description: Description
-        recovery_policy: Active-active Pair Recovery policy，Optional值：automatic（自动）, manual（手动）
+        recovery_policy: Active-active Pair Recovery policy，Optional值：automatic（ auto）, manual（ manual）
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred（Data reliability first）, service_continuity_preferred（Business continuity priority）
-        speed: Sync速率，Optional值：low, medium, high, highest, custom
+        speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
 
@@ -661,7 +661,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
 
     Args:
         client: DME API client
-        create_mode: Active-active Pair creation mode，Optional值：auto（Auto-create）, manual（手动create ）
+        create_mode: Active-active Pair creation mode，Optional值：auto（Auto-create）, manual（ manualcreate ）
         local_storage_id: create Active-active Pair 的Storage device ID
         domain_id: Active-active域 ID
         lun_ids: In auto-create mode，源 LUN 的 ID  list
@@ -671,7 +671,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         remote_resource_name_rule: LUN naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: remote  LUN name prefix
         name_suffix: remote  LUN name suffix
-        speed: Sync速率，Optional值：low, medium, high, highest, custom
+        speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom required when
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred required when
@@ -729,8 +729,8 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
     Args:
         client: DME API client
         pair_id: Active-active Pair 实例 ID
-        speed: Active-active Pair Sync速率，Optional值：low, medium, high, highest, custom
-        bandwidth: 自定义速率（MB/s），当 speed 为 custom 时Required
+        speed: Active-active Pair Sync rate，Optional值：low, medium, high, highest, custom
+        bandwidth: 自定义 rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
@@ -1009,7 +1009,7 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: remote Resource name前缀
         name_suffix: remote Resource name后缀
-        speed: Sync速率，Optional值：low, medium, high, highest, custom
+        speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
         sync_type: Sync type，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
@@ -1083,7 +1083,7 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
     Args:
         client: DME API client
         pair_id:  replication Pair 实例 ID
-        speed: Sync速率，Optional值：low, medium, high, highest, custom
+        speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
         enable_compress: Link compression，when replication mode isin async modeRequired
@@ -1394,7 +1394,7 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
 
     Args:
         client: DME API client
-        rollback_speed: 回滚速率，Optional值：low, medium, high, highest
+        rollback_speed: 回滚 rate，Optional值：low, medium, high, highest
         rollback_snapshots: Snapshot rollback resourceinfo list，Each item includes snapshot_id, target_type, target_id
 
     Returns:
@@ -1584,7 +1584,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
     Args:
         client: DME API client
         snapshot_cg_id: Snapshot consistency group ID
-        rollback_speed: 回滚速率，Optional值：low, medium, high, highest
+        rollback_speed: 回滚 rate，Optional值：low, medium, high, highest
         snapshot_create_mode: Snapshot creation method，Optional值：auto, manual
         name_rule: Snapshot naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
@@ -1638,7 +1638,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_rule: 目标 LUN Naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 目标 LUN name prefix
         name_suffix: 目标 LUN name suffix
-        copy_rate: 拷贝速率，Optional值：low, medium, high, highest，default medium
+        copy_rate: 拷贝 rate，Optional值：low, medium, high, highest，default medium
         is_sync: 是否立即Sync，default true
         clone_pairs: 克隆 Pair  list，create_mode 为 manual 时Required
 
@@ -1767,7 +1767,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         description: Description
         remote_lun_group_id: remote  LUN 组的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时且local Protection group是基于 LUN 组create 的required when
         local_storage_id: local Storage device ID，当Storage device version不是 OceanStor V6、OceanStor Dorado V6 required when
-        create_mode:  replication Pair creation mode，Optional值：auto（自动）, manual（手动）
+        create_mode:  replication Pair creation mode，Optional值：auto（ auto）, manual（ manual）
         existed_pair_ids: Existing replication Pair 的 ID  list
         lun_pairs: In manual create mode， replication Pair 的源 LUN、目标 LUN 的 ID  list
         lun_ids: In auto-create mode，源 LUN 的 ID  list
@@ -1835,7 +1835,7 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         replication_group_id: Remote replicationConsistency group ID
         name: Remote replicationConsistency group name
         description: Description
-        speed: Sync速率，Optional值：low, medium, high, highest, custom
+        speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
         enable_compress: Link compression，when replication mode isin async modeRequired
@@ -2084,10 +2084,10 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
     Args:
         client: DME API client
         vstore_pair_id: Active-active tenantPair的ID (Required, string, 1~32 characters)
-        create_mode: creation mode (Optional, string)。Optional值：manual (手动)。Default：manual
+        create_mode: creation mode (Optional, string)。Optional值：manual ( manual)。Default：manual
         fs_pairs: FilesystemPair list (Optional, List[FsPairInstance], max array members：100)
-        speed: Sync速率 (Optional, string)。Optional值：low, medium, high, highest, custom
-        bandwidth: 带宽 (Optional, integer, 1~1024)。当speed为custom时Required
+        speed: Sync rate (Optional, string)。Optional值：low, medium, high, highest, custom
+        bandwidth:  bandwidth (Optional, integer, 1~1024)。当speed为custom时Required
         service_assurance_policy: Service assurance policy (Optional, string)。Optional值：data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time: 隔离threshold (Optional, int32, 10~30000)
 
@@ -2722,7 +2722,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
             optional_target_luns: Optional目标LUN list。 parameter format如下：[{
                 lun_id: LUN ID (string),
                 lun_name: LUN name (string),
-                capacity: 容量 (integer),
+                capacity:  capacity (integer),
             }, ...],
         }
     """

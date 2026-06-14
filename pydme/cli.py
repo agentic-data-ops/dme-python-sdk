@@ -867,7 +867,7 @@ def main():
                                 try:
                                     param_value = param_type(param_value)
                                 except ValueError:
-                                    print(f"警告： parameter {param_name} 无法转换为 {param_type.__name__}")
+                                    print(f" warning： parameter {param_name} 无法转换为 {param_type.__name__}")
                             elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                                 import json
                                 try:
@@ -879,7 +879,7 @@ def main():
                                 try:
                                     param_value = json.loads(param_value)
                                 except (ValueError, json.JSONDecodeError):
-                                    print(f"警告： parameter {param_name} 需要 JSON  format")
+                                    print(f" warning： parameter {param_name} 需要 JSON  format")
 
                         typed_params[func_param_name] = param_value
 
@@ -904,7 +904,7 @@ def main():
             print_subtopic_help(cli, args.topic, args.subtopic)
             return
 
-    # 4. 指定了 <topic> <subtopic> <action>，Show action help or execute action
+    # 4.  specified了 <topic> <subtopic> <action>，Show action help or execute action
     if args.subtopic and args.action:
         # 尝试组合为 action_key（Three-level structure：<topic> <subtopic> <action>）
         # 先尝试 subtopic_action  format（Supports action names with spaces，如 "frame list"）
@@ -917,8 +917,8 @@ def main():
             if space_action_key in actions_info:
                 action_key = space_action_key
             else:
-                # 仍然找不到，显示错误
-                print(f"错误：Action not found '{args.topic} {args.subtopic} {args.action}'")
+                # 仍然找不到，显示 error
+                print(f" error：Action not found '{args.topic} {args.subtopic} {args.action}'")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
                     print(f"提示：Available actions include：{', '.join(available)}")
@@ -937,7 +937,7 @@ def main():
         auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
         if not auth_token and not (endpoint and username and password):
-            print("错误：must be provided endpoint、user 和 password  parameter，或者使用 --token provide auth token")
+            print(" error：must be provided endpoint、user 和 password  parameter，或者使用 --token provide auth token")
             print("可通过 --endpoint, --user, --password, --token or set via environment variables")
             parser.print_help()
             sys.exit(1)
@@ -1009,7 +1009,7 @@ def main():
                             try:
                                 param_value = param_type(param_value)
                             except ValueError:
-                                print(f"警告： parameter {param_name} 无法转换为 {param_type.__name__}")
+                                print(f" warning： parameter {param_name} 无法转换为 {param_type.__name__}")
                         elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                             import json
                             try:
@@ -1021,7 +1021,7 @@ def main():
                             try:
                                 param_value = json.loads(param_value)
                             except (ValueError, json.JSONDecodeError):
-                                print(f"警告： parameter {param_name} 需要 JSON  format")
+                                print(f" warning： parameter {param_name} 需要 JSON  format")
 
                     typed_params[func_param_name] = param_value
 

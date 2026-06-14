@@ -205,15 +205,15 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         pool_id: Storage pool ID (Conditionally required), 1~64 characters; required when storage mode is not pass-through; obtained via QueryResource type API, Resource type name is SYS_StoragePool
         vstore_id: 租户 ID（可选），1~64  characters；当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
-        initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5 设备，Dorado 系列不支持；
-                                  Options：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；default automatic
+        initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5 设备，Dorado 系列不 support；
+                                  Options：automatic（ auto）、highest_performance（高性能层）、performance（性能层）、capacity（ capacity层）；default automatic
         prefetch_policy: 预取 policy（可选），Affects disk read；
                         Options：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；default intelligent_prefetch
         prefetch_value: 预取 policy值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
         tuning: 调优属性 (可选), CustomizeLunTuning object。 parameter format如下：{
-                smart_tier: Data migration policy。Options：no_migration (不迁移), automatic_migration (自动迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。defaultno_migration,
-                deduplication_enabled: Deduplication (仅Thin LUN支持)。Options：true ( enable), false ( disable),
-                compression_enabled: Data compression (仅Thin LUN支持)。Options：true ( enable), false ( disable),
+                smart_tier: Data migration policy。Options：no_migration (不迁移), automatic_migration ( auto迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。defaultno_migration,
+                deduplication_enabled: Deduplication (仅Thin LUN support)。Options：true ( enable), false ( disable),
+                compression_enabled: Data compression (仅Thin LUN support)。Options：true ( enable), false ( disable),
                 alloction_type: LUNAllocation type。Options：thin, thick,
                 smart_qos: Smart QoSobject。属性 format如下：{
                         max_bandwidth: Max bandwidth (1~999999999Mbit/s; 与min_bandwidth/min_iopsmutually exclusive),
@@ -234,7 +234,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN组on the storage deviceID (1~31 characters),
                         lun_group_name: LUN组on the storage device name (1~255 characters),
-                        port_group_raw_id: Port groupon the storage deviceID (1~31 characters; Host or host group does not existMapping relationship时可指定, 存在Mapping relationship时不可指定),
+                        port_group_raw_id: Port groupon the storage deviceID (1~31 characters; Host or host group does not existMapping relationship时可 specified, 存在Mapping relationship时不可 specified),
                 },
              }
         task_remarks: Async taskRemark（可选）， max 1024  characters
@@ -1632,7 +1632,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                         raw_id: 主机Initiatorwwpn或iqn或nqn (Required, 1~223 characters),
                         alias: Initiator alias (可选,  max31 characters),
                      }, ...],
-                multipath: 多路径配置 (可选)。属性 format如下：{
+                multipath: 多路径 config (可选)。属性 format如下：{
                         multipath_type: Third-party multipath policy (Required)。Options：default (default), third_party (Third-party multipath),
                         path_type: Initiator路径 type (可选,  enableThird-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
                         failover_mode: Initiator切换 mode (可选,  enableThird-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
@@ -1674,7 +1674,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     """
     Remove host from storage host group
 
-    从指定的Storage hostRemove one or more hosts from group。
+    从 specified的Storage hostRemove one or more hosts from group。
 
     Args:
         client: DME API Client
@@ -1703,7 +1703,7 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
     """
     Batch delete storage host groups
 
-    Batch delete指定的Storage host组。
+    Batch delete specified的Storage host组。
 
     Args:
         client: DME API Client
@@ -1733,12 +1733,12 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-    指定Storage host query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
+     specifiedStorage host query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client
         storage_host_id: Storage host ID（Required，1~64  character）
-        name: LUN Name (Optional,1~256  character，支持fuzzy search）
+        name: LUN Name (Optional,1~256  character， supportfuzzy search）
         page_size: Items per page（可选，1~1000，default 20）
         page_no: Page queryStart position（可选，1~10000000，default 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
@@ -1775,12 +1775,12 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-    指定Storage host组 query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
+     specifiedStorage host组 query映射 LUN info list，includes  LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client
         storage_host_group_id: Storage host组 ID（Required，1~64  character）
-        name: LUN Name (Optional,1~256  character，支持fuzzy search）
+        name: LUN Name (Optional,1~256  character， supportfuzzy search）
         page_size: Items per page（可选，1~1000，default 20）
         page_no: Page queryStart position（可选，1~10000000，default 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
@@ -3411,7 +3411,7 @@ ACTIONS = {
     },
     'physical_host_save_sshkey': {
         'func': physical_host_save_sshkey,
-        'description': '保存指定Physical hostSSH公钥',
+        'description': '保存 specifiedPhysical hostSSH公钥',
         'params': ['ip', 'key', 'port'],
         'subtopic': 'physical_host'
     },

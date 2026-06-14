@@ -20,9 +20,9 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     Args:
         client: DME API client
         site_id: Virtual machine站点 ID
-        cluster_id: Virtual machine集群 ID（HCS 场景不支持）
+        cluster_id: Virtual machine集群 ID（HCS 场景不 support）
         dc_id: Data center ID（仅 FusionCompute Scenario support）
-        cluster_name: Virtual machineCluster name（supports fuzzy search，HCS 场景不支持）
+        cluster_name: Virtual machineCluster name（supports fuzzy search，HCS 场景不 support）
         host_id: Virtual machinePhysical hostUnique identifier
         host_name: Virtual machineHost name（supports fuzzy search）
         name: Virtual machine name（supports fuzzy search）
@@ -50,7 +50,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                 name: Virtual machine name (string),
                 status:  status (string),
                 cpu: CPUcount (integer),
-                memory: 内存大小 (integer),
+                memory: 内存 size (integer),
             }, ...],
         }
     """
@@ -98,7 +98,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
-    QueryVirtual machine详情
+    QueryVirtual machine details
     
      queryVirtual machine的Details。
     
@@ -331,7 +331,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
 
 def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> dict:
     """
-    Query集群详情
+    Query集群 details
     
      query集群的Details。
     
@@ -375,7 +375,7 @@ def site_list(client: DMEAPIClient) -> dict:
 
 def site_show(client: DMEAPIClient, site_id: str) -> dict:
     """
-    Query站点详情
+    Query站点 details
     
     Query virtualization siteDetails。
     
@@ -534,7 +534,7 @@ ACTIONS = {
     },
     'vm_show': {
         'func': vm_show,
-        'description': 'QueryVirtual machine详情',
+        'description': 'QueryVirtual machine details',
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
@@ -582,7 +582,7 @@ ACTIONS = {
     },
     'cluster_show': {
         'func': cluster_show,
-        'description': 'Query集群详情',
+        'description': 'Query集群 details',
         'params': ['cluster_id', 'vr_type'],
         'subtopic': 'cluster'
     },
@@ -595,7 +595,7 @@ ACTIONS = {
     },
     'site_show': {
         'func': site_show,
-        'description': 'Query站点详情',
+        'description': 'Query站点 details',
         'params': ['site_id'],
         'subtopic': 'site'
     },

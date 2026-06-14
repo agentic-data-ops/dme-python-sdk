@@ -187,7 +187,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         client: DME API client
         alarm_id: 告警 ID,supports fuzzy match
         severity: Alarm severity list,取值:critical, major, minor, warning, indeterminate, cleared
-        mo_dn: 被management object DN,支持 inc 操作符匹配
+        mo_dn: 被management object DN, support inc 操作符匹配
         alarm_group_id: 告警组 ID
         dc_id: Data center ID
         product_name: 产品 name
@@ -361,7 +361,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: Controller
             - NAMESPACE: Namespace
-        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点,支持最近七day(s)内的诊断
+        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support最近七day(s)内的诊断
         end_time: 分析End time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: Intelligent analysis type list(Required),Array size:1~4,value range:
@@ -410,7 +410,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     """
     Create performance file collection task
 
-    Collect performance files from start to end date,只支持收集 7 day(s)内的数据,
+    Collect performance files from start to end date,只 support收集 7 day(s)内的数据,
     每次传入的objectmultiplied by metric count不超过 2000.
 
     Args:
@@ -418,8 +418,8 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
         begin_time: Start time(Required,Unix Timestamp毫second(s))
         end_time: End time(Required,Unix Timestamp毫second(s))
         object_type_id: Object type ID(Required,1~32  characters)
-        object_ids: object ID  list(Required, max 2000 个,ID 长度 1~32 位)
-        indicator_ids: 指标 ID  list(Required, max 20 个,ID 长度 1~16 位)
+        object_ids: object ID  list(Required, max 2000 个,ID  length 1~32 位)
+        indicator_ids: 指标 ID  list(Required, max 20 个,ID  length 1~16 位)
 
     Returns:
         task  ID
@@ -630,7 +630,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     elif type == 'performance_anomaly':
         url = "/rest/metrics/v1/performance/anomaly-data/query"
     else:
-        raise ValueError(f"不支持的 type  parameter：{type}")
+        raise ValueError(f"不 support的 type  parameter：{type}")
 
     payload = {
         'object_id': object_id,
@@ -756,13 +756,13 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
         - task_id: task  ID
         - task_status: task  status,value range:
             - executing: Executing
-            - failed: 失败
-            - success: 成功
+            - failed:  failure
+            - success:  success
             - waiting: 等待
             - terminated: 已终止
         - task_result: task 结果,value range:
             - un_analyzed: 未分析
-            - warning: 警告
+            - warning:  warning
             - abnormal: 异常
             - event: 事件
         - total_step_count: 总步骤数
@@ -798,9 +798,9 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         client: DME API client
         policy_name: Policy name（supports fuzzy search，1~256  characters）
         exact_query:  name是否exact match（true-exact match，false-fuzzy search），default false
-        status:  policy status（normal-normal，checking-检查中，failed-检查失败，queuing-Queued）
-        policy_type: Policy type（performance-性能threshold，capacity-容量threshold，availability-可用性，
-                    configuration-配置，recyclable-可回收资源，lowload-低负载资源，
+        status:  policy status（normal-normal，checking-检查中，failed-检查 failure，queuing-Queued）
+        policy_type: Policy type（performance-性能threshold，capacity- capacitythreshold，availability-可用性，
+                    configuration- config，recyclable-可回收资源，lowload-低负载资源，
                     performance_anomaly-Performance anomaly，performance_prediction-Performance warning，
                     capacity_prediction-Capacity warning，history_performance-History performance，
                     load_imbalance-负载失衡，highload-高负载资源）
@@ -812,7 +812,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         sort_key: Sort field（last_check_time-Last check time，failed_count-Failed checksobjectcount）
         sort_dir: Sort method（asc-正序，desc-descending）
         administrative_status: Management status（enable-启用，disable-禁用）
-        policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults- fault，optimization-优化）
+        policy_category: 检查分类（configuration- config，performance-性能，capacity- capacity，faults- fault，optimization-优化）
         object_category: object分类（Storage-Storage device，IPSwitch-Ethernet switch，FCSwitch-Fibre Channel switch，
                        Virtualization-虚拟化，Server-Server，HCI-超融合，Client-Client）
 
@@ -1109,7 +1109,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
      query SAN Path topology
 
     via specified entryobject query SAN Network from host toStorage pooltopology between。
-    支持 IP_SAN 和 FC_SAN 两种 type。
+     support IP_SAN 和 FC_SAN 两种 type。
 
     Args:
         client: DME API client
@@ -1124,9 +1124,9 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - switch_port: Switch port（仅 FC_SAN）
             - storage_pool: Storage pool
         san_type: SAN  type（Optional），Optional值：ip_san, fc_san
-                  - 不指定时，同时调用 IP_SAN 和 FC_SAN 两个 API，Combined return data
-                  - 指定为 ip_san 时，仅调用 IP_SAN API
-                  - 指定为 fc_san 时，仅调用 FC_SAN API
+                  - 不 specified时，同时调用 IP_SAN 和 FC_SAN 两个 API，Combined return data
+                  -  specified为 ip_san 时，仅调用 IP_SAN API
+                  -  specified为 fc_san 时，仅调用 FC_SAN API
 
     Returns:
         {
@@ -1145,7 +1145,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     """
     result = {}
 
-    # 如果未指定 san_type，call both simultaneously API
+    # 如果未 specified san_type，call both simultaneously API
     if san_type is None:
         # 调用 IP_SAN API
         ip_san_url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
@@ -1248,7 +1248,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     r"""
     Query topology library info
 
-    via specified entry资源Query topology library info，支持 NAS、K8s、DB 等Business type。
+    via specified entry资源Query topology library info， support NAS、K8s、DB 等Business type。
 
     Args:
         client: DME API client
@@ -1438,7 +1438,7 @@ ACTIONS = {
     # topology subtopic actions
     'topology_query_san_path': {
         'func': topology_query_san_path,
-        'description': ' query SAN Path topology（支持 IP_SAN 和 FC_SAN）',
+        'description': ' query SAN Path topology（ support IP_SAN 和 FC_SAN）',
         'params': ['entry_objects', 'san_type'],
         'subtopic': 'topology'
     },
@@ -1456,7 +1456,7 @@ ACTIONS = {
     },
     'topology_query_graph_path': {
         'func': topology_query_graph_path,
-        'description': 'Query topology library info（支持 NAS、K8s、DB 等Business type）',
+        'description': 'Query topology library info（ support NAS、K8s、DB 等Business type）',
         'params': ['entry_res_type', 'entry_res_id', 'type', 'filter'],
         'subtopic': 'topology'
     },

@@ -23,11 +23,11 @@ def lun_create(client: DMEAPIClient, volumes: list,
         client: DME API client
         volumes: 待create  LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format如下：[{
                 name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
-                capacity: 容量GB (1~262144),
+                capacity:  capacityGB (1~262144),
                 count: create count (1~500),
                 description:  description (0~255 characters),
                 start_suffix: Starting suffix number (0~9999),
-                suffix_length: Suffix length rule (1~4,  name长度+后缀长度<=255),
+                suffix_length: Suffix length rule (1~4,  name length+后缀 length<=255),
              }, ...]
         service_level_id: Service level ID（Required，0~64  characters）
         task_remarks: Async task remark（Optional， max 1024  characters）
@@ -78,7 +78,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
         client: DME API client
         volume_ids: LUN ID  list
         tier_id: Service level ID
-        attributes_auto_change: 是否根据Service level parameter刷新 LUN 属性（Optional，true/false）
+        attributes_auto_change: 是否 based onService level parameter刷新 LUN 属性（Optional，true/false）
 
     Returns:
         {
@@ -108,7 +108,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
         client: DME API client
         volume_id: LUN ID
         tier_id: Service level ID
-        attributes_auto_change: 是否根据Service level parameter刷新 LUN 属性（Optional，true/false）
+        attributes_auto_change: 是否 based onService level parameter刷新 LUN 属性（Optional，true/false）
 
     Returns:
         {
@@ -213,7 +213,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryService level
 
-     queryService level list，支持按 name、项目 ID、可用区、 storage ID filtering and pagination。
+     queryService level list， support按 name、项目 ID、可用区、 storage ID filtering and pagination。
 
     Args:
         client: DME API client
@@ -266,7 +266,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     """
     Batch queryProject group与Service levelAssociation
 
-     queryProject group与Service level的Association list，支持按Service level ID  filter。
+     queryProject group与Service level的Association list， support按Service level ID  filter。
 
     Args:
         client: DME API client

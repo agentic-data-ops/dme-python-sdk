@@ -230,7 +230,7 @@ def power_list(client: DMEAPIClient, server_id: str,
 def raid_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server RAID 卡详情
+    Query on server RAID 卡 details
     
     Args:
         client: DME API client
@@ -339,7 +339,7 @@ ACTIONS = {
     # subtopic actions - raid_card (three-level structure)
     'raid_card_list': {
         'func': raid_card_list,
-        'description': 'Query on server RAID 卡详情',
+        'description': 'Query on server RAID 卡 details',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },

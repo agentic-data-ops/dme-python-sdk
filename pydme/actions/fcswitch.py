@@ -45,7 +45,7 @@ def list(client: DMEAPIClient, name: str = None,
 
 def sync(client: DMEAPIClient, switch_id: str) -> dict:
     """
-    Sync指定Switch
+    Sync specifiedSwitch
     
     Args:
         client: DME API client
@@ -259,7 +259,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         zone_set:  Zone 集合（Optional），supports fuzzy search，0~1024  characters
         active_status: Zone status list（Optional），max array members：2
         member_count:  membercount（Optional），0~2147483647
-        sort_key: Sort field（Optional），支持 member_count
+        sort_key: Sort field（Optional）， support member_count
         sort_dir: Sort direction（Optional），asc：ascending；desc：descending
         page_no: Page number（Optional），1~65535
         page_size: per pagecount（Optional），1~1000
@@ -306,7 +306,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     create  zone
 
-    注：根据 DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
+    注： based on DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
@@ -405,7 +405,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
     delete  zone
-    注：根据 DME API 文档，使用 DELETE 方法到 /zones/{zone_id}
+    注： based on DME API 文档，使用 DELETE 方法到 /zones/{zone_id}
     
     Args:
         client: DME API client
@@ -426,12 +426,12 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     """
     Batch create zone
 
-    注：根据 DME API 文档，需要 is_active_zone 和 zone_list  parameter。
+    注： based on DME API 文档，需要 is_active_zone 和 zone_list  parameter。
 
     Args:
         client: DME API client
         is_active_zone: 是否 activate Zone（Required，string "true" 或 "false"）
-        zones: Zone 配置 list，each element should contain:
+        zones: Zone  config list，each element should contain:
             - fabric_wwn: Fibre Channel network WWN（Required）
             - name: Zone  name（Required）
             - wwn_members: WWN Member list（Optional）， format：["<wwn>",...]
@@ -461,7 +461,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     """
      query zone 的 member
 
-     query Zone members contained in，支持Port member、WWN members and alias members。
+     query Zone members contained in， supportPort member、WWN members and alias members。
 
     Args:
         client: DME API client
@@ -476,7 +476,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     """
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
 
-    # 根据 type parameter to query matching member type
+    #  based on type parameter to query matching member type
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/zones/{zone_id}/port-members/list"
         payload = {}
@@ -549,7 +549,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     Create alias
 
-    注：根据 DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
+    注： based on DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
@@ -602,7 +602,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     """
     Modify alias
 
-    注：根据 DME API 文档，member modification requires {type}.added_members 和 {type}.removed_members  format。
+    注： based on DME API 文档，member modification requires {type}.added_members 和 {type}.removed_members  format。
 
     Args:
         client: DME API client
@@ -643,7 +643,7 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     Delete alias
 
-    注：根据 DME API 文档，使用 DELETE 方法到 /aliases/{alias_id}
+    注： based on DME API 文档，使用 DELETE 方法到 /aliases/{alias_id}
 
     Args:
         client: DME API client
@@ -664,7 +664,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     """
     Query alias members
 
-     query Alias members contained in，支持 queryPort member和 WWN  member。
+     query Alias members contained in， support queryPort member和 WWN  member。
 
     Args:
         client: DME API client
@@ -715,7 +715,7 @@ ACTIONS = {
     },
     'sync': {
         'func': sync,
-        'description': 'SyncSwitch配置',
+        'description': 'SyncSwitch config',
         'params': ['switch_id'],
         'subtopic': None
     },
@@ -745,7 +745,7 @@ ACTIONS = {
     },
     'fabric_backup': {
         'func': fabric_backup,
-        'description': '备份 fabric 配置',
+        'description': '备份 fabric  config',
         'params': ['fabric_id', 'backup_server_id', 'backup_type'],
         'subtopic': 'fabric'
     },

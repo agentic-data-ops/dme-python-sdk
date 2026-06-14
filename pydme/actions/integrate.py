@@ -1,6 +1,6 @@
 """
 Third-party system integration (Integrate) operations
-includes CMDB系统、主机、Application resource query
+includes CMDB system、主机、Application resource query
 """
 
 import sys
@@ -24,7 +24,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
         {
             total: Total count (integer),
             systems: CMDB system list。 parameter format如下：[{
-                id: 系统ID (string),
+                id:  systemID (string),
                 name: System name (string),
                 ip: IP address (string),
             }, ...],
@@ -50,7 +50,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
 
     Args:
         client: DME API client
-        system_id: CMDB系统ID（Optional）
+        system_id: CMDB systemID（Optional）
         name: Host name（Optional，supports fuzzy search）
         ip: Host IP（Optional）
         page_no: Page queryStart page，default 1
@@ -110,11 +110,11 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryCMDB系统中的Application list。
+     queryCMDB system中的Application list。
 
     Args:
         client: DME API client
-        system_id: CMDB系统ID（Optional）
+        system_id: CMDB systemID（Optional）
         name: Application name（Optional，supports fuzzy search）
         page_no: Page queryStart page，default 1
         page_size: per pagecount，1~1000，default 20
@@ -145,7 +145,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
 
 def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dict:
     """
-    根据Initiator list queryCMDB host list。
+     based onInitiator list queryCMDB host list。
 
     Args:
         client: DME API client
@@ -194,13 +194,13 @@ ACTIONS = {
     },
     'cmdb_app_list': {
         'func': cmdb_app_list,
-        'description': ' queryCMDB系统中的Application list',
+        'description': ' queryCMDB system中的Application list',
         'params': ['system_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_query_by_initiators': {
         'func': cmdb_host_query_by_initiators,
-        'description': '根据Initiator list queryCMDB host list',
+        'description': ' based onInitiator list queryCMDB host list',
         'params': ['initiators'],
         'subtopic': 'cmdb'
     },
