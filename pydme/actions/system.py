@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: Password reset requiredUsername (Required, string, 1~128 characters)
-        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、greater than32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（重复次数为4，Consecutive character count1）。4. Password cannot containUsername和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、greater than32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（ repeat count is4，Consecutive character count1）。4. Password cannot containUsername和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，No initial modification required。Default：true
 
     Returns:
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: Business type（Required，wfa_execute_activity- auto化编排）
-        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9-待审核/10-Review rejected/21-预检查中/22-预检查 failure）
+        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9-待审核/10-Review rejected/21- pre-checking/22-预检查 failure）
         page_no: Page index（Optional，default 1）
         page_size: per pagecount（Optional，1~10，default 10）
 
@@ -1244,7 +1244,7 @@ ACTIONS = {
     },
     'reset_password': {
         'func': reset_password,
-        'description': '重置密码',
+        'description': ' reset password',
         'params': ['user_name', 'new_value', 'is_initial_password'],
         'subtopic': None
     },

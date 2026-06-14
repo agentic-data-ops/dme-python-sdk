@@ -347,7 +347,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
 
     Args:
         client: DME API client。
-        name: Device name (1~256 characters)。can only contain half-width letters、半角数字、\"_\"、\"-\"、\".\"、中文 character。
+        name: Device name (1~256 characters)。can only contain half-width letters、 half-width digits、\"_\"、\"-\"、\".\"、中文 character。
         sn: Device serial number (regex is^[a-zA-Z0-9]{1,128}$)。
         ip: Device IP address (Optional, 0~128 characters,  supportIPv4与IPv6 format, can also be emptystring)。
         dc_id: Data center ID (Optional, regex is^[a-zA-Z0-9]{1,128}$)。
@@ -499,7 +499,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 location: location (1~255 characters),
                 health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
                 running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电 completed), discharging (正在放电),
-                charge_times: 放电次数 (int64),
+                charge_times:  discharge count (int64),
                 firmware_version: Firmware version号 (1~255 characters),
                 manufactured_date: Manufacture date (1~255 characters),
                 enclosure_id: Enclosure在Storage device上ID (1~255 characters),
@@ -659,7 +659,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         status: Running status (Optional)。Options：unknown (unknown), normal (normal), abnormal ( fault), online (online), offline (offline)。
         enclosure_name: FanStorage device的Enclosure name (Optional, 1~255 characters)。supports fuzzy search。
         zone_id: Storage device的Zone id (Optional, 1~255 characters)。仅OceanStor A800storage support。
-        sort_key: Sort field (Optional)。Options：capacity (Total capacity), speed (转速), remainLife (剩余寿命), name (Disk name), management_ip (management  deviceip address), slot_number (location)。
+        sort_key: Sort field (Optional)。Options：capacity (Total capacity), speed (转速), remainLife ( remaining life), name (Disk name), management_ip (management  deviceip address), slot_number (location)。
         sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending)。
         page_no: Page number (Optional, 1~2147483647, Default: 1)。
         page_size: Page size (Optional, 1~1000, Default: 20)。
@@ -1093,7 +1093,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
     Args:
         client: DME API client。
         storage_id: Storage device ID（Required）。
-        name: Device name (Optional, 1~256 characters)。can only contain half-width letters、半角数字、"_"、"-"、"."、中文 character。
+        name: Device name (Optional, 1~256 characters)。can only contain half-width letters、 half-width digits、"_"、"-"、"."、中文 character。
         ip: Device IP address (Optional, 0~128 characters,  supportIPv4与IPv6 format, can also be emptystring)。
         vendor:  vendor (Optional, 0~128 characters)。
         model: Product model (Optional, 0~128 characters)。
@@ -1103,7 +1103,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         maintenance_start:  maintenanceStart time (Optional, format is mssecond(s)级Timestamp)。must appear with warranty expiration time and value must be less。
         maintenance_overtime: Warranty expiration time (Optional, format is mssecond(s)级Timestamp)。 need和 maintenanceStart timemust appear together and value greater thanStart time。
         total_capacity: 裸 capacity (Optional, -1~2147483647, unit MB)。Storage devicesum of all disk physical capacities，-1Indicates no raw capacity。
-        total_effective_capacity: 可得 capacity (Optional, -1~2147483647, unit MB)。Storage device可写入的User data总量，-1Indicates no available capacity。
+        total_effective_capacity: 可得 capacity (Optional, -1~2147483647, unit MB)。Storage device writableUser data总量，-1Indicates no available capacity。
         total_pool_capacity: Available capacity (Optional, -1~2147483647, unit MB)。Storage deviceActual available disk physical space（扣除RAID、metadata consumption），-1表示无Available capacity。
         used_capacity: Used capacity (Optional, -1~2147483647, unit MB)。Storage device中所有Storage poolsum of used capacity，-1表示无Used capacity。
         free_capacity: Free capacity (Optional, -1~2147483647, unit MB)。Storage device的Available capacity与Used capacity的差值，-1表示无Free capacity。
@@ -1171,7 +1171,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device id (1~36 characters, 满足uuid format)。
         create_type: create  type (Optional, 0~1)。Options：0 ( system预置), 1 (user 定义)。returns all types if not provided。
         template_type: Application type分类 (Optional, 0~1)。Options：0 (LUN type), 1 (NAS type)。不传defaultLUN type。
-        pool_id: Storage poolid (Optional, 1~64 characters, 字母和数字)。
+        pool_id: Storage poolid (Optional, 1~64 characters,  letters and digits)。
     
     Returns:
         Application type info，includes  datas  list，Each element contains id, name, block_size, 
@@ -3060,7 +3060,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
         return (ptype, resp)
 
     if port_type is None:
-        # type not specified，Returns all three port types，扁平化结构
+        # type not specified，Returns all three port types， flat structure
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             futures = [executor.submit(query_port_type, 'bond'),
                       executor.submit(query_port_type, 'eth'),

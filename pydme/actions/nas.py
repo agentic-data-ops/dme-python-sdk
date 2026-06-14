@@ -727,7 +727,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
         description: Description
         character_encoding:  character编码，Options：utf-8, zh, gbk 等
         audit_items: Audit event list (Optional)。 parameter format：[{
-                audititem: Audit event type。Options：none (无操作), all (所有操作), open ( open), create (create ), read (读), write (写), close ( disable), delete (delete ), rename (重命名), get_security (Get security attribute), set_security (Set security attribute), get_attr (get), set_attr (设置),
+                audititem: Audit event type。Options：none (无操作), all ( all operations), open ( open), create (create ), read (读), write (写), close ( disable), delete (delete ), rename (重命名), get_security (Get security attribute), set_security (Set security attribute), get_attr (get), set_attr (设置),
              }, ...]
         show_snapshot_enable: Show snapshot
         nfs_share_client_addition:  need add的 NFS Share client list (Optional)。 parameter format：[{
@@ -1895,7 +1895,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         health_status: Health status(Optional），Options：normal (normal)、faulty (fault)、unknown (unknown)
         running_status: Running status(Optional），Options：online (online)、offline (offline)、invalid（失效）、
                        initializing（Initializing）、unknown (unknown)
-        alloc_type: FilesystemAllocation type(Optional），Options：thin（按需分配）、thick（Fixed allocation）
+        alloc_type: FilesystemAllocation type(Optional），Options：thin（ thin provisioning）、thick（Fixed allocation）
         type: Filesystem type(Optional），Options：normal（普通Filesystem）、worm（wormFilesystem）、
               migration（migrationFilesystem）、container（容器 appFilesystem）、hash（哈希Filesystem）、
               smart_mobility_internal（SmartMobility内部Filesystem）
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional)。 parameter format：{
-                type: WORM保护 mode (Optional)。Options：none_mode (无default policy), enterprise_mode (Enterprise compliance), compliance_mode (法规遵从), advance_mode (高安遵从), audit_log (Audit log), non_worm (非WORM),
+                type: WORM保护 mode (Optional)。Options：none_mode (无default policy), enterprise_mode (Enterprise compliance), compliance_mode ( legal compliance), advance_mode (高安遵从), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear)。Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2191,7 +2191,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         snapshot_reserved_space_percentage: Snapshot reserved space percentage(Optional），0~90
         periodic_snapshots_limit: 定时 snapshotcount limit(Optional），1~2048
         snapshot_dir_visible: Snapshot directory visibility(Optional）。true/false
-        object_service_optimization: object服务优化(Optional）。true/false
+        object_service_optimization: object service optimization(Optional）。true/false
         case_sensitive: Case-sensitive mode(Optional）。true/false
         audit_log_rules: Audit log rule集合(Optional），如：set_security、get_security、set_attr、get_attr等， max100条
         unix_permissions: Filesystem目录 permission(Optional）， format如0755
@@ -2408,7 +2408,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open)。Options：true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
-                max_auto_size: Auto-expandupper limitGB (Optional, 1~33554432, default33554432; must be greater than等于缩容lower limit和Filesystem capacity),
+                max_auto_size: Auto-expandupper limitGB (Optional, 1~33554432, default33554432; must be greater than equals shrinklower limit和Filesystem capacity),
                 min_auto_size:  auto缩容lower limitGB (Optional, 1~33554432, default33554432),
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
@@ -3458,8 +3458,8 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         name: UNIX Username称 (1~64 characters, Required)
         raw_id: UNIX user  ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310  storageRequired)
         description: UNIX user  description (0~255 characters, Optional)
-        primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional。与 primary_group_name provide at least one，若都下发仅 primary_group_name effective)
-        primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id provide at least one，若都下发仅 primary_group_name effective)
+        primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional。与 primary_group_name provide at least one， if both sent, only primary_group_name effective)
+        primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id provide at least one， if both sent, only primary_group_name effective)
         vstore_raw_id: user Tenanton the storage device ID (1~32 characters, Required)
         zone_id:  Zone ID (1~64 characters, Optional。仅 OceanStor A800 storage support)
         status: User status (boolean, Optional。Default：true)。Options：true ( enable), false ( lock)。仅 OceanStor Pacific 和 OceanStor A310 series storage only

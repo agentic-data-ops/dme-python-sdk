@@ -1,5 +1,5 @@
 """
-AIOps 智能运维operations
+AIOps  intelligent operationsoperations
 """
 
 import sys
@@ -187,7 +187,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         client: DME API client
         alarm_id: alarm ID,supports fuzzy match
         severity: Alarm severity list, value:critical, major, minor, warning, indeterminate, cleared
-        mo_dn: 被management object DN, support inc 操作符匹配
+        mo_dn: 被management object DN, support inc  operator matching
         alarm_group_id: alarm组 ID
         dc_id: Data center ID
         product_name:  product name
@@ -488,7 +488,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                  4. obtain from response instance_id
         obj_type:  monitorObject type(Optional,1~512  characters)
         indicators: Monitoring metric list(Optional, max 100 个)
-        ext_dimensions: 扩展维度info list(Optional, max 100 个)
+        ext_dimensions:  extended dimensioninfo list(Optional, max 100 个)
         interval: 间隔粒度(Optional)
                   value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
@@ -765,7 +765,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
             - warning:  warning
             - abnormal:  exception
             - event:  event
-        - total_step_count: 总步骤数
+        - total_step_count:  total steps
         - finish_step_count: Completed步骤数
     """
     url = "/rest/dmegraphanalysis/v1/perf-tasks/query-status"
@@ -812,7 +812,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         sort_key: Sort field（last_check_time-Last check time，failed_count-Failed checksobjectcount）
         sort_dir: Sort method（asc-正序，desc-descending）
         administrative_status: Management status（enable- enable，disable-禁用）
-        policy_category: 检查分类（configuration- config，performance-性能，capacity- capacity，faults- fault，optimization-优化）
+        policy_category:  check category（configuration- config，performance-性能，capacity- capacity，faults- fault，optimization-优化）
         object_category: object分类（Storage-Storage device，IPSwitch-Ethernet switch，FCSwitch-Fibre Channel switch，
                        Virtualization-虚拟化，Server-Server，HCI-超融合，Client-Client）
 
@@ -1266,7 +1266,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - dtree: Dtree
             - lun: LUN
             - k8s_application: K8s  app
-            - k8s_workload: K8s 工作负载
+            - k8s_workload: K8s  workload
             - k8s_pod: K8s Pod
             - k8s_pvc: K8s PVC
             - k8s_pv: K8s PV
