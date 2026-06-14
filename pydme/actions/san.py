@@ -202,9 +202,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 suffix_length: 后缀编码位数 (1~4, 默认4; 当count大于1时有效),
                 start_suffix: 后缀起始编码 (0~9999, 默认0; 当count大于1时有效),
              }, ...]
-        pool_id: 存储池 ID（条件必传），1~64 个字符；当存储设备模式不为直通模式时必传；通过QueryResource type的所有实例接口获取，存储池的Resource type名称为 SYS_StoragePool
+        pool_id: Storage pool ID (Conditionally required), 1~64 characters; required when storage mode is not pass-through; obtained via QueryResource type API, Resource type name is SYS_StoragePool
         vstore_id: 租户 ID（可选），1~64 个字符；当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 及其以上版本时有效
-        owner_controller: 归属控制器（可选），1~64 个字符，通过Query存储上的控制器获取
+        owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: 容量初始分配策略（可选），仅支持华为 V3/V5 设备，Dorado 系列不支持；
                                   可选值：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；默认 automatic
         prefetch_policy: 预取策略（可选），影响磁盘读取；
@@ -222,7 +222,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         min_iops: 最小IOPS (1~999999999; 与max_bandwidth/max_iopsmutually exclusive),
                         latency: 时延 (1~999999999ms; Dorado V6系列单位为us, Optional值为500/1500; 与max_bandwidth/max_iopsmutually exclusive),
                 },
-                workload_type_raw_id: 应用类型ID (0~4294967295; 通过Query存储设备上应用类型接口获取),
+                workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
         mapping: 映射信息 (可选), LunMapping object, 存在即表示为主机或主机组创建 LUN。参数格式如下：{
                 host_id: Host ID (1~64个字符; 与hostgroup_idone of, 不可同时存在),
