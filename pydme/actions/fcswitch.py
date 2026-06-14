@@ -16,8 +16,8 @@ def list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: Switch name（Optional，supports fuzzy search）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -72,8 +72,8 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
         client: DME API client
         switch_id: Switch ID（Optional）
         port_name: Port name（Optional）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -105,8 +105,8 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     Args:
         client: DME API client
         switch_id: Switch ID（Optional）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -135,8 +135,8 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: FC network name（Optional，supports fuzzy search）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -165,8 +165,8 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
     Args:
         client: DME API client
         fabric_id: Fibre Channel network ID（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
 
     Returns:
         {
@@ -193,7 +193,7 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
         client: DME API client
         fabric_id: Fibre Channel network ID（Required）
         backup_server_id: Backup server ID（Required）
-        backup_type: 备份类型，默认 full（full/incremental）
+        backup_type: 备份类型，default full（full/incremental）
     
     Returns:
         {
@@ -221,8 +221,8 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     
     Args:
         client: DME API client
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -522,8 +522,8 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     Args:
         client: DME API client
         fabric_wwn: Fibre Channel network WWN（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -679,7 +679,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     """
     result = {'port_members': [], 'wwn_members': []}
 
-    # if specified type 或默认为 None 时，Query matching member type
+    # if specified type 或default为 None 时，Query matching member type
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/port-members/list"
         payload = {}

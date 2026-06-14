@@ -15,8 +15,8 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     Args:
         client: DME API client
         name: Switch name（Optional，supports fuzzy search）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -49,8 +49,8 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -76,8 +76,8 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -103,8 +103,8 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -130,8 +130,8 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -157,8 +157,8 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -184,8 +184,8 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {

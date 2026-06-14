@@ -38,9 +38,9 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: DatastoreData center ID（仅 vCenter Scenario support）
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
-        sort_dir: Sort direction（asc, desc），默认 asc
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        sort_dir: Sort direction（asc, desc），default asc
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -146,9 +146,9 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: Datastore所属的 vCenter Data center ID（仅 vCenter Scenario support）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
-        sort_dir: Sort direction（asc, desc），默认 asc
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        sort_dir: Sort direction（asc, desc），default asc
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -231,8 +231,8 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         ip_address: 主机 IP 地址
         status: Host status list
         vr_type: Virtualization platform type
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -301,8 +301,8 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
         dc_id: Data center ID
         name: Cluster name（supports fuzzy search）
         vr_type: Virtualization platform type
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -429,8 +429,8 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         name: 物理盘名称（Optional）
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         Physical disk list
@@ -473,8 +473,8 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
         name: Virtual disk名称（Optional）
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         Virtual disk列表

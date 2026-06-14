@@ -34,7 +34,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
         project_id: Project group ID（Optional，0~64  characters）
         availability_zone: Availability zone ID（Optional，0~64  characters）
         scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。参数格式如下：{
-                affinity: Enable affinity。Optional值：true (开启), false (disabled)。默认disabled,
+                affinity: Enable affinity。Optional值：true (开启), false (disabled)。defaultdisabled,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64 characters),
              }
         mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。参数格式如下：{
@@ -221,10 +221,10 @@ def tier_list(client: DMEAPIClient, name: str = None,
         project_id: Project group ID（Optional）
         available_zone_id: 可用区 ID（Optional）
         storage_array_id: Storage device ID（Optional）
-        start: 查询的Start position，默认 0
-        limit: 每页count，10~1000，默认 200
-        sort_key: Sort field，name/total_capacity/created_at，默认 name
-        sort_dir: Sort direction，asc/desc，默认 asc
+        start: 查询的Start position，default 0
+        limit: 每页count，10~1000，default 200
+        sort_key: Sort field，name/total_capacity/created_at，default name
+        sort_dir: Sort direction，asc/desc，default asc
         type: Storage class型，FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
 
     Returns:
@@ -271,8 +271,8 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     Args:
         client: DME API client
         tier_id: Service level ID（Optional）
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，10~1000，默认 200
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，10~1000，default 200
 
     Returns:
         {
@@ -306,8 +306,8 @@ def project_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: Project group名称（Optional，supports fuzzy search）
-        start: Page number，从 1 开始，默认 1
-        limit: Page size，1~512，默认 20
+        start: Page number，从 1 开始，default 1
+        limit: Page size，1~512，default 20
 
     Returns:
         {
@@ -338,8 +338,8 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     Args:
         client: DME API client
         project_id: Project group ID（Optional）
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，10~1000，默认 200
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，10~1000，default 200
 
     Returns:
         {

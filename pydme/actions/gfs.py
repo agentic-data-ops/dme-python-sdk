@@ -24,8 +24,8 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
         id: Omni-Dataverse id
         raw_id: Omni-Dataverse 在device side的 id
         max_site_num: Omni-Dataverse 下Data service site最大count
-        page_no: Page number，默认 1，范围 1~10000
-        page_size: Items per page，默认 100，范围 1~1000
+        page_no: Page number，default 1，范围 1~10000
+        page_size: Items per page，default 100，范围 1~1000
 
     Returns:
         {
@@ -98,8 +98,8 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
         storage_name: Query by storage nameData service site，supports fuzzy search
         storage_pool_name: 根据Storage pool name查询Data service site，supports fuzzy search
         account_name: Query by account nameData service site，supports fuzzy search
-        page_no: Page number，默认 1，范围 1~10000
-        page_size: Items per page，默认 100，范围 1~1000
+        page_no: Page number，default 1，范围 1~10000
+        page_size: Items per page，default 100，范围 1~1000
 
     Returns:
         Data service site列表
@@ -294,7 +294,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
         client: DME API client
         id: Global namespace的 ID，与 name_locator cannot both be empty
         name_locator: Name locator，format is：Global namespace name@Global data space name
-        is_delete_child: 是否删除子Namespace，默认 true
+        is_delete_child: 是否删除子Namespace，default true
 
     Returns:
         {

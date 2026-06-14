@@ -437,8 +437,8 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
         client: DME API client
         service_type: Business type（Required，wfa_execute_activity-自动化编排）
         status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-partial success/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
-        page_no: Page index（Optional，默认 1）
-        page_size: 每页count（Optional，1~10，默认 10）
+        page_no: Page index（Optional，default 1）
+        page_size: 每页count（Optional，1~10，default 10）
 
     Returns:
         {
@@ -621,7 +621,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
         task_name: Task name过滤（Optional）
         status: 状态过滤（Optional，1-Initial status;2-Executing;3-成功;4-partial success;5-失败;6-超时）
@@ -683,8 +683,8 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     Args:
         client: DME API client
         task_id: 任务 ID
-        timeout: timeout（second(s)），默认 300 second(s)
-        poll_interval: 轮询间隔（second(s)），默认 2 second(s)
+        timeout: timeout（second(s)），default 300 second(s)
+        poll_interval: 轮询间隔（second(s)），default 2 second(s)
 
     Returns:
         Task final status details
@@ -759,7 +759,7 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
         name: Tag type name过滤（Optional）
     
@@ -871,7 +871,7 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
         name: Tag name过滤（Optional）
         tag_type_id: Tag type ID 过滤（Optional）
@@ -1047,8 +1047,8 @@ def dc_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: Data center name（Optional，supports fuzzy search）
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {
@@ -1100,8 +1100,8 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
         device_type: Device type列表（Optional）
                      取值：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 20
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 20
     
     Returns:
         {

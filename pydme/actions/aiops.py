@@ -195,10 +195,10 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         occur_utc_start: Alarm occurredStart time(毫second(s)Timestamp)
         occur_utc_end: Alarm occurredEnd time(毫second(s)Timestamp)
         fields: Specified return field list
-        page_no: Page queryStart page,默认 1
-        page_size: 每页count,1~1000,默认 100(Current alarm查询用)
+        page_no: Page queryStart page,default 1
+        page_size: 每页count,1~1000,default 100(Current alarm查询用)
         cleared: 是否已清除,true/false(History alarm查询用)
-        size: Max number of returned results,1~1000,默认 100(History alarm查询用)
+        size: Max number of returned results,1~1000,default 100(History alarm查询用)
         iterator: 迭代子,No need to pass on first query,Subsequent queries use last returned iterator(History alarm查询用)
         include_history: 开关参数,query both if specifiedHistory alarm
 
@@ -492,7 +492,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         interval: 间隔粒度(Optional)
                   value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
-        range: Time range(Optional,默认 LAST_1_HOUR)
+        range: Time range(Optional,default LAST_1_HOUR)
                value range:LAST_5_MINUTE(最近 5 minute(s)), LAST_1_HOUR(最近 1 hour(s)),
                LAST_1_DAY(最近 1 day(s)), LAST_1_WEEK(最近 1 week(s)), LAST_1_MONTH(最近 1 个month(s)),
                LAST_1_QUARTER(最近 3 个month(s)), HALF_1_YEAR(最近半year(s)), LAST_1_YEAR(最近 1 year(s)),
@@ -665,7 +665,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         object_name: Object name，supports fuzzy search（Optional，最多 256  characters）
         object_ids: object resId 列表，For batch exact lookup（Optional，supports up to 100 个 ID）
         page_no: Page queryStart position（Optional，min：1）
-        page_size: Items per page（Optional，1~100，默认 20）
+        page_size: Items per page（Optional，1~100，default 20）
         sort_key: Sort field（Optional），Sort by score，Optional值：health_score
         sort_dir: Sort method（Optional），Optional值：asc, desc
 
@@ -797,7 +797,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
     Args:
         client: DME API client
         policy_name: Policy name（supports fuzzy search，1~256  characters）
-        exact_query: 名称是否exact match（true-exact match，false-fuzzy search），默认 false
+        exact_query: 名称是否exact match（true-exact match，false-fuzzy search），default false
         status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity-容量threshold，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
@@ -807,8 +807,8 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         policy_source: 来源（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
-        page_no: Page number，1~1000，默认 1
-        page_size: Items per page，1~100，默认 20
+        page_no: Page number，1~1000，default 1
+        page_size: Items per page，1~100，default 20
         sort_key: Sort field（last_check_time-Last check time，failed_count-Failed checksobjectcount）
         sort_dir: Sort method（asc-正序，desc-降序）
         administrative_status: Management status（enable-启用，disable-禁用）
@@ -972,8 +972,8 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，单位 ms）
         last_occur_time: Last exceptionTime range（{beginTime, endTime}，UTC Timestamp，单位 ms）
-        page_no: Page number，1~10000，默认 1
-        page_size: Items per page，1~2000，默认 20
+        page_no: Page number，1~10000，default 1
+        page_size: Items per page，1~2000，default 20
         sort_key: Sort field（violation_count-异常次数）
         sort_dir: Sort method（asc-正序，desc-降序）
 
@@ -1070,8 +1070,8 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
         storage_pool_id: Storage pool ID（Required）
         lun_name: LUN 名称，supports fuzzy match
         san_type: SAN 类型，Optional值：ip_san, fc_san
-        page_size: Items per page，1~20，默认 20
-        page_no: Page queryStart position，默认 1
+        page_size: Items per page，1~20，default 20
+        page_no: Page queryStart position，default 1
 
     Returns:
         {
@@ -1209,8 +1209,8 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
             - storage_pool: Storage pool
         host_id: 主机 ID（Required）
         vm_name: Virtual machineName search parameter，supports fuzzy match
-        page_size: Items per page，1~20，默认 20
-        page_no: Page queryStart position，默认 1
+        page_size: Items per page，1~20，default 20
+        page_no: Page queryStart position，default 1
 
     Returns:
         {

@@ -573,8 +573,8 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
         enclosure_name: 所属EnclosureName (Optional,1~256 characters），supports fuzzy match
         location: 位置（可选，1~256 characters），supports fuzzy match
         zone_id: Zone ID（可选，1~255 characters），仅OceanStor A800series storage only
-        page_no: Page number（可选，1~2147483647，默认 1）
-        page_size: Page size（可选，1~1000，默认 20）
+        page_no: Page number（可选，1~2147483647，default 1）
+        page_size: Page size（可选，1~1000，default 20）
 
     Returns:
         {
@@ -748,8 +748,8 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         storage_id: Storage device的ID（可选，1~64 characters）
         raw_id: Storage poolon the storage deviceID（可选，1~64 characters）
         zone_id: Zone的ID（可选，1~256 characters），supports exact search，仅OceanStor A800storage support
-        page_no: Page number（可选，1~10000，默认 1）
-        page_size: Page size（可选，1~1000，默认 10）
+        page_no: Page number（可选，1~10000，default 1）
+        page_size: Page size（可选，1~1000，default 10）
         sort_key: Sort field(Optional). Options：total_capacity (Storage poolTotal capacity), consumed_capacity (Storage poolUsed capacity), free_capacity (Storage poolFree capacity，Flash storage only), replication_capacity (Storage poolProtection capacity)
         sort_dir: Sort direction(Optional). Options：asc (升序), desc (降序)
 
@@ -830,8 +830,8 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
         running_status: Running status(Optional). Options：pre_copy (Pre-copy), rebuilding (重构), online (在线), offline (离线), balancing (Balancing), initializing (Initializing), deleting (Deleting)
         storage_id: Storage device ID（可选，0~64 characters）
         description: HyperScaleStorage pool描述（可选，0~256 characters）
-        page_no: Page number（可选，1~10000，默认 1）
-        page_size: Page size（可选，1~1000，默认 20）
+        page_no: Page number（可选，1~10000，default 1）
+        page_size: Page size（可选，1~1000，default 20）
         sort_key: Sort field(Optional). Options：raw_id (ID), total_capacity (Storage poolTotal capacity), consumed_capacity (Used capacity), capacity_usage (Capacity utilization), free_capacity (Free capacity), subscribed_capacity_percentage (订阅率)
         sort_dir: Sort direction(Optional). Options：asc (升序), desc (降序)
 
@@ -907,8 +907,8 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         slot_number: 槽位/机架内Slot number（可选，1~256 characters），supports fuzzy search（case-insensitive）
         status: Node status(Optional). Options：UNKNOWN (未知), NORMAL (正常), FAULT (故障), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED (降级), BAD_SECTORS_FOUND (有坏块), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT (不一致), BUSY (繁忙), NO_INPUT (无输入), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT (单链路故障)
         roles: 节点Role list（可选，List<string>，max array members：10). Options：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算)
-        page_no: Page number（可选，1~10000，默认 1）
-        page_size: Page size（可选，1~1000，默认 20）
+        page_no: Page number（可选，1~10000，default 1）
+        page_size: Page size（可选，1~1000，default 20）
         sort_key: Sort field(Optional). Options：name (Node name), mgmt_ip (Node managementIP地址)
         sort_dir: Sort direction(Optional). Options：asc (升序), desc (降序)
 
@@ -988,8 +988,8 @@ def psu_list(client: DMEAPIClient, storage_id: str,
         sn: Serial number（可选，1~256 characters），supports fuzzy match
         enclosure_name: 所属EnclosureName (Optional,1~256 characters），supports fuzzy match
         zone_id: Zone ID（可选，1~64 characters），仅OceanStor A800series storage only
-        page_no: Page number（可选，1~2147483647，默认 1）
-        page_size: Page size（可选，1~1000，默认 20）
+        page_no: Page number（可选，1~2147483647，default 1）
+        page_size: Page size（可选，1~1000，default 20）
 
     Returns:
         {
@@ -1170,7 +1170,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
         client: DME API client。
         storage_id: Storage device id (1~36 characters, 满足uuid格式)。
         create_type: 创建类型 (可选, 0~1)。Options：0 (系统预置), 1 (用户定义)。returns all types if not provided。
-        template_type: Application type分类 (可选, 0~1)。Options：0 (LUN类型), 1 (NAS类型)。不传默认LUN类型。
+        template_type: Application type分类 (可选, 0~1)。Options：0 (LUN类型), 1 (NAS类型)。不传defaultLUN类型。
         pool_id: Storage poolid (可选, 1~64 characters, 字母和数字)。
     
     Returns:
@@ -1231,8 +1231,8 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
     Args:
         client: DME API client
         storage_id: Storage device ID（可选，1~64  characters），supports filtering
-        page_no: Page number（可选，1~2147483647，默认 1）
-        page_size: Page size（可选，1~1000，默认 20）
+        page_no: Page number（可选，1~2147483647，default 1）
+        page_size: Page size（可选，1~1000，default 20）
 
     Returns:
         {
@@ -1310,8 +1310,8 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
 
     Args:
         client: DME API client
-        page_no: Page number（可选，1~2147483647，默认 1）
-        page_size: Page size（可选，1~1000，默认 20）
+        page_no: Page number（可选，1~2147483647，default 1）
+        page_size: Page size（可选，1~1000，default 20）
         storage_id: Storage deviceID（可选，1~64 characters）
         name: Name (Optional,1~256 characters），supports fuzzy match
         location: 位置（可选，1~256 characters），supports fuzzy match
@@ -1400,13 +1400,13 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
     Args:
         client: DME API client
         page_size: Items per page (Optional, 1~1000, default 100)
-        page_no: Page number (可选, min1, 默认1)
+        page_no: Page number (可选, min1, default1)
         raw_id: InitiatorWWPN/IQN/NQN (可选, 0~256 characters, supports fuzzy match)
         alias: Initiator alias (可选, 0~256 characters, supports fuzzy match)
         status: Initiator状态 (可选)。Options：unknown (未知), online (在线), offline (离线)
         associated_host_name: Initiator关联Host name (可选, 0~256 characters, supports fuzzy match)
         associated_host_id: Initiator关联Host ID (可选, 0~64 characters; Empty field queries hosts not addedInitiator)
-        multipath_type: Third-party multipath策略 (可选, 仅针对非Dorado V6产品)。Options：default (默认), third_party (Third-party multipath)
+        multipath_type: Third-party multipath策略 (可选, 仅针对非Dorado V6产品)。Options：default (default), third_party (Third-party multipath)
         protocol: Initiator type (可选)。Options：fc, iscsi, nvme_over_roce, sas, nvme_over_fabric, unknown
         support_provisioning: supports发放 (可选)。Options：true, false
         vstore_raw_id: Tenant ID (Optional)
@@ -1491,7 +1491,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
         vstore_id: Tenant ID (Optional, 1~64 characters; 设备为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上effective when)
         alias: Initiator alias (可选, 0~31 characters, supports alphanumeric._-and Chinese characters)
         multi_path: ModifyMultiPathRequestParamobject (可选; 设备为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01及以上支持)。属性格式如下：{
-                multi_path_type: InitiatorMultipath type (可选)。Options：default (默认), third_party (Third-party multipath),
+                multi_path_type: InitiatorMultipath type (可选)。Options：default (default), third_party (Third-party multipath),
                 path_type: Initiator路径类型 (conditionally required, 当multi_path_type为third_partyrequired when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
                 failover_mode: Initiator切换模式 (conditionally required, 当multi_path_type为third_partyrequired when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                 special_mode_type: Special mode type (可选, effective when failover mode is special)。Options：0 (Special mode0), 1 (Special mode1), 2 (Special mode2), 3 (Special mode3)
@@ -1537,8 +1537,8 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
         storage_id: Storage device ID（Required，1~36  characters）
         vstore_raw_id: 本地auth userTenanton device ID（可选）
         name: 本地Auth user name，supports fuzzy search（可选）
-        page_no: Page number，默认 1（可选）
-        page_size: Page size，默认 20（可选）
+        page_no: Page number，default 1（可选）
+        page_size: Page size，default 20（可选）
 
     Returns:
         本地Auth user info list，包含 total 和 local_users
@@ -1699,8 +1699,8 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
         storage_id: Storage device ID（Required，1~36  characters）
         vstore_raw_id: UNIX auth userTenanton device ID（可选）
         name: UNIX Auth user name，supports fuzzy search（可选）
-        page_no: Page number，默认 1（可选）
-        page_size: Page size，默认 20（可选）
+        page_no: Page number，default 1（可选）
+        page_size: Page size，default 20（可选）
 
     Returns:
         UNIX Auth user info list，包含 total 和 unix_users
@@ -1731,8 +1731,8 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
         storage_id: Storage device ID（Required，1~36  characters）
         vstore_raw_id: Windows auth userTenanton device ID（可选）
         name: Windows Auth user name，supports fuzzy search（可选）
-        page_no: Page number，默认 1（可选）
-        page_size: Page size，默认 20（可选）
+        page_no: Page number，default 1（可选）
+        page_size: Page size，default 20（可选）
 
     Returns:
         Windows Auth user info list，包含 total 和 windows_users
@@ -1763,8 +1763,8 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
         storage_id: Storage device ID（Required，1~36  characters）
         vstore_raw_id: 本地认证User groupTenanton device ID（可选）
         name: 本地Auth user group name，supports fuzzy search（可选）
-        page_no: Page number，默认 1（可选）
-        page_size: Page size，默认 20（可选）
+        page_no: Page number，default 1（可选）
+        page_size: Page size，default 20（可选）
 
     Returns:
         本地Auth user group info list，包含 total 和 local_user_groups
@@ -1795,8 +1795,8 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
         storage_id: Storage device ID（Required，1~36  characters）
         vstore_raw_id: UNIX 认证User groupTenanton device ID（可选）
         name: UNIX Auth user group name，supports fuzzy search（可选）
-        page_no: Page number，默认 1（可选）
-        page_size: Page size，默认 20（可选）
+        page_no: Page number，default 1（可选）
+        page_size: Page size，default 20（可选）
 
     Returns:
         UNIX Auth user group info list，包含 total 和 unix_user_groups
@@ -1827,8 +1827,8 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
         storage_id: Storage device ID（Required，1~36  characters）
         vstore_raw_id: Windows 认证User groupTenanton device ID（可选）
         name: Windows Auth user group name，supports fuzzy search（可选）
-        page_no: Page number，默认 1（可选）
-        page_size: Page size，默认 20（可选）
+        page_no: Page number，default 1（可选）
+        page_size: Page size，default 20（可选）
 
     Returns:
         Windows Auth user group info list，包含 total 和 windows_user_groups
@@ -1876,8 +1876,8 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         vstore_name: Tenant名称（可选）
         alarm_status: Alarm status（可选，normal/event/alarm/invalid）
         io_policy_type: IO Policy type（可选，total_perf_upper_limit/read_or_write_upper_limit）
-        page_no: 页码（可选，默认 1）
-        page_size: 每页count（可选，默认 10，最大 1000）
+        page_no: 页码（可选，default 1）
+        page_size: 每页count（可选，default 10，最大 1000）
         sort_key: Sort field（可选，name/raw_id）
         sort_dir: Sort method（可选，asc/desc）
     """
@@ -1964,7 +1964,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         description: 描述（可选，1~255 字符）
         zone_id: 所属 ZONE 的 ID（可选，A series storageRequired）
         vstore_id: Tenant ID（可选，resource_type 为 file_system 时Required）
-        enable_status: Active status（可选，enable/disable，默认 enable）
+        enable_status: Active status（可选，enable/disable，default enable）
         io_policy_type: IO Policy type（可选，total_perf_upper_limit/read_or_write_upper_limit）
         min_bandwidth: Min bandwidth MB/s（可选）
         max_bandwidth: Max bandwidth MB/s（可选）
@@ -2316,8 +2316,8 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
         vstore_raw_id: vStoreon the storage deviceid（可选，1~64 characters）
         zone_raw_id: Zoneon the deviceID（可选，1~64 characters），仅OceanStor A800series storage only
         scope: 范围(Optional). Options：hyperscale (全局), default (本地)。仅OceanStor A800series storage only
-        page_no: Page number（可选，1~10000，默认 1）
-        page_size: Page size（可选，1~1000，默认 100）
+        page_no: Page number（可选，1~10000，default 1）
+        page_size: Page size（可选，1~1000，default 100）
 
     Returns:
         {
@@ -2489,7 +2489,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         home_controller_id: ControllerID（可选，1~64 characters）。role isHEALTH_CHECK时，this field is required
         failover_group_raw_id: Failover groupon the storage deviceID(Optional, max64 characters）。Data access protocol isKB_OVER_TCP时，this field is required
         vstore_raw_id: Logic port所属vStoreassigned on the deviceid(Optional, max64 characters）。role isCLIENT时，do not send this field
-        role: Logic port角色（可选，默认 DATA). Options：MANAGEMENT (管理), DATA (数据), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (管理+数据), CLIENT (Client)
+        role: Logic port角色（可选，default DATA). Options：MANAGEMENT (管理), DATA (数据), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (管理+数据), CLIENT (Client)
         dns_zone_name: DNS ZoneName (Optional,最多255 characters）。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
         listen_dns_query_enabled: 是否侦听DNSQuery request（可选，正则 NO|YES). Options：NO (关闭), YES (打开)。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
         can_failover: EnableIPAddress drift（可选，boolean). Options：true, false。Data access protocol isKB_OVER_TCP时，do not send this field
@@ -2701,8 +2701,8 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         ipv6: IPv6 地址（可选，仅 ETH port support，1~255  characters）
         port_name: Port name（可选，仅 ETH port support，1~255  characters）
         zone_id: Storage device的 Zone ID（可选，仅 Bond port support，1~36  characters）
-        page_no: Page number（可选，FC/SAS port support，1~10000，默认 1）
-        page_size: 每页count（可选，FC/SAS port support，1~1000，默认 20）
+        page_no: Page number（可选，FC/SAS port support，1~10000，default 1）
+        page_size: 每页count（可选，FC/SAS port support，1~1000，default 20）
 
     Returns:
         {
@@ -2872,8 +2872,8 @@ def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
         client: DME API client
         name: VLAN 名称（supports fuzzy search）
         storage_id: Storage device ID
-        page_no: Page queryStart page，默认 1
-        page_size: 每页count，1~1000，默认 100
+        page_no: Page queryStart page，default 1
+        page_size: 每页count，1~1000，default 100
 
     Returns:
         {

@@ -15,7 +15,7 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
         name: Server name filter（Optional）
         server_type: Server type filter（Optional）
@@ -77,7 +77,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: Server ID
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
 
     Returns:
@@ -103,7 +103,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: Server ID
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
     
     Returns:
@@ -129,7 +129,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: Server ID
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
     
     Returns:
@@ -155,8 +155,8 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
     Args:
         client: DME API client
         server_id: Server ID（Optional）
-        page_no: Page number，默认 1
-        page_size: 每页count，5~1000，默认 20
+        page_no: Page number，default 1
+        page_size: 每页count，5~1000，default 20
 
     Returns:
         网卡列表
@@ -183,7 +183,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: Server ID
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
     
     Returns:
@@ -209,7 +209,7 @@ def power_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: Server ID
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
     
     Returns:
@@ -235,7 +235,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: Server ID
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
     
     Returns:
@@ -261,7 +261,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: Server ID
-        start: 分页Start position，默认 1
+        start: 分页Start position，default 1
         limit: Page size, default 100
     
     Returns:

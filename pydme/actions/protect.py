@@ -32,9 +32,9 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
         vstore_id: Tenant的 ID，this parameter and vstore_raw_id mutually exclusive
         vstore_raw_id: Tenanton the device ID，this parameter and vstore_id mutually exclusive
         sort_key: Sort field，Optional值：sort_id
-        sort_dir: Sort direction，Optional值：asc, desc（默认 desc）
-        page_no: Page number，默认 1
-        page_size: Items per page，默认 20
+        sort_dir: Sort direction，Optional值：asc, desc（default desc）
+        page_no: Page number，default 1
+        page_size: Items per page，default 20
 
     Returns:
         {
@@ -195,7 +195,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         },...]
         }
         rem_reps: 添加 LUN to replication-capableProtection group的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；Protection group存在复制parameter effective when feature。格式：[{
-                        is_delay: Deferred execution（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Optional），default true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair creation mode为 auto effective when
@@ -274,8 +274,8 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
 
     Args:
         client: DME API client
-        page_no: Page number，默认 1
-        page_size: Items per page，默认 20
+        page_no: Page number，default 1
+        page_size: Items per page，default 20
         name: Active-active consistency group名称，supports fuzzy match
         raw_id: Active-active consistency groupon the device ID
         protect_group_id: Protection group ID
@@ -428,7 +428,7 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
         client: DME API client
         ids: Active-active consistency group ID 列表
         delete_mode: 删除模型，Optional值：preferred_only（Preferred site deletion）, non_preferred_only（非Preferred site deletion）, dual_ends（Delete both sites）
-        is_self_adapt: supportsAdaptive member deletion Pair，默认 false
+        is_self_adapt: supportsAdaptive member deletion Pair，default false
 
     Returns:
         {
@@ -592,8 +592,8 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
 
     Args:
         client: DME API client
-        page_no: Page number，默认 1
-        page_size: Items per page，默认 20
+        page_no: Page number，default 1
+        page_size: Items per page，default 20
         group_id: 所属Active-active consistency group ID
         group_name: 所属Active-active consistency group名称，supports fuzzy match
         group_raw_id: 所属Active-active consistency groupon the storage device ID
@@ -935,8 +935,8 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
 
     Args:
         client: DME API client
-        page_no: Page number，默认 1
-        page_size: Items per page，默认 20
+        page_no: Page number，default 1
+        page_size: Items per page，default 20
         group_id: 所属复制Consistency group ID
         group_name: 所属复制Consistency group名称，supports fuzzy match
         pair_raw_id: 复制 Pair on the storage device ID
@@ -1138,7 +1138,7 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
     Args:
         client: DME API client
         ids: 复制 Pair 实例 ID 列表
-        delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
+        delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，default dual_ends
 
     Returns:
         {
@@ -1324,7 +1324,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         activated_time_from: Query activation start time（Unix Timestamp，单位second(s)）
         activated_time_to: Query activation end time（Unix Timestamp，单位second(s)）
         page_no: Page query开始页，min为 1，Default为 1
-        page_size: 每页count，1~1000，默认 20
+        page_size: 每页count，1~1000，default 20
 
     Returns:
         LUN 快照列表
@@ -1368,7 +1368,7 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
     Args:
         client: DME API client
         snapshots_info: LUN 快照创建info list，Each item includes name, source_type, source_id
-        is_consist_activate: Consistency activation，默认 false
+        is_consist_activate: Consistency activation，default false
 
     Returns:
         {
@@ -1421,8 +1421,8 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
     Args:
         client: DME API client
         snapshot_ids: 快照 ID 列表
-        is_delete_target_lun: Delete target LUN，默认 true
-        is_auto_deactivate: Auto before deleteDeactivate快照，默认 false
+        is_delete_target_lun: Delete target LUN，default true
+        is_auto_deactivate: Auto before deleteDeactivate快照，default false
 
     Returns:
         {
@@ -1488,7 +1488,7 @@ def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete
     Args:
         client: DME API client
         snapshot_cg_ids: Snapshot consistency group ID 列表
-        is_delete_target_lun: Delete target LUN，仅 Dorado 6.1.2 supported in version，默认 true
+        is_delete_target_lun: Delete target LUN，仅 Dorado 6.1.2 supported in version，default true
 
     Returns:
         {
@@ -1638,8 +1638,8 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_rule: 目标 LUN Naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 目标 LUN name prefix
         name_suffix: 目标 LUN name suffix
-        copy_rate: 拷贝速率，Optional值：low, medium, high, highest，默认 medium
-        is_sync: 是否立即Sync，默认 true
+        copy_rate: 拷贝速率，Optional值：low, medium, high, highest，default medium
+        is_sync: 是否立即Sync，default true
         clone_pairs: 克隆 Pair 列表，create_mode 为 manual 时Required
 
     Returns:
@@ -1895,8 +1895,8 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
     Args:
         client: DME API client
         ids: Remote replicationConsistency group ID 列表
-        is_self_adapt: supports自适应Remove member Pair，默认 false
-        delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
+        is_self_adapt: supports自适应Remove member Pair，default false
+        delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，default dual_ends
 
     Returns:
         {
