@@ -1614,7 +1614,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                          create_storage_host_params: dict = None,
                          task_remarks: str = None) -> dict:
     """
-    添加存储主机到存储主机组
+    Add storage host to storage host group
 
     将现有主机添加到存储主机组，或在主机组中创建新主机。
 
@@ -1672,7 +1672,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
                             storage_host_ids: list,
                             task_remarks: str = None) -> dict:
     """
-    从存储主机组中移除主机
+    Remove host from storage host group
 
     从指定的存储主机组中移除一个或多个主机。
 
@@ -1701,7 +1701,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
 def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
                       task_remarks: str = None) -> dict:
     """
-    批量删除存储主机组
+    Batch delete storage host groups
 
     批量删除指定的存储主机组。
 
@@ -1731,7 +1731,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
                    page_no: int = 1, sort_key: str = None,
                    sort_dir: str = None) -> dict:
     """
-    查询存储主机映射的 LUN 信息列表
+    Query LUN mapping list for storage host
 
     指定存储主机查询映射 LUN 信息列表，包含 LUN 信息和主机 LUN ID 信息。
 
@@ -1773,7 +1773,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
                          page_no: int = 1, sort_key: str = None,
                          sort_dir: str = None) -> dict:
     """
-    查询存储主机组映射的 LUN 信息列表
+    Query LUN mapping list for storage host group
 
     指定存储主机组查询映射 LUN 信息列表，包含 LUN 信息和主机 LUN ID 信息。
 
@@ -3270,7 +3270,7 @@ ACTIONS = {
     # 存储主机组子主题动作（san storage_host_group xxx）
     'storage_host_group_create': {
         'func': storage_host_group_create,
-        'description': '创建存储主机组',
+        'description': 'Create storage host group',
         'params': ['storage_id', 'name', 'description', 'exist_host_ids', 'create_storage_host_params', 'task_remarks', 'vstore_id'],
         'subtopic': 'storage_host_group'
     },
