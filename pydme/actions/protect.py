@@ -332,7 +332,7 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         domain_id: Active-active domain ID
         name: Active-active consistency group name
         local_storage_id: local  device ID
-        local_pg_id: Local protection group ID,  conditionally required for OceanStor Dorado V6+, OceanStor V6 时Required
+        local_pg_id: Local protection group ID,  conditionally required for OceanStor Dorado V6+, required for OceanStor V6
         description: Description
         create_mode: Active-active pair creation mode, Options: auto , manual 
         remote_vstore_id: Remote device tenant ID,  conditionally required when create_mode is auto for OceanStor Dorado 6.1.3 version and above
@@ -388,8 +388,8 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         recovery_policy: Active-active pair recovery policy, Options: automatic , manual 
         service_assurance_policy: Service assurance policy, Options: data_reliability_preferred (data reliability first)t) , service_continuity_preferred (Business continuity priority) 
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , 当 speed 为 custom 时Required
-        isolation_threshold_time:  isolationthreshold (毫second(s)) , 当 service_assurance_policy 为 service_continuity_preferred 时Required
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
+        isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
 
     Returns:
         {
@@ -427,7 +427,7 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
     Args:
         client: DME API client
         ids: Active-active consistency group ID  list
-        delete_mode: delete 模型, Optional值: preferred_only (Preferred site deletion) , non_preferred_only (非Preferred site deletion) , dual_ends (Delete both sites) 
+        delete_mode: Delete mode, Options: preferred_only , non_preferred_only , dual_endse both sites) 
         is_self_adapt: supportsAdaptive member deletion Pair, default false
 
     Returns:
@@ -509,7 +509,7 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
     Args:
         client: DME API client
         ids: Active-active consistency group ID  list
-        priority_station_type: Site type, Optional值: preferred ( preferred site) , non_preferred ( non-preferred site) 
+        priority_station_type: Site type, Options: preferred , non_preferred 
 
     Returns:
         {
@@ -534,7 +534,7 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
     Args:
         client: DME API client
         ids: Active-active consistency group ID  list
-        priority_station_type: Site type, Optional值: preferred ( preferred site) , non_preferred ( non-preferred site) 
+        priority_station_type: Site type, Options: preferred , non_preferred 
 
     Returns:
         {
@@ -603,7 +603,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         local_vstore_id: local tenant ID, this parameter and local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: local tenanton the device ID, this parameter and local_vstore_id mutually exclusive
         local_volume_name: local  LUN  name, supports fuzzy match
-        local_host_access_state: Local resource host access status, Optional值: access_forbidden, read_only, read_write
+        local_host_access_state: Local resource host access status. Options: access_forbidden, read_only, read_write
         remote_vstore_id: remote tenant ID, this parameter and remote_vstore_raw_id mutually exclusive
         remote_vstore_raw_id: remote tenanton the device ID, this parameter and remote_vstore_id mutually exclusive
         remote_volume_name: remote  LUN  name, supports fuzzy match
@@ -661,21 +661,21 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
 
     Args:
         client: DME API client
-        create_mode: Active-active pair creation mode, Optional值: auto (Auto-create) , manual ( manualcreate ) 
-        local_storage_id: create Active-active Pair 的Storage device ID
+        create_mode: Active-active pair creation mode, Options: auto , manual 
+        local_storage_id: Create active-active pair storage device ID
         domain_id: Active-active domain ID
-        lun_ids: In auto-create mode, 源 LUN ID list
-        lun_pairs: In manual create mode, Active-active Pair 的源 LUN,  target LUN ID list
+        lun_ids: In auto-create mode, Source LUN ID list
+        lun_pairs: In manual create mode, Active-active pair source and target LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode
         remote_resource_name_rule: LUN naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: Remote LUN name prefix
         name_suffix: Remote LUN name suffix
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , 当 speed 为 custom required when
-        service_assurance_policy: Service assurance policy, Optional值: data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time:  isolationthreshold (毫second(s)) , 当 service_assurance_policy 为 service_continuity_preferred required when
-        recovery_policy: Recovery policy, Optional值: automatic, manual
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
+        service_assurance_policy: Service assurance policy, Options: data_reliability_preferred, service_continuity_preferred
+        isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
+        recovery_policy: Recovery policy, Options: automatic, manual
 
     Returns:
         {
@@ -730,10 +730,10 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
         client: DME API client
         pair_id: Active-active Pair instance ID
         speed: Active-active Pair Sync rate. Options: low, medium, high, highest, custom
-        bandwidth:  custom rate (MB/s) , 当 speed 为 custom 时Required
-        recovery_policy: Recovery policy, Optional值: automatic, manual
-        service_assurance_policy: Service assurance policy, Optional值: data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time:  isolationthreshold (毫second(s)) , 当 service_assurance_policy 为 service_continuity_preferred 时Required
+        bandwidth:  custom rate (MB/s) , required when speed is custom
+        recovery_policy: Recovery policy, Options: automatic, manual
+        service_assurance_policy: Service assurance policy, Options: data_reliability_preferred, service_continuity_preferred
+        isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
 
     Returns:
         {
@@ -1010,8 +1010,8 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         name_prefix: remote Resource name prefix
         name_suffix: remote Resource name suffix
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , 当 speed 为 custom 时Required
-        recovery_policy: Recovery policy, Optional值: automatic, manual
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
+        recovery_policy: Recovery policy, Options: automatic, manual
         sync_type: Sync type, Optional值: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: Timer duration (second(s)) , 当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: Timer rule, 当 sync_type 为 specified_time_policy 时Required
@@ -1084,8 +1084,8 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         client: DME API client
         pair_id:  replication Pair instance ID
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , 当 speed 为 custom 时Required
-        recovery_policy: Recovery policy, Optional值: automatic, manual
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
+        recovery_policy: Recovery policy, Options: automatic, manual
         enable_compress: Link compression, when replication mode isin async modeRequired
         sync_type: Sync type, Optional值: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: Timer duration (second(s)) , 当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
@@ -1770,7 +1770,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         create_mode: replication pair creation modee, Optional值: auto , manual 
         existed_pair_ids: Existing replication Pair  ID  list
         lun_pairs: In manual create mode,  replication Pair 的源 LUN,  target LUN ID list
-        lun_ids: In auto-create mode, 源 LUN ID list
+        lun_ids: In auto-create mode, Source LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode
         remote_resource_name_rule: Remote resource naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
@@ -1836,8 +1836,8 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         name: Remote replicationConsistency group name
         description: Description
         speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , 当 speed 为 custom 时Required
-        recovery_policy: Recovery policy, Optional值: automatic, manual
+        bandwidth: Custom sync rate (MB/s) , required when speed is custom
+        recovery_policy: Recovery policy, Options: automatic, manual
         enable_compress: Link compression, when replication mode isin async modeRequired
         sync_type: Sync type, Optional值: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: Timer duration (second(s)) , 当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
@@ -2088,7 +2088,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
         fs_pairs: FilesystemPair list (Optional, List[FsPairInstance], max array members: 100)
         speed: Sync rate (Optional, string). Optional值: low, medium, high, highest, custom
         bandwidth:  bandwidth (Optional, integer, 1~1024). 当speed为custom时Required
-        service_assurance_policy: Service assurance policy (Optional, string). Optional值: data_reliability_preferred, service_continuity_preferred
+        service_assurance_policy: Service assurance policy (Optional, string). Options: data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time:  isolationthreshold (Optional, int32, 10~30000)
 
     Returns:
