@@ -687,7 +687,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                         rule_type:  rule allow/reject (Optional, default reject). Options: reject, permit,
                         fileoperations: Operation type list (Optional). Options: close, create, create_dir, delete, delete_dir, getattr, link, lookup, open, read, write, rename, rename_dir, setattr, symlink,
                      }, ...],
-                fs_id: Filesystem ID (与namespace_id mutually exclusive),
+                fs_id: Filesystem ID (mutually exclusive with namespace_id),
                 namespace_id: Namespace ID (mutually exclusive with fs_id),
              }
         task_remarks: Async taskRemark
@@ -1017,8 +1017,8 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                 unencrypted_access: Allow unencrypted client access (Optional),
                 enable_lease: Enable lease locking (Optional),
              }
-        fs_id: Filesystem ID, 与 namespace_id mutually exclusive
-        namespace_id: Namespace ID, 与 fs_id mutually exclusive
+        fs_id: Filesystem ID, mutually exclusive with namespace_id
+        namespace_id: Namespace ID, mutually exclusive with fs_id
         task_remarks: Async taskRemark
 
     Returns:
@@ -1772,7 +1772,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_hard_quota: File hard quota(Optional) , -1 field is invalid; When both file hard/soft quotas arewhen both valid, File hard quota must exceed soft quota
         file_advisory_quota: File advisory quota(Optional) , -1 field is invalid; OceanStor Pacific only; When advisory quota and hard/soft quota are both valid hard/soft quotawhen both valid, Advisory quota must be less than hard or soft quota
         snap_space_switch: Include snapshot space(Optional) , true: Include snapshot space; false: Exclude snapshot space; OceanStor Pacific only
-        soft_grace_time:  grace period(Optional) , 0~4294967294, unit  (day(s)) ; Grace period before soft limit becomes hard limit; not sent或 value 0 soft quota reached, warning only; 仅 OceanStor Pacific  support
+        soft_grace_time:  Grace period (Optional) , 0~4294967294, in days ; Grace period before soft limit becomes hard limit; not sent或 value 0 soft quota reached, warning only; 仅 OceanStor Pacific  support
         task_remarks: Async taskRemark
 
     Returns:
@@ -1883,9 +1883,9 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
                      fujitsu (FUJITSU) , hitachi (Hitachi) , hpe (HPE) , ibm (IBM) , netapp (NetApp) , 
                      pure, panji, third_part (non-Huawei) 
         storage_pool_name: Filesystem storage pool name(Optional) , 1~256  characters, mutually exclusive with storage_pool_id,  supportfuzzy match
-        storage_pool_id: Storage pool ID(Optional) , 1~255  characters, 与 storage_pool_name mutually exclusive
+        storage_pool_id: Storage pool ID(Optional) , 1~255  characters, mutually exclusive with storage_pool_name
         tier_name: Filesystem service level name(Optional) , 1~256  characters, mutually exclusive with tier_id,  supportfuzzy match
-        tier_id: Service level ID(Optional) , 1~256  characters, 与 tier_name mutually exclusive, exact match
+        tier_id: Service level ID(Optional) , 1~256  characters, mutually exclusive with tier_name, exact match
         vstore_name: Filesystem vStore name(Optional) , 1~256  characters, mutually exclusive with vstore_raw_id,  supportfuzzy match
         vstore_raw_id: Filesystem tenant ID on storage device(Optional) , 1~64  characters, mutually exclusive with vstore_name
         project_name: Filesystem project group name(Optional) , 1~256  characters, mutually exclusive with project_id,  supportfuzzy match
@@ -2122,7 +2122,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 qos_policy: SmartQosPolicy parameter info (Optional).  format: {
                         max_bandwidth: Max bandwidthMB/s (Optional, 1~999999999),
                         max_iops:  maxiops (Optional, 1~999999999),
-                        min_bandwidth: Min bandwidthMB/s (Optional, 1~999999999),
+                        min_bandwidth: Min bandwidth in MB/s (Optional, 1~999999999),
                         min_iops:  miniops (Optional, 1~999999999),
                         burst_band_width: Burst bandwidthMB/s (Optional),
                         burst_iops: burstIOPS (Optional),
@@ -2169,12 +2169,12 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_enable: Auto capacity adjustment switch (Optional, defaulttrue). Options: true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
-                max_auto_size: Auto-expandupper limitGB (Optional, 1~33554432, default 33554432),
+                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432),
                 min_auto_size:  Auto-shrink lower limit in GB (Optional, 1~33554432, default 33554432),
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format: {
-                type: WORM protection mode (Optional). Options: none_mode (no default policy), enterprise_mode (enterprise compliance), compliance_mode (legal compliance)compliance), advance_mode ( high security compliance), audit_log (Audit log), non_worm (非WORM),
+                type: WORM protection mode (Optional). Options: none_mode, enterprise_modence), compliance_mode (legal compliance)compliance), advance_mode ( high security compliance), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default 0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2193,7 +2193,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         snapshot_dir_visible: Snapshot directory visibility(Optional) . true/false
         object_service_optimization: object service optimization(Optional) . true/false
         case_sensitive: Case-sensitive mode(Optional) . true/false
-        audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr, etc.,  max 100
+        audit_log_rules: Audit log rule set(Optional) , e.g., set_security, get_security, set_attr, get_attr,  max 100
         unix_permissions: Filesystem directory permission(Optional) ,  format e.g. 0755
 
     Returns:
@@ -2292,8 +2292,8 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
         name: local Filesystem name,  supportfuzzy search
         page_no: Page number, default 1
         page_size: Items per page, default 20
-        sort_key: Sort field, name (Filesystem name) 或 capacity (Filesystem capacity) 
-        sort_dir: Sort direction, asc (ascending) 或 desc (descending) 
+        sort_key: Sort field, name or capacity (Filesystem capacity) 
+        sort_dir: Sort direction, asc (ascending) or desc (descending) 
 
     Returns:
          availableFilesystem list
@@ -2365,8 +2365,8 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 qos_policy: SmartQosPolicy parameter info (UpdateFileSystemQosPolicyobject).  format: {
                         max_bandwidth: Max bandwidthMB/s (Optional, 1~999999999; mutually exclusive with min_bandwidth/min_iops, A800 does not support mutual exclusion),
                         max_iops: Max IOPS (Optional, 1~999999999; mutually exclusive with min_bandwidth/min_iops, A800 does not support mutual exclusion),
-                        min_bandwidth: Min bandwidthMB/s (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 does not support mutual exclusion),
-                        min_iops: Min IOPS (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 does not support mutual exclusion),
+                        min_bandwidth: Min bandwidth in MB/s (Optional, 1~999999999; mutually exclusive with max_bandwidth/max_iops, A800 does not support mutual exclusion),
+                        min_iops: Min IOPS (Optional, 1~999999999; mutually exclusive with max_bandwidth/max_iops, A800 does not support mutual exclusion),
                         burst_band_width: Burst bandwidthMB/s (Optional, 1~999999999),
                         burst_iops: burstIOPS (Optional, 1~999999999),
                         burst_time: Max burst timesecond(s) (Optional, 1~999999999),
@@ -2408,7 +2408,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open). Options: true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
-                max_auto_size: Auto-expandupper limitGB (Optional, 1~33554432, default 33554432; must be greater than equals shrinklower limit和Filesystem capacity),
+                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink valueklower limit和Filesystem capacity),
                 min_auto_size:  Auto-shrink lower limit in GB (Optional, 1~33554432, default 33554432),
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
@@ -2428,7 +2428,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 worm_append_unit: WORM append-only file protection granularity (Optional, advance mode only). Options: 256KB, 512KB, 1M,
              }
         task_remarks: Async taskRemark, 0~1024 characters(Optional) 
-        audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr, etc.,  max 100
+        audit_log_rules: Audit log rule set(Optional) , e.g., set_security, get_security, set_attr, get_attr,  max 100
         unix_permissions: Filesystem directory permission(Optional) ,  format e.g. 0755
 
     Returns:
@@ -2530,7 +2530,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         pool_name: Storage pool name(Optional) , 1~256  characters,  supportfuzzy search
         storage_id: Storage device ID(Optional) , 1~255  characters
         enable_encrypt: Enable encryption (Optional) , true: yes; false: no
-        support_provisioning: supportsService provisioning(Optional) , true: yes; false: no; send this field to filter unsupportedService provisioning device的 resource,  currently not supportService provisioning的 device有 DataTurbo 系列
+        support_provisioning: Supports service provisioning(Optional) , true: yes; false: no; send this field to filter unsupportedService provisioning device的 resource,  currently not supportService provisioning的 device有 DataTurbo 系列
         gfs_id: Global namespace ID(Optional) , 1~64  characters
         gfs_name:  globalNamespace name(Optional) , 1~256  characters
         has_gfs: Include global namespace namespaces(Optional) , true: yes; false: no; has_gfs=false not supported when gfs_id is set
@@ -2540,7 +2540,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
             task_id: Task ID (string, 1~64 characters),
         }, includes : 
         - total: Namespacecount
-        - namespace_list: Namespace list, includes id, raw_id, name, storage_id, vstore_id 等 info
+        - namespace_list: Namespace list, includes id, raw_id, name, storage_id, vstore_id info
     """
     url = "/rest/fileservice/v1/namespaces/query"
     
@@ -2613,7 +2613,7 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - gfs_id: Global namespace ID
         - qos_policy: QoS  policy
         - worm: WORM  parameter
-        等Details
+        details
     """
     url = "/rest/fileservice/v1/namespaces/{namespace_id}"
     
@@ -2681,7 +2681,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 qos_scale: upper limit control维度 (Required). Options: namespace, client, account, user, innertask,
                 name: QoS policy name (Optional, 1~63 character,  regex^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit),
                 qos_mode: QoS mode (Required). Options: by_usage, by_package, manual,
-                account_raw_id: Account ID on storage device (Optional, 0~4294967293; 当qos_scale为namespace/account/user时Required),
+                account_raw_id: Account ID on storage device (Optional, 0~4294967293; required when qos_scale is namespace/account/user),
                 package_size: Package capacity in GB (Optional, 0~94371840; when qos_mode is by_package时Required),
                 max_iops: IOPSupper limit (Optional, 0~1073741824000; Batch createwhen namespaceRequired),
                 max_mbps:  Bandwidth upper limit in Mbps (Optional, 0~1073741824; 当qos_mode为manual时Required),
