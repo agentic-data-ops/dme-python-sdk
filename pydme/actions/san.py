@@ -42,13 +42,13 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
         client: DME API client
         limit: Number of items per page (Optional, 0~1000, default 1000)
         offset: Start position for pagination (Optional, min 0, default 0)
-        sort_dir: Sort direction (Optional). Available values: asc (ascending), desc (descending)
-        sort_key: Sort field (Optional). Available values: name, size, alloc_capacity, capacity_usage, protection_capacity
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending)
+        sort_key: Sort field (Optional). Options: name, size, alloc_capacity, capacity_usage, protection_capacity
         name: LUN name (Optional, 1~256 characters, supports fuzzy search)
         vstore_raw_id: Tenant ID on storage device (Optional, 1~64 characters)
         vstore_name: Tenant name (Optional, 1~256 characters, supports fuzzy search)
-        status: Status (Optional, deprecated, use health_status instead). Available values: creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected
-        health_status: Health status (Optional). Available values: normal, faulty, write_protected
+        status: Status (Optional, deprecated, use health_status instead). Options: creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected
+        health_status: Health status (Optional). Options: normal, faulty, write_protected
         service_level_id: Service level ID (Optional, 1~64 characters)
         volume_wwn: LUN WWN (Optional, 1~128 characters)
         storage_id: Storage device ID (Optional, 1~36 characters, UUID format or 32-bit hex)
@@ -58,13 +58,13 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
         unmapped_host_id: Unmapped host ID (Optional, 1~64 characters)
         unmapped_hostgroup_id: Unmapped host group ID (Optional, 1~64 characters)
         project_id: Project group ID (Optional, 1~64 characters)
-        allocate_type: Allocation type (Optional). Available values: thin, thick
-        attached: Mapping status (Optional). Available values: true (mapped), false (unmapped)
-        query_mode: LUN provisioning mode (Optional). Available values: service (service LUN), non-service (non-service LUN), all (all LUNs)
-        protected: LUN protection status (Optional). Available values: true (protected), false (unprotected)
+        allocate_type: Allocation type (Optional). Options: thin, thick
+        attached: Mapping status (Optional). Options: true (mapped), false (unmapped)
+        query_mode: LUN provisioning mode (Optional). Options: service (service LUN), non-service (non-service LUN), all (all LUNs)
+        protected: LUN protection status (Optional). Options: true (protected), false (unprotected)
         pg_id: Protection group ID (Optional, 1~64 characters, UUID format or 32-bit hex)
-        usage_type: LUN usage type (Optional). Available values: traditional (traditional LUN), edev (eDevLUN)
-        support_provisioning: Filter for provisionable LUNs (Optional). Available values: true (provisionable only), false (all)
+        usage_type: LUN usage type (Optional). Options: traditional (traditional LUN), edev (eDevLUN)
+        support_provisioning: Filter for provisionable LUNs (Optional). Options: true (provisionable only), false (all)
     
     Returns:
         {
@@ -150,9 +150,9 @@ def lun_show(client: DMEAPIClient, volume_id: str) -> dict:
                 id: LUN unique identifier (string, 1~64 characters),
                 name: Name (string, 1~255 characters),
                 description: Description (string, 0~255 characters),
-                status: Status (string). Available values: creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected,
+                status: Status (string). Options: creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected,
                 attached: Mapping status (boolean, true, false),
-                alloctype: Allocation type (string). Available values: thin (thin provisioning), thick (fixed allocation),
+                alloctype: Allocation type (string). Options: thin (thin provisioning), thick (fixed allocation),
                 total_capacity: Total capacity in GB (double),
                 storage_id: Storage device id (string, 1~64 characters),
                 storage_name: Storage device name (string, 1~64 characters),
@@ -189,10 +189,10 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 suffix_length: Naming suffix rule (1~4; name length + suffix length <= 255),
                 start_suffix: Starting suffix number (1~9999; count + start suffix <= 9999),
                 start_lun_id: Starting LUN ID (1~65535),
-                usage_type: LUN usage type. Available values: traditional, edev (eDevLUN),
-                write_policy: Write policy. Available values: back (write-back), through (write-through),
+                usage_type: LUN usage type. Options: traditional, edev (eDevLUN),
+                write_policy: Write policy. Options: back (write-back), through (write-through),
                 remote_lun_raw_id: External LUN ID (0~255 characters; effective when usage_type is edev),
-                disguise_status: LUN disguise (effective when usage_type is edev). Available values: nodisguise, basic, expansion, inheritance,
+                disguise_status: LUN disguise (effective when usage_type is edev). Options: nodisguise, basic, expansion, inheritance,
              }, ...]
         lun_specs_pass_through: LUN basic parameters for pass-through storage mode (Conditionally Required), List<lunSpecsPassThrough> type, max array members 24, max 24 groups per request; mutually exclusive with lun_specs; required when storage mode is pass-through. 参数格式如下：[{
                 name: LUN name (1~247 characters, supports letters, digits, -._ and Chinese characters; final name is LUN name + suffix code + '-' + disk location),
@@ -324,18 +324,18 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
         description: Modify LUN description (Optional, 0~255 characters)
         owner_controller: Owner controller (Optional, only non-service LUNs support modification)
         prefetch_policy: Prefetch policy (Optional, only non-service LUNs support modification)
-                        Available values: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch)
+                        Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch)
         prefetch_value: Prefetch policy value (Optional, only non-service LUNs support modification)
         tuning: LUN tuning properties (Optional, only non-service LUNs support modification)。参数格式如下：{
-                smarttier: Data migration policy (Optional, default 0). Available values: 0 (no migration), 1 (auto migration), 2 (migrate to higher tier), 3 (migrate to lower tier),
+                smarttier: Data migration policy (Optional, default 0). Options: 0 (no migration), 1 (auto migration), 2 (migrate to higher tier), 3 (migrate to lower tier),
                 smartqos: SmartQos4Update object (Optional)。属性格式如下：{
                         maxbandwidth: Max bandwidth (Optional, 0~2147483647; supports all devices; mutually exclusive with minbandwidth/miniops for V3/V5 series),
                         maxiops: Max iops (Optional, 0~2147483647; supports all devices; mutually exclusive with minbandwidth/miniops for V3/V5 series),
                         minbandwidth: Min bandwidth (Optional, 0~2147483647; supports Dorado V6/V3/V5; mutually exclusive with maxbandwidth/maxiops for V3/V5 series),
                         miniops: Min iops (Optional, 0~2147483647; supports Dorado V6/V3/V5; mutually exclusive with maxbandwidth/maxiops for V3/V5 series),
-                        control_policy: Control policy (Optional). Available values: 0 (protect IO lower limit), 1 (control IO upper limit),
+                        control_policy: Control policy (Optional). Options: 0 (protect IO lower limit), 1 (control IO upper limit),
                         latency: Latency in ms or us (Optional, 0~2147483647; depends on storage device; only lower limit protection supports),
-                        enabled: Whether to enable smartqos (Optional). Available values: true, false,
+                        enabled: Whether to enable smartqos (Optional). Options: true, false,
                 }
              }
         task_remarks: Async task remark (Optional, max 1024 characters)
@@ -486,19 +486,19 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
         client: DME API client
         page_size: Items per page (Optional, 0~1000, default 20)
         page_no: Page number (Optional, 1~10000000, default 1)
-        sort_dir: Sort direction (Optional). Available values: asc (ascending), desc (descending)
-        sort_key: Sort field (Optional). Available values: lun_count, total_capcity, capacity_usage, name, raw_id
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending)
+        sort_key: Sort field (Optional). Options: lun_count, total_capcity, capacity_usage, name, raw_id
         name: LUN group name (Optional, 1~256 characters, supports fuzzy search)
         vstore_raw_id: Tenant ID on storage device (Optional, 1~64 characters)
         vstore_name: Tenant name (Optional, 1~256 characters, supports fuzzy search)
         storage_id: Storage device ID (Optional, 1~64 characters)
         storage_name: Storage name (Optional, 1~256 characters, supports fuzzy search)
         raw_id: LUN group ID on storage device (Optional, 1~256 characters)
-        attached: Mapping status (Optional). Available values: true (mapped), false (unmapped)
+        attached: Mapping status (Optional). Options: true (mapped), false (unmapped)
         protection_group_raw_id: Protection group ID on device (Optional, 0~64 characters; non-empty = LUN groups under PG, empty = LUN groups not in any PG)
         avaiable_mapping_for_host_id: Available host ID for mapping (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_host_group_id)
         avaiable_mapping_for_host_group_id: Available host group ID for mapping (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_host_id)
-        support_provisioning: Supports provisioning (Optional). Available values: true, false
+        support_provisioning: Supports provisioning (Optional). Options: true, false
 
     Returns:
         {
@@ -611,14 +611,14 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
                 pool_raw_id: Storage pool ID on device (Optional, 1~64 characters; required when not in pass-through mode),
                 availability_zone: Availability zone id (Optional, 0~64 characters),
                 owner_controller: Owner controller (Optional, 0~64 characters),
-                initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Available values: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
-                prefetch_policy: Prefetch policy (Optional). Available values: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
+                initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Options: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
+                prefetch_policy: Prefetch policy (Optional). Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
                 prefetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
                 tuning: CustomizeVolumeTuning object (Optional)。属性格式如下：{
                         smartqos: SmartQos object (Optional)。属性格式如下：{
                                 name: Smart QoS name (Optional, 1~255 characters),
                         },
-                        alloctype: LUN allocation type (Optional). Available values: thin, thick,
+                        alloctype: LUN allocation type (Optional). Options: thin, thick,
                         workload_type_id: Workload type id (Optional, obtained from storage device),
                 }
              }
@@ -744,14 +744,14 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
                 pool_raw_id: Storage pool ID on device (Optional, 1~64 characters; required when not pass-through mode),
                 availability_zone: Availability zone id (Optional, 0~64 characters),
                 owner_controller: Owner controller (Optional, 0~64 characters),
-                initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Available values: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
-                prefetch_policy: Prefetch policy (Optional). Available values: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
+                initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Options: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
+                prefetch_policy: Prefetch policy (Optional). Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
                 prefetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
                 tuning: CustomizeVolumeTuning object (Optional)。属性格式如下：{
                         smartqos: SmartQos object (Optional)。属性格式如下：{
                                 name: Smart QoS name (Optional, 1~255 characters),
                         },
-                        alloctype: LUN allocation type (Optional). Available values: thin, thick,
+                        alloctype: LUN allocation type (Optional). Options: thin, thick,
                         workload_type_id: Workload type id (Optional),
                 }
              }
@@ -759,7 +759,7 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
                 host_lun_id: Host LUN ID assigned to LUN (Required, 0~4095),
                 lun_id: LUN ID to add to group (Required, 1~64 characters),
              }, ...]
-        host_lun_id_verify: Whether to verify active-active host LUN ID consistency (Optional, default false). Available values: true (skip verify), false (verify)
+        host_lun_id_verify: Whether to verify active-active host LUN ID consistency (Optional, default false). Options: true (skip verify), false (verify)
         task_remarks: Async task remark (Optional, max 1024 characters)
 
     Returns:
@@ -835,7 +835,7 @@ def lun_group_show_luns(client: DMEAPIClient, group_id: str,
         group_id: LUN group ID
         page_size: Items per page (Optional, 1~1000, default 100)
         page_no: Page number (Optional, 1~10000000, default 1)
-        health_status: Health status (Optional). Available values: normal, faulty, write_protected
+        health_status: Health status (Optional). Options: normal, faulty, write_protected
 
     Returns:
         {
@@ -1027,8 +1027,8 @@ def mapping_view_list(
         port_group_id: Port group unique ID (Optional, 0~64 characters; cannot be used with port_group_raw_id/port_group_name)
         port_group_raw_id: Device-assigned port group ID (Optional, 1~64 characters; cannot be used with port_group_id/port_group_name)
         port_group_name: Port group name (Optional, 0~256 characters, supports fuzzy search; cannot be used with port_group_id/port_group_raw_id)
-        sort_key: Sort field (Optional). Available values: raw_id, storage_host_group_raw_id, lun_group_raw_id, port_group_raw_id
-        sort_dir: Sort direction (Optional). Available values: asc (ascending), desc (descending)
+        sort_key: Sort field (Optional). Options: raw_id, storage_host_group_raw_id, lun_group_raw_id, port_group_raw_id
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending)
 
     Returns:
         {
@@ -1120,7 +1120,7 @@ def mapping_view_query(
 
     Args:
         client: DME API client
-        type: Query type (Required). Available values: host, host_group
+        type: Query type (Required). Options: host, host_group
         request_id: Physical host/host group ID (Required, 1~64 characters)
         storage_id: Storage device ID (Required, 1~64 characters)
 
@@ -1200,19 +1200,19 @@ def storage_host_create(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device ID (Required, 1~64 characters)
         host_info: CreateStorageHostInfo object (Required)。属性格式如下：{
                 name: Host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese),
-                os_type: Host type (Required). Available values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
+                os_type: Host type (Required). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: Host IP address (Optional, max 127 characters),
                 description: Host description (Optional, max 63 characters),
                 initiators: StorageInitiatorParam list (Optional, max array members: 1000)。参数格式如下：[{
-                        protocol: Initiator type (Required). Available values: fc, iscsi, nvme_over_roce,
+                        protocol: Initiator type (Required). Options: fc, iscsi, nvme_over_roce,
                         raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
                         alias: Initiator alias (Optional, max 31 characters),
                      }, ...],
                 multipath: MultiPathForCreateRequestParam object (Optional)。属性格式如下：{
-                        multipath_type: Third-party multipath policy (Required). Available values: default, third_party,
-                        path_type: Initiator path type (Optional, effective with third-party multipath). Available values: optimal_path, non_optimal_path,
-                        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Available values: early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: Special mode type (Optional, effective when mode is special). Available values: mode_zero, mode_one, mode_two, mode_three,
+                        multipath_type: Third-party multipath policy (Required). Options: default, third_party,
+                        path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path,
+                        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua,
+                        special_mode_type: Special mode type (Optional, effective when mode is special). Options: mode_zero, mode_one, mode_two, mode_three,
                 }
              }
         task_remarks: Async task remark (Optional, max 1024 characters)
@@ -1274,21 +1274,21 @@ def storage_host_list(client: DMEAPIClient, page_size: int = None, page_no: int 
         client: DME API client
         page_size: Items per page (Optional, 1~1000, default 20)
         page_no: Page number (Optional, min 1, default 1)
-        sort_key: Sort key (Optional, sort_dir ineffective without sort_key). Available values: ip, name, initiator_count, lun_count, lun_group_count, capacity, allocated_capacity, raw_id
-        sort_dir: Sort direction (Optional). Available values: desc (descending), asc (ascending)
+        sort_key: Sort key (Optional, sort_dir ineffective without sort_key). Options: ip, name, initiator_count, lun_count, lun_group_count, capacity, allocated_capacity, raw_id
+        sort_dir: Sort direction (Optional). Options: desc (descending), asc (ascending)
         name: Host name (Optional, 1~256 characters, supports fuzzy match)
         raw_id: Host ID on device (Optional, 0~256 characters)
         host_group_id: Host group ID (Optional, max 64 characters)
         avaliable_add_to_host_group_id: Target host group ID for adding (Optional, mutually exclusive with host_group_id, max 64 characters)
         host_group_name: Host group name (Optional, max 256 characters, supports fuzzy match; empty string = hosts not in any host group)
         ip: Host IP (Optional, max 256 characters, supports fuzzy match; empty string = hosts without IP)
-        health_status: Health status (Optional). Available values: normal, no_redundant_link, offline, fault, degraded
-        os_type: Storage host type (Optional). Available values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC, UNKNOWN
+        health_status: Health status (Optional). Options: normal, no_redundant_link, offline, fault, degraded
+        os_type: Storage host type (Optional). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC, UNKNOWN
         storage_id: Storage device ID (Optional, 1~64 characters)
         avaiable_mapping_for_lun_group_id: Available LUN group ID for mapping (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_lun_id)
         avaiable_mapping_for_lun_id: Available LUN ID for mapping (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_lun_group_id)
-        support_provisioning: Supports provisioning (Optional). Available values: true, false
-        manufacturer: Storage device vendor (Optional, 1~64 characters). Available values: huawei, dell_emc, fujitsu, hitachi, hpe, ibm, netapp, pure, third_part
+        support_provisioning: Supports provisioning (Optional). Options: true, false
+        manufacturer: Storage device vendor (Optional, 1~64 characters). Options: huawei, dell_emc, fujitsu, hitachi, hpe, ibm, netapp, pure, third_part
         vstore_raw_id: Tenant ID (Optional)
         vstore_name: Tenant name (Optional)
 
@@ -1359,21 +1359,21 @@ def storage_host_modify(client: DMEAPIClient, storage_host_id: str,
         storage_host_name: Storage host name (Optional, 1~255 characters, supports letters, digits, ._- and Chinese)
         storage_host_description: Storage host description (Optional, 0~63 characters)
         storage_host_ip: Host IP (Optional, max 127 characters)
-        storage_host_os_type: Host type (Optional). Available values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
+        storage_host_os_type: Host type (Optional). Options: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
         add_initiators: StorageInitiatorParam list (Optional, max array members: 1000)。参数格式如下：[{
-                protocol: Initiator type (Required). Available values: fc, iscsi, nvme_over_roce,
+                protocol: Initiator type (Required). Options: fc, iscsi, nvme_over_roce,
                 raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
                 alias: Initiator alias (Optional, max 31 characters),
              }, ...]
         remove_initiators: Initiator ID list to remove (Optional, max array members: 1000)
         multipath: MultiPathForCreateRequestParam object (Optional)。属性格式如下：{
-                multipath_type: Third-party multipath policy (Required). Available values: default, third_party,
-                path_type: Initiator path type (Optional, effective with third-party multipath). Available values: optimal_path, non_optimal_path,
-                failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Available values: early_version_alua, common_alua, alua_not_used, special_alua,
-                special_mode_type: Special mode type (Optional, effective when mode is special). Available values: mode_zero, mode_one, mode_two, mode_three,
+                multipath_type: Third-party multipath policy (Required). Options: default, third_party,
+                path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path,
+                failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua,
+                special_mode_type: Special mode type (Optional, effective when mode is special). Options: mode_zero, mode_one, mode_two, mode_three,
              }
-        access_mode: Host access mode (Optional, Dorado V6+ only). Available values: balanced, asymmetric
-        hyper_metro_path_optimized: HyperMetro preferred path (Optional, Dorado V6+ only). Available values: true, false
+        access_mode: Host access mode (Optional, Dorado V6+ only). Options: balanced, asymmetric
+        hyper_metro_path_optimized: HyperMetro preferred path (Optional, Dorado V6+ only). Options: true, false
         task_remarks: Async task remark (Optional, max 1024 characters)
 
     Returns:
@@ -1454,9 +1454,9 @@ def storage_host_show_paths(client: DMEAPIClient, page_no: int = None, page_size
         storage_id: Storage device ID (Optional, 1~64 characters)
         storage_host_ids: Storage host ID list (Optional, mutually exclusive with storage_host_raw_ids, max array members: 20; single ID 1~64 characters)
         storage_host_raw_ids: Storage host ID list on device (Optional, mutually exclusive with storage_host_ids, max array members: 20; single ID 1~64 characters)
-        health_status: Health status (Optional). Available values: normal, fault, no_redundant_link, offline
-        running_status: Link status (Optional). Available values: link_up, link_down, online, disabled, connecting
-        initiator_type: Initiator type (Optional). Available values: iSCSI, FC, NVMe_over_RoCE, IB, vHBA
+        health_status: Health status (Optional). Options: normal, fault, no_redundant_link, offline
+        running_status: Link status (Optional). Options: link_up, link_down, online, disabled, connecting
+        initiator_type: Initiator type (Optional). Options: iSCSI, FC, NVMe_over_RoCE, IB, vHBA
 
     Returns:
         Path information list
@@ -1503,19 +1503,19 @@ def storage_host_group_create(client: DMEAPIClient, storage_id: str, name: str,
         exist_host_ids: Host ID list to add to host group (Optional, mutually exclusive with create_storage_host_params, max array members: 1000)
         create_storage_host_params: Create new storage host list (Optional, mutually exclusive with exist_host_ids, max array members: 1000)。参数格式如下：[{
                 name: Host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese),
-                os_type: Host type (Required). Available values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
+                os_type: Host type (Required). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: Host IP address (Optional, max 127 characters),
                 description: Host description (Optional, max 63 characters),
                 initiators: Initiator list (Optional, max array members: 1000)。参数格式如下：[{
-                        protocol: Initiator type (Required). Available values: fc, iscsi, nvme_over_roce,
+                        protocol: Initiator type (Required). Options: fc, iscsi, nvme_over_roce,
                         raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
                         alias: Initiator alias (Optional, max 31 characters),
                      }, ...],
                 multipath: Multipath configuration (Optional)。属性格式如下：{
-                        multipath_type: Third-party multipath policy (Required). Available values: default, third_party,
-                        path_type: Initiator path type (Optional, effective with third-party multipath). Available values: optimal_path, non_optimal_path,
-                        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Available values: early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: Special mode type (Optional, effective when mode is special). Available values: mode_zero, mode_one, mode_two, mode_three,
+                        multipath_type: Third-party multipath policy (Required). Options: default, third_party,
+                        path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path,
+                        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua,
+                        special_mode_type: Special mode type (Optional, effective when mode is special). Options: mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
         task_remarks: Async task remark (Optional, max 1024 characters)
@@ -1562,14 +1562,14 @@ def storage_host_group_list(client: DMEAPIClient, storage_id: str = None, name: 
         storage_id: Device ID (Optional, 0~64 characters)
         page_size: Items per page (Optional, 1~1000, default 100)
         page_no: Page number (Optional, 1~10000000, default 1)
-        sort_dir: Sort direction (Optional, ineffective without sort_key). Available values: desc (descending), asc (ascending)
-        sort_key: Sort key (Optional). Available values: name, host_count, lun_group_count, lun_count, raw_id
+        sort_dir: Sort direction (Optional, ineffective without sort_key). Options: desc (descending), asc (ascending)
+        sort_key: Sort key (Optional). Options: name, host_count, lun_group_count, lun_count, raw_id
         name: Host group name (Optional, 0~256 characters, supports fuzzy match)
         vstore_id: Tenant ID (Optional)
         vstore_name: Tenant name (Optional)
         avaiable_mapping_for_lun_group_id: Target LUN group ID for mapping (Optional, 0~64 characters; required when querying host groups mappable to LUN group)
         avaiable_mapping_for_lun_id: Target LUN ID for mapping (Optional, 0~64 characters; required when querying host groups mappable to LUN)
-        support_provisioning: Supports provisioning (Optional). Available values: true, false
+        support_provisioning: Supports provisioning (Optional). Options: true, false
 
     Returns:
         {
@@ -1886,7 +1886,7 @@ def port_group_show_ports(client: DMEAPIClient, port_group_id: str,
     Args:
         client: DME API client
         port_group_id: Port group ID (Required)
-        type: Port type (Optional). Available values: fc (FC port), fcoe (FCoE port), eth (Ethernet), roce (RoCE port)
+        type: Port type (Optional). Options: fc (FC port), fcoe (FCoE port), eth (Ethernet), roce (RoCE port)
         page_no: Page number (Optional, 1~10000, default 1)
         page_size: Items per page (Optional, 1~1000, default 20)
 
@@ -1970,15 +1970,15 @@ def physical_host_list(client: DMEAPIClient, limit: int = None, start: int = Non
         client: DME API client
         limit: Items per page (Optional, 1~1000)
         start: Start position (Optional, 0~10000000)
-        sort_key: Sort key (Optional). Available values: initiator_count, ip, name
-        sort_dir: Sort direction (Optional, ineffective without sort_key). Available values: desc (descending), asc (ascending)
+        sort_key: Sort key (Optional). Options: initiator_count, ip, name
+        sort_dir: Sort direction (Optional, ineffective without sort_key). Options: desc (descending), asc (ascending)
         name: Physical host name (Optional, 1~256 characters, supports fuzzy match)
         host_group_name: Physical host group name (Optional, 1~256 characters, supports fuzzy match)
         ip: Physical host IP (Optional, 1~256 characters, supports fuzzy match)
-        display_status: Display status (Optional, 1~32 characters). Available values: OFFLINE, NOT_RESPONDING, GRAY, NORMAL, RED, YELLOW, REBOOTING, INITIAL, BOOTING, SHUTDOWNING
-        managed_status: Managed status list (Optional, max array members: 1000). Available values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
-        os_type: Host type (Optional). Available values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
-        access_mode: Physical host access mode (Optional). Available values: ACCOUNT, NONE, VCENTER, FUSIONSPHERE, HCS, TPOPS
+        display_status: Display status (Optional, 1~32 characters). Options: OFFLINE, NOT_RESPONDING, GRAY, NORMAL, RED, YELLOW, REBOOTING, INITIAL, BOOTING, SHUTDOWNING
+        managed_status: Managed status list (Optional, max array members: 1000). Options: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
+        os_type: Host type (Optional). Options: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
+        access_mode: Physical host access mode (Optional). Options: ACCOUNT, NONE, VCENTER, FUSIONSPHERE, HCS, TPOPS
         az_id: Availability zone ID (Optional, 1~64 characters; ignored when az_ids is provided)
         az_ids: Availability zone ID list (Optional, max array members: 40)
         project_id: Project group ID (Optional, 1~64 characters)
@@ -2055,8 +2055,8 @@ def physical_host_create(client: DMEAPIClient, access_mode: str, type: str,
 
     Args:
         client: DME API client
-        access_mode: Physical host access mode (Required). Available values: ACCOUNT, NONE
-        type: Host type (Required). Available values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC. ACCOUNT mode only supports LINUX
+        access_mode: Physical host access mode (Required). Options: ACCOUNT, NONE
+        type: Host type (Required). Options: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC. ACCOUNT mode only supports LINUX
         host_name: Physical host name (Required in NONE mode, 1~255 characters, supports letters, digits, ._- and Chinese)
         ip: Physical host IP address (Effective in ACCOUNT mode, supports IPv4 and IPv6, max 127 characters)
         port: Physical host access port (Required in ACCOUNT mode, 1~65535)
@@ -2064,17 +2064,17 @@ def physical_host_create(client: DMEAPIClient, access_mode: str, type: str,
         password: Physical host access password (Required in ACCOUNT mode, 1~1024 characters)
         description: Physical host description (Optional, 0~63 characters)
         initiator: Physical host initiator list (Required in NONE mode)。参数格式如下：[{
-                protocol: Initiator type (Required). Available values: FC, ISCSI, NVME_OVER_ROCE,
+                protocol: Initiator type (Required). Options: FC, ISCSI, NVME_OVER_ROCE,
                 port_name: Host initiator wwn or iqn (Required, 1~223 characters),
              }, ...]
         azs: Availability zone ID list (Optional, max array members: 40)
         project_id: Project group ID (Optional, 1~64 characters)
-        sync_to_storage: Auto-sync host info to storage (Optional, default false). Available values: true, false
-        multipath_type: Multipath type (Optional). Available values: default, third_party
-        path_type: Initiator path type (Optional, effective with third-party multipath). Available values: optimal_path, non_optimal_path
-        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Available values: early_version_alua, common_alua, alua_not_used, special_alua
-        special_mode_type: Special mode type (Optional, effective when mode is special). Available values: mode_zero, mode_one, mode_two, mode_three
-        save_public_key: Auto-save physical host public key (Optional, default false). Available values: true, false
+        sync_to_storage: Auto-sync host info to storage (Optional, default false). Options: true, false
+        multipath_type: Multipath type (Optional). Options: default, third_party
+        path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path
+        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua
+        special_mode_type: Special mode type (Optional, effective when mode is special). Options: mode_zero, mode_one, mode_two, mode_three
+        save_public_key: Auto-save physical host public key (Optional, default false). Options: true, false
 
     Returns:
         Created physical host info
@@ -2133,7 +2133,7 @@ def physical_host_modify(client: DMEAPIClient, host_id: str,
         host_id: Physical host ID (Required)
         ip: Physical host IP address (Optional, max 127 characters, supports IPv4 and IPv6; empty = unchanged)
         host_name: Physical host name (Optional, 1~255 characters, supports letters, digits, ._-; empty = unchanged)
-        os_type: Host type (Optional). Available values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
+        os_type: Host type (Optional). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
         azs: Availability zone ID list (Optional, max array members: 40; null or empty = disassociate AZ)
         project_id: Project group ID (Optional, 0~64 characters; empty = unchanged; empty string = disassociate; non-empty and different = associate to new project)
 
@@ -2187,12 +2187,12 @@ def physical_host_modify_access_info(client: DMEAPIClient, host_id: str,
         password: Physical host access password (Optional, 1~1024 characters; required for NONE to ACCOUNT transition)
         project_id: Project group ID (Optional, 0~64 characters; empty = unchanged; empty string = disassociate; non-empty and different = associate to new project)
         azs: Availability zone ID list (Optional, max array members: 40; null or empty = disassociate AZ)
-        sync_to_storage: Sync storage host info (Optional, default false). Available values: true, false
+        sync_to_storage: Sync storage host info (Optional, default false). Options: true, false
         description: Physical host description (Optional, 0~63 characters)
-        multipath_type: Multipath type (Optional). Available values: default, third_party
-        path_type: Initiator path type (Optional, effective with third-party multipath). Available values: optimal_path, non_optimal_path
-        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Available values: early_version_alua, common_alua, alua_not_used, special_alua
-        special_mode_type: Special mode type (Optional, effective when mode is special). Available values: mode_zero, mode_one, mode_two, mode_three
+        multipath_type: Multipath type (Optional). Options: default, third_party
+        path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path
+        failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua
+        special_mode_type: Special mode type (Optional, effective when mode is special). Options: mode_zero, mode_one, mode_two, mode_three
 
     Returns:
         Modification result
@@ -2269,7 +2269,7 @@ def physical_host_add_initiators(client: DMEAPIClient, host_id: str,
         client: DME API client
         host_id: Physical host ID (Required)
         initiators: Initiator list (Required, max array members: 100)。参数格式如下：[{
-                protocol: Initiator type (Required). Available values: FC (WWPN format, 16-char hex), ISCSI, NVME_OVER_ROCE,
+                protocol: Initiator type (Required). Options: FC (WWPN format, 16-char hex), ISCSI, NVME_OVER_ROCE,
                 port_name: Host initiator wwn or iqn (Required, 1~223 characters),
              }, ...]
 
@@ -2319,8 +2319,8 @@ def physical_host_show_initiators(client: DMEAPIClient, host_id: str,
         client: DME API client
         host_id: Physical host ID (Required)
         port_name: Physical host initiator wwn or iqn (Optional, 1~223 characters)
-        protocol: Initiator type (Optional, 1~64 characters). Available values: UNKNOWN, FC, ISCSI, NVME_OVER_ROCE, SAS, NVME_OVER_FABRIC
-        status: Initiator status (Optional, 1~32 characters). Available values: UNKNOWN, ONLINE, OFFLINE, UNBOUND
+        protocol: Initiator type (Optional, 1~64 characters). Options: UNKNOWN, FC, ISCSI, NVME_OVER_ROCE, SAS, NVME_OVER_FABRIC
+        status: Initiator status (Optional, 1~32 characters). Options: UNKNOWN, ONLINE, OFFLINE, UNBOUND
 
     Returns:
         Initiator list
@@ -2490,7 +2490,7 @@ def physical_host_map_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
         mapping_policy: MappingPolicy list (Optional, max array members: 64; not needed for service LUNs)。参数格式如下：[{
                 storage_id: Storage device ID (Optional, 0~64 characters),
                 start_host_lun_id: Starting host LUN ID (Optional, 0~4095),
-                auto_zoning: Auto zone (Optional). Available values: true, false,
+                auto_zoning: Auto zone (Optional). Options: true, false,
                 zone_policy_id: Zone policy ID (Optional, 0~64 characters; effective when auto_zoning is true),
                 target_fcports: Port WWN list (Optional, mutually exclusive with target_fcportgroups, max array members: 1000; effective when auto_zoning is true),
                 target_fcportgroups: Port group ID list (Optional, mutually exclusive with target_fcports, max array members: 1000; effective when auto_zoning is true),
@@ -2607,12 +2607,12 @@ def physical_host_group_list(client: DMEAPIClient, limit: int = None, start: int
         client: DME API client
         limit: Items per page (Optional, 1~1000)
         start: Start position (Optional, 0~10000000)
-        sort_dir: Sort direction (Optional, ineffective without sort_key). Available values: desc (descending), asc (ascending)
-        sort_key: Sort key (Optional, 1~255 characters). Available values: host_count
+        sort_dir: Sort direction (Optional, ineffective without sort_key). Options: desc (descending), asc (ascending)
+        sort_key: Sort key (Optional, 1~255 characters). Options: host_count
         name: Physical host group name (Optional, 1~256 characters, supports fuzzy match)
         project_id: Project group ID (Optional, 1~64 characters)
         az_ids: Availability zone ID list (Optional, max array members: 1000; single ID 1~64 characters)
-        managed_status: Managed status list (Optional, max array members: 1000). Available values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
+        managed_status: Managed status list (Optional, max array members: 1000). Options: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
 
     Returns:
         {
@@ -2660,11 +2660,11 @@ def physical_host_group_show_hosts(client: DMEAPIClient, hostgroup_id: str,
         hostgroup_id: Physical host group ID (Required, 1~64 characters)
         name: Physical host name (Optional, 1~256 characters, supports fuzzy match)
         ip: Physical host IP (Optional, 1~256 characters, supports fuzzy match)
-        display_status: Display status list (Optional, max array members: 1000). Available values: OFFLINE, NOT_RESPONDING, GRAY, NORMAL, RED, YELLOW, REBOOTING, INITIAL, BOOTING, SHUTDOWNING
-        managed_status: Managed status list (Optional, max array members: 1000). Available values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
-        os_type: OS type list (Optional, max array members: 1000). Available values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS
-        sort_key: Sort key (Optional). Available values: ip, name
-        sort_dir: Sort direction (Optional, ineffective without sort_key). Available values: desc (descending), asc (ascending)
+        display_status: Display status list (Optional, max array members: 1000). Options: OFFLINE, NOT_RESPONDING, GRAY, NORMAL, RED, YELLOW, REBOOTING, INITIAL, BOOTING, SHUTDOWNING
+        managed_status: Managed status list (Optional, max array members: 1000). Options: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
+        os_type: OS type list (Optional, max array members: 1000). Options: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS
+        sort_key: Sort key (Optional). Options: ip, name
+        sort_dir: Sort direction (Optional, ineffective without sort_key). Options: desc (descending), asc (ascending)
         page_size: Items per page (Optional, 1~1024, default 1024)
         page_no: Page number (Optional, 1~10000000, default 1)
 
@@ -2887,7 +2887,7 @@ def physical_host_group_map_luns(client: DMEAPIClient, volume_ids: list, hostgro
         mapping_policy: MappingPolicy list (Optional)。参数格式如下：[{
                 storage_id: Storage device ID (Optional, 0~64 characters),
                 start_host_lun_id: Starting host LUN ID (Optional, 0~4095),
-                auto_zoning: Auto zone (Optional). Available values: true, false,
+                auto_zoning: Auto zone (Optional). Options: true, false,
                 zone_policy_id: Zone policy ID (Optional, 0~64 characters; effective when auto_zoning is true),
                 target_fcports: Port WWN list (Optional, mutually exclusive with target_fcportgroups, max array members: 1000; effective when auto_zoning is true),
                 target_fcportgroups: Port group ID list (Optional, mutually exclusive with target_fcports, max array members: 1000; effective when auto_zoning is true),
@@ -3041,11 +3041,11 @@ def mapping_view_query_host_to_lun(client: DMEAPIClient, storage_id: str,
         client: DME API client
         storage_id: Storage device ID (Required, string, 1~64 characters)
         name: Mapping view name, supports fuzzy search (Optional, string, 0~256 characters)
-        mapping_type: Host mapping query type (Optional, string). Available values: all (hosts with LUN mappings, direct and indirect), match_mapping_view (hosts directly mapped to LUN)
+        mapping_type: Host mapping query type (Optional, string). Options: all (hosts with LUN mappings, direct and indirect), match_mapping_view (hosts directly mapped to LUN)
         host_info: Storage host info (Optional, LunToHostQueryParam object)
         lun_info: LUN info (Optional, HostToLunQueryParam object)
-        sort_key: Sort field (Optional, string). Available values: host_name, lun_name, capacity_usage, lun_raw_id, host_raw_id
-        sort_dir: Sort direction (Optional, string). Available values: asc (ascending), desc (descending)
+        sort_key: Sort field (Optional, string). Options: host_name, lun_name, capacity_usage, lun_raw_id, host_raw_id
+        sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending)
         page_size: Items per page for mapping views (Optional, int32, 0~1000). Default: 100
         page_no: Page number for mapping views (Optional, int32). Default: 1
 

@@ -25,8 +25,8 @@ def dpc_list(client: DMEAPIClient, ids: list = None, hostname: str = None, ip: s
         ids: DPC ID list (Optional), List<string> type, max array members 100, exact match
         hostname: Compute node hostname (Optional), 1~256 characters, fuzzy search
         ip: Management IP of DPC compute node (Optional), 1~256 characters, fuzzy search
-        mgmt_status: Management status list (Optional), List<string> type, exact match. Available values: normal, abnormal, unready, subhealth, pre_registered, unknown
-        status: Service status list (Optional), List<string> type, exact match. Available values: normal, abnormal, subhealth, unknown
+        mgmt_status: Management status list (Optional), List<string> type, exact match. Options: normal, abnormal, unready, subhealth, pre_registered, unknown
+        status: Service status list (Optional), List<string> type, exact match. Options: normal, abnormal, subhealth, unknown
         sn: Hardware SN of compute node (Optional), 1~256 characters, fuzzy search
         storage_id: Storage device ID (Optional), 1~256 characters, exact match
         dpc_om_id: DPC O&M ID (Optional), 1~256 characters, exact match
