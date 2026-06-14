@@ -163,7 +163,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     创建并执行实例
     
-    创建并执行工作流实例。可以通过指定模板 id 与模板版本 id（模板版本 id 未指定时默认为最新版本）
+    创建并执行工作流实例。可以通过指定模板 id 与模板版本 id（模板版本 id default if not specified为最新版本）
     来创建实例并执行，也可以通过指定实例 id 来找到对应实例对应的模板创建实例并执行。
     
     Args:

@@ -178,7 +178,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
 def fan_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server风扇
+    Query on serverFan
     
     Args:
         client: DME API client
@@ -187,7 +187,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        风扇列表
+        Fan列表
     """
     url = "/rest/servermgmt/v1/fans/query"
     
@@ -204,7 +204,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
 def power_list(client: DMEAPIClient, server_id: str,
                      start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server电源
+    Query on serverPower supply
     
     Args:
         client: DME API client
@@ -213,7 +213,7 @@ def power_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        电源列表
+        Power supply列表
     """
     url = "/rest/servermgmt/v1/powers/query"
     
@@ -325,14 +325,14 @@ ACTIONS = {
     # subtopic actions - fan (three-level structure)
     'fan_list': {
         'func': fan_list,
-        'description': 'Query on server风扇',
+        'description': 'Query on serverFan',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
     # subtopic actions - power (three-level structure)
     'power_list': {
         'func': power_list,
-        'description': 'Query on server电源',
+        'description': 'Query on serverPower supply',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },

@@ -17,7 +17,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
                project_id: str = None, availability_zone: str = None,
                scheduler_hints: dict = None, mapping: dict = None) -> dict:
     """
-    服务化Batch create LUN
+    ServiceBatch create LUN
 
     Args:
         client: DME API client
@@ -34,7 +34,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
         project_id: Project group ID（Optional，0~64 个字符）
         availability_zone: Availability zone ID（Optional，0~64 个字符）
         scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。参数格式如下：{
-                affinity: 是否开启亲和性。Optional值：true (开启), false (不开启)。默认不开启,
+                affinity: 是否开启亲和性。Optional值：true (开启), false (disabled)。默认disabled,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64个字符),
              }
         mapping: Mapping info (Optional, ServiceVolumeMapping object, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
@@ -392,7 +392,7 @@ ACTIONS = {
     # lun 子主题
     'lun_create': {
         'func': lun_create,
-        'description': '服务化Batch create LUN',
+        'description': 'ServiceBatch create LUN',
         'params': ['volumes', 'service_level_id', 'task_remarks', 'project_id', 'availability_zone', 'scheduler_hints', 'mapping'],
         'subtopic': 'lun'
     },

@@ -22,7 +22,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
         client: DME API client
         name: Omni-Dataverse 名称，supports fuzzy search
         id: Omni-Dataverse id
-        raw_id: Omni-Dataverse 在设备侧的 id
+        raw_id: Omni-Dataverse 在device side的 id
         max_site_num: Omni-Dataverse 下数据服务站点最大count
         page_no: Page number，默认 1，范围 1~10000
         page_size: Items per page，默认 100，范围 1~1000
@@ -92,7 +92,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
 
     Args:
         client: DME API client
-        raw_id: 数据服务站点在设备侧的 id
+        raw_id: 数据服务站点在device side的 id
         site_role: 数据服务站点角色，包含 site_role 字段，取值范围：ORDINARY(普通站点)，METASTORE(元数据服务站点)
         gfs_group_id: Omni-Dataverse id
         storage_name: 根据存储名称查询数据服务站点，supports fuzzy search
@@ -335,11 +335,11 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         client: DME API client
         gfs_id: Global namespace ID (1~32个字符, Optional)
         task_name: 任务名称，supports fuzzy search (1~256个字符, Optional)
-        task_id: Data migration task在设备侧的 ID (1~256个字符, Optional)
+        task_id: Data migration task在device side的 ID (1~256个字符, Optional)
         target_storage_name: 目标站点名称 (1~256个字符, Optional)
         namespace_name: Namespace name，supports fuzzy search (1~256个字符, Optional)
         namespace_id: Namespace ID (1~32个字符, Optional)
-        namespace_raw_id: Namespace在设备侧 ID (1~256个字符, Optional)
+        namespace_raw_id: Namespace在device side ID (1~256个字符, Optional)
         local_path: Namespace下的路径，supports fuzzy search (1~256个字符, Optional, Default: "/")
         status: 任务状态列表 (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据Syncing), completed (完成), suspended (Paused), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
         task_mode: 任务模式列表 (List<string>, max array members: 2, Optional)

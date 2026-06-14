@@ -1772,7 +1772,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_hard_quota: 文件数硬配额（可选），-1 field is invalid；当文件数硬配额和文件数软配额when both valid，文件数硬配额需大于文件数软配额
         file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific 设备支持；当文件数建议配额和文件数硬配额或文件数软配额when both valid，文件数建议配额需小于文件数硬配额或文件数软配额
         snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：不统计快照空间；仅 OceanStor Pacific 设备支持
-        soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；不下发或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
+        soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；表示软配超限多长时间后自动转硬超限；not sent或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
         task_remarks: Async taskRemark
 
     Returns:
@@ -2120,9 +2120,9 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 workload_type_id: 应用类型id (可选, 1~32字符),
                 dist_alg: Filesystem目录打散策略 (可选, 仅A800设备支持)。可选值：capacity_balance, subdirectory_round_robin,
                 qos_policy: SmartQos策略参数信息 (可选)。属性格式如下：{
-                        max_bandwidth: 最大带宽MB/s (可选, 1~999999999),
+                        max_bandwidth: Max bandwidthMB/s (可选, 1~999999999),
                         max_iops: 最大iops (可选, 1~999999999),
-                        min_bandwidth: 最小带宽MB/s (可选, 1~999999999),
+                        min_bandwidth: Min bandwidthMB/s (可选, 1~999999999),
                         min_iops: 最小iops (可选, 1~999999999),
                         burst_band_width: 突发带宽MB/s (可选),
                         burst_iops: 突发IOPS (可选),
@@ -2350,7 +2350,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         initial_distribute_policy: 容量初始分配策略，auto/highest_perf/performance/capacity（可选）
         automatic_update_time: 文件被读取后是否更新访问时间，true开启/false关闭（可选）
         atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
-        quota_switch: 是否启用配额，true启用/false不启用（可选）
+        quota_switch: 是否启用配额，true启用/falsedisabled（可选）
         vaai_switch: VAAI 开关，启用后不能关闭，true启用/false未启用（可选）
         owning_controller: 归属控制器，2~16个字符（可选）
         snapshot_expired_enabled: 是否开启删除旧的只读快照，true开启/false关闭（可选）
@@ -2363,10 +2363,10 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         snapshot_dir_visible: Snapshot directory visibility，true可见/false不可见（可选）
         tuning: 调优参数 (可选)。参数格式如下：{
                 qos_policy: SmartQos策略参数信息 (UpdateFileSystemQosPolicyobject)。属性格式如下：{
-                        max_bandwidth: 最大带宽MB/s (可选, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
-                        max_iops: 最大IOPS (可选, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
-                        min_bandwidth: 最小带宽MB/s (可选, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
-                        min_iops: 最小IOPS (可选, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
+                        max_bandwidth: Max bandwidthMB/s (可选, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
+                        max_iops: Max IOPS (可选, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
+                        min_bandwidth: Min bandwidthMB/s (可选, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
+                        min_iops: Min IOPS (可选, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
                         burst_band_width: 突发带宽MB/s (可选, 1~999999999),
                         burst_iops: 突发IOPS (可选, 1~999999999),
                         burst_time: 最大突发时间second(s) (可选, 1~999999999),
@@ -2530,7 +2530,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         pool_name: Storage pool name（可选），1~256 个字符，支持fuzzy search
         storage_id: 归属Storage device ID（可选），1~255 个字符
         enable_encrypt: Enable encryption（可选），true：是；false：否
-        support_provisioning: 是否支持业务发放（可选），true：是；false：否；下发此字段可过滤不支持业务发放设备的资源，当前不支持业务发放的设备有 DataTurbo 系列
+        support_provisioning: 是否支持Service provisioning（可选），true：是；false：否；下发此字段可过滤不支持Service provisioning设备的资源，当前不支持Service provisioning的设备有 DataTurbo 系列
         gfs_id: Global namespace ID（可选），1~64 个字符
         gfs_name: 全局Namespace name（可选），1~256 个字符
         has_gfs: 是否包含所属Global namespace的Namespace（可选），true：是；false：否；has_gfs 为 false 时不支持下发 gfs_id
@@ -2649,7 +2649,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }, ...]
         enable_update_atime: 是否更新 Atime
         trash_visible: 回收站目录是否可见，默认不可见
-        trash_enable: 回收站功能是否开启，默认不开启
+        trash_enable: 回收站功能是否开启，默认disabled
         interval_trash: 回收站保护时长（minute(s)），0 表示永久保留，最大 4294967295
         dps_switch: 元数据检索开关，true 开启
         forbidden_dpc: 是否禁止 dpc 挂载
@@ -2685,7 +2685,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 package_size: 包容量GB (可选, 0~94371840; 当qos_mode为by_package时Required),
                 max_iops: IOPSupper limit (可选, 0~1073741824000; Batch createwhen namespaceRequired),
                 max_mbps: 带宽upper limitMbps (可选, 0~1073741824; 当qos_mode为manual时Required),
-                max_band_width: 最大带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+                max_band_width: Max bandwidthMbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
                 basic_band_width: 基础带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
                 bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
@@ -2702,7 +2702,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
-                        max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                        max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                 bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
@@ -2719,7 +2719,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
-                        max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                        max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                 bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
@@ -2819,7 +2819,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         enable_update_atime: 是否更新 Atime，true：更新；false：不更新
         show_snap_dir: Snapshot directory visibility，true：可见；false：不可见
         trash_visible: 回收站目录是否可见，true：可见；false：不可见，默认不可见
-        trash_enable: 回收站功能是否开启，true：开启；false：不开启，默认不开启
+        trash_enable: 回收站功能是否开启，true：开启；false：disabled，默认disabled
         interval_trash: 回收站保护时长（minute(s)），0 表示永久保留，不自动删除，最大 4294967295
         dps_switch: 元数据检索开关，true：开启；false：关闭
         forbidden_dpc: 是否禁止 dpc 挂载，true：禁止；false：不禁止
@@ -2840,7 +2840,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 package_size: 包容量GB (可选, 0~94371840; 当qos_mode为by_package时Required),
                 max_iops: IOPSupper limit (条件Required, 0~1073741824000),
                 max_mbps: 带宽upper limitMbps (可选, 0~1073741824; 当qos_mode为manual时Required),
-                max_band_width: 最大带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+                max_band_width: Max bandwidthMbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
                 basic_band_width: 基础带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
                 bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
@@ -2858,7 +2858,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
-                        max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                        max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                 bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),
@@ -2876,7 +2876,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit（条件Required），0~1073741824000，Batch createwhen namespaceRequired, non- when modifyingRequired,
                         max_mbps: 带宽upper limit（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时Required,
-                        max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
+                        max_band_width: Max bandwidth（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时Required,
                 bps_density: 带宽密度Mbps (可选, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (可选),

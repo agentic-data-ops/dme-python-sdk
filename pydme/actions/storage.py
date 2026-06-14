@@ -502,7 +502,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 charge_times: 放电次数 (int64),
                 firmware_version: 固件版本号 (1~255 characters),
                 manufactured_date: 出厂日期 (1~255 characters),
-                enclosure_id: 所属机框在Storage device上ID (1~255 characters),
+                enclosure_id: 所属Enclosure在Storage device上ID (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
                 zone_id: 所属Zone ID (1~255 characters)，仅OceanStor A800series storage only,
                 zone_ip: 所属Zone IP地址 (1~255 characters)，仅OceanStor A800series storage only,
@@ -562,7 +562,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
              location: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query storage device风扇信息
+    query storage deviceFan信息
 
     Args:
         client: DME API client
@@ -570,7 +570,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
         health_status: Health status(Optional). Options：unknown (未知), normal (正常), faulty (故障)
         running_status: 运行状态(Optional). Options：unknown (未知), normal (正常), running (运行), not_running (未运行), spin_down (休眠), online (在线), offline (离线)
         run_level: 运行档位(Optional). Options：low (低), normal (正常), high (高)
-        enclosure_name: 所属机框Name (Optional,1~256 characters），supports fuzzy match
+        enclosure_name: 所属EnclosureName (Optional,1~256 characters），supports fuzzy match
         location: 位置（可选，1~256 characters），supports fuzzy match
         zone_id: 所属Zone ID（可选，1~255 characters），仅OceanStor A800series storage only
         page_no: Page number（可选，1~2147483647，默认 1）
@@ -578,14 +578,14 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
 
     Returns:
         {
-            total: 风扇count (integer),
+            total: Fancount (integer),
             fans: Fan list (List<StorageFanInfo>)。参数格式如下：[{
                 name: 名称 (1~128 characters),
                 location: 位置 (1~256 characters),
                 health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障),
                 running_status: Running status. Options：unknown (未知), normal (正常), running (运行), not_running (未运行), spin_down (休眠), online (在线), offline (离线),
                 run_level: 运行档位。可选值：low (低), normal (正常), high (高),
-                enclosure_id: 所属机框在Storage device上ID (1~255 characters),
+                enclosure_id: 所属Enclosure在Storage device上ID (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
                 zone_id: 所属Zone ID (1~255 characters)，仅OceanStor A800series storage only,
                 zone_ip: 所属Zone IP地址 (1~255 characters)，仅OceanStor A800series storage only,
@@ -639,7 +639,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         storage_id: Storage device ID (1~36个字符, 满足uuid格式)。
         ids: Port ID列表 (可选, List<string>, max array members: 100, min array members: 0)。
         name: 硬盘名称 (可选, 1~256 characters)。
-        slot_number: 槽位号，位置 (可选, 1~256 characters)。supports fuzzy search。
+        slot_number: Slot number，位置 (可选, 1~256 characters)。supports fuzzy search。
         bom_id: BOM ID (可选, 1~256 characters)。
         health_status: Health status (Optional)。可选值：unknown (未知), normal (正常), fault (故障), pre_fail (即将故障), degraded (降级), single_link (单链路), no_redundant_link (无冗余链路), subhealthy (亚健康), offline (离线)。
         physical_type: Disk type (可选)。可选值：unknown (未知), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
@@ -657,7 +657,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         node_name: 所属节点名称 (可选, 1~256 characters)。
         virtual_disk: 虚拟盘 (可选)。可选值：true, false。
         status: Running status (Optional)。可选值：unknown (未知), normal (正常), abnormal (故障), online (在线), offline (离线)。
-        enclosure_name: 风扇Storage device的机框名称 (可选, 1~255 characters)。supports fuzzy search。
+        enclosure_name: FanStorage device的Enclosure名称 (可选, 1~255 characters)。supports fuzzy search。
         zone_id: Storage device的Zone id (可选, 1~255 characters)。仅OceanStor A800存储支持。
         sort_key: Sort field (Optional)。可选值：capacity (Total capacity), speed (转速), remainLife (剩余寿命), name (硬盘名称), management_ip (管理设备ip地址), slot_number (位置)。
         sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending)。
@@ -904,7 +904,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         ids: 节点ID列表（可选，List<string>，max array members：100）
         mgmt_ip: 节点管理IP地址（可选，1~256 characters），supports fuzzy search（case-insensitive）
         frame_number: 机柜/机架号（可选，1~256 characters），supports fuzzy search（case-insensitive）
-        slot_number: 槽位/机架内槽位号（可选，1~256 characters），supports fuzzy search（case-insensitive）
+        slot_number: 槽位/机架内Slot number（可选，1~256 characters），supports fuzzy search（case-insensitive）
         status: 节点状态(Optional). Options：UNKNOWN (未知), NORMAL (正常), FAULT (故障), PRE_FAIL (即将故障), PARTIALLY_DAMAGED (部分损坏), DEGRADED (降级), BAD_SECTORS_FOUND (有坏块), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT (不一致), BUSY (繁忙), NO_INPUT (无输入), LOW_BATTERY (电量不足), SINGLE_LINK_FAULT (单链路故障)
         roles: 节点Role list（可选，List<string>，max array members：10). Options：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算)
         page_no: Page number（可选，1~10000，默认 1）
@@ -923,7 +923,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 status: 节点状态 (1~255 characters)。可选值：UNKNOWN (未知), NORMAL (正常), FAULT (故障), PARTIALLY_DAMAGED (部分损坏),
                 node_model: 节点型号 (1~255 characters)。例如：DataTurbo，OceanStor Pacific，RH5288 V3,
                 frame_number: 机柜/机架号 (1~255 characters),
-                slot_number: 槽位/机架内槽位号 (1~255 characters),
+                slot_number: 槽位/机架内Slot number (1~255 characters),
                 roles: 节点Role list (List<string>)。可选值：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算),
                 node_sn: 序列号信息 (1~255 characters),
                 storage_id: Storage deviceid (1~64 characters),
@@ -974,40 +974,40 @@ def psu_list(client: DMEAPIClient, storage_id: str,
              enclosure_name: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询Storage device电源详情信息，仅支持OceanStor A800存储。
+    查询Storage devicePower supply详情信息，仅支持OceanStor A800存储。
 
     Args:
         client: DME API client
         storage_id: Storage deviceID（Required，1~64 characters）
         health_status: Health status(Optional). Options：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入)
         running_status: 运行状态(Optional). Options：unknown (未知), normal (正常), running (运行), online (在线), offline (离线)
-        power_type: 电源类型(Optional). Options：dc (直流电源), ac (交流电源), hv (高压直流电源)
-        power_mode: 电源模式(Optional). Options：balanced_power (均衡电源), active_power (主电源), standby_power (备电源)
+        power_type: Power supply类型(Optional). Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply)
+        power_mode: Power supply模式(Optional). Options：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply)
         location: 位置（可选，1~256 characters），supports fuzzy match
         model: 型号（可选，1~256 characters），supports fuzzy match
         sn: 序列号（可选，1~256 characters），supports fuzzy match
-        enclosure_name: 所属机框Name (Optional,1~256 characters），supports fuzzy match
+        enclosure_name: 所属EnclosureName (Optional,1~256 characters），supports fuzzy match
         zone_id: 所属Zone ID（可选，1~64 characters），仅OceanStor A800series storage only
         page_no: Page number（可选，1~2147483647，默认 1）
         page_size: Page size（可选，1~1000，默认 20）
 
     Returns:
         {
-            total: 电源的count (int32),
+            total: Power supply的count (int32),
             storage_powers: Power list (List<StoragePowerInfo>)。参数格式如下：[{
                 name: 名称 (1~255 characters),
                 location: 位置 (1~255 characters),
                 health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入),
                 running_status: Running status. Options：unknown (未知), normal (正常), running (运行), online (在线), offline (离线),
-                power_type: 电源类型。可选值：dc (直流电源), ac (交流电源), hv (高压直流电源),
+                power_type: Power supply类型。可选值：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply),
                 model: 型号 (1~255 characters),
                 sn: 序列号 (1~255 characters),
                 manufacturer: 生产厂商 (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
                 production_date: 生产日期 (1~255 characters),
                 version: 版本 (1~255 characters),
-                bom_code: 电源模块BOM编码 (1~255 characters),
-                power_mode: 电源模式。可选值：balanced_power (均衡电源), active_power (主电源), standby_power (备电源),
+                bom_code: Power supply模块BOM编码 (1~255 characters),
+                power_mode: Power supply模式。可选值：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply),
                 zone_name: 所属Zone名称 (1~255 characters)，仅OceanStor A800series storage only,
                 zone_id: 所属Zone ID (1~255 characters)，仅OceanStor A800series storage only,
                 zone_ip: 所属Zone IP地址 (1~255 characters)，仅OceanStor A800series storage only,
@@ -1319,23 +1319,23 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         zone_name: 所属ZoneName (Optional,1~255 characters），仅OceanStor A800series storage only，supports fuzzy match
         zone_id: 所属Zone ID列表（可选，List<string>，max array members：100），仅OceanStor A800series storage only
         running_status: 运行状态列表（可选，List<string>，max array members：7). Options：unknown (未知), normal (正常), running (运行), sleep_in_high_temperature (高温休眠), online (在线), offline (离线)
-        power_mode: 电源模式列表（可选，List<string>，max array members：2). Options：load_balance (负载均衡模式), active_standby_power (主备供电模式)
-        esn: 机框序列号（可选，1~256 characters），supports fuzzy match
+        power_mode: Power supply模式列表（可选，List<string>，max array members：2). Options：load_balance (负载均衡模式), active_standby_power (主备供电模式)
+        esn: Enclosure序列号（可选，1~256 characters），supports fuzzy match
         mac: MAC地址（可选，1~256 characters），supports fuzzy match
         sort_key: Sort field(Optional). Options：temperature (温度)
         sort_dir: Sort direction(Optional). Options：asc (升序), desc (降序)。默认按升序返回
 
     Returns:
         {
-            total: 机框count (integer),
+            total: Enclosurecount (integer),
             data: Enclosure list (List<EnclosureItem>)。参数格式如下：[{
-                    id: 机框ID (1~64 characters),
-                    raw_id: 机框在Storage device上ID (1~64 characters),
+                    id: EnclosureID (1~64 characters),
+                    raw_id: Enclosure在Storage device上ID (1~64 characters),
                     name: 名称 (1~256 characters),
-                    model: 型号 (1~32个字符)。可选值：0 (BMC控制框), 1 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 2 (2U 双控 6Gbit/s SAS 24盘位 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12盘位 3.5inch disk enclosure), 17 (2U SAS 24盘级联框), 18 (4U 6Gbit/s SAS 24盘位 3.5inch disk enclosure), 19 (4U FC 24盘级联框), 20 (1U PCIe数据交换机), 21 (4U 6Gbit/s SAS 75盘位 3.5inch disk enclosure), 22 (SVP), 23 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 24 (2U 6Gbit/s SAS 25盘位 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24盘位 3.5inch disk enclosure), 26 (2U 双控 6Gbit/s SAS 25盘位 2.5inch controller enclosure), 37 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 38 (2U 双控 6Gbit/s SAS 25盘位 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75盘位 3.5inch disk enclosure), 40 (2U 双控 12Gbit/s SAS 25盘位 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25盘位 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24盘位 3.5inch disk enclosure), 67 (2U SAS 25盘位 2.5inch disk enclosure), 69 (4U SAS 24盘位 3.5inch disk enclosure), 96 (3U 双控控制框), 97 (6U 四控控制框), 98 (2U SSD 25盘级联框), 99 (2U 双控 12Gbit/s NVMe 25盘位 2.5inch controller enclosure), 101 (2U SSD NVMe 25盘位 2.5inch disk enclosure), 112 (4U 四控控制框), 113 (2U 双控 SAS 25盘位 2.5inch controller enclosure), 114 (2U 双控 SAS 12盘位 3.5inch controller enclosure), 115 (2U 双控 NVMe 36盘位控制框), 116 (2U 双控 SAS 25盘位 2.5inch controller enclosure), 117 (2U 双控 SAS 12盘位 3.5inch controller enclosure), 118 (2U SAS 25盘位 2.5英寸智能硬盘框), 119 (2U SAS 12盘位 3.5英寸智能硬盘框), 120 (2U NVMe 36盘位智能硬盘框), 122 (2U 双控 NVMe 25盘位 2.5inch controller enclosure), 132 (4U 双控 4盘位2.5英寸 6盘位3.5英寸 控制框), 133 (4U 双控 NVMe 12盘位 2.5英寸 控制框), 135 (4U 双控 10盘位 2.5inch controller enclosure), 143 (8U NVME 双控 64盘位 2.5英寸 控制框),
+                    model: 型号 (1~32个字符)。可选值：0 (BMCController enclosure), 1 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 2 (2U 双控 6Gbit/s SAS 24盘位 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12盘位 3.5inch disk enclosure), 17 (2U SAS 24盘级联框), 18 (4U 6Gbit/s SAS 24盘位 3.5inch disk enclosure), 19 (4U FC 24盘级联框), 20 (1U PCIe数据交换机), 21 (4U 6Gbit/s SAS 75盘位 3.5inch disk enclosure), 22 (SVP), 23 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 24 (2U 6Gbit/s SAS 25盘位 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24盘位 3.5inch disk enclosure), 26 (2U 双控 6Gbit/s SAS 25盘位 2.5inch controller enclosure), 37 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 38 (2U 双控 6Gbit/s SAS 25盘位 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75盘位 3.5inch disk enclosure), 40 (2U 双控 12Gbit/s SAS 25盘位 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25盘位 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24盘位 3.5inch disk enclosure), 67 (2U SAS 25盘位 2.5inch disk enclosure), 69 (4U SAS 24盘位 3.5inch disk enclosure), 96 (3U 双控Controller enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25盘级联框), 99 (2U 双控 12Gbit/s NVMe 25盘位 2.5inch controller enclosure), 101 (2U SSD NVMe 25盘位 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U 双控 SAS 25盘位 2.5inch controller enclosure), 114 (2U 双控 SAS 12盘位 3.5inch controller enclosure), 115 (2U 双控 NVMe 36盘位Controller enclosure), 116 (2U 双控 SAS 25盘位 2.5inch controller enclosure), 117 (2U 双控 SAS 12盘位 3.5inch controller enclosure), 118 (2U SAS 25盘位 2.5英寸智能Disk enclosure), 119 (2U SAS 12盘位 3.5英寸智能Disk enclosure), 120 (2U NVMe 36盘位智能Disk enclosure), 122 (2U 双控 NVMe 25盘位 2.5inch controller enclosure), 132 (4U 双控 4盘位2.5英寸 6盘位3.5英寸 Controller enclosure), 133 (4U 双控 NVMe 12盘位 2.5英寸 Controller enclosure), 135 (4U 双控 10盘位 2.5inch controller enclosure), 143 (8U NVME 双控 64盘位 2.5英寸 Controller enclosure),
                     height: 高度，单位U (integer),
-                    location: 机框的位置 (1~128 characters),
-                    logic_type: 类型。可选值：disk_enclosure (硬盘框), controller_enclosure (控制框), data_switch (数据交换机), management_switch (管理交换机), management_server (管理服务器),
+                    location: Enclosure的位置 (1~128 characters),
+                    logic_type: 类型。可选值：disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch (数据交换机), management_switch (管理交换机), management_server (管理服务器),
                     health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障),
                     running_status: Running status. Options：unknown (未知), normal (正常), running (运行), sleep_in_high_temperature (高温休眠), online (在线), offline (离线), abnormal (异常),
                     storage_id: Storage deviceID (1~64 characters),
@@ -1346,9 +1346,9 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     zone_name: 所属Zone名称 (0~512个字符)，仅OceanStor A800series storage only,
                     zone_ip: 所属Zone IP地址 (1~128 characters)，仅OceanStor A800series storage only,
                     zone_id: 所属Zone ID (0~512个字符)，仅OceanStor A800存储支持,
-                    esn: 机框序列号 (0~512个字符),
+                    esn: Enclosure序列号 (0~512个字符),
                     mac: MAC地址 (0~512个字符),
-                    power_mode: 电源模式。可选值：load_balance (负载均衡模式), active_standby_power (主备供电模式),
+                    power_mode: Power supply模式。可选值：load_balance (负载均衡模式), active_standby_power (主备供电模式),
                     bar_code: 条形码 (0~256个字符),
                     board_type: 单板类型 (0~128个字符),
                     description: 描述 (0~1024个字符),
@@ -1867,7 +1867,7 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         client: DME API client
         storage_id: Storage device ID（Required）
         name: QoS 策略Name (Optional,1~256 字符）
-        raw_id: QoS 策略设备侧 ID（可选）
+        raw_id: QoS 策略device side ID（可选）
         enable_status: 激活状态（可选，true/false）
         running_status: 运行状态（可选，running/inactive/waiting）
         zone_id: 所属 ZONE 的 ID（可选）
@@ -1966,8 +1966,8 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         vstore_id: Tenant ID（可选，resource_type 为 file_system 时Required）
         enable_status: 激活状态（可选，enable/disable，默认 enable）
         io_policy_type: IO 策略类型（可选，total_perf_upper_limit/read_or_write_upper_limit）
-        min_bandwidth: 最小带宽 MB/s（可选）
-        max_bandwidth: 最大带宽 MB/s（可选）
+        min_bandwidth: Min bandwidth MB/s（可选）
+        max_bandwidth: Max bandwidth MB/s（可选）
         burst_bandwidth: 突发带宽 MB/s（可选，需大于 max_bandwidth）
         min_iops: 最小 IOPS（可选）
         max_iops: 最大 IOPS（可选）
@@ -2102,8 +2102,8 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         name: QoS 策略名称（可选）
         description: 描述（可选）
         io_policy_type: IO 策略类型（可选）
-        min_bandwidth: 最小带宽 MB/s（可选）
-        max_bandwidth: 最大带宽 MB/s（可选）
+        min_bandwidth: Min bandwidth MB/s（可选）
+        max_bandwidth: Max bandwidth MB/s（可选）
         burst_bandwidth: 突发带宽 MB/s（可选）
         min_iops: 最小 IOPS（可选）
         max_iops: 最大 IOPS（可选）
@@ -3228,7 +3228,7 @@ ACTIONS = {
     },
     'fan_list': {
         'func': fan_list,
-        'description': 'query storage device风扇信息',
+        'description': 'query storage deviceFan信息',
         'params': ['storage_id', 'health_status', 'running_status', 'run_level',
                    'enclosure_name', 'location', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
@@ -3261,7 +3261,7 @@ ACTIONS = {
     },
     'psu_list': {
         'func': psu_list,
-        'description': '获取Storage device电源（PSU）列表',
+        'description': '获取Storage devicePower supply（PSU）列表',
         'params': ['storage_id', 'health_status', 'running_status', 'power_type',
                    'power_mode', 'location', 'model', 'sn', 'enclosure_name',
                    'zone_id', 'page_no', 'page_size'],
