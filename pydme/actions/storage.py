@@ -144,7 +144,7 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         description: 租户描述（可选，0~255 个字符）
         nas_capacity_quota_alarm_switch: NAS 容量配额告警开关（可选，仅 A800 设备支持）
         nas_capacity_quota_alarm_threshold: NAS 容量配额告警阈值（可选，仅 A800 设备支持）
-        associate_pool_ids: 关联存储池 ID 列表（可选，仅 A 系列设备支持）
+        associate_pool_ids: Related storage池 ID 列表（可选，仅 A 系列设备支持）
 
     Returns:
         {

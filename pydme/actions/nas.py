@@ -2387,7 +2387,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         alarm_switch: 限高告警开关 (可选)。可选值：off, on,
                         alarm_level: 限高Alarm severity (可选)。可选值：event (事件), alarm (告警),
                         alarm_threshold: 限高告警阈值% (可选, 0~100),
-                        resume_threshold: 限高告警恢复阈值% (可选, 0~100),
+                        resume_threshold: 限高Alarm recovery阈值% (可选, 0~100),
                         storage_divice_id: 所属Storage device ID (可选, 1~64字符),
                         name: QoS名称 (可选, 1~255字符; A800下未使用),
                         description: QoS描述 (可选, 1~255字符; A800下未使用),
