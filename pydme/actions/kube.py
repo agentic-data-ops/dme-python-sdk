@@ -1,5 +1,5 @@
 """
-Kubernetes 相关操作
+Kubernetes operations
 """
 
 import sys
@@ -236,7 +236,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
     # 集群管理
     'cluster_list': {

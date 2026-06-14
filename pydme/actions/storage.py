@@ -1,5 +1,5 @@
 """
-存储设备 (Storage) 相关操作
+存储设备 (Storage) operations
 """
 
 import sys
@@ -497,7 +497,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
             backup_powers: BBU list (List<StorageBackupPowerInfo>)。参数格式如下：[{
                 name: 名称 (1~255 characters),
                 location: 位置 (1~255 characters),
-                health_status: 健康状态。可选值：unknown (未知), normal (正常), faulty (故障), about_to_fail (即将故障), low_battery (电量不足),
+                health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障), about_to_fail (即将故障), low_battery (电量不足),
                 running_status: 运行状态。可选值：unknown (未知), normal (正常), running (运行), online (在线), offline (离线), charging (正在充电), charging_completed (充电完成), discharging (正在放电),
                 charge_times: 放电次数 (int64),
                 firmware_version: 固件版本号 (1~255 characters),
@@ -567,7 +567,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
     Args:
         client: DME API client
         storage_id: Storage deviceID（可选，1~64 characters）
-        health_status: 健康状态（可选）。可选值：unknown (未知), normal (正常), faulty (故障)
+        health_status: Health status（可选）。可选值：unknown (未知), normal (正常), faulty (故障)
         running_status: 运行状态（可选）。可选值：unknown (未知), normal (正常), running (运行), not_running (未运行), spin_down (休眠), online (在线), offline (离线)
         run_level: 运行档位（可选）。可选值：low (低), normal (正常), high (高)
         enclosure_name: 所属机框名称（可选，1~256 characters），supports fuzzy match
@@ -582,7 +582,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
             fans: Fan list (List<StorageFanInfo>)。参数格式如下：[{
                 name: 名称 (1~128 characters),
                 location: 位置 (1~256 characters),
-                health_status: 健康状态。可选值：unknown (未知), normal (正常), faulty (故障),
+                health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障),
                 running_status: 运行状态。可选值：unknown (未知), normal (正常), running (运行), not_running (未运行), spin_down (休眠), online (在线), offline (离线),
                 run_level: 运行档位。可选值：low (低), normal (正常), high (高),
                 enclosure_id: 所属机框在存储设备上ID (1~255 characters),
@@ -670,7 +670,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
             disks: Disk list (List<DiskInfo>)。参数格式如下：[{
                 id: 硬盘ID (string),
                 name: 硬盘名称 (string),
-                health_status: 健康状态 (string),
+                health_status: Health status (string),
                 physical_type: 硬盘类型 (string),
                 capacity: Total capacity (integer),
                 sn: 硬盘序列号 (string),
@@ -770,7 +770,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 subscribed_capacity: 总订阅容量，单位MB (number)，仅闪存存储、分布式设备支持,
                 lun_subscribed_capacity: LUN的订阅容量，单位MB (number)，仅闪存存储支持,
                 filesystem_subscribed_capacity: 文件系统总订阅容量，单位MB (number)，仅OceanStor Dorado V6存储6.1.0及以上版本支持,
-                health_status: 健康状态。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知)。仅闪存存储及第三方存储支持,
+                health_status: Health status。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知)。仅闪存存储及第三方存储支持,
                 running_status: 运行状态。可选值：pre-copy (预拷贝), rebuilt (重构), online (在线), offline (离线), balancing (正在均衡), initializing (初始化中), deleting (删除中), unknown (未知)。仅闪存存储支持,
                 pool_status: 存储池状态。可选值：normal (正常), fault (故障), write-protect (写保护), stopped (停止), fault-and-write-protect (故障且写保护), migrating-data (数据迁移), degraded (降级), rebuilding-data (数据重构), migrating-services (服务迁移), all-copies-failed (全副本故障), all-copies-failed-and-write-protect (全副本故障且写保护), deleting (删除中), deletion-failed (删除失败), unknown (未知)。仅分布式存储支持,
                 disk_types: 硬盘类型列表 (List<string>)，仅闪存存储支持,
@@ -826,7 +826,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
         raw_id: 存储池在存储设备上的ID（可选，1~64 characters），支持精确搜索
         name: HyperScaleStorage pool name（可选，1~256 characters），supports fuzzy search
         local_pool_id: HyperScale存储池下本地Storage pool ID（可选，0~64 characters），支持过滤指定本地存储池关联的HyperScale存储池
-        health_status: 健康状态（可选）。可选值：normal (正常), faulty (故障), degraded (降级)
+        health_status: Health status（可选）。可选值：normal (正常), faulty (故障), degraded (降级)
         running_status: 运行状态（可选）。可选值：pre_copy (预拷贝), rebuilding (重构), online (在线), offline (离线), balancing (正在均衡), initializing (初始化中), deleting (删除中)
         storage_id: Storage device ID（可选，0~64 characters）
         description: HyperScale存储池描述（可选，0~256个字符）
@@ -846,7 +846,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
                 storage_id: Storage device ID (1~64 characters),
                 storage_ip: Storage device IP (1~255 characters),
                 storage_name: Storage device name (1~127个字符),
-                health_status: 健康状态。可选值：normal (正常), faulty (故障), degraded (降级),
+                health_status: Health status。可选值：normal (正常), faulty (故障), degraded (降级),
                 running_status: 运行状态。可选值：pre_copy (预拷贝), rebuilding (重构), online (在线), offline (离线), balancing (正在均衡), initializing (初始化中), deleting (删除中),
                 total_capacity: Total capacity，单位MB (number),
                 consumed_capacity: Used capacity，单位MB (number),
@@ -979,7 +979,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     Args:
         client: DME API client
         storage_id: Storage deviceID（必选，1~64 characters）
-        health_status: 健康状态（可选）。可选值：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入)
+        health_status: Health status（可选）。可选值：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入)
         running_status: 运行状态（可选）。可选值：unknown (未知), normal (正常), running (运行), online (在线), offline (离线)
         power_type: 电源类型（可选）。可选值：dc (直流电源), ac (交流电源), hv (高压直流电源)
         power_mode: 电源模式（可选）。可选值：balanced_power (均衡电源), active_power (主电源), standby_power (备电源)
@@ -997,7 +997,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
             storage_powers: Power list (List<StoragePowerInfo>)。参数格式如下：[{
                 name: 名称 (1~255 characters),
                 location: 位置 (1~255 characters),
-                health_status: 健康状态。可选值：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入),
+                health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入),
                 running_status: 运行状态。可选值：unknown (未知), normal (正常), running (运行), online (在线), offline (离线),
                 power_type: 电源类型。可选值：dc (直流电源), ac (交流电源), hv (高压直流电源),
                 model: 型号 (1~255 characters),
@@ -1242,7 +1242,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
                     raw_id: 硬盘域在设备上的id (1~64 characters),
                     name: 硬盘域名称 (1~128 characters),
                     running_status: 运行状态。可选值：online (在线), offline (离线), pre_copy (预拷贝), reconstruction (重构), balancing (正在均衡), initializing (初始化中), deleting (删除中), unknown (未知),
-                    health_status: 健康状态。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知),
+                    health_status: Health status。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知),
                     total_capacity: 总可用裸容量，单位MB (number),
                     spare_capacity: 总热备裸容量，单位MB (number),
                     used_capacity: 已分配裸容量，单位MB (number),
@@ -1315,7 +1315,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         storage_id: Storage deviceID（可选，1~64 characters）
         name: 名称（可选，1~256 characters），supports fuzzy match
         location: 位置（可选，1~256 characters），supports fuzzy match
-        health_status: 健康状态列表（可选，List<string>，数组最大成员个数：3）。可选值：unknown (未知), normal (正常), faulty (故障)
+        health_status: Health status列表（可选，List<string>，数组最大成员个数：3）。可选值：unknown (未知), normal (正常), faulty (故障)
         zone_name: 所属Zone名称（可选，1~255 characters），仅OceanStor A800系列存储支持，supports fuzzy match
         zone_id: 所属Zone ID列表（可选，List<string>，数组最大成员个数：100），仅OceanStor A800系列存储支持
         running_status: 运行状态列表（可选，List<string>，数组最大成员个数：7）。可选值：unknown (未知), normal (正常), running (运行), sleep_in_high_temperature (高温休眠), online (在线), offline (离线)
@@ -1336,7 +1336,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     height: 高度，单位U (integer),
                     location: 机框的位置 (1~128 characters),
                     logic_type: 类型。可选值：disk_enclosure (硬盘框), controller_enclosure (控制框), data_switch (数据交换机), management_switch (管理交换机), management_server (管理服务器),
-                    health_status: 健康状态。可选值：unknown (未知), normal (正常), faulty (故障),
+                    health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障),
                     running_status: 运行状态。可选值：unknown (未知), normal (正常), running (运行), sleep_in_high_temperature (高温休眠), online (在线), offline (离线), abnormal (异常),
                     storage_id: Storage deviceID (1~64 characters),
                     storage_name: Storage device名称 (1~128 characters),
@@ -1524,7 +1524,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
     return response
 
 
-# ============ 认证用户 (account) 子主题函数 ============
+# ============ 认证用户 (account) subtopic functions ============
 
 
 def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
@@ -1849,7 +1849,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
     return response
 
 
-# ============ QoS 子主题函数 ============
+# ============ QoS subtopic functions ============
 
 
 def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
@@ -2301,7 +2301,7 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
     return response
 
 
-# ============ 存储逻辑端口 (logic_port) 子主题函数 ============
+# ============ 存储逻辑端口 (logic_port) subtopic functions ============
 
 
 def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id: str = None,
@@ -2340,7 +2340,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 home_controller_raw_id: 存储设备上主控制器的ID (1~256 characters),
                 current_port_raw_id: 逻辑端口所在当前物理端口在存储设备上的ID (1~255 characters),
                 current_port_name: 逻辑端口所在当前物理端口名称 (1~255 characters),
-                role: 端口角色 (1~10个字符)。可选值：0 (未知), 1 (管理), 2 (数据), 3 (管理+数据), 4 (复制), 6 (当前无意义), 7 (当前无意义), 8 (客户端), 9 (VTEP), 10 (健康检查), 11 (数据备份), 12 (系统管理), 100 (集群), 101 (集群间),
+                role: 端口角色 (1~10个字符)。可选值：0 (未知), 1 (管理), 2 (数据), 3 (管理+数据), 4 (复制), 6 (当前无意义), 7 (当前无意义), 8 (客户端), 9 (VTEP), 10 (Health check), 11 (数据备份), 12 (系统管理), 100 (集群), 101 (集群间),
                 ddns_status: 动态DNS开启状态。可选值：INVALID (无效的), ENABLE (启用), DISABLED (未启用),
                 failover_group_raw_id: 漂移组在存储设备上的ID (1~255 characters),
                 failover_group_name: 漂移组名称 (1~255 characters),
@@ -2419,7 +2419,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             home_controller_raw_id: 存储设备上主控制器的ID (1~256 characters),
             current_port_raw_id: 逻辑端口所在当前物理端口在存储设备上的ID (1~255 characters),
             current_port_name: 逻辑端口所在当前物理端口名称 (1~255 characters),
-            role: 端口角色 (1~10个字符)。可选值：0 (未知), 1 (管理), 2 (数据), 3 (管理+数据), 4 (复制), 6 (当前无意义), 7 (当前无意义), 8 (客户端), 9 (VTEP), 10 (健康检查), 11 (数据备份), 12 (系统管理), 100 (集群), 101 (集群间),
+            role: 端口角色 (1~10个字符)。可选值：0 (未知), 1 (管理), 2 (数据), 3 (管理+数据), 4 (复制), 6 (当前无意义), 7 (当前无意义), 8 (客户端), 9 (VTEP), 10 (Health check), 11 (数据备份), 12 (系统管理), 100 (集群), 101 (集群间),
             ddns_status: 动态DNS开启状态。可选值：INVALID (无效的), ENABLE (启用), DISABLED (未启用),
             failover_group_raw_id: 漂移组在存储设备上的ID (1~255 characters),
             failover_group_name: 漂移组名称 (1~255 characters),
@@ -2489,7 +2489,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         home_controller_id: 控制器ID（可选，1~64 characters）。角色为HEALTH_CHECK时，该字段必须配置
         failover_group_raw_id: 漂移组在存储设备上的ID（可选，最多64个字符）。数据访问协议为KB_OVER_TCP时，该字段必须配置
         vstore_raw_id: 逻辑端口所属vStore在设备上分配的id（可选，最多64个字符）。角色为CLIENT时，不支持下发此字段
-        role: 逻辑端口角色（可选，默认 DATA）。可选值：MANAGEMENT (管理), DATA (数据), VTEP (VTEP), HEALTH_CHECK (健康检查), MANAGEMENT_AND_DATA (管理+数据), CLIENT (客户端)
+        role: 逻辑端口角色（可选，默认 DATA）。可选值：MANAGEMENT (管理), DATA (数据), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (管理+数据), CLIENT (客户端)
         dns_zone_name: DNS Zone名称（可选，最多255个字符）。角色为CLIENT或数据访问协议为KB_OVER_TCP时，不支持下发此字段
         listen_dns_query_enabled: 是否侦听DNS查询请求（可选，正则 NO|YES）。可选值：NO (关闭), YES (打开)。角色为CLIENT或数据访问协议为KB_OVER_TCP时，不支持下发此字段
         can_failover: 是否启用IP地址漂移（可选，boolean）。可选值：true, false。数据访问协议为KB_OVER_TCP时，不支持下发此字段
@@ -2682,7 +2682,7 @@ def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
     return response
 
 
-# ============ 存储端口 (port) 子主题函数 ============
+# ============ 存储端口 (port) subtopic functions ============
 
 
 def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = None,
@@ -2857,10 +2857,10 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     return response
 
 
-# ============ 存储端口组 (port_group) 子主题函数 ============
+# ============ 存储端口组 (port_group) subtopic functions ============
 
 
-# ============ 存储 VLAN 子主题函数 ============
+# ============ 存储 VLAN subtopic functions ============
 
 
 def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
@@ -2981,7 +2981,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     return response
 
 
-# ============ 存储漂移组 (failover_group) 子主题函数 ============
+# ============ 存储漂移组 (failover_group) subtopic functions ============
 
 
 def failover_group_list(client: DMEAPIClient, storage_id: str,
@@ -3104,7 +3104,7 @@ def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> d
     return response
 
 
-# ============ Zone (OceanStor A800 集群 zone) 子主题函数 ============
+# ============ Zone (OceanStor A800 集群 zone) subtopic functions ============
 
 
 def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
@@ -3171,7 +3171,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # 格式：action_key: {func, description, params, subtopic}
 # subtopic 表示该动作属于哪个子主题，None 表示直接动作
 

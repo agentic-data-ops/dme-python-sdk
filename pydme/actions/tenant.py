@@ -1,5 +1,5 @@
 """
-租户自助服务 (Self Service) 相关操作
+租户自助服务 (Self Service) operations
 
 租户自助服务用于管理服务等级和业务群组。
 """
@@ -9,7 +9,7 @@ import os
 
 from pydme.client import DMEAPIClient
 
-# ============ lun 子主题函数 ============
+# ============ lun subtopic functions ============
 
 
 def lun_create(client: DMEAPIClient, volumes: list,
@@ -83,7 +83,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }（异步任务）
+        }（Async task）
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
@@ -113,7 +113,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }（异步任务）
+        }（Async task）
     """
     url = "/rest/blockservice/v1/volumes/add-to-service-level"
 
@@ -140,7 +140,7 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }（异步任务）
+        }（Async task）
     """
     url = "/rest/blockservice/v1/volumes/remove-service-level"
 
@@ -202,7 +202,7 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
     return response
 
 
-# ============ tier 子主题函数 ============
+# ============ tier subtopic functions ============
 
 
 def tier_list(client: DMEAPIClient, name: str = None,
@@ -293,7 +293,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     return response
 
 
-# ============ project 子主题函数 ============
+# ============ project subtopic functions ============
 
 
 def project_list(client: DMEAPIClient, name: str = None,
@@ -360,7 +360,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # 本主题无直接动作，所有动作均在子主题下
 ACTIONS = {
     # tier 子主题

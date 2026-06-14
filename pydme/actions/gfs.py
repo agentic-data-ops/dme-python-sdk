@@ -1,5 +1,5 @@
 """
-GFS (Global File System) 相关操作
+GFS (Global File System) operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# Dataspace 子主题相关动作
+# Dataspace subtopic actions
 # ============================================================================
 
 def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
@@ -59,7 +59,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
 
 def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> dict:
     """
-    Query Omni-Dataverse 的容量统计信息
+    Query Omni-Dataverse 的Capacity statistics信息
 
     Args:
         client: DME API client
@@ -67,7 +67,7 @@ def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> di
         name: Omni-Dataverse 名称，与 id 不能同时为空，都有值时优先使用 ID
 
     Returns:
-        Omni-Dataverse 容量统计信息
+        Omni-Dataverse Capacity statistics信息
     """
     url = "/rest/fileservice/v1/gfs-groups/query-summary"
 
@@ -129,7 +129,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
 
 
 # ============================================================================
-# Namespace 子主题相关动作
+# Namespace subtopic actions
 # ============================================================================
 
 def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str = None,
@@ -317,7 +317,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
 
 
 # ============================================================================
-# Migration Task 子主题相关动作
+# Migration Task subtopic actions
 # ============================================================================
 
 def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
@@ -347,7 +347,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         page_no: 分页查询页码 (int32, 1~1000, 默认值: 1, Optional)
         page_size: 每页显示的数量 (int32, 1~1000, 默认值: 20, Optional)
         sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。默认值：desc
-        sort_key: 排序参数 (Optional)。Optional值：progress (任务执行进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
+        sort_key: 排序参数 (Optional)。Optional值：progress (Task execution进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
 
     Returns:
         数据迁移Task list
@@ -435,9 +435,9 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         task_name: 任务名称 (1~255个字符, Optional)
         task_mode: 任务模式 (Required)。Optional值：pre_fetch (预取缓存), tier (数据拉取)
         execute_mode: 执行模式 (Optional)。Optional值：interval (周期性), one_time (只执行一次)。当 task_mode 为 pre_fetch 时该参数无效
-        execute_time: 周期性任务执行时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
-        execute_time_unit: 周期性任务执行时间间隔单位 (Optional)。Optional值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
-        start_mode: 任务执行模式 (Required)。Optional值：manual (手动), auto (自动)
+        execute_time: 周期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
+        execute_time_unit: 周期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
+        start_mode: Task execution模式 (Required)。Optional值：manual (手动), auto (自动)
         start_time: 任务启动的 UTC 时间戳 (int64, 最小值: 0, 单位: 秒, Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
         max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, Required)
         period_start_day: 指定时间段的起始日期 (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth 必须同时下发
@@ -578,10 +578,10 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         client: DME API client
         id: 数据迁移任务 ID (1~32个字符, Required)
         task_name: 任务名称 (1~255个字符, Optional)
-        start_mode: 任务执行模式 (Optional)。Optional值：manual (手动), auto (自动)
+        start_mode: Task execution模式 (Optional)。Optional值：manual (手动), auto (自动)
         start_time: 任务启动的 UTC 时间戳 (int64, 最小值: 0, 单位: 秒, Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
-        execute_time: 周期性任务执行时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发
-        execute_time_unit: 周期性任务执行时间间隔单位 (Optional)。Optional值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发
+        execute_time: 周期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发
+        execute_time_unit: 周期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发
         max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, Optional)
         period_start_day: 指定时间段的起始日期 (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth 必须同时下发
         period_end_day: 指定时间段的结束日期 (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth 必须同时下发
@@ -670,7 +670,7 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
     # Dataspace 子主题动作
     'dataspace_list': {
@@ -681,7 +681,7 @@ ACTIONS = {
     },
     'dataspace_show': {
         'func': dataspace_show,
-        'description': 'Query Omni-Dataverse 的容量统计信息',
+        'description': 'Query Omni-Dataverse 的Capacity statistics信息',
         'params': ['id', 'name'],
         'subtopic': 'dataspace'
     },

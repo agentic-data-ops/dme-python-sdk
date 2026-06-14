@@ -237,7 +237,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         port_group_raw_id: 端口组在存储设备上的ID (1~31个字符; 主机或主机组不存在映射关系时可指定, 存在映射关系时不可指定),
                 },
              }
-        task_remarks: 异步任务Remark（可选），最多 1024 个字符
+        task_remarks: Async taskRemark（可选），最多 1024 个字符
 
     Returns:
         {
@@ -865,7 +865,7 @@ def lun_group_show_luns(client: DMEAPIClient, group_id: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 
 # ============================================================================
 # Mapping view (mapping_view) subtopic functions
@@ -1639,7 +1639,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                         special_mode_type: 特殊模式类型 (可选, 切换模式为特殊模式时有效)。可选值：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
-        task_remarks: 异步任务Remark (可选, 最多1024个字符)
+        task_remarks: Async taskRemark (可选, 最多1024个字符)
 
     Returns:
         任务 ID

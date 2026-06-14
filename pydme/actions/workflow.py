@@ -1,5 +1,5 @@
 """
-工作流 (Workflow) 相关操作
+工作流 (Workflow) operations
 """
 
 import sys
@@ -109,7 +109,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """
     停止实例
     
-    停止正在执行的工作流实例。
+    停止Executing的工作流实例。
     
     Args:
         client: DME API client

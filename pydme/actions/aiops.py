@@ -1,5 +1,5 @@
 """
-AIOps 智能运维相关操作
+AIOps 智能运维operations
 """
 
 import sys
@@ -16,7 +16,7 @@ def _build_current_alarm_params(alarm_id: str = None, severity: list = None,
                                  alarm_name: str = None, occur_utc_start: str = None,
                                  occur_utc_end: str = None, fields: list = None,
                                  page_size: int = 100) -> dict:
-    """构建当前告警查询参数"""
+    """构建Current alarm查询参数"""
     body_params = {'size': page_size}
 
     if alarm_id is not None or severity is not None or mo_dn is not None or \
@@ -108,7 +108,7 @@ def _build_history_alarm_params(alarm_id: str = None, severity: list = None,
                                  occur_utc_start: str = None, occur_utc_end: str = None,
                                  fields: list = None, size: int = 100,
                                  iterator: str = None) -> dict:
-    """构建历史告警查询参数"""
+    """构建History alarm查询参数"""
     body_params = {'size': size}
 
     query_filters = []
@@ -181,7 +181,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     """
     查询告警信息
 
-    查询当前告警,Optional择是否同时查询历史告警.
+    查询Current alarm,Optional择是否同时查询History alarm.
 
     Args:
         client: DME API client
@@ -196,11 +196,11 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         occur_utc_end: 告警发生结束时间(毫秒时间戳)
         fields: 指定返回的字段列表
         page_no: 分页查询的起始页码,默认 1
-        page_size: 每页数量,1~1000,默认 100(当前告警查询用)
-        cleared: 是否已清除,true/false(历史告警查询用)
-        size: 返回的结果集最大条数,1~1000,默认 100(历史告警查询用)
-        iterator: 迭代子,首次查询无需传入,后续查询使用上次返回的 iterator(历史告警查询用)
-        include_history: 开关参数,指定则同时查询历史告警
+        page_size: 每页数量,1~1000,默认 100(Current alarm查询用)
+        cleared: 是否已清除,true/false(History alarm查询用)
+        size: 返回的结果集最大条数,1~1000,默认 100(History alarm查询用)
+        iterator: 迭代子,首次查询无需传入,后续查询使用上次返回的 iterator(History alarm查询用)
+        include_history: 开关参数,指定则同时查询History alarm
 
     Returns:
         {
@@ -218,7 +218,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         'history_alarms': None
     }
 
-    # 查询当前告警(默认总是查询)
+    # 查询Current alarm(默认总是查询)
     current_url = "/rest/alarmmgmt/v1/alarms/current-alarm/query"
     current_params = _build_current_alarm_params(
         alarm_id=alarm_id, severity=severity, mo_dn=mo_dn,
@@ -230,7 +230,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     current_response = client.post(current_url, body=current_params)
     result['current_alarms'] = current_response
 
-    # 如果指定了 include_history,同时查询历史告警
+    # 如果指定了 include_history,同时查询History alarm
     if include_history:
         history_url = "/rest/alarmmgmt/v1/alarms/history-alarms/query"
         history_params = _build_history_alarm_params(
@@ -248,7 +248,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
 
 def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
     r"""
-    确认告警
+    Acknowledge alarm
 
     对指定告警执行确认 (ACK) 操作.
 
@@ -278,7 +278,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
 
 def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     r"""
-    取消确认告警
+    取消Acknowledge alarm
 
     对指定告警执行取消确认 (UNACK) 操作.
 
@@ -308,7 +308,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
 
 def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
     r"""
-    清除告警
+    Clear alarm
 
     对指定告警执行清除 (CLEAR) 操作.
 
@@ -401,7 +401,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     return response
 
 
-# ============ Performance 性能监控子主题函数 ============
+# ============ Performance Performance monitoringsubtopic functions ============
 
 
 def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_time: int,
@@ -461,13 +461,13 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
           range: str = None, begin_time: int = None,
           end_time: int = None) -> dict:
     """
-    查询历史性能数据
+    查询历史Performance data
 
     根据传入参数中的"range"字段所取的枚举值或从开始到结束时间范围内的查询数据.
     有汇聚数据情况下,返回结果序列是平均值序列,并包含最大值,最小值以及对应时间戳.
 
     使用说明:
-    - Object type和指标定义:从性能指标模型文档获取 (reference/dme_performance_model/index.md)
+    - Object type和指标定义:从Performance metrics模型文档获取 (reference/dme_performance_model/index.md)
     - 对象 ID (CMDB 实例 ID) 获取步骤:
       1. 运行 `cmdb instance list --help` 查看帮助,了解类定义和查询方式
       2. 根据帮助信息,从 CMDB 资源模型中确定要查询的Resource type (Class 名称)
@@ -477,9 +477,9 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Args:
         client: DME API client
         obj_type_id: 监控Object type标识(Required),对应监控Object type ID
-                     从性能指标模型文档获取:reference/dme_performance_model/index.md
+                     从Performance metrics模型文档获取:reference/dme_performance_model/index.md
         indicator_ids: 监控指标标识列表(Required,最多 100 个),对应指标 ID
-                       从性能指标模型文档获取:reference/dme_performance_model/index.md
+                       从Performance metrics模型文档获取:reference/dme_performance_model/index.md
         obj_ids: 监控对象标识列表(Required,最多 512 个),对应 CMDB 实例 ID
                  获取方式:
                  1. 运行 `cmdb instance list --help` 查看帮助,了解类定义
@@ -501,7 +501,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         end_time: 查询结束时刻(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 begin_time 大
 
     Returns:
-        历史性能数据,包含 status_code, error_code, error_msg, data
+        历史Performance data,包含 status_code, error_code, error_msg, data
     """
     url = "/rest/metrics/v1/data-svc/history-data/action/query"
 
@@ -607,11 +607,11 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     """
     查询健康度相关数据
 
-    查询容量预测、性能预测、性能异常等健康度相关数据。
+    查询Capacity prediction、性能预测、性能异常等健康度相关数据。
 
     Args:
         client: DME API client
-        type: 数据类型（Required），Optional值：capacity_prediction（容量预测）, performance_prediction（性能预测）, performance_anomaly（性能异常）
+        type: 数据类型（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
         object_id: 资源 ID（Required，1~256 个字符）
         begin_time: 开始时间（Required），自 1970 年 1 月 1 日（00:00:00GMT）至当前时间的毫秒数
         end_time: 结束时间（Required），自 1970 年 1 月 1 日（00:00:00GMT）至当前时间的毫秒数
@@ -734,7 +734,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
 
 
-# ============ Performance 性能监控子主题函数 ============
+# ============ Performance Performance monitoringsubtopic functions ============
 
 
 
@@ -766,7 +766,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
             - abnormal: 异常
             - event: 事件
         - total_step_count: 总步骤数
-        - finish_step_count: 已完成步骤数
+        - finish_step_count: Completed步骤数
     """
     url = "/rest/dmegraphanalysis/v1/perf-tasks/query-status"
 
@@ -782,7 +782,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
 
 
 # ============================================================================
-# 检查策略 (check_policy) 子主题函数
+# 检查策略 (check_policy) subtopic functions
 # ============================================================================
 
 def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query: bool = None,
@@ -802,7 +802,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         policy_type: 策略类型（performance-性能阈值，capacity-容量阈值，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
                     performance_anomaly-性能异常，performance_prediction-性能预警，
-                    capacity_prediction-容量预警，history_performance-历史性能，
+                    capacity_prediction-容量预警，history_performance-History performance，
                     load_imbalance-负载失衡，highload-高负载资源）
         policy_source: 来源（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
@@ -942,7 +942,7 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
 
 
 # ============================================================================
-# 检查结果 (check_result) 子主题函数
+# 检查结果 (check_result) subtopic functions
 # ============================================================================
 
 def check_result_list(client: DMEAPIClient, object_name: str = None, level: str = None,
@@ -1043,9 +1043,9 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # ============================================================================
-# 拓扑管理 (topology) 子主题函数
+# 拓扑管理 (topology) subtopic functions
 # ============================================================================
 
 def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_id: str,
@@ -1312,13 +1312,13 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 
 
 # ============================================================================
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # ============================================================================
 
 ACTIONS = {
     'alarm_list': {
         'func': alarm_list,
-        'description': '查询告警信息(当前告警,Optional择是否包含历史告警)',
+        'description': '查询告警信息(Current alarm,Optional择是否包含History alarm)',
         'params': ['alarm_id', 'severity', 'mo_dn', 'alarm_group_id', 'dc_id',
                    'product_name', 'alarm_name', 'occur_utc_start', 'occur_utc_end',
                    'fields', 'page_no', 'page_size', 'cleared', 'size', 'iterator', 'include_history'],
@@ -1326,19 +1326,19 @@ ACTIONS = {
     },
     'alarm_ack': {
         'func': alarm_ack,
-        'description': '确认告警',
+        'description': 'Acknowledge alarm',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
     'alarm_unack': {
         'func': alarm_unack,
-        'description': '取消确认告警',
+        'description': '取消Acknowledge alarm',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
     'alarm_clear': {
         'func': alarm_clear,
-        'description': '清除告警',
+        'description': 'Clear alarm',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
@@ -1369,7 +1369,7 @@ ACTIONS = {
     },
     'performance_query': {
         'func': performance_query,
-        'description': '查询历史性能数据',
+        'description': '查询历史Performance data',
         'params': ['obj_type_id', 'indicator_ids', 'obj_ids', 'obj_type', 'indicators', 'ext_dimensions', 'interval', 'range', 'begin_time', 'end_time'],
         'subtopic': 'performance'
     },
@@ -1463,7 +1463,7 @@ ACTIONS = {
     # health 子主题动作
     'health_query_data': {
         'func': health_query_data,
-        'description': '查询健康度相关数据（容量预测/性能预测/性能异常）',
+        'description': '查询健康度相关数据（Capacity prediction/性能预测/性能异常）',
         'params': ['type', 'object_id', 'begin_time', 'end_time', 'object_type', 'indicator'],
         'subtopic': 'health'
     },

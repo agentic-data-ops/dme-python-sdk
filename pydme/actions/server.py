@@ -1,5 +1,5 @@
 """
-服务器管理 (Server) 相关操作
+服务器管理 (Server) operations
 """
 
 import sys
@@ -279,7 +279,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
     # 直接动作（两级结构）
     'list': {

@@ -1,5 +1,5 @@
 """
-三方系统集成 (Integrate) 相关操作
+三方系统集成 (Integrate) operations
 包含CMDB系统、主机、应用等资源查询
 """
 

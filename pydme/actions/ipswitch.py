@@ -1,5 +1,5 @@
 """
-IP 交换机 (IPSwitch) 管理相关操作
+IP 交换机 (IPSwitch) 管理operations
 """
 
 import sys

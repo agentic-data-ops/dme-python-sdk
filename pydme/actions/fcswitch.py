@@ -1,5 +1,5 @@
 """
-FC Switch (光纤交换机) 相关操作
+FC Switch (光纤交换机) operations
 """
 
 import sys
@@ -213,7 +213,7 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
     return response
 
 
-# ==================== VSAN 相关操作 ====================
+# ==================== VSAN operations ====================
 
 def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> dict:
     """
@@ -240,7 +240,7 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     return response
 
 
-# ==================== Zone 相关操作 ====================
+# ==================== Zone operations ====================
 
 def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
               cfg_name: str = None, zone_set: str = None, active_status: list = None,
@@ -510,7 +510,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
         return {'members': all_members}
 
 
-# ==================== Alias 相关操作 ====================
+# ==================== Alias operations ====================
 
 def alias_list(client: DMEAPIClient, fabric_wwn: str,
                page_no: int = 1, page_size: int = 20) -> dict:

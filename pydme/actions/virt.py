@@ -1,5 +1,5 @@
 """
-虚拟化服务 (Virtualization) 相关操作
+虚拟化服务 (Virtualization) operations
 """
 
 import sys
@@ -520,7 +520,7 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
     # 虚拟机管理
     'vm_list': {

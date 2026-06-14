@@ -1,5 +1,5 @@
 """
-系统管理 (System) 相关操作
+系统管理 (System) operations
 """
 
 import sys
@@ -331,12 +331,12 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         group_id: 待办任务组 ID（Optional）
         name: 待办任务组名称（Optional）
         creator_name: 创建人名称（Optional）
-        is_finished: 是否已完成（Optional）
+        is_finished: 是否Completed（Optional）
         is_group: 是否群组任务（Optional）
         start: 分页起始位置（Optional，0~10000000）
         limit: 分页个数（Optional，1~1000）
-        status: 待办任务组状态列表（Optional，1-待处理/2-执行中/3-已完成/4-已关闭）
-        todo_item_status: 待办项状态列表（Optional，0-待确认/1-未完成/2-执行中/3-已完成）
+        status: 待办任务组状态列表（Optional，1-Pending/2-执行中/3-Completed/4-已关闭）
+        todo_item_status: 待办项状态列表（Optional，0-待确认/1-未完成/2-执行中/3-Completed）
         start_time_from: 开始时间起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         start_time_to: 开始时间结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         end_time_from: 结束时间起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
@@ -596,7 +596,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - progress: 任务进度
         - owner_name: 创建任务用户名称
         - owner_id: 创建任务用户 ID
-        - create_time: 任务创建时间（UTC 毫秒数）
+        - create_time: Task creation时间（UTC 毫秒数）
         - start_time: 任务开始时间（UTC 毫秒数）
         - end_time: 任务结束时间（UTC 毫秒数）
         - detail_en: 任务英文详情
@@ -990,7 +990,7 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     return response
 
 
-# ==================== 可用分区管理（az 子主题） ====================
+# ==================== AZ management（az 子主题） ====================
 
 def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = None,
          start: int = 1, limit: int = 512, is_sc: bool = False) -> dict:
@@ -1215,7 +1215,7 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
     # 直接动作（两级结构）
     'login': {

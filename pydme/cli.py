@@ -918,7 +918,7 @@ def main():
                 action_key = space_action_key
             else:
                 # 仍然找不到，显示错误
-                print(f"错误：未找到动作 '{args.topic} {args.subtopic} {args.action}'")
+                print(f"错误：Action not found '{args.topic} {args.subtopic} {args.action}'")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
                     print(f"提示：可用动作包括：{', '.join(available)}")
@@ -952,7 +952,7 @@ def main():
         )
 
         if not auth_token:
-            print(f"正在连接 DME: {endpoint}")
+            print(f"Connecting to DME: {endpoint}")
             client.login()
 
         cli.client = client

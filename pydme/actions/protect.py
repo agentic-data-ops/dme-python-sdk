@@ -1,5 +1,5 @@
 """
-保护 (Protection) 相关操作
+保护 (Protection) operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# group 子主题 - 保护组相关操作
+# group 子主题 - 保护组operations
 # ============================================================================
 
 def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
@@ -260,7 +260,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
 
 
 # ============================================================================
-# hypermetro_group 子主题 - 双活一致性组相关操作
+# hypermetro_group 子主题 - 双活一致性组operations
 # ============================================================================
 
 def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -576,7 +576,7 @@ def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_pair 子主题 - 双活 Pair 相关操作
+# hypermetro_pair 子主题 - 双活 Pair operations
 # ============================================================================
 
 def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -890,7 +890,7 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_domain 子主题 - 双活域相关操作
+# hypermetro_domain 子主题 - 双活域operations
 # ============================================================================
 
 def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
@@ -920,7 +920,7 @@ def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
 
 
 # ============================================================================
-# replication_pair 子主题 - 复制 Pair 相关操作
+# replication_pair 子主题 - 复制 Pair operations
 # ============================================================================
 
 def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -1252,7 +1252,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
 
 
 # ============================================================================
-# device 子主题 - 设备 Pair 和复制链路相关操作
+# device 子主题 - 设备 Pair 和复制链路operations
 # ============================================================================
 
 def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
@@ -1300,7 +1300,7 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
 
 
 # ============================================================================
-# snapshot 子主题 - LUN 快照相关操作
+# snapshot 子主题 - LUN 快照operations
 # ============================================================================
 
 def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: str = None,
@@ -1317,7 +1317,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         storage_id: Storage device ID
         raw_id: 快照在存储设备上的 ID
         name: 快照名称，supports fuzzy search
-        health_status: 健康状态，Optional值：normal, fault, write_protected
+        health_status: Health status，Optional值：normal, fault, write_protected
         running_status: 运行状态，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
         source_lun_name: 源 LUN 名称，supports fuzzy search
         parent_name: 父Object name，supports fuzzy search
@@ -1445,7 +1445,7 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
 
 
 # ============================================================================
-# snapshot_group 子主题 - 快照一致性组相关操作
+# snapshot_group 子主题 - 快照一致性组operations
 # ============================================================================
 
 def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
@@ -1618,7 +1618,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
 
 
 # ============================================================================
-# clone_group 子主题 - 克隆一致性组相关操作
+# clone_group 子主题 - 克隆一致性组operations
 # ============================================================================
 
 def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
@@ -1745,7 +1745,7 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
 
 
 # ============================================================================
-# replication_group 子主题 - 复制一致性组相关操作
+# replication_group 子主题 - 复制一致性组operations
 # ============================================================================
 
 def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_id: str,
@@ -2069,7 +2069,7 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
 
 
 # ============================================================================
-# 文件系统双活Pair (fs_hypermetro_pair) 子主题函数
+# 文件系统双活Pair (fs_hypermetro_pair) subtopic functions
 # ============================================================================
 
 
@@ -2139,7 +2139,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
         vstore_pair_id: 双活租户Pair的ID (Optional, string)
         local_fs_name: 本端Filesystem name (Optional, string)
         local_fs_id: 本端Filesystem ID (Optional, string)
-        health_status: 健康状态 (Optional, string)
+        health_status: Health status (Optional, string)
         running_status: 运行状态 (Optional, string)
         sort_key: 排序字段 (Optional, string)
         sort_dir: 排序方向 (Optional, string)
@@ -2276,7 +2276,7 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
 
 
 # ============================================================================
-# 文件系统快照 (fs_snapshot) 子主题函数
+# 文件系统快照 (fs_snapshot) subtopic functions
 # ============================================================================
 
 
@@ -2384,7 +2384,7 @@ def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# 双活租户Pair (vstore_hypermetro_pair) 子主题函数
+# 双活租户Pair (vstore_hypermetro_pair) subtopic functions
 # ============================================================================
 
 
@@ -2469,7 +2469,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
         status: 状态 (Optional, string)
         local_storage_id: 本端Storage device ID (Optional, string)
         remote_storage_id: 远端Storage device ID (Optional, string)
-        health_status: 健康状态 (Optional, string)
+        health_status: Health status (Optional, string)
         running_status: 运行状态 (Optional, string)
         page_no: 分页页码 (Optional, int32)
         page_size: 每页数量 (Optional, int32)
@@ -2589,7 +2589,7 @@ def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
 
 
 # ============================================================================
-# 双活域 (hypermetro_domain) 子主题函数
+# 双活域 (hypermetro_domain) subtopic functions
 # ============================================================================
 
 
@@ -2704,7 +2704,7 @@ def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
 
 
 # ============================================================================
-# 双活Pair (hypermetro_pair) 子主题函数
+# 双活Pair (hypermetro_pair) subtopic functions
 # ============================================================================
 
 
@@ -2735,7 +2735,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
     # group 子主题动作
     'group_list': {

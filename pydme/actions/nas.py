@@ -506,7 +506,7 @@ def dtree_modify(client: DMEAPIClient, dtree_id: str, name: str = None,
 
 
 # ============================================================================
-# NFS 共享子主题相关动作
+# NFS 共享subtopic actions
 # ============================================================================
 
 def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None,
@@ -690,7 +690,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                 fs_id: 文件系统的id (与namespace_id互斥),
                 namespace_id: 命名空间的id (与fs_id互斥),
              }
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -767,7 +767,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                         fileoperations: 操作类型列表 (可选)。可选值：close, create, create_dir, delete, delete_dir, getattr, link, lookup, open, read, write, rename, rename_dir, setattr, symlink,
                 }
              }, ...]
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -818,7 +818,7 @@ def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
     Args:
         client: DME API 客户端
         nfs_share_ids: 待删除 NFS 共享 ID 列表
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -1019,7 +1019,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
              }
         fs_id: 文件系统的 ID，与 namespace_id 互斥
         namespace_id: 命名空间的 ID，与 fs_id 互斥
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -1101,7 +1101,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                         fileoperations: 操作类型列表 (可选, 最多100个),
                 }
              }, ...]
-        task_remarks: 异步任务Remark，0~1024 个字符
+        task_remarks: Async taskRemark，0~1024 个字符
         smb3_encryption_enable: 是否开启 SMB3 加密功能
         unencrypted_access: 是否允许未加密客户端访问
         enable_lease: 是否开启租约锁定开关
@@ -1498,7 +1498,7 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
                 permission: DataTurbo admin permission (Required, fixed value read_and_write),
              }, ...]
         dataturbo_share_auth_deletion: DataTurbo admin ID list to delete
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -1539,7 +1539,7 @@ def dataturbo_share_delete(client: DMEAPIClient, dataturbo_share_ids: list,
     Args:
         client: DME API 客户端
         dataturbo_share_ids: DataTurbo 共享 ID 列表
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -1773,7 +1773,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_advisory_quota: 文件数建议配额（可选），-1 表示字段无效；仅 OceanStor Pacific 设备支持；当文件数建议配额和文件数硬配额或文件数软配额均有效时，文件数建议配额需小于文件数硬配额或文件数软配额
         snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：不统计快照空间；仅 OceanStor Pacific 设备支持
         soft_grace_time: 超限时间（可选），0~4294967294，单位（天）；表示软配超限多长时间后自动转硬超限；不下发或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -1824,7 +1824,7 @@ def quota_delete(client: DMEAPIClient, quota_ids: list,
     Args:
         client: DME API 客户端
         quota_ids: 待删除的配额 ID 列表
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
 
     Returns:
         {
@@ -1892,7 +1892,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         project_id: 业务群组 ID（可选），1~256 个字符，与 project_name 互斥，精确匹配
         storage_id: 归属Storage device ID（可选），1~256 个字符，与 storage_name 互斥，精确匹配
         fs_raw_id: 文件系统在设备上的 ID（可选），1~256 个字符，与 name 互斥
-        health_status: 健康状态（可选），可选值：normal（正常）、faulty（故障）、unknown（未知）
+        health_status: Health status（可选），可选值：normal（正常）、faulty（故障）、unknown（未知）
         running_status: 运行状态（可选），可选值：online（在线）、offline（离线）、invalid（失效）、
                        initializing（初始化中）、unknown（未知）
         alloc_type: 文件系统分配类型（可选），可选值：thin（按需分配）、thick（固定分配）
@@ -2101,7 +2101,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }, ...]
         vstore_id: 租户 ID（可选）
         zone_id: 所属 zone 的 ID（可选）
-        task_remarks: 异步任务Remark（可选）
+        task_remarks: Async taskRemark（可选）
         gfs_group_id: 全局数据空间的 ID（可选）
         automatic_update_time: 是否更新访问时间（可选）
         atime_update_mode: Atime 更新频率，hour/day/close（可选）
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: 自动扩缩容单次变化量MB (可选, 64~102400, 默认1024),
              }
         worm: 文件系统Worm参数 (可选)。参数格式如下：{
-                type: WORM保护模式 (可选)。可选值：none_mode (无默认策略), enterprise_mode (企业遵从), compliance_mode (法规遵从), advance_mode (高安遵从), audit_log (审计日志), non_worm (非WORM),
+                type: WORM保护模式 (可选)。可选值：none_mode (无默认策略), enterprise_mode (企业遵从), compliance_mode (法规遵从), advance_mode (高安遵从), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: 最小保护期 (可选, 默认0),
                 min_protect_period_unit: 最小保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
                 max_protect_period: 最大保护期 (可选, 0~4294967295, 默认70),
@@ -2185,7 +2185,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_lock_time: 自动锁定时间 (可选, 默认2),
                 auto_lock_time_unit: 自动锁定时间单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
                 auto_del: 自动删除模式 (可选, 默认关闭)。可选值：true, false,
-                is_worm_audit_log_fs: WORM审计日志文件系统 (可选, 默认关闭)。可选值：true, false,
+                is_worm_audit_log_fs: WORMAudit log文件系统 (可选, 默认关闭)。可选值：true, false,
                 worm_append_unit: WORM追加态文件保护粒度 (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
              }
         snapshot_reserved_space_percentage: 快照预留空间百分比（可选），0~90
@@ -2193,7 +2193,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         snapshot_dir_visible: 快照目录是否可见（可选）。true/false
         object_service_optimization: 对象服务优化（可选）。true/false
         case_sensitive: 大小写敏感模式（可选）。true/false
-        audit_log_rules: 审计日志规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
+        audit_log_rules: Audit log规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
         unix_permissions: 文件系统目录权限（可选），格式如0755
 
     Returns:
@@ -2424,11 +2424,11 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_lock_time: 自动锁定时间 (可选, 最小值1, 默认2),
                 auto_lock_time_unit: 自动锁定时间单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
                 auto_del: 自动删除模式 (可选, 默认关闭; advance_mode不支持)。可选值：true, false,
-                is_worm_audit_log_fs: WORM审计日志文件系统 (可选, 默认关闭; 一个租户只能有一个),
+                is_worm_audit_log_fs: WORMAudit log文件系统 (可选, 默认关闭; 一个租户只能有一个),
                 worm_append_unit: WORM追加态文件保护粒度 (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
              }
-        task_remarks: 异步任务Remark，0~1024个字符（可选）
-        audit_log_rules: 审计日志规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
+        task_remarks: Async taskRemark，0~1024个字符（可选）
+        audit_log_rules: Audit log规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
         unix_permissions: 文件系统目录权限（可选），格式如0755
 
     Returns:
@@ -2504,7 +2504,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
 
 
 # ============================================================================
-# namespace (命名空间) 子主题相关动作
+# namespace (命名空间) subtopic actions
 # ============================================================================
 
 def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
@@ -2653,8 +2653,8 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         interval_trash: 回收站保护时长（分钟），0 表示永久保留，最大 4294967295
         dps_switch: 元数据检索开关，true 开启
         forbidden_dpc: 是否禁止 dpc 挂载
-        audit_log_switch: 是否开启审计日志，默认关闭
-        audit_log_rule: 审计日志规则列表，可选值：open, create, read, write, close, 
+        audit_log_switch: 是否开启Audit log，默认关闭
+        audit_log_rule: Audit log规则列表，可选值：open, create, read, write, close, 
                        delete, rename, get_attr, set_attr, get_security, set_security,
                        get_xattr, set_xattr, list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime 更新频率，4294967295 关闭，3600 1 小时，86400 1 天
@@ -2735,12 +2735,12 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 version_status: 对象多版本状态 (可选, 0~2)。可选值：0 (关闭), 1 (打开), 2 (暂停),
              }
         application_type: 应用类型，可选值：PACS（医疗影像场景）, GENERAL（通用场景）
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
     
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }（异步任务 ID）
+        }（Async task ID）
     """
     url = "/rest/fileservice/v1/namespaces"
     
@@ -2823,8 +2823,8 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         interval_trash: 回收站保护时长（分钟），0 表示永久保留，不自动删除，最大 4294967295
         dps_switch: 元数据检索开关，true：开启；false：关闭
         forbidden_dpc: 是否禁止 dpc 挂载，true：禁止；false：不禁止
-        audit_log_switch: 是否开启审计日志，缺省关闭，true：开启；false：关闭
-        audit_log_rule: 审计日志规则列表，可选值：open, create, read, write, close, delete, rename,
+        audit_log_switch: 是否开启Audit log，缺省关闭，true：开启；false：关闭
+        audit_log_rule: Audit log规则列表，可选值：open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
                        list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime 更新频率，4294967295：关闭更新；3600：1 小时更新；86400：1 天更新
@@ -2888,12 +2888,12 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         application_type: 应用类型，可选值：PACS（医疗影像场景）, GENERAL（通用场景）
-        task_remarks: 异步任务Remark
+        task_remarks: Async taskRemark
     
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }（异步任务 ID）
+        }（Async task ID）
     """
     url = "/rest/fileservice/v1/namespaces/{namespace_id}"
     
@@ -2954,12 +2954,12 @@ def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: st
     Args:
         client: DME API 客户端
         namespace_ids: 命名空间 ID 列表（必选），数组最大 100 个，最小 1 个
-        task_remarks: 异步任务Remark（可选，0~1024 个字符）
+        task_remarks: Async taskRemark（可选，0~1024 个字符）
     
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }（异步任务 ID）
+        }（Async task ID）
     """
     url = "/rest/fileservice/v1/namespaces/delete"
     

@@ -1,5 +1,5 @@
 """
-数据备份管理 (Backup) 相关操作
+数据备份管理 (Backup) operations
 """
 
 import sys
@@ -107,7 +107,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
     # 子主题动作 - cluster（三级结构：backup cluster list/capacity/quota）
     'cluster_list': {
