@@ -262,7 +262,7 @@ ACTIONS = {
     # Namespacemanagement 
     'namespace_list': {
         'func': namespace_list,
-        'description': 'Query containerNamespace list',
+        'description': 'Query container namespace list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },

@@ -1257,7 +1257,7 @@ ACTIONS = {
     },
     'user_show': {
         'func': user_show,
-        'description': 'QueryUser info',
+        'description': 'Query user info',
         'params': ['user_id'],
         'subtopic': 'user'
     },

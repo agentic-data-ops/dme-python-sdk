@@ -715,7 +715,7 @@ ACTIONS = {
     },
     'sync': {
         'func': sync,
-        'description': 'SyncSwitch config',
+        'description': 'Sync switch config',
         'params': ['switch_id'],
         'subtopic': None
     },

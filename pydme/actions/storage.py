@@ -3197,7 +3197,7 @@ ACTIONS = {
     },
     'remove': {
         'func': remove,
-        'description': 'batchRemove storage device',
+        'description': 'batch remove storage device',
         'params': ['storage_ids'],
         'subtopic': None
     },

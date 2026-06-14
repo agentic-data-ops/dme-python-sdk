@@ -231,7 +231,7 @@ ACTIONS = {
     },
     'template_groups': {
         'func': template_groups,
-        'description': 'Query allTemplate group',
+        'description': 'Query all template group',
         'params': [],
         'subtopic': 'template'
     },

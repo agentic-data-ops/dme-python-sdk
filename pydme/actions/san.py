@@ -3263,7 +3263,7 @@ ACTIONS = {
     },
     'storage_host_unmap_luns': {
         'func': storage_host_unmap_luns,
-        'description': ' unbindStorage host mapping',
+        'description': 'unbind storage host mapping',
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'storage_host'
     },
@@ -3308,7 +3308,7 @@ ACTIONS = {
     },
     'storage_host_group_unmap_luns': {
         'func': storage_host_group_unmap_luns,
-        'description': ' unbindStorage host group mapping',
+        'description': 'unbind storage host group mapping',
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },

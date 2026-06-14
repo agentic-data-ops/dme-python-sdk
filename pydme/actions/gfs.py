@@ -712,7 +712,7 @@ ACTIONS = {
     },
     'namespace_modify': {
         'func': namespace_modify,
-        'description': 'ModifyGlobal namespace',
+        'description': 'Modify global namespace',
         'params': ['id', 'name_locator', 'smart_share_members'],
         'subtopic': 'namespace'
     },
