@@ -37,7 +37,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
                 affinity: 是否开启亲和性。Optional值：true (开启), false (disabled)。默认disabled,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64个字符),
              }
-        mapping: Mapping info (Optional, ServiceVolumeMapping object, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
+        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。参数格式如下：{
                 host_id: Host ID (Optional, 0~64个字符, 与hostgroup_idone of),
                 hostgroup_id: Host group ID (Optional, 0~64个字符, 与host_idone of),
              }

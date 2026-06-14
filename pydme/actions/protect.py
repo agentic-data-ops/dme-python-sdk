@@ -88,8 +88,8 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         name: Protection group名称
         storage_id: Storage device ID
-        lun_ids: LUN 的 ID 列表，条件Required，当基于 LUN 创建Protection group时为必传字段
-        lun_group_id: LUN 组 ID，条件Required，当基于 LUN 组形式创建Protection group时为必传字段
+        lun_ids: LUN 的 ID 列表，条件Required，当基于 LUN 创建Protection grouprequired when
+        lun_group_id: LUN 组 ID，条件Required，当基于 LUN 组形式创建Protection grouprequired when
         description: Protection group描述
 
     Returns:
@@ -181,21 +181,21 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: 待添加到Protection group的 LUN 的 ID 列表（Optional），max array members 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs mutually exclusive；Protection group不存在Active-active、复制、环形 3DC 特性时此参数有效
-        hyper_metro: 添加 LUN 到有Active-active特性Protection group的请求参数（Optional），与 lun_ids 参数mutually exclusive；Protection group存在Active-active特性时此参数有效。格式：{
-                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync"状态，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+        lun_ids: 待添加到Protection group的 LUN 的 ID 列表（Optional），max array members 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs mutually exclusive；Protection group不存在Active-active、复制、环形 3DC parameter effective when feature
+        hyper_metro: 添加 LUN 到有Active-active特性Protection group的请求参数（Optional），与 lun_ids 参数mutually exclusive；Protection group存在Active-activeparameter effective when feature。格式：{
+                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync"状态，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync"状态，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；auto-create mode and naming rule is prefix_and_suffix 时有效
                         lun_pairs: 手动配置的Active-active Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
-                                local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
+                                local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: 添加 LUN 到有复制特性Protection group的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；Protection group存在复制特性时此参数有效。格式：[{
-                        is_delay: Deferred execution（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+        rem_reps: 添加 LUN 到有复制特性Protection group的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；Protection group存在复制parameter effective when feature。格式：[{
+                        is_delay: Deferred execution（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair 创建模式为 auto 时有效
@@ -203,7 +203,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；auto-create mode and naming rule is prefix_and_suffix 时有效
                         lun_pairs: 手动配置的Remote replication Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
-                                local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
+                                local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         },...]
@@ -664,8 +664,8 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         create_mode: Active-active Pair creation mode，Optional值：auto（自动创建）, manual（手动创建）
         local_storage_id: 创建Active-active Pair 的Storage device ID
         domain_id: Active-active域 ID
-        lun_ids: 自动创建模式下，源 LUN 的 ID 列表
-        lun_pairs: 手动创建模式下，Active-active Pair 的源 LUN、目标 LUN 的 ID 列表
+        lun_ids: In auto-create mode，源 LUN 的 ID 列表
+        lun_pairs: In manual create mode，Active-active Pair 的源 LUN、目标 LUN 的 ID 列表
         remote_storage_pool_id: 远端Storage pool ID，effective in auto-create mode
         remote_vstore_id: Remote device tenant ID，effective in auto-create mode
         remote_resource_name_rule: LUN 的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
@@ -1229,7 +1229,7 @@ def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, operation_type: str) -> dict:
     """
-    Remote replication Pair 从资源保护状态切换
+    Remote replication Pair Switch from resource protection state
 
     Args:
         client: DME API client
@@ -1279,7 +1279,7 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
 
 def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
     """
-    查询复制链路
+    Query replication link
 
     Args:
         client: DME API client
@@ -1488,7 +1488,7 @@ def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete
     Args:
         client: DME API client
         snapshot_cg_ids: Snapshot consistency group ID 列表
-        is_delete_target_lun: Delete target LUN，仅 Dorado 6.1.2 及以上版本支持，默认 true
+        is_delete_target_lun: Delete target LUN，仅 Dorado 6.1.2 supported in version，默认 true
 
     Returns:
         {
@@ -1519,10 +1519,10 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
         client: DME API client
         snapshot_cg_id: Snapshot consistency group ID
         object_type: Object type，Optional值：parent_object
-        snapshot_create_mode: 快照创建方式，Optional值：auto, manual
-        name_rule: 快照名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
-        name_prefix: 快照名称前缀
-        name_suffix: 快照名称后缀
+        snapshot_create_mode: Snapshot creation method，Optional值：auto, manual
+        name_rule: Snapshot naming rule，Optional值：prefix_and_suffix, prefix_and_num
+        name_prefix: Snapshot name prefix
+        name_suffix: Snapshot name suffix
         target_snapshot_objects: 目标快照object列表
 
     Returns:
@@ -1585,10 +1585,10 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
         client: DME API client
         snapshot_cg_id: Snapshot consistency group ID
         rollback_speed: 回滚速率，Optional值：low, medium, high, highest
-        snapshot_create_mode: 快照创建方式，Optional值：auto, manual
-        name_rule: 快照名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
-        name_prefix: 快照名称前缀
-        name_suffix: 快照名称后缀
+        snapshot_create_mode: Snapshot creation method，Optional值：auto, manual
+        name_rule: Snapshot naming rule，Optional值：prefix_and_suffix, prefix_and_num
+        name_prefix: Snapshot name prefix
+        name_suffix: Snapshot name suffix
         target_snapshot_objects: 目标快照object列表
 
     Returns:
@@ -1635,7 +1635,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         protect_group_id: Protection group ID
         create_mode: 创建模式，Optional值：auto, manual
         description: Description
-        name_rule: 目标 LUN 名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
+        name_rule: 目标 LUN Naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 目标 LUN 名称前缀
         name_suffix: 目标 LUN 名称后缀
         copy_rate: 拷贝速率，Optional值：low, medium, high, highest，默认 medium
@@ -1684,7 +1684,7 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
         client: DME API client
         clone_group_id: 克隆Consistency group ID
         create_mode: 克隆 Pair 创建模式，Optional值：auto, manual
-        name_rule: 目标 LUN 名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
+        name_rule: 目标 LUN Naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 目标 LUN 名称前缀
         name_suffix: 目标 LUN 名称后缀
         clone_pairs: 克隆 Pair 列表，create_mode 为 manual 时Required
@@ -1769,8 +1769,8 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         local_storage_id: 本端Storage device ID，当Storage device version不是 OceanStor V6、OceanStor Dorado V6 时必传
         create_mode: 复制 Pair creation mode，Optional值：auto（自动）, manual（手动）
         existed_pair_ids: 已存在的复制 Pair 的 ID 列表
-        lun_pairs: 手动创建模式下，复制 Pair 的源 LUN、目标 LUN 的 ID 列表
-        lun_ids: 自动创建模式下，源 LUN 的 ID 列表
+        lun_pairs: In manual create mode，复制 Pair 的源 LUN、目标 LUN 的 ID 列表
+        lun_ids: In auto-create mode，源 LUN 的 ID 列表
         remote_storage_pool_id: 远端Storage pool ID，effective in auto-create mode
         remote_vstore_id: Remote device tenant ID，effective in auto-create mode
         remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
@@ -2046,7 +2046,7 @@ def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_switch_write_protection(client: DMEAPIClient, id: str, operation_type: str) -> dict:
     """
-    Remote replicationConsistency group从资源写保护状态切换
+    Remote replicationConsistency groupSwitch from resource write-protection state
 
     Args:
         client: DME API client
@@ -2390,7 +2390,7 @@ def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def vstore_pair_force_start(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量强制启动Active-active tenantPair。
+    Batch force startActive-active tenantPair。
 
     Args:
         client: DME API client
@@ -2936,7 +2936,7 @@ ACTIONS = {
     },
     'replication_group_switch_write_protection': {
         'func': replication_group_switch_write_protection,
-        'description': 'Remote replicationConsistency group从资源写保护状态切换',
+        'description': 'Remote replicationConsistency groupSwitch from resource write-protection state',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_group'
     },
@@ -2985,7 +2985,7 @@ ACTIONS = {
     },
     'replication_pair_switch_write_protection': {
         'func': replication_pair_switch_write_protection,
-        'description': 'Remote replication Pair 从资源保护状态切换',
+        'description': 'Remote replication Pair Switch from resource protection state',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_pair'
     },
@@ -2998,7 +2998,7 @@ ACTIONS = {
     },
     'replication_link_list': {
         'func': replication_link_list,
-        'description': '查询复制链路',
+        'description': 'Query replication link',
         'params': ['storage_id'],
         'subtopic': 'replication_link'
     },
@@ -3130,7 +3130,7 @@ ACTIONS = {
     # vstore_hypermetro_pair subtopic actions
     'vstore_pair_force_start': {
         'func': vstore_pair_force_start,
-        'description': '批量强制启动Active-active tenantPair',
+        'description': 'Batch force startActive-active tenantPair',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },

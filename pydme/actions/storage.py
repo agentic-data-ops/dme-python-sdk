@@ -769,7 +769,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 replication_capacity: 数据Protection capacity，单位MB (number)，flash storage only,
                 subscribed_capacity: 总订阅容量，单位MB (number)，仅闪存存储、分布式设备支持,
                 lun_subscribed_capacity: LUN的订阅容量，单位MB (number)，flash storage only,
-                filesystem_subscribed_capacity: Filesystem总订阅容量，单位MB (number)，仅OceanStor Dorado V6存储6.1.0及以上版本支持,
+                filesystem_subscribed_capacity: Filesystem总订阅容量，单位MB (number)，仅OceanStor Dorado V6存储6.1.0supported in version,
                 health_status: Health status。可选值：normal (正常), fault (故障), degraded (降级), unknown (未知)。仅闪存存储及第三方存储支持,
                 running_status: Running status. Options：pre-copy (预拷贝), rebuilt (重构), online (在线), offline (离线), balancing (正在均衡), initializing (Initializing), deleting (删除中), unknown (未知)。flash storage only,
                 pool_status: Storage pool状态。可选值：normal (正常), fault (故障), write-protect (写保护), stopped (停止), fault-and-write-protect (故障且写保护), migrating-data (Data migration), degraded (降级), rebuilding-data (数据重构), migrating-services (服务迁移), all-copies-failed (全副本故障), all-copies-failed-and-write-protect (全副本故障且写保护), deleting (删除中), deletion-failed (删除失败), unknown (未知)。仅分布式存储支持,
@@ -1494,7 +1494,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
                 multi_path_type: InitiatorMultipath type (可选)。可选值：default (默认), third_party (Third-party multipath),
                 path_type: Initiator路径类型 (条件必传, 当multi_path_type为third_party时必传)。可选值：optimal_path (优选路径), non_optimal_path (非优选路径),
                 failover_mode: Initiator切换模式 (条件必传, 当multi_path_type为third_party时必传)。可选值：early_version_alua, common_alua, alua_not_used, special_alua,
-                special_mode_type: 特殊模式类型 (可选, 切换模式为特殊模式时有效)。可选值：0 (特殊模式0), 1 (特殊模式1), 2 (特殊模式2), 3 (特殊模式3)
+                special_mode_type: Special mode type (可选, 切换模式为特殊模式时有效)。可选值：0 (特殊模式0), 1 (特殊模式1), 2 (特殊模式2), 3 (特殊模式3)
              }
 
     Returns:

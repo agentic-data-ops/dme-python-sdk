@@ -2980,9 +2980,9 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
                            client_id_in_storage: str = None, sort_key: str = None,
                            sort_dir: str = None) -> dict:
     """
-    查询 NFS 共享下的客户端访问列表
+    查询 NFS share client access list
 
-    指定设备或 NFS ID，查询 NFS 共享下的客户端访问列表。
+    指定设备或 NFS ID，查询 NFS share client access list。
 
     Args:
         client: DME API 客户端
@@ -3342,14 +3342,14 @@ def account_unix_user_remove_group(client: DMEAPIClient, user_id: str,
 
 def account_unix_user_show(client: DMEAPIClient, id: str) -> dict:
     """
-    查询 UNIX 认证用户详情
+    查询 UNIX Auth user details
 
     Args:
         client: DME API 客户端
         id: 用户 ID (1~32个字符, Required)
 
     Returns:
-        UNIX 认证用户详情
+        UNIX Auth user details
     """
     url = "/rest/fileservice/v1/unix-users/{id}"
 
@@ -3458,8 +3458,8 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         name: UNIX 用户名称 (1~64个字符, Required)
         raw_id: UNIX 用户 ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310 存储Required)
         description: UNIX 用户描述 (0~255个字符, Optional)
-        primary_group_raw_id: 用户主组 ID (int64, 0~4294967294, Optional。与 primary_group_name 至少下发一个，若都下发仅 primary_group_name 生效)
-        primary_group_name: 用户所归属的主组名称 (1~64个字符, Optional。与 primary_group_raw_id 至少下发一个，若都下发仅 primary_group_name 生效)
+        primary_group_raw_id: 用户主组 ID (int64, 0~4294967294, Optional。与 primary_group_name provide at least one，若都下发仅 primary_group_name 生效)
+        primary_group_name: 用户所归属的主组名称 (1~64个字符, Optional。与 primary_group_raw_id provide at least one，若都下发仅 primary_group_name 生效)
         vstore_raw_id: 用户Tenanton the storage device ID (1~32个字符, Required)
         zone_id: 所属 Zone ID (1~64个字符, Optional。仅 OceanStor A800 存储支持)
         status: 用户状态 (boolean, Optional。Default：true)。可选值：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 series storage only
@@ -3509,7 +3509,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         pool_raw_id: Storage pool在所属 Zone 上的 ID (1~64个字符, Required)
         vstore_id: 租户 ID (长度为32个字符, Required)
         data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)。Default：off
-        max_survival_time: KV Cache 最长存活时间 (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
+        max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
         kv_cache_stores: KV Cache 库列表 (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required)。参数格式如下：[{
                 name: KV Cache 库名称 (1~255个字符, Required),
                 capacity: KV Cache 库容量 (int64, 20971520~70368744177664, 单位: 扇区数, 1扇区=512字节, Required),
@@ -3552,7 +3552,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
         name: KV Cache 库名称 (1~255个字符, Optional)
         description: Description (0~255个字符, Optional)
         data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)。Default：off
-        max_survival_time: KV Cache 最长存活时间 (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
+        max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
 
     Returns:
         Modification result

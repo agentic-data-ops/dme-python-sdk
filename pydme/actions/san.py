@@ -224,9 +224,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 },
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
-        mapping: Mapping info (可选), LunMapping object, 存在即表示为主机或主机组创建 LUN。参数格式如下：{
-                host_id: Host ID (1~64个字符; 与hostgroup_idone of, 不可同时存在),
-                hostgroup_id: Host group ID (1~64个字符; 与host_idone of, 不可同时存在),
+        mapping: Mapping info (可选), LunMapping object, If present, creates for host or host group LUN。参数格式如下：{
+                host_id: Host ID (1~64个字符; 与hostgroup_idone of, cannot coexist),
+                hostgroup_id: Host group ID (1~64个字符; 与host_idone of, cannot coexist),
                 host_type: 映射Host type。可选值：storage_host (Storage host), host (主机)。默认host,
                 start_host_lun_id: 起始主机LUN ID (1~4096),
                 mapping_view: Mapping view请求信息 (LunMappingRequestobject)。属性格式如下：{
@@ -1636,7 +1636,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                         multipath_type: Third-party multipath策略 (Required)。可选值：default (默认), third_party (Third-party multipath),
                         path_type: Initiator路径类型 (可选, 开启Third-party multipath时有效)。可选值：optimal_path (优选路径), non_optimal_path (非优选路径),
                         failover_mode: Initiator切换模式 (可选, 开启Third-party multipath时有效)。可选值：early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: 特殊模式类型 (可选, 切换模式为特殊模式时有效)。可选值：mode_zero, mode_one, mode_two, mode_three,
+                        special_mode_type: Special mode type (可选, 切换模式为特殊模式时有效)。可选值：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
         task_remarks: Async taskRemark (可选, 最多1024个字符)

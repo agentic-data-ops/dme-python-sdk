@@ -126,7 +126,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
 
 def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     """
-    查询实例详情
+    Query instance details
     
     Query工作流实例的Details。
     
@@ -143,7 +143,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         - template_name: 实例对应的模板名称
         - state: 执行状态（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
         - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
-        - params: 执行实例参数
+        - params: Execute instance parameters
         - step_list: 实例的步骤列表
         - start_time: 实例执行的Start time（毫second(s)）
         - end_time: 实例执行的End time（毫second(s)）
@@ -161,7 +161,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
                     instance_id: str = None,
                     params: dict = None) -> dict:
     """
-    创建并执行实例
+    Create and execute instance
     
     创建并执行工作流实例。可以通过指定模板 id 与模板版本 id（模板版本 id default if not specified为最新版本）
     来创建实例并执行，也可以通过指定实例 id 来找到对应实例对应的模板创建实例并执行。
@@ -171,7 +171,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
         template_id: 模板 id（Optional，1~64 个字符，满足正则）
         template_version_id: 模板版本 id（Optional，1~64 个字符，满足正则）
         instance_id: 实例的 id（Optional，1~64 个字符，满足正则）
-        params: 执行实例参数（Optional），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
+        params: Execute instance parameters（Optional），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
     
     Returns:
         {
@@ -198,7 +198,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
 
 def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> dict:
     """
-    查询步骤日志
+    Query step log
     
     查询工作流实例中指定步骤的执行日志。
     
@@ -250,19 +250,19 @@ ACTIONS = {
     },
     'instance_show': {
         'func': instance_show,
-        'description': '查询实例详情',
+        'description': 'Query instance details',
         'params': ['instance_id'],
         'subtopic': 'instance'
     },
     'instance_create': {
         'func': instance_create,
-        'description': '创建并执行实例',
+        'description': 'Create and execute instance',
         'params': ['template_id', 'template_version_id', 'instance_id', 'params'],
         'subtopic': 'instance'
     },
     'instance_step_log': {
         'func': instance_step_log,
-        'description': '查询步骤日志',
+        'description': 'Query step log',
         'params': ['instance_id', 'step_id'],
         'subtopic': 'instance'
     }
