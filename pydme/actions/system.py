@@ -1380,7 +1380,7 @@ ACTIONS = {
     },
     'tag_type_list': {
         'func': tag_type_list,
-        'description': 'Batch queryTag type',
+        'description': 'Batch query tag type',
         'params': ['start', 'limit', 'name'],
         'subtopic': 'tag_type'
     },
@@ -1392,7 +1392,7 @@ ACTIONS = {
     },
     'tag_type_delete': {
         'func': tag_type_delete,
-        'description': 'Batch deleteTag type',
+        'description': 'Batch delete tag type',
         'params': ['tag_type_ids'],
         'subtopic': 'tag_type'
     },
@@ -1436,39 +1436,39 @@ ACTIONS = {
     # subtopic actions - az (three-level structure)
     'az_list': {
         'func': az_list,
-        'description': 'Batch queryAvailability zone',
+        'description': 'Batch query availability zone',
         'params': ['az_name', 'operate_status', 'start', 'limit', 'is_sc'],
         'subtopic': 'az'
     },
     # subtopic actions - dc (three-level structure)
     'dc_list': {
         'func': dc_list,
-        'description': 'getData center list',
+        'description': 'Get data center list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
     'dc_show': {
         'func': dc_show,
-        'description': 'getData center details',
+        'description': 'Get data center details',
         'params': ['dc_id'],
         'subtopic': 'dc'
     },
     'dc_show_devices': {
         'func': dc_show_devices,
-        'description': 'QueryData centerdevice list info',
+        'description': 'Query data center device list info',
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
     # region subtopic actions
     'region_list': {
         'func': region_list,
-        'description': 'Batch queryRegion',
+        'description': 'Batch query region',
         'params': ['ids', 'name', 'active_ip_address', 'standby_ip_address', 'sync_status', 'role', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'region'
     },
     'region_query': {
         'func': region_query,
-        'description': 'Query sub-levelRegionResource info',
+        'description': 'Query sub-level region resource info',
         'params': ['region_id', 'request_url', 'request_method', 'request_body'],
         'subtopic': 'region'
     },

@@ -563,13 +563,13 @@ ACTIONS = {
     },
     'host_show': {
         'func': host_show,
-        'description': 'QueryHost details',
+        'description': 'Query host details',
         'params': ['host_id', 'vr_type'],
         'subtopic': 'host'
     },
     'host_adapter_list': {
         'func': host_adapter_list,
-        'description': 'QueryHost storage adapter list',
+        'description': 'Query host storage adapter list',
         'params': ['host_id'],
         'subtopic': 'host'
     },
