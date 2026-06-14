@@ -1,5 +1,5 @@
 """
-系统管理 (System) 相关操作
+System management (System) operations
 """
 
 import sys
@@ -10,26 +10,26 @@ from pydme.client import DMEAPIClient
 
 def login(client: DMEAPIClient) -> dict:
     """
-    认证用户登录
+    Auth user login
 
-    强制调用 client.login() 完成认证，然后从 header 获取 accessSession，
-    提示用户可配置环境变量复用认证密钥，避免重复登录。
+    Force call client.login()  completed auth,  then from header get accessSession, 
+    Prompt user to configure env vars to reuse auth token, Avoid duplicate login. 
 
     Args:
-        client: DME API 客户端
+        client: DME API client
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 accessSession
-        - accessSession: 会话 token，用于后续请求的 X-Auth-Token header
+            task_id: Task ID (string, 1~64 characters),
+        }, includes  accessSession
+        - accessSession: session token, for subsequent requests X-Auth-Token header
     """
     client.login()
 
     accessSession = client.headers.get("X-Auth-Token", "")
     if accessSession:
-        print(f"\n登录成功！")
-        print(f"\n提示：配置环境变量复用认证密钥，避免重复登录：")
+        print('\nLogin successful!')
+        print('\nTip: Configure env vars to reuse auth token to avoid duplicate login:')
         print("  export DME_API_AUTH_TOKEN='<accessSession>'")
 
     return {
@@ -39,13 +39,13 @@ def login(client: DMEAPIClient) -> dict:
 
 def logout(client: DMEAPIClient) -> dict:
     """
-    注销当前已经登录的三方会话或普通会话。
+    Logout current third-party or normal session. 
 
     Args:
-        client: DME API 客户端
+        client: DME API client
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/plat/smapp/v1/sessions"
     
@@ -56,24 +56,24 @@ def logout(client: DMEAPIClient) -> dict:
 def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
                    is_initial_password: bool = True) -> dict:
     """
-    根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。
+     Reset specified user password by username, Reset without original password. Third-party user executing this API must have security admin role.ng this API must have security roleAdmin role. 
 
     Args:
-        client: DME API 客户端
-        user_name: 需要重置密码的用户名 (必选, string, 1~128个字符)
-        new_value: 新密码 (必选, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
-        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (必选, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。默认值：true
+        client: DME API client
+        user_name: Password reset requiredUsername (Required, string, 1~128 characters)
+        new_value:  New password (Required, string, 8~32 characters). Requirements: 1. Password length must not be less than 8 characters, and not greater than 32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1 digit, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername and username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
+        is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false). true: Must perform initial password change on next login; false: Direct login next time, No initial modification required. Default: true
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/usm/v1/users/{user_name}/reset-credentials"
 
-    # 参数校验
+    # Parameter validation
     if not user_name or len(user_name) > 128:
-        raise ValueError("user_name 是必选参数，1~128个字符")
+        raise ValueError("user_name is required, 1~128 characters")
     if not new_value or len(new_value) < 8 or len(new_value) > 32:
-        raise ValueError("new_value 是必选参数，8~32个字符")
+        raise ValueError("new_value is required, 8~32 characters")
 
     payload = {
         'newValue': new_value,
@@ -86,20 +86,20 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
 def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     """
-    删除用户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    Delete user. This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.. 
 
     Args:
-        client: DME API 客户端
-        user_id: 用户ID (必选, integer, 11~2147483647)
+        client: DME API client
+        user_id: user ID (Required, integer, 11~2147483647)
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
 
-    # 参数校验
+    # Parameter validation
     if user_id is None:
-        raise ValueError("user_id 是必选参数")
+        raise ValueError("user_id is required")
 
     response = client.delete(url, params={"user_id": user_id})
     return response
@@ -109,24 +109,24 @@ def user_create(client: DMEAPIClient, name: str, type: int,
                 value: str = None, description: str = None,
                 roles: list = None) -> dict:
     """
-    创建用户。
+    Create user. 
 
     Args:
-        client: DME API 客户端
-        name: 用户名 (必选, string, 最多32个字符)。本地用户名不能小于6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名不能小于1个字符，大于32个字符，不能包含不可见字符和;特殊字符。
-        type: 用户类型 (必选, integer, 无)。0：本地用户；2：远端用户。
-        value: 密码 (可选, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。
-        description: 描述 (可选, string, 最多127个字符)
-        roles: 用户所属角色 (可选, List[integer], 数组最大成员个数：10)。如Administrators，北向用户组，安全管理员组，文件系统组或用户自定义角色。
+        client: DME API client
+        name: Username (Required, string,  max 32 characters). Local username cannot be less than 6 characters, and not greater than 32 characters, Cannot contain spaces, escaped character, Invisible and special characters. remote Usernamecannot be less than1 characters, and not greater than 32 characters, Cannot contain invisible characters;special character. 
+        type: User type (Required, integer, N/A). 0: Local user; 2: Remote user. 
+        value: Password (Optional, string, 8~32 characters). Password length cannot be less than 8 characters, and not greater than 32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1 digit, must contain at least1special characters. Remote user not involve. 
+        description:  description (Optional, string,  max127 characters)
+        roles: User role (Optional, List[integer], max array members: 10). E.g., Administrators, northbound user group, security admin group, filesystemGroup or custom user role. 
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/usermgmt/v1/users"
 
-    # 参数校验
+    # Parameter validation
     if not name:
-        raise ValueError("name 是必选参数")
+        raise ValueError("name is required")
 
     payload = {
         'name': name,
@@ -147,23 +147,23 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    批量查询用户信息。
+    Batch query user info. 
 
     Args:
-        client: DME API 客户端
-        page_no: 页数 (必选, integer, 最小值：1)。默认值：1
-        page_size: 页面大小 (必选, integer, 5~200)。默认值：10
-        name: 用户名搜索关键字 (可选, string, 最多32个字符)
+        client: DME API client
+        page_no: Page number (Required, integer, min: 1). Default: 1
+        page_size: Page size (Required, integer, 5~200). Default: 10
+        name: UsernameSearch keyword (Optional, string,  max 32 characters)
 
     Returns:
         {
-            total: 总数 (integer, 最大值：5000),
-            datas: 用户数据 (List<UserData>, 数组最大成员个数：5000)。参数格式如下：[{
-                id: 用户ID (integer, 1~2147483647),
-                name: 用户名 (string, 6~32个字符),
-                description: 描述 (string, 最多127个字符),
-                type: 用户类型 (integer)。可选值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
-                roles: 角色ID列表 (List<integer>, 数组最大成员个数：50),
+            total: Total count (integer, max: 5000),
+            datas: User data (List<UserData>, max array members: 5000). parameter format: [{
+                id: user ID (integer, 1~2147483647),
+                name: Username (string, 6~32 characters),
+                description:  description (string,  max127 characters),
+                type: User type (integer). Options: 0 (Local user), 1 (Third-party system access user), 2 (Remote user),
+                roles:  roleID list (List<integer>, max array members: 50),
             }, ...]
         }
     """
@@ -180,21 +180,21 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    批量查询角色信息。
+    Batch query role info. 
 
     Args:
-        client: DME API 客户端
-        page_no: 页数 (必选, integer, 最小值：1)。默认值：1
-        page_size: 页面大小 (必选, integer, 5~100)。默认值：10
-        name: 角色名搜索关键字 (可选, string, 最多64个字符)
+        client: DME API client
+        page_no: Page number (Required, integer, min: 1). Default: 1
+        page_size: Page size (Required, integer, 5~100). Default: 10
+        name: Role name search keyword (Optional, string,  max64 characters)
 
     Returns:
         {
-            total: 总数 (integer, 最大值：10),
-            datas: 角色数据 (List<RoleData>, 数组最大成员个数：5000)。参数格式如下：[{
-                id: 角色ID (integer, 1~2147483647),
-                name: 角色名称 (string, 最多64个字符),
-                description: 描述 (string, 最多127个字符),
+            total: Total count (integer, max: 10),
+            datas: Role data (List<RoleData>, max array members: 5000). parameter format: [{
+                id:  roleID (integer, 1~2147483647),
+                name:  role name (string,  max64 characters),
+                description:  description (string,  max127 characters),
             }, ...]
         }
     """
@@ -210,26 +210,26 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
 def user_show(client: DMEAPIClient, user_id: int) -> dict:
     """
-    查询指定用户信息。
+    QueryUser info. 
 
     Args:
-        client: DME API 客户端
-        user_id: 用户ID (必选, integer, 1~2147483647)
+        client: DME API client
+        user_id: user ID (Required, integer, 1~2147483647)
 
     Returns:
         {
-            id: 用户ID (integer, 1~2147483647),
-            name: 用户名 (string, 最多32个字符),
-            type: 用户类型 (integer)。可选值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
-            description: 描述 (string, 最多127个字符),
-            roles: 用户所属角色 (List<integer>, 数组最大成员个数：50),
+            id: user ID (integer, 1~2147483647),
+            name: Username (string,  max 32 characters),
+            type: User type (integer). Options: 0 (Local user), 1 (Third-party system access user), 2 (Remote user),
+            description:  description (string,  max127 characters),
+            roles: User role (List<integer>, max array members: 50),
         }
     """
     url = "/rest/usermgmt/v1/users/{user_id}"
     
-    # 参数校验
+    # Parameter validation
     if user_id is None:
-        raise ValueError("user_id 是必选参数")
+        raise ValueError("user_id is required")
 
     response = client.get(url, params={"user_id": user_id})
     return response
@@ -237,15 +237,15 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
 
 def show(client: DMEAPIClient) -> dict:
     """
-    查询产品系统信息。
+    Query product system info. 
 
     Args:
-        client: DME API 客户端
+        client: DME API client
 
     Returns:
         {
-            version: DME产品版本信息 (string, 最多128个字符),
-            sn: DME产品SN号 (string, 最多64个字符),
+            version: DME productVersion info (string,  max128 characters),
+            sn: DME product serial number (string,  max64 characters),
         }
     """
     url = "/rest/productmgmt/v1/system-info"
@@ -256,22 +256,22 @@ def show(client: DMEAPIClient) -> dict:
 
 def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dict:
     """
-    获取DME证书。
+    Get DME certificate. 
 
     Args:
-        client: DME API 客户端
-        service_type: 服务类型 (必选, string)。可选值：APIGWService (DME北向网关)
+        client: DME API client
+        service_type: Service type (Required, string). Options: APIGWService (DME northbound gateway)
 
     Returns:
         {
-            cert: 证书文件Base64编码字符串 (string),
+            cert: Certificate file Base64-encoded string (string),
         }
     """
     url = "/rest/certmgmt/v1/certs"
 
-    # 参数校验
+    # Parameter validation
     if service_type not in ["APIGWService"]:
-        raise ValueError(f"service_type 可选值：APIGWService")
+        raise ValueError("service_type options: APIGWService")
 
     response = client.get(url, params={'service_type': service_type})
     return response
@@ -281,20 +281,20 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
                          name: str = None,
                          page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询备份服务器。
+    Batch query backup servers. 
 
     Args:
-        client: DME API 客户端
-        address: 备份服务器地址，支持IPv4地址，支持模糊匹配 (可选, string, 1~256个字符)
-        name: 备份服务器名称 (可选, string)
-        page_no: 分页查询的起始页码 (可选, int32)。默认值：1
-        page_size: 每页数量 (可选, int32, 1~1000)。默认值：20
+        client: DME API client
+        address: Backup server address,  supportIPv4 address, supports fuzzy match (Optional, string, 1~256 characters)
+        name: Backup server name (Optional, string)
+        page_no: Page queryStart page (Optional, int32). Default: 1
+        page_size: per pagecount (Optional, int32, 1~1000). Default: 20
 
     Returns:
         {
-            total: 备份服务器总数 (int32),
-            backup_servers: 备份服务器列表 (List<BackupServerInfo>)。参数格式如下：[{
-                id: 备份服务器id (string, 1~64个字符),
+            total: Backup serverTotal count (int32),
+            backup_servers:  backupServer list (List<BackupServerInfo>). parameter format: [{
+                id: Backup serverid (string, 1~64 characters),
             }, ...]
         }
     """
@@ -314,7 +314,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     return response
 
 
-# ==================== 待办任务组管理（todo_task_group 子主题） ====================
+# ==================== pending task groupmanagement  (todo_task_group Subtopic)  ====================
 
 def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str = None,
                creator_name: str = None, is_finished: bool = None,
@@ -324,30 +324,30 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
                end_time_from: str = None, end_time_to: str = None,
                sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    查询待办任务组列表
+     query pending task group list
 
     Args:
-        client: DME API 客户端
-        group_id: 待办任务组 ID（可选）
-        name: 待办任务组名称（可选）
-        creator_name: 创建人名称（可选）
-        is_finished: 是否已完成（可选）
-        is_group: 是否群组任务（可选）
-        start: 分页起始位置（可选，0~10000000）
-        limit: 分页个数（可选，1~1000）
-        status: 待办任务组状态列表（可选，1-待处理/2-执行中/3-已完成/4-已关闭）
-        todo_item_status: 待办项状态列表（可选，0-待确认/1-未完成/2-执行中/3-已完成）
-        start_time_from: 开始时间起始值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        start_time_to: 开始时间结束值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        end_time_from: 结束时间起始值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        end_time_to: 结束时间结束值（可选，格式：yyyy-MM-dd HH:mm:ss）
-        sort_key: 排序字段（可选）
-        sort_dir: 排序方式（可选，asc/desc）
+        client: DME API client
+        group_id: pending task group ID (Optional) 
+        name: pending task group name (Optional) 
+        creator_name: Creator name (Optional) 
+        is_finished:  whetherCompleted (Optional) 
+        is_group: Group task (Optional) 
+        start: paginationStart position (Optional, 0~10000000) 
+        limit: paginationcount (Optional, 1~1000) 
+        status: pending task group status list (Optional, 1-Pending, 2-Executing, 3-Completed, 4-Disabled) 
+        todo_item_status: Pending item status list (Optional, 0-Pending confirm, 1-Incomplete, 2-Executing, 3-Completed) 
+        start_time_from: Start time start value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
+        start_time_to: Start time end value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
+        end_time_from: End time start value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
+        end_time_to: End time end value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
+        sort_key: Sort field (Optional) 
+        sort_dir: Sort method (Optional, asc/desc) 
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含待办任务组列表和总数
+            task_id: Task ID (string, 1~64 characters),
+        }, includes pending task group list and total count
     """
     url = "/rest/taskmgmt/v1/todo-groups"
 
@@ -389,16 +389,16 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
 
 def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
     """
-    执行待办任务组
+     execute pending task group
 
-    执行指定的待办任务组。
+    Execute specifiedpending task group. 
 
     Args:
-        client: DME API 客户端
-        group_id: 待办任务组 ID（必选）
+        client: DME API client
+        group_id: pending task group ID (Required) 
 
     Returns:
-        执行结果，包含 task_id
+        Execution result, includes  task_id
     """
     url = "/rest/taskmgmt/v1/todo-groups/{group_id}/execute"
 
@@ -408,14 +408,14 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
 
 def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     """
-    确认执行定时待办任务组
+    Confirm scheduled executionpending task group
 
     Args:
-        client: DME API 客户端
-        group_id: 待办任务组 ID（必选）
+        client: DME API client
+        group_id: pending task group ID (Required) 
 
     Returns:
-        确认结果
+        Confirmation result
     """
     url = "/rest/taskmgmt/v1/todo-groups/{group_id}/confirm"
 
@@ -423,27 +423,27 @@ def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     return response
 
 
-# ==================== 待办任务管理（todo_task 子主题） ====================
+# ==================== Pending task management (todo_task Subtopic)  ====================
 
 def todo_task_list(client: DMEAPIClient, service_type: str,
                status: list = None, page_no: int = None,
                page_size: int = None) -> dict:
     """
-    批量查询待办任务详情
+    Batch query pending task details
 
-    批量查询待办项列表，支持过滤和分页。
+    Batch query pending item list, supports filtering and pagination. 
 
     Args:
-        client: DME API 客户端
-        service_type: 业务类型（必选，wfa_execute_activity-自动化编排）
-        status: 待办项状态列表（可选，1-未执行/2-执行中/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
-        page_no: 页索引号（可选，默认 1）
-        page_size: 每页数量（可选，1~10，默认 10）
+        client: DME API client
+        service_type: Business type (Required, wfa_execute_activity- auto orchestration) 
+        status: Pending item status list (Optional, 1-Not executed/2-Executing/3-Success/4-Partial success/5-Failure/6-Timeout/7-Waitingrning/8-Disabledble/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure) 
+        page_no: Page index (Optional, default 1) 
+        page_size: per pagecount (Optional, 1~10, default 10) 
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含待办项列表和总数
+            task_id: Task ID (string, 1~64 characters),
+        }, includes pending item list and total count
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
 
@@ -463,16 +463,16 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
 def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
-    查询待办项详情信息
+     query pending itemDetails info
 
-    查询指定待办项的详细信息。
+    Query pending item details. 
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
+        client: DME API client
+        item_id: Pending item ID (Required) 
 
     Returns:
-        待办项详细信息
+        Pending itemDetails
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}"
 
@@ -482,16 +482,16 @@ def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
 
 def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
     """
-    执行待办任务
+    Execute pending task
 
-    执行指定的待办项。
+    Execute specifiedPending item. 
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
+        client: DME API client
+        item_id: Pending item ID (Required) 
 
     Returns:
-        执行结果，包含 task_id
+        Execution result, includes  task_id
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/execute"
 
@@ -502,18 +502,18 @@ def todo_task_execute(client: DMEAPIClient, item_id: str) -> dict:
 def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
           suggestion: str = None) -> dict:
     """
-    审核待办任务
+    Review pending task
 
-    对待办项进行审核（批准或拒绝）。
+    Review pending item ( approve or reject) . 
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
-        is_approval: 是否批准（必选，true-批准/false-拒绝）
-        suggestion: 审核建议（可选，0-63 字符）
+        client: DME API client
+        item_id: Pending item ID (Required) 
+        is_approval:  Whether to approve (Required, true-approve, false-reject) 
+        suggestion: Review suggestion (Optional, 0-63  character) 
 
     Returns:
-        审核结果
+        Review result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/audit"
 
@@ -529,16 +529,16 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
 
 def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
     """
-    撤销审核待办项
+    Cancel review pending item
 
-    撤销对指定待办项的审核。
+     revoke specifiedPending item review. 
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
+        client: DME API client
+        item_id: Pending item ID (Required) 
 
     Returns:
-        撤销结果
+        Cancellation result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/revoke-audit"
 
@@ -548,17 +548,17 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
 
 def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     """
-    关闭待办任务
+    Close pending task
 
-    关闭指定的待办项，需要提供关闭原因。
+     Disable specified pending item, must provide shutdown reason. 
 
     Args:
-        client: DME API 客户端
-        item_id: 待办项 ID（必选）
-        reason: 关闭原因（必选，0-63 字符）
+        client: DME API client
+        item_id: Pending item ID (Required) 
+        reason: Shutdown reason (Required, 0-63  character) 
 
     Returns:
-        关闭结果
+         disable result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/close"
 
@@ -570,41 +570,41 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     return response
 
 
-# ==================== 任务管理（task 子主题） ====================
+# ==================== task management  (task Subtopic)  ====================
 
 import time
 
 def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
-    查询指定任务详情
+    Query task details
     
-    根据任务唯一标识 TaskId 进行查询。
+    By taskUnique identifier TaskId query. 
     
     Args:
-        client: DME API 客户端
-        task_id: 任务 ID（必选，1~36 个字符）
+        client: DME API client
+        task_id: task  ID (Required, 1~36  characters) 
     
     Returns:
-        任务详情列表，包含：
-        - id: 任务 ID
-        - name_en: 任务英文名称
-        - name_cn: 任务中文名称
-        - description: 任务描述
-        - parent_id: 父任务 ID
-        - seq_no: 任务序号
-        - status: 状态（1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
-        - progress: 任务进度
-        - owner_name: 创建任务用户名称
-        - owner_id: 创建任务用户 ID
-        - create_time: 任务创建时间（UTC 毫秒数）
-        - start_time: 任务开始时间（UTC 毫秒数）
-        - end_time: 任务结束时间（UTC 毫秒数）
-        - detail_en: 任务英文详情
-        - detail_cn: 任务中文详情
-        - is_support_retry: 是否支持重试
-        - is_support_rollback: 是否支持回滚
-        - remarks: 备注信息
-        - resources: 任务关联的资源列表
+        Task details list, includes : 
+        - id: task  ID
+        - name_en: Task name in English
+        - name_cn: Task name in Chinese
+        - description: task  description
+        - parent_id: Parent task ID
+        - seq_no: Task sequence number
+        - status:  status (1-Initial status;2-Executing;3- success;4-Partial success;5- failure;6- timeout) 
+        - progress: Task progress
+        - owner_name: Create task user name
+        - owner_id: Create task user ID
+        - create_time: Task creation time (UTC ms timestamp) 
+        - start_time: Task start time (UTC ms timestamp) 
+        - end_time: Task end time (UTC ms timestamp) 
+        - detail_en: Task details in English
+        - detail_cn: Task details in Chinese
+        - is_support_retry: supports retry
+        - is_support_rollback: supports rollback
+        - remarks: Remark
+        - resources: Task associated resource list
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
     
@@ -617,20 +617,20 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                owner_id: str = None, create_time_from: int = None,
                create_time_to: int = None) -> dict:
     """
-    批量查询任务
+    Batch querytask 
     
     Args:
-        client: DME API 客户端
-        start: 分页起始位置，默认 1
-        limit: 分页数量，默认 100
-        task_name: 任务名称过滤（可选）
-        status: 状态过滤（可选，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
-        owner_id: 创建任务用户 ID 过滤（可选）
-        create_time_from: 创建时间起始（可选，UTC 毫秒数）
-        create_time_to: 创建时间结束（可选，UTC 毫秒数）
+        client: DME API client
+        start: paginationStart position, default 1
+        limit: Page size, default 100
+        task_name: Task name filter (Optional) 
+        status:  status filter (Optional, 1-Initial status;2-Executing;3- success;4-Partial success;5- failure;6- timeout) 
+        owner_id: Create task user ID  filter (Optional) 
+        create_time_from: Creation time start (Optional, UTC ms timestamp) 
+        create_time_to: Creation time end (Optional, UTC ms timestamp) 
     
     Returns:
-        任务列表
+        Task list
     """
     url = "/rest/taskmgmt/v1/tasks"
     
@@ -656,16 +656,16 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 
 def task_retry(client: DMEAPIClient, task_id: str) -> dict:
     """
-    重试任务
+    Retry task
 
-    重试指定的任务，用于任务未完全成功的重试。
+    Retry specified task, For retrying partially successful tasks. 
 
     Args:
-        client: DME API 客户端
-        task_id: 任务 ID（必选，1~36 个字符）
+        client: DME API client
+        task_id: task  ID (Required, 1~36  characters) 
 
     Returns:
-        重试结果
+         retry result
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}/retry"
 
@@ -676,30 +676,30 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
 def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
               poll_interval: int = 2) -> dict:
     """
-    等待任务完成
+    Wait for task completion
 
-    轮询查询任务状态，直到任务完成或超时。
+    Poll task status, Until task completes or times out. 
 
     Args:
-        client: DME API 客户端
-        task_id: 任务 ID
-        timeout: 超时时间（秒），默认 300 秒
-        poll_interval: 轮询间隔（秒），默认 2 秒
+        client: DME API client
+        task_id: task  ID
+        timeout: timeout (second(s)) , default 300 second(s)
+        poll_interval:  Polling interval (second(s)) , default 2 second(s)
 
     Returns:
-        任务最终状态详情
-        status 说明：
-        - 3: 成功
-        - 4: 部分成功
-        - 5: 失败
-        - 6: 超时
+        Task final status details
+        Status description: 
+        - 3:  success
+        - 4: partial success
+        - 5:  failure
+        - 6:  timeout
     """
     start_time = time.time()
 
     while True:
         task_info = task_show(client, task_id)
 
-        # API 返回的是列表，获取根任务详情
+        # API returns a list, get root task details
         for task in task_info:
             if task["id"] == task_id:
                 root_task = task
@@ -707,11 +707,11 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
 
         status = root_task.get('status')
 
-        # 检查任务是否完成
-        if status in [3, 4, 5, 6]:  # 成功、部分成功、失败、超时
+        # Check if task is complete
+        if status in [3, 4, 5, 6]:  #  success, partial success,  failure,  timeout
             return root_task
 
-        # 检查是否超时
+        # Check timeout
         elapsed = time.time() - start_time
         if elapsed >= timeout:
             return {
@@ -721,23 +721,23 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
                 'current_status': status
             }
 
-        # 等待后继续轮询
+        # Wait then continue polling
         time.sleep(poll_interval)
 
 
-# ==================== 标签类型管理（tag_type 子主题） ====================
+# ==================== Tag typemanagement  (tag_type Subtopic)  ====================
 
 def tag_type_create(client: DMEAPIClient, name: str, description: str = None) -> dict:
     """
-    创建标签类型
+    Create tag type
     
     Args:
-        client: DME API 客户端
-        name: 标签类型名称（必选）
-        description: 标签类型描述（可选）
+        client: DME API client
+        name: Tag type name (Required) 
+        description: Tag type description (Optional) 
     
     Returns:
-        创建的标签类型信息
+        Created tag type info
     """
     url = "/rest/tagmgmt/v1/tag-types"
     
@@ -755,16 +755,16 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
 def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                          name: str = None) -> dict:
     """
-    批量查询标签类型
+    Batch queryTag type
     
     Args:
-        client: DME API 客户端
-        start: 分页起始位置，默认 1
-        limit: 分页数量，默认 100
-        name: 标签类型名称过滤（可选）
+        client: DME API client
+        start: paginationStart position, default 1
+        limit: Page size, default 100
+        name: Tag type name filter (Optional) 
     
     Returns:
-        标签类型列表
+        Tag type list
     """
     url = "/rest/tagmgmt/v1/tag-types/query"
     
@@ -783,16 +783,16 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
                      description: str = None) -> dict:
     """
-    修改标签类型
+    Modify tag type
     
     Args:
-        client: DME API 客户端
-        tag_type_id: 标签类型 ID（必选）
-        name: 标签类型名称（可选）
-        description: 标签类型描述（可选）
+        client: DME API client
+        tag_type_id: Tag type ID (Required) 
+        name: Tag type name (Optional) 
+        description: Tag type description (Optional) 
     
     Returns:
-        修改后的标签类型信息
+        Modified tag type info
     """
     url = "/rest/tagmgmt/v1/tag-types/{tag_type_id}"
     
@@ -809,14 +809,14 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
 
 def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     """
-    批量删除标签类型
+    Batch deleteTag type
     
     Args:
-        client: DME API 客户端
-        tag_type_ids: 标签类型 ID 列表（必选）
+        client: DME API client
+        tag_type_ids: Tag type ID  list (Required) 
     
     Returns:
-        批量删除结果
+        batchDeletion result
     """
     url = "/rest/tagmgmt/v1/tag-types/delete"
     
@@ -828,23 +828,23 @@ def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     return response
 
 
-# ==================== 标签管理（tag 子主题） ====================
+# ====================  tagmanagement  (tag Subtopic)  ====================
 
 def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
                 tag_type_name: str = None, description: str = None, color: str = None) -> dict:
     """
-    创建标签
+    Create tag
     
     Args:
-        client: DME API 客户端
-        name: 标签名称（必选）
-        tag_type_id: 标签类型 ID（必选）
-        tag_type_name: 标签类型名称（API 需要）
-        description: 标签描述（可选）
-        color: 标签颜色（可选）
+        client: DME API client
+        name: Tag name (Required) 
+        tag_type_id: Tag type ID (Required) 
+        tag_type_name: Tag type name (API  need) 
+        description: Tag description (Optional) 
+        color: Tag color (Optional) 
     
     Returns:
-        创建的标签信息
+        Created tag info
     """
     url = "/rest/tagmgmt/v1/tags"
     
@@ -867,17 +867,17 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
 def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                     name: str = None, tag_type_id: str = None) -> dict:
     """
-    批量查询标签
+    Batch query tag
     
     Args:
-        client: DME API 客户端
-        start: 分页起始位置，默认 1
-        limit: 分页数量，默认 100
-        name: 标签名称过滤（可选）
-        tag_type_id: 标签类型 ID 过滤（可选）
+        client: DME API client
+        start: paginationStart position, default 1
+        limit: Page size, default 100
+        name: Tag name filter (Optional) 
+        tag_type_id: Tag type ID  filter (Optional) 
     
     Returns:
-        标签列表
+         tag list
     """
     url = "/rest/tagmgmt/v1/tags/query"
     
@@ -898,17 +898,17 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
                 description: str = None, color: str = None) -> dict:
     """
-    修改标签
+    Modify tag
     
     Args:
-        client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        name: 标签名称（可选）
-        description: 标签描述（可选）
-        color: 标签颜色（可选）
+        client: DME API client
+        tag_id:  tag ID (Required) 
+        name: Tag name (Optional) 
+        description: Tag description (Optional) 
+        color: Tag color (Optional) 
     
     Returns:
-        修改后的标签信息
+        Modified tag info
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}"
     
@@ -927,14 +927,14 @@ def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
 
 def tag_delete(client: DMEAPIClient, tag_ids: list) -> dict:
     """
-    批量删除标签
+    Batch delete tag
     
     Args:
-        client: DME API 客户端
-        tag_ids: 标签 ID 列表（必选）
+        client: DME API client
+        tag_ids:  tag ID  list (Required) 
     
     Returns:
-        批量删除结果
+        batchDeletion result
     """
     url = "/rest/tagmgmt/v1/tags/delete"
     
@@ -948,15 +948,15 @@ def tag_delete(client: DMEAPIClient, tag_ids: list) -> dict:
 
 def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     """
-    标签关联资源
+    Associate tag with resource
     
     Args:
-        client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（必选）
+        client: DME API client
+        tag_id:  tag ID (Required) 
+        resources: Resource list, format is [{"resource_id": "xxx", "resource_type": "xxx"}] (Required) 
     
     Returns:
-        关联结果
+         associated result
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}/associate-resources"
     
@@ -970,15 +970,15 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
 
 def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     """
-    标签取消关联资源
+    Disassociate tag from resource
     
     Args:
-        client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（必选）
+        client: DME API client
+        tag_id:  tag ID (Required) 
+        resources: Resource list, format is [{"resource_id": "xxx", "resource_type": "xxx"}] (Required) 
     
     Returns:
-        取消关联结果
+        Disassociation result
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}/disassociate-resources"
     
@@ -990,30 +990,30 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     return response
 
 
-# ==================== 可用分区管理（az 子主题） ====================
+# ==================== AZ management (az Subtopic)  ====================
 
 def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = None,
          start: int = 1, limit: int = 512, is_sc: bool = False) -> dict:
     """
-    批量查询可用分区。
+    Batch queryAvailability zone. 
 
     Args:
-        client: DME API 客户端
-        az_name: 可用分区名称，支持模糊匹配 (可选, string, 1~64个字符)
-        operate_status: 可用分区运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (可选, string, 1~16个字符)
-        start: 分页的页号，从1开始 (可选, int32, 1~10000000)。默认值：1
-        limit: 分页的大小 (可选, int32, 1~512)。默认值：512
-        is_sc: 是否运营侧查询 (可选, boolean, true,false)。默认值：false
+        client: DME API client
+        az_name: Availability zone name, supports fuzzy match (Optional, string, 1~64 characters)
+        operate_status: AZ operation status. For offline AZs, operate_status is null. Currently only supports filtering online AZsaz (Optional, string, 1~16 characters)
+        start: Page number, starting from 1 (Optional, int32, 1~10000000). Default: 1
+        limit: Page size (Optional, int32, 1~512). Default: 512
+        is_sc: Operation-side query (Optional, boolean, true,false). Default: false
 
     Returns:
         {
-            total: 可用分区总数 (integer),
-            az_list: 可用分区列表 (List<GetAzResponse>)。参数格式如下：[{
-                id: 可用分区id (string),
-                name: 可用分区名称 (string),
-                description: 可用分区描述 (string),
-                operate_status: 可用分区的运营状态 (string)。默认值：offline,
-                site_urn: 站点urn (string, 1~64个字符),
+            total: Availability zoneTotal count (integer),
+            az_list: Availability zone list (List<GetAzResponse>). parameter format: [{
+                id: Availability zoneid (string),
+                name: Availability zone name (string),
+                description: Availability zone description (string),
+                operate_status: Availability zone operations status (string). Default: offline,
+                site_urn:  siteurn (string, 1~64 characters),
             }, ...]
         }
     """
@@ -1035,25 +1035,25 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     return response
 
 
-# ==================== 数据中心管理（dc 子主题） ====================
+# ==================== Data centermanagement  (dc Subtopic)  ====================
 
 def dc_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
     """
-    获取数据中心列表
+    getData center list
     
-    查询数据中心列表，支持按名称过滤和分页。
+     queryData center list, supports name filtering and pagination. 
     
     Args:
-        client: DME API 客户端
-        name: 数据中心名称（可选，支持模糊查询）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        client: DME API client
+        name: Data center name (Optional, supports fuzzy search) 
+        page_no: Page queryStart page, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 datacenters 字段
+            task_id: Task ID (string, 1~64 characters),
+        }, includes total and datacenters fields
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/query"
     
@@ -1071,16 +1071,16 @@ def dc_list(client: DMEAPIClient, name: str = None,
 
 def dc_show(client: DMEAPIClient, dc_id: str) -> dict:
     """
-    获取数据中心详情
+    getData center details
     
-    查询指定数据中心的详细信息。
+    Query data center details. 
     
     Args:
-        client: DME API 客户端
-        dc_id: 数据中心 ID（必选）
+        client: DME API client
+        dc_id: Data center ID (Required) 
     
     Returns:
-        数据中心详细信息
+        Data centerDetails
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/{dc_id}"
     
@@ -1092,21 +1092,21 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
                  device_type: list = None, page_no: int = 1,
                  page_size: int = 20) -> dict:
     """
-    查询指定数据中心的设备列表信息
+    QueryData centerdevice list info
     
     Args:
-        client: DME API 客户端
-        dc_id: 数据中心 ID（必选）
-        device_type: 设备类型列表（可选）
-                     取值：server, storage, network, switch, router, firewall,
+        client: DME API client
+        dc_id: Data center ID (Required) 
+        device_type: Device type list (Optional) 
+                      value: server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_no: Page queryStart page, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含设备列表
+            task_id: Task ID (string, 1~64 characters),
+        }, Includes device list
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/devices/query"
     
@@ -1129,29 +1129,29 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
                 sort_key: str = None, sort_dir: str = None,
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询Region。
+    Batch queryRegion. 
 
     Args:
-        client: DME API 客户端
-        ids: Region的ID列表，支持精确匹配 (可选, List[string], 数组最大成员个数：100)
-        name: Region的名称，支持模糊搜索 (可选, string, 最多256个字符)
-        active_ip_address: Region主IP地址，支持模糊搜索 (可选, string, 最多256个字符)
-        standby_ip_address: Region备IP地址，支持模糊搜索 (可选, string, 最多256个字符)
-        sync_status: Region同步状态，精确过滤 (可选, List[string], 数组最大成员个数：3)。可选值：normal (正常), sync (同步中), failed (同步失败)
-        role: Region角色，精确过滤 (可选, string)。可选值：parent (上级Region), child (下级Region)
-        sort_key: 排序字段 (可选, string)。可选值：last_sync_time (最近同步时间)
-        sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)。默认值：desc
-        page_no: 分页查询的开始页 (可选, int32, 1~100)。默认值：1
-        page_size: 每页数量 (可选, int32, 1~100)。默认值：20
+        client: DME API client
+        ids: RegionID list,  supportexact match (Optional, List[string], max array members: 100)
+        name: Region name, supports fuzzy search (Optional, string,  max256 characters)
+        active_ip_address: Region primary IP address, supports fuzzy search (Optional, string,  max256 characters)
+        standby_ip_address: Region standby IP address, supports fuzzy search (Optional, string,  max256 characters)
+        sync_status: Region sync status, Exact filter (Optional, List[string], max array members: 3). Options: normal, sync (Syncing), failed (Sync failure)
+        role: Region role, Exact filter (Optional, string). Options: parent, child
+        sort_key: Sort field (Optional, string). Options: last_sync_time ( recentSync time)
+        sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending). Default: desc
+        page_no: Page query start (Optional, int32, 1~100). Default: 1
+        page_size: per pagecount (Optional, int32, 1~100). Default: 20
 
     Returns:
         {
-            total: 总数 (integer),
-            regions: Region列表。参数格式如下：[{
+            total: Total count (integer),
+            regions: Region list. parameter format: [{
                 id: Region ID (string),
-                name: Region名称 (string),
-                role: Region角色 (string),
-                sync_status: 同步状态 (string),
+                name: Region name (string),
+                role: Region role (string),
+                sync_status: Sync status (string),
             }, ...],
         }
     """
@@ -1185,24 +1185,24 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
 def region_query(client: DMEAPIClient, region_id: str, request_url: str,
                  request_method: str, request_body: str = None) -> dict:
     """
-    查询下级Region资源信息。
+    Query sub-levelRegionResource info. 
 
     Args:
-        client: DME API 客户端
-        region_id: 下级Region的ID (必选, string, 1~64个字符)
-        request_url: 查询下级相应资源北向接口URL (必选, string, 1~8192个字符)
-        request_method: 请求方式 (必选, string)。可选值：get (Get请求), post (Post请求)
-        request_body: 调用下级北向接口请求Body体 (可选, string, 1~20480个字符)
+        client: DME API client
+        region_id: Child region ID (Required, string, 1~64 characters)
+        request_url: Query sub-levelCorresponding resource northbound APIURL (Required, string, 1~8192 characters)
+        request_method:  Request method (Required, string). Options: get, post
+        request_body: Call lower-level northbound API request body (Optional, string, 1~20480 characters)
 
     Returns:
-        无
+        N/A
     """
     url = "/rest/regionmgmt/v1/regions/{region_id}/resources/query"
 
     if not region_id:
-        raise ValueError("region_id 是必选参数")
+        raise ValueError("region_id is required")
     if not request_url:
-        raise ValueError("request_url 是必选参数")
+        raise ValueError("request_url is required")
 
     payload = {
         'request_url': request_url,
@@ -1215,82 +1215,82 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # 直接动作（两级结构）
+    # Direct action (Two-level structure) 
     'login': {
         'func': login,
-        'description': '认证用户登录',
+        'description': 'Auth user login',
         'params': ['username', 'password', 'grant_type'],
         'subtopic': None
     },
     'logout': {
         'func': logout,
-        'description': '注销会话',
+        'description': 'Logout session',
         'params': [],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': '查询产品系统信息',
+        'description': 'Query product system info',
         'params': [],
         'subtopic': None
     },
     'certificate': {
         'func': certificate,
-        'description': '获取 DME 证书',
+        'description': 'Get DME certificate',
         'params': [],
         'subtopic': None
     },
     'reset_password': {
         'func': reset_password,
-        'description': '重置密码',
+        'description': ' reset password',
         'params': ['user_name', 'new_value', 'is_initial_password'],
         'subtopic': None
     },
-    # 子主题动作 - user（三级结构）
+    # subtopic actions - user (three-level structure)
     'user_list': {
         'func': user_list,
-        'description': '批量查询用户信息',
+        'description': 'Batch query user info',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'user'
     },
     'user_show': {
         'func': user_show,
-        'description': '查询指定用户信息',
+        'description': 'Query user info',
         'params': ['user_id'],
         'subtopic': 'user'
     },
     'user_create': {
         'func': user_create,
-        'description': '创建用户',
+        'description': 'Create user',
         'params': ['name', 'type', 'value', 'description', 'roles'],
         'subtopic': 'user'
     },
     'user_delete': {
         'func': user_delete,
-        'description': '删除用户',
+        'description': 'Delete user',
         'params': ['user_id'],
         'subtopic': 'user'
     },
-    # 子主题动作 - role（三级结构）
+    # subtopic actions - role (three-level structure)
     'role_list': {
         'func': role_list,
-        'description': '批量查询角色信息',
+        'description': 'Batch query role info',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
-    # 子主题动作 - backup_server（三级结构）
+    # subtopic actions - backup_server (three-level structure)
     'backup_server_list': {
         'func': backup_server_list,
-        'description': '批量查询备份服务器',
+        'description': 'Batch query backup servers',
         'params': ['address', 'name', 'page_no', 'page_size'],
         'subtopic': 'backup_server'
     },
-    # 子主题动作 - todo_task_group（三级结构）
+    # subtopic actions - todo_task_group (three-level structure)
     'todo_task_group_list': {
         'func': todo_task_group_list,
-        'description': '查询待办任务组列表',
+        'description': ' query pending task group list',
         'params': ['group_id', 'name', 'creator_name', 'is_finished', 'is_group',
                    'start', 'limit', 'status', 'todo_item_status',
                    'start_time_from', 'start_time_to', 'end_time_from',
@@ -1299,176 +1299,176 @@ ACTIONS = {
     },
     'todo_task_group_execute': {
         'func': todo_task_group_execute,
-        'description': '执行待办任务组',
+        'description': ' execute pending task group',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
     'todo_task_group_confirm': {
         'func': todo_task_group_confirm,
-        'description': '确认执行定时待办任务组',
+        'description': 'Confirm scheduled executionpending task group',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
-    # 子主题动作 - todo_task（三级结构）
+    # subtopic actions - todo_task (three-level structure)
     'todo_task_list': {
         'func': todo_task_list,
-        'description': '查询待办任务列表',
+        'description': 'Query pending task list',
         'params': ['service_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'todo_task'
     },
     'todo_task_show': {
         'func': todo_task_show,
-        'description': '查询待办任务详情',
+        'description': 'Query pending task details',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
     'todo_task_execute': {
         'func': todo_task_execute,
-        'description': '执行待办任务',
+        'description': 'Execute pending task',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
     'todo_task_audit': {
         'func': todo_task_audit,
-        'description': '审核待办任务',
+        'description': 'Review pending task',
         'params': ['item_id', 'is_approval', 'suggestion'],
         'subtopic': 'todo_task'
     },
     'todo_task_revoke': {
         'func': todo_task_revoke,
-        'description': '撤销审核待办项',
+        'description': 'Cancel review pending item',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
     'todo_task_close': {
         'func': todo_task_close,
-        'description': '关闭待办任务',
+        'description': 'Close pending task',
         'params': ['item_id', 'reason'],
         'subtopic': 'todo_task'
     },
-    # 子主题动作 - task（三级结构）
+    # subtopic actions - task (three-level structure)
     'task_show': {
         'func': task_show,
-        'description': '查询指定任务详情',
+        'description': 'Query task details',
         'params': ['task_id'],
         'subtopic': 'task'
     },
     'task_list': {
         'func': task_list,
-        'description': '批量查询任务',
+        'description': 'Batch querytask ',
         'params': ['start', 'limit', 'task_name', 'status', 'owner_id', 'create_time_from', 'create_time_to'],
         'subtopic': 'task'
     },
     'task_retry': {
         'func': task_retry,
-        'description': '重试任务',
+        'description': 'Retry task',
         'params': ['task_id'],
         'subtopic': 'task'
     },
     'task_wait': {
         'func': task_wait,
-        'description': '等待任务完成',
+        'description': 'Wait for task completion',
         'params': ['task_id', 'timeout', 'poll_interval'],
         'subtopic': 'task'
     },
-    # 子主题动作 - tag_type（三级结构）
+    # subtopic actions - tag_type (three-level structure)
     'tag_type_create': {
         'func': tag_type_create,
-        'description': '创建标签类型',
+        'description': 'Create tag type',
         'params': ['name', 'description'],
         'subtopic': 'tag_type'
     },
     'tag_type_list': {
         'func': tag_type_list,
-        'description': '批量查询标签类型',
+        'description': 'Batch query tag type',
         'params': ['start', 'limit', 'name'],
         'subtopic': 'tag_type'
     },
     'tag_type_modify': {
         'func': tag_type_modify,
-        'description': '修改标签类型',
+        'description': 'Modify tag type',
         'params': ['tag_type_id', 'name', 'description'],
         'subtopic': 'tag_type'
     },
     'tag_type_delete': {
         'func': tag_type_delete,
-        'description': '批量删除标签类型',
+        'description': 'Batch delete tag type',
         'params': ['tag_type_ids'],
         'subtopic': 'tag_type'
     },
-    # 子主题动作 - tag（三级结构）
+    # subtopic actions - tag (three-level structure)
     'tag_create': {
         'func': tag_create,
-        'description': '创建标签',
+        'description': 'Create tag',
         'params': ['name', 'tag_type_id', 'tag_type_name', 'description', 'color'],
         'subtopic': 'tag'
     },
     'tag_list': {
         'func': tag_list,
-        'description': '批量查询标签',
+        'description': 'Batch query tag',
         'params': ['start', 'limit', 'name', 'tag_type_id'],
         'subtopic': 'tag'
     },
     'tag_modify': {
         'func': tag_modify,
-        'description': '修改标签',
+        'description': 'Modify tag',
         'params': ['tag_id', 'name', 'description', 'color'],
         'subtopic': 'tag'
     },
     'tag_delete': {
         'func': tag_delete,
-        'description': '批量删除标签',
+        'description': 'Batch delete tag',
         'params': ['tag_ids'],
         'subtopic': 'tag'
     },
     'tag_bind': {
         'func': tag_bind,
-        'description': '标签关联资源',
+        'description': 'Associate tag with resource',
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
     'tag_unbind': {
         'func': tag_unbind,
-        'description': '标签取消关联资源',
+        'description': 'Disassociate tag from resource',
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
-    # 子主题动作 - az（三级结构）
+    # subtopic actions - az (three-level structure)
     'az_list': {
         'func': az_list,
-        'description': '批量查询可用分区',
+        'description': 'Batch query availability zone',
         'params': ['az_name', 'operate_status', 'start', 'limit', 'is_sc'],
         'subtopic': 'az'
     },
-    # 子主题动作 - dc（三级结构）
+    # subtopic actions - dc (three-level structure)
     'dc_list': {
         'func': dc_list,
-        'description': '获取数据中心列表',
+        'description': 'Get data center list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
     'dc_show': {
         'func': dc_show,
-        'description': '获取数据中心详情',
+        'description': 'Get data center details',
         'params': ['dc_id'],
         'subtopic': 'dc'
     },
     'dc_show_devices': {
         'func': dc_show_devices,
-        'description': '查询指定数据中心的设备列表信息',
+        'description': 'Query data center device list info',
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
-    # region 子主题动作
+    # region subtopic actions
     'region_list': {
         'func': region_list,
-        'description': '批量查询Region',
+        'description': 'Batch query region',
         'params': ['ids', 'name', 'active_ip_address', 'standby_ip_address', 'sync_status', 'role', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'region'
     },
     'region_query': {
         'func': region_query,
-        'description': '查询下级Region资源信息',
+        'description': 'Query sub-level region resource info',
         'params': ['region_id', 'request_url', 'request_method', 'request_body'],
         'subtopic': 'region'
     },

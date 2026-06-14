@@ -1,5 +1,5 @@
 """
-GFS (Global File System) 相关操作
+GFS (Global File System) operations
 """
 
 import sys
@@ -9,31 +9,31 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# Dataspace 子主题相关动作
+# Dataspace subtopic actions
 # ============================================================================
 
 def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
                    raw_id: str = None, max_site_num: int = None,
                    page_no: int = 1, page_size: int = 100) -> dict:
     """
-    批量查询 Omni-Dataverse
+    Batch query Omni-Dataverse
 
     Args:
-        client: DME API 客户端
-        name: Omni-Dataverse 名称，支持模糊查询
+        client: DME API client
+        name: Omni-Dataverse  name, supports fuzzy search
         id: Omni-Dataverse id
-        raw_id: Omni-Dataverse 在设备侧的 id
-        max_site_num: Omni-Dataverse 下数据服务站点最大数量
-        page_no: 分页查询的页码，默认 1，范围 1~10000
-        page_size: 分页查询的个数，默认 100，范围 1~1000
+        raw_id: Omni-Dataverse ID on device
+        max_site_num: max data service sites under Omni-Dataverse
+        page_no: Page number, default 1,  range 1~10000
+        page_size: Items per page, default 100,  range 1~1000
 
     Returns:
         {
-            total: 总数 (integer),
-            gfs_groups: Omni-Dataverse 列表。参数格式如下：[{
+            total: Total count (integer),
+            gfs_groups: Omni-Dataverse  list. parameter format: [{
                 id: ID (string),
-                name: 名称 (string),
-                status: 状态 (string),
+                name:  name (string),
+                status:  status (string),
             }, ...],
         }
     """
@@ -59,15 +59,15 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
 
 def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> dict:
     """
-    查询指定 Omni-Dataverse 的容量统计信息
+    Query Omni-Dataverse capacity statistics
 
     Args:
-        client: DME API 客户端
-        id: Omni-Dataverse 的 ID，与 name 不能同时为空，都有值时优先使用 ID
-        name: Omni-Dataverse 名称，与 id 不能同时为空，都有值时优先使用 ID
+        client: DME API client
+        id: Omni-Dataverse ID, cannot both be empty with name; ID takes precedence when both have values
+        name: Omni-Dataverse  name, cannot both be empty with id; ID takes precedence when both have values
 
     Returns:
-        Omni-Dataverse 容量统计信息
+        Omni-Dataverse Capacity statistics info
     """
     url = "/rest/fileservice/v1/gfs-groups/query-summary"
 
@@ -88,21 +88,21 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
                         account_name: str = None, page_no: int = 1,
                         page_size: int = 100) -> dict:
     """
-    查询 Omni-Dataverse 数据服务站点
+     query Omni-Dataverse Data service site
 
     Args:
-        client: DME API 客户端
-        raw_id: 数据服务站点在设备侧的 id
-        site_role: 数据服务站点角色，包含 site_role 字段，取值范围：ORDINARY(普通站点)，METASTORE(元数据服务站点)
+        client: DME API client
+        raw_id: Data service siteID on device
+        site_role: Data service site role, Options: ORDINARY, METASTORE
         gfs_group_id: Omni-Dataverse id
-        storage_name: 根据存储名称查询数据服务站点，支持模糊查询
-        storage_pool_name: 根据存储池名称查询数据服务站点，支持模糊查询
-        account_name: 根据账户名称查询数据服务站点，支持模糊查询
-        page_no: 分页查询的页码，默认 1，范围 1~10000
-        page_size: 分页查询的个数，默认 100，范围 1~1000
+        storage_name: Query by storage nameData service site, supports fuzzy search
+        storage_pool_name:  based onStorage pool name queryData service site, supports fuzzy search
+        account_name: Query by account nameData service site, supports fuzzy search
+        page_no: Page number, default 1,  range 1~10000
+        page_size: Items per page, default 100,  range 1~1000
 
     Returns:
-        数据服务站点列表
+        Data service site list
     """
     url = "/rest/fileservice/v1/data-service-sites/query"
 
@@ -129,7 +129,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
 
 
 # ============================================================================
-# Namespace 子主题相关动作
+# Namespace subtopic actions
 # ============================================================================
 
 def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str = None,
@@ -137,21 +137,21 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
                    sort_key: str = None, sort_dir: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询全局命名空间
+    Batch query global namespace
 
     Args:
-        client: DME API 客户端
-        name: 全局命名空间的名称，支持模糊搜索 (0~256个字符, 可选)
-        gfs_group_name: 全局数据空间的名称，支持模糊搜索 (0~256个字符, 可选)
-        gfs_group_id: 所属全局数据空间的 ID (1~32个字符, 可选)
-        gfs_type: 全局命名空间类型 (可选)。可选值：enable_object_multi_version (支持对象多版本), disable_object_multi_version (不支持对象多版本)
-        sort_key: 按照指定字段排序 (可选)。可选值：child_name_space_num
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：asc
-        page_no: 分页起始页 (int32, 1~1000, 默认值: 1, 可选)
-        page_size: 每页查询的数量 (int32, 1~1000, 默认值: 20, 可选)
+        client: DME API client
+        name: Global namespace name, supports fuzzy search (0~256 characters, Optional)
+        gfs_group_name: Global data space name, supports fuzzy search (0~256 characters, Optional)
+        gfs_group_id: Global data space ID (1~32 characters, Optional)
+        gfs_type: Global namespace type. Options: enable_object_multi_version, disable_object_multi_versionsupports object multi-version)
+        sort_key: Sort field. Options: child_name_space_num
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). Default: asc
+        page_no: pagination start page (int32, 1~1000, Default: 1, Optional)
+        page_size: Items per page (int32, 1~1000, Default: 20, Optional)
 
     Returns:
-        全局命名空间列表
+        Global namespace list
     """
     url = "/rest/fileservice/v1/gfs/query"
 
@@ -179,15 +179,15 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
 
 def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = None) -> dict:
     """
-    查询全局命名空间详情
+     query global namespace details
 
     Args:
-        client: DME API 客户端
-        id: 全局命名空间的 ID，与 name_locator 不能同时为空，都有值时优先使用 ID
-        name_locator: 名称定位器，格式为：全局命名空间的名称@全局数据空间的名称
+        client: DME API client
+        id: Global namespace ID, cannot both be empty with name_locator; ID takes precedence when both have values
+        name_locator: Name locator format:: global_namespace_name@global_data_space_name
 
     Returns:
-        全局命名空间详细信息
+        Global namespaceDetails
     """
     url = "/rest/fileservice/v1/gfs/detail/query"
 
@@ -207,26 +207,26 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
                      single_write_switch: str = None,
                      smart_share_members: list = None) -> dict:
     """
-    创建全局命名空间
+    create Global namespace
 
     Args:
-        client: DME API 客户端
-        name: 全局命名空间名称 (1~255个字符, 必填)
-        gfs_group_id: 全局数据空间 ID (1~32个字符, 可选。与 gfs_group_name 不能同时为空，都有值时优先使用 gfs_group_id)
-        gfs_group_name: 全局数据空间名称 (1~255个字符, 可选。与 gfs_group_id 不能同时为空，都有值时优先使用 gfs_group_id)
-        gfs_mode: 全局命名空间模式 (可选)。可选值：smart_share。默认值：smart_share
-        single_write_switch: 单写模式开关 (可选)。可选值：close (任意成员可写入), open (只有一个成员可写入)
-        smart_share_members: SmartShare 成员列表 (List<SmartShareMember>, 数组最大成员个数: 32, 可选。当 gfs_mode 取值为 smart_share 时必选)。参数格式如下：[{
-                id: 命名空间 ID (1~64个字符, 必填),
-                pull_mode: 读数据模式 (可选)。可选值：no_cache (转发读), on_demand (按需读)。默认值：on_demand,
-                cache_time: 缓存时长 (int32, 可选, 默认值: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
-                cache_time_unit: 缓存时长单位 (可选)。可选值：hour (小时), day (天)。cache_time 取值时必选。默认值：hour,
-                single_write_mode: 单写模式策略 (可选)。可选值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，必须且只能有一个成员取值为 read_write,
+        client: DME API client
+        name:  globalNamespace name (1~255 characters, Required)
+        gfs_group_id: Global data space ID (1~32 characters, Optional. cannot both be empty with gfs_group_name; takes precedence when both have valuess_group_id)
+        gfs_group_name: Global data space name (1~255 characters, Optional. cannot both be empty with gfs_group_id; takes precedence when both have valuess_group_id)
+        gfs_mode: Global namespace mode. Options: smart_share. Default: smart_share
+        single_write_switch: Single write mode switch. Options: close (any member can write), open (only one member can write)
+        smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional. required when gfs_mode is smart_share). parameter format: [{
+                id: Namespace ID (1~64 characters, Required),
+                pull_mode: Read mode. Options: no_cache (forwarded read), on_demand (read on demand). Default: on_demand,
+                cache_time: Cache duration (int32, Optional, Default: 8). When unit is hour: 1-4320, when day: 1-180,
+                cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value. Default: hour,
+                single_write_mode: Single write mode policy (Optional). Options: read_only, read_write. When single_write_switch is open, exactly one member must have the value read_write,
              }, ...]
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs"
@@ -252,22 +252,22 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
 def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = None,
                      smart_share_members: list = None) -> dict:
     """
-    修改指定全局命名空间
+    ModifyGlobal namespace
 
     Args:
-        client: DME API 客户端
-        id: 全局命名空间的 ID (1~32个字符, 可选。与 name_locator 不能同时为空，都有值时优先使用 id)
-        name_locator: 名称定位器，格式为：全局命名空间的名称@全局数据空间的名称 (3~507个字符, 可选。与 id 不能同时为空，都有值时优先使用 id)
-        smart_share_members: SmartShare 成员列表 (List<ModifySmartShareMember>, 数组最小成员个数: 0, 数组最大成员个数: 256, 可选。当全局命名空间的模式为 smart_share 时该参数有效)。参数格式如下：[{
-                id: 命名空间 ID 或文件系统 ID (1~64个字符, 必填),
-                pull_mode: 读数据模式 (可选)。可选值：no_cache (转发读), on_demand (按需读),
-                cache_time: 缓存时长 (int32, 可选, 默认值: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
-                cache_time_unit: 缓存时长单位 (可选)。可选值：hour (小时), day (天)。cache_time 取值时必选,
+        client: DME API client
+        id: Global namespace ID (1~32 characters, Optional. cannot both be empty with name_locator; takes precedence when both have values id)
+        name_locator: Name locator format:: global_namespace_name@global_data_space_name (3~507 characters, Optional. cannot both be empty with id; takes precedence when both have values id)
+        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. When global namespace mode is smart_share parameter effective when). parameter format: [{
+                id: Namespace ID or filesystem ID (1~64 characters, Required),
+                pull_mode: Read data mode (Optional). Options: no_cache (forwarded read), on_demand (read on demand),
+                cache_time: Cache duration (int32, Optional, Default: 8). When unit is hour: 1-4320, when day: 1-180,
+                cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value,
              }, ...]
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/modify"
@@ -288,17 +288,17 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
 def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = None,
                      is_delete_child: bool = True) -> dict:
     """
-    删除指定的全局命名空间
+    Delete global namespace
 
     Args:
-        client: DME API 客户端
-        id: 全局命名空间的 ID，与 name_locator 不能同时为空
-        name_locator: 名称定位器，格式为：全局命名空间的名称@全局数据空间的名称
-        is_delete_child: 是否删除子命名空间，默认 true
+        client: DME API client
+        id: Global namespace ID, cannot both be empty with name_locator
+        name_locator: Name locator format:: global_namespace_name@global_data_space_name
+        is_delete_child:  Whether to delete child namespace, default true
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/delete"
@@ -317,7 +317,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
 
 
 # ============================================================================
-# Migration Task 子主题相关动作
+# Migration Task subtopic actions
 # ============================================================================
 
 def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
@@ -329,28 +329,28 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
                         page_no: int = 1, page_size: int = 20,
                         sort_dir: str = 'desc', sort_key: str = None) -> dict:
     """
-    批量查询 Omni-Dataverse 数据迁移任务
+    Batch query Omni-Dataverse Data migration task
 
     Args:
-        client: DME API 客户端
-        gfs_id: 全局命名空间 ID (1~32个字符, 可选)
-        task_name: 任务名称，支持模糊查询 (1~256个字符, 可选)
-        task_id: 数据迁移任务在设备侧的 ID (1~256个字符, 可选)
-        target_storage_name: 目标站点名称 (1~256个字符, 可选)
-        namespace_name: 命名空间名称，支持模糊查询 (1~256个字符, 可选)
-        namespace_id: 命名空间 ID (1~32个字符, 可选)
-        namespace_raw_id: 命名空间在设备侧 ID (1~256个字符, 可选)
-        local_path: 命名空间下的路径，支持模糊查询 (1~256个字符, 可选, 默认值: "/")
-        status: 任务状态列表 (List<string>, 数组最大成员个数: 9, 可选)。可选值：not_run (未运行), synchronizing (数据同步中), completed (完成), suspended (已暂停), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
-        task_mode: 任务模式列表 (List<string>, 数组最大成员个数: 2, 可选)
-        execute_mode: 执行模式列表 (List<string>, 数组最大成员个数: 2, 可选)
-        page_no: 分页查询页码 (int32, 1~1000, 默认值: 1, 可选)
-        page_size: 每页显示的数量 (int32, 1~1000, 默认值: 20, 可选)
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
-        sort_key: 排序参数 (可选)。可选值：progress (任务执行进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
+        client: DME API client
+        gfs_id: Global namespace ID (1~32 characters, Optional)
+        task_name: Task name, supports fuzzy search (1~256 characters, Optional)
+        task_id: Data migration task ID on device (1~256 characters, Optional)
+        target_storage_name: Target site name (1~256 characters, Optional)
+        namespace_name: Namespace name, supports fuzzy search (1~256 characters, Optional)
+        namespace_id: Namespace ID (1~32 characters, Optional)
+        namespace_raw_id: Namespace ID on device (1~256 characters, Optional)
+        local_path: Namespace path, supports fuzzy search (1~256 characters, Optional, Default: "/")
+        status: Task status list (List<string>, max array members: 9, Optional). Options: not_run (not running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled ( pending), partially_success (partial success), failed ( failure), unknown (unknown)
+        task_mode: Task mode list (List<string>, max array members: 2, Optional)
+        execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
+        page_no: Page number (int32, 1~1000, Default: 1, Optional)
+        page_size: Items per page (int32, 1~1000, Default: 20, Optional)
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
+        sort_key: Sort key (Optional). Options: progress (Task execution progress), real_start_time (actual start time), real_finish_time (task actualEnd time)
 
     Returns:
-        数据迁移任务列表
+        Data migration task list
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/query"
 
@@ -391,14 +391,14 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
 
 def migration_task_show(client: DMEAPIClient, id: str) -> dict:
     """
-    查询 Omni-Dataverse 数据迁移任务详情
+     query Omni-Dataverse Data migration task details
 
     Args:
-        client: DME API 客户端
-        id: 数据迁移任务 ID
+        client: DME API client
+        id: Data migration task ID
 
     Returns:
-        数据迁移任务详细信息
+        Data migration taskDetails
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
 
@@ -427,57 +427,57 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
                           user_name: str = None, group_operator: str = None,
                           group_name: str = None, files_filter: dict = None) -> dict:
     """
-    创建 Omni-Dataverse 数据迁移任务
+    create  Omni-Dataverse Data migration task
 
     Args:
-        client: DME API 客户端
-        gfs_id: 全局命名空间 ID (1~64个字符, 必填)
-        task_name: 任务名称 (1~255个字符, 可选)
-        task_mode: 任务模式 (必填)。可选值：pre_fetch (预取缓存), tier (数据拉取)
-        execute_mode: 执行模式 (可选)。可选值：interval (周期性), one_time (只执行一次)。当 task_mode 为 pre_fetch 时该参数无效
-        execute_time: 周期性任务执行时间间隔 (int32, 1~365, 可选)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
-        execute_time_unit: 周期性任务执行时间间隔单位 (可选)。可选值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
-        start_mode: 任务执行模式 (必填)。可选值：manual (手动), auto (自动)
-        start_time: 任务启动的 UTC 时间戳 (int64, 最小值: 0, 单位: 秒, 可选)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
-        max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, 必填)
-        period_start_day: 指定时间段的起始日期 (可选, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth 必须同时下发
-        period_end_day: 指定时间段的结束日期 (可选, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth 必须同时下发
-        period_time: 指定时间段的起止时间 (可选, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth 必须同时下发
-        period_max_bandwidth: 指定时间段的带宽上限 (可选, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time 必须同时下发
-        target_namespace_id: 全局命名空间下目标命名空间 ID (1~32个字符, 必填)
-        local_path: 命名空间下的路径 (可选, 默认值: "/")
-        src_namespace_ids: 全局命名空间下源站点命名空间 ID 列表 (List<string>, 数组最大成员个数: 32, 可选)
-        atime_operator: 文件的访问时间匹配规则 (可选)。可选值：less_or_equal (小于等于), greater (大于)。与 atime、atime_unit 必须同时下发
-        atime: 文件的访问时间间隔 (int32, 0~26304, 可选)。与 atime_operator、atime_unit 必须同时下发
-        atime_unit: 文件的访问时间间隔单位 (可选)。可选值：hour (小时), day (天)。与 atime_operator、atime 必须同时下发
-        mtime_operator: 文件的修改时间匹配规则 (可选)。可选值：less_or_equal (小于等于), greater (大于)。与 mtime、mtime_unit 必须同时下发
-        mtime: 文件的修改时间间隔 (int32, 0~26304, 可选)。与 mtime_operator、mtime_unit 必须同时下发
-        mtime_unit: 文件的修改时间间隔单位 (可选)。可选值：hour (小时), day (天)。与 mtime_operator、mtime 必须同时下发
-        ctime_operator: 文件的状态修改时间匹配规则 (可选)。可选值：less_or_equal (小于等于), greater (大于)。与 ctime、ctime_unit 必须同时下发
-        ctime: 文件的状态修改时间间隔 (int32, 0~26304, 可选)。与 ctime_operator、ctime_unit 必须同时下发
-        ctime_unit: 文件的状态修改时间间隔单位 (可选)。可选值：hour (小时), day (天)。与 ctime_operator、ctime 必须同时下发
-        crtime_operator: 文件的创建时间匹配规则 (可选)。可选值：less_or_equal (小于等于), greater (大于)。与 crtime、crtime_unit 必须同时下发
-        crtime: 文件的创建时间间隔 (int32, 0~26304, 可选)。与 crtime_operator、crtime_unit 必须同时下发
-        crtime_unit: 文件的创建时间间隔单位 (可选)。可选值：hour (小时), day (天)。与 crtime_operator、crtime 必须同时下发
-        name_operator: 文件名匹配规则 (可选)。可选值：equal (相等), not_equal (不相等)。与 name_filter 必须同时下发
-        name_filter: 文件名匹配表达式列表 (1~1023个字符, 可选)。与 name_operator 必须同时下发
-        size_operator: 文件大小的匹配规则 (可选)。可选值：less_or_equal (小于等于), greater (大于)。与 file_size 必须同时下发
-        file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, 可选)。与 size_operator 必须同时下发
-        tag: 对象标签匹配规则 (可选, 格式: "key1:value1;key2:value2")
-        file_paths: 按文件列表过滤策略上传的文件标识列表 (List<string>, 数组最大成员个数: 200, 可选)。仅 execute_mode 为 one_time 时可配置
-        authentication_type: 认证类型 (可选)。可选值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
-        user_operator: 用户名匹配规则 (可选)。可选值：equal (相等), not_equal (不相等)。与 authentication_type、user_name 必须同时下发
-        user_name: 用户名 (1~255个字符, 可选)。与 authentication_type、user_operator 必须同时下发
-        group_operator: 用户组名匹配规则 (可选)。可选值：equal (相等), not_equal (不相等)。与 authentication_type、group_name 必须同时下发
-        group_name: 用户组名 (1~255个字符, 可选)。与 authentication_type、group_operator 必须同时下发
-        files_filter: 按文件列表过滤请求参数 (FilesFilter对象, 可选)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
-                file_id: 按文件列表过滤策略上传的文件 ID (1~63个字符, 必填),
-                file_name: 按文件列表过滤策略上传的文件名称 (1~1023个字符, 必填),
+        client: DME API client
+        gfs_id: Global namespace ID (1~64 characters, Required)
+        task_name: Task name (1~255 characters, Optional)
+        task_mode: Task mode (Required). Options: pre_fetch (prefetch cache), tier (data pull)
+        execute_mode:  execute mode (Optional). Options: interval (week(s)), one_time (execute once only). when task_mode is pre_fetchs parameter is ineffective
+        execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
+        execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
+        start_mode: Task execution mode (Required). Options: manual, auto
+        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediate start
+        max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
+        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
+        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidth must be sent together
+        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). used with period_start_day, period_end_day, period_max_bandwidth must be sent together
+        period_max_bandwidth: Bandwidth upper limit for specified period (Optional,  format: "bandwidth1;bandwidth2"). used with period_start_day, period_end_day, period_time must be sent together
+        target_namespace_id: Target namespace ID under global namespace (1~32 characters, Required)
+        local_path: Namespace path (Optional, Default: "/")
+        src_namespace_ids: Source site namespace ID under global namespace  list (List<string>, max array members: 32, Optional)
+        atime_operator: File access time matching rule (Optional). Options: less_or_equal, greater. must be sent with atime and atime_unitt be sent together
+        atime: File access time interval (int32, 0~26304, Optional). must be sent with atime_operator and atime_unit
+        atime_unit:  File access time interval unit (Optional). Options: hour, day. must be sent with atime_operator and atime
+        mtime_operator: File modification time matching rule (Optional). Options: less_or_equal, greater. must be sent with mtime and mtime_unitit must be sent together
+        mtime: File modification time interval (int32, 0~26304, Optional). must be sent with mtime_operator and mtime_unit
+        mtime_unit:  File modification time interval unit (Optional). Options: hour, day. must be sent with mtime_operator and mtime
+        ctime_operator: File status modification time matching rule (Optional). Options: less_or_equal, greater. must be sent with ctime and ctime_unittime_unit must be sent together
+        ctime: File status modification interval (int32, 0~26304, Optional). must be sent with ctime_operator and ctime_unit
+        ctime_unit: File status modification time interval unit (Optional). Options: hour, day. must be sent with ctime_operator and ctiment together
+        crtime_operator:  File creation time matching rule (Optional). Options: less_or_equal, greater. must be sent with crtime and crtime_unitit must be sent together
+        crtime:  File creation time interval (int32, 0~26304, Optional). must be sent with crtime_operator and crtime_unit
+        crtime_unit:  File creation time interval unit  (Optional). Options: hour, day. must be sent with crtime_operator and crtimether
+        name_operator: Filename matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with name_filter
+        name_filter: Filename matching expression list (1~1023 characters, Optional). must be sent with name_operator
+        size_operator: File size matching rule (Optional). Options: less_or_equal, greater. must be sent with file_sizeer
+        file_size:  File size (int64, 0~4398046511104, in KB, Optional). must be sent with size_operator
+        tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
+        file_paths: Filter by file list upload file ID list (List<string>, max array members: 200, Optional). can only be configured when execute_mode is one_time
+        authentication_type: Auth type (Optional). Options: ldap_or_ldaps_domain (LDAP/LDAPS domain), unix_local (UNIX local auth), nis_domain (NIS domain)
+        user_operator: Username matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with authentication_type and user_nameme must be sent together
+        user_name: Username (1~255 characters, Optional). must be sent with authentication_type and user_operator
+        group_operator: User group name matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with authentication_type and group_operatorype, group_name must be sent together
+        group_name: User group name (1~255 characters, Optional). must be sent with authentication_type and group_operatorype, group_operator must be sent together
+        files_filter: Filter by file list request parameter (FilesFilterobject, Optional). can only be configured when execute_mode is one_time.  parameter format: {
+                file_id: filter by file listfilter policy uploaded file ID (1~63 characters, Required),
+                file_name: filter by file listfilter policy uploaded file name (1~1023 characters, Required),
              }
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks"
@@ -572,25 +572,25 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
                           period_end_day: str = None, period_time: str = None,
                           period_max_bandwidth: str = None) -> dict:
     """
-    修改 Omni-Dataverse 数据迁移任务
+    modify  Omni-Dataverse Data migration task
 
     Args:
-        client: DME API 客户端
-        id: 数据迁移任务 ID (1~32个字符, 必填)
-        task_name: 任务名称 (1~255个字符, 可选)
-        start_mode: 任务执行模式 (可选)。可选值：manual (手动), auto (自动)
-        start_time: 任务启动的 UTC 时间戳 (int64, 最小值: 0, 单位: 秒, 可选)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
-        execute_time: 周期性任务执行时间间隔 (int32, 1~365, 可选)。当 execute_mode 为 interval 时必须下发
-        execute_time_unit: 周期性任务执行时间间隔单位 (可选)。可选值：minute (分), hour (小时), day (天), month (月)。当 execute_mode 为 interval 时必须下发
-        max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, 可选)
-        period_start_day: 指定时间段的起始日期 (可选, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth 必须同时下发
-        period_end_day: 指定时间段的结束日期 (可选, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth 必须同时下发
-        period_time: 指定时间段的起止时间 (可选, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth 必须同时下发
-        period_max_bandwidth: 指定时间段的带宽上限 (可选, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time 必须同时下发
+        client: DME API client
+        id: Data migration task ID (1~32 characters, Required)
+        task_name: Task name (1~255 characters, Optional)
+        start_mode: Task execution mode (Optional). Options: manual, auto
+        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediate start
+        execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval
+        execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval
+        max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
+        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
+        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidth must be sent together
+        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). used with period_start_day, period_end_day, period_max_bandwidth must be sent together
+        period_max_bandwidth: Bandwidth upper limit for specified period (Optional,  format: "bandwidth1;bandwidth2"). used with period_start_day, period_end_day, period_time must be sent together
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
@@ -624,15 +624,15 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
 
 def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除 Omni-Dataverse 数据迁移任务
+    Batch delete Omni-Dataverse Data migration task
 
     Args:
-        client: DME API 客户端
-        ids: 数据迁移任务 ID 列表
+        client: DME API client
+        ids: Data migration task ID  list
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/delete"
@@ -647,16 +647,16 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) -> dict:
     """
-    批量暂停或者启动 Omni-Dataverse 数据迁移任务
+    Batch pause or start Omni-Dataverse Data migration task
 
     Args:
-        client: DME API 客户端
-        ids: 数据迁移任务 ID 列表
-        operate_type: 操作类型，包含 operate_type 字段，取值 start(启动), stop(停止)
+        client: DME API client
+        ids: Data migration task ID  list
+        operate_type: Operation type, includes  operate_type  field,  value start( start), stop( stop)
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/operate"
@@ -670,92 +670,92 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # Dataspace 子主题动作
+    # Dataspace subtopic actions
     'dataspace_list': {
         'func': dataspace_list,
-        'description': '批量查询 Omni-Dataverse',
+        'description': 'Batch query Omni-Dataverse',
         'params': ['name', 'id', 'raw_id', 'max_site_num', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
     'dataspace_show': {
         'func': dataspace_show,
-        'description': '查询指定 Omni-Dataverse 的容量统计信息',
+        'description': 'Query Omni-Dataverse capacity statistics',
         'params': ['id', 'name'],
         'subtopic': 'dataspace'
     },
     'dataspace_site_list': {
         'func': dataspace_site_list,
-        'description': '查询 Omni-Dataverse 数据服务站点',
+        'description': ' query Omni-Dataverse Data service site',
         'params': ['raw_id', 'site_role', 'gfs_group_id', 'storage_name', 'storage_pool_name', 'account_name', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
-    # Namespace 子主题动作
+    # Namespace subtopic actions
     'namespace_list': {
         'func': namespace_list,
-        'description': '批量查询全局命名空间',
+        'description': 'Batch query global namespace',
         'params': ['name', 'gfs_group_name', 'gfs_group_id', 'gfs_type', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
     'namespace_show': {
         'func': namespace_show,
-        'description': '查询全局命名空间详情',
+        'description': ' query global namespace details',
         'params': ['id', 'name_locator'],
         'subtopic': 'namespace'
     },
     'namespace_create': {
         'func': namespace_create,
-        'description': '创建全局命名空间',
+        'description': 'create Global namespace',
         'params': ['name', 'gfs_group_id', 'gfs_group_name', 'gfs_mode', 'single_write_switch', 'smart_share_members'],
         'subtopic': 'namespace'
     },
     'namespace_modify': {
         'func': namespace_modify,
-        'description': '修改指定全局命名空间',
+        'description': 'Modify global namespace',
         'params': ['id', 'name_locator', 'smart_share_members'],
         'subtopic': 'namespace'
     },
     'namespace_delete': {
         'func': namespace_delete,
-        'description': '删除指定的全局命名空间',
+        'description': 'Delete global namespace',
         'params': ['id', 'name_locator', 'is_delete_child'],
         'subtopic': 'namespace'
     },
-    # Migration Task 子主题动作
+    # Migration Task subtopic actions
     'migration_task_list': {
         'func': migration_task_list,
-        'description': '批量查询 Omni-Dataverse 数据迁移任务',
+        'description': 'Batch query Omni-Dataverse Data migration task',
         'params': ['gfs_id', 'task_name', 'task_id', 'target_storage_name', 'namespace_name', 'namespace_id', 'namespace_raw_id', 'local_path', 'status', 'task_mode', 'execute_mode', 'page_no', 'page_size', 'sort_dir', 'sort_key'],
         'subtopic': 'migration_task'
     },
     'migration_task_show': {
         'func': migration_task_show,
-        'description': '查询 Omni-Dataverse 数据迁移任务详情',
+        'description': ' query Omni-Dataverse Data migration task details',
         'params': ['id'],
         'subtopic': 'migration_task'
     },
     'migration_task_create': {
         'func': migration_task_create,
-        'description': '创建 Omni-Dataverse 数据迁移任务',
+        'description': 'create  Omni-Dataverse Data migration task',
         'params': ['gfs_id', 'task_mode', 'start_mode', 'max_bandwidth', 'target_namespace_id', 'task_name', 'execute_mode', 'execute_time', 'execute_time_unit', 'start_time', 'period_start_day', 'period_end_day', 'period_time', 'period_max_bandwidth', 'local_path', 'src_namespace_ids', 'atime_operator', 'atime', 'atime_unit', 'mtime_operator', 'mtime', 'mtime_unit', 'ctime_operator', 'ctime', 'ctime_unit', 'crtime_operator', 'crtime', 'crtime_unit', 'name_operator', 'name_filter', 'size_operator', 'file_size', 'tag', 'file_paths', 'authentication_type', 'user_operator', 'user_name', 'group_operator', 'group_name', 'files_filter'],
         'subtopic': 'migration_task'
     },
     'migration_task_modify': {
         'func': migration_task_modify,
-        'description': '修改 Omni-Dataverse 数据迁移任务',
+        'description': 'modify  Omni-Dataverse Data migration task',
         'params': ['id', 'task_name', 'start_mode', 'start_time', 'execute_time', 'execute_time_unit', 'max_bandwidth', 'period_start_day', 'period_end_day', 'period_time', 'period_max_bandwidth'],
         'subtopic': 'migration_task'
     },
     'migration_task_delete': {
         'func': migration_task_delete,
-        'description': '批量删除 Omni-Dataverse 数据迁移任务',
+        'description': 'Batch delete Omni-Dataverse Data migration task',
         'params': ['ids'],
         'subtopic': 'migration_task'
     },
     'migration_task_operate': {
         'func': migration_task_operate,
-        'description': '批量暂停或者启动 Omni-Dataverse 数据迁移任务',
+        'description': 'Batch pause or start Omni-Dataverse Data migration task',
         'params': ['ids', 'operate_type'],
         'subtopic': 'migration_task'
     },
