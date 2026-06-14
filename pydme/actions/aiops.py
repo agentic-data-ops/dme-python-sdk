@@ -1035,7 +1035,7 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含检查结果的Details
+        }，including check resultsDetails
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/{check_result_id}"
 
@@ -1145,7 +1145,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     """
     result = {}
 
-    # 如果未指定 san_type，同时调用两个 API
+    # 如果未指定 san_type，call both simultaneously API
     if san_type is None:
         # 调用 IP_SAN API
         ip_san_url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
@@ -1165,7 +1165,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
         return result
 
-    # if specified san_type，只调用对应的 API
+    # if specified san_type，only call the corresponding API
     elif san_type == 'ip_san':
         url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         payload = {"entry_objects": entry_objects}

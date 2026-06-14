@@ -279,7 +279,7 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         name: Active-active consistency group名称，supports fuzzy match
         raw_id: Active-active consistency groupon the device ID
         protect_group_id: Protection group ID
-        storage_id: Storage device ID，支持本端存储 ID 过滤
+        storage_id: Storage device ID，Supports local storage ID 过滤
         storage_name: Storage device name，Supports local storage namefuzzy match
         local_vstore_id: local tenant ID，this parameter and local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: local tenanton the device ID，this parameter and local_vstore_id mutually exclusive
@@ -1395,7 +1395,7 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
     Args:
         client: DME API client
         rollback_speed: 回滚速率，Optional值：low, medium, high, highest
-        rollback_snapshots: 快照回滚的资源info list，Each item includes snapshot_id, target_type, target_id
+        rollback_snapshots: Snapshot rollback resourceinfo list，Each item includes snapshot_id, target_type, target_id
 
     Returns:
         {
@@ -2288,7 +2288,7 @@ def fs_snapshot_create(client: DMEAPIClient, vstore_pair_id: str,
     Args:
         client: DME API client
         vstore_pair_id: 文件名系统所属Active-active tenantPair的ID (Required, string)
-        fs_pairs: 快照参数列表 (Required, List)
+        fs_pairs: Snapshot parameter list (Required, List)
 
     Returns:
         {

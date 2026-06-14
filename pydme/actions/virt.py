@@ -132,8 +132,8 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     Args:
         client: DME API client
         site_id: Datastore所在的站点 ID
-        cluster_id: Datastore所关联的集群 ID
-        host_id: Datastore所关联的主机 ID
+        cluster_id: Datastoreassociated clusters ID
+        host_id: Datastoreassociated hosts ID
         dc_id: Datastore所在Data center ID
         name: Datastore名称（supports fuzzy search）
         status: Datastorestatus list
@@ -424,7 +424,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
     
     Args:
         client: DME API client
-        site_id: 物理盘所属站点 ID（Optional）
+        site_id: Physical disk site ID（Optional）
         host_id: 物理盘Host ID（Optional）
         name: 物理盘名称（Optional）
         disk_type: Disk type list（Optional）

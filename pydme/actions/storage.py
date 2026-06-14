@@ -1104,11 +1104,11 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         maintenance_overtime: Warranty expiration time (可选, format is mssecond(s)级Timestamp)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。Storage devicesum of all disk physical capacities，-1表示无裸容量。
         total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。Storage device可写入的User data总量，-1表示无可得容量。
-        total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage deviceActual available disk physical space（扣除RAID、元数据等消耗），-1表示无Available capacity。
+        total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage deviceActual available disk physical space（扣除RAID、metadata consumption），-1表示无Available capacity。
         used_capacity: Used capacity (可选, -1~2147483647, 单位MB)。Storage device中所有Storage poolsum of used capacity，-1表示无Used capacity。
         free_capacity: Free capacity (可选, -1~2147483647, 单位MB)。Storage device的Available capacity与Used capacity的差值，-1表示无Free capacity。
         subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的订阅容量之和，-1Indicates no subscribed capacity。
-        tag_ids: 标签ID列表 (Optional, string, 0~512 characters)。数组格式string，supports up to10个标签，空数组代表Remove storage device关联的所有标签。
+        tag_ids: 标签ID列表 (Optional, string, 0~512 characters)。数组格式string，supports up to10个标签，空数组代表Remove storage deviceall associated tags。
 
     Returns:
         无
@@ -1953,7 +1953,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
     """
     创建 QoS 策略
 
-    创建一个新的 QoS 策略，Can configure performance limits、Alarm parameters and scheduled scheduling。
+    create a new QoS 策略，Can configure performance limits、Alarm parameters and scheduled scheduling。
 
     Args:
         client: DME API client

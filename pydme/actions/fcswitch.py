@@ -187,7 +187,7 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
                   backup_type: str = "full") -> dict:
     """
-    执行Fibre Channel network配置文件备份
+    执行Fibre Channel networkConfig file backup
     
     Args:
         client: DME API client
@@ -431,7 +431,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     Args:
         client: DME API client
         is_active_zone: 是否激活 Zone（Required，string "true" 或 "false"）
-        zones: Zone 配置列表，每个元素应包含:
+        zones: Zone 配置列表，each element should contain:
             - fabric_wwn: Fibre Channel network WWN（Required）
             - name: Zone 名称（Required）
             - wwn_members: WWN Member list（Optional），格式：["<wwn>",...]

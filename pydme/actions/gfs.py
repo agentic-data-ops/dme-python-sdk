@@ -221,7 +221,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required。Default：hour,
-                single_write_mode: 单写模式策略 (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
+                single_write_mode: Single write mode policy (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
              }, ...]
 
     Returns:
@@ -343,7 +343,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         local_path: Namespace下的路径，supports fuzzy search (1~256 characters, Optional, Default: "/")
         status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据Syncing), completed (完成), suspended (Paused), faulty (故障), to_be_scheduled (待调度), partially_success (partial success), failed (失败), unknown (未知)
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
-        execute_mode: 执行模式列表 (List<string>, max array members: 2, Optional)
+        execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
         page_no: Page number (int32, 1~1000, Default: 1, Optional)
         page_size: Items per page (int32, 1~1000, Default: 20, Optional)
         sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：desc
@@ -453,7 +453,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         mtime_operator: File modification time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 mtime、mtime_unit must be sent together
         mtime: File modification time interval (int32, 0~26304, Optional)。与 mtime_operator、mtime_unit must be sent together
         mtime_unit: 文件的修改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 mtime_operator、mtime must be sent together
-        ctime_operator: file status modification改时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 ctime、ctime_unit must be sent together
+        ctime_operator: file status modificationTime matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 ctime、ctime_unit must be sent together
         ctime: file status modification改时间间隔 (int32, 0~26304, Optional)。与 ctime_operator、ctime_unit must be sent together
         ctime_unit: file status modification改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 ctime_operator、ctime must be sent together
         crtime_operator: 文件的Creation time匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 crtime、crtime_unit must be sent together

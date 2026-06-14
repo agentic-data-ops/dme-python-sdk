@@ -164,7 +164,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     Create and execute instance
     
     Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified为最新版本）
-    to create and execute instance，or by specifying instance id 来找到对应Instance template创建实例并执行。
+    to create and execute instance，or by specifying instance id 来找到对应Instance templateCreate and execute instance。
     
     Args:
         client: DME API client
@@ -211,7 +211,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
         {
             task_id: Task ID (string, 1~64 characters),
         }，包含：
-        - logs: 步骤日志列表（最多 6000 条）
+        - logs: Step log list（最多 6000 条）
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"
     

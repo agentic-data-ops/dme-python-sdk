@@ -198,7 +198,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 name: LUN name (1~247 characters, supports letters, digits, -._ and Chinese characters; final name is LUN name + suffix code + '-' + disk location),
                 description: LUN description (0~255 characters),
                 disk_location: Disk location for the LUN (1~255 characters),
-                count: 每个硬盘创建的LUNcount (1~8),
+                count: created per diskLUNcount (1~8),
                 suffix_length: Suffix encoding digits (1~4, 默认4; 当count大于1effective when),
                 start_suffix: Suffix start encoding (0~9999, 默认0; 当count大于1effective when),
              }, ...]
@@ -207,7 +207,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5 设备，Dorado 系列不支持；
                                   Options：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；默认 automatic
-        prefetch_policy: 预取策略（可选），影响磁盘读取；
+        prefetch_policy: 预取策略（可选），Affects disk read；
                         Options：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；默认 intelligent_prefetch
         prefetch_value: 预取策略值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
         tuning: 调优属性 (可选), CustomizeLunTuning object。参数格式如下：{
@@ -1679,7 +1679,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     Args:
         client: DME API Client
         storage_host_group_id: Storage host组 ID（Required，1~64 字符）
-        storage_host_ids: 要移除的主机 ID 列表（Required，最多 1000 个）
+        storage_host_ids: hosts to remove ID 列表（Required，最多 1000 个）
         task_remarks: Task remark(Optional, max 1024 字符）
 
     Returns:

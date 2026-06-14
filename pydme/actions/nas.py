@@ -1902,7 +1902,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         protection: Protection status（可选），Options：protected (protected)、not_protected (unprotected)
         dc_id: Data center ID（可选），1~128  characters, regex ^[_A-Fa-f0-9\\-]+$
         dc_name: Data center name（可选），1~256  characters
-        zone_id: 所属 zone 的 ID（可选），1~256  characters；仅 OceanStor A800 系列Filesystem支持搜索，传入集群ID代表查询全局Filesystem
+        zone_id: 所属 zone 的 ID（可选），1~256  characters；仅 OceanStor A800 系列Filesystem支持搜索，传入集群IDQueries global scopeFilesystem
         product_name: FilesystemDevice product name（可选），1~256  characters，支持fuzzy search
         description: FilesystemDescription（可选），1~255  characters
         tag_filters: Tag filter list（可选），List<TagFilters> 类型，max array members 11。参数格式如下：[{
@@ -2413,7 +2413,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_size_increment: Auto resize single change amountMB (可选, 64~102400, 默认1024),
              }
         worm: FilesystemWorm参数 (可选)。参数格式如下：{
-                type: WORM保护遵从模式 (可选)。Options：none_mode, enterprise_mode, compliance_mode, advance_mode, audit_log, non_worm,
+                type: WORMProtection compliance mode (可选)。Options：none_mode, enterprise_mode, compliance_mode, advance_mode, audit_log, non_worm,
                 min_protect_period: Min protection period (可选, 0~4294967295, 默认0; 4294967295is indefinite),
                 min_protect_period_unit: Min protection period unit (可选, 默认year)。Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (可选, 1~4294967295, 默认70; 4294967295is indefinite),
@@ -2989,7 +2989,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         page_no: Page queryStart page（可选），min 1，默认 1
         page_size: 单页显示的count（可选），1~1000，默认 20
         nfs_share_id: NFS 共享 ID（可选），1~64  characters
-        storage_id: Storage device ID（可选），1~64  characters；如果指定 nfs_share_id，则此参数无效
+        storage_id: Storage device ID（可选），1~64  characters；如果指定 nfs_share_id，this parameter is invalid
         vstore_id_in_storage: vStore ID（可选），1~256  characters；vStore 场景下必须下发
         name: Client IP or hostname or netgroup name（可选），1~256  characters；指定 nfs_share_id 条件下支持fuzzy search
         client_id_in_storage: NFS 共享Client ID（可选），1~256  characters
