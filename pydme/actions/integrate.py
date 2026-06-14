@@ -101,7 +101,7 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     url = "/rest/appmgmt/v1/cmdb-hosts/{cmdb_host_id}"
 
     if not cmdb_host_id:
-        raise ValueError("cmdb_host_id 是required parameter")
+        raise ValueError("cmdb_host_id  is required")
 
     response = client.get(url, params={"cmdb_host_id": cmdb_host_id})
     return response
@@ -162,7 +162,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
     url = "/rest/appmgmt/v1/cmdb-hosts/query-by-initiators"
 
     if not initiators or len(initiators) == 0:
-        raise ValueError("initiators 是required parameter")
+        raise ValueError("initiators  is required")
 
     payload = {
         'initiators': initiators

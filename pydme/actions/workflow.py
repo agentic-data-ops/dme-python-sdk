@@ -211,7 +211,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
         {
             task_id: Task ID (string, 1~64 characters),
         }, includes : 
-        - logs: Step log list ( max 6000 条) 
+        - logs: Step log list ( max 6000  entries) 
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"
     
