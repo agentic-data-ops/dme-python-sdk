@@ -98,7 +98,7 @@ class DMECLI:
                             # subtopic actions (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
-                            # 提取动作名（Remove subtopic prefix，Supports space or underscore separator）
+                            # extract action name（Remove subtopic prefix，Supports space or underscore separator）
                             action_name = action_key
                             prefix_space = f"{subtopic} "
                             prefix_underscore = f"{subtopic}_"
@@ -158,7 +158,7 @@ class DMECLI:
         if in_params:
             current_param = None
             param_lines = []
-            in_format_block = 0  #  parameter format块嵌套深度，>0 skip internal attribute parsing
+            in_format_block = 0  #  parameter formatblock nesting depth，>0 skip internal attribute parsing
             
             for line in lines:
                 raw = line  # preserve original indentation
@@ -867,7 +867,7 @@ def main():
                                 try:
                                     param_value = param_type(param_value)
                                 except ValueError:
-                                    print(f" warning： parameter {param_name} 无法转换为 {param_type.__name__}")
+                                    print(f" warning： parameter {param_name} cannot convert to {param_type.__name__}")
                             elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                                 import json
                                 try:
@@ -906,27 +906,27 @@ def main():
 
     # 4.  specified了 <topic> <subtopic> <action>，Show action help or execute action
     if args.subtopic and args.action:
-        # 尝试组合为 action_key（Three-level structure：<topic> <subtopic> <action>）
+        # try to combine as action_key（Three-level structure：<topic> <subtopic> <action>）
         # 先尝试 subtopic_action  format（Supports action names with spaces，如 "frame list"）
         action_key = f"{args.subtopic}_{args.action}"
         
-        # 如果找不到，尝试 subtopic action  format（空格分隔）
+        # if not found，尝试 subtopic action  format（space-separated）
         if action_key not in actions_info:
             # 尝试将 subtopic 和 action Combine into space-separated format
             space_action_key = f"{args.subtopic} {args.action}"
             if space_action_key in actions_info:
                 action_key = space_action_key
             else:
-                # 仍然找不到，显示 error
+                # still not found，显示 error
                 print(f" error：Action not found '{args.topic} {args.subtopic} {args.action}'")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
                     print(f"提示：Available actions include：{', '.join(available)}")
                 return
 
-        # if specified --help，显示帮助；otherwise execute action
+        # if specified --help，Show help；otherwise execute action
         if show_help:
-            # 显示帮助（不 need登录）
+            # Show help（不 need登录）
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
             return
 
@@ -1009,7 +1009,7 @@ def main():
                             try:
                                 param_value = param_type(param_value)
                             except ValueError:
-                                print(f" warning： parameter {param_name} 无法转换为 {param_type.__name__}")
+                                print(f" warning： parameter {param_name} cannot convert to {param_type.__name__}")
                         elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                             import json
                             try:

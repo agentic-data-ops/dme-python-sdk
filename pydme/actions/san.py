@@ -206,10 +206,10 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         vstore_id:  tenant ID(Optional），1~64  characters；当 device为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: Initial capacity allocation policy(Optional），only supports华为 V3/V5  device，Dorado 系列不 support；
-                                  Options：automatic（ auto）、highest_performance（高性能层）、performance（性能层）、capacity（ capacity层）；default automatic
+                                  Options：automatic（ auto）、highest_performance（High-performance tier）、performance（性能层）、capacity（ capacity层）；default automatic
         prefetch_policy: 预取 policy(Optional），Affects disk read；
-                        Options：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；default intelligent_prefetch
-        prefetch_value: 预取 policy值(Optional），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
+                        Options：no_prefetch（不预取）、constant_prefetch（Fixed prefetch）、variable_prefetch（Variable prefetch）、intelligent_prefetch（Smart prefetch）；default intelligent_prefetch
+        prefetch_value: 预取 policy值(Optional），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；Fixed prefetchvalue range 0~1024KB，Variable prefetch value range 0~1024 倍
         tuning: 调优 (Optional), CustomizeLunTuning object。 parameter format：{
                 smart_tier: Data migration policy。Options：no_migration (不迁移), automatic_migration ( auto迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。defaultno_migration,
                 deduplication_enabled: Deduplication (仅Thin LUN support)。Options：true ( enable), false ( disable),
@@ -1634,7 +1634,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                      }, ...],
                 multipath: 多路径 config (Optional)。 format：{
                         multipath_type: Third-party multipath policy (Required)。Options：default (default), third_party (Third-party multipath),
-                        path_type: Initiator路径 type (Optional,  enableThird-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
+                        path_type: Initiator路径 type (Optional,  enableThird-party multipatheffective when)。Options：optimal_path (Preferred path), non_optimal_path (非Preferred path),
                         failover_mode: Initiator switch mode (Optional,  enableThird-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (Optional, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
                 }

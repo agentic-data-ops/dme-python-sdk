@@ -1,5 +1,5 @@
 """
-虚拟化服务 (Virtualization) operations
+Virtualization service (Virtualization) operations
 """
 
 import sys

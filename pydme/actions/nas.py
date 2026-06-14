@@ -1013,7 +1013,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                         rule_type:  rule type (Optional, defaultreject)。Options：reject, permit,
                         fileoperations: Operation type list (Optional),
                      }, ...],
-                smb3_encryption_enable: EnableSMB3加密功能 (Optional),
+                smb3_encryption_enable: EnableSMB3Encryption feature (Optional),
                 unencrypted_access: Allow unencrypted client access (Optional),
                 enable_lease: Enable lease locking (Optional),
              }
@@ -1102,7 +1102,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 }
              }, ...]
         task_remarks: Async taskRemark，0~1024  characters
-        smb3_encryption_enable: Enable SMB3 加密功能
+        smb3_encryption_enable: Enable SMB3 Encryption feature
         unencrypted_access: Allow unencrypted client access
         enable_lease: Enable lease locking
 
@@ -1895,7 +1895,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         health_status: Health status(Optional），Options：normal (normal)、faulty (fault)、unknown (unknown)
         running_status: Running status(Optional），Options：online (online)、offline (offline)、invalid（失效）、
                        initializing（Initializing）、unknown (unknown)
-        alloc_type: FilesystemAllocation type(Optional），Options：thin（按需分配）、thick（固定分配）
+        alloc_type: FilesystemAllocation type(Optional），Options：thin（按需分配）、thick（Fixed allocation）
         type: Filesystem type(Optional），Options：normal（普通Filesystem）、worm（wormFilesystem）、
               migration（migrationFilesystem）、container（容器 appFilesystem）、hash（哈希Filesystem）、
               smart_mobility_internal（SmartMobility内部Filesystem）
@@ -2165,7 +2165,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         nas_locking_policy: NAS锁 policy(Optional）。 value：mandatory/advisory/unknown
         capacity_autonegotiation: Capacity adaptive parameter (Optional)。 parameter format：{
                 capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink ( auto扩缩容),
-                capacity_recycle_mode: Capacity reclamation mode (Optional, Default: expand first)。Options：expand_capacity (优先扩容), delete_snapshots (Prefer deleting old snapshots),
+                capacity_recycle_mode: Capacity reclamation mode (Optional, Default: expand first)。Options：expand_capacity (Expand first), delete_snapshots (Prefer deleting old snapshots),
                 auto_size_enable: Auto capacity adjustment switch (Optional, defaulttrue)。Options：true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional)。 parameter format：{
-                type: WORM保护 mode (Optional)。Options：none_mode (无default policy), enterprise_mode (企业遵从), compliance_mode (法规遵从), advance_mode (高安遵从), audit_log (Audit log), non_worm (非WORM),
+                type: WORM保护 mode (Optional)。Options：none_mode (无default policy), enterprise_mode (Enterprise compliance), compliance_mode (法规遵从), advance_mode (高安遵从), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear)。Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2404,7 +2404,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
              }
         capacity_autonegotiation: Capacity adaptive parameter (Optional)。 parameter format：{
                 capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink ( auto扩缩容),
-                capacity_recycle_mode: Capacity reclamation mode (Optional, Default: expand first)。Options：expand_capacity (优先扩容), delete_snapshots (Prefer deleting old snapshots),
+                capacity_recycle_mode: Capacity reclamation mode (Optional, Default: expand first)。Options：expand_capacity (Expand first), delete_snapshots (Prefer deleting old snapshots),
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open)。Options：true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
@@ -2524,7 +2524,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         sort_key: Sort key(Optional），Options：namespace_used_rate、file_used_rate
         name: Namespace name(Optional），1~256  characters， supportfuzzy search
         vstore_name: NamespaceTenant name(Optional），1~256  characters， supportfuzzy search
-        vstore_raw_id: Namespace vStore 在Storage device上分配的 ID(Optional），1~128  characters
+        vstore_raw_id: Namespace vStore 在Storage deviceassigned on ID(Optional），1~128  characters
         vstore_id: Namespace vStore 的 ID(Optional），1~128  characters
         raw_id: Namespaceon the storage device ID(Optional），1~256  characters
         pool_name: Storage pool name(Optional），1~256  characters， supportfuzzy search
@@ -2731,7 +2731,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
              }
         create_s3_param: create  S3  protocol parameter (Optional)。 parameter format：{
-                bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (公共读写),
+                bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (Public read/write),
                 version_status: object多 version status (Optional, 0~2)。Options：0 ( disable), 1 ( open), 2 ( pause),
              }
         application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
@@ -2987,7 +2987,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
     Args:
         client: DME API Client
         page_no: Page queryStart page(Optional），min 1，default 1
-        page_size: 单页显示的count(Optional），1~1000，default 20
+        page_size: shown per pagecount(Optional），1~1000，default 20
         nfs_share_id: NFS  share ID(Optional），1~64  characters
         storage_id: Storage device ID(Optional），1~64  characters；如果 specified nfs_share_id，this parameter is invalid
         vstore_id_in_storage: vStore ID(Optional），1~256  characters；vStore must be sent in this scenario
@@ -3046,11 +3046,11 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         name: DataTurbo Admin名， supportfuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (Optional)。Options：offline (offline), online (online)
         lock_status: DataTurbo AdminLock status (Optional)。Options：unlocked (未 lock), locked ( lock)
-        account_state: DataTurbo Admin密码 status (Optional)。Options：normal (normal), expired (密码过期), initial (User password is in initial state， needmodify ), expiring_soon (Password expiring soon), change_required (Must change password on next login), never (Password never expires)
+        account_state: DataTurbo Admin密码 status (Optional)。Options：normal (normal), expired (Password expired), initial (User password is in initial state， needmodify ), expiring_soon (Password expiring soon), change_required (Must change password on next login), never (Password never expires)
         sort_key: sort by specified field (Optional)。Options：create_time
         sort_dir:  specifiedSort direction (Optional)。Options：asc (ascending), desc (descending)
         page_no: Page queryStart page (int32, min: 1, Default: 1, Optional)
-        page_size: 单页显示的count (int32, min: 1, max: 1000, Default: 20, Optional)
+        page_size: shown per pagecount (int32, min: 1, max: 1000, Default: 20, Optional)
 
     Returns:
         DataTurbo Admin list，includes  total 和 administrators

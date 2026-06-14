@@ -349,7 +349,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         client: DME API client。
         name: Device name (1~256 characters)。can only contain half-width letters、半角数字、\"_\"、\"-\"、\".\"、中文 character。
         sn: Device serial number (regex is^[a-zA-Z0-9]{1,128}$)。
-        ip: Device IP address (Optional, 0~128 characters,  supportIPv4与IPv6 format, 也可为空string)。
+        ip: Device IP address (Optional, 0~128 characters,  supportIPv4与IPv6 format, can also be emptystring)。
         dc_id: Data center ID (Optional, regex is^[a-zA-Z0-9]{1,128}$)。
         az: Availability zone (Optional, string)。
         vendor:  vendor (Optional, 0~128 characters)。
@@ -501,7 +501,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电 completed), discharging (正在放电),
                 charge_times: 放电次数 (int64),
                 firmware_version: Firmware version号 (1~255 characters),
-                manufactured_date: 出厂日期 (1~255 characters),
+                manufactured_date: Manufacture date (1~255 characters),
                 enclosure_id: Enclosure在Storage device上ID (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
                 zone_id: Zone ID (1~255 characters)，仅OceanStor A800series storage only,
@@ -1053,8 +1053,8 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 
     Args:
         client: DME API client
-        start_time: Start time戳（Required，13位数字毫second(s)Timestamp， regex ^([0-9]){13}$）
-        end_time: End time戳（Required，13位数字毫second(s)Timestamp， regex ^([0-9]){13}$）
+        start_time: Start time戳（Required，13digit mssecond(s)Timestamp， regex ^([0-9]){13}$）
+        end_time: End time戳（Required，13digit mssecond(s)Timestamp， regex ^([0-9]){13}$）
         storage_ids:  storageID list（Required，List<string>，max array members：300）
         time_granularity: Time granularity（Required). Options：HOUR (hour(s)), DAY (day(s)), MONTH (month(s))
 
@@ -1094,7 +1094,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         client: DME API client。
         storage_id: Storage device ID（Required）。
         name: Device name (Optional, 1~256 characters)。can only contain half-width letters、半角数字、"_"、"-"、"."、中文 character。
-        ip: Device IP address (Optional, 0~128 characters,  supportIPv4与IPv6 format, 也可为空string)。
+        ip: Device IP address (Optional, 0~128 characters,  supportIPv4与IPv6 format, can also be emptystring)。
         vendor:  vendor (Optional, 0~128 characters)。
         model: Product model (Optional, 0~128 characters)。
         version: Version info (Optional, 0~64 characters)。
@@ -1208,7 +1208,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     
     Args:
         client: DME API client
-        storage_id: Storage device ID（Required，1~36  characters，UUID  format或 32 位十六进制）
+        storage_id: Storage device ID（Required，1~36  characters，UUID  format或 32 -bit hex）
     
     Returns:
         {
@@ -1406,7 +1406,7 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
         status: Initiator status (Optional)。Options：unknown (unknown), online (online), offline (offline)
         associated_host_name: Initiator associatedHost name (Optional, 0~256 characters, supports fuzzy match)
         associated_host_id: Initiator associatedHost ID (Optional, 0~64 characters; Empty field queries hosts not addedInitiator)
-        multipath_type: Third-party multipath policy (Optional, 仅针对非Dorado V6 product)。Options：default (default), third_party (Third-party multipath)
+        multipath_type: Third-party multipath policy (Optional, only for non-Dorado V6 product)。Options：default (default), third_party (Third-party multipath)
         protocol: Initiator type (Optional)。Options：fc, iscsi, nvme_over_roce, sas, nvme_over_fabric, unknown
         support_provisioning: supports发放 (Optional)。Options：true, false
         vstore_raw_id: Tenant ID (Optional)
@@ -1492,7 +1492,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
         alias: Initiator alias (Optional, 0~31 characters, supports alphanumeric._-and Chinese characters)
         multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01及以上 support)。 format：{
                 multi_path_type: InitiatorMultipath type (Optional)。Options：default (default), third_party (Third-party multipath),
-                path_type: Initiator路径 type (conditionally required, 当multi_path_type为third_partyrequired when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
+                path_type: Initiator路径 type (conditionally required, 当multi_path_type为third_partyrequired when)。Options：optimal_path (Preferred path), non_optimal_path (非Preferred path),
                 failover_mode: Initiator switch mode (conditionally required, 当multi_path_type为third_partyrequired when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                 special_mode_type: Special mode type (Optional, effective when failover mode is special)。Options：0 (Special mode0), 1 (Special mode1), 2 (Special mode2), 3 (Special mode3)
              }
@@ -2237,7 +2237,7 @@ def qos_deactivate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     Batch deactivate QoS  policy
 
-    Deactivate一个或多个 QoS  policy。
+    Deactivateone or more QoS  policy。
 
     Args:
         client: DME API client
@@ -2398,7 +2398,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
 
     Args:
         client: DME API client
-        logic_port_id: Logic port的 ID（Required，1~64  characters，UUID  format或 32 位十六进制）
+        logic_port_id: Logic port的 ID（Required，1~64  characters，UUID  format或 32 -bit hex）
 
     Returns:
         {
@@ -3007,7 +3007,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                 failover_group_type: Failover group type (1~255 characters)。Options：system, VLAN, customized,
                 raw_id: Failover groupon the storage deviceID (1~255 characters),
                 zone_name: Zone name (1~255 characters)，仅OceanStor A800series storage only,
-                zone_raw_id: Zone在Storage device上分配的ID (1~255 characters)，仅OceanStor A800series storage only,
+                zone_raw_id: Zone在Storage deviceassigned onID (1~255 characters)，仅OceanStor A800series storage only,
                 zone_id: Storage device的Zone ID (1~255 characters)，仅OceanStor A800series storage only,
                 failover_group_service_type: Failover groupBusiness type。Options：NAS (used to associateNFS、CIFS、NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA、NFS、OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group),
             }, ...]

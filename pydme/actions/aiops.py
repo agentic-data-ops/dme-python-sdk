@@ -361,12 +361,12 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: Controller
             - NAMESPACE: Namespace
-        begin_time:  analysisStart time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support recent七day(s)内的诊断
+        begin_time:  analysisStart time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support recent七day(s)diagnosis within
         end_time:  analysisEnd time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: Intelligent analysis type list(Required),Array size:1~4,value range:
             - highLatency: 高时延
-            - healthAnalysis: 健康快检
+            - healthAnalysis: Health quick check
             - IOInterrupt: IO 中断
             - highReadLatency: 高Read latency
             - highWriteLatency: 高Write latency
@@ -467,7 +467,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     With aggregated data,Returned result sequence is average,并includes max,min以及 correspondingTimestamp.
 
      use说明:
-    - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
+    - Object typeand metric definition:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
     - object ID (CMDB instance ID) get步骤:
       1. running `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
@@ -482,7 +482,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
         obj_ids:  monitorobjectIdentifier list(Required, max 512 个), corresponding CMDB instance ID
                  get方式:
-                 1. running `cmdb instance list --help` View help,了解类定义
+                 1. running `cmdb instance list --help` View help,See class definition
                  2. Determine what to query based on helpResource type (Class  name)
                  3. running `cmdb instance list --class_name <Class  name>`  queryinstance
                  4. obtain from response instance_id
@@ -577,7 +577,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
     Args:
         client: DME API client
         filter:  filter关键字(Optional),用于fuzzy match zh_cn 和 en_us  field
-                如果提供,returns only matchesObject type
+                if provided,returns only matchesObject type
 
     Returns:
          monitorObject type list,includes  obj_type_id, parent_obj_type_id, resource_category,
@@ -587,7 +587,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     response = client.get(url)
 
-    # 如果提供了 filter  parameter, filter result
+    # if provided了 filter  parameter, filter result
     if filter is not None and response and 'data' in response:
         filter_lower = filter.lower()
         filtered_data = []
@@ -712,7 +712,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                            fcswitch_port, storage_file_system, controller, replication_cg, volume,
                            tier, datastore, virtual_machine, storage_name_space, storage_node,
                            dpc, gfs, dpc_client, vbs_client
-        health_dimension: 健康维度（Required）
+        health_dimension: Health dimension（Required）
                         Optional值：alarm（alarm）, performance_anomaly（Performance anomaly）,
                               performance_prediction（Performance warning）, capacity_prediction（Capacity warning）
 
@@ -1124,7 +1124,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - switch_port: Switch port（仅 FC_SAN）
             - storage_pool: Storage pool
         san_type: SAN  type（Optional），Optional值：ip_san, fc_san
-                  - 不 specified时，同时调用 IP_SAN 和 FC_SAN 两个 API，Combined return data
+                  - 不 specified时，call simultaneously IP_SAN 和 FC_SAN 两个 API，Combined return data
                   -  specified为 ip_san 时，仅调用 IP_SAN API
                   -  specified为 fc_san 时，仅调用 FC_SAN API
 

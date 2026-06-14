@@ -150,7 +150,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
 def nic_list(client: DMEAPIClient, server_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query on server网卡集合
+    Query on serverNIC collection
 
     Args:
         client: DME API client
@@ -318,7 +318,7 @@ ACTIONS = {
     # subtopic actions - nic (three-level structure)
     'nic_list': {
         'func': nic_list,
-        'description': 'Query on server网卡集合',
+        'description': 'Query on serverNIC collection',
         'params': ['server_id', 'page_no', 'page_size'],
         'subtopic': 'nic'
     },

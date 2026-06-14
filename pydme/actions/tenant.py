@@ -35,7 +35,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
         availability_zone: Availability zone ID（Optional，0~64  characters）
         scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。 parameter format：{
                 affinity: Enable affinity。Optional值：true ( enable), false (disabled)。defaultdisabled,
-                affinity_volume: 待亲和的 LUN ID (Optional, 0~64 characters),
+                affinity_volume: to be associated LUN ID (Optional, 0~64 characters),
              }
         mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。 parameter format：{
                 host_id: Host ID (Optional, 0~64 characters, 与hostgroup_idone of),

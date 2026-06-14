@@ -12,7 +12,7 @@ def login(client: DMEAPIClient) -> dict:
     """
     Auth user login
 
-    强制调用 client.login()  completed auth，然后从 header get accessSession，
+    Force call client.login()  completed auth，然后从 header get accessSession，
     Prompt user to configure env vars to reuse auth token，Avoid duplicate login。
 
     Args:
@@ -153,7 +153,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         client: DME API client
         page_no: 页数 (Required, integer, min：1)。Default：1
         page_size: Page size (Required, integer, 5~200)。Default：10
-        name: Username搜索关键字 (Optional, string,  max32 characters)
+        name: UsernameSearch keyword (Optional, string,  max32 characters)
 
     Returns:
         {
@@ -260,7 +260,7 @@ def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dic
 
     Args:
         client: DME API client
-        service_type: Service type (Required, string)。Optional值：APIGWService (DME北向网关)
+        service_type: Service type (Required, string)。Optional值：APIGWService (DMENorthbound gateway)
 
     Returns:
         {
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: Business type（Required，wfa_execute_activity- auto化编排）
-        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9-待审核/10-审核不通过/21-预检查中/22-预检查 failure）
+        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9-待审核/10-Review rejected/21-预检查中/22-预检查 failure）
         page_no: Page index（Optional，default 1）
         page_size: per pagecount（Optional，1~10，default 10）
 
@@ -504,13 +504,13 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
     """
     Review pending task
 
-    对Pending item进行审核（批准或 reject）。
+    对Pending itemReview（批准或 reject）。
 
     Args:
         client: DME API client
         item_id: Pending item ID（Required）
         is_approval:  whether批准（Required，true-批准/false- reject）
-        suggestion: 审核建议（Optional，0-63  character）
+        suggestion: Review suggestion（Optional，0-63  character）
 
     Returns:
         审核 result
@@ -1000,7 +1000,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     Args:
         client: DME API client
         az_name: Availability zone name，supports fuzzy match (Optional, string, 1~64 characters)
-        operate_status: Availability zone运营 status。For offlineaz，其operate_status是null，因此暂时只supports filtering上线online的az (Optional, string, 1~16 characters)
+        operate_status: Availability zone运营 status。For offlineaz，其operate_status是null，currently onlysupports filtering上线online的az (Optional, string, 1~16 characters)
         start: Page number，从1 start (Optional, int32, 1~10000000)。Default：1
         limit: Page size (Optional, int32, 1~512)。Default：512
         is_sc: Operation-side query (Optional, boolean, true,false)。Default：false
@@ -1226,7 +1226,7 @@ ACTIONS = {
     },
     'logout': {
         'func': logout,
-        'description': '注销会话',
+        'description': 'Logout session',
         'params': [],
         'subtopic': None
     },

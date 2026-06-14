@@ -186,7 +186,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair  joinConsistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接 pauseConsistency group和新 Pair，将新 Pair  joinConsistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource nameStay consistent）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
                         name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32  byte，prefix_and_num max prefix length 251  byte
                         name_suffix: remote  LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manual config的Active-active Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
@@ -199,7 +199,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_id: remote Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$； replication Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource nameStay consistent）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
                         name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32  byte，prefix_and_num max prefix length 251  byte
                         name_suffix: remote  LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manual config的Remote replication Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
@@ -238,8 +238,8 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: 待移除的Protection group member LUN 的 ID  list
-        is_delay: Deferred execution。在Remote replication，Sync + 异步的环形 3DC 情况下，此 parameter无效
+        lun_ids: to be removedProtection group member LUN 的 ID  list
+        is_delay: Deferred execution。在Remote replication，Sync + Async ring 3DC 情况下，此 parameter无效
 
     Returns:
         {
