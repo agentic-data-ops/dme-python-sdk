@@ -139,8 +139,8 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         storage_id: Storage device ID (Required, string, 1~36 characters). must satisfy UUID format or 32-bit hex
         name: Tenant name (Required, string, 1~256 characters). 仅supports letters, digits, underscores, hyphens, dots and Chinese characters
-        san_capacity_quota: SAN Capacity quota(Optional, unit : 扇区) 
-        nas_capacity_quota: NAS Capacity quota(Optional, unit : 扇区) 
+        san_capacity_quota: SAN Capacity quota(Optional, unit :  sector) 
+        nas_capacity_quota: NAS Capacity quota(Optional, unit :  sector) 
         description: Tenant description(Optional, 0~255  characters) 
         nas_capacity_quota_alarm_switch: NAS Capacity quota alarm switch(Optional, A800 device only) 
         nas_capacity_quota_alarm_threshold: NAS Capacity quota alarmthreshold(Optional, A800 device only) 
@@ -2326,7 +2326,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
+                running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
                 operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2405,7 +2405,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             id:  logicalPort ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
+            running_status: Running status. Options: UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN ( disconnected), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
             operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),

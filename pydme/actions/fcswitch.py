@@ -515,7 +515,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
 def alias_list(client: DMEAPIClient, fabric_wwn: str,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query别名
+    Batch query alias
     
     Query Fibre Channel Alias  list. 
     
@@ -690,7 +690,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     if type is None or type == 'wwn':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/wwn-members/list"
         response = client.get(url, params={"alias_id": alias_id})
-        # API returns field wwn_member (单数) 
+        # API returns field wwn_member ( singular) 
         if response.get('wwn_member'):
             result['wwn_members'] = response.get('wwn_member')
 
@@ -793,7 +793,7 @@ ACTIONS = {
     },
     'alias_list': {
         'func': alias_list,
-        'description': 'Batch query别名',
+        'description': 'Batch query alias',
         'params': ['fabric_wwn', 'page_no', 'page_size'],
         'subtopic': 'alias'
     },

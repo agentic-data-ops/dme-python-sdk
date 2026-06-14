@@ -3512,7 +3512,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional. 当 data_cleanup_switch 为 on 时Required)
         kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required). 参数格式如下：[{
                 name: KV Cache 库 name (1~255 characters, Required),
-                capacity: KV Cache 库 capacity (int64, 20971520~70368744177664, unit :  sector count, 1扇区=512 byte, Required),
+                capacity: KV Cache 库 capacity (int64, 20971520~70368744177664, unit :  sector count, 1 sector=512 byte, Required),
                 description: Description (1~255 characters, Optional),
                 count: Batch create KV Cache 库的count (int32, 1~100, Default: 1, Optional),
                 start_suffix: Starting suffix number (int32, 0~9999, Optional. Starting suffix number+KV Cache库count<=9999),

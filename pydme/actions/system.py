@@ -117,7 +117,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         type: User type (Required, integer, N/A). 0: Local user; 2: Remote user. 
         value: 密码 (Optional, string, 8~32 characters). Password lengthcannot be less than8 characters, greater than32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
         description:  description (Optional, string,  max127 characters)
-        roles: User role (Optional, List[integer], max array members: 10). 如Administrators, 北向User group, 安全Admin组, FilesystemGroup or custom user role. 
+        roles: User role (Optional, List[integer], max array members: 10). 如Administrators,  northboundUser group, 安全Admin组, FilesystemGroup or custom user role. 
 
     Returns:
         N/A

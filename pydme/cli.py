@@ -926,11 +926,11 @@ def main():
 
         # if specified --help, Show help; otherwise execute action
         if show_help:
-            # Show help (不 need登录) 
+            # Show help (不 need login) 
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
             return
 
-        #  execute动作 ( need登录) 
+        #  execute动作 ( need login) 
         endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
         username = args.user or os.environ.get('DME_API_USERNAME')
         password = args.password or os.environ.get('DME_API_PASSWORD')

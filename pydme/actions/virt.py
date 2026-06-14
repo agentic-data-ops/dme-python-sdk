@@ -142,7 +142,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         storage_type:  dataStorage class型 list
                        value: LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: supports精简 mode (FusionCompute only) 
+        allocate_type: supports thin mode (FusionCompute only) 
         vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS) 
         datacenter_id: Datastore的 vCenter Data center ID (vCenter only) 
         sort_key: Sort field (name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate) 

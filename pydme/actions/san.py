@@ -210,7 +210,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         prefetch_policy: 预取 policy(Optional) , Affects disk read; 
                         Options: no_prefetch ( no prefetch) , constant_prefetch (Fixed prefetch) , variable_prefetch (Variable prefetch) , intelligent_prefetch (Smart prefetch) ; default intelligent_prefetch
         prefetch_value: 预取 policy值(Optional) , 0~1024;  sent prefetch_policy required when value is fixed or variable prefetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
-        tuning: 调优 (Optional), CustomizeLunTuning object.  parameter format: {
+        tuning:  tuning (Optional), CustomizeLunTuning object.  parameter format: {
                 smart_tier: Data migration policy. Options: no_migration ( no migration), automatic_migration ( auto迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
                 deduplication_enabled: Deduplication (仅Thin LUN support). Options: true ( enable), false ( disable),
                 compression_enabled: Data compression (仅Thin LUN support). Options: true ( enable), false ( disable),
@@ -3405,13 +3405,13 @@ ACTIONS = {
     },
     'physical_host_query_sshkey': {
         'func': physical_host_query_sshkey,
-        'description': 'QueryPhysical hostSSH公钥',
+        'description': 'QueryPhysical hostSSH public key',
         'params': ['ip', 'port'],
         'subtopic': 'physical_host'
     },
     'physical_host_save_sshkey': {
         'func': physical_host_save_sshkey,
-        'description': '保存 specifiedPhysical hostSSH公钥',
+        'description': '保存 specifiedPhysical hostSSH public key',
         'params': ['ip', 'key', 'port'],
         'subtopic': 'physical_host'
     },

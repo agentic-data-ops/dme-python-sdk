@@ -1638,7 +1638,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_rule:  target LUN Naming rule, Optional值: prefix_and_suffixix, prefix_and_num
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
-        copy_rate: 拷贝 rate, Optional值: low, medium, high, highest, default medium
+        copy_rate:  copy rate, Optional值: low, medium, high, highest, default medium
         is_sync:  whether立即Sync, default true
         clone_pairs: clone Pair  list, create_mode 为 manual 时Required
 

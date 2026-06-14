@@ -78,7 +78,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
         client: DME API client
         volume_ids: LUN ID  list
         tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter刷新 LUN  (Optional, true/false) 
+        attributes_auto_change:  whether based onService level parameter refresh LUN  (Optional, true/false) 
 
     Returns:
         {
@@ -108,7 +108,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
         client: DME API client
         volume_id: LUN ID
         tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter刷新 LUN  (Optional, true/false) 
+        attributes_auto_change:  whether based onService level parameter refresh LUN  (Optional, true/false) 
 
     Returns:
         {
