@@ -527,41 +527,41 @@ def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = 
 
     Args:
         client: DME API 客户端
-        id_in_storage: NFS 在存储侧的 ID（可选），1~256 个字符
-        name: 共享名称（可选），1~256 个字符，支持模糊搜索
-        share_path: 共享路径（可选），1~256 个字符，支持模糊搜索
-        exact_share_path: 精确搜索 NFS 共享路径（可选），1~1024 个字符；当 share_path 和 exact_share_path 都有值时优先选择 exact_share_path
-        device_name: 所属存储设备名称（可选），1~256 个字符，支持模糊搜索
-        manufacturer: 所属存储设备厂商（可选），可选值：huawei（华为）、third_part（第三方）
-        storage_id: 所属存储设备 ID（可选），1~64 个字符，支持过滤
-        tier_name: 服务等级名称（可选），1~256 个字符，支持模糊搜索
-        owning_dtree_name: 所属 Dtree 名称（可选），1~256 个字符，支持模糊搜索
-        fs_name: 文件系统名称（可选），1~256 个字符，支持模糊搜索
-        fs_id: 文件系统 ID（可选），1~64 个字符
-        owning_dtree_id: 所属 Dtree Id（可选），1~256 个字符，支持过滤
-        vstore_name: NFS 共享所属 vStore 名称（可选），1~256 个字符，支持模糊查询
-        page_no: 分页查询页码（可选），最小值 1，默认 1
-        page_size: 每页显示的数量（可选），1~1000，默认 20
-        sort_key: 排序字段（可选），可选值：name、id_in_storage；指定 id_in_storage 排序时仅支持 ID 为数字的对象
-        sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
-        support_provisioning: 是否支持业务发放（可选），true：是；false：否；下发此字段可过滤不支持业务发放设备的资源，当前不支持业务发放的设备有 OceanStor Pacific 系列
-        namespace_id: 命名空间 ID（可选），1~64 个字符，仅 OceanStor Pacific 系列存储设备支持
-        namespace_name: 命名空间名称（可选），1~256 个字符，支持模糊查询，仅 OceanStor Pacific 系列存储设备支持
-        dc_id: 数据中心 ID（可选），1~128 个字符，正则 ^[_A-Fa-f0-9\\-]+$
-        dc_name: 数据中心名称（可选），1~256 个字符
-        zone_id: NFS 共享所属 zone ID（可选），1~64 个字符
-        zone_name: NFS 共享所属 zone 名称（可选），1~256 个字符，支持模糊搜索
-        zone_ip: NFS 共享所属 zone 管理 IP（可选），0~255 个字符
-        scope: 资源所属范围（可选），可选值：local_scale（本地）、global_scale（全局）
+        id_in_storage: NFS ID on storage (Optional), 1~256 characters
+        name: Share name (Optional), 1~256 characters, supports fuzzy search
+        share_path: Share path (Optional), 1~256 characters, supports fuzzy search
+        exact_share_path: Exact NFS share path (Optional), 1~1024 characters; takes precedence over share_path when both are specified
+        device_name: Storage device name (Optional), 1~256 characters, supports fuzzy search
+        manufacturer: Storage device vendor (Optional). Options: huawei, third_part
+        storage_id: Storage device ID (Optional), 1~64 characters
+        tier_name: Service level name (Optional), 1~256 characters, supports fuzzy search
+        owning_dtree_name: Dtree name (Optional), 1~256 characters, supports fuzzy search
+        fs_name: Filesystem name (Optional), 1~256 characters, supports fuzzy search
+        fs_id: Filesystem ID (Optional), 1~64 characters
+        owning_dtree_id: Dtree ID (Optional), 1~256 characters
+        vstore_name: NFS share vStore name (Optional), 1~256 characters, supports fuzzy search
+        page_no: Page number (Optional), min 1, default 1
+        page_size: Items per page (Optional), 1~1000, default 20
+        sort_key: Sort field (Optional). Options: name, id_in_storage
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending), default asc
+        support_provisioning: Supports provisioning (Optional), true/false
+        namespace_id: Namespace ID (Optional), 1~64 characters, OceanStor Pacific series only
+        namespace_name: Namespace name (Optional), 1~256 characters, supports fuzzy search, OceanStor Pacific series only
+        dc_id: Data center ID (Optional), 1~128 characters
+        dc_name: Data center name (Optional), 1~256 characters
+        zone_id: Zone ID (Optional), 1~64 characters
+        zone_name: Zone name (Optional), 1~256 characters, supports fuzzy search
+        zone_ip: Zone management IP (Optional), 0~255 characters
+        scope: Resource scope (Optional). Options: local_scale, global_scale
 
     Returns:
         {
-            total: NFS 共享总数 (integer),
-            nfs_shares: NFS 共享列表。参数格式如下：[{
-                id: 共享ID (string),
-                name: 共享名称 (string),
-                path: 路径 (string),
-                fs_id: 文件系统ID (string),
+            total: Total NFS shares (integer),
+            nfs_shares: NFS share list。参数格式如下：[{
+                id: Share ID (string),
+                name: Share name (string),
+                path: Path (string),
+                fs_id: Filesystem ID (string),
             }, ...],
         }
     """
@@ -628,25 +628,25 @@ def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = 
 
 def nfs_share_show(client: DMEAPIClient, nfs_share_id: str) -> dict:
     """
-    查询指定 NFS 共享详情
+    Query NFS share details
 
     Args:
-        client: DME API 客户端
-        nfs_share_id: NFS 共享 ID
+        client: DME API client
+        nfs_share_id: NFS share ID
 
     Returns:
         {
-            id: 共享ID (string),
-            name: 共享名称 (string),
-            path: 路径 (string),
-            fs_id: 文件系统ID (string),
-            export_ip: 导出IP (string),
+            id: Share ID (string),
+            name: Share name (string),
+            path: Path (string),
+            fs_id: Filesystem ID (string),
+            export_ip: Export IP (string),
         }
     """
     url = "/rest/fileservice/v1/nfs-shares/{nfs_share_id}"
 
     if not nfs_share_id:
-        raise ValueError("nfs_share_id 是必选参数")
+        raise ValueError("nfs_share_id is required")
 
     response = client.get(url, params={"nfs_share_id": nfs_share_id})
     return response
@@ -655,29 +655,29 @@ def nfs_share_show(client: DMEAPIClient, nfs_share_id: str) -> dict:
 def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                      task_remarks: str = None) -> dict:
     """
-    创建 NFS 共享
+    Create NFS share
 
     Args:
-        client: DME API 客户端
-        create_nfs_share_param: 创建 NFS 共享参数。参数格式如下：{
-                name: NFS共享别名 (可选),
-                description: 描述信息 (可选),
-                share_path: 共享路径 (必选),
-                character_encoding: 字符编码 (可选),
-                audit_items: 支持审计的事件列表 (可选)。参数格式如下：[{
-                        audititem: 审计事件类型。可选值：none (无操作), all (所有操作), open (打开), create (创建), read (读), write (写), close (关闭), delete (删除), rename (重命名), get_security (获取安全属性), set_security (设置安全属性), get_attr (获取属性), set_attr (设置属性),
+        client: DME API client
+        create_nfs_share_param: NFS share creation parameters。参数格式如下：{
+                name: NFS share alias (Optional),
+                description: Description (Optional),
+                share_path: Share path (Required),
+                character_encoding: Character encoding (Optional),
+                audit_items: Audit event list (Optional)。参数格式如下：[{
+                        audititem: Audit event type. Options: none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr,
                      }, ...],
-                show_snapshot_enable: 是否开启显示Snapshot (可选)。可选值：true, false,
-                nfs_share_client_addition: NFS共享客户端权限列表 (可选)。参数格式如下：[{
-                        name: 客户端IP或主机名或网络组名 (必选, 1~255字符; 网络组名称以@开头),
-                        permission: 权限 (必选)。可选值：read (读), read_and_write (读写), no_permission (无权限), read_and_write_not_del_rename (读写不能删除重命名),
-                        accesskrb5: krb5权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
-                        accesskrb5i: krb5i权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
-                        accesskrb5p: krb5p权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
-                        write_mode: 写入模式 (可选)。可选值：synchronization (同步), asynchronization (异步),
-                        permission_constraint: 权限限制 (必选)。可选值：all_squash, no_all_squash,
-                        root_permission_constraint: root权限限制 (必选)。可选值：root_squash, no_root_squash,
-                        source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
+                show_snapshot_enable: Show snapshot (Optional). Options: true, false,
+                nfs_share_client_addition: NFS share client permissions (Optional)。参数格式如下：[{
+                        name: Client IP, hostname, or netgroup name (Required, 1~255 chars; netgroup starts with @),
+                        permission: Permission (Required). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
+                        accesskrb5: krb5 permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
+                        accesskrb5i: krb5i permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
+                        accesskrb5p: krb5p permission (Optional). Options: read, read_and_write, no_permission, read_and_write_not_del_rename,
+                        write_mode: Write mode (Optional). Options: synchronization, asynchronization,
+                        permission_constraint: Permission constraint (Required). Options: all_squash, no_all_squash,
+                        root_permission_constraint: Root permission constraint (Required). Options: root_squash, no_root_squash,
+                        source_port_verification: Source port verification (Optional). Options: secure, insecure,
                         anonymous_user_id: 匿名用户ID (可选),
                         access_protocol: 访问协议 (可选)。可选值：nfsv3_and_nfsv4 (NFSv3和NFSv4), nfsv3 (仅NFSv3), nfsv4 (仅NFSv4),
                      }, ...],
