@@ -678,7 +678,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                         permission_constraint: Permission constraint (Required). Options: all_squash, no_all_squash,
                         root_permission_constraint: Root permission constraint (Required). Options: root_squash, no_root_squash,
                         source_port_verification: Source port verification (Optional). Options: secure, insecure,
-                        anonymous_user_id: 匿名用户ID (可选),
+                        anonymous_user_id: Anonymous userID (可选),
                         access_protocol: Access protocol (可选)。Options：nfsv3_and_nfsv4 (NFSv3和NFSv4), nfsv3 (仅NFSv3), nfsv4 (仅NFSv4),
                      }, ...],
                 file_name_extension_filters: File extensionFilter rule list (可选)。参数格式如下：[{
@@ -740,7 +740,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 permission_constraint: Permission constraint (Required)。Options：all_squash, no_all_squash,
                 root_permission_constraint: rootPermission constraint (Required)。Options：root_squash, no_root_squash,
                 source_port_verification: Source port verification (可选)。Options：secure (安全), insecure (不安全),
-                anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
+                anonymous_user_id: Anonymous userID (可选, 0~4294967294),
              }, ...]
         nfs_share_client_modification: 需要修改的 NFS Share client list (可选)。参数格式如下：[{
                 nfs_share_client_id_in_storage: Client on storageID (Required, 1~32字符),
@@ -752,7 +752,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 permission_constraint: Permission constraint (Required)。Options：all_squash, no_all_squash,
                 root_permission_constraint: rootPermission constraint (Required)。Options：root_squash, no_root_squash,
                 source_port_verification: Source port verification (可选)。Options：secure (安全), insecure (不安全),
-                anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
+                anonymous_user_id: Anonymous userID (可选, 0~4294967294),
              }, ...]
         nfs_share_client_deletion: 需要删除的 NFS Share client list (可选)。参数格式如下：[{
                 nfs_share_client_id_in_storage: Client on storageID (Required, 1~32字符),
@@ -1063,12 +1063,12 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         client: DME API Client
         cifs_share_id: CIFS 共享 ID
         description: Description，最多 255  characters
-        op_lock_enabled: Oplock 功能开关
-        notify_enabled: Notify 功能开关
+        op_lock_enabled: Oplock Feature switch
+        notify_enabled: Notify Feature switch
         ca_enabled: Failover 连续可用特性开关
         offline_file_mode: 离线Cache mode，none/manual/documents/programs
         ip_control_enabled: IP 访问控制特性开关
-        abe_enabled: ABE 功能开关
+        abe_enabled: ABE Feature switch
         audititem_list: 支持审计的事件列表 (可选)。参数格式如下：[{
                 audititem: Audit event type (默认none)。Options：none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
              }, ...]
@@ -2112,7 +2112,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         capacity_threshold: Total space capacity alarmthreshold 50-99（可选）
         tuning: 调优参数 (可选)。参数格式如下：{
                 deduplication_enabled: EnableDeduplication (可选, 默认false)。Options：true, false,
-                compression_enabled: Enable数据压缩 (可选, 默认false)。Options：true, false,
+                compression_enabled: EnableData compression (可选, 默认false)。Options：true, false,
                 block_size: Filesystem块大小KB (可选, 默认64)。Options：4, 8, 16, 32, 64, 128,
                 allocation_type: Allocation type (可选, 默认thin)。Options：thin, thick,
                 qos_policy_id: QoS policyID (可选),
@@ -2399,7 +2399,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         enabled: EnableQoSPolicy (可选, 默认false),
                 },
                 deduplication_enabled: Deduplication (可选, default off),
-                compression_enabled: 数据压缩 (可选, default off),
+                compression_enabled: Data compression (可选, default off),
                 allocation_type: FilesystemAllocation type (可选, 默认thin)。Options：thin (精简), thick (厚),
              }
         capacity_autonegotiation: Capacity adaptive parameter (可选)。参数格式如下：{

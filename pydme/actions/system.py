@@ -1,5 +1,5 @@
 """
-系统管理 (System) operations
+System management (System) operations
 """
 
 import sys
@@ -114,8 +114,8 @@ def user_create(client: DMEAPIClient, name: str, type: int,
     Args:
         client: DME API client
         name: Username (Required, string, 最多32 characters)。本地Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义字符、Invisible and special characters。远端Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊字符。
-        type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
-        value: 密码 (Optional, string, 8~32 characters)。密码长度cannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符。远端用户不涉及。
+        type: User type (Required, integer, 无)。0：Local user；2：Remote user。
+        value: 密码 (Optional, string, 8~32 characters)。密码长度cannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1个大写字母，must contain at least1个小写字母，must contain at least1count字，must contain at least1个特殊字符。Remote user不涉及。
         description: 描述 (Optional, string, 最多127 characters)
         roles: User role (Optional, List[integer], max array members：10)。如Administrators，北向User group，安全管理员组，Filesystem组或用户自定义角色。
 
@@ -162,7 +162,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
                 id: 用户ID (integer, 1~2147483647),
                 name: Username (string, 6~32 characters),
                 description: 描述 (string, 最多127 characters),
-                type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (Third-party system access user), 2 (远端用户),
+                type: User type (integer)。Optional值：0 (Local user), 1 (Third-party system access user), 2 (Remote user),
                 roles: 角色ID列表 (List<integer>, max array members：50),
             }, ...]
         }
@@ -220,7 +220,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
         {
             id: 用户ID (integer, 1~2147483647),
             name: Username (string, 最多32 characters),
-            type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (Third-party system access user), 2 (远端用户),
+            type: User type (integer)。Optional值：0 (Local user), 1 (Third-party system access user), 2 (Remote user),
             description: 描述 (string, 最多127 characters),
             roles: User role (List<integer>, max array members：50),
         }
@@ -435,7 +435,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
     Args:
         client: DME API client
-        service_type: 业务类型（Required，wfa_execute_activity-自动化编排）
+        service_type: Business type（Required，wfa_execute_activity-自动化编排）
         status: Pending item status list（Optional，1-未执行/2-Executing/3-成功/4-partial success/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）
         page_no: 页索引号（Optional，默认 1）
         page_size: 每页count（Optional，1~10，默认 10）

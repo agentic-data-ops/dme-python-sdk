@@ -435,8 +435,8 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         task_name: 任务名称 (1~255 characters, Optional)
         task_mode: 任务模式 (Required)。Optional值：pre_fetch (预取缓存), tier (数据拉取)
         execute_mode: 执行模式 (Optional)。Optional值：interval (week(s)期性), one_time (只执行一次)。当 task_mode 为 pre_fetch this parameter is ineffective
-        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch this parameter is ineffective
-        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         start_mode: Task execution模式 (Required)。Optional值：manual (手动), auto (自动)
         start_time: 任务启动的 UTC Timestamp (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
         max_bandwidth: 最大Sync速率 (int32, 1~10240, 单位: MB/s, Required)
@@ -464,15 +464,15 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         size_operator: File size的匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 file_size must be sent together
         file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, Optional)。与 size_operator must be sent together
         tag: object标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")
-        file_paths: 按文件列表过滤策略上传的文件标识列表 (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置
+        file_paths: filter by file list滤策略上传的文件标识列表 (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置
         authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
         user_operator: Username匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
         user_name: Username (1~255 characters, Optional)。与 authentication_type、user_operator must be sent together
         group_operator: User group名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
         group_name: User group名 (1~255 characters, Optional)。与 authentication_type、group_operator must be sent together
-        files_filter: 按文件列表过滤请求参数 (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
-                file_id: 按文件列表过滤策略上传的文件 ID (1~63 characters, Required),
-                file_name: 按文件列表过滤策略上传的文件名称 (1~1023 characters, Required),
+        files_filter: filter by file list滤请求参数 (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
+                file_id: filter by file list滤策略上传的文件 ID (1~63 characters, Required),
+                file_name: filter by file list滤策略上传的文件名称 (1~1023 characters, Required),
              }
 
     Returns:
@@ -580,8 +580,8 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         task_name: 任务名称 (1~255 characters, Optional)
         start_mode: Task execution模式 (Optional)。Optional值：manual (手动), auto (自动)
         start_time: 任务启动的 UTC Timestamp (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
-        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发
-        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发
+        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when
+        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when
         max_bandwidth: 最大Sync速率 (int32, 1~10240, 单位: MB/s, Optional)
         period_start_day: Start date of specified period (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together

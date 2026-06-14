@@ -480,7 +480,7 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
 
 def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Active-active consistency group移除成员 Pair
+    Active-active consistency groupRemove member Pair
 
     Args:
         client: DME API client
@@ -509,7 +509,7 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
     Args:
         client: DME API client
         ids: Active-active consistency group ID 列表
-        priority_station_type: 站点类型，Optional值：preferred（优先站点）, non_preferred（非优先站点）
+        priority_station_type: Site type，Optional值：preferred（优先站点）, non_preferred（非优先站点）
 
     Returns:
         {
@@ -534,7 +534,7 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
     Args:
         client: DME API client
         ids: Active-active consistency group ID 列表
-        priority_station_type: 站点类型，Optional值：preferred（优先站点）, non_preferred（非优先站点）
+        priority_station_type: Site type，Optional值：preferred（优先站点）, non_preferred（非优先站点）
 
     Returns:
         {
@@ -823,7 +823,7 @@ def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type
     Args:
         client: DME API client
         ids: Active-active Pair ID 列表
-        priority_station_type: 站点类型，Optional值：preferred, non_preferred
+        priority_station_type: Site type，Optional值：preferred, non_preferred
 
     Returns:
         {
@@ -848,7 +848,7 @@ def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_stat
     Args:
         client: DME API client
         ids: Active-active Pair ID 列表
-        priority_station_type: 站点类型，Optional值：preferred, non_preferred
+        priority_station_type: Site type，Optional值：preferred, non_preferred
 
     Returns:
         {
@@ -1367,7 +1367,7 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
 
     Args:
         client: DME API client
-        snapshots_info: LUN 快照创建info list，每项包含 name, source_type, source_id
+        snapshots_info: LUN 快照创建info list，Each item includes name, source_type, source_id
         is_consist_activate: 是否一致性激活，默认 false
 
     Returns:
@@ -1395,7 +1395,7 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
     Args:
         client: DME API client
         rollback_speed: 回滚速率，Optional值：low, medium, high, highest
-        rollback_snapshots: 快照回滚的资源info list，每项包含 snapshot_id, target_type, target_id
+        rollback_snapshots: 快照回滚的资源info list，Each item includes snapshot_id, target_type, target_id
 
     Returns:
         {
@@ -1895,7 +1895,7 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
     Args:
         client: DME API client
         ids: Remote replicationConsistency group ID 列表
-        is_self_adapt: supports自适应移除成员 Pair，默认 false
+        is_self_adapt: supports自适应Remove member Pair，默认 false
         delete_mode: 删除模式，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
 
     Returns:
@@ -1944,7 +1944,7 @@ def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: l
 
 def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Remote replicationConsistency group移除成员 Pair
+    Remote replicationConsistency groupRemove member Pair
 
     Args:
         client: DME API client
@@ -2807,7 +2807,7 @@ ACTIONS = {
     },
     'hypermetro_group_remove_pairs': {
         'func': hypermetro_group_remove_pairs,
-        'description': 'Active-active consistency group移除成员 Pair',
+        'description': 'Active-active consistency groupRemove member Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'hypermetro_group'
     },
@@ -2912,7 +2912,7 @@ ACTIONS = {
     },
     'replication_group_remove_pairs': {
         'func': replication_group_remove_pairs,
-        'description': 'Remote replicationConsistency group移除成员 Pair',
+        'description': 'Remote replicationConsistency groupRemove member Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },

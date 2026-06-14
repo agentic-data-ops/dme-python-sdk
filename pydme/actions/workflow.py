@@ -85,13 +85,13 @@ def template_show(client: DMEAPIClient, template_id: str,
     Args:
         client: DME API client
         template_id: 模板 id（Required，1~64  characters）
-        template_version_id: 模板版本 id（Optional，1~64  characters）
+        template_version_id: Template version id（Optional，1~64  characters）
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
         }，包含：
-        - template_version_id: 模板版本 id
+        - template_version_id: Template version id
     """
     url = "/rest/wfamgmt/v1/workflow/templates/{template_id}"
     
@@ -163,13 +163,13 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     Create and execute instance
     
-    Create and execute workflow instance。by specifying template id 与模板版本 id（模板版本 id default if not specified为最新版本）
+    Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified为最新版本）
     来创建实例并执行，or by specifying instance id 来找到对应Instance template创建实例并执行。
     
     Args:
         client: DME API client
         template_id: 模板 id（Optional，1~64  characters，满足正则）
-        template_version_id: 模板版本 id（Optional，1~64  characters，满足正则）
+        template_version_id: Template version id（Optional，1~64  characters，满足正则）
         instance_id: 实例的 id（Optional，1~64  characters，满足正则）
         params: Execute instance parameters（Optional），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
     

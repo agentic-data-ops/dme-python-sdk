@@ -250,7 +250,7 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
     r"""
     Acknowledge alarm
 
-    对指定告警执行确认 (ACK) 操作.
+    Execute on specified alarm行确认 (ACK) 操作.
 
     Args:
         client: DME API client
@@ -280,7 +280,7 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     r"""
     取消Acknowledge alarm
 
-    对指定告警执行取消确认 (UNACK) 操作.
+    Execute on specified alarm行取消确认 (UNACK) 操作.
 
     Args:
         client: DME API client
@@ -310,7 +310,7 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
     r"""
     Clear alarm
 
-    对指定告警执行清除 (CLEAR) 操作.
+    Execute on specified alarm行清除 (CLEAR) 操作.
 
     Args:
         client: DME API client
@@ -378,7 +378,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             task_id: Task ID (string, 1~64 characters),
         }，包含:
         - total: 智能分析任务Total count
-        - data: 智能分析任务响应结果列表，每项包含:
+        - data: 智能分析任务响应结果列表，Each item includes:
             - id: 任务 ID
             - analysis_type: 分析类型
             - error_msg: Error message
@@ -607,11 +607,11 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     """
     Query health-related data
 
-    查询Capacity prediction、性能预测、Performance anomaly等健康度相关数据。
+    查询Capacity prediction、Performance prediction、Performance anomaly等健康度相关数据。
 
     Args:
         client: DME API client
-        type: Data type（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（Performance anomaly）
+        type: Data type（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（Performance prediction）, performance_anomaly（Performance anomaly）
         object_id: 资源 ID（Required，1~256  characters）
         begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
@@ -658,7 +658,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         client: DME API client
         object_type: Object type（Required）
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
-                           storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤Switch port）,
+                           storage_disk（硬盘）, storage_port（Storage port）, fcswitch_port（光纤Switch port）,
                            storage_file_system（Filesystem）, controller（Controller）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
@@ -1248,7 +1248,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     r"""
     Query topology library info
 
-    via specified entry资源Query topology library info，支持 NAS、K8s、DB 等业务类型。
+    via specified entry资源Query topology library info，支持 NAS、K8s、DB 等Business type。
 
     Args:
         client: DME API client
@@ -1281,7 +1281,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - db_instance: 数据库实例
             - db_node: 数据库节点
         entry_res_id: 入口资源 ID（Required）
-        type: 业务类型，Optional值：nas, k8s, db
+        type: Business type，Optional值：nas, k8s, db
         filter: 过滤条件列表，最多 10 个
 
     Returns:
@@ -1456,14 +1456,14 @@ ACTIONS = {
     },
     'topology_query_graph_path': {
         'func': topology_query_graph_path,
-        'description': 'Query topology library info（支持 NAS、K8s、DB 等业务类型）',
+        'description': 'Query topology library info（支持 NAS、K8s、DB 等Business type）',
         'params': ['entry_res_type', 'entry_res_id', 'type', 'filter'],
         'subtopic': 'topology'
     },
     # health subtopic actions
     'health_query_data': {
         'func': health_query_data,
-        'description': 'Query health-related data（Capacity prediction/性能预测/Performance anomaly）',
+        'description': 'Query health-related data（Capacity prediction/Performance prediction/Performance anomaly）',
         'params': ['type', 'object_id', 'begin_time', 'end_time', 'object_type', 'indicator'],
         'subtopic': 'health'
     },

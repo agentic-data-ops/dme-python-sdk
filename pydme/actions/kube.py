@@ -245,7 +245,7 @@ ACTIONS = {
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
-    # 节点管理
+    # Node management
     'node_list': {
         'func': node_list,
         'description': '查询Container node list',

@@ -109,7 +109,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
 
 # Action list for CLI help
 ACTIONS = {
-    # subtopic actions - cluster（三级结构：backup cluster list/capacity/quota）
+    # subtopic actions - cluster（Three-level structure：backup cluster list/capacity/quota）
     'cluster_list': {
         'func': cluster_list,
         'description': '查询Backup cluster list',

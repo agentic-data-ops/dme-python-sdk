@@ -906,7 +906,7 @@ def main():
 
     # 4. 指定了 <topic> <subtopic> <action>，显示动作帮助或执行动作
     if args.subtopic and args.action:
-        # 尝试组合为 action_key（三级结构：<topic> <subtopic> <action>）
+        # 尝试组合为 action_key（Three-level structure：<topic> <subtopic> <action>）
         # 先尝试 subtopic_action 格式（支持带空格的动作名，如 "frame list"）
         action_key = f"{args.subtopic}_{args.action}"
         
