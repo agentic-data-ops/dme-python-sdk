@@ -234,7 +234,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN group ID on storage device (1~31 characters),
                         lun_group_name: LUN group name on storage device (1~255 characters),
-                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existg relationship时可 specified, 存在Mapping relationship not available when specified),
+                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not existlationship时可 specified, 存在Mapping relationship not available when specified),
                 },
              }
         task_remarks: Async taskRemark(Optional) ,  max 1024  characters

@@ -341,13 +341,13 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_id: Namespace ID (1~32 characters, Optional)
         namespace_raw_id: Namespace ID on device (1~256 characters, Optional)
         local_path: Namespace path, supports fuzzy search (1~256 characters, Optional, Default: "/")
-        status: Task status list (List<string>, max array members: 9, Optional). Optional值: not_run (not running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled ( pending), partially_success (partial success), failed ( failure), unknown (unknown)
+        status: Task status list (List<string>, max array members: 9, Optional). Options: not_run (not running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled ( pending), partially_success (partial success), failed ( failure), unknown (unknown)
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
         execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
         page_no: Page number (int32, 1~1000, Default: 1, Optional)
         page_size: Items per page (int32, 1~1000, Default: 20, Optional)
-        sort_dir: Sort direction (Optional). Optional值: asc (ascending), desc (descending). Default: desc
-        sort_key: Sort key (Optional). Optional值: progress (Task execution progress), real_start_time (actual start time), real_finish_time (task actualEnd time)
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
+        sort_key: Sort key (Optional). Options: progress (Task execution progress), real_start_time (actual start time), real_finish_time (task actualEnd time)
 
     Returns:
         Data migrationTask list
@@ -433,12 +433,12 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         client: DME API client
         gfs_id: Global namespace ID (1~64 characters, Required)
         task_name: Task name (1~255 characters, Optional)
-        task_mode: Task mode (Required). Optional值: pre_fetch (prefetch cache), tier (data pull)
-        execute_mode:  execute mode (Optional). Optional值: interval (week(s)), one_time (execute once only). when task_mode is pre_fetchs parameter is ineffective
+        task_mode: Task mode (Required). Options: pre_fetch (prefetch cache), tier (data pull)
+        execute_mode:  execute mode (Optional). Options: interval (week(s)), one_time (execute once only). when task_mode is pre_fetchs parameter is ineffective
         execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
-        execute_time_unit: Weekly task execution time interval unit (Optional). Optional值: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
-        start_mode: Task execution mode (Required). Optional值: manual, auto
-        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value为 0 Immediate start
+        execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
+        start_mode: Task execution mode (Required). Options: manual, auto
+        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediateediate start
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidthbandwidth must be sent together
@@ -447,28 +447,28 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         target_namespace_id: Target namespace ID under global namespace (1~32 characters, Required)
         local_path: Namespace path (Optional, Default: "/")
         src_namespace_ids: Source site namespace ID under global namespace  list (List<string>, max array members: 32, Optional)
-        atime_operator: File access time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 atime, atime_unit must be sent together
+        atime_operator: File access time matching rule (Optional). Options: less_or_equal (less than or equal to), greater (greater than). 与 atime, atime_unit must be sent together
         atime: File access time interval (int32, 0~26304, Optional). must be sent with atime_operator and atime_unit
         atime_unit:  File access time interval unit (Optional). Options: hour, day. must be sent with atime_operator and atime
-        mtime_operator: File modification time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 mtime, mtime_unit must be sent together
+        mtime_operator: File modification time matching rule (Optional). Options: less_or_equal (less than or equal to), greater (greater than). 与 mtime, mtime_unit must be sent together
         mtime: File modification time interval (int32, 0~26304, Optional). must be sent with mtime_operator and mtime_unit
         mtime_unit:  File modification time interval unit (Optional). Options: hour, day. must be sent with mtime_operator and mtime
-        ctime_operator: File status modification time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 ctime, ctime_unit must be sent together
+        ctime_operator: File status modification time matching rule (Optional). Options: less_or_equal (less than or equal to), greater (greater than). 与 ctime, ctime_unit must be sent together
         ctime: File status modification interval (int32, 0~26304, Optional). must be sent with ctime_operator and ctime_unit
         ctime_unit: File status modification time interval unit (Optional). Options: hour, day. must be sent with ctime_operator and ctiment together
-        crtime_operator:  File creation time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 crtime, crtime_unit must be sent together
+        crtime_operator:  File creation time matching rule (Optional). Options: less_or_equal (less than or equal to), greater (greater than). 与 crtime, crtime_unit must be sent together
         crtime:  File creation time interval (int32, 0~26304, Optional). must be sent with crtime_operator and crtime_unit
         crtime_unit:  File creation time interval unit  (Optional). Options: hour, day. must be sent with crtime_operator and crtimether
-        name_operator: Filename matching rule (Optional). Optional值: equal (equal), not_equal (not equal). must be sent with name_filter
+        name_operator: Filename matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with name_filter
         name_filter: Filename matching expression list (1~1023 characters, Optional). must be sent with name_operator
-        size_operator: File size matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 file_size must be sent together
+        size_operator: File size matching rule (Optional). Options: less_or_equal (less than or equal to), greater (greater than). 与 file_size must be sent together
         file_size:  File size (int64, 0~4398046511104, in KB, Optional). must be sent with size_operator
         tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
         file_paths: Filter by file list upload file ID list (List<string>, max array members: 200, Optional). can only be configured when execute_mode is one_time
-        authentication_type: Auth type (Optional). Optional值: ldap_or_ldaps_domain (LDAP/LDAPS domain), unix_local (UNIX local auth), nis_domain (NIS domain)
-        user_operator: Username matching rule (Optional). Optional值: equal (equal), not_equal (not equal). must be sent with authentication_type and user_nameme must be sent together
+        authentication_type: Auth type (Optional). Options: ldap_or_ldaps_domain (LDAP/LDAPS domain), unix_local (UNIX local auth), nis_domain (NIS domain)
+        user_operator: Username matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with authentication_type and user_nameme must be sent together
         user_name: Username (1~255 characters, Optional). must be sent with authentication_type and user_operator
-        group_operator: User group name matching rule (Optional). Optional值: equal (equal), not_equal (not equal). must be sent with authentication_type and group_operatorype, group_name must be sent together
+        group_operator: User group name matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with authentication_type and group_operatorype, group_name must be sent together
         group_name: User group name (1~255 characters, Optional). must be sent with authentication_type and group_operatorype, group_operator must be sent together
         files_filter: Filter by file list request parameter (FilesFilterobject, Optional). can only be configured when execute_mode is one_time.  parameter format: {
                 file_id: filter by file listfilter policy uploaded file ID (1~63 characters, Required),
@@ -578,10 +578,10 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         client: DME API client
         id: Data migration task ID (1~32 characters, Required)
         task_name: Task name (1~255 characters, Optional)
-        start_mode: Task execution mode (Optional). Optional值: manual, auto
-        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value为 0 Immediate start
+        start_mode: Task execution mode (Optional). Options: manual, auto
+        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediateediate start
         execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval
-        execute_time_unit: Weekly task execution time interval unit (Optional). Optional值: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval
+        execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidthbandwidth must be sent together
