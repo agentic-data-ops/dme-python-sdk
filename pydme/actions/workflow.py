@@ -23,7 +23,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
         page_no: Page index（Required，min：1）
         page_size: 每页查询count（Required，1~1000）
         directory_id: 目录 id（Optional，1~64  characters）
-        group: 模板所属分组名称，supports fuzzy match（Optional，最多 255  characters）
+        group: Template group name，supports fuzzy match（Optional，最多 255  characters）
         name: 模板名称，supports fuzzy match（Optional，最多 255  characters）
     
     Returns:
@@ -164,7 +164,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     Create and execute instance
     
     Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified为最新版本）
-    来创建实例并执行，or by specifying instance id 来找到对应Instance template创建实例并执行。
+    to create and execute instance，or by specifying instance id 来找到对应Instance template创建实例并执行。
     
     Args:
         client: DME API client

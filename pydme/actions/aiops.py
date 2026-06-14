@@ -463,7 +463,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     """
     Query historyPerformance data
 
-    根据传入参数中的"range"Enum values or from start toEnd time范围内的查询数据.
+    Based on input parameters"range"Enum values or from start toEnd time范围内的查询数据.
     With aggregated data,Returned result sequence is average,并包含max,min以及对应Timestamp.
 
     使用说明:
@@ -663,7 +663,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256  characters）
-        object_ids: object resId 列表，用于批量精确查找（Optional，supports up to 100 个 ID）
+        object_ids: object resId 列表，For batch exact lookup（Optional，supports up to 100 个 ID）
         page_no: Page queryStart position（Optional，min：1）
         page_size: Items per page（Optional，1~100，默认 20）
         sort_key: Sort field（Optional），按分数进行排序，Optional值：health_score
@@ -903,7 +903,7 @@ def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Disable check policy
 
-    禁用指定的检查策略。
+    Disable specified check policy。
 
     Args:
         client: DME API client
@@ -1137,7 +1137,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
           - hosts: 主机列表
           - storages: 存储列表
           - switch_links: Switch connection list
-          - port_links: 端口连接关系列表
+          - port_links: Port connection list
         - fc_san 数据：
           - fabrics: fabric 列表
           - hosts: 主机列表

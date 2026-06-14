@@ -56,12 +56,12 @@ def logout(client: DMEAPIClient) -> dict:
 def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
                    is_initial_password: bool = True) -> dict:
     """
-    根据指定Username重置指定用户的密码，重置不需要原始密码，因此，Third-party user executing this API must have security roleAdmin角色。
+    根据指定UsernameReset specified user password，Reset without original password，因此，Third-party user executing this API must have security roleAdmin角色。
 
     Args:
         client: DME API client
         user_name: 需要重置密码的Username (Required, string, 1~128 characters)
-        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（重复次数为4，Consecutive character count1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
 
     Returns:

@@ -912,7 +912,7 @@ def main():
         
         # 如果找不到，尝试 subtopic action 格式（空格分隔）
         if action_key not in actions_info:
-            # 尝试将 subtopic 和 action 组合成带空格的形式
+            # 尝试将 subtopic 和 action Combine into space-separated format
             space_action_key = f"{args.subtopic} {args.action}"
             if space_action_key in actions_info:
                 action_key = space_action_key

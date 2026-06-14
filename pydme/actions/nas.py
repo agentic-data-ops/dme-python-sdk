@@ -1065,9 +1065,9 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         description: Description，最多 255  characters
         op_lock_enabled: Oplock Feature switch
         notify_enabled: Notify Feature switch
-        ca_enabled: Failover 连续可用特性开关
+        ca_enabled: Failover Continuous availability feature switch
         offline_file_mode: 离线Cache mode，none/manual/documents/programs
-        ip_control_enabled: IP 访问控制特性开关
+        ip_control_enabled: IP Access control feature switch
         abe_enabled: ABE Feature switch
         audititem_list: Supported audit event list (可选)。参数格式如下：[{
                 audititem: Audit event type (默认none)。Options：none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
@@ -1771,7 +1771,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_soft_quota: 文件数软配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_hard_quota: 文件数硬配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，Advisory quota must be less than hard or soft quota
-        snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：Exclude snapshot space；仅 OceanStor Pacific Device support
+        snap_space_switch: Include snapshot space（可选），true：统计快照空间；false：Exclude snapshot space；仅 OceanStor Pacific Device support
         soft_grace_time: 超限时间（可选），0~4294967294，单位（day(s)）；Grace period before soft limit becomes hard limit；not sent或取值 0 soft quota reached, warning only；仅 OceanStor Pacific 支持
         task_remarks: Async taskRemark
 

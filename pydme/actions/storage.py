@@ -343,7 +343,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
     """
     添加Storage device（only supports录入离线Storage device信息）
 
-    通过离线方式添加Storage device信息到 DME 系统。
+    Add via offline methodStorage device信息到 DME 系统。
 
     Args:
         client: DME API client。
@@ -451,7 +451,7 @@ def remove(client: DMEAPIClient, ids: list) -> dict:
 
 def sync(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    SyncStorage device信息，该接口为异步消息。
+    SyncStorage device信息，This API is async。
 
     Args:
         client: DME API client
@@ -1154,7 +1154,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         payload['tag_ids'] = json.dumps(tag_ids) if isinstance(tag_ids, list) else tag_ids
 
     response = client.put(url, body=payload, params={"storage_id": storage_id})
-    # modify API returns empty response，返回空字典表示成功
+    # modify API returns empty response，Returns empty dict on success
     return response if response else {}
 
 
@@ -2764,7 +2764,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         response = client.post(url, body=payload)
         return response
     else:
-        # 返回所有类型端口（ETH + FC + IB + SAS）
+        # Returns all port types（ETH + FC + IB + SAS）
         all_eth_ports = []
         all_fc_ports = []
         all_ib_ports = []
