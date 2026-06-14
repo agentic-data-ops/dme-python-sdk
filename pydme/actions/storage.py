@@ -645,7 +645,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         physical_type: Disk type (Optional). Options: unknown, sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card, scm, nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
         new_physical_type: Actual disk type (Optional). Options: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB). 
-        role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign), labelmaint, maintenance ( maintenance), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
+        role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaint, maintenancece), shared ( share), spare (备用), unassigned ( unallocated), unsupported (不 support), remote (远程), mediator (中介). 
         disk_pool_name: Disk pool name (Optional, 1~256 characters). supports fuzzy search. 
         disk_pool_id: Disk pool ID (Optional, 1~64 characters).  Huawei storage device only, third-party device supports this field. 
         storage_pool_id: Storage pool ID (Optional, 1~64 characters). 
@@ -897,7 +897,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
 
     Args:
         client: DME API client
-        storage_id: Storage deviceid(Optional, 1~64 characters) , supports filtering
+        storage_id: Storage device ID(Optional, 1~64 characters) , supports filtering
         raw_id:  nodeon the storage deviceID(Optional, 1~64 characters) 
         storage_name: Storage deviceName (Optional,1~255 characters) , supports filtering
         name:  nodeName (Optional,1~256 characters) , supports fuzzy search (case-insensitive) 
@@ -905,7 +905,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         mgmt_ip: Node managementIP address(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         frame_number: Rack/ rack number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         slot_number: Slot number in rack(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        status: Node status(Optional). Options: UNKNOWN, NORMAL, FAULT, PRE_FAIL, PARTIALLY_DAMAGED), DEGRADED, BAD_SECTORS_FOUND block), BIT_ERRORS_FOUND ( has error code), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
+        status: Node status(Optional). Options: UNKNOWN, NORMAL, FAULT, PRE_FAIL, PARTIALLY_DAMAGED, DEGRADED, BAD_SECTORS_FOUND), BIT_ERRORS_FOUNDOUND ( has error code), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
         roles:  nodeRole list(Optional, List<string>, max array members: 10). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
         page_no: Page number(Optional, 1~10000, default 1) 
         page_size: Page size(Optional, 1~1000, default 20) 
@@ -920,13 +920,13 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 name: Node name (1~255 characters),
                 raw_id:  nodeon the storage deviceID (1~64 characters),
                 mgmt_ip: Node managementIP address (1~255 characters),
-                status: Node status (1~255 characters). Options: UNKNOWN, NORMAL, FAULT, PARTIALLY_DAMAGED),
+                status: Node status (1~255 characters). Options: UNKNOWN, NORMAL, FAULT, PARTIALLY_DAMAGED,
                 node_model:  Node model (1~255 characters). E.g.: DataTurbo, OceanStor Pacific, RH5288 V3,
                 frame_number: Rack/ rack number (1~255 characters),
                 slot_number: Slot number in rack (1~255 characters),
                 roles:  nodeRole list (List<string>). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute),
                 node_sn: Serial number info (1~255 characters),
-                storage_id: Storage deviceid (1~64 characters),
+                storage_id: Storage device ID (1~64 characters),
                 storage_name: Storage device name (1~255 characters),
                 eos_time:  Storage EOS time (int64), GMT: Jan 1, 1970 00:00:00 - total ms to present,
                 installation_status: Storage software installation status. Options: installed (Storage software installed), not_installed (Storage software not installed),
@@ -1162,20 +1162,20 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
                  create_type: int = None, template_type: int = None, 
                  pool_id: str = None) -> dict:
     """
-    QueryStorage device的Application type
+    QueryStorage device application type
     
-    仅 Dorado  typeDevice support. 
+    Dorado series only. 
     
     Args:
         client: DME API client. 
         storage_id: Storage device id (1~36 characters, must satisfy UUID format). 
-        create_type: create  type (Optional, 0~1). Options: 0 ( system预置), 1 (user 定义). returns all types if not provided. 
-        template_type: Application type分类 (Optional, 0~1). Options: 0 (LUN type), 1 (NAS type). 不传defaultLUN type. 
+        create_type: Create type (Optional, 0~1). Options: 0 ( system preset), 1 (user defined). returns all types if not provided. 
+        template_type: Application type category (Optional, 0~1). Options: 0 (LUN), 1 (NAS). 不传defaultLUN. 
         pool_id: Storage poolid (Optional, 1~64 characters,  letters and digits). 
     
     Returns:
         Application type info, includes  datas  list, Each element contains id, name, block_size, 
-        enable_compress, enable_dedup, create_type 等 field
+        enable_compress, enable_dedup, create_type and other fields
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/workloads"
     
@@ -1208,14 +1208,14 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters, UUID  format或 32 -bit hex) 
+        storage_id: Storage device ID (Required, 1~36  characters, UUID format or 32-bit hex) 
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
         }, includes total and controllers fields
         - total: ControllerTotal count
-        - controllers: Controller list, includes  id, name, status, type 等 info
+        - controllers: Controller list, includes id, name, status, type and other info
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/controllers"
     
@@ -1248,7 +1248,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
                     used_capacity: Allocated raw capacity, in MB (number),
                     used_spare_capacity: Used hot spare raw capacity, in MB (number),
                     free_capacity: Free capacity, in MB (number),
-                    storage_id: Storage deviceid (1~64 characters),
+                    storage_id: Storage device ID (1~64 characters),
                  }, ...]
         }
     """
@@ -1268,11 +1268,11 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
 def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch queryDistributedStorage device的Disk pool. only supportsOceanStor Pacific和OceanStor A310 storage. 
+    Batch query distributed storage device disk pools. OceanStor Pacific and A310 only. 
 
     Args:
         client: DME API client
-        storage_id: Storage deviceid (Optional, string, 1~64 characters). 非OceanStor Pacific或A310Device reports parameter error
+        storage_id: Storage device ID (Optional, string, 1~64 characters). Non-Pacific/A310 device reports parameter error
         page_no: Page number (Optional, int32, 1~2147483647). Default: 1
         page_size: Page size (Optional, int32, 1~1000). Default: 20
 
@@ -1318,11 +1318,11 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         health_status: Health status list(Optional, List<string>, max array members: 3). Options: unknown, normal, faulty ( fault)
         zone_name: ZoneName (Optional,1~255 characters) , OceanStor A800 series only, supports fuzzy match
         zone_id: Zone ID list(Optional, List<string>, max array members: 100) , OceanStor A800 series only
-        running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown, normal, running, sleep_in_high_temperature (高温休眠), online, offline
+        running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown, normal, running, sleep_in_high_temperaturee (高温休眠), online, offline
         power_mode: Power supply mode list(Optional, List<string>, max array members: 2). Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
         esn: EnclosureSerial number(Optional, 1~256 characters) , supports fuzzy match
         mac: MAC address(Optional, 1~256 characters) , supports fuzzy match
-        sort_key: Sort field(Optional). Options: temperature (温度)
+        sort_key: Sort field(Optional). Options: temperature
         sort_dir: Sort direction(Optional). Options: asc (ascending), desc (descending). Returns ascending by default
 
     Returns:
@@ -1332,17 +1332,17 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     id: EnclosureID (1~64 characters),
                     raw_id: Enclosure ID on storage device (1~64 characters),
                     name:  name (1~256 characters),
-                    model:  model (1~32 characters). Options: 0 (BMCController enclosure), 1 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5 inch智能Disk enclosure), 119 (2U SAS 12disk slot 3.5 inch智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controller NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controller NVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controller 64disk slot 2.5 inch Controller enclosure),
-                    height: 高度, unit U (integer),
-                    location: Enclosure的location (1~128 characters),
+                    model:  Model (1~32 characters). Options: 0 (BMC controller enclosure), 1 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controlleroller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5 inch智能Disk enclosure), 119 (2U SAS 12disk slot 3.5 inch智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controller NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controller NVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controller 64disk slot 2.5 inch Controller enclosure),
+                    height: Height in U (integer),
+                    location: Enclosure location (1~128 characters),
                     logic_type:  type. Options: disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
                     health_status: Health status. Options: unknown, normal, faulty ( fault),
-                    running_status: Running status. Options: unknown, normal, running, sleep_in_high_temperature (高温休眠), online, offline, abnormal ( exception),
+                    running_status: Running status. Options: unknown, normal, running, sleep_in_high_temperaturee (高温休眠), online, offline, abnormalxception),
                     storage_id: Storage deviceID (1~64 characters),
                     storage_name: Storage device name (1~128 characters),
                     storage_ip: Storage deviceIP address (1~32 characters),
                     storage_sn: Storage deviceSerial number (1~64 characters),
-                    storage_location: Storage device的location (0~512 characters),
+                    storage_location: Storage device location (0~512 characters),
                     zone_name: Zone name (0~512 characters), OceanStor A800 series only,
                     zone_ip: Zone IP address (1~128 characters), OceanStor A800 series only,
                     zone_id: Zone ID (0~512 characters), OceanStor A800 series only,
@@ -2398,7 +2398,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
 
     Args:
         client: DME API client
-        logic_port_id: Logic port的 ID (Required, 1~64  characters, UUID  format或 32 -bit hex) 
+        logic_port_id: Logic port的 ID (Required, 1~64  characters, UUID format or 32-bit hex) 
 
     Returns:
         {
@@ -3274,7 +3274,7 @@ ACTIONS = {
     },
     'app_type_list': {
         'func': app_type_list,
-        'description': 'QueryStorage device的Application type',
+        'description': 'QueryStorage device application type',
         'params': ['storage_id'],
         'subtopic': 'app_type'
     },
@@ -3292,7 +3292,7 @@ ACTIONS = {
     },
     'disk_pool_list': {
         'func': disk_pool_list,
-        'description': 'Batch queryDistributedStorage device的Disk pool',
+        'description': 'Batch query distributed storage device disk pools',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_pool'
     },
