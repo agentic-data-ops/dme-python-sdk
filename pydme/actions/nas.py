@@ -1069,7 +1069,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         offline_file_mode: 离线Cache mode，none/manual/documents/programs
         ip_control_enabled: IP 访问控制特性开关
         abe_enabled: ABE Feature switch
-        audititem_list: 支持审计的事件列表 (可选)。参数格式如下：[{
+        audititem_list: Supported audit event list (可选)。参数格式如下：[{
                 audititem: Audit event type (默认none)。Options：none, all, open, create, read, write, close, delete, rename, get_security, set_security, get_attr, set_attr, get_xattr, set_xattr,
              }, ...]
         apply_default_acl: 是否添加默认 ACL
@@ -1767,7 +1767,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         quota_id: 配额 ID
         space_soft_quota: 空间软配额（可选），单位 Byte，-1 field is invalid；When both space hard/soft quotas arewhen both valid，Hard quota must exceed soft quota
         space_hard_quota: 空间硬配额（可选），单位 Byte，-1 field is invalid；When both space hard/soft quotas arewhen both valid，Hard quota must exceed soft quota
-        space_advisory_quota: 空间建议配额（可选），单位 Byte，-1 field is invalid；仅 OceanStor Pacific Device support；当空间建议配额和空间硬配额或空间软配额when both valid，空间建议配额需小于空间硬配额或空间软配额
+        space_advisory_quota: 空间建议配额（可选），单位 Byte，-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，空间建议配额需小于空间硬配额或空间软配额
         file_soft_quota: 文件数软配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_hard_quota: 文件数硬配额（可选），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_advisory_quota: 文件数建议配额（可选），-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，文件数建议配额需小于文件数硬配额或文件数软配额
@@ -1903,7 +1903,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         dc_id: Data center ID（可选），1~128  characters, regex ^[_A-Fa-f0-9\\-]+$
         dc_name: Data center name（可选），1~256  characters
         zone_id: 所属 zone 的 ID（可选），1~256  characters；仅 OceanStor A800 系列Filesystem支持搜索，传入集群ID代表查询全局Filesystem
-        product_name: Filesystem所属设备产品名称（可选），1~256  characters，支持fuzzy search
+        product_name: FilesystemDevice product name（可选），1~256  characters，支持fuzzy search
         description: FilesystemDescription（可选），1~255  characters
         tag_filters: Tag filter list（可选），List<TagFilters> 类型，max array members 11。参数格式如下：[{
                         tag_ids: 标签 ID 列表（可选），max array members 10，Tags are OR-related,
@@ -2642,7 +2642,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         storage_id: Storage device ID（Required）
         pool_raw_id: Storage poolon the storage device ID（Required）
         namespace_specs: Namespace批量参数。参数格式如下：[{
-                name: 名称 (Required, 1~255字符, 支持数字字母下划线.-),
+                name: 名称 (Required, 1~255字符, supports letters, digits, underscores.-),
                 count: count (Required, 1~500),
                 start_suffix: Starting suffix number (可选, 0~9999; 起始后缀+count<=9999),
                 isInGfs: 是否在Global namespace中 (可选)。Options：true, false,
@@ -3042,7 +3042,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         storage_id: 设备 ID (1~64 characters, Optional)
         vstore_id: 租户的 ID (1~64 characters, Optional)
         vstore_name: 租户 name，支持fuzzy search (1~256 characters, Optional)
-        zone_id: 所属 zone 的 ID (1~64 characters, Optional)。当资源所属范围为全局时，Zone ID of the device Id；当资源所属范围为本地时，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 series storage only
+        zone_id: 所属 zone 的 ID (1~64 characters, Optional)。When resource scope is global，Zone ID of the device Id；When resource scope is local，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 series storage only
         name: DataTurbo Admin名，支持fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (可选)。Options：offline (离线), online (在线)
         lock_status: DataTurbo AdminLock status (可选)。Options：unlocked (未锁定), locked (锁定)

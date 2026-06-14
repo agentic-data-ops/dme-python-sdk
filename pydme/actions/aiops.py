@@ -194,7 +194,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         alarm_name: Alarm name,supports fuzzy match
         occur_utc_start: Alarm occurredStart time(毫second(s)Timestamp)
         occur_utc_end: Alarm occurredEnd time(毫second(s)Timestamp)
-        fields: 指定返回的字段列表
+        fields: Specified return field list
         page_no: Page queryStart page,默认 1
         page_size: 每页count,1~1000,默认 100(Current alarm查询用)
         cleared: 是否已清除,true/false(History alarm查询用)
@@ -410,7 +410,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     """
     Create performance file collection task
 
-    收集范围为开始日期到结束日期的性能文件,只支持收集 7 day(s)内的数据,
+    Collect performance files from start to end date,只支持收集 7 day(s)内的数据,
     每次传入的objectmultiplied by metric count不超过 2000.
 
     Args:
@@ -447,7 +447,7 @@ def performance_download_collect_result(client: DMEAPIClient, task_id: str) -> d
         task_id: 任务 ID(Required)
 
     Returns:
-        性能文件下载链接或文件内容
+        Performance file download link or content
     """
     url = "/rest/pmmgmt/v1/performance-data/download/{task_id}"
 
@@ -463,7 +463,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     """
     Query historyPerformance data
 
-    根据传入参数中的"range"字段所取的枚举值或从开始到End time范围内的查询数据.
+    根据传入参数中的"range"Enum values or from start toEnd time范围内的查询数据.
     有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应Timestamp.
 
     使用说明:
@@ -702,7 +702,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
     """
     Query health dimension deduction details
 
-    Queryobject在指定健康维度下的扣分详情。
+    QueryobjectDeduction details under specified health dimension。
 
     Args:
         client: DME API client
@@ -980,7 +980,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total（Total count）和 results（异常检查结果列表）
+        }，包含 total（Total count）和 results（Exception check result list）
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/query"
 

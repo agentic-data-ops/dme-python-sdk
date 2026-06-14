@@ -39,7 +39,7 @@ def login(client: DMEAPIClient) -> dict:
 
 def logout(client: DMEAPIClient) -> dict:
     """
-    注销当前已经登录的三方会话或普通会话。
+    Logout current third-party or normal session。
 
     Args:
         client: DME API client
@@ -62,7 +62,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
         client: DME API client
         user_name: 需要重置密码的Username (Required, string, 1~128 characters)
         new_value: 新密码 (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、大于32 characters。2. Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（重复次数为4，重复序列字符数为1）。4. 密码不能包含Username和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
-        is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
+        is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，不需初始化修改。Default：true
 
     Returns:
         无
@@ -658,7 +658,7 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
     """
     Retry task
 
-    重试指定的任务，用于任务未完全成功的重试。
+    重试指定的任务，For retrying partially successful tasks。
 
     Args:
         client: DME API client
@@ -678,7 +678,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     """
     Wait for task completion
 
-    轮询查询任务状态，直到任务完成或超时。
+    轮询查询任务状态，Until task completes or times out。
 
     Args:
         client: DME API client
@@ -707,7 +707,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
 
         status = root_task.get('status')
 
-        # 检查任务是否完成
+        # Check if task is complete
         if status in [3, 4, 5, 6]:  # 成功、partial success、失败、超时
             return root_task
 
@@ -1190,7 +1190,7 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     Args:
         client: DME API client
         region_id: 下级Region的ID (Required, string, 1~64 characters)
-        request_url: Query sub-level相应资源北向接口URL (Required, string, 1~8192 characters)
+        request_url: Query sub-levelCorresponding resource northbound APIURL (Required, string, 1~8192 characters)
         request_method: 请求方式 (Required, string)。Optional值：get (Get请求), post (Post请求)
         request_body: 调用下级北向接口请求Body体 (Optional, string, 1~20480 characters)
 

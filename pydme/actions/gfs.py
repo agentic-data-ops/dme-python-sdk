@@ -95,9 +95,9 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
         raw_id: Data service site在device side的 id
         site_role: Data service site角色，包含 site_role 字段，value range：ORDINARY(普通站点)，METASTORE(元Data service site)
         gfs_group_id: Omni-Dataverse id
-        storage_name: 根据存储名称查询Data service site，supports fuzzy search
+        storage_name: Query by storage nameData service site，supports fuzzy search
         storage_pool_name: 根据Storage pool name查询Data service site，supports fuzzy search
-        account_name: 根据账户名称查询Data service site，supports fuzzy search
+        account_name: Query by account nameData service site，supports fuzzy search
         page_no: Page number，默认 1，范围 1~10000
         page_size: Items per page，默认 100，范围 1~1000
 
@@ -447,8 +447,8 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         target_namespace_id: Global namespace下目标Namespace ID (1~32 characters, Required)
         local_path: Namespace下的路径 (Optional, Default: "/")
         src_namespace_ids: Global namespace下源站点Namespace ID 列表 (List<string>, max array members: 32, Optional)
-        atime_operator: 文件的访问时间匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 atime、atime_unit must be sent together
-        atime: 文件的访问时间间隔 (int32, 0~26304, Optional)。与 atime_operator、atime_unit must be sent together
+        atime_operator: File access time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 atime、atime_unit must be sent together
+        atime: File access time interval (int32, 0~26304, Optional)。与 atime_operator、atime_unit must be sent together
         atime_unit: 文件的访问Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 atime_operator、atime must be sent together
         mtime_operator: File modification time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 mtime、mtime_unit must be sent together
         mtime: File modification time interval (int32, 0~26304, Optional)。与 mtime_operator、mtime_unit must be sent together

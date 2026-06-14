@@ -266,7 +266,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
         tag_ids: Tag filter list (Optional, string)。supports up to10个标签ID组合过滤，Multiple filter conditions are AND-related
         start: Page queryStart position (Optional, int32, 1~10000)。Default：1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
-        ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000 characters)。supports up to10extended attributes combined filter
+        ext_attrs: Extended attribute filter list (Optional, string, 1~3000 characters)。supports up to10extended attributes combined filter
 
     Returns:
         {
@@ -1104,8 +1104,8 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         maintenance_overtime: Warranty expiration time (可选, format is mssecond(s)级Timestamp)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。Storage devicesum of all disk physical capacities，-1表示无裸容量。
         total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。Storage device可写入的User data总量，-1表示无可得容量。
-        total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage device实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无Available capacity。
-        used_capacity: Used capacity (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的已使用容量之和，-1表示无Used capacity。
+        total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。Storage deviceActual available disk physical space（扣除RAID、元数据等消耗），-1表示无Available capacity。
+        used_capacity: Used capacity (可选, -1~2147483647, 单位MB)。Storage device中所有Storage poolsum of used capacity，-1表示无Used capacity。
         free_capacity: Free capacity (可选, -1~2147483647, 单位MB)。Storage device的Available capacity与Used capacity的差值，-1表示无Free capacity。
         subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的订阅容量之和，-1表示无已订阅容量。
         tag_ids: 标签ID列表 (Optional, string, 0~512 characters)。数组格式string，supports up to10个标签，空数组代表Remove storage device关联的所有标签。
@@ -1405,7 +1405,7 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
         alias: Initiator alias (可选, 0~256 characters, supports fuzzy match)
         status: Initiator状态 (可选)。Options：unknown (未知), online (在线), offline (离线)
         associated_host_name: Initiator关联Host name (可选, 0~256 characters, supports fuzzy match)
-        associated_host_id: Initiator关联Host ID (可选, 0~64 characters; 空字段查询未添加到主机的Initiator)
+        associated_host_id: Initiator关联Host ID (可选, 0~64 characters; Empty field queries hosts not addedInitiator)
         multipath_type: Third-party multipath策略 (可选, 仅针对非Dorado V6产品)。Options：default (默认), third_party (Third-party multipath)
         protocol: Initiator type (可选)。Options：fc, iscsi, nvme_over_roce, sas, nvme_over_fabric, unknown
         support_provisioning: supports发放 (可选)。Options：true, false
@@ -2258,7 +2258,7 @@ def qos_associate(client: DMEAPIClient, qos_policy_id: str,
     """
     QoS Associate policy with control resource
 
-    将一个或多个资源associated with QoS 策略。
+    One or more resourcesassociated with QoS 策略。
 
     Args:
         client: DME API client
@@ -3146,7 +3146,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 alarm_num: 告警count (number),
                 parent_id: 集群id,
                 zone_raw_id: zone raw id,
-                is_core_zone: 是否是核心控制节点所在的zone (boolean)。Options：true, false,
+                is_core_zone: Whether it is the core controller nodezone (boolean)。Options：true, false,
             }, ...]
         }
     """
