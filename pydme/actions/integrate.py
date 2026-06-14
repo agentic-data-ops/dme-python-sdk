@@ -1,6 +1,6 @@
 """
 Third-party system integration (Integrate) operations
-includes CMDB system、 host、Application resource query
+includes CMDB system,  host, Application resource query
 """
 
 import sys
@@ -12,18 +12,18 @@ from pydme.client import DMEAPIClient
 def cmdb_system_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryCMDB system list。
+     queryCMDB system list. 
 
     Args:
         client: DME API client
-        name: CMDBSystem name（Optional，supports fuzzy search）
-        page_no: Page queryStart page，default 1
-        page_size: per pagecount，1~1000，default 20
+        name: CMDBSystem name（Optional, supports fuzzy search）
+        page_no: Page queryStart page, default 1
+        page_size: per pagecount, 1~1000, default 20
 
     Returns:
         {
             total: Total count (integer),
-            systems: CMDB system list。 parameter format：[{
+            systems: CMDB system list.  parameter format：[{
                 id:  systemID (string),
                 name: System name (string),
                 ip: IP address (string),
@@ -46,20 +46,20 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
 def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                    ip: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryCMDBHost list in system。
+     queryCMDBHost list in system. 
 
     Args:
         client: DME API client
         system_id: CMDB systemID（Optional）
-        name: Host name（Optional，supports fuzzy search）
+        name: Host name（Optional, supports fuzzy search）
         ip: Host IP（Optional）
-        page_no: Page queryStart page，default 1
-        page_size: per pagecount，1~1000，default 20
+        page_no: Page queryStart page, default 1
+        page_size: per pagecount, 1~1000, default 20
 
     Returns:
         {
             total: Total count (integer),
-            hosts: CMDB host list。 parameter format：[{
+            hosts: CMDB host list.  parameter format：[{
                 id: Host ID (string),
                 name: Host name (string),
                 ip: IP address (string),
@@ -85,7 +85,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
 
 def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     """
-    QueryCMDBHost details。
+    QueryCMDBHost details. 
 
     Args:
         client: DME API client
@@ -110,19 +110,19 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryCMDB systemApplication list。
+     queryCMDB systemApplication list. 
 
     Args:
         client: DME API client
         system_id: CMDB systemID（Optional）
-        name: Application name（Optional，supports fuzzy search）
-        page_no: Page queryStart page，default 1
-        page_size: per pagecount，1~1000，default 20
+        name: Application name（Optional, supports fuzzy search）
+        page_no: Page queryStart page, default 1
+        page_size: per pagecount, 1~1000, default 20
 
     Returns:
         {
             total: Total count (integer),
-            applications: Application list。 parameter format：[{
+            applications: Application list.  parameter format：[{
                 id:  appID (string),
                 name: Application name (string),
             }, ...],
@@ -145,7 +145,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
 
 def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dict:
     """
-     based onInitiator list queryCMDB host list。
+     based onInitiator list queryCMDB host list. 
 
     Args:
         client: DME API client
@@ -153,7 +153,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
     Returns:
         {
-            hosts: CMDB host list。 parameter format：[{
+            hosts: CMDB host list.  parameter format：[{
                 id: Host ID (string),
                 name: Host name (string),
             }, ...],

@@ -98,7 +98,7 @@ class DMECLI:
                             # subtopic actions (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
-                            # extract action name（Remove subtopic prefix，Supports space or underscore separator）
+                            # extract action name（Remove subtopic prefix, Supports space or underscore separator）
                             action_name = action_key
                             prefix_space = f"{subtopic} "
                             prefix_underscore = f"{subtopic}_"
@@ -158,7 +158,7 @@ class DMECLI:
         if in_params:
             current_param = None
             param_lines = []
-            in_format_block = 0  #  parameter formatblock nesting depth，>0 skip internal attribute parsing
+            in_format_block = 0  #  parameter formatblock nesting depth, >0 skip internal attribute parsing
             
             for line in lines:
                 raw = line  # preserve original indentation
@@ -904,10 +904,10 @@ def main():
             print_subtopic_help(cli, args.topic, args.subtopic)
             return
 
-    # 4.  specified了 <topic> <subtopic> <action>，Show action help or execute action
+    # 4.  specified了 <topic> <subtopic> <action>, Show action help or execute action
     if args.subtopic and args.action:
         # try to combine as action_key（Three-level structure：<topic> <subtopic> <action>）
-        #  try subtopic_action format first (supports spaces in action names)，如 "frame list"）
+        #  try subtopic_action format first (supports spaces in action names), 如 "frame list"）
         action_key = f"{args.subtopic}_{args.action}"
         
         # if not found, try subtopic action format (space-separated)
@@ -917,14 +917,14 @@ def main():
             if space_action_key in actions_info:
                 action_key = space_action_key
             else:
-                # still not found，显示 error
+                # still not found, 显示 error
                 print(f" error：Action not found '{args.topic} {args.subtopic} {args.action}'")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
                     print(f"提示：Available actions include：{', '.join(available)}")
                 return
 
-        # if specified --help，Show help；otherwise execute action
+        # if specified --help, Show help; otherwise execute action
         if show_help:
             # Show help（不 need登录）
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
@@ -937,7 +937,7 @@ def main():
         auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
         if not auth_token and not (endpoint and username and password):
-            print(" error：must be provided endpoint、user 和 password  parameter，或者 use --token provide auth token")
+            print(" error：must be provided endpoint, user 和 password  parameter, 或者 use --token provide auth token")
             print(" can pass --endpoint, --user, --password, --token or set via environment variables")
             parser.print_help()
             sys.exit(1)

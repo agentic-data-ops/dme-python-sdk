@@ -440,25 +440,25 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         start_mode: Task execution mode (Required). Optional值: manual ( manual), auto ( auto)
         start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional). 当 start_mode 为 auto  allowed when config,  value为 0 Immediate start
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
-        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). 与 period_end_day、period_time、period_max_bandwidth must be sent together
-        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). 与 period_start_day、period_time、period_max_bandwidth must be sent together
-        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). 与 period_start_day、period_end_day、period_max_bandwidth must be sent together
-        period_max_bandwidth: Bandwidth for specified periodupper limit (Optional,  format: "bandwidth1;bandwidth2"). 与 period_start_day、period_end_day、period_time must be sent together
+        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). 与 period_end_day, period_time, period_max_bandwidth must be sent together
+        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). 与 period_start_day, period_time, period_max_bandwidth must be sent together
+        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). 与 period_start_day, period_end_day, period_max_bandwidth must be sent together
+        period_max_bandwidth: Bandwidth for specified periodupper limit (Optional,  format: "bandwidth1;bandwidth2"). 与 period_start_day, period_end_day, period_time must be sent together
         target_namespace_id: Global namespace下 targetNamespace ID (1~32 characters, Required)
         local_path: Namespace under路径 (Optional, Default: "/")
         src_namespace_ids: Global namespace下源 siteNamespace ID  list (List<string>, max array members: 32, Optional)
-        atime_operator: File access time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 atime、atime_unit must be sent together
-        atime: File access time interval (int32, 0~26304, Optional). 与 atime_operator、atime_unit must be sent together
-        atime_unit:  file accessTime interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 atime_operator、atime must be sent together
-        mtime_operator: File modification time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 mtime、mtime_unit must be sent together
-        mtime: File modification time interval (int32, 0~26304, Optional). 与 mtime_operator、mtime_unit must be sent together
-        mtime_unit:  file的modify Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 mtime_operator、mtime must be sent together
-        ctime_operator: file status modificationTime matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 ctime、ctime_unit must be sent together
-        ctime: file status modificationmodification interval (int32, 0~26304, Optional). 与 ctime_operator、ctime_unit must be sent together
-        ctime_unit: file status modification改Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 ctime_operator、ctime must be sent together
-        crtime_operator:  file的Creation time匹配 rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 crtime、crtime_unit must be sent together
-        crtime:  file的Creation time间隔 (int32, 0~26304, Optional). 与 crtime_operator、crtime_unit must be sent together
-        crtime_unit:  file的Creation time间隔unit  (Optional). Optional值: hour (hour(s)), day (day(s)). 与 crtime_operator、crtime must be sent together
+        atime_operator: File access time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 atime, atime_unit must be sent together
+        atime: File access time interval (int32, 0~26304, Optional). 与 atime_operator, atime_unit must be sent together
+        atime_unit:  file accessTime interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 atime_operator, atime must be sent together
+        mtime_operator: File modification time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 mtime, mtime_unit must be sent together
+        mtime: File modification time interval (int32, 0~26304, Optional). 与 mtime_operator, mtime_unit must be sent together
+        mtime_unit:  file的modify Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 mtime_operator, mtime must be sent together
+        ctime_operator: file status modificationTime matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 ctime, ctime_unit must be sent together
+        ctime: file status modificationmodification interval (int32, 0~26304, Optional). 与 ctime_operator, ctime_unit must be sent together
+        ctime_unit: file status modification改Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 ctime_operator, ctime must be sent together
+        crtime_operator:  file的Creation time匹配 rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 crtime, crtime_unit must be sent together
+        crtime:  file的Creation time间隔 (int32, 0~26304, Optional). 与 crtime_operator, crtime_unit must be sent together
+        crtime_unit:  file的Creation time间隔unit  (Optional). Optional值: hour (hour(s)), day (day(s)). 与 crtime_operator, crtime must be sent together
         name_operator: Filename matching rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 name_filter must be sent together
         name_filter: Filename matching expression list (1~1023 characters, Optional). 与 name_operator must be sent together
         size_operator: File size matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 file_size must be sent together
@@ -466,10 +466,10 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
         file_paths: filter by file listfilter policy uploaded fileIdentifier list (List<string>, max array members: 200, Optional). 仅 execute_mode 为 one_time 时可 config
         authentication_type: Auth type (Optional). Optional值: ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIXlocal  auth), nis_domain (NIS域)
-        user_operator: Username匹配 rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 authentication_type、user_name must be sent together
-        user_name: Username (1~255 characters, Optional). 与 authentication_type、user_operator must be sent together
-        group_operator: User group name match rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 authentication_type、group_name must be sent together
-        group_name: User group名 (1~255 characters, Optional). 与 authentication_type、group_operator must be sent together
+        user_operator: Username匹配 rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 authentication_type, user_name must be sent together
+        user_name: Username (1~255 characters, Optional). 与 authentication_type, user_operator must be sent together
+        group_operator: User group name match rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 authentication_type, group_name must be sent together
+        group_name: User group名 (1~255 characters, Optional). 与 authentication_type, group_operator must be sent together
         files_filter: filter by file list滤 request parameter (FilesFilterobject, Optional). 仅 execute_mode 为 one_time 时可 config.  parameter format: {
                 file_id: filter by file listfilter policy uploaded file ID (1~63 characters, Required),
                 file_name: filter by file listfilter policy uploaded file name (1~1023 characters, Required),
@@ -583,10 +583,10 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         execute_time: week(s)Task executiontime interval (int32, 1~365, Optional). 当 execute_mode 为 interval must be sent when
         execute_time_unit: week(s)Task executionTime interval unit (Optional). Optional值: minute (分), hour (hour(s)), day (day(s)), month (month(s)). 当 execute_mode 为 interval must be sent when
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
-        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). 与 period_end_day、period_time、period_max_bandwidth must be sent together
-        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). 与 period_start_day、period_time、period_max_bandwidth must be sent together
-        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). 与 period_start_day、period_end_day、period_max_bandwidth must be sent together
-        period_max_bandwidth: Bandwidth for specified periodupper limit (Optional,  format: "bandwidth1;bandwidth2"). 与 period_start_day、period_end_day、period_time must be sent together
+        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). 与 period_end_day, period_time, period_max_bandwidth must be sent together
+        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). 与 period_start_day, period_time, period_max_bandwidth must be sent together
+        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). 与 period_start_day, period_end_day, period_max_bandwidth must be sent together
+        period_max_bandwidth: Bandwidth for specified periodupper limit (Optional,  format: "bandwidth1;bandwidth2"). 与 period_start_day, period_end_day, period_time must be sent together
 
     Returns:
         {

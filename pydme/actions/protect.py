@@ -181,12 +181,12 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: 待add 到Protection group的 LUN ID list (Optional) , max array members 100, mutually exclusive with hyper_metro and rem_reps lun_pairs parameterive; Protection group does not existActive-active、 replication、环形 3DC parameter effective when feature
+        lun_ids: 待add 到Protection group的 LUN ID list (Optional) , max array members 100, mutually exclusive with hyper_metro and rem_reps lun_pairs parameterive; Protection group does not existActive-active,  replication, 环形 3DC parameter effective when feature
         hyper_metro: request parameter for adding LUN to active-active protection group (Optional) , mutually exclusive with lun_ids parameter; Protection group existsActive-activeparameter effective when feature.  format：{
                         is_delay: Deferred execution (Required) , true: yes; false: no; when deferred execution is true：if consistency group or new pair is syncingtatus,  will waitSyncafter completion, new Pair  joinConsistency group; when deferred execution is false 时：if consistency group or new pair is syncingtatus,  directly pauseConsistency group和新 Pair, 将新 Pair  joinConsistency group, 再SyncConsistency group
                         create_mode: Active-active pair creation modede (Required) , Options: auto, manual
                         remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Active-active pair creation modede为 auto effective when
-                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local (same as local resource name)、prefix_and_suffixix ( prefix+local Resource name+ suffix) 、prefix_and_num ( prefix+ auto序号) ; effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local (same as local resource name), prefix_and_suffixix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix+ auto序号) ; effective in auto-create mode
                         name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffixix 或 prefix_and_num effective when; prefix_and_suffixix max prefix length 32  byte, prefix_and_num max prefix length 251  byte
                         name_suffix: remote  LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffixix effective when
                         lun_pairs:  manually configured active-active pair info list (Optional) , max array members 100; effective when create_mode is manual.  format：[{
@@ -199,7 +199,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         create_mode: Remote replication pair creation mode (Required) , Options: auto, manual
                         remote_storage_id: remote Storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; replication pair creation modee为 auto effective when
-                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local (same as local resource name)、prefix_and_suffixix ( prefix+local Resource name+ suffix) 、prefix_and_num ( prefix+ auto序号) ; effective in auto-create mode
+                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local (same as local resource name), prefix_and_suffixix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix+ auto序号) ; effective in auto-create mode
                         name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffixix 或 prefix_and_num effective when; prefix_and_suffixix max prefix length 32  byte, prefix_and_num max prefix length 251  byte
                         name_suffix: remote  LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffixix effective when
                         lun_pairs:  manually configured remote replication pair info list (Optional) , max array members 100; effective when create_mode is manual.  format：[{
@@ -332,7 +332,7 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         domain_id: Active-active域 ID
         name: Active-active consistency group name
         local_storage_id: local  device ID
-        local_pg_id: local Protection group ID,  conditionally required：when device type is OceanStor Dorado V6、OceanStor V6 时Required
+        local_pg_id: local Protection group ID,  conditionally required：when device type is OceanStor Dorado V6, OceanStor V6 时Required
         description: Description
         create_mode: Active-active pair creation modede, Optional值：auto ( auto mode) , manual ( manual mode) 
         remote_vstore_id: Remote device tenant ID,  conditionally required：当 create_mode 为 auto 且 device为 OceanStor Dorado 6.1.3 version and above
@@ -665,7 +665,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         local_storage_id: create Active-active Pair 的Storage device ID
         domain_id: Active-active域 ID
         lun_ids: In auto-create mode, 源 LUN ID list
-        lun_pairs: In manual create mode, Active-active Pair 的源 LUN、 target LUN ID list
+        lun_pairs: In manual create mode, Active-active Pair 的源 LUN,  target LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode
         remote_resource_name_rule: LUN naming policy, Optional值：same_as_local, prefix_and_suffixix, prefix_and_num
@@ -1763,13 +1763,13 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         client: DME API client
         cg_name: Remote replicationConsistency group name
         remote_storage_id: remote Storage device ID
-        local_pg_id: local Protection group ID, 当Storage device version是 OceanStor V6、OceanStor Dorado V6 required when
+        local_pg_id: local Protection group ID, 当Storage device version是 OceanStor V6, OceanStor Dorado V6 required when
         description: Description
-        remote_lun_group_id: remote  LUN 组 ID, 当Storage device version是 OceanStor V6、OceanStor Dorado V6 时且local Protection group is based on LUN 组create 的required when
-        local_storage_id: local Storage device ID, 当Storage device version不是 OceanStor V6、OceanStor Dorado V6 required when
+        remote_lun_group_id: remote  LUN 组 ID, 当Storage device version是 OceanStor V6, OceanStor Dorado V6 时且local Protection group is based on LUN 组create 的required when
+        local_storage_id: local Storage device ID, 当Storage device version不是 OceanStor V6, OceanStor Dorado V6 required when
         create_mode: replication pair creation modee, Optional值：auto ( auto) , manual ( manual) 
         existed_pair_ids: Existing replication Pair  ID  list
-        lun_pairs: In manual create mode,  replication Pair 的源 LUN、 target LUN ID list
+        lun_pairs: In manual create mode,  replication Pair 的源 LUN,  target LUN ID list
         lun_ids: In auto-create mode, 源 LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode

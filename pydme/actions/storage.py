@@ -347,7 +347,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
 
     Args:
         client: DME API client. 
-        name: Device name (1~256 characters). can only contain half-width letters、 half-width digits、\"_\"、\"-\"、\".\"、中文 character. 
+        name: Device name (1~256 characters). can only contain half-width letters,  half-width digits, \"_\", \"-\", \".\", 中文 character. 
         sn: Device serial number (regex is^[a-zA-Z0-9]{1,128}$). 
         ip: Device IP address (Optional, 0~128 characters,  supports IPv4 and IPv6, can also be empty). 
         dc_id: Data center ID (Optional, regex is^[a-zA-Z0-9]{1,128}$). 
@@ -485,7 +485,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client. 
         storage_id: BBU storage device ID (Optional, 1~64 characters). 
         health_status: Health status (Optional). Options: unknown (unknown), normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery). 
-        running_status: Running status (Optional). Options: unknown (unknown), normal, running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging ( discharging). 
+        running_status: Running status (Optional). Options: unknown (unknown), normal, running (running), online, offline, charging ( charging), charging_completed (充电 completed), discharging ( discharging). 
         enclosure_name: Enclosure name (Optional, 1~256 characters). supports fuzzy match. 
         location: location (Optional, 1~256 characters). supports fuzzy match. 
         zone_id: Zone ID (Optional, 1~255 characters). OceanStor A800 series only storage only. 
@@ -498,7 +498,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status. Options: unknown (unknown), normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
-                running_status: Running status. Options: unknown (unknown), normal, running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging ( discharging),
+                running_status: Running status. Options: unknown (unknown), normal, running (running), online, offline, charging ( charging), charging_completed (充电 completed), discharging ( discharging),
                 charge_times:  discharge count (int64),
                 firmware_version: Firmware version (1~255 characters),
                 manufactured_date: Manufacture date (1~255 characters),
@@ -568,7 +568,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client
         storage_id: Storage deviceID(Optional, 1~64 characters) 
         health_status: Health status(Optional). Options: unknown (unknown), normal, faulty ( fault)
-        running_status: Running status(Optional). Options: unknown (unknown), normal, running (running), not_running), spin_down (休眠), online (online), offline (offline)
+        running_status: Running status(Optional). Options: unknown (unknown), normal, running (running), not_running), spin_down (休眠), online, offline
         run_level: Running level(Optional). Options: low, normal, high
         enclosure_name: EnclosureName (Optional,1~256 characters) , supports fuzzy match
         location: location(Optional, 1~256 characters) , supports fuzzy match
@@ -583,7 +583,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
                 name:  name (1~128 characters),
                 location: location (1~256 characters),
                 health_status: Health status. Options: unknown (unknown), normal, faulty ( fault),
-                running_status: Running status. Options: unknown (unknown), normal, running (running), not_running), spin_down (休眠), online (online), offline (offline),
+                running_status: Running status. Options: unknown (unknown), normal, running (running), not_running), spin_down (休眠), online, offline,
                 run_level: Running level. Options: low, normal, high,
                 enclosure_id: Enclosure ID on storage device (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
@@ -641,7 +641,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         name: Disk name (Optional, 1~256 characters). 
         slot_number: Slot number, location (Optional, 1~256 characters). supports fuzzy search. 
         bom_id: BOM ID (Optional, 1~256 characters). 
-        health_status: Health status (Optional). Options: unknown (unknown), normal, fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link ( single link), no_redundant_link ( no redundant link), subhealthy ( sub-health), offline (offline). 
+        health_status: Health status (Optional). Options: unknown (unknown), normal, fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link ( single link), no_redundant_link ( no redundant link), subhealthy ( sub-health), offline. 
         physical_type: Disk type (Optional). Options: unknown (unknown), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
         new_physical_type: 真实的Disk type (Optional). Options: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB). 
@@ -656,7 +656,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         management_ip: management  deviceip address (Optional, 1~256 characters). 
         node_name: Node name (Optional, 1~256 characters). 
         virtual_disk: 虚拟盘 (Optional). Options: true, false. 
-        status: Running status (Optional). Options: unknown (unknown), normal, abnormal ( fault), online (online), offline (offline). 
+        status: Running status (Optional). Options: unknown (unknown), normal, abnormal ( fault), online, offline. 
         enclosure_name: FanStorage device的Enclosure name (Optional, 1~255 characters). supports fuzzy search. 
         zone_id: Storage device的Zone id (Optional, 1~255 characters). 仅OceanStor A800storage support. 
         sort_key: Sort field (Optional). Options: capacity (Total capacity), speed (转速), remainLife ( remaining life), name (Disk name), management_ip (management  deviceip address), slot_number (location). 
@@ -764,29 +764,29 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 storage_name: Storage device name (1~127 characters),
                 usage_type: Storage pool用途. Options: block-and-file (LUN/Filesystem), block (块), file ( file), object (object), hdfs (hdfs), converged (融合),
                 total_capacity: Total capacity, in MB (number),
-                free_capacity: Free capacity, in MB (number), Flash storage only、OceanStor A800Device support,
+                free_capacity: Free capacity, in MB (number), Flash storage only, OceanStor A800Device support,
                 consumed_capacity: Used capacity, in MB (number),
                 replication_capacity:  dataProtection capacity, in MB (number), flash storage only,
-                subscribed_capacity: Total subscribed capacity, in MB (number), Flash storage only、DistributedDevice support,
+                subscribed_capacity: Total subscribed capacity, in MB (number), Flash storage only, DistributedDevice support,
                 lun_subscribed_capacity: LUN的订阅 capacity, in MB (number), flash storage only,
                 filesystem_subscribed_capacity: FilesystemTotal subscribed capacity, in MB (number), 仅OceanStor Dorado V6 storage6.1.0supported in version,
                 health_status: Health status. Options: normal, fault ( fault), degraded ( degraded), unknown (unknown). flash and third-party storage only,
-                running_status: Running status. Options: pre-copy (Pre-copy), rebuilt ( refactor), online (online), offline (offline), balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown (unknown). flash storage only,
+                running_status: Running status. Options: pre-copy (Pre-copy), rebuilt ( refactor), online, offline, balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown (unknown). flash storage only,
                 pool_status: Storage pool status. Options: normal, fault ( fault), write-protect ( write protect), stopped ( stop), fault-and-write-protect (Fault with write protection), migrating-data (Data migration), degraded ( degraded), rebuilding-data ( data refactor), migrating-services ( service migration), all-copies-failed ( all replicas fault), all-copies-failed-and-write-protect (All replicas failed with write protection), deleting (Deleting), deletion-failed (delete  failure), unknown (unknown). distributed storage only,
                 disk_types: Disk type list (List<string>), flash storage only,
                 capacity_usage: Capacity utilization,
-                redundancy_policy: 冗余 policy. Options: replication (副本), ec (EC). 仅FusionStorage、OceanStor 100D和OceanStor Pacificseries device support,
+                redundancy_policy: 冗余 policy. Options: replication (副本), ec (EC). 仅FusionStorage, OceanStor 100D和OceanStor Pacificseries device support,
                 num_data_units: EC data块count (integer), only when redundancy policy iseceffective when,
                 num_fault_tolerance: ECAllowed faulty node count (integer), only when redundancy policy iseceffective when,
                 num_parity_units: EC校验块count (integer), only when redundancy policy iseceffective when,
-                cache_media_type: Storage pool缓存 type. Options: ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘), none ( no cache). 仅FusionStorage、OceanStor 100D、OceanStor A310和OceanStor Pacificseries device support,
+                cache_media_type: Storage pool缓存 type. Options: ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘), none ( no cache). 仅FusionStorage, OceanStor 100D, OceanStor A310和OceanStor Pacificseries device support,
                 zone_id: Zone的ID (1~64 characters), OceanStor A800 series only storage only,
                 zone_ip: Zone的IP (1~256 characters), OceanStor A800 series only storage only,
                 zone_name: Zone name (1~256 characters), 仅OceanStor A80series storage only,
-                raid_level: RAID level list (List<string>). Options: RAID0, RAID1, RAID2, RAID3, RAID5, RAID6, RAID10, RAID50, RAID_TP. Flash storage only、OceanDisk、OceanStor A800Device support,
-                disk_pool_id: Disk pool或Disk poolID (1~64 characters). Disk poolSupports flash devices, Disk pool supportPacific、A310 device, OceanStor A800Device support,
+                raid_level: RAID level list (List<string>). Options: RAID0, RAID1, RAID2, RAID3, RAID5, RAID6, RAID10, RAID50, RAID_TP. Flash storage only, OceanDisk, OceanStor A800Device support,
+                disk_pool_id: Disk pool或Disk poolID (1~64 characters). Disk poolSupports flash devices, Disk pool supportPacific, A310 device, OceanStor A800Device support,
                 disk_pool_name: Disk pool或Disk pool name (1~256 characters),
-                media_type: Storage pool主存 type. Options: sas_disk (SAS盘), sata_disk (SATA盘), ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘). 仅OceanStor Pacific、OceanStor A310、OceanStor 100DDevice support,
+                media_type: Storage pool主存 type. Options: sas_disk (SAS盘), sata_disk (SATA盘), ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘). 仅OceanStor Pacific, OceanStor A310, OceanStor 100DDevice support,
             }, ...]
         }
     """
@@ -827,7 +827,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
         name: HyperScaleStorage pool name(Optional, 1~256 characters) , supports fuzzy search
         local_pool_id: HyperScaleStorage pool下local Storage pool ID(Optional, 0~64 characters) , supports filtering specifiedlocal Storage pool associated的HyperScaleStorage pool
         health_status: Health status(Optional). Options: normal, faulty ( fault), degraded ( degraded)
-        running_status: Running status(Optional). Options: pre_copy (Pre-copy), rebuilding ( refactor), online (online), offline (offline), balancing (Balancing), initializing (Initializing), deleting (Deleting)
+        running_status: Running status(Optional). Options: pre_copy (Pre-copy), rebuilding ( refactor), online, offline, balancing (Balancing), initializing (Initializing), deleting (Deleting)
         storage_id: Storage device ID(Optional, 0~64 characters) 
         description: HyperScaleStorage pool description(Optional, 0~256 characters) 
         page_no: Page number(Optional, 1~10000, default 1) 
@@ -847,7 +847,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
                 storage_ip: Storage device IP (1~255 characters),
                 storage_name: Storage device name (1~127 characters),
                 health_status: Health status. Options: normal, faulty ( fault), degraded ( degraded),
-                running_status: Running status. Options: pre_copy (Pre-copy), rebuilding ( refactor), online (online), offline (offline), balancing (Balancing), initializing (Initializing), deleting (Deleting),
+                running_status: Running status. Options: pre_copy (Pre-copy), rebuilding ( refactor), online, offline, balancing (Balancing), initializing (Initializing), deleting (Deleting),
                 total_capacity: Total capacity, in MB (number),
                 consumed_capacity: Used capacity, in MB (number),
                 capacity_usage: Capacity utilization (number),
@@ -903,7 +903,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         name:  nodeName (Optional,1~256 characters) , supports fuzzy search (case-insensitive) 
         ids:  nodeID list(Optional, List<string>, max array members: 100) 
         mgmt_ip: Node managementIP address(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        frame_number: 机柜/机架号(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
+        frame_number: Rack/机架号(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         slot_number: 槽位/机架内Slot number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
         status: Node status(Optional). Options: UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND ( bad block), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
         roles:  nodeRole list(Optional, List<string>, max array members: 10). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
@@ -922,7 +922,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 mgmt_ip: Node managementIP address (1~255 characters),
                 status: Node status (1~255 characters). Options: UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PARTIALLY_DAMAGED (部分损坏),
                 node_model:  node model (1~255 characters). 例如: DataTurbo, OceanStor Pacific, RH5288 V3,
-                frame_number: 机柜/机架号 (1~255 characters),
+                frame_number: Rack/机架号 (1~255 characters),
                 slot_number: 槽位/机架内Slot number (1~255 characters),
                 roles:  nodeRole list (List<string>). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute),
                 node_sn: Serial number info (1~255 characters),
@@ -980,7 +980,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
         client: DME API client
         storage_id: Storage deviceID (Required, 1~64 characters) 
         health_status: Health status(Optional). Options: unknown (unknown), normal, faulty ( fault), inconsistent ( inconsistent), no_input ( no input)
-        running_status: Running status(Optional). Options: unknown (unknown), normal, running (running), online (online), offline (offline)
+        running_status: Running status(Optional). Options: unknown (unknown), normal, running (running), online, offline
         power_type: Power supply type(Optional). Options: dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply)
         power_mode: Power supply mode(Optional). Options: balanced_power ( balancePower supply), active_power (主Power supply), standby_power (备Power supply)
         location: location(Optional, 1~256 characters) , supports fuzzy match
@@ -998,7 +998,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status. Options: unknown (unknown), normal, faulty ( fault), inconsistent ( inconsistent), no_input ( no input),
-                running_status: Running status. Options: unknown (unknown), normal, running (running), online (online), offline (offline),
+                running_status: Running status. Options: unknown (unknown), normal, running (running), online, offline,
                 power_type: Power supply type. Options: dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply),
                 model:  model (1~255 characters),
                 sn: Serial number (1~255 characters),
@@ -1104,7 +1104,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  need和 Maintenance start timemust appear together and value greater thanStart time. 
         total_capacity: Raw capacity (Optional, -1~2147483647, in MB). Storage devicesum of all disk physical capacities, -1Indicates no raw capacity. 
         total_effective_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage device writableUser data总量, -1Indicates no available capacity. 
-        total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage deviceActual available disk physical space (扣除RAID、metadata consumption) , -1表示N/AAvailable capacity. 
+        total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage deviceActual available disk physical space (扣除RAID, metadata consumption) , -1表示N/AAvailable capacity. 
         used_capacity: Used capacity (Optional, -1~2147483647, in MB). Storage device all inStorage poolsum of used capacity, -1表示N/AUsed capacity. 
         free_capacity: Free capacity (Optional, -1~2147483647, in MB). Storage device的Available capacity与Used capacity的差值, -1表示N/AFree capacity. 
         subscription_capacity: 订阅 capacity (Optional, -1~2147483647, in MB). Storage device all inStorage poolsum of subscribed capacity, -1Indicates no subscribed capacity. 
@@ -1241,7 +1241,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
                     id: Disk poolid (1~64 characters),
                     raw_id: Disk poolon the deviceid (1~64 characters),
                     name: Disk pool name (1~128 characters),
-                    running_status: Running status. Options: online (online), offline (offline), pre_copy (Pre-copy), reconstruction ( refactor), balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown (unknown),
+                    running_status: Running status. Options: online, offline, pre_copy (Pre-copy), reconstruction ( refactor), balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown (unknown),
                     health_status: Health status. Options: normal, fault ( fault), degraded ( degraded), unknown (unknown),
                     total_capacity: Total available raw capacity, in MB (number),
                     spare_capacity: Total hot spare raw capacity, in MB (number),
@@ -1318,7 +1318,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         health_status: Health status list(Optional, List<string>, max array members: 3). Options: unknown (unknown), normal, faulty ( fault)
         zone_name: ZoneName (Optional,1~255 characters) , OceanStor A800 series only storage only, supports fuzzy match
         zone_id: Zone ID list(Optional, List<string>, max array members: 100) , OceanStor A800 series only storage only
-        running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown (unknown), normal, running (running), sleep_in_high_temperature (高温休眠), online (online), offline (offline)
+        running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown (unknown), normal, running (running), sleep_in_high_temperature (高温休眠), online, offline
         power_mode: Power supply mode list(Optional, List<string>, max array members: 2). Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
         esn: EnclosureSerial number(Optional, 1~256 characters) , supports fuzzy match
         mac: MAC address(Optional, 1~256 characters) , supports fuzzy match
@@ -1337,7 +1337,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     location: Enclosure的location (1~128 characters),
                     logic_type:  type. Options: disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
                     health_status: Health status. Options: unknown (unknown), normal, faulty ( fault),
-                    running_status: Running status. Options: unknown (unknown), normal, running (running), sleep_in_high_temperature (高温休眠), online (online), offline (offline), abnormal ( exception),
+                    running_status: Running status. Options: unknown (unknown), normal, running (running), sleep_in_high_temperature (高温休眠), online, offline, abnormal ( exception),
                     storage_id: Storage deviceID (1~64 characters),
                     storage_name: Storage device name (1~128 characters),
                     storage_ip: Storage deviceIP address (1~32 characters),
@@ -1403,7 +1403,7 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
         page_no: Page number (Optional, min1, default1)
         raw_id: InitiatorWWPN/IQN/NQN (Optional, 0~256 characters, supports fuzzy match)
         alias: Initiator alias (Optional, 0~256 characters, supports fuzzy match)
-        status: Initiator status (Optional). Options: unknown (unknown), online (online), offline (offline)
+        status: Initiator status (Optional). Options: unknown (unknown), online, offline
         associated_host_name: Initiator associatedHost name (Optional, 0~256 characters, supports fuzzy match)
         associated_host_id: Initiator associatedHost ID (Optional, 0~64 characters; Empty field queries hosts not addedInitiator)
         multipath_type: Third-party multipath policy (Optional, only for non-Dorado V6 product). Options: default (default), third_party (Third-party multipath)
@@ -1953,7 +1953,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
     """
     create  QoS  policy
 
-    create a new QoS  policy, Can configure performance limits、Alarm parameters and scheduled scheduling. 
+    create a new QoS  policy, Can configure performance limits, Alarm parameters and scheduled scheduling. 
 
     Args:
         client: DME API client
@@ -1990,7 +1990,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         schedule_start_date: Effective start date(Optional, yyyy-MM-dd) 
         start_time: effectiveStart time(Optional, hh:mm) 
         duration: effectivedurationsecond(s)(Optional, 1800~86400) 
-        weekly_days: week(s)Scheduling policy(Optional, [0-6]  correspondingweek(s)日到week(s)六) 
+        weekly_days: Weekly scheduling policy(Optional, [0-6]  correspondingweek(s)日到week(s)六) 
     """
     url = "/rest/storagepolicy/v1/qos"
 
@@ -2472,7 +2472,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~64 characters) 
-        name: Port name (Required, 1~255 characters) . Only letters allowed、数字、"_"、"-"、"."and Chinese characters
+        name: Port name (Required, 1~255 characters) . Only letters allowed, 数字, "_", "-", "."and Chinese characters
         address_family: IPProtocol version (Required). Options: IPv4 (IPv4), IPv6 (IPv6)
         home_port_type: 父Port type (Required). Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB)
         zone_raw_id: Zoneon the deviceID (Required, 1~64 characters) , OceanStor A800 series only storage only
@@ -2690,7 +2690,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
               port_name: str = None, zone_id: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryStorage device port info,  support ETH、FC、IB、Bond、SAS 五种 type
+     queryStorage device port info,  support ETH, FC, IB, Bond, SAS 五种 type
 
     Args:
         client: DME API client
@@ -2901,7 +2901,7 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
     """
     create  VLAN
 
-     note: only supports OceanStor A800、A600 series storage. 
+     note: only supports OceanStor A800, A600 series storage. 
 
     Args:
         client: DME API client
@@ -2934,7 +2934,7 @@ def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
     """
     delete  VLAN
 
-     note: only supports OceanStor A800、A600 series storage. 
+     note: only supports OceanStor A800, A600 series storage. 
 
     Args:
         client: DME API client
@@ -2956,7 +2956,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     """
     modify  VLAN
 
-     note: only supports OceanStor A800、A600 series storage. 
+     note: only supports OceanStor A800, A600 series storage. 
 
     Args:
         client: DME API client
@@ -2996,7 +2996,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
         storage_id: Storage device ID (Required, 1~36 characters, 且satisfies regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
         failover_group_type: Failover group type(Optional). Options: system, VLAN, customized
         zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only storage only
-        failover_group_service_type: Failover groupBusiness type list(Optional, List<string>, max array members: 10). Options: NAS (used to associateNFS、CIFS、NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA、NFS、OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group)
+        failover_group_service_type: Failover groupBusiness type list(Optional, List<string>, max array members: 10). Options: NAS (used to associateNFS, CIFS, NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group)
 
     Returns:
         {
@@ -3009,7 +3009,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                 zone_name: Zone name (1~255 characters), OceanStor A800 series only storage only,
                 zone_raw_id: Zone在Storage deviceassigned onID (1~255 characters), OceanStor A800 series only storage only,
                 zone_id: Storage device的Zone ID (1~255 characters), OceanStor A800 series only storage only,
-                failover_group_service_type: Failover groupBusiness type. Options: NAS (used to associateNFS、CIFS、NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA、NFS、OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group),
+                failover_group_service_type: Failover groupBusiness type. Options: NAS (used to associateNFS, CIFS, NFS and OBJECTProtocol typeLogic port的Failover group), BGP (used to associateVIP typeLogic port的Failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port的Failover group), IB (used to associateNAS over IBProtocol typeLogic port的Failover group), KB (used to associateKnowledgeBase over TCPProtocol typeLogic port的Failover group),
             }, ...]
         }
     """
@@ -3033,7 +3033,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
 def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
                                port_type: str = None) -> dict:
     """
-     queryFailover group under port ( support bond、eth、ib 三种 type) 
+     queryFailover group under port ( support bond, eth, ib 三种 type) 
 
     Args:
         client: DME API client
@@ -3530,7 +3530,7 @@ ACTIONS = {
     # port subtopic actions (Storage port) 
     'port_list': {
         'func': port_list,
-        'description': ' queryStorage device port info,  support ETH、FC、IB、Bond 四种 type',
+        'description': ' queryStorage device port info,  support ETH, FC, IB, Bond 四种 type',
         'params': ['storage_id', 'port_type', 'location', 'ipv4', 'ipv6', 'port_name', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
@@ -3549,19 +3549,19 @@ ACTIONS = {
     },
     'vlan_create': {
         'func': vlan_create,
-        'description': 'create  VLAN (only supports OceanStor A800、A600 series storage) ',
+        'description': 'create  VLAN (only supports OceanStor A800, A600 series storage) ',
         'params': ['name', 'vlan_id', 'storage_id', 'description'],
         'subtopic': 'vlan'
     },
     'vlan_delete': {
         'func': vlan_delete,
-        'description': 'delete  VLAN (only supports OceanStor A800、A600 series storage) ',
+        'description': 'delete  VLAN (only supports OceanStor A800, A600 series storage) ',
         'params': ['vlan_id'],
         'subtopic': 'vlan'
     },
     'vlan_modify': {
         'func': vlan_modify,
-        'description': 'modify  VLAN (only supports OceanStor A800、A600 series storage) ',
+        'description': 'modify  VLAN (only supports OceanStor A800, A600 series storage) ',
         'params': ['vlan_id', 'name', 'description'],
         'subtopic': 'vlan'
     },
@@ -3574,7 +3574,7 @@ ACTIONS = {
     },
     'failover_group_show_ports': {
         'func': failover_group_show_ports,
-        'description': ' queryFailover group under port ( support bond、eth、ib 三种 type) ',
+        'description': ' queryFailover group under port ( support bond, eth, ib 三种 type) ',
         'params': ['failover_group_id', 'port_type'],
         'subtopic': 'failover_group'
     },

@@ -14,14 +14,14 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     
     Args:
         client: DME API client
-        name: Switch name（Optional，supports fuzzy search）
-        page_no: Page number，default 1
-        page_size: per pagecount，1~1000，default 20
+        name: Switch name（Optional, supports fuzzy search）
+        page_no: Page number, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             total: Total count (integer),
-            data_list: Switch list。 parameter format：[{
+            data_list: Switch list.  parameter format：[{
                 id: SwitchID (string),
                 name: Switch name (string),
                 status:  status (string),
@@ -49,13 +49,13 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，default 1
-        page_size: per pagecount，1~1000，default 20
+        page_no: Page number, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes total and frames fields
+        }, includes total and frames fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query"
     
@@ -76,13 +76,13 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，default 1
-        page_size: per pagecount，1~1000，default 20
+        page_no: Page number, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes total and boards fields
+        }, includes total and boards fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query"
     
@@ -103,13 +103,13 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，default 1
-        page_size: per pagecount，1~1000，default 20
+        page_no: Page number, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes total and subcards fields
+        }, includes total and subcards fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/subcards/query"
     
@@ -130,13 +130,13 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，default 1
-        page_size: per pagecount，1~1000，default 20
+        page_no: Page number, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes total and powers fields
+        }, includes total and powers fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/powers/query"
     
@@ -157,13 +157,13 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，default 1
-        page_size: per pagecount，1~1000，default 20
+        page_no: Page number, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes total and fans fields
+        }, includes total and fans fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/fans/query"
     
@@ -184,13 +184,13 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     Args:
         client: DME API client
         ipswitch_id: IP Switch ID（Required）
-        page_no: Page number，default 1
-        page_size: per pagecount，1~1000，default 20
+        page_no: Page number, default 1
+        page_size: per pagecount, 1~1000, default 20
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes total and ports fields
+        }, includes total and ports fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/ports/query"
     
@@ -204,7 +204,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     return response
 
 
-# ACTIONS 字典，Define all available actions
+# ACTIONS 字典, Define all available actions
 ACTIONS = {
     'list': {
         'func': list,

@@ -365,13 +365,13 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         end_time:  analysisEnd time(Required),Unix timestamp (ms),must be integer minute time point
                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: Intelligent analysis type list(Required),Array size:1~4,value range:
-            - highLatency: 高时延
+            - highLatency: High latency
             - healthAnalysis: Health quick check
-            - IOInterrupt: IO 中断
+            - IOInterrupt: IO interrupt
             - highReadLatency: 高Read latency
             - highWriteLatency: 高Write latency
-            - trafficAnalysis: 流量 analysis
-            - cpuUsageAnalysis: cpu 消耗 analysis
+            - trafficAnalysis: traffic analysis
+            - cpuUsageAnalysis: CPU consumption analysis
 
     Returns:
         {
@@ -410,7 +410,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     """
     Create performance file collection task
 
-    Collect performance files from start to end date,只 support收集 7 day(s)内的 data,
+    Collect performance files from start to end date,only supports collecting data within 7 days,
      each passedobjectmultiplied by metric count not exceed 2000.
 
     Args:
@@ -419,7 +419,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
         end_time: End time(Required,Unix Timestamp毫second(s))
         object_type_id: Object type ID(Required,1~32  characters)
         object_ids: object ID  list(Required, max 2000 个,ID  length 1~32 位)
-        indicator_ids: 指标 ID  list(Required, max 20 个,ID  length 1~16 位)
+        indicator_ids: Metric ID list(Required, max 20, ID length 1-16 digits)
 
     Returns:
         task  ID
@@ -464,11 +464,11 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Query historyPerformance data
 
     Based on input parameters"range"Enum values or from start toEnd timeQuery data within range.
-    With aggregated data,Returned result sequence is average,并includes max,min以及 correspondingTimestamp.
+    With aggregated data,Returned result sequence is average,includes max, min and corresponding timestamps.
 
-     use说明:
+     Usage notes:
     - Object typeand metric definition:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
-    - object ID (CMDB instance ID) get步骤:
+    - Object ID (CMDB instance ID) retrieval steps:
       1. running `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
       3.  use `cmdb instance list --class_name <Class  name>` Query instance list
@@ -476,19 +476,19 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
 
     Args:
         client: DME API client
-        obj_type_id:  monitorObject type标识(Required), corresponding monitorObject type ID
+        obj_type_id:  Monitor object type ID(Required), corresponding monitor object type ID
                      从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        indicator_ids: Monitoring metricIdentifier list(Required, max 100 个), corresponding指标 ID
+        indicator_ids: Monitoring metric ID list(Required, max 100), corresponding metric ID
                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
         obj_ids:  monitorobjectIdentifier list(Required, max 512 个), corresponding CMDB instance ID
-                 get方式:
+                 Retrieval method:
                  1. running `cmdb instance list --help` View help,See class definition
                  2. Determine what to query based on helpResource type (Class  name)
                  3. running `cmdb instance list --class_name <Class  name>`  queryinstance
                  4. obtain from response instance_id
         obj_type:  monitorObject type(Optional,1~512  characters)
-        indicators: Monitoring metric list(Optional, max 100 个)
-        ext_dimensions:  extended dimensioninfo list(Optional, max 100 个)
+        indicators: Monitoring metric list(Optional, max 100)
+        ext_dimensions:  extended dimensioninfo list(Optional, max 100)
         interval:  interval granularity(Optional)
                   value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
@@ -501,7 +501,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时effective, must be begin_time 大
 
     Returns:
-        历史Performance data,includes  status_code, error_code, error_msg, data
+        Historical performance data,includes  status_code, error_code, error_msg, data
     """
     url = "/rest/metrics/v1/data-svc/history-data/action/query"
 
@@ -536,7 +536,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
     Args:
         client: DME API client
-        indicators:  monitorobject指标Identifier list(Required, max 1000  characters)
+        indicators:  Monitor object metric ID list(Required, max 1000 characters)
                     can beinteger list或string list,如 [123, 456] 或 ["123", "456"]
 
     Returns:
@@ -544,11 +544,11 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
-    # 确保 indicators 是integer list
+    # ensure indicators is an integer list
     if indicators:
         indicators = [int(i) for i in indicators]
 
-    # API Requires direct array passing,而不是object
+    # API requires direct array passing, not object
     response = client.post(url, body=indicators)
     return response
 
@@ -559,7 +559,7 @@ def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
 
     Args:
         client: DME API client
-        obj_type_id:  monitorObject type标识(Required)
+        obj_type_id:  Monitor object type ID(Required)
 
     Returns:
         Monitoring metric info,includes  indicator_ids  list
@@ -576,7 +576,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     Args:
         client: DME API client
-        filter:  filter keyword(Optional),用于fuzzy match zh_cn 和 en_us  field
+        filter:  filter keyword for fuzzy matching zh_cn and en_us fields
                 if provided,returns only matchesObject type
 
     Returns:
@@ -713,7 +713,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                            tier, datastore, virtual_machine, storage_name_space, storage_node,
                            dpc, gfs, dpc_client, vbs_client
         health_dimension: Health dimension (Required) 
-                        Optional值：alarm (alarm) , performance_anomaly (Performance anomaly) ,
+                        Optional值：alarm , performance_anomaly (Performance anomaly) ,
                               performance_prediction (Performance warning) , capacity_prediction (Capacity warning) 
 
     Returns:
@@ -758,7 +758,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
             - executing: Executing
             - failed:  failure
             - success:  success
-            - waiting: 等待
+            - waiting: Waiting
             - terminated:  terminated
         - task_result: task  result,value range:
             - un_analyzed: 未 analysis
@@ -782,7 +782,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
 
 
 # ============================================================================
-# 检查 policy (check_policy) subtopic functions
+# Check policy subtopic functions
 # ============================================================================
 
 def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query: bool = None,
@@ -798,23 +798,23 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         client: DME API client
         policy_name: Policy name (supports fuzzy search, 1~256  characters) 
         exact_query:  name whetherexact match (true-exact match, false-fuzzy search) , default false
-        status:  policy status (normal-normal, checking- checking, failed-检查 failure, queuing-Queued) 
-        policy_type: Policy type (performance-性能threshold, capacity- capacitythreshold, availability- availability, 
+        status:  Policy status (normal, checking, failed, queued) 
+        policy_type: Policy type (performance threshold, capacity threshold, availability, 
                     configuration- config, recyclable- recyclable resource, lowload- low load resource, 
                     performance_anomaly-Performance anomaly, performance_prediction-Performance warning, 
                     capacity_prediction-Capacity warning, history_performance-History performance, 
-                    load_imbalance- load imbalance, highload-高负载 resource) 
-        policy_source:  source (pre-define-预置, user-define- custom) 
+                    load imbalance, high-load resource) 
+        policy_source:  source (pre-define, user-define) 
         alarm_type: Alarm type (violation- exception, alarm-alarm, event- event) 
         object_type: Object type (storage- storage, lun-Logical unit, host- host等) 
         page_no: Page number, 1~1000, default 1
         page_size: Items per page, 1~100, default 20
         sort_key: Sort field (last_check_time-Last check time, failed_count-Failed checksobjectcount) 
-        sort_dir: Sort method (asc-正序, desc-descending) 
-        administrative_status: Management status (enable- enable, disable-禁用) 
-        policy_category:  check category (configuration- config, performance-性能, capacity- capacity, faults- fault, optimization-优化) 
-        object_category: object分类 (Storage-Storage device, IPSwitch-Ethernet switch, FCSwitch-Fibre Channel switch, 
-                       Virtualization-虚拟化, Server-Server, HCI-超融合, Client-Client) 
+        sort_dir: Sort method (asc-ascending, desc-descending) 
+        administrative_status: Management status (enable, disable) 
+        policy_category:  check category (configuration, performance, capacity, faults, optimization) 
+        object_category: Object type (Storage, IPSwitch, FCSwitch, 
+                       Virtualization, Server, HCI-Hyperconverged, Client) 
 
     Returns:
         {
@@ -861,7 +861,7 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Execute check policy
 
-    Execute specified检查 policy. 
+    Execute specified check policy. 
 
     Args:
         client: DME API client
@@ -924,7 +924,7 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Delete check policy
 
-    Delete的检查 policy. 
+    Delete check policy. 
 
     Args:
         client: DME API client
@@ -942,7 +942,7 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
 
 
 # ============================================================================
-# 检查 result (check_result) subtopic functions
+# Check result subtopic functions
 # ============================================================================
 
 def check_result_list(client: DMEAPIClient, object_name: str = None, level: str = None,
@@ -961,21 +961,21 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
     Args:
         client: DME API client
         object_name: Object name (supports fuzzy search, 1~256  characters) 
-        level:  exception级别 (critical-紧急, major-重要, minor-次要, info-提示) 
-        object_ids: object ID  list ( max 100 个) 
+        level:  Exception level (critical, major, minor, info) 
+        object_ids: object ID  list ( max 100) 
         object_native_id: object nativeId (1~384  characters) 
         object_type: Object type (storage- storage, lun-Logical unit, host- host等) 
         policy_id:  policy ID (exact match, 1~64  characters) 
         policy_name: Policy name (supports fuzzy search, 1~256  characters) 
         policy_types: Policy type list ( max 30 个) 
-        cause:  exception原因 (supports fuzzy search, 1~768  characters) 
+        cause:  Exception cause (supports fuzzy search, 1~768  characters) 
         alarm_type: Alarm type (violation- exception, alarm-alarm, event- event) 
-        first_occur_time: 第一次 exceptionTime range ({beginTime, endTime}, UTC Timestamp, unit  ms) 
+        first_occur_time: First exception time range ({beginTime, endTime}, UTC Timestamp, unit  ms) 
         last_occur_time: Last exceptionTime range ({beginTime, endTime}, UTC Timestamp, unit  ms) 
         page_no: Page number, 1~10000, default 1
         page_size: Items per page, 1~2000, default 20
-        sort_key: Sort field (violation_count- exception次数) 
-        sort_dir: Sort method (asc-正序, desc-descending) 
+        sort_key: Sort field (violation_count- Exception count) 
+        sort_dir: Sort method (asc-ascending, desc-descending) 
 
     Returns:
         {
@@ -1026,11 +1026,11 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     """
     Query check policy exception details
 
-    Query检查 result的Details. 
+    Query check result details. 
 
     Args:
         client: DME API client
-        check_result_id: 检查 result ID (1~64  characters) 
+        check_result_id: Check result ID (1~64  characters) 
 
     Returns:
         {
@@ -1045,7 +1045,7 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 
 # Action list for CLI help
 # ============================================================================
-# 拓扑management  (topology) subtopic functions
+# Topology management subtopic functions
 # ============================================================================
 
 def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_id: str,
@@ -1076,7 +1076,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }, includes  LUN 拓扑 list
+        }, includes LUN topology list
     """
     url = "/rest/topomgmt/v1/topo-data/luns/query"
 
@@ -1109,7 +1109,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
      query SAN Path topology
 
     via specified entryobject query SAN Network from host toStorage pooltopology between. 
-     support IP_SAN 和 FC_SAN 两种 type. 
+     supports IP_SAN and FC_SAN types. 
 
     Args:
         client: DME API client
@@ -1124,7 +1124,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - switch_port: Switch port (仅 FC_SAN) 
             - storage_pool: Storage pool
         san_type: SAN  type (Optional) , Optional值：ip_san, fc_san
-                  - 不 specified时, call simultaneously IP_SAN 和 FC_SAN 两个 API, Combined return data
+                  - if not specified, calls both IP_SAN and FC_SAN APIs, combines results
                   -  specified为 ip_san 时,  only call IP_SAN API
                   -  specified为 fc_san 时,  only call FC_SAN API
 
@@ -1147,7 +1147,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
     #  if not specified san_type, call both simultaneously API
     if san_type is None:
-        # 调用 IP_SAN API
+        # Call IP_SAN API
         ip_san_url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         ip_san_payload = {"entry_objects": entry_objects}
         print(f" request URL: {ip_san_url}")
@@ -1155,7 +1155,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         ip_san_response = client.post(ip_san_url, body=ip_san_payload)
         result['ip_san'] = ip_san_response
 
-        # 调用 FC_SAN API
+        # Call FC_SAN API
         fc_san_url = "/rest/topomgmt/v1/topo-data/host-storage/query"
         fc_san_payload = {"entry_objects": entry_objects}
         print(f" request URL: {fc_san_url}")
@@ -1193,8 +1193,8 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     r"""
     Query topology VM and virtual disk list, 或 query BMS Physical disk list below
 
-    via specified entryobjectQuery virtualization resources, 包括Virtual machine和Virtual disk list, 
-    或者 query BMS (裸金属Server) physical disk list under. 
+    Query virtualization resources via specified entry, includes VM and virtual disk list, 
+    or query BMS (bare metal server) physical disk list. 
 
     Args:
         client: DME API client
@@ -1274,10 +1274,10 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - k8s_node: K8s  node
             - k8s_vc_job: K8s VC task 
             - dturbo_client: DataTurbo Client
-            - enclosures: 机柜
+            - enclosures: Rack
             - eth_switch: Ethernet switch
-            - storage_zone:  storage区域
-            - service_network: 服务 network
+            - storage_zone:  Storage zone
+            - service_network: Service network
             - db_instance:  data库instance
             - db_node:  data库 node
         entry_res_id: entry resource ID (Required) 
@@ -1289,7 +1289,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             task_id: Task ID (string, 1~64 characters),
         }, includes ：
         - nodes:  node list, Each node contains id, type, label, sub_type
-        - edges: 边 list, 每条边includes  source, target, edge_type
+        - edges: edge list, each edge includes source, target, edge_type
     """
     url = "/rest/dmegraphanalysis/v1/topo-data/query"
 
