@@ -343,3 +343,15 @@ pydme san physical_host_group show_related --hostgroup_id xxx
 - **Docstring format unification**: All Returns sections converted to JSON-style format
 - **Obsolete function cleanup**: Removed 3 unused functions not registered in ACTIONS
 - **Scripts cleanup**: Removed `scripts/` directory with temporary processing tools
+
+## Generated Files Convention
+
+Reasonix 工具生成的辅助文件遵循以下目录约定：
+
+| 类型 | 目录 |
+|------|------|
+| 计划文档 | `.reasonix/plans/` |
+| 脚本文件 | `.reasonix/scripts/` |
+| 输出文件 | `.reasonix/output/` |
+
+这些文件位于 `.reasonix/` 目录下，已被 `.gitignore` 排除，不会提交到版本库中。
