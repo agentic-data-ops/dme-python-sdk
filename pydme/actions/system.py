@@ -1134,7 +1134,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Args:
         client: DME API client
         ids: RegionID list，支持exact match (Optional, List[string], max array members：100)
-        name: Region的名称，supports fuzzy search (Optional, string, 最多256 characters)
+        name: Region name，supports fuzzy search (Optional, string, 最多256 characters)
         active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256 characters)
         standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256 characters)
         sync_status: RegionSync状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (Sync失败)

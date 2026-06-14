@@ -124,7 +124,7 @@ def group_modify(client: DMEAPIClient, pg_id: str, name: str = None,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        name: Protection group的名称
+        name: Protection group name
         description: Protection group的描述
 
     Returns:

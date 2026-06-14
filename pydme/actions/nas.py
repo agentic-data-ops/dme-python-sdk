@@ -3041,7 +3041,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         client: DME API Client
         storage_id: 设备 ID (1~64 characters, Optional)
         vstore_id: 租户的 ID (1~64 characters, Optional)
-        vstore_name: 租户的名称，支持fuzzy search (1~256 characters, Optional)
+        vstore_name: 租户 name，支持fuzzy search (1~256 characters, Optional)
         zone_id: 所属 zone 的 ID (1~64 characters, Optional)。当资源所属范围为全局时，Zone ID of the device Id；当资源所属范围为本地时，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 series storage only
         name: DataTurbo Admin名，支持fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (可选)。Options：offline (离线), online (在线)

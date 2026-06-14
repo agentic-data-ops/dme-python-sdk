@@ -141,7 +141,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
 
     Args:
         client: DME API client
-        name: Global namespace的名称，supports fuzzy search (0~256 characters, Optional)
+        name: Global namespace name，supports fuzzy search (0~256 characters, Optional)
         gfs_group_name: Global data space name，supports fuzzy search (0~256 characters, Optional)
         gfs_group_id: 所属Global data space的 ID (1~32 characters, Optional)
         gfs_type: Global namespace类型 (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
@@ -184,7 +184,7 @@ def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = Non
     Args:
         client: DME API client
         id: Global namespace的 ID，与 name_locator cannot both be empty; takes precedence when both have values ID
-        name_locator: Name locator，format is：Global namespace的名称@Global data space name
+        name_locator: Name locator，format is：Global namespace name@Global data space name
 
     Returns:
         Global namespaceDetails
@@ -257,7 +257,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace的 ID (1~32 characters, Optional。与 name_locator cannot both be empty; takes precedence when both have values id)
-        name_locator: Name locator，format is：Global namespace的名称@Global data space name (3~507 characters, Optional。与 id cannot both be empty; takes precedence when both have values id)
+        name_locator: Name locator，format is：Global namespace name@Global data space name (3~507 characters, Optional。与 id cannot both be empty; takes precedence when both have values id)
         smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的模式为 smart_share 时该参数有效)。参数格式如下：[{
                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
@@ -293,7 +293,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace的 ID，与 name_locator cannot both be empty
-        name_locator: Name locator，format is：Global namespace的名称@Global data space name
+        name_locator: Name locator，format is：Global namespace name@Global data space name
         is_delete_child: 是否删除子Namespace，默认 true
 
     Returns:
@@ -464,15 +464,15 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         size_operator: File size的匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 file_size must be sent together
         file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, Optional)。与 size_operator must be sent together
         tag: object标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")
-        file_paths: filter by file list滤策略上传的文件标识列表 (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置
+        file_paths: filter by file listfilter policy uploaded文件标识列表 (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置
         authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIX本地认证), nis_domain (NIS域)
         user_operator: Username匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
         user_name: Username (1~255 characters, Optional)。与 authentication_type、user_operator must be sent together
         group_operator: User group名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
         group_name: User group名 (1~255 characters, Optional)。与 authentication_type、group_operator must be sent together
         files_filter: filter by file list滤请求参数 (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
-                file_id: filter by file list滤策略上传的文件 ID (1~63 characters, Required),
-                file_name: filter by file list滤策略上传的文件名称 (1~1023 characters, Required),
+                file_id: filter by file listfilter policy uploaded文件 ID (1~63 characters, Required),
+                file_name: filter by file listfilter policy uploaded文件名称 (1~1023 characters, Required),
              }
 
     Returns:
