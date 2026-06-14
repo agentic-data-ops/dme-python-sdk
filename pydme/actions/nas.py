@@ -1845,7 +1845,7 @@ def quota_delete(client: DMEAPIClient, quota_ids: list,
 
 
 # ============================================================================
-# filesystem (文件系统) 子主题相关动作
+# Filesystem subtopic functions
 # ============================================================================
 
 def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
@@ -1984,14 +1984,14 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
 
 def filesystem_show(client: DMEAPIClient, filesystem_id: str) -> dict:
     """
-    查询指定文件系统详情
+    Query filesystem details
 
     Args:
-        client: DME API 客户端
-        filesystem_id: 文件系统 ID
+        client: DME API client
+        filesystem_id: Filesystem ID
 
     Returns:
-        文件系统详细信息
+        Filesystem details
     """
     url = "/rest/fileservice/v1/filesystems/{filesystem_id}"
 
@@ -2001,17 +2001,17 @@ def filesystem_show(client: DMEAPIClient, filesystem_id: str) -> dict:
 
 def filesystem_delete(client: DMEAPIClient, filesystem_ids: list, task_remarks: str = None) -> dict:
     """
-    批量删除文件系统
+    Batch delete filesystems
 
     Args:
-        client: DME API 客户端
-        filesystem_ids: 文件系统 ID 列表
-        task_remarks: 异步任务备注信息（可选）
+        client: DME API client
+        filesystem_ids: Filesystem ID list
+        task_remarks: Async task remark (Optional)
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }（异步任务）
+            task_id: Task ID (string, 1~64 characters),
+        } (async task)
     """
     url = "/rest/fileservice/v1/filesystems/delete"
 
@@ -2028,21 +2028,21 @@ def filesystem_delete(client: DMEAPIClient, filesystem_ids: list, task_remarks: 
 
 def filesystem_batch_modify(client: DMEAPIClient, filesystems: list, task_remarks: str = None) -> dict:
     """
-    批量修改文件系统
+    Batch modify filesystems
 
-    仅支持修改名称。
+    Only name modification is supported.
 
     Args:
-        client: DME API 客户端
-        filesystems: 待修改的文件系统信息列表（必填），List<UpdateFileSystemInfo> 类型，数组最大成员个数 1000。参数格式如下：[{
-                        file_system_id: 文件系统的唯一标识（必填），1~64 个字符,
-                        name: 文件系统名称（必填），1~255 个字符；OceanStor Dorado V6、OceanStor、OceanProtect 系列只能包含字母、数字、"-"、"."和各国语言字符；OceanStor V3/V5 系列只能包含字母、数字和中文字符,
+        client: DME API client
+        filesystems: Filesystem info list to modify (Required), List<UpdateFileSystemInfo> type, max array members 1000。参数格式如下：[{
+                        file_system_id: Filesystem unique ID (Required), 1~64 characters,
+                        name: Filesystem name (Required), 1~255 characters,
         },...]
-        task_remarks: 异步任务备注信息（可选），0~1024 个字符
+        task_remarks: Async task remark (Optional), 0~1024 characters
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/filesystems/modify"
@@ -2086,18 +2086,18 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                                  audit_log_rules: list = None,
                                  unix_permissions: str = None) -> dict:
     """
-    自定义创建文件系统
+    Custom create filesystem
 
     Args:
-        client: DME API 客户端
-        storage_id: 存储设备 ID
-        pool_raw_id: 存储池在指定存储设备上的 ID
-        filesystem_specs: 文件系统规格列表。参数格式如下：[{
-                name: 名称 (必选, 1~255字符),
-                count: 数量 (必选, 1~500),
-                start_suffix: 起始后缀编号 (可选, 0~9999),
-                capacity: 容量GB (必选, 1~262144),
-                description: 描述 (可选, 0~255字符),
+        client: DME API client
+        storage_id: Storage device ID
+        pool_raw_id: Storage pool ID on the storage device
+        filesystem_specs: Filesystem spec list。参数格式如下：[{
+                name: Name (Required, 1~255 characters),
+                count: Count (Required, 1~500),
+                start_suffix: Starting suffix number (Optional, 0~9999),
+                capacity: Capacity in GB (Required, 1~262144),
+                description: Description (Optional, 0~255 characters),
              }, ...]
         vstore_id: 租户 ID（可选）
         zone_id: 所属 zone 的 ID（可选）
