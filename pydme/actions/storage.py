@@ -1541,7 +1541,7 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
         page_size: Page size，默认 20（可选）
 
     Returns:
-        本地认证用户信息列表，包含 total 和 local_users
+        本地Auth user info list，包含 total 和 local_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-users/query"
 
@@ -1573,7 +1573,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         password: 本地Auth user password (1~255 characters, Required)
         primary_group_raw_id: 本地认证用户所归属的用户组在设备上 ID (1~64 characters, Required)
         group_names: 创建的本地认证用户所属的临时用户组名称列表 (List<string>, min array members: 0, max array members: 31, Optional)
-        vstore_id: 本地认证用户所属的租户 ID (1~64 characters, Optional。条件必传，当创建的本地认证用户属于租户时必传)
+        vstore_id: 本地认证用户所属的租户 ID (1~64 characters, Optional。条件必传，当创建的本地required when auth user belongs to tenant)
 
     Returns:
         创建结果
@@ -1620,9 +1620,9 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
         raw_id: UNIX Auth user on device ID (int64, 0~4294967295, Optional)
         description: UNIX Auth user description (1~255 characters, Optional)
         password: UNIX Auth user password (1~255 characters, Optional)
-        status_enabled: UNIX 认证用户状态 (boolean, Optional)。可选值：true (启动), false (锁定)
+        status_enabled: UNIX Auth user status (boolean, Optional)。可选值：true (启动), false (锁定)
         primary_group_raw_id: 创建的 UNIX 认证用户所归属的用户组在设备上 ID (1~64 characters, Required)
-        vstore_raw_id: UNIX 认证用户所属的租户在设备上 ID (1~64 characters, Optional。条件必传，当创建的 UNIX 认证用户属于租户时必传)
+        vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional。条件必传，当创建的 UNIX required when auth user belongs to tenant)
 
     Returns:
         创建结果
@@ -1663,8 +1663,8 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
         raw_id: Windows Auth user on device ID (int64, 1000~4294967295, Optional)
         description: Windows Auth user description (1~255 characters, Optional)
         password: Windows Auth user password (1~255 characters, Required)
-        status_enabled: Windows 认证用户状态 (boolean, Optional)。可选值：true (启用), false (锁定)
-        vstore_raw_id: 创建的 Windows 认证用户所属的租户在设备上 ID (1~64 characters, Optional。条件必传，当 Windows 认证用户属于租户时必传)
+        status_enabled: Windows Auth user status (boolean, Optional)。可选值：true (启用), false (锁定)
+        vstore_raw_id: 创建的 Windows Auth user tenant on device ID (1~64 characters, Optional。条件必传，当 Windows required when auth user belongs to tenant)
 
     Returns:
         创建结果
@@ -1703,7 +1703,7 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
         page_size: Page size，默认 20（可选）
 
     Returns:
-        UNIX 认证用户信息列表，包含 total 和 unix_users
+        UNIX Auth user info list，包含 total 和 unix_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-users/query"
 
@@ -1735,7 +1735,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
         page_size: Page size，默认 20（可选）
 
     Returns:
-        Windows 认证用户信息列表，包含 total 和 windows_users
+        Windows Auth user info list，包含 total 和 windows_users
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-users/query"
 
@@ -1762,12 +1762,12 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
         vstore_raw_id: 本地认证用户组Tenant在设备上 ID（可选）
-        name: 本地认证用户组名称，supports fuzzy search（可选）
+        name: 本地Auth user group name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
 
     Returns:
-        本地认证用户组信息列表，包含 total 和 local_user_groups
+        本地Auth user group info list，包含 total 和 local_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-user-groups/query"
 
@@ -1794,12 +1794,12 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
         vstore_raw_id: UNIX 认证用户组Tenant在设备上 ID（可选）
-        name: UNIX 认证用户组名称，supports fuzzy search（可选）
+        name: UNIX Auth user group name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
 
     Returns:
-        UNIX 认证用户组信息列表，包含 total 和 unix_user_groups
+        UNIX Auth user group info list，包含 total 和 unix_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-user-groups/query"
 
@@ -1826,12 +1826,12 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
         client: DME API client
         storage_id: Storage device ID（Required，1~36 个字符）
         vstore_raw_id: Windows 认证用户组Tenant在设备上 ID（可选）
-        name: Windows 认证用户组名称，supports fuzzy search（可选）
+        name: Windows Auth user group name，supports fuzzy search（可选）
         page_no: Page number，默认 1（可选）
         page_size: Page size，默认 20（可选）
 
     Returns:
-        Windows 认证用户组信息列表，包含 total 和 windows_user_groups
+        Windows Auth user group info list，包含 total 和 windows_user_groups
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-user-groups/query"
 
@@ -2256,7 +2256,7 @@ def qos_deactivate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 def qos_associate(client: DMEAPIClient, qos_policy_id: str,
                   resource_ids: list, resource_type: str) -> dict:
     """
-    QoS 策略关联控制资源
+    QoS Associate policy with control resource
 
     将一个或多个资源associated with QoS 策略。
 
@@ -2280,7 +2280,7 @@ def qos_associate(client: DMEAPIClient, qos_policy_id: str,
 def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
                     resource_ids: list, resource_type: str) -> dict:
     """
-    QoS 策略解关联控制资源
+    QoS Disassociate policy from control resource
 
     将资源从 QoS 策略解关联。
 
@@ -2327,7 +2327,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name: 逻辑Port name (1~255 characters),
                 running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
-                operational_status: 是否激活状态。可选值：ACTIVATED (激活), NOT_ACTIVATED (未激活),
+                operational_status: Active status。可选值：ACTIVATED (激活), NOT_ACTIVATED (未激活),
                 mgmt_ip: ipv4地址 (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP地址(IPV4) (1~64 characters),
                 ipv4_mask: Logic portIP地址掩码(IPV4) (1~64 characters),
@@ -2337,9 +2337,9 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 home_port_raw_id: 父端口on the storage deviceID (1~255 characters),
                 home_port_name: 父Port name (1~255 characters),
                 home_port_type: 父Port type。可选值：ETHERNET_PORT (Ethernet port andRoCE端口), BOND (绑定), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
-                home_controller_raw_id: Storage device上主控制器的ID (1~256 characters),
-                current_port_raw_id: Logic port所在当前物理端口on the storage deviceID (1~255 characters),
-                current_port_name: Logic port所在当前物理Port name (1~255 characters),
+                home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
+                current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
+                current_port_name: Logic portcurrent physicalPort name (1~255 characters),
                 role: 端口角色 (1~10个字符)。可选值：0 (未知), 1 (管理), 2 (数据), 3 (管理+数据), 4 (复制), 6 (currently meaningless), 7 (currently meaningless), 8 (客户端), 9 (VTEP), 10 (Health check), 11 (数据备份), 12 (系统管理), 100 (集群), 101 (集群间),
                 ddns_status: 动态DNS开启状态。可选值：INVALID (无效的), ENABLE (启用), DISABLED (未启用),
                 failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
@@ -2347,7 +2347,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 support_protocol: Logic portSupported data access protocols。可选值：NONE (无协议), NFS (NFS协议), CIFS (CIFS协议), NFS_AND_CIFS (NFS和CIFS协议), NFS_OVER_RDMA (NFS over RDMA协议), iSCSI (iSCSI协议), FC/FCoE (FC/FCoE协议), NVME_OVER_ROCE (NVME over ROCE协议), BGP (BGP协议), DATA_TURBO (DataTurbo协议), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE协议), S3 (S3协议), NFS_OVER_IB (NFS over IB协议), DATA_TURBO_OVER_IB (DataTurbo over IB协议), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP协议), OBJECT (S3协议), NAS_AND_OBJECT (NAS与object存储协议), KB_OVER_TCP (KnowledgeBase over TCP协议),
                 logical_type: 逻辑类型。可选值：SERVICE (主机端口/业务端口), MANAGEMENT (管理端口), MAINTENANCE (维护端口),
                 listen_dns_query_enabled: 是否监听DNS查询请求 (1~255 characters)。可选值：NO (关闭), YES (打开),
-                management_access: 管理访问方式 (1~255 characters),
+                management_access: Management access method (1~255 characters),
                 vstore_raw_id: Logic port所属vStoreassigned on the deviceid (1~255 characters),
                 vstore_name: Logic port所属vStore的名称 (1~255 characters),
                 storage_id: Storage device ID (1~255 characters),
@@ -2357,7 +2357,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 zone_name: 所属zone名称 (1~255 characters)，仅OceanStor A800series storage only,
                 zone_ip: 所属zone IP (1~255 characters),
                 dns_zone_name: DNS Zone名称 (1~255 characters),
-                current_port_type: Logic port所在物理端口的类型。可选值：ETHERNET_PORT (Ethernet port andRoCE端口), BOND (绑定), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
+                current_port_type: Logic portPhysical port type。可选值：ETHERNET_PORT (Ethernet port andRoCE端口), BOND (绑定), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
                 address_family: IP协议版本。可选值：IPv4 (IPv4), IPv6 (IPv6),
                 can_failover: 是否启用IP地址漂移 (boolean)。可选值：true, false,
                 failback_mode: 回漂模式。可选值：not_support (feature not supported), manual (手动), automatic (自动),
@@ -2406,7 +2406,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name: 逻辑Port name (1~255 characters),
             running_status: Running status. Options：UNKNOWN (未知), NORMAL (正常), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待恢复), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电失败),
-            operational_status: 是否激活状态。可选值：ACTIVATED (激活), NOT_ACTIVATED (未激活),
+            operational_status: Active status。可选值：ACTIVATED (激活), NOT_ACTIVATED (未激活),
             mgmt_ip: ipv4地址 (1~255 characters),
             ipv4_gateway: Logic port gatewayIP地址(IPV4) (1~64 characters),
             ipv4_mask: Logic portIP地址掩码(IPV4) (1~64 characters),
@@ -2416,9 +2416,9 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             home_port_raw_id: 父端口on the storage deviceID (1~255 characters),
             home_port_name: 父Port name (1~255 characters),
             home_port_type: 父Port type。可选值：ETHERNET_PORT (Ethernet port andRoCE端口), BOND (绑定), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
-            home_controller_raw_id: Storage device上主控制器的ID (1~256 characters),
-            current_port_raw_id: Logic port所在当前物理端口on the storage deviceID (1~255 characters),
-            current_port_name: Logic port所在当前物理Port name (1~255 characters),
+            home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
+            current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
+            current_port_name: Logic portcurrent physicalPort name (1~255 characters),
             role: 端口角色 (1~10个字符)。可选值：0 (未知), 1 (管理), 2 (数据), 3 (管理+数据), 4 (复制), 6 (currently meaningless), 7 (currently meaningless), 8 (客户端), 9 (VTEP), 10 (Health check), 11 (数据备份), 12 (系统管理), 100 (集群), 101 (集群间),
             ddns_status: 动态DNS开启状态。可选值：INVALID (无效的), ENABLE (启用), DISABLED (未启用),
             failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
@@ -2426,7 +2426,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             support_protocol: Logic portSupported data access protocols。可选值：NONE (无协议), NFS (NFS协议), CIFS (CIFS协议), NFS_AND_CIFS (NFS和CIFS协议), NFS_OVER_RDMA (NFS over RDMA协议), iSCSI (iSCSI协议), FC/FCoE (FC/FCoE协议), NVME_OVER_ROCE (NVME over ROCE协议), BGP (BGP协议), DATA_TURBO (DataTurbo协议), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE协议), S3 (S3协议), NFS_OVER_IB (NFS over IB协议), DATA_TURBO_OVER_IB (DataTurbo over IB协议), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP协议), OBJECT (S3协议), NAS_AND_OBJECT (NAS与object存储协议), KB_OVER_TCP (KnowledgeBase over TCP协议),
             logical_type: 逻辑类型。可选值：SERVICE (主机端口/业务端口), MANAGEMENT (管理端口), MAINTENANCE (维护端口),
             listen_dns_query_enabled: 是否监听DNS查询请求 (1~255 characters)。可选值：NO (关闭), YES (打开),
-            management_access: 管理访问方式 (1~255 characters),
+            management_access: Management access method (1~255 characters),
             vstore_raw_id: Logic port所属vStoreassigned on the deviceid (1~255 characters),
             vstore_name: Logic port所属vStore的名称 (1~255 characters),
             storage_id: Storage device ID (1~255 characters),
@@ -2436,7 +2436,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             zone_name: 所属zone名称 (1~255 characters)，仅OceanStor A800series storage only,
             zone_ip: 所属zone IP (1~255 characters),
             dns_zone_name: DNS Zone名称 (1~255 characters),
-            current_port_type: Logic port所在物理端口的类型。可选值：ETHERNET_PORT (Ethernet port andRoCE端口), BOND (绑定), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
+            current_port_type: Logic portPhysical port type。可选值：ETHERNET_PORT (Ethernet port andRoCE端口), BOND (绑定), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
             address_family: IP协议版本。可选值：IPv4 (IPv4), IPv6 (IPv6),
             can_failover: 是否启用IP地址漂移 (boolean)。可选值：true, false,
             failback_mode: 回漂模式。可选值：not_support (feature not supported), manual (手动), automatic (自动),
@@ -2486,8 +2486,8 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         home_port_raw_id: 父端口on the storage deviceID（可选，1~64 characters）
         support_protocol: Logic portSupported data access protocols(Optional). Options：NFS (NFS协议), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE协议), NFS_OVER_RDMA (NFS over RDMA协议), NFS_OVER_IB (NFS over IB协议), DATA_TURBO_OVER_IB (DataTurbo over IB协议), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE和TCP协议), OBJECT (S3协议), NAS_AND_OBJECT (NAS与object存储协议), KB_OVER_TCP (KnowledgeBase over TCP协议)。角色为CLIENT时，do not send this field
         operational_status: 激活状态(Optional). Options：ACTIVATED (激活), NOT_ACTIVATED (未激活)
-        home_controller_id: 控制器ID（可选，1~64 characters）。角色为HEALTH_CHECK时，该字段必须配置
-        failover_group_raw_id: Failover groupon the storage deviceID(Optional, max64个字符）。Data access protocol isKB_OVER_TCP时，该字段必须配置
+        home_controller_id: 控制器ID（可选，1~64 characters）。角色为HEALTH_CHECK时，this field is required
+        failover_group_raw_id: Failover groupon the storage deviceID(Optional, max64个字符）。Data access protocol isKB_OVER_TCP时，this field is required
         vstore_raw_id: Logic port所属vStoreassigned on the deviceid(Optional, max64个字符）。角色为CLIENT时，do not send this field
         role: Logic port角色（可选，默认 DATA). Options：MANAGEMENT (管理), DATA (数据), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (管理+数据), CLIENT (客户端)
         dns_zone_name: DNS ZoneName (Optional,最多255个字符）。角色为CLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
@@ -2695,7 +2695,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
     Args:
         client: DME API client
         storage_id: Storage device ID（可选，1~36 个字符）
-        port_type: Port type（可选，eth/fc/ib/bond/sas，不指定则返回所有类型）
+        port_type: Port type（可选，eth/fc/ib/bond/sas，returns all types if not specified）
         location: 位置（可选，仅 ETH 端口支持，1~255 个字符）
         ipv4: IPv4 地址（可选，仅 ETH 端口支持，1~255 个字符）
         ipv6: IPv6 地址（可选，仅 ETH 端口支持，1~255 个字符）
@@ -2840,7 +2840,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
 
 def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     """
-    Query绑定端口的成员列表信息
+    QueryBound port member list info
 
     Args:
         client: DME API client
@@ -3038,7 +3038,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
     Args:
         client: DME API client
         failover_group_id: Failover group id（Required，1~64 个字符）
-        port_type: Port type（可选，bond/eth/ib，不指定则返回所有类型）
+        port_type: Port type（可选，bond/eth/ib，returns all types if not specified）
 
     Returns:
         {
@@ -3473,13 +3473,13 @@ ACTIONS = {
     },
     'qos_associate': {
         'func': qos_associate,
-        'description': 'QoS 策略关联控制资源',
+        'description': 'QoS Associate policy with control resource',
         'params': ['qos_policy_id', 'resource_ids', 'resource_type'],
         'subtopic': 'qos'
     },
     'qos_unassociate': {
         'func': qos_unassociate,
-        'description': 'QoS 策略解关联控制资源',
+        'description': 'QoS Disassociate policy from control resource',
         'params': ['qos_policy_id', 'resource_ids', 'resource_type'],
         'subtopic': 'qos'
     },
@@ -3536,7 +3536,7 @@ ACTIONS = {
     },
     'port_show_bond_members': {
         'func': port_show_bond_members,
-        'description': 'Query绑定端口的成员列表信息',
+        'description': 'QueryBound port member list info',
         'params': ['bond_port_id'],
         'subtopic': 'port'
     },

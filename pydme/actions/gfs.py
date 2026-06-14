@@ -23,7 +23,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
         name: Omni-Dataverse 名称，supports fuzzy search
         id: Omni-Dataverse id
         raw_id: Omni-Dataverse 在device side的 id
-        max_site_num: Omni-Dataverse 下数据服务站点最大count
+        max_site_num: Omni-Dataverse 下Data service site最大count
         page_no: Page number，默认 1，范围 1~10000
         page_size: Items per page，默认 100，范围 1~1000
 
@@ -88,21 +88,21 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
                         account_name: str = None, page_no: int = 1,
                         page_size: int = 100) -> dict:
     """
-    查询 Omni-Dataverse 数据服务站点
+    查询 Omni-Dataverse Data service site
 
     Args:
         client: DME API client
-        raw_id: 数据服务站点在device side的 id
-        site_role: 数据服务站点角色，包含 site_role 字段，取值范围：ORDINARY(普通站点)，METASTORE(元数据服务站点)
+        raw_id: Data service site在device side的 id
+        site_role: Data service site角色，包含 site_role 字段，取值范围：ORDINARY(普通站点)，METASTORE(元Data service site)
         gfs_group_id: Omni-Dataverse id
-        storage_name: 根据存储名称查询数据服务站点，supports fuzzy search
-        storage_pool_name: 根据Storage pool name查询数据服务站点，supports fuzzy search
-        account_name: 根据账户名称查询数据服务站点，supports fuzzy search
+        storage_name: 根据存储名称查询Data service site，supports fuzzy search
+        storage_pool_name: 根据Storage pool name查询Data service site，supports fuzzy search
+        account_name: 根据账户名称查询Data service site，supports fuzzy search
         page_no: Page number，默认 1，范围 1~10000
         page_size: Items per page，默认 100，范围 1~1000
 
     Returns:
-        数据服务站点列表
+        Data service site列表
     """
     url = "/rest/fileservice/v1/data-service-sites/query"
 
@@ -687,7 +687,7 @@ ACTIONS = {
     },
     'dataspace_site_list': {
         'func': dataspace_site_list,
-        'description': '查询 Omni-Dataverse 数据服务站点',
+        'description': '查询 Omni-Dataverse Data service site',
         'params': ['raw_id', 'site_role', 'gfs_group_id', 'storage_name', 'storage_pool_name', 'account_name', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
