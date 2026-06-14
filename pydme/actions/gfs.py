@@ -219,9 +219,9 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional. required when gfs_mode is smart_share). 参数格式如下：[{
                 id: Namespace ID (1~64 characters, Required),
                 pull_mode: Read mode. Options: no_cache (forwarded read), on_demand (read on demand). Default: on_demand,
-                cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,
+                cache_time: Cache duration (int32, Optional, Default: 8). When unit is hour: 1-4320, when day: 1-180,
                 cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value. Default: hour,
-                single_write_mode: Single write mode policy (Optional). Options: read_only, read_write ( read-write). 当 single_write_switch 为 open 时, Exactly one member must have the value read_write,
+                single_write_mode: Single write mode policy (Optional). Options: read_only, read_write. When single_write_switch is open, exactly one member must have the value read_write,
              }, ...]
 
     Returns:
@@ -261,7 +261,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. 当Global namespace的 mode为 smart_share parameter effective when). 参数格式如下：[{
                 id: Namespace ID or filesystem ID (1~64 characters, Required),
                 pull_mode: Read data mode (Optional). Options: no_cache (forwarded read), on_demand (read on demand),
-                cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,
+                cache_time: Cache duration (int32, Optional, Default: 8). When unit is hour: 1-4320, when day: 1-180,
                 cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value,
              }, ...]
 
