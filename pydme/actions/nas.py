@@ -1597,7 +1597,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
 
 
 # ============================================================================
-# Quota (配额) 子主题相关动作
+# Quota subtopic functions
 # ============================================================================
 
 def quota_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -1608,27 +1608,27 @@ def quota_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                sort_key: str = None, sort_dir: str = None,
                zone_id: str = None) -> dict:
     """
-    查询配额列表
+    Query quota list
 
     Args:
-        client: DME API 客户端
-        page_no: 分页查询页码（可选），最小值 1，默认 1
-        page_size: 每页数据条数（可选），1~1000，默认 20
-        ids: 配额的 ID 列表（可选），List<string> 类型，数组最大成员个数 100
-        raw_ids: 配额在存储设备上的 ID 列表（可选），List<string> 类型，0~1024 个字符，数组最大成员个数 100
-        quota_type: 配额类型（可选），可选值：directory_quota（目录配额）、user_quota（用户配额）、user_group_quota（用户组配额）
-        parent_type: 配额所属父对象类型（可选），0~32 个字符；可选值：filesystem（文件系统或者命名空间，OceanStor Pacific 设备称为命名空间，其余设备称为文件系统）、qtree（Quota Tree 或者 Dtree，OceanStor V3/V5 设备称为 Quota Tree，其余设备称为 Dtree）
-        parent_raw_id: 配额所属父对象在存储设备上的 ID（可选），0~256 个字符，支持精确匹配；当 parent_type 为 filesystem 时是文件系统或命名空间在存储设备上的 ID，当 parent_type 为 qtree 时是 Quota Tree 或 Dtree 在存储设备上的 ID
-        owner_name: 配额关联的用户或者用户组名称（可选），0~256 个字符，支持模糊查询
-        vstore_id: 配额所属租户的 ID（可选），0~64 个字符
-        vstore_raw_id: 配额所属租户存储设备上的 ID（可选），0~256 个字符，支持精确匹配
-        storage_id: 配额所属存储设备的 ID（可选），0~64 个字符
-        sort_key: 查询的排序字段（可选），可选值：id、space_hard_used_rate（空间使用率）、file_hard_used_rate（文件使用率），默认 id
-        sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
-        zone_id: Zone id（可选），0~64 个字符，仅 OceanStor A800 存储支持
+        client: DME API client
+        page_no: Page number (Optional), min 1, default 1
+        page_size: Items per page (Optional), 1~1000, default 20
+        ids: Quota ID list (Optional), List<string> type, max array members 100
+        raw_ids: Quota ID list on storage device (Optional), List<string> type, 0~1024 characters, max array members 100
+        quota_type: Quota type (Optional). Options: directory_quota, user_quota, user_group_quota
+        parent_type: Parent object type (Optional), 0~32 characters. Options: filesystem, qtree
+        parent_raw_id: Parent object ID on storage device (Optional), 0~256 characters, exact match
+        owner_name: Quota owner name (Optional), 0~256 characters, supports fuzzy search
+        vstore_id: Tenant ID (Optional), 0~64 characters
+        vstore_raw_id: Tenant ID on storage device (Optional), 0~256 characters, exact match
+        storage_id: Storage device ID (Optional), 0~64 characters
+        sort_key: Sort field (Optional). Options: id, space_hard_used_rate, file_hard_used_rate, default id
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending), default asc
+        zone_id: Zone id (Optional), 0~64 characters, OceanStor A800 only
 
     Returns:
-        配额列表
+        Quota list
     """
     url = "/rest/fileservice/v1/quotas/query"
 
@@ -1668,14 +1668,14 @@ def quota_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
 
 def quota_show(client: DMEAPIClient, quota_id: str) -> dict:
     """
-    查询指定配额详情
+    Query quota details
 
     Args:
-        client: DME API 客户端
-        quota_id: 配额 ID
+        client: DME API client
+        quota_id: Quota ID
 
     Returns:
-        配额详细信息
+        Quota details
     """
     url = "/rest/fileservice/v1/quotas/query"
 
@@ -1697,32 +1697,32 @@ def quota_create(client: DMEAPIClient, parent_id: str, parent_type: str,
                  soft_grace_time: int = None, quota_owner: dict = None,
                  dir_quota_target: str = None, task_remarks: str = None) -> dict:
     """
-    创建配额
+    Create quota
 
     Args:
-        client: DME API 客户端
-        space_soft_quota: 空间软配额（可选），单位 Byte，默认 -1（字段无效）；当空间硬配额和空间软配额均有效时，空间硬配额需大于空间软配额；OceanStor V5 设备时此字段必须为 1048576 的整数倍
-        space_hard_quota: 空间硬配额（可选），单位 Byte，默认 -1（字段无效）；当空间硬配额和空间软配额均有效时，空间硬配额需大于空间软配额；OceanStor V5 设备时此字段必须为 1048576 的整数倍
-        space_advisory_quota: 空间建议配额（可选），单位 Byte，默认 -1（字段无效）；仅 OceanStor Pacific 设备支持；当空间建议配额和空间硬配额或空间软配额均有效时，空间建议配额需小于空间硬配额或空间软配额
-        file_soft_quota: 文件数软配额（可选），默认 -1（字段无效）；当文件数硬配额和文件数软配额均有效时，文件数硬配额需大于文件数软配额
-        file_hard_quota: 文件数硬配额（可选），默认 -1（字段无效）；当文件数硬配额和文件数软配额均有效时，文件数硬配额需大于文件数软配额
-        file_advisory_quota: 文件数建议配额（可选），默认 -1（字段无效）；仅 OceanStor Pacific 设备支持；当文件数建议配额和文件数硬配额或文件数软配额均有效时，文件数建议配额需小于文件数硬配额或文件数软配额
-        snap_space_switch: 是否统计快照空间（可选），默认 false；true：统计快照空间；false：不统计快照空间；仅 OceanStor Pacific 设备支持
-        soft_grace_time: 超限时间（可选），0~4294967294，单位（天）；表示软配超限多长时间后自动转硬超限；不传或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
-        parent_id: 父资源 ID（必填），1~64 个字符
-        parent_type: 父资源类型（必填），可选值：filesystem（文件系统）、dtree（dtree，存储集群不支持）、namespace（命名空间）
-        quota_type: 配额类型（必填），可选值：directory_quota（目录配额）、user_quota（用户配额）、user_group_quota（用户组配额）
-        quota_owner: 配额用户（条件必传），QuotaOwner 对象。参数格式如下：{
-                        name: 用户（组）名称（必填），1~64 个字符，* 表示所有用户（组）,
-                        type: 用户（组）类型（必填），当 quota_type 为 user_quota 时可选值：unix_local_user（unix 本地用户）、domain_user（域用户）、windows_user（windows 用户）；当 quota_type 为 user_group_quota 时可选值：unix_local_user_group（unix 本地用户组）、domain_user_group（域用户组）、windows_user_group（windows 用户组）,
-                        domain_type: 域用户类型（条件必传），当 type 为 domain_user 或 domain_user_group 时必传；可选值：local（本地）、ad_domain（AD 域）、ldap_domain（LDAP 域）、nis_domain（NIS 域）；OceanStor Pacific、OceanStor Dorado V6、OceanProtect 支持该字段,
+        client: DME API client
+        space_soft_quota: Space soft quota (Optional), in Bytes, default -1 (invalid); space hard quota must be greater than soft when both valid; must be multiple of 1048576 for OceanStor V5
+        space_hard_quota: Space hard quota (Optional), in Bytes, default -1 (invalid); must be greater than soft quota when both valid; must be multiple of 1048576 for OceanStor V5
+        space_advisory_quota: Space advisory quota (Optional), in Bytes, default -1 (invalid); OceanStor Pacific only; must be less than hard/soft quota
+        file_soft_quota: File soft quota (Optional), default -1 (invalid); file hard quota must be greater than soft when both valid
+        file_hard_quota: File hard quota (Optional), default -1 (invalid); must be greater than soft quota when both valid
+        file_advisory_quota: File advisory quota (Optional), default -1 (invalid); OceanStor Pacific only; must be less than hard/soft quota
+        snap_space_switch: Include snapshot space (Optional), default false; OceanStor Pacific only
+        soft_grace_time: Grace period (Optional), 0~4294967294, in days; OceanStor Pacific only
+        parent_id: Parent resource ID (Required), 1~64 characters
+        parent_type: Parent resource type (Required). Options: filesystem, dtree, namespace
+        quota_type: Quota type (Required). Options: directory_quota, user_quota, user_group_quota
+        quota_owner: Quota owner (Conditionally Required), QuotaOwner object。参数格式如下：{
+                        name: User (group) name (Required), 1~64 characters, * = all users (groups),
+                        type: User (group) type (Required). Options: unix_local_user, domain_user, windows_user (for user_quota); unix_local_user_group, domain_user_group, windows_user_group (for user_group_quota),
+                        domain_type: Domain user type (Conditionally Required). Options: local, ad_domain, ldap_domain, nis_domain,
         }
-        dir_quota_target: 目录配额作用目标（可选），可选值：dtree（模板目录配额，作用于当前文件系统下的所有 Dtree）、filesystem（根目录配额，作用于当前文件系统）；当父资源类型为 filesystem 且配额类型为 directory_quota 时有效
-        task_remarks: 异步任务备注信息
+        dir_quota_target: Directory quota target (Optional). Options: dtree, filesystem; effective when parent is filesystem and quota_type is directory_quota
+        task_remarks: Async task remark
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/quotas"
