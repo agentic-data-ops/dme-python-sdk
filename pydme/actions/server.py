@@ -15,14 +15,14 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
         name: 服务器名称过滤（Optional）
         server_type: 服务器类型过滤（Optional）
     
     Returns:
         {
-            total: 服务器总数 (integer),
+            total: 服务器Total count (integer),
             servers: Server list (List<ServerInfo>)。参数格式如下：[{
                 id: 服务器ID (string),
                 name: 服务器名称 (string),
@@ -77,7 +77,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: 服务器 ID
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
 
     Returns:
@@ -103,7 +103,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: 服务器 ID
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
     
     Returns:
@@ -129,7 +129,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: 服务器 ID
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
     
     Returns:
@@ -183,7 +183,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: 服务器 ID
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
     
     Returns:
@@ -209,7 +209,7 @@ def power_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: 服务器 ID
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
     
     Returns:
@@ -235,7 +235,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: 服务器 ID
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
     
     Returns:
@@ -261,7 +261,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     Args:
         client: DME API client
         server_id: 服务器 ID
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
     
     Returns:

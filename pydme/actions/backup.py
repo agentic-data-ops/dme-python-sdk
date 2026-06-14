@@ -18,12 +18,12 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: 备份集群名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
         {
-            total: 集群总数 (integer),
+            total: 集群Total count (integer),
             clusters: Backup cluster list。参数格式如下：[{
                 id: 集群ID (string),
                 name: 集群名称 (string),
@@ -80,12 +80,12 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
         client: DME API client
         cluster_id: 备份集群 ID（Required）
         quota_type: 配额类型（Optional）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
         {
-            total: 配额总数 (integer),
+            total: 配额Total count (integer),
             quotas: Tenant quota list。参数格式如下：[{
                 tenant_id: Tenant ID (string),
                 quota: 配额大小 (integer),

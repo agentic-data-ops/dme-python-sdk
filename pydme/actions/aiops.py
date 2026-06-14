@@ -195,7 +195,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         occur_utc_start: 告警发生开始时间(毫秒时间戳)
         occur_utc_end: 告警发生结束时间(毫秒时间戳)
         fields: 指定返回的字段列表
-        page_no: 分页查询的起始页码,默认 1
+        page_no: 分页查询的Start page,默认 1
         page_size: 每页数量,1~1000,默认 100(Current alarm查询用)
         cleared: 是否已清除,true/false(History alarm查询用)
         size: 返回的结果集最大条数,1~1000,默认 100(History alarm查询用)
@@ -210,7 +210,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
                 severity: Alarm severity (string),
                 status: 状态 (string),
             }, ...],
-            total: 告警总数 (integer),
+            total: 告警Total count (integer),
         }
     """
     result = {
@@ -377,7 +377,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         {
             task_id: Task ID (string, 1~64个字符),
         }，包含:
-        - total: 智能分析任务总数
+        - total: 智能分析任务Total count
         - data: 智能分析任务响应结果列表，每项包含:
             - id: 任务 ID
             - analysis_type: 分析类型
@@ -576,7 +576,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     Args:
         client: DME API client
-        filter: 过滤关键字(Optional),用于模糊匹配 zh_cn 和 en_us 字段
+        filter: 过滤关键字(Optional),用于fuzzy match zh_cn 和 en_us 字段
                 如果提供,仅返回匹配的Object type
 
     Returns:
@@ -664,9 +664,9 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            storage_name_space（命名空间）, storage_node（存储节点）, dpc（并行客户端）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
         object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
-        page_no: 分页查询的起始位置（Optional，min：1）
-        page_size: 每页显示的数量（Optional，1~100，默认 20）
-        sort_key: 排序字段（Optional），按分数进行排序，Optional值：health_score
+        page_no: 分页查询的Start position（Optional，min：1）
+        page_size: Items per page（Optional，1~100，默认 20）
+        sort_key: Sort field（Optional），按分数进行排序，Optional值：health_score
         sort_dir: 排序方式（Optional），Optional值：asc, desc
 
     Returns:
@@ -797,7 +797,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
     Args:
         client: DME API client
         policy_name: 策略名称（supports fuzzy search，1~256 个字符）
-        exact_query: 名称是否精确查询（true-精确查询，false-模糊查询），默认 false
+        exact_query: 名称是否exact match（true-exact match，false-fuzzy search），默认 false
         status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-排队中）
         policy_type: 策略类型（performance-性能阈值，capacity-容量阈值，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
@@ -808,8 +808,8 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
         page_no: 分页查询的页码，1~1000，默认 1
-        page_size: 分页查询的个数，1~100，默认 20
-        sort_key: 排序字段（last_check_time-最后检查时间，failed_count-检查不通过的object个数）
+        page_size: Items per page，1~100，默认 20
+        sort_key: Sort field（last_check_time-最后检查时间，failed_count-检查不通过的object个数）
         sort_dir: 排序方式（asc-正序，desc-降序）
         administrative_status: Management status（enable-启用，disable-禁用）
         policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
@@ -819,7 +819,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含 total（总数）和 policies（策略列表）
+        }，包含 total（Total count）和 policies（策略列表）
     """
     url = "/rest/policymgmt/v2/policies/query"
 
@@ -965,7 +965,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         object_ids: object ID 列表（最多 100 个）
         object_native_id: object nativeId（1~384 个字符）
         object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
-        policy_id: 策略 ID（精确查询，1~64 个字符）
+        policy_id: 策略 ID（exact match，1~64 个字符）
         policy_name: 策略名称（supports fuzzy search，1~256 个字符）
         policy_types: 策略类型列表（最多 30 个）
         cause: 异常原因（supports fuzzy search，1~768 个字符）
@@ -973,14 +973,14 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         first_occur_time: 第一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
         last_occur_time: 最后一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
         page_no: 分页查询的页码，1~10000，默认 1
-        page_size: 分页查询的个数，1~2000，默认 20
-        sort_key: 排序字段（violation_count-异常次数）
+        page_size: Items per page，1~2000，默认 20
+        sort_key: Sort field（violation_count-异常次数）
         sort_dir: 排序方式（asc-正序，desc-降序）
 
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含 total（总数）和 results（异常检查结果列表）
+        }，包含 total（Total count）和 results（异常检查结果列表）
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/query"
 
@@ -1070,8 +1070,8 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
         storage_pool_id: 存储池 ID（Required）
         lun_name: LUN 名称，supports fuzzy match
         san_type: SAN 类型，Optional值：ip_san, fc_san
-        page_size: 分页查询的个数，1~20，默认 20
-        page_no: 分页查询的起始位置，默认 1
+        page_size: Items per page，1~20，默认 20
+        page_no: 分页查询的Start position，默认 1
 
     Returns:
         {
@@ -1209,14 +1209,14 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
             - storage_pool: 存储池
         host_id: 主机 ID（Required）
         vm_name: 虚拟机名称搜索参数，supports fuzzy match
-        page_size: 分页查询的个数，1~20，默认 20
-        page_no: 分页查询的起始位置，默认 1
+        page_size: Items per page，1~20，默认 20
+        page_no: 分页查询的Start position，默认 1
 
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
         }，包含：
-        - total: Query result总数
+        - total: Query resultTotal count
         - vms: VM list
         - disks: 物理主机关联的物理磁盘列表
     """

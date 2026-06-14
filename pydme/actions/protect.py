@@ -29,16 +29,16 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
         storage_id: Storage device ID，支持条件过滤
         raw_id: 保护组在设备上的 ID，支持精确搜索，支持排序
         lun_group_raw_id: LUN 组在设备上的 ID，支持条件过滤
-        vstore_id: 所属租户的 ID，该参数和 vstore_raw_id mutually exclusive
-        vstore_raw_id: 所属租户在设备上的 ID，该参数和 vstore_id mutually exclusive
-        sort_key: 排序字段，Optional值：sort_id
-        sort_dir: 排序方向，Optional值：asc, desc（默认 desc）
-        page_no: 分页查询页码，默认 1
-        page_size: 每页显示的数量，默认 20
+        vstore_id: Tenant的 ID，该参数和 vstore_raw_id mutually exclusive
+        vstore_raw_id: Tenant在设备上的 ID，该参数和 vstore_id mutually exclusive
+        sort_key: Sort field，Optional值：sort_id
+        sort_dir: Sort direction，Optional值：asc, desc（默认 desc）
+        page_no: Page number，默认 1
+        page_size: Items per page，默认 20
 
     Returns:
         {
-            total: 保护组总数 (integer),
+            total: 保护组Total count (integer),
             protection_groups: Protection group list (List<ProtectionGroupInfo>)。参数格式如下：[{
                 id: Protection group ID (string),
                 name: 保护组名称 (string),
@@ -275,12 +275,12 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
     Args:
         client: DME API client
         page_no: 分页查询的页码，默认 1
-        page_size: 每页显示的数量，默认 20
+        page_size: Items per page，默认 20
         name: 双活一致性组名称，supports fuzzy match
         raw_id: 双活一致性组在设备上的 ID
         protect_group_id: 保护组 ID
         storage_id: Storage device ID，支持本端存储 ID 过滤
-        storage_name: Storage device name，支持本端存储名称模糊匹配
+        storage_name: Storage device name，支持本端存储名称fuzzy match
         local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: 所属本端租户在设备上的 ID，该参数和 local_vstore_id mutually exclusive
         remote_vstore_id: 所属远端租户的 ID，该参数和 remote_vstore_raw_id mutually exclusive
@@ -593,7 +593,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
     Args:
         client: DME API client
         page_no: 分页查询的页码，默认 1
-        page_size: 每页显示的数量，默认 20
+        page_size: Items per page，默认 20
         group_id: 所属双活一致性组 ID
         group_name: 所属双活一致性组名称，supports fuzzy match
         group_raw_id: 所属双活一致性组在存储设备上的 ID
@@ -936,7 +936,7 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
     Args:
         client: DME API client
         page_no: 分页查询的页码，默认 1
-        page_size: 每页显示的数量，默认 20
+        page_size: Items per page，默认 20
         group_id: 所属复制一致性组 ID
         group_name: 所属复制一致性组名称，supports fuzzy match
         pair_raw_id: 复制 Pair 在存储设备上的 ID
@@ -2141,14 +2141,14 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
         local_fs_id: 本端Filesystem ID (Optional, string)
         health_status: Health status (Optional, string)
         running_status: 运行状态 (Optional, string)
-        sort_key: 排序字段 (Optional, string)
-        sort_dir: 排序方向 (Optional, string)
-        page_no: 分页页码 (Optional, int32)
+        sort_key: Sort field (Optional, string)
+        sort_dir: Sort direction (Optional, string)
+        page_no: Page number (Optional, int32)
         page_size: 每页数量 (Optional, int32)
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             filesystem_pairs: Filesystem active-active pair list。参数格式如下：[{
                 id: Pair ID (string),
                 name: 名称 (string),
@@ -2323,12 +2323,12 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
         status: 快照状态 (Optional, string)
         local_fs_name: 本端Filesystem name (Optional, string)
         local_fs_id: 本端Filesystem ID (Optional, string)
-        page_no: 分页页码 (Optional, int32)
+        page_no: Page number (Optional, int32)
         page_size: 每页数量 (Optional, int32)
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             snapshots: Filesystem snapshot list。参数格式如下：[{
                 id: 快照ID (string),
                 name: 快照名称 (string),
@@ -2471,12 +2471,12 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
         remote_storage_id: 远端Storage device ID (Optional, string)
         health_status: Health status (Optional, string)
         running_status: 运行状态 (Optional, string)
-        page_no: 分页页码 (Optional, int32)
+        page_no: Page number (Optional, int32)
         page_size: 每页数量 (Optional, int32)
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             vstore_pairs: Active-active tenant pair list。参数格式如下：[{
                 id: Pair ID (string),
                 name: 名称 (string),

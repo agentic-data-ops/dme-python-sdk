@@ -20,7 +20,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     
     Returns:
         {
-            total: 总数量 (integer),
+            total: Total count (integer),
             data_list: Switch list。参数格式如下：[{
                 id: 交换机ID (string),
                 name: 交换机名称 (string),

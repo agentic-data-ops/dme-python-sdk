@@ -1738,11 +1738,11 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     Args:
         client: DME API 客户端
         storage_host_id: 存储主机 ID（Required，1~64 字符）
-        name: LUN 名称（可选，1~256 字符，支持模糊搜索）
-        page_size: 分页查询的个数（可选，1~1000，默认 20）
-        page_no: 分页查询的起始位置（可选，1~10000000，默认 1）
-        sort_key: 排序字段（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
-        sort_dir: 排序方向（可选，asc/desc，默认 desc）
+        name: LUN 名称（可选，1~256 字符，支持fuzzy search）
+        page_size: Items per page（可选，1~1000，默认 20）
+        page_no: 分页查询的Start position（可选，1~10000000，默认 1）
+        sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
+        sort_dir: Sort direction（可选，asc/desc，默认 desc）
 
     Returns:
         {
@@ -1780,11 +1780,11 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     Args:
         client: DME API 客户端
         storage_host_group_id: 存储主机组 ID（Required，1~64 字符）
-        name: LUN 名称（可选，1~256 字符，支持模糊搜索）
-        page_size: 分页查询的个数（可选，1~1000，默认 20）
-        page_no: 分页查询的起始位置（可选，1~10000000，默认 1）
-        sort_key: 排序字段（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
-        sort_dir: 排序方向（可选，asc/desc，默认 desc）
+        name: LUN 名称（可选，1~256 字符，支持fuzzy search）
+        page_size: Items per page（可选，1~1000，默认 20）
+        page_no: 分页查询的Start position（可选，1~10000000，默认 1）
+        sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
+        sort_dir: Sort direction（可选，asc/desc，默认 desc）
 
     Returns:
         {

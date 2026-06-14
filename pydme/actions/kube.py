@@ -16,12 +16,12 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: 容器集群名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
         {
-            total: 集群总数 (integer),
+            total: 集群Total count (integer),
             clusters: Container cluster list。参数格式如下：[{
                 id: 集群ID (string),
                 name: 集群名称 (string),
@@ -52,7 +52,7 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
         client: DME API client
         cluster_id: 容器集群 ID（Optional）
         name: 容器节点名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -93,7 +93,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
         cluster_id: 容器集群 ID（Optional）
         namespace: 容器命名空间（Optional）
         name: 容器组名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -132,7 +132,7 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
         client: DME API client
         cluster_id: 容器集群 ID（Optional）
         name: Namespace name（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -167,7 +167,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
         cluster_id: 容器集群 ID（Optional）
         namespace: 容器命名空间（Optional）
         name: 持久卷声明名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -208,7 +208,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
         client: DME API client
         cluster_id: 容器集群 ID（Optional）
         name: 持久卷名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:

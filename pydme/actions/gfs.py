@@ -25,11 +25,11 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
         raw_id: Omni-Dataverse 在设备侧的 id
         max_site_num: Omni-Dataverse 下数据服务站点最大数量
         page_no: 分页查询的页码，默认 1，范围 1~10000
-        page_size: 分页查询的个数，默认 100，范围 1~1000
+        page_size: Items per page，默认 100，范围 1~1000
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             gfs_groups: Omni-Dataverse 列表。参数格式如下：[{
                 id: ID (string),
                 name: 名称 (string),
@@ -99,7 +99,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
         storage_pool_name: 根据Storage pool name查询数据服务站点，supports fuzzy search
         account_name: 根据账户名称查询数据服务站点，supports fuzzy search
         page_no: 分页查询的页码，默认 1，范围 1~10000
-        page_size: 分页查询的个数，默认 100，范围 1~1000
+        page_size: Items per page，默认 100，范围 1~1000
 
     Returns:
         数据服务站点列表
@@ -146,7 +146,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         gfs_group_id: 所属全局数据空间的 ID (1~32个字符, Optional)
         gfs_type: 全局命名空间类型 (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
         sort_key: 按照指定字段排序 (Optional)。Optional值：child_name_space_num
-        sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。Default：asc
+        sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：asc
         page_no: 分页起始页 (int32, 1~1000, Default: 1, Optional)
         page_size: 每页查询的数量 (int32, 1~1000, Default: 20, Optional)
 
@@ -344,10 +344,10 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         status: 任务状态列表 (List<string>, max array members: 9, Optional)。Optional值：not_run (未运行), synchronizing (数据同步中), completed (完成), suspended (已暂停), faulty (故障), to_be_scheduled (待调度), partially_success (部分成功), failed (失败), unknown (未知)
         task_mode: 任务模式列表 (List<string>, max array members: 2, Optional)
         execute_mode: 执行模式列表 (List<string>, max array members: 2, Optional)
-        page_no: 分页查询页码 (int32, 1~1000, Default: 1, Optional)
-        page_size: 每页显示的数量 (int32, 1~1000, Default: 20, Optional)
-        sort_dir: 指定排序方向 (Optional)。Optional值：asc (升序), desc (降序)。Default：desc
-        sort_key: 排序参数 (Optional)。Optional值：progress (Task execution进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
+        page_no: Page number (int32, 1~1000, Default: 1, Optional)
+        page_size: Items per page (int32, 1~1000, Default: 20, Optional)
+        sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：desc
+        sort_key: Sort key (Optional)。Optional值：progress (Task execution进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
 
     Returns:
         数据迁移Task list

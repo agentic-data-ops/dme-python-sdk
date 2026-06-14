@@ -221,10 +221,10 @@ def tier_list(client: DMEAPIClient, name: str = None,
         project_id: 业务群组 ID（Optional）
         available_zone_id: 可用区 ID（Optional）
         storage_array_id: Storage device ID（Optional）
-        start: 查询的起始位置，默认 0
+        start: 查询的Start position，默认 0
         limit: 每页数量，10~1000，默认 200
-        sort_key: 排序字段，name/total_capacity/created_at，默认 name
-        sort_dir: 排序方向，asc/desc，默认 asc
+        sort_key: Sort field，name/total_capacity/created_at，默认 name
+        sort_dir: Sort direction，asc/desc，默认 asc
         type: 存储类型，FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
 
     Returns:
@@ -271,7 +271,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     Args:
         client: DME API client
         tier_id: 服务等级 ID（Optional）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，10~1000，默认 200
 
     Returns:
@@ -338,7 +338,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     Args:
         client: DME API client
         project_id: 业务群组 ID（Optional）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，10~1000，默认 200
 
     Returns:

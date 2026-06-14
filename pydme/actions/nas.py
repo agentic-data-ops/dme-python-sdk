@@ -1569,10 +1569,10 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
     Args:
         client: DME API 客户端
         dataturbo_share_id: DataTurbo 共享 ID
-        page_no: 分页页码（可选），1~10000000，默认 1
-        page_size: 每页数据条数（可选），1~1000，默认 10
-        user_id: DataTurbo 管理员 ID（可选），1~64 个字符，精确查询
-        user_name: DataTurbo 管理员名称（可选），1~256 个字符，支持模糊搜索
+        page_no: Page number（可选），1~10000000，默认 1
+        page_size: Items per page（可选），1~1000，默认 10
+        user_id: DataTurbo 管理员 ID（可选），1~64 个字符，exact match
+        user_name: DataTurbo 管理员名称（可选），1~256 个字符，支持fuzzy search
         permission: DataTurbo 管理员权限（可选），可选值：read_and_write（读写）
 
     Returns:
@@ -1868,29 +1868,29 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
 
     Args:
         client: DME API 客户端
-        page_no: 分页查询页码（可选），1~10000000
-        page_size: 每页显示的数量（可选），1~1000，默认 100
-        sort_dir: 指定排序方向（可选），可选值：asc（升序）、desc（降序）
-        sort_key: 排序参数（可选），可选值：capacity, available_capacity, capacity_usage_ratio,
+        page_no: Page number（可选），1~10000000
+        page_size: Items per page（可选），1~1000，默认 100
+        sort_dir: 指定Sort direction（可选），可选值：asc（升序）、desc（降序）
+        sort_key: Sort key（可选），可选值：capacity, available_capacity, capacity_usage_ratio,
                   nfs_count, cifs_count, dpc_count, dtree_count, name, allocate_pool_quota,
                   fs_raw_id, create_time, total_capacity_in_byte, available_capacity_in_byte,
                   alloc_capacity_in_byte, protection_capacity_in_byte, max_file_count, used_file_count
-        name: Filesystem name（可选），1~256 个字符，与 fs_raw_id mutually exclusive，支持模糊匹配
+        name: Filesystem name（可选），1~256 个字符，与 fs_raw_id mutually exclusive，支持fuzzy match
         is_associated_qos: 文件系统是否已关联 QoS（可选），true：是；false：否
         qos_id: QoS 策略 ID（可选），1~256 个字符
-        storage_name: 文件系统所属设备名称（可选），1~256 个字符，与 storage_id mutually exclusive，支持模糊匹配
+        storage_name: 文件系统所属设备名称（可选），1~256 个字符，与 storage_id mutually exclusive，支持fuzzy match
         manufacturer: Storage device vendor（可选），1~64 个字符；可选值：huawei（Huawei）、dell_emc（DELL EMC）、
                      fujitsu（FUJITSU）、hitachi（Hitachi）、hpe（HPE）、ibm（IBM）、netapp（NetApp）、
                      pure（PURE）、panji（Panji）、third_part（非华为存储设备）
-        storage_pool_name: 文件系统所属Storage pool name（可选），1~256 个字符，与 storage_pool_id mutually exclusive，支持模糊匹配
+        storage_pool_name: 文件系统所属Storage pool name（可选），1~256 个字符，与 storage_pool_id mutually exclusive，支持fuzzy match
         storage_pool_id: 存储池 ID（可选），1~255 个字符，与 storage_pool_name mutually exclusive
-        tier_name: 文件系统所属Service level name（可选），1~256 个字符，与 tier_id mutually exclusive，支持模糊匹配
-        tier_id: 服务等级 ID（可选），1~256 个字符，与 tier_name mutually exclusive，精确匹配
-        vstore_name: 文件系统所属 vStore 名称（可选），1~256 个字符，与 vstore_raw_id mutually exclusive，支持模糊匹配
-        vstore_raw_id: 文件系统所属租户在存储设备上的 ID（可选），1~64 个字符，与 vstore_name mutually exclusive
-        project_name: 文件系统所属业务群组名称（可选），1~256 个字符，与 project_id mutually exclusive，支持模糊匹配
-        project_id: 业务群组 ID（可选），1~256 个字符，与 project_name mutually exclusive，精确匹配
-        storage_id: 归属Storage device ID（可选），1~256 个字符，与 storage_name mutually exclusive，精确匹配
+        tier_name: 文件系统所属Service level name（可选），1~256 个字符，与 tier_id mutually exclusive，支持fuzzy match
+        tier_id: 服务等级 ID（可选），1~256 个字符，与 tier_name mutually exclusive，exact match
+        vstore_name: 文件系统所属 vStore 名称（可选），1~256 个字符，与 vstore_raw_id mutually exclusive，支持fuzzy match
+        vstore_raw_id: 文件系统Tenant在存储设备上的 ID（可选），1~64 个字符，与 vstore_name mutually exclusive
+        project_name: 文件系统Project group名称（可选），1~256 个字符，与 project_id mutually exclusive，支持fuzzy match
+        project_id: 业务群组 ID（可选），1~256 个字符，与 project_name mutually exclusive，exact match
+        storage_id: 归属Storage device ID（可选），1~256 个字符，与 storage_name mutually exclusive，exact match
         fs_raw_id: 文件系统在设备上的 ID（可选），1~256 个字符，与 name mutually exclusive
         health_status: Health status（可选），可选值：normal（正常）、faulty（故障）、unknown（未知）
         running_status: 运行状态（可选），可选值：online（在线）、offline（离线）、invalid（失效）、
@@ -1903,7 +1903,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         dc_id: 数据中心 ID（可选），1~128 个字符，正则 ^[_A-Fa-f0-9\\-]+$
         dc_name: Data center name（可选），1~256 个字符
         zone_id: 所属 zone 的 ID（可选），1~256 个字符；仅 OceanStor A800 系列文件系统支持搜索，传入集群ID代表查询全局文件系统
-        product_name: 文件系统所属设备产品名称（可选），1~256 个字符，支持模糊搜索
+        product_name: 文件系统所属设备产品名称（可选），1~256 个字符，支持fuzzy search
         description: 文件系统Description（可选），1~255 个字符
         tag_filters: 标签过滤列表（可选），List<TagFilters> 类型，max array members 11。参数格式如下：[{
                         tag_ids: 标签 ID 列表（可选），max array members 10，多个标签之间为或关系,
@@ -2145,11 +2145,11 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         alarm_level: Alarm severity (可选)。可选值：event, alarm,
                         alarm_threshold: 告警阈值% (可选, 0~100),
                         resume_threshold: 恢复阈值% (可选, 0~100),
-                        storage_divice_id: 所属存储设备id (可选),
+                        storage_divice_id: Storage deviceid (可选),
                         name: QoS名称 (可选),
                         description: 描述 (可选),
                         iotype: 策略类型 (可选)。可选值：2 (总上限), 3 (读写上限),
-                        vstore_id: 所属租户id (可选),
+                        vstore_id: Tenantid (可选),
                         vstore_name: 所属Tenant name (可选),
                         global_flag: 是否全局 (可选),
                 }
@@ -2289,11 +2289,11 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
         feature_type: 特性类型，当前仅支持 remote_replication（远程复制）
         local_storage_id: 本端Storage device ID
         remote_storage_id: 远端Storage device ID（当 feature_type 为 remote_replication 时Required）
-        name: 本端Filesystem name，支持模糊搜索
-        page_no: 分页查询页码，默认 1
-        page_size: 每页显示的数量，默认 20
-        sort_key: 排序字段，name（Filesystem name）或 capacity（文件系统容量）
-        sort_dir: 排序方向，asc（升序）或 desc（降序）
+        name: 本端Filesystem name，支持fuzzy search
+        page_no: Page number，默认 1
+        page_size: Items per page，默认 20
+        sort_key: Sort field，name（Filesystem name）或 capacity（文件系统容量）
+        sort_dir: Sort direction，asc（升序）或 desc（降序）
 
     Returns:
         可用文件系统列表
@@ -2518,16 +2518,16 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
     
     Args:
         client: DME API 客户端
-        page_no: 分页查询页码（可选），1~10000000
-        page_size: 每页显示的数量（可选），1~1000，默认 100
-        sort_dir: 指定排序方向（可选），可选值：asc（升序）、desc（降序）
-        sort_key: 排序参数（可选），可选值：namespace_used_rate、file_used_rate
-        name: Namespace name（可选），1~256 个字符，支持模糊查询
-        vstore_name: 命名空间所属Tenant name（可选），1~256 个字符，支持模糊查询
+        page_no: Page number（可选），1~10000000
+        page_size: Items per page（可选），1~1000，默认 100
+        sort_dir: 指定Sort direction（可选），可选值：asc（升序）、desc（降序）
+        sort_key: Sort key（可选），可选值：namespace_used_rate、file_used_rate
+        name: Namespace name（可选），1~256 个字符，支持fuzzy search
+        vstore_name: 命名空间所属Tenant name（可选），1~256 个字符，支持fuzzy search
         vstore_raw_id: 命名空间所属 vStore 在存储设备上分配的 ID（可选），1~128 个字符
         vstore_id: 命名空间所属 vStore 的 ID（可选），1~128 个字符
         raw_id: 命名空间在存储设备上的 ID（可选），1~256 个字符
-        pool_name: Storage pool name（可选），1~256 个字符，支持模糊查询
+        pool_name: Storage pool name（可选），1~256 个字符，支持fuzzy search
         storage_id: 归属Storage device ID（可选），1~255 个字符
         enable_encrypt: 是否开启加密（可选），true：是；false：否
         support_provisioning: 是否支持业务发放（可选），true：是；false：否；下发此字段可过滤不支持业务发放设备的资源，当前不支持业务发放的设备有 DataTurbo 系列
@@ -2986,15 +2986,15 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
 
     Args:
         client: DME API 客户端
-        page_no: 分页查询的起始页码（可选），min 1，默认 1
+        page_no: 分页查询的Start page（可选），min 1，默认 1
         page_size: 单页显示的数量（可选），1~1000，默认 20
         nfs_share_id: NFS 共享 ID（可选），1~64 个字符
         storage_id: Storage device ID（可选），1~64 个字符；如果指定 nfs_share_id，则此参数无效
         vstore_id_in_storage: vStore ID（可选），1~256 个字符；vStore 场景下必须下发
-        name: 客户端 IP 或主机名或网络组名（可选），1~256 个字符；指定 nfs_share_id 条件下支持模糊搜索
+        name: 客户端 IP 或主机名或网络组名（可选），1~256 个字符；指定 nfs_share_id 条件下支持fuzzy search
         client_id_in_storage: NFS 共享客户端 ID（可选），1~256 个字符
-        sort_key: 排序字段（可选），可选值：raw_id、name
-        sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
+        sort_key: Sort field（可选），可选值：raw_id、name
+        sort_dir: Sort direction（可选），可选值：asc（升序）、desc（降序），默认 asc
 
     Returns:
         客户端访问列表
@@ -3041,15 +3041,15 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         client: DME API 客户端
         storage_id: 设备 ID (1~64个字符, Optional)
         vstore_id: 租户的 ID (1~64个字符, Optional)
-        vstore_name: 租户的名称，支持模糊查询 (1~256个字符, Optional)
+        vstore_name: 租户的名称，支持fuzzy search (1~256个字符, Optional)
         zone_id: 所属 zone 的 ID (1~64个字符, Optional)。当资源所属范围为全局时，Zone ID 为所属设备的 Id；当资源所属范围为本地时，Zone ID 为所属 Zone 的 ID。仅 OceanStor A800 系列存储支持
-        name: DataTurbo 管理员名，支持模糊查询 (1~256个字符, Optional)
+        name: DataTurbo 管理员名，支持fuzzy search (1~256个字符, Optional)
         online_status: DataTurbo 管理员Online status (可选)。可选值：offline (离线), online (在线)
         lock_status: DataTurbo 管理员Lock status (可选)。可选值：unlocked (未锁定), locked (锁定)
         account_state: DataTurbo 管理员密码状态 (可选)。可选值：normal (正常), expired (密码过期), initial (用户密码处于初始化状态，需要修改), expiring_soon (密码即将到期), change_required (下一次登录必须修改密码), never (密码永不过期)
         sort_key: 按照指定字段排序 (可选)。可选值：create_time
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)
-        page_no: 分页查询的起始页码 (int32, min: 1, Default: 1, Optional)
+        sort_dir: 指定Sort direction (可选)。可选值：asc (升序), desc (降序)
+        page_no: 分页查询的Start page (int32, min: 1, Default: 1, Optional)
         page_size: 单页显示的数量 (int32, min: 1, max: 1000, Default: 20, Optional)
 
     Returns:
@@ -3147,7 +3147,7 @@ def account_unix_user_group_create(client: DMEAPIClient, storage_id: str, name: 
         name: UNIX 用户组名称 (1~64个字符, Required)
         raw_id: UNIX 用户组 ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310 存储Required)
         description: UNIX 用户组描述 (0~255个字符, Optional)
-        vstore_raw_id: 用户所属租户在存储设备上的 ID (1~32个字符, Required)
+        vstore_raw_id: 用户Tenant在存储设备上的 ID (1~32个字符, Required)
         zone_id: 所属 Zone ID (1~64个字符, Optional。仅 OceanStor A800 存储支持)
 
     Returns:
@@ -3206,17 +3206,17 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
 
     Args:
         client: DME API 客户端
-        page_no: 分页查询的起始位置 (int32, 1~2147483647, Default: 1, Optional)
-        page_size: 每页显示的数量 (int32, 10~100, Default: 100, Optional)
-        storage_name: 设备名称，支持模糊匹配过滤 (1~256个字符, Optional)
-        vstore_raw_id: 所属租户在存储设备上的 ID (1~64个字符, Optional)
-        vstore_name: 所属Tenant name，支持模糊搜索过滤 (1~256个字符, Optional)
-        name: 用户组名称，支持模糊搜索过滤 (1~256个字符, Optional)
+        page_no: 分页查询的Start position (int32, 1~2147483647, Default: 1, Optional)
+        page_size: Items per page (int32, 10~100, Default: 100, Optional)
+        storage_name: 设备名称，支持fuzzy match过滤 (1~256个字符, Optional)
+        vstore_raw_id: Tenant在存储设备上的 ID (1~64个字符, Optional)
+        vstore_name: 所属Tenant name，支持fuzzy search过滤 (1~256个字符, Optional)
+        name: 用户组名称，支持fuzzy search过滤 (1~256个字符, Optional)
         raw_id: 用户组在存储设备上的 ID (1~256个字符, Optional)
         zone_id: Zone ID (1~64个字符, Optional)。仅 OceanStor A800 存储下的认证用户组支持通过该字段过滤
         sort_key: 按照指定字段排序 (可选)。可选值：name (用户组名), raw_id (用户组在存储设备上的 ID), create_time (创建时间)。Default：create_time
         storage_id: Storage device ID (1~36个字符, Optional)
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。Default：desc
+        sort_dir: 指定Sort direction (可选)。可选值：asc (升序), desc (降序)。Default：desc
 
     Returns:
         UNIX 认证User group list
@@ -3320,12 +3320,12 @@ def account_unix_user_group_batch_delete(client: DMEAPIClient, ids: list) -> dic
 def account_unix_user_remove_group(client: DMEAPIClient, user_id: str,
                                     secondary_group_name_list: list) -> dict:
     """
-    移除 UNIX 用户附属组
+    移除 UNIX 用户secondary group
 
     Args:
         client: DME API 客户端
         user_id: UNIX 用户 ID (1~32个字符, Required)
-        secondary_group_name_list: 附属组名称列表 (List<string>, min array members: 1, max array members: 100, Required)
+        secondary_group_name_list: secondary group名称列表 (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3369,19 +3369,19 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
 
     Args:
         client: DME API 客户端
-        page_no: 分页查询的起始位置 (int32, 1~2147483647, Default: 1, Optional)
-        page_size: 每页显示的数量 (int32, 10~100, Default: 100, Optional)
-        storage_name: 设备名称，支持模糊搜索过滤 (1~256个字符, Optional)
-        vstore_raw_id: 所属租户在存储设备上的 ID (1~64个字符, Optional)
-        vstore_name: 所属Tenant name，支持模糊搜索过滤 (1~256个字符, Optional)
-        name: 用户名称，支持模糊搜索过滤 (1~256个字符, Optional)
-        primary_group_name: 主组名称，支持模糊搜索过滤 (1~256个字符, Optional)
+        page_no: 分页查询的Start position (int32, 1~2147483647, Default: 1, Optional)
+        page_size: Items per page (int32, 10~100, Default: 100, Optional)
+        storage_name: 设备名称，支持fuzzy search过滤 (1~256个字符, Optional)
+        vstore_raw_id: Tenant在存储设备上的 ID (1~64个字符, Optional)
+        vstore_name: 所属Tenant name，支持fuzzy search过滤 (1~256个字符, Optional)
+        name: 用户名称，支持fuzzy search过滤 (1~256个字符, Optional)
+        primary_group_name: 主组名称，支持fuzzy search过滤 (1~256个字符, Optional)
         raw_id: 用户在存储设备上的 ID (1~255个字符, Optional)
         zone_id: Zone ID (1~64个字符, Optional)。仅 OceanStor A800 存储下的认证用户支持通过该字段过滤
         user_status: 用户状态 (可选)。可选值：enable (启用), disable (禁用)
         sort_key: 按照指定字段排序 (可选)。可选值：name (用户名), raw_id (用户在存储设备上的 ID), primary_group_name (主组名), create_time (创建时间)。Default：create_time
         storage_id: Storage device ID (1~36个字符, Optional)
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。Default：desc
+        sort_dir: 指定Sort direction (可选)。可选值：asc (升序), desc (降序)。Default：desc
 
     Returns:
         UNIX 认证User list
@@ -3423,12 +3423,12 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
 def account_unix_user_add_group(client: DMEAPIClient, user_id: str,
                                  secondary_group_name_list: list) -> dict:
     """
-    添加 UNIX 用户附属组
+    添加 UNIX 用户secondary group
 
     Args:
         client: DME API 客户端
         user_id: UNIX 用户 ID (1~32个字符, Required)
-        secondary_group_name_list: 附属组名称列表 (List<string>, min array members: 1, max array members: 100, Required)
+        secondary_group_name_list: secondary group名称列表 (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3460,10 +3460,10 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         description: UNIX 用户描述 (0~255个字符, Optional)
         primary_group_raw_id: 用户主组 ID (int64, 0~4294967294, Optional。与 primary_group_name 至少下发一个，若都下发仅 primary_group_name 生效)
         primary_group_name: 用户所归属的主组名称 (1~64个字符, Optional。与 primary_group_raw_id 至少下发一个，若都下发仅 primary_group_name 生效)
-        vstore_raw_id: 用户所属租户在存储设备上的 ID (1~32个字符, Required)
+        vstore_raw_id: 用户Tenant在存储设备上的 ID (1~32个字符, Required)
         zone_id: 所属 Zone ID (1~64个字符, Optional。仅 OceanStor A800 存储支持)
         status: 用户状态 (boolean, Optional。Default：true)。可选值：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 系列存储支持
-        secondary_group_name_list: 用户附属组名称列表 (List<string>, min array members: 0, max array members: 100, Optional)
+        secondary_group_name_list: 用户secondary group名称列表 (List<string>, min array members: 0, max array members: 100, Optional)
 
     Returns:
         创建结果
@@ -3627,10 +3627,10 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         fs_id: 文件系统 ID (长度为32个字符, Optional)
         fs_name: Filesystem name (1~256个字符, Optional)
         data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)
-        page_no: 分页页码 (int32, 1~10000, Default: 1, Optional)
-        page_size: 每页数据条数 (int32, 1~100, Default: 20, Optional)
-        sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。Default：asc
-        sort_key: 排序参数 (可选)。可选值：capacity (Total capacity), used_capacity (Used capacity), used_tokens (已使用的 token 数量), hit_ratio (命中率)
+        page_no: Page number (int32, 1~10000, Default: 1, Optional)
+        page_size: Items per page (int32, 1~100, Default: 20, Optional)
+        sort_dir: 指定Sort direction (可选)。可选值：asc (升序), desc (降序)。Default：asc
+        sort_key: Sort key (可选)。可选值：capacity (Total capacity), used_capacity (Used capacity), used_tokens (已使用的 token 数量), hit_ratio (命中率)
 
     Returns:
         KV Cache 库列表

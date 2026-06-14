@@ -21,7 +21,7 @@ def list(client: DMEAPIClient, name: str = None,
     
     Returns:
         {
-            total: 总数量 (integer),
+            total: Total count (integer),
             fcswitches: Switch list (List<FcSwitchInfo>)。参数格式如下：[{
                 id: 交换机ID (string),
                 name: 交换机名称 (string),
@@ -259,8 +259,8 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         zone_set: 所属 Zone 集合（Optional），supports fuzzy search，0~1024 个字符
         active_status: Zone 状态列表（Optional），max array members：2
         member_count: 成员数量（Optional），0~2147483647
-        sort_key: 排序字段（Optional），支持 member_count
-        sort_dir: 排序方向（Optional），asc：升序；desc：降序
+        sort_key: Sort field（Optional），支持 member_count
+        sort_dir: Sort direction（Optional），asc：升序；desc：降序
         page_no: 分页查询的页码（Optional），1~65535
         page_size: 每页数量（Optional），1~1000
 

@@ -36,14 +36,14 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
         zone_id: Zone ID (Optional, string, 1~64 characters)。仅OceanStor A系列存储支持。
         status: Tenant状态 (Optional, string)。可选值：active (已激活), inactive (未激活)
         nas_capacity_quota_alarm_switch: NAS容量配额告警开关 (Optional, boolean, true,false)。仅OceanStor A系列存储支持。
-        sort_key: 排序字段 (Optional, string)
-        sort_dir: 排序方向 (Optional, string)。可选值：asc (升序), desc (降序)
+        sort_key: Sort field (Optional, string)
+        sort_dir: Sort direction (Optional, string)。可选值：asc (升序), desc (降序)
         page_no: Page number (Optional, int32, 1~10000000). Default: 1
         page_size: Items per page (Optional, int32, 1~1000). Default: 100
 
     Returns:
         {
-            total: Tenant总数量 (integer),
+            total: TenantTotal count (integer),
             vstores: Tenant列表 (List<VstoreResp>, max array members：1000)。参数格式如下：[{
                 id: Tenant的唯一标识 (string, 1~64 characters),
                 qos_id: QoS策略ID (string, 1~64 characters),
@@ -262,15 +262,15 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
         client: DME API client。
         az: 可用分区 ID (Optional, string, 1~64 characters)
         source: 存储设备的来源 (Optional, string)。可选值：add (接入), record (录入), all (所有)。默认查询接入设备
-        dc_id: 存储设备所属数据中心的ID (Optional, string, 1~32个字符)
+        dc_id: 存储设备Data center的ID (Optional, string, 1~32个字符)
         tag_ids: 标签过滤列表 (Optional, string)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系
-        start: 分页查询的起始位置 (Optional, int32, 1~10000)。Default：1
+        start: 分页查询的Start position (Optional, int32, 1~10000)。Default：1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
         ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000个字符)。最多支持10个扩展属性组合过滤
 
     Returns:
         {
-            total: 存储设备总数 (int32),
+            total: 存储设备Total count (int32),
             datas: Storage device list (List<StorageSummaryInfo>)。参数格式如下：[{
                 id: Storage device ID (string),
                 name: Storage device name (string),
@@ -750,8 +750,8 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         zone_id: 所属Zone的ID（可选，1~256 characters），支持精确搜索，仅OceanStor A800存储支持
         page_no: 分页查询的页码（可选，1~10000，默认 1）
         page_size: 分页查询的每页大小（可选，1~1000，默认 10）
-        sort_key: 排序字段（可选）。可选值：total_capacity (存储池Total capacity), consumed_capacity (存储池Used capacity), free_capacity (存储池空闲容量，仅闪存存储), replication_capacity (存储池Protection capacity)
-        sort_dir: 排序方向（可选）。可选值：asc (升序), desc (降序)
+        sort_key: Sort field（可选）。可选值：total_capacity (存储池Total capacity), consumed_capacity (存储池Used capacity), free_capacity (存储池空闲容量，仅闪存存储), replication_capacity (存储池Protection capacity)
+        sort_dir: Sort direction（可选）。可选值：asc (升序), desc (降序)
 
     Returns:
         {
@@ -832,12 +832,12 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
         description: HyperScale存储池描述（可选，0~256个字符）
         page_no: 分页查询的页码（可选，1~10000，默认 1）
         page_size: 分页查询的每页大小（可选，1~1000，默认 20）
-        sort_key: 排序字段（可选）。可选值：raw_id (ID), total_capacity (存储池Total capacity), consumed_capacity (Used capacity), capacity_usage (容量利用率), free_capacity (空闲容量), subscribed_capacity_percentage (订阅率)
-        sort_dir: 排序方向（可选）。可选值：asc (升序), desc (降序)
+        sort_key: Sort field（可选）。可选值：raw_id (ID), total_capacity (存储池Total capacity), consumed_capacity (Used capacity), capacity_usage (容量利用率), free_capacity (空闲容量), subscribed_capacity_percentage (订阅率)
+        sort_dir: Sort direction（可选）。可选值：asc (升序), desc (降序)
 
     Returns:
         {
-            total: HyperScale存储池总数 (int32),
+            total: HyperScale存储池Total count (int32),
             data: HyperScale storage pool list (List<HyperScalePoolInfo>)。参数格式如下：[{
                 id: HyperScaleStorage pool ID (1~64 characters),
                 raw_id: 存储池在存储设备上的ID (1~64 characters),
@@ -909,8 +909,8 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         roles: 节点Role list（可选，List<string>，max array members：10）。可选值：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算)
         page_no: 分页查询的页码（可选，1~10000，默认 1）
         page_size: 分页查询的每页大小（可选，1~1000，默认 20）
-        sort_key: 排序字段（可选）。可选值：name (节点名称), mgmt_ip (节点管理IP地址)
-        sort_dir: 排序方向（可选）。可选值：asc (升序), desc (降序)
+        sort_key: Sort field（可选）。可选值：name (节点名称), mgmt_ip (节点管理IP地址)
+        sort_dir: Sort direction（可选）。可选值：asc (升序), desc (降序)
 
     Returns:
         {
@@ -1214,7 +1214,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
         {
             task_id: Task ID (string, 1~64 characters),
         }，包含 total 和 controllers 字段
-        - total: 控制器总数
+        - total: 控制器Total count
         - controllers: 控制器列表，包含 id, name, status, type 等信息
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/controllers"
@@ -1278,7 +1278,7 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
 
     Returns:
         {
-            total: 总数 (int32),
+            total: Total count (int32),
             disk_pools: Disk pool list。参数格式如下：[{
                 id: 硬盘池ID (string),
                 name: 硬盘池名称 (string),
@@ -1322,8 +1322,8 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         power_mode: 电源模式列表（可选，List<string>，max array members：2）。可选值：load_balance (负载均衡模式), active_standby_power (主备供电模式)
         esn: 机框序列号（可选，1~256 characters），supports fuzzy match
         mac: MAC地址（可选，1~256 characters），supports fuzzy match
-        sort_key: 排序字段（可选）。可选值：temperature (温度)
-        sort_dir: 排序方向（可选）。可选值：asc (升序), desc (降序)。默认按升序返回
+        sort_key: Sort field（可选）。可选值：temperature (温度)
+        sort_dir: Sort direction（可选）。可选值：asc (升序), desc (降序)。默认按升序返回
 
     Returns:
         {
@@ -1878,7 +1878,7 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         io_policy_type: IO 策略类型（可选，total_perf_upper_limit/read_or_write_upper_limit）
         page_no: 页码（可选，默认 1）
         page_size: 每页数量（可选，默认 10，最大 1000）
-        sort_key: 排序字段（可选，name/raw_id）
+        sort_key: Sort field（可选，name/raw_id）
         sort_dir: 排序方式（可选，asc/desc）
     """
     url = "/rest/storagepolicy/v1/qos/query"
@@ -2707,7 +2707,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含端口列表
+        }，includes port list
     """
     if port_type is not None and port_type.lower() == 'eth':
         # ETH 端口查询
@@ -2872,7 +2872,7 @@ def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
         client: DME API client
         name: VLAN 名称（supports fuzzy search）
         storage_id: Storage device ID
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 100
 
     Returns:
@@ -3124,7 +3124,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
 
     Returns:
         {
-            total: Zone总数 (int32),
+            total: ZoneTotal count (int32),
             datas: Zone list (List<OceanStorA800ZoneInfo>)。参数格式如下：[{
                 id: Zone在CMDB中的ID (1~64 characters),
                 native_id: native id (1~64 characters),

@@ -157,7 +157,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
     Returns:
         {
-            total: 总数 (integer, max：5000),
+            total: Total count (integer, max：5000),
             datas: User data (List<UserData>, max array members：5000)。参数格式如下：[{
                 id: 用户ID (integer, 1~2147483647),
                 name: 用户名 (string, 6~32个字符),
@@ -190,7 +190,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
     Returns:
         {
-            total: 总数 (integer, max：10),
+            total: Total count (integer, max：10),
             datas: Role data (List<RoleData>, max array members：5000)。参数格式如下：[{
                 id: 角色ID (integer, 1~2147483647),
                 name: 角色名称 (string, 最多64个字符),
@@ -287,12 +287,12 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
         client: DME API client
         address: 备份服务器地址，支持IPv4地址，supports fuzzy match (Optional, string, 1~256个字符)
         name: 备份服务器名称 (Optional, string)
-        page_no: 分页查询的起始页码 (Optional, int32)。Default：1
+        page_no: 分页查询的Start page (Optional, int32)。Default：1
         page_size: 每页数量 (Optional, int32, 1~1000)。Default：20
 
     Returns:
         {
-            total: 备份服务器总数 (int32),
+            total: 备份服务器Total count (int32),
             backup_servers: 备份Server list (List<BackupServerInfo>)。参数格式如下：[{
                 id: 备份服务器id (string, 1~64个字符),
             }, ...]
@@ -333,7 +333,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         creator_name: 创建人名称（Optional）
         is_finished: 是否Completed（Optional）
         is_group: 是否群组任务（Optional）
-        start: 分页起始位置（Optional，0~10000000）
+        start: 分页Start position（Optional，0~10000000）
         limit: 分页个数（Optional，1~1000）
         status: 待办任务组状态列表（Optional，1-Pending/2-执行中/3-Completed/4-已关闭）
         todo_item_status: 待办项状态列表（Optional，0-待确认/1-未完成/2-执行中/3-Completed）
@@ -341,13 +341,13 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         start_time_to: 开始时间结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         end_time_from: 结束时间起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
         end_time_to: 结束时间结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
-        sort_key: 排序字段（Optional）
+        sort_key: Sort field（Optional）
         sort_dir: 排序方式（Optional，asc/desc）
 
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含待办任务组列表和总数
+        }，包含待办任务组列表和Total count
     """
     url = "/rest/taskmgmt/v1/todo-groups"
 
@@ -443,7 +443,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含待办项列表和总数
+        }，包含待办项列表和Total count
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
 
@@ -621,7 +621,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
         task_name: 任务名称过滤（Optional）
         status: 状态过滤（Optional，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
@@ -759,7 +759,7 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
         name: 标签类型名称过滤（Optional）
     
@@ -871,7 +871,7 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     
     Args:
         client: DME API client
-        start: 分页起始位置，默认 1
+        start: 分页Start position，默认 1
         limit: 分页数量，默认 100
         name: 标签名称过滤（Optional）
         tag_type_id: 标签类型 ID 过滤（Optional）
@@ -1007,7 +1007,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
 
     Returns:
         {
-            total: 可用分区总数 (integer),
+            total: 可用分区Total count (integer),
             az_list: Availability zone list (List<GetAzResponse>)。参数格式如下：[{
                 id: 可用分区id (string),
                 name: 可用分区名称 (string),
@@ -1047,7 +1047,7 @@ def dc_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: Data center name（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -1100,7 +1100,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
         device_type: 设备类型列表（Optional）
                      取值：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
@@ -1133,20 +1133,20 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
 
     Args:
         client: DME API client
-        ids: Region的ID列表，支持精确匹配 (Optional, List[string], max array members：100)
+        ids: Region的ID列表，支持exact match (Optional, List[string], max array members：100)
         name: Region的名称，supports fuzzy search (Optional, string, 最多256个字符)
         active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256个字符)
         standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256个字符)
         sync_status: Region同步状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (同步中), failed (同步失败)
         role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
-        sort_key: 排序字段 (Optional, string)。Optional值：last_sync_time (最近同步时间)
-        sort_dir: 排序方向 (Optional, string)。Optional值：asc (升序), desc (降序)。Default：desc
+        sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近同步时间)
+        sort_dir: Sort direction (Optional, string)。Optional值：asc (升序), desc (降序)。Default：desc
         page_no: 分页查询的开始页 (Optional, int32, 1~100)。Default：1
         page_size: 每页数量 (Optional, int32, 1~100)。Default：20
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             regions: Region list。参数格式如下：[{
                 id: Region ID (string),
                 name: Region名称 (string),

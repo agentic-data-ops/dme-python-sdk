@@ -17,12 +17,12 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: CMDB系统名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             systems: CMDB system list。参数格式如下：[{
                 id: 系统ID (string),
                 name: 系统名称 (string),
@@ -53,12 +53,12 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
         system_id: CMDB系统ID（Optional）
         name: Host name（Optional，supports fuzzy search）
         ip: Host IP（Optional）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             hosts: CMDB host list。参数格式如下：[{
                 id: Host ID (string),
                 name: Host name (string),
@@ -116,12 +116,12 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
         client: DME API client
         system_id: CMDB系统ID（Optional）
         name: 应用名称（Optional，supports fuzzy search）
-        page_no: 分页查询的起始页码，默认 1
+        page_no: 分页查询的Start page，默认 1
         page_size: 每页数量，1~1000，默认 20
 
     Returns:
         {
-            total: 总数 (integer),
+            total: Total count (integer),
             applications: Application list。参数格式如下：[{
                 id: 应用ID (string),
                 name: 应用名称 (string),
