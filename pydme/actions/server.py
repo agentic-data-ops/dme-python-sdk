@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
          name: str = None, server_type: str = None) -> dict:
     """
-    查询服务器列表
+    查询Server list
     
     Args:
         client: DME API client
@@ -23,7 +23,7 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     Returns:
         {
             total: 服务器总数 (integer),
-            servers: 服务器列表 (List<ServerInfo>)。参数格式如下：[{
+            servers: Server list (List<ServerInfo>)。参数格式如下：[{
                 id: 服务器ID (string),
                 name: 服务器名称 (string),
                 type: 服务器类型 (string),
@@ -49,7 +49,7 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 
 def show(client: DMEAPIClient, server_id: str) -> dict:
     """
-    查询指定服务器的概览信息
+    Query服务器的概览信息
     
     Args:
         client: DME API client
@@ -284,13 +284,13 @@ ACTIONS = {
     # 直接动作（两级结构）
     'list': {
         'func': list,
-        'description': '查询服务器列表',
+        'description': '查询Server list',
         'params': ['start', 'limit', 'name', 'server_type'],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': '查询指定服务器的概览信息',
+        'description': 'Query服务器的概览信息',
         'params': ['server_id'],
         'subtopic': None
     },

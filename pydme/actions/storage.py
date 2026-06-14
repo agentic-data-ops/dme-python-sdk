@@ -26,7 +26,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
     Args:
         client: DME API client
         raw_id: Tenant在设备中的ID (Optional, string, 1~256 characters)
-        vstore_id: 租户ID (Optional, string, 1~64 characters)
+        vstore_id: Tenant ID (Optional, string, 1~64 characters)
         qos_id: QoS策略ID (Optional, string, 1~64 characters)
         is_associated_qos: 租户是否已关联QoS (Optional, boolean, true,false)
         name: Tenant名称，supports fuzzy search (Optional, string, 1~256 characters)
@@ -138,7 +138,7 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
     Args:
         client: DME API client
         storage_id: Storage device ID (必选, string, 1~36个字符)。需满足UUID format or 32-bit hex
-        name: 租户名称 (必选, string, 1~256 characters)。仅包含字母、数字、"_"、"-"、"."和中文字符
+        name: Tenant name (必选, string, 1~256 characters)。仅包含字母、数字、"_"、"-"、"."和中文字符
         san_capacity_quota: SAN 容量配额（可选，单位：扇区）
         nas_capacity_quota: NAS 容量配额（可选，单位：扇区）
         description: 租户描述（可选，0~255 个字符）
@@ -183,12 +183,12 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
                   description: str = None, nas_capacity_quota_alarm_switch: bool = None,
                   nas_capacity_quota_alarm_threshold: int = None) -> dict:
     """
-    修改指定租户，该操作会Modify storage device上指定的租户。
+    Modify租户，该操作会Modify storage device上指定的租户。
 
     Args:
         client: DME API client
         id: 租户的ID (必选, string, 1~64 characters)。需满足UUID format or 32-bit hex
-        name: 租户名称 (Optional, string, 1~256 characters)。名称包含字母、数字、"_"、"-"、"."和中文字符
+        name: Tenant name (Optional, string, 1~256 characters)。名称包含字母、数字、"_"、"-"、"."和中文字符
         san_capacity_quota: SAN容量配额 (Optional, string, 1~20个字符)
         nas_capacity_quota: NAS容量配额 (Optional, string, 1~20个字符)
         description: 租户描述 (Optional, string, 0~255 characters)
@@ -226,7 +226,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
 
 def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除租户，该操作会删除存储设备上指定的租户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    Batch delete租户，该操作会删除存储设备上指定的租户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API client
@@ -241,7 +241,7 @@ def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
 
     # 参数校验
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数，至少需要1个租户ID")
+        raise ValueError("ids 是必选参数，至少需要1个Tenant ID")
 
     payload = {
         'ids': ids
@@ -306,7 +306,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
 
 def show(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    查询指定存储设备。
+    Query存储设备。
 
     Args:
         client: DME API client
@@ -361,8 +361,8 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         maintenance_overtime: 维护过保时间 (可选, 格式是毫秒级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
         total_capacity: 裸容量 (可选, 0~2147483647, 单位MB)。
         total_effective_capacity: 可得容量 (可选, 0~2147483647, 单位MB)。
-        total_pool_capacity: 可用容量 (可选, 0~2147483647, 单位MB)。
-        used_capacity: 已用容量 (可选, 0~2147483647, 单位MB)。
+        total_pool_capacity: Available capacity (可选, 0~2147483647, 单位MB)。
+        used_capacity: Used capacity (可选, 0~2147483647, 单位MB)。
         free_capacity: 空闲容量 (可选, 0~2147483647, 单位MB)。
         subscription_capacity: 已订阅容量 (可选, 0~2147483647, 单位MB)。
         tag_ids: 标签ID列表 (可选, List<string>, 数组最大成员个数: 10, 数组最小成员个数: 0)。
@@ -644,7 +644,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         health_status: Health status (Optional)。可选值：unknown (未知), normal (正常), fault (故障), pre_fail (即将故障), degraded (降级), single_link (单链路), no_redundant_link (无冗余链路), subhealthy (亚健康), offline (离线)。
         physical_type: 硬盘类型 (可选)。可选值：unknown (未知), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
         new_physical_type: 真实的硬盘类型 (可选)。可选值：SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD。
-        capacity: 总容量 (可选, 最大值: 9223372036854775807, 单位: GB)。
+        capacity: Total capacity (可选, 最大值: 9223372036854775807, 单位: GB)。
         role: 硬盘角色 (可选)。可选值：unknown (未知), free (空闲), member (成员), hotSpare (热备), cache (缓存), aggregate (聚合), broken (断开), foreign (外部), labelmaint (标签维护), maintenance (维护), shared (共享), spare (备用), unassigned (未分配), unsupported (不支持), remote (远程), mediator (中介)。
         disk_pool_name: 所属硬盘域名称 (可选, 1~256 characters)。supports fuzzy search。
         disk_pool_id: 硬盘池或硬盘域ID (可选, 1~64 characters)。仅华为存储设备，第三方设备支持该字段。
@@ -659,7 +659,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         status: Running status (Optional)。可选值：unknown (未知), normal (正常), abnormal (故障), online (在线), offline (离线)。
         enclosure_name: 风扇Storage device的机框名称 (可选, 1~255 characters)。supports fuzzy search。
         zone_id: Storage device的Zone id (可选, 1~255 characters)。仅OceanStor A800存储支持。
-        sort_key: Sort field (Optional)。可选值：capacity (总容量), speed (转速), remainLife (剩余寿命), name (硬盘名称), management_ip (管理设备ip地址), slot_number (位置)。
+        sort_key: Sort field (Optional)。可选值：capacity (Total capacity), speed (转速), remainLife (剩余寿命), name (硬盘名称), management_ip (管理设备ip地址), slot_number (位置)。
         sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending)。
         page_no: 分页查询的页码 (可选, 1~2147483647, 默认值: 1)。
         page_size: 分页查询的每页大小 (可选, 1~1000, 默认值: 20)。
@@ -672,7 +672,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
                 name: 硬盘名称 (string),
                 health_status: 健康状态 (string),
                 physical_type: 硬盘类型 (string),
-                capacity: 总容量 (integer),
+                capacity: Total capacity (integer),
                 sn: 硬盘序列号 (string),
             }, ...],
         }
@@ -750,7 +750,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         zone_id: 所属Zone的ID（可选，1~256 characters），支持精确搜索，仅OceanStor A800存储支持
         page_no: 分页查询的页码（可选，1~10000，默认 1）
         page_size: 分页查询的每页大小（可选，1~1000，默认 10）
-        sort_key: 排序字段（可选）。可选值：total_capacity (存储池总容量), consumed_capacity (存储池已用容量), free_capacity (存储池空闲容量，仅闪存存储), replication_capacity (存储池保护容量)
+        sort_key: 排序字段（可选）。可选值：total_capacity (存储池Total capacity), consumed_capacity (存储池Used capacity), free_capacity (存储池空闲容量，仅闪存存储), replication_capacity (存储池Protection capacity)
         sort_dir: 排序方向（可选）。可选值：asc (升序), desc (降序)
 
     Returns:
@@ -763,10 +763,10 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 storage_id: Storage device ID (1~64 characters),
                 storage_name: Storage device name (1~127个字符),
                 usage_type: 存储池用途。可选值：block-and-file (LUN/文件系统), block (块), file (文件), object (对象), hdfs (hdfs), converged (融合),
-                total_capacity: 总容量，单位MB (number),
+                total_capacity: Total capacity，单位MB (number),
                 free_capacity: 空闲容量，单位MB (number)，仅闪存存储、OceanStor A800设备支持,
-                consumed_capacity: 已用容量，单位MB (number),
-                replication_capacity: 数据保护容量，单位MB (number)，仅闪存存储支持,
+                consumed_capacity: Used capacity，单位MB (number),
+                replication_capacity: 数据Protection capacity，单位MB (number)，仅闪存存储支持,
                 subscribed_capacity: 总订阅容量，单位MB (number)，仅闪存存储、分布式设备支持,
                 lun_subscribed_capacity: LUN的订阅容量，单位MB (number)，仅闪存存储支持,
                 filesystem_subscribed_capacity: 文件系统总订阅容量，单位MB (number)，仅OceanStor Dorado V6存储6.1.0及以上版本支持,
@@ -832,7 +832,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
         description: HyperScale存储池描述（可选，0~256个字符）
         page_no: 分页查询的页码（可选，1~10000，默认 1）
         page_size: 分页查询的每页大小（可选，1~1000，默认 20）
-        sort_key: 排序字段（可选）。可选值：raw_id (ID), total_capacity (存储池总容量), consumed_capacity (已用容量), capacity_usage (容量利用率), free_capacity (空闲容量), subscribed_capacity_percentage (订阅率)
+        sort_key: 排序字段（可选）。可选值：raw_id (ID), total_capacity (存储池Total capacity), consumed_capacity (Used capacity), capacity_usage (容量利用率), free_capacity (空闲容量), subscribed_capacity_percentage (订阅率)
         sort_dir: 排序方向（可选）。可选值：asc (升序), desc (降序)
 
     Returns:
@@ -848,8 +848,8 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
                 storage_name: Storage device name (1~127个字符),
                 health_status: 健康状态。可选值：normal (正常), faulty (故障), degraded (降级),
                 running_status: 运行状态。可选值：pre_copy (预拷贝), rebuilding (重构), online (在线), offline (离线), balancing (正在均衡), initializing (初始化中), deleting (删除中),
-                total_capacity: 总容量，单位MB (number),
-                consumed_capacity: 已用容量，单位MB (number),
+                total_capacity: Total capacity，单位MB (number),
+                consumed_capacity: Used capacity，单位MB (number),
                 capacity_usage: 容量利用率 (number),
                 free_capacity: 空闲容量，单位MB (number),
                 subscribed_capacity_percentage: 订阅率 (number),
@@ -906,7 +906,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         frame_number: 机柜/机架号（可选，1~256 characters），supports fuzzy search（不区分大小写）
         slot_number: 槽位/机架内槽位号（可选，1~256 characters），supports fuzzy search（不区分大小写）
         status: 节点状态（可选）。可选值：UNKNOWN (未知), NORMAL (正常), FAULT (故障), PRE_FAIL (即将故障), PARTIALLY_DAMAGED (部分损坏), DEGRADED (降级), BAD_SECTORS_FOUND (有坏块), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT (不一致), BUSY (繁忙), NO_INPUT (无输入), LOW_BATTERY (电量不足), SINGLE_LINK_FAULT (单链路故障)
-        roles: 节点角色列表（可选，List<string>，数组最大成员个数：10）。可选值：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算)
+        roles: 节点Role list（可选，List<string>，数组最大成员个数：10）。可选值：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算)
         page_no: 分页查询的页码（可选，1~10000，默认 1）
         page_size: 分页查询的每页大小（可选，1~1000，默认 20）
         sort_key: 排序字段（可选）。可选值：name (节点名称), mgmt_ip (节点管理IP地址)
@@ -924,7 +924,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 node_model: 节点型号 (1~255 characters)。例如：DataTurbo，OceanStor Pacific，RH5288 V3,
                 frame_number: 机柜/机架号 (1~255 characters),
                 slot_number: 槽位/机架内槽位号 (1~255 characters),
-                roles: 节点角色列表 (List<string>)。可选值：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算),
+                roles: 节点Role list (List<string>)。可选值：management (管理), storage (存储), compute (VBS计算), replication (复制), paxos (控制), dpc_compute (DPC计算),
                 node_sn: 序列号信息 (1~255 characters),
                 storage_id: Storage deviceid (1~64 characters),
                 storage_name: Storage device名称 (1~255 characters),
@@ -1103,10 +1103,10 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         maintenance_start: 维护开始时间 (可选, 格式是毫秒级时间戳)。需要和维护过保时间一起出现并且数值小于维护过保时间。
         maintenance_overtime: 维护过保时间 (可选, 格式是毫秒级时间戳)。需要和维护开始时间一起出现并且数值大于维护开始时间。
         total_capacity: 裸容量 (可选, -1~2147483647, 单位MB)。存储设备中所有硬盘的物理容量之和，-1表示无裸容量。
-        total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。存储设备可写入的用户数据总量，-1表示无可得容量。
-        total_pool_capacity: 可用容量 (可选, -1~2147483647, 单位MB)。存储设备实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无可用容量。
-        used_capacity: 已用容量 (可选, -1~2147483647, 单位MB)。存储设备中所有存储池的已使用容量之和，-1表示无已用容量。
-        free_capacity: 空闲容量 (可选, -1~2147483647, 单位MB)。存储设备的可用容量与已用容量的差值，-1表示无空闲容量。
+        total_effective_capacity: 可得容量 (可选, -1~2147483647, 单位MB)。存储设备可写入的User data总量，-1表示无可得容量。
+        total_pool_capacity: Available capacity (可选, -1~2147483647, 单位MB)。存储设备实际可用的硬盘物理空间（扣除RAID、元数据等消耗），-1表示无Available capacity。
+        used_capacity: Used capacity (可选, -1~2147483647, 单位MB)。存储设备中所有存储池的已使用容量之和，-1表示无Used capacity。
+        free_capacity: 空闲容量 (可选, -1~2147483647, 单位MB)。存储设备的Available capacity与Used capacity的差值，-1表示无空闲容量。
         subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。存储设备中所有存储池的订阅容量之和，-1表示无已订阅容量。
         tag_ids: 标签ID列表 (Optional, string, 0~512个字符)。数组格式字符串，最多支持10个标签，空数组代表Remove storage device关联的所有标签。
 
@@ -1162,7 +1162,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
                  create_type: int = None, template_type: int = None, 
                  pool_id: str = None) -> dict:
     """
-    查询指定存储设备的应用类型
+    Query存储设备的应用类型
     
     仅 Dorado 类型设备支持。
     
@@ -1202,7 +1202,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
 
 def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    查询指定存储设备的控制器信息
+    Query存储设备的控制器信息
     
     查询存储设备的控制器列表信息。
     
@@ -1268,7 +1268,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
 def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询分布式存储设备的硬盘池。仅支持OceanStor Pacific和OceanStor A310存储。
+    Batch query分布式存储设备的硬盘池。仅支持OceanStor Pacific和OceanStor A310存储。
 
     Args:
         client: DME API client
@@ -1393,9 +1393,9 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
                    support_provisioning: bool = None, vstore_raw_id: str = None,
                    vstore_name: str = None, storage_id: str = None) -> dict:
     """
-    批量查询存储侧启动器对象
+    Batch query存储侧启动器对象
 
-    批量查询存储侧的启动器对象列表。
+    Batch query存储侧的启动器对象列表。
 
     Args:
         client: DME API client
@@ -1454,12 +1454,12 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
 def initiator_delete(client: DMEAPIClient, initiator_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    批量删除存储设备的启动器对象
+    Batch delete存储设备的启动器对象
 
     Args:
         client: DME API client
         initiator_ids: 启动器 ID 列表（必选，1~100 个）
-        task_remarks: 任务备注（可选，最多 1024 字符）
+        task_remarks: Task remark（可选，最多 1024 字符）
 
     Returns:
         任务 ID
@@ -1530,7 +1530,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
 def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                      name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询指定存储设备本地认证用户的信息
+    Query存储设备本地认证用户的信息
 
     Args:
         client: DME API client
@@ -1611,7 +1611,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
                       description: str = None, password: str = None,
                       status_enabled: bool = None, vstore_raw_id: str = None) -> dict:
     """
-    创建指定存储设备 UNIX 认证用户
+    Create存储设备 UNIX 认证用户
 
     Args:
         client: DME API client
@@ -1654,7 +1654,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
                                  status_enabled: bool = None,
                                  vstore_raw_id: str = None) -> dict:
     """
-    创建指定存储设备 Windows 认证用户
+    Create存储设备 Windows 认证用户
 
     Args:
         client: DME API client
@@ -1692,7 +1692,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
 def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询指定存储设备 UNIX 认证用户的信息
+    Query存储设备 UNIX 认证用户的信息
 
     Args:
         client: DME API client
@@ -1724,7 +1724,7 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
 def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                        name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询指定存储设备 Windows 认证用户的信息
+    Query存储设备 Windows 认证用户的信息
 
     Args:
         client: DME API client
@@ -1756,7 +1756,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
 def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                            name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询指定存储设备本地认证用户组的信息
+    Query存储设备本地认证用户组的信息
 
     Args:
         client: DME API client
@@ -1788,7 +1788,7 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
 def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                           name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询指定存储设备 UNIX 认证用户组的信息
+    Query存储设备 UNIX 认证用户组的信息
 
     Args:
         client: DME API client
@@ -1820,7 +1820,7 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
 def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询指定存储设备 Windows 认证用户组的信息
+    Query存储设备 Windows 认证用户组的信息
 
     Args:
         client: DME API client
@@ -1861,7 +1861,7 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
              page_size: int = 10, sort_key: str = None,
              sort_dir: str = None) -> dict:
     """
-    批量查询 QoS 策略
+    Batch query QoS 策略
 
     Args:
         client: DME API client
@@ -1871,10 +1871,10 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         enable_status: 激活状态（可选，true/false）
         running_status: 运行状态（可选，running/inactive/waiting）
         zone_id: 所属 ZONE 的 ID（可选）
-        resource_type_list: 控制的资源类型列表（可选，file_system/vstore/none）
+        resource_type_list: 控制的Resource type列表（可选，file_system/vstore/none）
         vstore_id: Tenant ID（可选）
         vstore_name: Tenant名称（可选）
-        alarm_status: 告警状态（可选，normal/event/alarm/invalid）
+        alarm_status: Alarm status（可选，normal/event/alarm/invalid）
         io_policy_type: IO 策略类型（可选，total_perf_upper_limit/read_or_write_upper_limit）
         page_no: 页码（可选，默认 1）
         page_size: 每页数量（可选，默认 10，最大 1000）
@@ -1920,7 +1920,7 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
 
 def qos_show(client: DMEAPIClient, qos_policy_id: str) -> dict:
     """
-    查询指定 QoS 策略详情
+    Query QoS 策略详情
 
     Args:
         client: DME API client
@@ -1959,7 +1959,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         name: QoS 策略名称（必选，1~31 字符）
         storage_id: Storage device ID（必选）
-        resource_type: 控制的资源类型（必选，file_system/vstore）
+        resource_type: 控制的Resource type（必选，file_system/vstore）
         resource_ids: 控制的资源 ID 列表（必选，数组 1~512 个成员）
         description: 描述（可选，1~255 字符）
         zone_id: 所属 ZONE 的 ID（可选，A 系列存储必选）
@@ -1983,7 +1983,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         burst_read_iops: 突发读 IOPS（可选）
         burst_write_iops: 突发写 IOPS（可选）
         alarm_switch: 告警开关（可选，on/off）
-        alarm_level: 告警级别（可选，event/alarm）
+        alarm_level: Alarm severity（可选，event/alarm）
         alarm_threshold: 告警阈值%（可选，0~100）
         resume_threshold: 恢复阈值%（可选，0~100）
         schedule_policy: 调度策略（可选，once/daily/weekly）
@@ -2119,7 +2119,7 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         burst_read_iops: 突发读 IOPS（可选）
         burst_write_iops: 突发写 IOPS（可选）
         alarm_switch: 告警开关（可选）
-        alarm_level: 告警级别（可选）
+        alarm_level: Alarm severity（可选）
         alarm_threshold: 告警阈值%（可选）
         resume_threshold: 恢复阈值%（可选）
     """
@@ -2264,7 +2264,7 @@ def qos_associate(client: DMEAPIClient, qos_policy_id: str,
         client: DME API client
         qos_policy_id: QoS 策略 ID（必选）
         resource_ids: 资源 ID 列表（必选）
-        resource_type: 资源类型（必选，file_system/vstore）
+        resource_type: Resource type（必选，file_system/vstore）
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}/resources/associate"
 
@@ -2288,7 +2288,7 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
         client: DME API client
         qos_policy_id: QoS 策略 ID（必选）
         resource_ids: 资源 ID 列表（必选）
-        resource_type: 资源类型（必选）
+        resource_type: Resource type（必选）
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}/resources/unassociate"
 
@@ -2840,7 +2840,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
 
 def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     """
-    查询指定绑定端口的成员列表信息
+    Query绑定端口的成员列表信息
 
     Args:
         client: DME API client
@@ -2866,7 +2866,7 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
 def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
               page_no: int = 1, page_size: int = 100) -> dict:
     """
-    批量查询 VLAN 列表
+    Batch query VLAN 列表
 
     Args:
         client: DME API client
@@ -3185,7 +3185,7 @@ ACTIONS = {
     },
     'show': {
         'func': show,
-        'description': '查询指定存储设备',
+        'description': 'Query存储设备',
         'params': ['storage_id'],
         'subtopic': None
     },
@@ -3274,13 +3274,13 @@ ACTIONS = {
     },
     'app_type_list': {
         'func': app_type_list,
-        'description': '查询指定存储设备的应用类型',
+        'description': 'Query存储设备的应用类型',
         'params': ['storage_id'],
         'subtopic': 'app_type'
     },
     'controller_list': {
         'func': controller_list,
-        'description': '查询指定存储设备的控制器信息',
+        'description': 'Query存储设备的控制器信息',
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
@@ -3292,7 +3292,7 @@ ACTIONS = {
     },
     'disk_pool_list': {
         'func': disk_pool_list,
-        'description': '批量查询分布式存储设备的硬盘池',
+        'description': 'Batch query分布式存储设备的硬盘池',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_pool'
     },
@@ -3324,19 +3324,19 @@ ACTIONS = {
     },
     'vstore_modify': {
         'func': vstore_modify,
-        'description': '修改指定租户',
+        'description': 'Modify租户',
         'params': ['vstore_id', 'name', 'san_capacity_quota', 'nas_capacity_quota', 'description', 'nas_capacity_quota_alarm_switch', 'nas_capacity_quota_alarm_threshold'],
         'subtopic': 'vstore'
     },
     'vstore_delete': {
         'func': vstore_delete,
-        'description': '批量删除租户',
+        'description': 'Batch delete租户',
         'params': ['vstore_ids'],
         'subtopic': 'vstore'
     },
     'initiator_list': {
         'func': initiator_list,
-        'description': '批量查询存储侧启动器对象',
+        'description': 'Batch query存储侧启动器对象',
         'params': ['page_size', 'page_no', 'raw_id', 'alias', 'status',
                    'associated_host_name', 'associated_host_id', 'multipath_type',
                    'protocol', 'support_provisioning', 'vstore_raw_id',
@@ -3345,7 +3345,7 @@ ACTIONS = {
     },
     'initiator_delete': {
         'func': initiator_delete,
-        'description': '批量删除存储设备的启动器对象',
+        'description': 'Batch delete存储设备的启动器对象',
         'params': ['initiator_ids', 'task_remarks'],
         'subtopic': 'initiator'
     },
@@ -3358,7 +3358,7 @@ ACTIONS = {
     # account 子主题动作（认证用户）
     'account_show_local_users': {
         'func': account_show_local_users,
-        'description': '查询指定存储设备本地认证用户的信息',
+        'description': 'Query存储设备本地认证用户的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
@@ -3370,50 +3370,50 @@ ACTIONS = {
     },
     'account_create_unix_user': {
         'func': account_create_unix_user,
-        'description': '创建指定存储设备 UNIX 认证用户',
+        'description': 'Create存储设备 UNIX 认证用户',
         'params': ['storage_id', 'name', 'primary_group_raw_id', 'raw_id', 'description', 'password', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_create_windows_user': {
         'func': account_create_windows_user,
-        'description': '创建指定存储设备 Windows 认证用户',
+        'description': 'Create存储设备 Windows 认证用户',
         'params': ['storage_id', 'name', 'password', 'raw_id', 'description', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_show_unix_users': {
         'func': account_show_unix_users,
-        'description': '查询指定存储设备 UNIX 认证用户的信息',
+        'description': 'Query存储设备 UNIX 认证用户的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_users': {
         'func': account_show_windows_users,
-        'description': '查询指定存储设备 Windows 认证用户的信息',
+        'description': 'Query存储设备 Windows 认证用户的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_local_user_groups': {
         'func': account_show_local_user_groups,
-        'description': '查询指定存储设备本地认证用户组的信息',
+        'description': 'Query存储设备本地认证用户组的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_unix_user_groups': {
         'func': account_show_unix_user_groups,
-        'description': '查询指定存储设备 UNIX 认证用户组的信息',
+        'description': 'Query存储设备 UNIX 认证用户组的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_user_groups': {
         'func': account_show_windows_user_groups,
-        'description': '查询指定存储设备 Windows 认证用户组的信息',
+        'description': 'Query存储设备 Windows 认证用户组的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     # qos 子主题动作
     'qos_list': {
         'func': qos_list,
-        'description': '批量查询 QoS 策略',
+        'description': 'Batch query QoS 策略',
         'params': ['storage_id', 'name', 'raw_id', 'enable_status', 'running_status',
                    'zone_id', 'resource_type_list', 'vstore_id', 'vstore_name',
                    'alarm_status', 'io_policy_type', 'page_no', 'page_size',
@@ -3422,7 +3422,7 @@ ACTIONS = {
     },
     'qos_show': {
         'func': qos_show,
-        'description': '查询指定 QoS 策略详情',
+        'description': 'Query QoS 策略详情',
         'params': ['qos_policy_id'],
         'subtopic': 'qos'
     },
@@ -3536,14 +3536,14 @@ ACTIONS = {
     },
     'port_show_bond_members': {
         'func': port_show_bond_members,
-        'description': '查询指定绑定端口的成员列表信息',
+        'description': 'Query绑定端口的成员列表信息',
         'params': ['bond_port_id'],
         'subtopic': 'port'
     },
     # vlan 子主题动作（存储 VLAN）
     'vlan_list': {
         'func': vlan_list,
-        'description': '批量查询 VLAN 列表',
+        'description': 'Batch query VLAN 列表',
         'params': ['name', 'storage_id', 'page_no', 'page_size'],
         'subtopic': 'vlan'
     },

@@ -15,7 +15,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
              vr_type: str = None, datacenter_id: str = None, sort_key: str = None,
              sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询虚拟机列表
+    查询VM list
     
     Args:
         client: DME API client
@@ -45,7 +45,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     Returns:
         {
             total: 虚拟机总数 (integer),
-            vms: 虚拟机列表 (List<VmInfo>)。参数格式如下：[{
+            vms: VM list (List<VmInfo>)。参数格式如下：[{
                 id: 虚拟机ID (string),
                 name: 虚拟机名称 (string),
                 status: 状态 (string),
@@ -98,9 +98,9 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
-    查询指定虚拟机详情
+    Query虚拟机详情
     
-    查询虚拟机的详细信息。
+    查询虚拟机的Details。
     
     Args:
         client: DME API client
@@ -108,7 +108,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
         vr_type: 虚拟化平台类型（Optional）
     
     Returns:
-        虚拟机详细信息，包含 CPU、内存、磁盘、网卡等配置信息
+        虚拟机Details，包含 CPU、内存、磁盘、网卡等Configuration info
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -191,9 +191,9 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
 
 def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None) -> dict:
     """
-    查询指定数据存储详情
+    Query数据存储详情
     
-    查询数据存储的详细信息。
+    查询数据存储的Details。
     
     Args:
         client: DME API client
@@ -201,7 +201,7 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
         vr_type: 虚拟化平台类型（Optional）
     
     Returns:
-        数据存储详细信息
+        数据存储Details
     """
     url = "/rest/vmmgmt/v1/datastores/{datastore_id}"
     
@@ -267,9 +267,9 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
-    查询指定主机详情
+    Query主机详情
     
-    查询物理主机的详细信息。
+    查询物理主机的Details。
     
     Args:
         client: DME API client
@@ -277,7 +277,7 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
         vr_type: 虚拟化平台类型（Optional）
     
     Returns:
-        主机详细信息
+        主机Details
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}"
     
@@ -331,9 +331,9 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
 
 def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> dict:
     """
-    查询指定集群详情
+    Query集群详情
     
-    查询集群的详细信息。
+    查询集群的Details。
     
     Args:
         client: DME API client
@@ -341,7 +341,7 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
         vr_type: 虚拟化平台类型（Optional）
     
     Returns:
-        集群详细信息
+        集群Details
     """
     url = "/rest/vmmgmt/v1/clusters/{cluster_id}"
     
@@ -357,7 +357,7 @@ def site_list(client: DMEAPIClient) -> dict:
     """
     查询站点列表
     
-    查询所有虚拟化站点列表。
+    Query all虚拟化站点列表。
     
     Args:
         client: DME API client
@@ -375,16 +375,16 @@ def site_list(client: DMEAPIClient) -> dict:
 
 def site_show(client: DMEAPIClient, site_id: str) -> dict:
     """
-    查询指定站点详情
+    Query站点详情
     
-    查询虚拟化站点的详细信息。
+    查询虚拟化站点的Details。
     
     Args:
         client: DME API client
         site_id: 站点 ID（Required）
     
     Returns:
-        站点详细信息
+        站点Details
     """
     url = "/rest/vmmgmt/v1/sites/{site_id}"
     
@@ -396,7 +396,7 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
 
 def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
-    查询指定主机存储适配器列表
+    Query主机存储适配器列表
     
     查询物理主机的存储适配器列表。
     
@@ -503,16 +503,16 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
 
 def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
-    查询指定虚拟磁盘信息
+    Query虚拟磁盘信息
     
-    查询虚拟磁盘的详细信息。
+    查询虚拟磁盘的Details。
     
     Args:
         client: DME API client
         virtual_disk_id: 虚拟磁盘 ID（Required）
     
     Returns:
-        虚拟磁盘详细信息
+        虚拟磁盘Details
     """
     url = "/rest/vmmgmt/v1/vdisks/{virtual_disk_id}"
     
@@ -525,7 +525,7 @@ ACTIONS = {
     # 虚拟机管理
     'vm_list': {
         'func': vm_list,
-        'description': '查询虚拟机列表',
+        'description': '查询VM list',
         'params': ['site_id', 'cluster_id', 'dc_id', 'cluster_name', 'host_id', 
                    'host_name', 'name', 'ip_address', 'status', 'is_template', 
                    'os_type', 'vr_type', 'datacenter_id', 'sort_key', 'sort_dir', 
@@ -534,7 +534,7 @@ ACTIONS = {
     },
     'vm_show': {
         'func': vm_show,
-        'description': '查询指定虚拟机详情',
+        'description': 'Query虚拟机详情',
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
@@ -549,7 +549,7 @@ ACTIONS = {
     },
     'datastore_show': {
         'func': datastore_show,
-        'description': '查询指定数据存储详情',
+        'description': 'Query数据存储详情',
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
@@ -563,13 +563,13 @@ ACTIONS = {
     },
     'host_show': {
         'func': host_show,
-        'description': '查询指定主机详情',
+        'description': 'Query主机详情',
         'params': ['host_id', 'vr_type'],
         'subtopic': 'host'
     },
     'host_adapter_list': {
         'func': host_adapter_list,
-        'description': '查询指定主机存储适配器列表',
+        'description': 'Query主机存储适配器列表',
         'params': ['host_id'],
         'subtopic': 'host'
     },
@@ -582,7 +582,7 @@ ACTIONS = {
     },
     'cluster_show': {
         'func': cluster_show,
-        'description': '查询指定集群详情',
+        'description': 'Query集群详情',
         'params': ['cluster_id', 'vr_type'],
         'subtopic': 'cluster'
     },
@@ -595,7 +595,7 @@ ACTIONS = {
     },
     'site_show': {
         'func': site_show,
-        'description': '查询指定站点详情',
+        'description': 'Query站点详情',
         'params': ['site_id'],
         'subtopic': 'site'
     },
@@ -615,7 +615,7 @@ ACTIONS = {
     },
     'vdisk_show': {
         'func': vdisk_show,
-        'description': '查询指定虚拟磁盘信息',
+        'description': 'Query虚拟磁盘信息',
         'params': ['virtual_disk_id'],
         'subtopic': 'vdisk'
     },

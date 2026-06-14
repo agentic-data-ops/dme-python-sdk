@@ -10,7 +10,7 @@ from pydme.client import DMEAPIClient
 
 def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询以太网交换机列表信息
+    查询以太网Switch list信息
     
     Args:
         client: DME API client
@@ -21,7 +21,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     Returns:
         {
             total: 总数量 (integer),
-            data_list: 交换机列表。参数格式如下：[{
+            data_list: Switch list。参数格式如下：[{
                 id: 交换机ID (string),
                 name: 交换机名称 (string),
                 status: 状态 (string),
@@ -208,7 +208,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
 ACTIONS = {
     'list': {
         'func': list,
-        'description': '查询以太网交换机列表信息',
+        'description': '查询以太网Switch list信息',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },

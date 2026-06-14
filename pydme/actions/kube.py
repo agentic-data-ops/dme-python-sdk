@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器集群列表
+    查询Container cluster list
     
     Args:
         client: DME API client
@@ -22,7 +22,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: 集群总数 (integer),
-            clusters: 容器集群列表。参数格式如下：[{
+            clusters: Container cluster list。参数格式如下：[{
                 id: 集群ID (string),
                 name: 集群名称 (string),
                 status: 状态 (string),
@@ -46,7 +46,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
 def node_list(client: DMEAPIClient, cluster_id: str = None,
                name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器节点列表
+    查询Container node list
     
     Args:
         client: DME API client
@@ -57,7 +57,7 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            nodes: 容器节点列表。参数格式如下：[{
+            nodes: Container node list。参数格式如下：[{
                 id: 节点ID (string),
                 name: 节点名称 (string),
                 status: 状态 (string),
@@ -84,7 +84,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器组列表
+    查询Pod list
     
     查询容器组（Pod）列表，支持按集群 ID、命名空间和名称过滤。
     
@@ -98,7 +98,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pods: 容器组列表。参数格式如下：[{
+            pods: Pod list。参数格式如下：[{
                 name: 容器组名称 (string),
                 status: 状态 (string),
                 node: 所在节点 (string),
@@ -160,7 +160,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器持久卷声明列表
+    查询容器PVC list
     
     Args:
         client: DME API client
@@ -172,7 +172,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pvcs: 持久卷声明列表。参数格式如下：[{
+            pvcs: PVC list。参数格式如下：[{
                 name: PVC名称 (string),
                 status: 状态 (string),
                 capacity: 容量 (string),
@@ -200,7 +200,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
 def pv_list(client: DMEAPIClient, cluster_id: str = None,
              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询容器持久卷列表
+    查询容器PV list
     
     查询容器持久卷（PV）列表，支持按集群 ID 和名称过滤。
     
@@ -213,7 +213,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pvs: 持久卷列表。参数格式如下：[{
+            pvs: PV list。参数格式如下：[{
                 name: PV名称 (string),
                 status: 状态 (string),
                 capacity: 容量 (string),
@@ -241,21 +241,21 @@ ACTIONS = {
     # 集群管理
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询容器集群列表',
+        'description': '查询Container cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     # 节点管理
     'node_list': {
         'func': node_list,
-        'description': '查询容器节点列表',
+        'description': '查询Container node list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'node'
     },
     # 容器组管理
     'pod_list': {
         'func': pod_list,
-        'description': '查询容器组列表',
+        'description': '查询Pod list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },
@@ -269,14 +269,14 @@ ACTIONS = {
     # 持久卷声明管理
     'pvc_list': {
         'func': pvc_list,
-        'description': '查询容器持久卷声明列表',
+        'description': '查询容器PVC list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pvc'
     },
     # 持久卷管理
     'pv_list': {
         'func': pv_list,
-        'description': '查询容器持久卷列表',
+        'description': '查询容器PV list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'pv'
     },

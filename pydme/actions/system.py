@@ -147,7 +147,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    批量查询用户信息。
+    Batch query用户信息。
 
     Args:
         client: DME API client
@@ -158,7 +158,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: 总数 (integer, 最大值：5000),
-            datas: 用户数据 (List<UserData>, 数组最大成员个数：5000)。参数格式如下：[{
+            datas: User data (List<UserData>, 数组最大成员个数：5000)。参数格式如下：[{
                 id: 用户ID (integer, 1~2147483647),
                 name: 用户名 (string, 6~32个字符),
                 description: 描述 (string, 最多127个字符),
@@ -180,7 +180,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    批量查询角色信息。
+    Batch query角色信息。
 
     Args:
         client: DME API client
@@ -191,7 +191,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: 总数 (integer, 最大值：10),
-            datas: 角色数据 (List<RoleData>, 数组最大成员个数：5000)。参数格式如下：[{
+            datas: Role data (List<RoleData>, 数组最大成员个数：5000)。参数格式如下：[{
                 id: 角色ID (integer, 1~2147483647),
                 name: 角色名称 (string, 最多64个字符),
                 description: 描述 (string, 最多127个字符),
@@ -210,7 +210,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
 def user_show(client: DMEAPIClient, user_id: int) -> dict:
     """
-    查询指定用户信息。
+    Query用户信息。
 
     Args:
         client: DME API client
@@ -281,7 +281,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
                          name: str = None,
                          page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询备份服务器。
+    Batch query backup servers。
 
     Args:
         client: DME API client
@@ -293,7 +293,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     Returns:
         {
             total: 备份服务器总数 (int32),
-            backup_servers: 备份服务器列表 (List<BackupServerInfo>)。参数格式如下：[{
+            backup_servers: 备份Server list (List<BackupServerInfo>)。参数格式如下：[{
                 id: 备份服务器id (string, 1~64个字符),
             }, ...]
         }
@@ -429,9 +429,9 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
                status: list = None, page_no: int = None,
                page_size: int = None) -> dict:
     """
-    批量查询待办任务详情
+    Batch query待办Task details
 
-    批量查询待办项列表，支持过滤和分页。
+    Batch query待办项列表，支持过滤和分页。
 
     Args:
         client: DME API client
@@ -465,14 +465,14 @@ def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
     查询待办项详情信息
 
-    查询指定待办项的详细信息。
+    Query待办项的Details。
 
     Args:
         client: DME API client
         item_id: 待办项 ID（Required）
 
     Returns:
-        待办项详细信息
+        待办项Details
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}"
 
@@ -576,7 +576,7 @@ import time
 
 def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
-    查询指定任务详情
+    QueryTask details
     
     根据任务唯一标识 TaskId 进行查询。
     
@@ -585,7 +585,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         task_id: 任务 ID（Required，1~36 个字符）
     
     Returns:
-        任务详情列表，包含：
+        Task details列表，包含：
         - id: 任务 ID
         - name_en: 任务英文名称
         - name_cn: 任务中文名称
@@ -603,7 +603,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - detail_cn: 任务中文详情
         - is_support_retry: 是否支持重试
         - is_support_rollback: 是否支持回滚
-        - remarks: 备注信息
+        - remarks: Remark
         - resources: 任务关联的资源列表
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
@@ -617,7 +617,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                owner_id: str = None, create_time_from: int = None,
                create_time_to: int = None) -> dict:
     """
-    批量查询任务
+    Batch query任务
     
     Args:
         client: DME API client
@@ -630,7 +630,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         create_time_to: 创建时间结束（Optional，UTC 毫秒数）
     
     Returns:
-        任务列表
+        Task list
     """
     url = "/rest/taskmgmt/v1/tasks"
     
@@ -699,7 +699,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     while True:
         task_info = task_show(client, task_id)
 
-        # API 返回的是列表，获取根任务详情
+        # API 返回的是列表，获取根Task details
         for task in task_info:
             if task["id"] == task_id:
                 root_task = task
@@ -755,7 +755,7 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
 def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                          name: str = None) -> dict:
     """
-    批量查询标签类型
+    Batch query标签类型
     
     Args:
         client: DME API client
@@ -809,7 +809,7 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
 
 def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     """
-    批量删除标签类型
+    Batch delete标签类型
     
     Args:
         client: DME API client
@@ -867,7 +867,7 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
 def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
                     name: str = None, tag_type_id: str = None) -> dict:
     """
-    批量查询标签
+    Batch query标签
     
     Args:
         client: DME API client
@@ -927,7 +927,7 @@ def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
 
 def tag_delete(client: DMEAPIClient, tag_ids: list) -> dict:
     """
-    批量删除标签
+    Batch delete标签
     
     Args:
         client: DME API client
@@ -995,7 +995,7 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
 def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = None,
          start: int = 1, limit: int = 512, is_sc: bool = False) -> dict:
     """
-    批量查询可用分区。
+    Batch query可用分区。
 
     Args:
         client: DME API client
@@ -1008,7 +1008,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     Returns:
         {
             total: 可用分区总数 (integer),
-            az_list: 可用分区列表 (List<GetAzResponse>)。参数格式如下：[{
+            az_list: Availability zone list (List<GetAzResponse>)。参数格式如下：[{
                 id: 可用分区id (string),
                 name: 可用分区名称 (string),
                 description: 可用分区描述 (string),
@@ -1073,14 +1073,14 @@ def dc_show(client: DMEAPIClient, dc_id: str) -> dict:
     """
     获取数据中心详情
     
-    查询指定数据中心的详细信息。
+    Query数据中心的Details。
     
     Args:
         client: DME API client
         dc_id: 数据中心 ID（Required）
     
     Returns:
-        数据中心详细信息
+        数据中心Details
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/{dc_id}"
     
@@ -1092,7 +1092,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
                  device_type: list = None, page_no: int = 1,
                  page_size: int = 20) -> dict:
     """
-    查询指定数据中心的设备列表信息
+    Query数据中心的设备列表信息
     
     Args:
         client: DME API client
@@ -1129,7 +1129,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
                 sort_key: str = None, sort_dir: str = None,
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询Region。
+    Batch queryRegion。
 
     Args:
         client: DME API client
@@ -1147,7 +1147,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Returns:
         {
             total: 总数 (integer),
-            regions: Region列表。参数格式如下：[{
+            regions: Region list。参数格式如下：[{
                 id: Region ID (string),
                 name: Region名称 (string),
                 role: Region角色 (string),
@@ -1251,13 +1251,13 @@ ACTIONS = {
     # 子主题动作 - user（三级结构）
     'user_list': {
         'func': user_list,
-        'description': '批量查询用户信息',
+        'description': 'Batch query用户信息',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'user'
     },
     'user_show': {
         'func': user_show,
-        'description': '查询指定用户信息',
+        'description': 'Query用户信息',
         'params': ['user_id'],
         'subtopic': 'user'
     },
@@ -1276,14 +1276,14 @@ ACTIONS = {
     # 子主题动作 - role（三级结构）
     'role_list': {
         'func': role_list,
-        'description': '批量查询角色信息',
+        'description': 'Batch query角色信息',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
     # 子主题动作 - backup_server（三级结构）
     'backup_server_list': {
         'func': backup_server_list,
-        'description': '批量查询备份服务器',
+        'description': 'Batch query backup servers',
         'params': ['address', 'name', 'page_no', 'page_size'],
         'subtopic': 'backup_server'
     },
@@ -1312,13 +1312,13 @@ ACTIONS = {
     # 子主题动作 - todo_task（三级结构）
     'todo_task_list': {
         'func': todo_task_list,
-        'description': '查询待办任务列表',
+        'description': '查询待办Task list',
         'params': ['service_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'todo_task'
     },
     'todo_task_show': {
         'func': todo_task_show,
-        'description': '查询待办任务详情',
+        'description': '查询待办Task details',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
@@ -1349,13 +1349,13 @@ ACTIONS = {
     # 子主题动作 - task（三级结构）
     'task_show': {
         'func': task_show,
-        'description': '查询指定任务详情',
+        'description': 'QueryTask details',
         'params': ['task_id'],
         'subtopic': 'task'
     },
     'task_list': {
         'func': task_list,
-        'description': '批量查询任务',
+        'description': 'Batch query任务',
         'params': ['start', 'limit', 'task_name', 'status', 'owner_id', 'create_time_from', 'create_time_to'],
         'subtopic': 'task'
     },
@@ -1380,7 +1380,7 @@ ACTIONS = {
     },
     'tag_type_list': {
         'func': tag_type_list,
-        'description': '批量查询标签类型',
+        'description': 'Batch query标签类型',
         'params': ['start', 'limit', 'name'],
         'subtopic': 'tag_type'
     },
@@ -1392,7 +1392,7 @@ ACTIONS = {
     },
     'tag_type_delete': {
         'func': tag_type_delete,
-        'description': '批量删除标签类型',
+        'description': 'Batch delete标签类型',
         'params': ['tag_type_ids'],
         'subtopic': 'tag_type'
     },
@@ -1405,7 +1405,7 @@ ACTIONS = {
     },
     'tag_list': {
         'func': tag_list,
-        'description': '批量查询标签',
+        'description': 'Batch query标签',
         'params': ['start', 'limit', 'name', 'tag_type_id'],
         'subtopic': 'tag'
     },
@@ -1417,7 +1417,7 @@ ACTIONS = {
     },
     'tag_delete': {
         'func': tag_delete,
-        'description': '批量删除标签',
+        'description': 'Batch delete标签',
         'params': ['tag_ids'],
         'subtopic': 'tag'
     },
@@ -1436,7 +1436,7 @@ ACTIONS = {
     # 子主题动作 - az（三级结构）
     'az_list': {
         'func': az_list,
-        'description': '批量查询可用分区',
+        'description': 'Batch query可用分区',
         'params': ['az_name', 'operate_status', 'start', 'limit', 'is_sc'],
         'subtopic': 'az'
     },
@@ -1455,14 +1455,14 @@ ACTIONS = {
     },
     'dc_show_devices': {
         'func': dc_show_devices,
-        'description': '查询指定数据中心的设备列表信息',
+        'description': 'Query数据中心的设备列表信息',
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
     # region 子主题动作
     'region_list': {
         'func': region_list,
-        'description': '批量查询Region',
+        'description': 'Batch queryRegion',
         'params': ['ids', 'name', 'active_ip_address', 'standby_ip_address', 'sync_status', 'role', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'region'
     },

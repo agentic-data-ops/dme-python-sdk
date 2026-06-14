@@ -19,7 +19,7 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
                sort_key: str = None, sort_dir: str = None,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询保护组
+    Batch query保护组
 
     Args:
         client: DME API client
@@ -39,7 +39,7 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
     Returns:
         {
             total: 保护组总数 (integer),
-            protection_groups: 保护组列表 (List<ProtectionGroupInfo>)。参数格式如下：[{
+            protection_groups: Protection group list (List<ProtectionGroupInfo>)。参数格式如下：[{
                 id: Protection group ID (string),
                 name: 保护组名称 (string),
                 status: 状态 (string),
@@ -147,7 +147,7 @@ def group_modify(client: DMEAPIClient, pg_id: str, name: str = None,
 
 def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
     """
-    批量删除保护组
+    Batch delete保护组
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
     >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
@@ -186,7 +186,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         is_delay: 是否延迟执行（Required），true：是；false：否；当延迟执行为 true 时：若一致性组或新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入一致性组；当延迟执行为 false 时：若一致性组或新 Pair 处于"正在同步"状态，将直接暂停一致性组和新 Pair，将新 Pair 加入一致性组，再同步一致性组
                         create_mode: 双活 Pair 的创建模式（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_pool_id: 远端存储池 ID（Optional），1~32 个字符，正则 ^[a-fA-F0-9]+$；双活 Pair 创建模式为 auto 时有效
-                        remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端资源名称保持一致）、prefix_and_suffix（前缀+本端资源名称+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
+                        remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
                         lun_pairs: 手动配置的双活 Pair 信息列表（Optional），数组最大成员个数 100；当 create_mode 为 manual 时有效。格式：[{
@@ -199,7 +199,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         create_mode: 远程复制 Pair 的创建模式（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64 个字符，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: 远端存储池 ID（Optional），1~32 个字符，正则 ^[a-fA-F0-9]+$；复制 Pair 创建模式为 auto 时有效
-                        remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端资源名称保持一致）、prefix_and_suffix（前缀+本端资源名称+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
+                        remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
                         lun_pairs: 手动配置的远程复制 Pair 信息列表（Optional），数组最大成员个数 100；当 create_mode 为 manual 时有效。格式：[{
@@ -233,7 +233,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
     """
     移除保护组中的成员 LUN
 
-    移除指定保护组中的成员 LUN。
+    Remove保护组中的成员 LUN。
 
     Args:
         client: DME API client
@@ -270,7 +270,7 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           local_vstore_raw_id: str = None, remote_vstore_id: str = None,
                           remote_vstore_raw_id: str = None) -> dict:
     """
-    批量查询双活一致性组
+    Batch query双活一致性组
 
     Args:
         client: DME API client
@@ -333,7 +333,7 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
         name: 双活一致性组名称
         local_storage_id: 本端设备 ID
         local_pg_id: 本端保护组的 ID，条件Required：当设备类型为 OceanStor Dorado V6、OceanStor V6 时Required
-        description: 描述信息
+        description: Description
         create_mode: 双活 Pair 的创建模式，Optional值：auto（自动模式）, manual（手动模式）
         remote_vstore_id: 远端设备的租户 ID，条件Required：当 create_mode 为 auto 且设备为 OceanStor Dorado 6.1.3 及以上版本时
         remote_storage_pool_id: 远端存储池 ID，条件Required：当 create_mode 为 auto 时
@@ -384,7 +384,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         client: DME API client
         group_id: 双活一致性组 ID
         name: 双活一致性组名称
-        description: 描述信息
+        description: Description
         recovery_policy: 双活 Pair 恢复策略，Optional值：automatic（自动）, manual（手动）
         service_assurance_policy: 业务保障策略，Optional值：data_reliability_preferred（数据可靠优先）, service_continuity_preferred（业务连续优先）
         speed: 同步速率，Optional值：low, medium, high, highest, custom
@@ -422,7 +422,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
 def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
                              is_self_adapt: bool = None) -> dict:
     """
-    批量删除双活一致性组
+    Batch delete双活一致性组
 
     Args:
         client: DME API client
@@ -588,7 +588,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
                          remote_vstore_id: str = None, remote_vstore_raw_id: str = None,
                          remote_volume_name: str = None) -> dict:
     """
-    批量查询 LUN 双活 Pair
+    Batch query LUN 双活 Pair
 
     Args:
         client: DME API client
@@ -762,7 +762,7 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
 def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None,
                             is_lun_service_interrupt: bool = None) -> dict:
     """
-    批量删除双活 Pair
+    Batch delete双活 Pair
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
     >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
@@ -896,7 +896,7 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
                             types: list = None) -> dict:
     """
-    批量查询双活域
+    Batch query双活域
 
     Args:
         client: DME API client
@@ -931,7 +931,7 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           remote_vstore_id: str = None, remote_vstore_raw_id: str = None,
                           remote_volume_name: str = None) -> dict:
     """
-    批量查询复制 Pair
+    Batch query复制 Pair
 
     Args:
         client: DME API client
@@ -1007,8 +1007,8 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         remote_storage_pool_id: 远端存储池 ID
         remote_vstore_id: 远端设备的租户 ID
         remote_resource_name_rule: 远端资源的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
-        name_prefix: 远端资源名称前缀
-        name_suffix: 远端资源名称后缀
+        name_prefix: 远端Resource name前缀
+        name_suffix: 远端Resource name后缀
         speed: 同步速率，Optional值：low, medium, high, highest, custom
         bandwidth: 自定义同步速率（MB/s），当 speed 为 custom 时Required
         recovery_policy: 恢复策略，Optional值：automatic, manual
@@ -1133,7 +1133,7 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
 
 def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None) -> dict:
     """
-    批量删除远程复制 Pair
+    Batch delete远程复制 Pair
 
     Args:
         client: DME API client
@@ -1309,7 +1309,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
                   parent_name: str = None, activated_time_from: int = None,
                   activated_time_to: int = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询 LUN 快照
+    Batch query LUN 快照
 
     Args:
         client: DME API client
@@ -1320,7 +1320,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         health_status: 健康状态，Optional值：normal, fault, write_protected
         running_status: 运行状态，Optional值：activated, rolling_back, unactivated, initializing, deleting, unknown
         source_lun_name: 源 LUN 名称，supports fuzzy search
-        parent_name: 父对象名称，supports fuzzy search
+        parent_name: 父Object name，supports fuzzy search
         activated_time_from: 查询激活时间的起始点（Unix 时间戳，单位秒）
         activated_time_to: 查询激活时间的结束点（Unix 时间戳，单位秒）
         page_no: 分页查询的开始页，最小值为 1，默认值为 1
@@ -1363,7 +1363,7 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
 
 def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activate: bool = None) -> dict:
     """
-    批量创建 LUN 快照
+    Batch create LUN 快照
 
     Args:
         client: DME API client
@@ -1416,7 +1416,7 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
 def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_lun: bool = None,
                     is_auto_deactivate: bool = None) -> dict:
     """
-    批量删除 LUN 快照
+    Batch delete LUN 快照
 
     Args:
         client: DME API client
@@ -1457,7 +1457,7 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
         client: DME API client
         name: 快照一致性组名称
         protect_group_id: 保护组的 ID
-        description: 描述信息
+        description: Description
         creation_mode: 创建模式，Optional值：new_snapshot
 
     Returns:
@@ -1483,7 +1483,7 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
 
 def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete_target_lun: bool = None) -> dict:
     """
-    批量删除快照一致性组
+    Batch delete快照一致性组
 
     Args:
         client: DME API client
@@ -1518,7 +1518,7 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
     Args:
         client: DME API client
         snapshot_cg_id: 快照一致性组 ID
-        object_type: 对象类型，Optional值：parent_object
+        object_type: Object type，Optional值：parent_object
         snapshot_create_mode: 快照创建方式，Optional值：auto, manual
         name_rule: 快照名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 快照名称前缀
@@ -1634,7 +1634,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name: 克隆一致性组名称
         protect_group_id: 保护组 ID
         create_mode: 创建模式，Optional值：auto, manual
-        description: 描述信息
+        description: Description
         name_rule: 目标 LUN 名称命名规则，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: 目标 LUN 名称前缀
         name_suffix: 目标 LUN 名称后缀
@@ -1716,7 +1716,7 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
 def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool = None,
                        is_recycle_dst_lun_data: bool = None) -> dict:
     """
-    批量删除克隆一致性组
+    Batch delete克隆一致性组
 
     Args:
         client: DME API client
@@ -1763,10 +1763,10 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         client: DME API client
         cg_name: 远程复制一致性组名称
         remote_storage_id: 远端Storage device ID
-        local_pg_id: 本端保护组的 ID，当存储设备版本是 OceanStor V6、OceanStor Dorado V6 时必传
-        description: 描述信息
-        remote_lun_group_id: 远端 LUN 组的 ID，当存储设备版本是 OceanStor V6、OceanStor Dorado V6 时且本端保护组是基于 LUN 组创建的时必传
-        local_storage_id: 本端Storage device ID，当存储设备版本不是 OceanStor V6、OceanStor Dorado V6 时必传
+        local_pg_id: 本端保护组的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时必传
+        description: Description
+        remote_lun_group_id: 远端 LUN 组的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时且本端保护组是基于 LUN 组创建的时必传
+        local_storage_id: 本端Storage device ID，当Storage device version不是 OceanStor V6、OceanStor Dorado V6 时必传
         create_mode: 复制 Pair 的创建模式，Optional值：auto（自动）, manual（手动）
         existed_pair_ids: 已存在的复制 Pair 的 ID 列表
         lun_pairs: 手动创建模式下，复制 Pair 的源 LUN、目标 LUN 的 ID 列表
@@ -1774,8 +1774,8 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         remote_storage_pool_id: 远端存储池 ID，自动创建模式下有效
         remote_vstore_id: 远端设备的租户 ID，自动创建模式下有效
         remote_resource_name_rule: 远端资源的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
-        name_prefix: 远端资源名称前缀
-        name_suffix: 远端资源名称后缀
+        name_prefix: 远端Resource name前缀
+        name_suffix: 远端Resource name后缀
 
     Returns:
         {
@@ -1834,7 +1834,7 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         client: DME API client
         replication_group_id: 远程复制一致性组 ID
         name: 远程复制一致性组名称
-        description: 描述信息
+        description: Description
         speed: 同步速率，Optional值：low, medium, high, highest, custom
         bandwidth: 自定义同步速率（MB/s），当 speed 为 custom 时Required
         recovery_policy: 恢复策略，Optional值：automatic, manual
@@ -1890,7 +1890,7 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
 def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: bool = None,
                               delete_mode: str = None) -> dict:
     """
-    批量删除远程复制一致性组
+    Batch delete远程复制一致性组
 
     Args:
         client: DME API client
@@ -2128,7 +2128,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
                           sort_dir: str = None, page_no: int = 1,
                           page_size: int = 20) -> dict:
     """
-    查询文件系统双活Pair列表。
+    查询Filesystem active-active pair list。
 
     Args:
         client: DME API client
@@ -2149,7 +2149,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
     Returns:
         {
             total: 总数 (integer),
-            filesystem_pairs: 文件系统双活Pair列表。参数格式如下：[{
+            filesystem_pairs: Filesystem active-active pair list。参数格式如下：[{
                 id: Pair ID (string),
                 name: 名称 (string),
                 status: 状态 (string),
@@ -2245,12 +2245,12 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
                             is_local_delete: bool = None,
                             is_online_delete: bool = None) -> dict:
     """
-    批量删除文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+    Batch delete文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
 
     Args:
         client: DME API client
         ids: 双活Pair实例ID列表 (Required, List[string])
-        is_local_delete: 是否删除本端配置信息 (Optional, boolean, true,false)
+        is_local_delete: 是否删除本端Configuration info (Optional, boolean, true,false)
         is_online_delete: 是否在线删除 (Optional, boolean, true,false)
 
     Returns:
@@ -2314,7 +2314,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
                       local_fs_name: str = None, local_fs_id: str = None,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询文件系统快照。
+    Batch query文件系统快照。
 
     Args:
         client: DME API client
@@ -2329,7 +2329,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
     Returns:
         {
             total: 总数 (integer),
-            snapshots: 文件系统快照列表。参数格式如下：[{
+            snapshots: Filesystem snapshot list。参数格式如下：[{
                 id: 快照ID (string),
                 name: 快照名称 (string),
                 status: 状态 (string),
@@ -2359,7 +2359,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
 
 def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除文件系统快照。
+    Batch delete文件系统快照。
 
     Args:
         client: DME API client
@@ -2427,7 +2427,7 @@ def vstore_pair_create(client: DMEAPIClient, local_storage_id: str,
         remote_storage_id: 远端Storage device ID (Required, string)
         name: 租户Pair名称 (Optional, string)
         description: 描述 (Optional, string)
-        remote_vstore_id: 远端租户ID (Optional, string)
+        remote_vstore_id: 远端Tenant ID (Optional, string)
 
     Returns:
         {
@@ -2460,7 +2460,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
                       health_status: str = None, running_status: str = None,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询双活租户Pair列表。
+    查询Active-active tenant pair list。
 
     Args:
         client: DME API client
@@ -2477,7 +2477,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Returns:
         {
             total: 总数 (integer),
-            vstore_pairs: 双活租户Pair列表。参数格式如下：[{
+            vstore_pairs: Active-active tenant pair list。参数格式如下：[{
                 id: Pair ID (string),
                 name: 名称 (string),
                 status: 状态 (string),
@@ -2537,7 +2537,7 @@ def vstore_pair_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除双活租户Pair。
+    Batch delete双活租户Pair。
 
     Args:
         client: DME API client
@@ -2563,7 +2563,7 @@ def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
     """
-    修改指定双活租户pair。
+    Modify双活租户pair。
 
     Args:
         client: DME API client
@@ -2740,7 +2740,7 @@ ACTIONS = {
     # group 子主题动作
     'group_list': {
         'func': group_list,
-        'description': '批量查询保护组',
+        'description': 'Batch query保护组',
         'params': ['name', 'project_id', 'storage_name', 'storage_id', 'raw_id', 'lun_group_raw_id', 'vstore_id', 'vstore_raw_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'group'
     },
@@ -2758,7 +2758,7 @@ ACTIONS = {
     },
     'group_delete': {
         'func': group_delete,
-        'description': '批量删除保护组',
+        'description': 'Batch delete保护组',
         'params': ['pg_ids'],
         'subtopic': 'group'
     },
@@ -2777,7 +2777,7 @@ ACTIONS = {
     # hypermetro_group 子主题动作
     'hypermetro_group_list': {
         'func': hypermetro_group_list,
-        'description': '批量查询双活一致性组',
+        'description': 'Batch query双活一致性组',
         'params': ['page_no', 'page_size', 'name', 'raw_id', 'protect_group_id', 'storage_id', 'storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'remote_vstore_id', 'remote_vstore_raw_id'],
         'subtopic': 'hypermetro_group'
     },
@@ -2795,7 +2795,7 @@ ACTIONS = {
     },
     'hypermetro_group_delete': {
         'func': hypermetro_group_delete,
-        'description': '批量删除双活一致性组',
+        'description': 'Batch delete双活一致性组',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'hypermetro_group'
     },
@@ -2832,7 +2832,7 @@ ACTIONS = {
     # hypermetro_pair 子主题动作
     'hypermetro_pair_list': {
         'func': hypermetro_pair_list,
-        'description': '批量查询 LUN 双活 Pair',
+        'description': 'Batch query LUN 双活 Pair',
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'group_raw_id', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'local_host_access_state', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
         'subtopic': 'hypermetro_pair'
     },
@@ -2850,7 +2850,7 @@ ACTIONS = {
     },
     'hypermetro_pair_delete': {
         'func': hypermetro_pair_delete,
-        'description': '批量删除双活 Pair',
+        'description': 'Batch delete双活 Pair',
         'params': ['ids', 'delete_mode', 'is_lun_service_interrupt'],
         'subtopic': 'hypermetro_pair'
     },
@@ -2881,7 +2881,7 @@ ACTIONS = {
     # hypermetro_domain 子主题动作
     'hypermetro_domain_list': {
         'func': hypermetro_domain_list,
-        'description': '批量查询双活域',
+        'description': 'Batch query双活域',
         'params': ['storage_id', 'types'],
         'subtopic': 'hypermetro_domain'
     },
@@ -2900,7 +2900,7 @@ ACTIONS = {
     },
     'replication_group_delete': {
         'func': replication_group_delete,
-        'description': '批量删除远程复制一致性组',
+        'description': 'Batch delete远程复制一致性组',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'replication_group'
     },
@@ -2943,7 +2943,7 @@ ACTIONS = {
     # replication_pair 子主题动作
     'replication_pair_list': {
         'func': replication_pair_list,
-        'description': '批量查询复制 Pair',
+        'description': 'Batch query复制 Pair',
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
         'subtopic': 'replication_pair'
     },
@@ -2961,7 +2961,7 @@ ACTIONS = {
     },
     'replication_pair_delete': {
         'func': replication_pair_delete,
-        'description': '批量删除远程复制 Pair',
+        'description': 'Batch delete远程复制 Pair',
         'params': ['ids', 'delete_mode'],
         'subtopic': 'replication_pair'
     },
@@ -3005,13 +3005,13 @@ ACTIONS = {
     # snapshot 子主题动作
     'snapshot_list': {
         'func': snapshot_list,
-        'description': '批量查询 LUN 快照',
+        'description': 'Batch query LUN 快照',
         'params': ['snapshot_ids', 'storage_id', 'raw_id', 'name', 'health_status', 'running_status', 'source_lun_name', 'parent_name', 'activated_time_from', 'activated_time_to', 'page_no', 'page_size'],
         'subtopic': 'snapshot'
     },
     'snapshot_create': {
         'func': snapshot_create,
-        'description': '批量创建 LUN 快照',
+        'description': 'Batch create LUN 快照',
         'params': ['snapshots_info', 'is_consist_activate'],
         'subtopic': 'snapshot'
     },
@@ -3023,7 +3023,7 @@ ACTIONS = {
     },
     'snapshot_delete': {
         'func': snapshot_delete,
-        'description': '批量删除 LUN 快照',
+        'description': 'Batch delete LUN 快照',
         'params': ['snapshot_ids', 'is_delete_target_lun', 'is_auto_deactivate'],
         'subtopic': 'snapshot'
     },
@@ -3036,7 +3036,7 @@ ACTIONS = {
     },
     'snapshot_group_delete': {
         'func': snapshot_group_delete,
-        'description': '批量删除快照一致性组',
+        'description': 'Batch delete快照一致性组',
         'params': ['snapshot_cg_ids', 'is_delete_target_lun'],
         'subtopic': 'snapshot_group'
     },
@@ -3073,7 +3073,7 @@ ACTIONS = {
     },
     'clone_group_delete': {
         'func': clone_group_delete,
-        'description': '批量删除克隆一致性组',
+        'description': 'Batch delete克隆一致性组',
         'params': ['ids', 'is_delete_dst_lun', 'is_recycle_dst_lun_data'],
         'subtopic': 'clone_group'
     },
@@ -3086,7 +3086,7 @@ ACTIONS = {
     },
     'filesystem_pair_list': {
         'func': filesystem_pair_list,
-        'description': '查询文件系统双活Pair列表',
+        'description': '查询Filesystem active-active pair list',
         'params': ['ids', 'name', 'status', 'storage_id', 'vstore_pair_id', 'local_fs_name', 'local_fs_id', 'health_status', 'running_status', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'fs_hypermetro_pair'
     },
@@ -3104,7 +3104,7 @@ ACTIONS = {
     },
     'filesystem_pair_delete': {
         'func': filesystem_pair_delete,
-        'description': '批量删除文件系统双活Pair',
+        'description': 'Batch delete文件系统双活Pair',
         'params': ['ids', 'is_local_delete', 'is_online_delete'],
         'subtopic': 'fs_hypermetro_pair'
     },
@@ -3117,13 +3117,13 @@ ACTIONS = {
     },
     'fs_snapshot_list': {
         'func': fs_snapshot_list,
-        'description': '批量查询文件系统快照',
+        'description': 'Batch query文件系统快照',
         'params': ['fs_pair_id', 'name', 'status', 'local_fs_name', 'local_fs_id', 'page_no', 'page_size'],
         'subtopic': 'fs_snapshot'
     },
     'fs_snapshot_delete': {
         'func': fs_snapshot_delete,
-        'description': '批量删除文件系统快照',
+        'description': 'Batch delete文件系统快照',
         'params': ['ids'],
         'subtopic': 'fs_snapshot'
     },
@@ -3142,7 +3142,7 @@ ACTIONS = {
     },
     'vstore_pair_list': {
         'func': vstore_pair_list,
-        'description': '查询双活租户Pair列表',
+        'description': '查询Active-active tenant pair list',
         'params': ['ids', 'name', 'status', 'local_storage_id', 'remote_storage_id', 'health_status', 'running_status', 'page_no', 'page_size'],
         'subtopic': 'vstore_hypermetro_pair'
     },
@@ -3154,13 +3154,13 @@ ACTIONS = {
     },
     'vstore_pair_delete': {
         'func': vstore_pair_delete,
-        'description': '批量删除双活租户Pair',
+        'description': 'Batch delete双活租户Pair',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_modify': {
         'func': vstore_pair_modify,
-        'description': '修改指定双活租户pair',
+        'description': 'Modify双活租户pair',
         'params': ['id', 'name'],
         'subtopic': 'vstore_hypermetro_pair'
     },

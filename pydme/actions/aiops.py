@@ -186,12 +186,12 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     Args:
         client: DME API client
         alarm_id: 告警 ID,supports fuzzy match
-        severity: 告警级别列表,取值:critical, major, minor, warning, indeterminate, cleared
+        severity: Alarm severity列表,取值:critical, major, minor, warning, indeterminate, cleared
         mo_dn: 被管理对象 DN,支持 inc 操作符匹配
         alarm_group_id: 告警组 ID
         dc_id: 数据中心 ID
         product_name: 产品名称
-        alarm_name: 告警名称,supports fuzzy match
+        alarm_name: Alarm name,supports fuzzy match
         occur_utc_start: 告警发生开始时间(毫秒时间戳)
         occur_utc_end: 告警发生结束时间(毫秒时间戳)
         fields: 指定返回的字段列表
@@ -204,10 +204,10 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
 
     Returns:
         {
-            current_alarms: 当前告警列表 (List<AlarmInfo>)。参数格式如下：[{
-                alarm_id: 告警ID (string),
-                alarm_name: 告警名称 (string),
-                severity: 告警级别 (string),
+            current_alarms: Current alarm list (List<AlarmInfo>)。参数格式如下：[{
+                alarm_id: Alarm ID (string),
+                alarm_name: Alarm name (string),
+                severity: Alarm severity (string),
                 status: 状态 (string),
             }, ...],
             total: 告警总数 (integer),
@@ -344,7 +344,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     Args:
         client: DME API client
         object_ids: 入口分析对象 ID 列表(Required),数组大小:1~50
-        object_type: 入口对象类型(Required),取值范围:
+        object_type: 入口Object type(Required),取值范围:
             - VM: 虚拟机
             - STORAGE_HOST: 存储主机
             - STORAGE_DEVICE: 存储设备
@@ -417,7 +417,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
         client: DME API client
         begin_time: 开始时间(Required,Unix 时间戳毫秒)
         end_time: 结束时间(Required,Unix 时间戳毫秒)
-        object_type_id: 对象类型 ID(Required,1~32 个字符)
+        object_type_id: Object type ID(Required,1~32 个字符)
         object_ids: 对象 ID 列表(Required,最多 2000 个,ID 长度 1~32 位)
         indicator_ids: 指标 ID 列表(Required,最多 20 个,ID 长度 1~16 位)
 
@@ -467,26 +467,26 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     有汇聚数据情况下,返回结果序列是平均值序列,并包含最大值,最小值以及对应时间戳.
 
     使用说明:
-    - 对象类型和指标定义:从性能指标模型文档获取 (reference/dme_performance_model/index.md)
+    - Object type和指标定义:从性能指标模型文档获取 (reference/dme_performance_model/index.md)
     - 对象 ID (CMDB 实例 ID) 获取步骤:
       1. 运行 `cmdb instance list --help` 查看帮助,了解类定义和查询方式
-      2. 根据帮助信息,从 CMDB 资源模型中确定要查询的资源类型 (Class 名称)
+      2. 根据帮助信息,从 CMDB 资源模型中确定要查询的Resource type (Class 名称)
       3. 使用 `cmdb instance list --class_name <Class 名称>` 查询实例列表
       4. 从返回结果中获取对应资源的 instance_id (即 obj_ids 参数)
 
     Args:
         client: DME API client
-        obj_type_id: 监控对象类型标识(Required),对应监控对象类型 ID
+        obj_type_id: 监控Object type标识(Required),对应监控Object type ID
                      从性能指标模型文档获取:reference/dme_performance_model/index.md
         indicator_ids: 监控指标标识列表(Required,最多 100 个),对应指标 ID
                        从性能指标模型文档获取:reference/dme_performance_model/index.md
         obj_ids: 监控对象标识列表(Required,最多 512 个),对应 CMDB 实例 ID
                  获取方式:
                  1. 运行 `cmdb instance list --help` 查看帮助,了解类定义
-                 2. 根据帮助确定要查询的资源类型 (Class 名称)
+                 2. 根据帮助确定要查询的Resource type (Class 名称)
                  3. 运行 `cmdb instance list --class_name <Class 名称>` 查询实例
                  4. 从返回结果中获取 instance_id
-        obj_type: 监控对象类型(Optional,1~512 个字符)
+        obj_type: 监控Object type(Optional,1~512 个字符)
         indicators: 监控指标列表(Optional,最多 100 个)
         ext_dimensions: 扩展维度信息列表(Optional,最多 100 个)
         interval: 间隔粒度(Optional)
@@ -532,7 +532,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
 
 def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     """
-    显示监控指标详细信息
+    显示监控指标Details
 
     Args:
         client: DME API client
@@ -555,11 +555,11 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
 def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
     """
-    列出监控对象类型支持的监控指标
+    列出监控Object type支持的监控指标
 
     Args:
         client: DME API client
-        obj_type_id: 监控对象类型标识(Required)
+        obj_type_id: 监控Object type标识(Required)
 
     Returns:
         监控指标信息,包含 indicator_ids 列表
@@ -572,15 +572,15 @@ def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
 
 def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> dict:
     """
-    获取所有监控对象类型
+    获取所有监控Object type
 
     Args:
         client: DME API client
         filter: 过滤关键字(Optional),用于模糊匹配 zh_cn 和 en_us 字段
-                如果提供,仅返回匹配的对象类型
+                如果提供,仅返回匹配的Object type
 
     Returns:
-        监控对象类型列表,包含 obj_type_id, parent_obj_type_id, resource_category,
+        监控Object type列表,包含 obj_type_id, parent_obj_type_id, resource_category,
         resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等字段
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types"
@@ -615,8 +615,8 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
         object_id: 资源 ID（Required，1~256 个字符）
         begin_time: 开始时间（Required），自 1970 年 1 月 1 日（00:00:00GMT）至当前时间的毫秒数
         end_time: 结束时间（Required），自 1970 年 1 月 1 日（00:00:00GMT）至当前时间的毫秒数
-        object_type: 资源类型（Required）
-        indicator: 资源类型所对应的指标（capacity_prediction 和 performance_prediction Required）
+        object_type: Resource type（Required）
+        indicator: Resource type所对应的指标（capacity_prediction 和 performance_prediction Required）
 
     Returns:
         {
@@ -652,17 +652,17 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
     """
     查询对象健康度
 
-    查询指定类型对象的健康度信息。
+    Query类型对象的健康度信息。
 
     Args:
         client: DME API client
-        object_type: 对象类型（Required）
+        object_type: Object type（Required）
                     Optional值：storage（存储设备）, storage_pool（存储池）, storage_host（存储主机）,
                            storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤交换机端口）,
                            storage_file_system（文件系统）, controller（控制器）, replication_cg（远程复制一致性组）,
                            volume（LUN）, tier（服务等级）, datastore（数据存储）, virtual_machine（虚拟机）,
                            storage_name_space（命名空间）, storage_node（存储节点）, dpc（并行客户端）
-        object_name: 对象名称，supports fuzzy search（Optional，最多 256 个字符）
+        object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
         object_ids: 对象 resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
         page_no: 分页查询的起始位置（Optional，最小值：1）
         page_size: 每页显示的数量（Optional，1~100，默认 20）
@@ -702,12 +702,12 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
     """
     查询健康维度的扣分详情
 
-    查询指定对象在指定健康维度下的扣分详情。
+    Query对象在指定健康维度下的扣分详情。
 
     Args:
         client: DME API client
         object_id: 对象 Id（Required，1~128 个字符）
-        object_type: 对象类型（Required）
+        object_type: Object type（Required）
                     Optional值：storage, storage_pool, storage_host, storage_disk, storage_port,
                            fcswitch_port, storage_file_system, controller, replication_cg, volume,
                            tier, datastore, virtual_machine, storage_name_space, storage_node,
@@ -805,8 +805,8 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                     capacity_prediction-容量预警，history_performance-历史性能，
                     load_imbalance-负载失衡，highload-高负载资源）
         policy_source: 来源（pre-define-预置，user-define-自定义）
-        alarm_type: 告警类型（violation-异常，alarm-告警，event-事件）
-        object_type: 对象类型（storage-存储，lun-逻辑单元，host-主机等）
+        alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
+        object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
         page_no: 分页查询的页码，1~1000，默认 1
         page_size: 分页查询的个数，1~100，默认 20
         sort_key: 排序字段（last_check_time-最后检查时间，failed_count-检查不通过的对象个数）
@@ -924,7 +924,7 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
     """
     删除检查策略
 
-    删除指定的检查策略。
+    Delete的检查策略。
 
     Args:
         client: DME API client
@@ -960,16 +960,16 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
 
     Args:
         client: DME API client
-        object_name: 对象名称（supports fuzzy search，1~256 个字符）
+        object_name: Object name（supports fuzzy search，1~256 个字符）
         level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
         object_ids: 对象 ID 列表（最多 100 个）
         object_native_id: 对象 nativeId（1~384 个字符）
-        object_type: 对象类型（storage-存储，lun-逻辑单元，host-主机等）
+        object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
         policy_id: 策略 ID（精确查询，1~64 个字符）
         policy_name: 策略名称（supports fuzzy search，1~256 个字符）
         policy_types: 策略类型列表（最多 30 个）
         cause: 异常原因（supports fuzzy search，1~768 个字符）
-        alarm_type: 告警类型（violation-异常，alarm-告警，event-事件）
+        alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
         first_occur_time: 第一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
         last_occur_time: 最后一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
         page_no: 分页查询的页码，1~10000，默认 1
@@ -1026,7 +1026,7 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     """
     查询检查策略异常检查结果详情
 
-    查询指定检查结果的详细信息。
+    Query检查结果的Details。
 
     Args:
         client: DME API client
@@ -1035,7 +1035,7 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含检查结果的详细信息
+        }，包含检查结果的Details
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/{check_result_id}"
 
@@ -1057,7 +1057,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 
     Args:
         client: DME API client
-        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口对象ID>","type":"<入口对象类型>"},...]，支持类型：
+        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - host: 主机
             - storage: 存储设备
             - host_group: 主机组
@@ -1113,7 +1113,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
     Args:
         client: DME API client
-        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口对象ID>","type":"<入口对象类型>"},...]，支持类型：
+        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - host: 主机
             - storage: 存储设备
             - lun: LUN
@@ -1133,7 +1133,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             task_id: Task ID (string, 1~64个字符),
         }，包含主机到存储池的拓扑结构：
         - ip_san 数据：
-          - switches: 交换机列表
+          - switches: Switch list
           - hosts: 主机列表
           - storages: 存储列表
           - switch_links: 交换机连接关系列表
@@ -1198,7 +1198,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
 
     Args:
         client: DME API client
-        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口对象ID>","type":"<入口对象类型>"},...]，支持类型：
+        entry_objects: 入口对象列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
             - vm: 虚拟机
             - host_group: 主机组
             - host: 主机
@@ -1217,7 +1217,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
             task_id: Task ID (string, 1~64个字符),
         }，包含：
         - total: Query result总数
-        - vms: 虚拟机列表
+        - vms: VM list
         - disks: 物理主机关联的物理磁盘列表
     """
     url = "/rest/topomgmt/v1/topo-data/vms/query"
@@ -1252,7 +1252,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 
     Args:
         client: DME API client
-        entry_res_type: 入口资源类型（Required），支持类型：
+        entry_res_type: 入口Resource type（Required），支持类型：
             - storage_device: 存储设备
             - disk: 磁盘
             - storage_pool: 存储池
@@ -1375,19 +1375,19 @@ ACTIONS = {
     },
     'performance_show_indicators': {
         'func': performance_show_indicators,
-        'description': '显示监控指标详细信息',
+        'description': '显示监控指标Details',
         'params': ['indicators'],
         'subtopic': 'performance'
     },
     'performance_list_indicators': {
         'func': performance_list_indicators,
-        'description': '列出监控对象类型支持的监控指标',
+        'description': '列出监控Object type支持的监控指标',
         'params': ['obj_type_id'],
         'subtopic': 'performance'
     },
     'performance_list_object_types': {
         'func': performance_list_object_types,
-        'description': '获取所有监控对象类型',
+        'description': '获取所有监控Object type',
         'params': ['filter'],
         'subtopic': 'performance'
     },

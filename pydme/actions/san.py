@@ -202,9 +202,9 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 suffix_length: 后缀编码位数 (1~4, 默认4; 当count大于1时有效),
                 start_suffix: 后缀起始编码 (0~9999, 默认0; 当count大于1时有效),
              }, ...]
-        pool_id: 存储池 ID（条件必传），1~64 个字符；当存储设备模式不为直通模式时必传；通过查询指定资源类型的所有实例接口获取，存储池的资源类型名称为 SYS_StoragePool
+        pool_id: 存储池 ID（条件必传），1~64 个字符；当存储设备模式不为直通模式时必传；通过QueryResource type的所有实例接口获取，存储池的Resource type名称为 SYS_StoragePool
         vstore_id: 租户 ID（可选），1~64 个字符；当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 及其以上版本时有效
-        owner_controller: 归属控制器（可选），1~64 个字符，通过查询指定存储上的控制器获取
+        owner_controller: 归属控制器（可选），1~64 个字符，通过Query存储上的控制器获取
         initial_distribute_policy: 容量初始分配策略（可选），仅支持华为 V3/V5 设备，Dorado 系列不支持；
                                   可选值：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；默认 automatic
         prefetch_policy: 预取策略（可选），影响磁盘读取；
@@ -222,7 +222,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         min_iops: 最小IOPS (1~999999999; 与max_bandwidth/max_iops互斥),
                         latency: 时延 (1~999999999ms; Dorado V6系列单位为us, 可选值为500/1500; 与max_bandwidth/max_iops互斥),
                 },
-                workload_type_raw_id: 应用类型ID (0~4294967295; 通过查询指定存储设备上应用类型接口获取),
+                workload_type_raw_id: 应用类型ID (0~4294967295; 通过Query存储设备上应用类型接口获取),
              }
         mapping: 映射信息 (可选), LunMapping 对象, 存在即表示为主机或主机组创建 LUN。参数格式如下：{
                 host_id: Host ID (1~64个字符; 与hostgroup_id二选其一, 不可同时存在),
@@ -237,7 +237,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                         port_group_raw_id: 端口组在存储设备上的ID (1~31个字符; 主机或主机组不存在映射关系时可指定, 存在映射关系时不可指定),
                 },
              }
-        task_remarks: 异步任务备注信息（可选），最多 1024 个字符
+        task_remarks: 异步任务Remark（可选），最多 1024 个字符
 
     Returns:
         {
@@ -1639,7 +1639,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                         special_mode_type: 特殊模式类型 (可选, 切换模式为特殊模式时有效)。可选值：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
-        task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
+        task_remarks: 异步任务Remark (可选, 最多1024个字符)
 
     Returns:
         任务 ID
@@ -1680,7 +1680,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
         client: DME API 客户端
         storage_host_group_id: 存储主机组 ID（必选，1~64 字符）
         storage_host_ids: 要移除的主机 ID 列表（必选，最多 1000 个）
-        task_remarks: 任务备注（可选，最多 1024 字符）
+        task_remarks: Task remark（可选，最多 1024 字符）
 
     Returns:
         任务 ID
@@ -1703,12 +1703,12 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
     """
     Batch delete storage host groups
 
-    批量删除指定的存储主机组。
+    Batch delete指定的存储主机组。
 
     Args:
         client: DME API 客户端
         host_group_ids: 存储主机组 ID 列表（必选，1~100 个）
-        task_remarks: 任务备注（可选，最多 1024 字符）
+        task_remarks: Task remark（可选，最多 1024 字符）
 
     Returns:
         Deletion result
@@ -3315,7 +3315,7 @@ ACTIONS = {
     # 端口组子主题动作（san port_group xxx）
     'port_group_list': {
         'func': port_group_list,
-        'description': '批量查询端口组',
+        'description': 'Batch query端口组',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'port_group'
     },
@@ -3405,7 +3405,7 @@ ACTIONS = {
     },
     'physical_host_query_sshkey': {
         'func': physical_host_query_sshkey,
-        'description': '查询指定物理主机SSH公钥',
+        'description': 'Query物理主机SSH公钥',
         'params': ['ip', 'port'],
         'subtopic': 'physical_host'
     },

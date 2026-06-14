@@ -14,9 +14,9 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
                   directory_id: str = None, group: str = None,
                   name: str = None) -> dict:
     """
-    分页查询模板列表
+    分页查询Template list
     
-    分页查询工作流模板列表。
+    分页查询工作流Template list。
     
     Args:
         client: DME API client
@@ -29,7 +29,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     Returns:
         {
             total: 模板数量 (integer, 最大值：500),
-            templates: 模板列表。参数格式如下：[{
+            templates: Template list。参数格式如下：[{
                 id: 模板ID (string),
                 name: 模板名称 (string),
                 description: 描述 (string),
@@ -56,9 +56,9 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
 
 def template_groups(client: DMEAPIClient) -> dict:
     """
-    查询所有模板分组
+    Query all模板分组
     
-    查询所有工作流模板分组。
+    Query all工作流模板分组。
     
     Args:
         client: DME API client
@@ -78,9 +78,9 @@ def template_groups(client: DMEAPIClient) -> dict:
 def template_show(client: DMEAPIClient, template_id: str,
                   template_version_id: str = None) -> dict:
     """
-    查询模板详细信息
+    查询模板Details
     
-    查询指定模板的详细信息。
+    Query模板的Details。
     
     Args:
         client: DME API client
@@ -128,7 +128,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     """
     查询实例详情
     
-    查询指定工作流实例的详细信息。
+    Query工作流实例的Details。
     
     Args:
         client: DME API client
@@ -225,19 +225,19 @@ ACTIONS = {
     # template 子主题动作
     'template_list': {
         'func': template_list,
-        'description': '分页查询模板列表',
+        'description': '分页查询Template list',
         'params': ['page_no', 'page_size', 'directory_id', 'group', 'name'],
         'subtopic': 'template'
     },
     'template_groups': {
         'func': template_groups,
-        'description': '查询所有模板分组',
+        'description': 'Query all模板分组',
         'params': [],
         'subtopic': 'template'
     },
     'template_show': {
         'func': template_show,
-        'description': '查询模板详细信息',
+        'description': '查询模板Details',
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },

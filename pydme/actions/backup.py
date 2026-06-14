@@ -13,7 +13,7 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询备份集群列表
+    查询Backup cluster list
     
     Args:
         client: DME API client
@@ -24,7 +24,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: 集群总数 (integer),
-            clusters: 备份集群列表。参数格式如下：[{
+            clusters: Backup cluster list。参数格式如下：[{
                 id: 集群ID (string),
                 name: 集群名称 (string),
                 status: 状态 (string),
@@ -49,7 +49,7 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
     查询备份集群容量
     
-    查询指定备份集群的容量信息。
+    Query备份集群的容量信息。
     
     Args:
         client: DME API client
@@ -57,8 +57,8 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     
     Returns:
         {
-            total_capacity: 总容量 (integer),
-            used_capacity: 已用容量 (integer),
+            total_capacity: Total capacity (integer),
+            used_capacity: Used capacity (integer),
             free_capacity: 空闲容量 (integer),
         }
     """
@@ -72,9 +72,9 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
                         quota_type: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询备份集群租户配额列表
+    查询备份集群Tenant quota list
     
-    查询指定备份集群下的租户配额列表。
+    Query备份集群下的Tenant quota list。
     
     Args:
         client: DME API client
@@ -86,10 +86,10 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     Returns:
         {
             total: 配额总数 (integer),
-            quotas: 租户配额列表。参数格式如下：[{
-                tenant_id: 租户ID (string),
+            quotas: Tenant quota list。参数格式如下：[{
+                tenant_id: Tenant ID (string),
                 quota: 配额大小 (integer),
-                used: 已用配额 (integer),
+                used: Used quota (integer),
             }, ...],
         }
     """
@@ -112,7 +112,7 @@ ACTIONS = {
     # 子主题动作 - cluster（三级结构：backup cluster list/capacity/quota）
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询备份集群列表',
+        'description': '查询Backup cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
@@ -124,7 +124,7 @@ ACTIONS = {
     },
     'cluster_quota': {
         'func': cluster_quota,
-        'description': '查询备份集群租户配额列表',
+        'description': '查询备份集群Tenant quota list',
         'params': ['cluster_id', 'quota_type', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },

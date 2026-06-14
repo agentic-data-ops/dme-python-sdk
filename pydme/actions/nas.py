@@ -690,7 +690,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                 fs_id: 文件系统的id (与namespace_id互斥),
                 namespace_id: 命名空间的id (与fs_id互斥),
              }
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -719,12 +719,12 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                      file_name_ex_filters: list = None,
                      task_remarks: str = None) -> dict:
     """
-    修改指定 NFS 共享
+    Modify NFS 共享
 
     Args:
         client: DME API 客户端
         nfs_share_id: NFS 共享 ID
-        description: 描述信息
+        description: Description
         character_encoding: 字符编码，可选值：utf-8, zh, gbk 等
         audit_items: 审计事件列表 (可选)。参数格式如下：[{
                 audititem: 审计事件类型。可选值：none (无操作), all (所有操作), open (打开), create (创建), read (读), write (写), close (关闭), delete (删除), rename (重命名), get_security (获取安全属性), set_security (设置安全属性), get_attr (获取属性), set_attr (设置属性),
@@ -767,7 +767,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                         fileoperations: 操作类型列表 (可选)。可选值：close, create, create_dir, delete, delete_dir, getattr, link, lookup, open, read, write, rename, rename_dir, setattr, symlink,
                 }
              }, ...]
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -813,12 +813,12 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
 def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    批量删除 NFS 共享
+    Batch delete NFS 共享
 
     Args:
         client: DME API 客户端
         nfs_share_ids: 待删除 NFS 共享 ID 列表
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -1019,7 +1019,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
              }
         fs_id: 文件系统的 ID，与 namespace_id 互斥
         namespace_id: 命名空间的 ID，与 fs_id 互斥
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -1057,12 +1057,12 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 task_remarks: str = None, smb3_encryption_enable: bool = None,
                 unencrypted_access: bool = None, enable_lease: bool = None) -> dict:
     """
-    修改指定 CIFS 共享
+    Modify CIFS 共享
 
     Args:
         client: DME API 客户端
         cifs_share_id: CIFS 共享 ID
-        description: 描述信息，最多 255 个字符
+        description: Description，最多 255 个字符
         op_lock_enabled: Oplock 功能开关
         notify_enabled: Notify 功能开关
         ca_enabled: Failover 连续可用特性开关
@@ -1076,7 +1076,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         file_extension_filter_enabled: 是否开启文件扩展名过滤特性
         show_previous_versions_enabled: 是否开启显示以前的版本的功能
         show_snapshot_enabled: 是否开启显示 Snapshot 的功能
-        user_and_user_group_info: 用户和用户组列表 (可选)。参数格式如下：[{
+        user_and_user_group_info: 用户和User group list (可选)。参数格式如下：[{
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
                 param: 用户和用户组信息对象 (可选)。属性格式如下：{
                         user_or_user_group_id_in_storage: 用户或用户组在存储上的id (可选, 1~64字符, 变更时必填),
@@ -1101,7 +1101,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                         fileoperations: 操作类型列表 (可选, 最多100个),
                 }
              }, ...]
-        task_remarks: 异步任务备注信息，0~1024 个字符
+        task_remarks: 异步任务Remark，0~1024 个字符
         smb3_encryption_enable: 是否开启 SMB3 加密功能
         unencrypted_access: 是否允许未加密客户端访问
         enable_lease: 是否开启租约锁定开关
@@ -1498,7 +1498,7 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
                 permission: DataTurbo admin permission (Required, fixed value read_and_write),
              }, ...]
         dataturbo_share_auth_deletion: DataTurbo admin ID list to delete
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -1534,12 +1534,12 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
 def dataturbo_share_delete(client: DMEAPIClient, dataturbo_share_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    批量删除 DataTurbo 共享
+    Batch delete DataTurbo 共享
 
     Args:
         client: DME API 客户端
         dataturbo_share_ids: DataTurbo 共享 ID 列表
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -1564,7 +1564,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
                                       user_id: str = None, user_name: str = None,
                                       permission: str = None) -> dict:
     """
-    查询 DataTurbo 共享管理员权限列表
+    查询 DataTurbo 共享管理员Permission list
 
     Args:
         client: DME API 客户端
@@ -1576,7 +1576,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
         permission: DataTurbo 管理员权限（可选），可选值：read_and_write（读写）
 
     Returns:
-        DataTurbo 共享管理员权限列表
+        DataTurbo 共享管理员Permission list
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}/dpc-share-auths/query"
 
@@ -1773,7 +1773,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_advisory_quota: 文件数建议配额（可选），-1 表示字段无效；仅 OceanStor Pacific 设备支持；当文件数建议配额和文件数硬配额或文件数软配额均有效时，文件数建议配额需小于文件数硬配额或文件数软配额
         snap_space_switch: 是否统计快照空间（可选），true：统计快照空间；false：不统计快照空间；仅 OceanStor Pacific 设备支持
         soft_grace_time: 超限时间（可选），0~4294967294，单位（天）；表示软配超限多长时间后自动转硬超限；不下发或取值 0 时达到软配额只告警；仅 OceanStor Pacific 支持
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -1819,12 +1819,12 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
 def quota_delete(client: DMEAPIClient, quota_ids: list,
                  task_remarks: str = None) -> dict:
     """
-    批量删除配额
+    Batch delete配额
 
     Args:
         client: DME API 客户端
         quota_ids: 待删除的配额 ID 列表
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
 
     Returns:
         {
@@ -1864,7 +1864,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
                      product_name: str = None, description: str = None,
                      tag_filters: list = None) -> dict:
     """
-    批量查询文件系统
+    Batch query文件系统
 
     Args:
         client: DME API 客户端
@@ -1904,7 +1904,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         dc_name: Data center name（可选），1~256 个字符
         zone_id: 所属 zone 的 ID（可选），1~256 个字符；仅 OceanStor A800 系列文件系统支持搜索，传入集群ID代表查询全局文件系统
         product_name: 文件系统所属设备产品名称（可选），1~256 个字符，支持模糊搜索
-        description: 文件系统描述信息（可选），1~255 个字符
+        description: 文件系统Description（可选），1~255 个字符
         tag_filters: 标签过滤列表（可选），List<TagFilters> 类型，数组最大成员个数 11。参数格式如下：[{
                         tag_ids: 标签 ID 列表（可选），数组最大成员个数 10，多个标签之间为或关系,
                         tag_type_id: 标签类型 ID（可选），正则 ^[a-fA-F0-9]{32}$,
@@ -2101,7 +2101,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }, ...]
         vstore_id: 租户 ID（可选）
         zone_id: 所属 zone 的 ID（可选）
-        task_remarks: 异步任务备注信息（可选）
+        task_remarks: 异步任务Remark（可选）
         gfs_group_id: 全局数据空间的 ID（可选）
         automatic_update_time: 是否更新访问时间（可选）
         atime_update_mode: Atime 更新频率，hour/day/close（可选）
@@ -2142,7 +2142,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         duration: 生效持续时间秒 (可选, 1800~86400),
                         weekly_days: 周调度策略 (可选, 1~6对应周一到周六),
                         alarm_switch: 限高告警开关 (可选)。可选值：off, on,
-                        alarm_level: 告警级别 (可选)。可选值：event, alarm,
+                        alarm_level: Alarm severity (可选)。可选值：event, alarm,
                         alarm_threshold: 告警阈值% (可选, 0~100),
                         resume_threshold: 恢复阈值% (可选, 0~100),
                         storage_divice_id: 所属存储设备id (可选),
@@ -2150,7 +2150,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         description: 描述 (可选),
                         iotype: 策略类型 (可选)。可选值：2 (总上限), 3 (读写上限),
                         vstore_id: 所属租户id (可选),
-                        vstore_name: 所属租户名称 (可选),
+                        vstore_name: 所属Tenant name (可选),
                         global_flag: 是否全局 (可选),
                 }
              }
@@ -2280,9 +2280,9 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
                                 page_size: int = 20, sort_key: str = None,
                                 sort_dir: str = None) -> dict:
     """
-    查询可用的文件系统
+    Query available的文件系统
 
-    查询可用于配置增删特性的文件系统。当前仅支持可配置远程复制的文件系统。
+    Query available于配置增删特性的文件系统。当前仅支持可配置远程复制的文件系统。
 
     Args:
         client: DME API 客户端
@@ -2338,13 +2338,13 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
            task_remarks: str = None, audit_log_rules: list = None,
            unix_permissions: str = None) -> dict:
     """
-    修改指定文件系统
+    Modify文件系统
 
     Args:
         client: DME API 客户端
         file_system_id: 文件系统唯一标识
         name: Filesystem name，1~255个字符（可选）
-        description: 描述信息，0~255个字符（可选）
+        description: Description，0~255个字符（可选）
         capacity: 文件系统容量，单位 GB，1~33554432（可选）
         capacity_threshold: 总空间容量告警阈值 50-99（可选）
         initial_distribute_policy: 容量初始分配策略，auto/highest_perf/performance/capacity（可选）
@@ -2385,15 +2385,15 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         duration: 生效持续时间秒 (可选, 1800~86400),
                         weekly_days: 周调度策略 (可选, 0-6对应周日到周六, 最多7个; schedule_policy为weekly时生效),
                         alarm_switch: 限高告警开关 (可选)。可选值：off, on,
-                        alarm_level: 限高告警级别 (可选)。可选值：event (事件), alarm (告警),
+                        alarm_level: 限高Alarm severity (可选)。可选值：event (事件), alarm (告警),
                         alarm_threshold: 限高告警阈值% (可选, 0~100),
                         resume_threshold: 限高告警恢复阈值% (可选, 0~100),
                         storage_divice_id: 所属Storage device ID (可选, 1~64字符),
                         name: QoS名称 (可选, 1~255字符; A800下未使用),
                         description: QoS描述 (可选, 1~255字符; A800下未使用),
                         iotype: 策略类型 (可选)。可选值：2 (总性能上限), 3 (读写上限; 仅部分设备支持),
-                        vstore_id: 所属租户ID (可选, 1~64字符; A800下未使用),
-                        vstore_name: 所属租户名称 (可选, 1~64字符; A800下未使用),
+                        vstore_id: 所属Tenant ID (可选, 1~64字符; A800下未使用),
+                        vstore_name: 所属Tenant name (可选, 1~64字符; A800下未使用),
                         global_flag: 是否全局 (可选; 当前版本只支持全局; A800下未使用),
                         qos_policy_id: QoS策略ID (可选, 0~64字符; 与除enabled外的其他参数互斥),
                         enabled: 是否启用QoSPolicy (可选, 默认false),
@@ -2427,7 +2427,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 is_worm_audit_log_fs: WORM审计日志文件系统 (可选, 默认关闭; 一个租户只能有一个),
                 worm_append_unit: WORM追加态文件保护粒度 (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
              }
-        task_remarks: 异步任务备注信息，0~1024个字符（可选）
+        task_remarks: 异步任务Remark，0~1024个字符（可选）
         audit_log_rules: 审计日志规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
         unix_permissions: 文件系统目录权限（可选），格式如0755
 
@@ -2514,7 +2514,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
          enable_encrypt: bool = None, support_provisioning: bool = None,
          gfs_id: str = None, gfs_name: str = None, has_gfs: bool = None) -> dict:
     """
-    批量查询命名空间
+    Batch query命名空间
     
     Args:
         client: DME API 客户端
@@ -2523,7 +2523,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         sort_dir: 指定排序方向（可选），可选值：asc（升序）、desc（降序）
         sort_key: 排序参数（可选），可选值：namespace_used_rate、file_used_rate
         name: Namespace name（可选），1~256 个字符，支持模糊查询
-        vstore_name: 命名空间所属租户名称（可选），1~256 个字符，支持模糊查询
+        vstore_name: 命名空间所属Tenant name（可选），1~256 个字符，支持模糊查询
         vstore_raw_id: 命名空间所属 vStore 在存储设备上分配的 ID（可选），1~128 个字符
         vstore_id: 命名空间所属 vStore 的 ID（可选），1~128 个字符
         raw_id: 命名空间在存储设备上的 ID（可选），1~256 个字符
@@ -2585,20 +2585,20 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
 
 def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
     """
-    查询指定命名空间详情
+    Query命名空间详情
     
     Args:
         client: DME API 客户端
         namespace_id: 命名空间 ID（必选，1~64 个字符）
     
     Returns:
-        命名空间详细信息，包含：
+        命名空间Details，包含：
         - id: 命名空间 ID
         - raw_id: 命名空间在存储设备上的 ID
         - name: Namespace name
         - storage_id: Storage device ID
         - vstore_id: 租户 ID
-        - vstore_name: 租户名称
+        - vstore_name: Tenant name
         - pool_id: 存储池 ID
         - pool_name: Storage pool name
         - running_status: 运行状态（NORMAL/UNKNOWN）
@@ -2613,7 +2613,7 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - gfs_id: 全局命名空间 ID
         - qos_policy: QoS 策略
         - worm: WORM 参数
-        等详细信息
+        等Details
     """
     url = "/rest/fileservice/v1/namespaces/{namespace_id}"
     
@@ -2635,7 +2635,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
            create_s3_param: dict = None, application_type: str = None,
            task_remarks: str = None) -> dict:
     """
-    批量创建命名空间
+    Batch create命名空间
     
     Args:
         client: DME API 客户端
@@ -2683,7 +2683,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 qos_mode: QoS模式 (必选)。可选值：by_usage (按已使用量), by_package (按固定容量), manual (按上限),
                 account_raw_id: 帐户在存储设备上的id (可选, 0~4294967293; 当qos_scale为namespace/account/user时必选),
                 package_size: 包容量GB (可选, 0~94371840; 当qos_mode为by_package时必选),
-                max_iops: IOPS上限 (可选, 0~1073741824000; 批量创建命名空间时为必选),
+                max_iops: IOPS上限 (可选, 0~1073741824000; Batch create命名空间时为必选),
                 max_mbps: 带宽上限Mbps (可选, 0~1073741824; 当qos_mode为manual时必选),
                 max_band_width: 最大带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时必选),
                 basic_band_width: 基础带宽Mbps (可选, 1~1073741824; 当qos_mode为by_usage或by_package时必选),
@@ -2698,9 +2698,9 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }
         public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
                         name: QoS 策略名称（可选），1~63 个字符，正则 ^[a-zA-Z0-9][a-zA-Z0-9_-]*，只能以数字或字母开头,
-                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；批量创建命名空间时为必选，修改时为非必选,
+                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；Batch create命名空间时为必选，修改时为非必选,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时必选,
-                        max_iops: IOPS 上限（条件必选），0~1073741824000，批量创建命名空间时为必选，修改时为非必选,
+                        max_iops: IOPS 上限（条件必选），0~1073741824000，Batch create命名空间时为必选，修改时为非必选,
                         max_mbps: 带宽上限（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时必选,
                         max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
@@ -2715,9 +2715,9 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }
         private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
                         name: QoS 策略名称（可选），1~63 个字符，正则 ^[a-zA-Z0-9][a-zA-Z0-9_-]*，只能以数字或字母开头,
-                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；批量创建命名空间时为必选，修改时为非必选,
+                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；Batch create命名空间时为必选，修改时为非必选,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时必选,
-                        max_iops: IOPS 上限（条件必选），0~1073741824000，批量创建命名空间时为必选，修改时为非必选,
+                        max_iops: IOPS 上限（条件必选），0~1073741824000，Batch create命名空间时为必选，修改时为非必选,
                         max_mbps: 带宽上限（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时必选,
                         max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
@@ -2735,7 +2735,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 version_status: 对象多版本状态 (可选, 0~2)。可选值：0 (关闭), 1 (打开), 2 (暂停),
              }
         application_type: 应用类型，可选值：PACS（医疗影像场景）, GENERAL（通用场景）
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
     
     Returns:
         {
@@ -2811,7 +2811,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
            private_network_qos_policy: dict = None,
            application_type: str = None, task_remarks: str = None) -> dict:
     """
-    修改指定命名空间
+    Modify命名空间
     
     Args:
         client: DME API 客户端
@@ -2854,9 +2854,9 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         public_network_qos_policy: 公网 QoS 策略配置。参数格式如下：{
                         qos_switch: QoS 开关（必填），可选值：on、off,
                         name: QoS 策略名称（可选），1~63 个字符，正则 ^[a-zA-Z0-9][a-zA-Z0-9_-]*，只能以数字或字母开头,
-                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；批量创建命名空间时为必选，修改时为非必选,
+                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；Batch create命名空间时为必选，修改时为非必选,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时必选,
-                        max_iops: IOPS 上限（条件必选），0~1073741824000，批量创建命名空间时为必选，修改时为非必选,
+                        max_iops: IOPS 上限（条件必选），0~1073741824000，Batch create命名空间时为必选，修改时为非必选,
                         max_mbps: 带宽上限（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时必选,
                         max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
@@ -2872,9 +2872,9 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         private_network_qos_policy: 私网 QoS 策略配置。参数格式如下：{
                         qos_switch: QoS 开关（必填），可选值：on、off,
                         name: QoS 策略名称（可选），1~63 个字符，正则 ^[a-zA-Z0-9][a-zA-Z0-9_-]*，只能以数字或字母开头,
-                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；批量创建命名空间时为必选，修改时为非必选,
+                        qos_mode: QoS 模式（条件必选），可选值：by_usage（按已使用量）、by_package（按固定容量）、manual（按上限）；Batch create命名空间时为必选，修改时为非必选,
                         package_size: 包容量（可选），0~94371840（GB），当 qos_mode 为 by_package 时必选,
-                        max_iops: IOPS 上限（条件必选），0~1073741824000，批量创建命名空间时为必选，修改时为非必选,
+                        max_iops: IOPS 上限（条件必选），0~1073741824000，Batch create命名空间时为必选，修改时为非必选,
                         max_mbps: 带宽上限（可选），0~1073741824（Mbps），当 qos_mode 为 manual 时必选,
                         max_band_width: 最大带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
                         basic_band_width: 基础带宽（可选），1~1073741824（Mbps），当 qos_mode 为 by_usage 或 by_package 时必选,
@@ -2888,7 +2888,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 write_mbps: 写带宽限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
         application_type: 应用类型，可选值：PACS（医疗影像场景）, GENERAL（通用场景）
-        task_remarks: 异步任务备注信息
+        task_remarks: 异步任务Remark
     
     Returns:
         {
@@ -2949,12 +2949,12 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
 
 def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: str = None) -> dict:
     """
-    批量删除命名空间
+    Batch delete命名空间
     
     Args:
         client: DME API 客户端
         namespace_ids: 命名空间 ID 列表（必选），数组最大 100 个，最小 1 个
-        task_remarks: 异步任务备注信息（可选，0~1024 个字符）
+        task_remarks: 异步任务Remark（可选，0~1024 个字符）
     
     Returns:
         {
@@ -3033,7 +3033,7 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
                    sort_dir: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
-    批量查询 DataTurbo 管理员
+    Batch query DataTurbo 管理员
 
     仅 OceanStor A800 系列存储支持。
 
@@ -3202,7 +3202,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
                                    page_no: int = 1,
                                    page_size: int = 100) -> dict:
     """
-    查询 UNIX 认证用户组列表
+    查询 UNIX 认证User group list
 
     Args:
         client: DME API 客户端
@@ -3210,7 +3210,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         page_size: 每页显示的数量 (int32, 10~100, 默认值: 100, 可选)
         storage_name: 设备名称，支持模糊匹配过滤 (1~256个字符, 可选)
         vstore_raw_id: 所属租户在存储设备上的 ID (1~64个字符, 可选)
-        vstore_name: 所属租户名称，支持模糊搜索过滤 (1~256个字符, 可选)
+        vstore_name: 所属Tenant name，支持模糊搜索过滤 (1~256个字符, 可选)
         name: 用户组名称，支持模糊搜索过滤 (1~256个字符, 可选)
         raw_id: 用户组在存储设备上的 ID (1~256个字符, 可选)
         zone_id: Zone ID (1~64个字符, 可选)。仅 OceanStor A800 存储下的认证用户组支持通过该字段过滤
@@ -3219,7 +3219,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
 
     Returns:
-        UNIX 认证用户组列表
+        UNIX 认证User group list
     """
     url = "/rest/fileservice/v1/unix-user-groups/query"
 
@@ -3365,7 +3365,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
                              sort_key: str = None, sort_dir: str = None,
                              page_no: int = 1, page_size: int = 100) -> dict:
     """
-    查询 UNIX 认证用户列表
+    查询 UNIX 认证User list
 
     Args:
         client: DME API 客户端
@@ -3373,7 +3373,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         page_size: 每页显示的数量 (int32, 10~100, 默认值: 100, 可选)
         storage_name: 设备名称，支持模糊搜索过滤 (1~256个字符, 可选)
         vstore_raw_id: 所属租户在存储设备上的 ID (1~64个字符, 可选)
-        vstore_name: 所属租户名称，支持模糊搜索过滤 (1~256个字符, 可选)
+        vstore_name: 所属Tenant name，支持模糊搜索过滤 (1~256个字符, 可选)
         name: 用户名称，支持模糊搜索过滤 (1~256个字符, 可选)
         primary_group_name: 主组名称，支持模糊搜索过滤 (1~256个字符, 可选)
         raw_id: 用户在存储设备上的 ID (1~255个字符, 可选)
@@ -3384,7 +3384,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
 
     Returns:
-        UNIX 认证用户列表
+        UNIX 认证User list
     """
     url = "/rest/fileservice/v1/unix-users/query"
 
@@ -3500,7 +3500,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
                           data_cleanup_switch: str = None,
                           max_survival_time: int = None) -> dict:
     """
-    批量创建 KV Cache 库
+    Batch create KV Cache 库
 
     Args:
         client: DME API 客户端
@@ -3513,8 +3513,8 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         kv_cache_stores: KV Cache 库列表 (List<CreateKVCacheStoreBaseInfo>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)。参数格式如下：[{
                 name: KV Cache 库名称 (1~255个字符, 必填),
                 capacity: KV Cache 库容量 (int64, 20971520~70368744177664, 单位: 扇区数, 1扇区=512字节, 必填),
-                description: 描述信息 (1~255个字符, 可选),
-                count: 批量创建 KV Cache 库的数量 (int32, 1~100, 默认值: 1, 可选),
+                description: Description (1~255个字符, 可选),
+                count: Batch create KV Cache 库的数量 (int32, 1~100, 默认值: 1, 可选),
                 start_suffix: 起始后缀编号 (int32, 0~9999, 可选。起始后缀编号+KV Cache库数量<=9999),
              }, ...]
 
@@ -3550,7 +3550,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
         client: DME API 客户端
         kv_cache_stores_id: KV Cache 库 ID (1~64个字符, 必填)
         name: KV Cache 库名称 (1~255个字符, 可选)
-        description: 描述信息 (0~255个字符, 可选)
+        description: Description (0~255个字符, 可选)
         data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)。默认值：off
         max_survival_time: KV Cache 最长存活时间 (int32, 1~3650, 可选。当 data_cleanup_switch 为 on 时必填)
 
@@ -3585,7 +3585,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
 
 def kvcache_batch_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除 KV Cache 库
+    Batch delete KV Cache 库
 
     Args:
         client: DME API 客户端
@@ -3623,14 +3623,14 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         zone_id: 所属 Zone 的 ID (长度为36个字符, 可选)
         pool_raw_id: 存储池在所属 Zone 上的 ID (1~64个字符, 可选)
         vstore_id: 租户 ID (长度为32个字符, 可选)
-        vstore_name: 租户名称 (1~256个字符, 可选)
+        vstore_name: Tenant name (1~256个字符, 可选)
         fs_id: 文件系统 ID (长度为32个字符, 可选)
         fs_name: Filesystem name (1~256个字符, 可选)
         data_cleanup_switch: 清理开关 (可选)。可选值：on (打开), off (关闭)
         page_no: 分页页码 (int32, 1~10000, 默认值: 1, 可选)
         page_size: 每页数据条数 (int32, 1~100, 默认值: 20, 可选)
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：asc
-        sort_key: 排序参数 (可选)。可选值：capacity (总容量), used_capacity (已用容量), used_tokens (已使用的 token 数量), hit_ratio (命中率)
+        sort_key: 排序参数 (可选)。可选值：capacity (Total capacity), used_capacity (Used capacity), used_tokens (已使用的 token 数量), hit_ratio (命中率)
 
     Returns:
         KV Cache 库列表

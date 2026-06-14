@@ -16,7 +16,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
                    raw_id: str = None, max_site_num: int = None,
                    page_no: int = 1, page_size: int = 100) -> dict:
     """
-    批量查询 Omni-Dataverse
+    Batch query Omni-Dataverse
 
     Args:
         client: DME API client
@@ -59,7 +59,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
 
 def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> dict:
     """
-    查询指定 Omni-Dataverse 的容量统计信息
+    Query Omni-Dataverse 的容量统计信息
 
     Args:
         client: DME API client
@@ -137,7 +137,7 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
                    sort_key: str = None, sort_dir: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询全局命名空间
+    Batch query全局命名空间
 
     Args:
         client: DME API client
@@ -187,7 +187,7 @@ def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = Non
         name_locator: 名称定位器，格式为：全局命名空间的名称@全局数据空间的名称
 
     Returns:
-        全局命名空间详细信息
+        全局命名空间Details
     """
     url = "/rest/fileservice/v1/gfs/detail/query"
 
@@ -252,7 +252,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
 def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = None,
                      smart_share_members: list = None) -> dict:
     """
-    修改指定全局命名空间
+    Modify全局命名空间
 
     Args:
         client: DME API client
@@ -288,7 +288,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
 def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = None,
                      is_delete_child: bool = True) -> dict:
     """
-    删除指定的全局命名空间
+    Delete的全局命名空间
 
     Args:
         client: DME API client
@@ -329,7 +329,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
                         page_no: int = 1, page_size: int = 20,
                         sort_dir: str = 'desc', sort_key: str = None) -> dict:
     """
-    批量查询 Omni-Dataverse 数据迁移任务
+    Batch query Omni-Dataverse 数据迁移任务
 
     Args:
         client: DME API client
@@ -350,7 +350,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         sort_key: 排序参数 (Optional)。Optional值：progress (任务执行进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
 
     Returns:
-        数据迁移任务列表
+        数据迁移Task list
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/query"
 
@@ -391,14 +391,14 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
 
 def migration_task_show(client: DMEAPIClient, id: str) -> dict:
     """
-    查询 Omni-Dataverse 数据迁移任务详情
+    查询 Omni-Dataverse 数据迁移Task details
 
     Args:
         client: DME API client
         id: 数据迁移任务 ID
 
     Returns:
-        数据迁移任务详细信息
+        数据迁移任务Details
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
 
@@ -624,7 +624,7 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
 
 def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除 Omni-Dataverse 数据迁移任务
+    Batch delete Omni-Dataverse 数据迁移任务
 
     Args:
         client: DME API client
@@ -675,13 +675,13 @@ ACTIONS = {
     # Dataspace 子主题动作
     'dataspace_list': {
         'func': dataspace_list,
-        'description': '批量查询 Omni-Dataverse',
+        'description': 'Batch query Omni-Dataverse',
         'params': ['name', 'id', 'raw_id', 'max_site_num', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
     'dataspace_show': {
         'func': dataspace_show,
-        'description': '查询指定 Omni-Dataverse 的容量统计信息',
+        'description': 'Query Omni-Dataverse 的容量统计信息',
         'params': ['id', 'name'],
         'subtopic': 'dataspace'
     },
@@ -694,7 +694,7 @@ ACTIONS = {
     # Namespace 子主题动作
     'namespace_list': {
         'func': namespace_list,
-        'description': '批量查询全局命名空间',
+        'description': 'Batch query全局命名空间',
         'params': ['name', 'gfs_group_name', 'gfs_group_id', 'gfs_type', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
@@ -712,26 +712,26 @@ ACTIONS = {
     },
     'namespace_modify': {
         'func': namespace_modify,
-        'description': '修改指定全局命名空间',
+        'description': 'Modify全局命名空间',
         'params': ['id', 'name_locator', 'smart_share_members'],
         'subtopic': 'namespace'
     },
     'namespace_delete': {
         'func': namespace_delete,
-        'description': '删除指定的全局命名空间',
+        'description': 'Delete的全局命名空间',
         'params': ['id', 'name_locator', 'is_delete_child'],
         'subtopic': 'namespace'
     },
     # Migration Task 子主题动作
     'migration_task_list': {
         'func': migration_task_list,
-        'description': '批量查询 Omni-Dataverse 数据迁移任务',
+        'description': 'Batch query Omni-Dataverse 数据迁移任务',
         'params': ['gfs_id', 'task_name', 'task_id', 'target_storage_name', 'namespace_name', 'namespace_id', 'namespace_raw_id', 'local_path', 'status', 'task_mode', 'execute_mode', 'page_no', 'page_size', 'sort_dir', 'sort_key'],
         'subtopic': 'migration_task'
     },
     'migration_task_show': {
         'func': migration_task_show,
-        'description': '查询 Omni-Dataverse 数据迁移任务详情',
+        'description': '查询 Omni-Dataverse 数据迁移Task details',
         'params': ['id'],
         'subtopic': 'migration_task'
     },
@@ -749,7 +749,7 @@ ACTIONS = {
     },
     'migration_task_delete': {
         'func': migration_task_delete,
-        'description': '批量删除 Omni-Dataverse 数据迁移任务',
+        'description': 'Batch delete Omni-Dataverse 数据迁移任务',
         'params': ['ids'],
         'subtopic': 'migration_task'
     },

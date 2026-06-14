@@ -12,7 +12,7 @@ from pydme.client import DMEAPIClient
 def cmdb_system_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询CMDB系统列表。
+    查询CMDB system list。
 
     Args:
         client: DME API client
@@ -23,7 +23,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: 总数 (integer),
-            systems: CMDB系统列表。参数格式如下：[{
+            systems: CMDB system list。参数格式如下：[{
                 id: 系统ID (string),
                 name: 系统名称 (string),
                 ip: IP地址 (string),
@@ -59,7 +59,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
     Returns:
         {
             total: 总数 (integer),
-            hosts: CMDB主机列表。参数格式如下：[{
+            hosts: CMDB host list。参数格式如下：[{
                 id: Host ID (string),
                 name: Host name (string),
                 ip: IP地址 (string),
@@ -85,7 +85,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
 
 def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     """
-    查询指定CMDB主机详情。
+    QueryCMDB主机详情。
 
     Args:
         client: DME API client
@@ -110,7 +110,7 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询CMDB系统中的应用列表。
+    查询CMDB系统中的Application list。
 
     Args:
         client: DME API client
@@ -122,7 +122,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
     Returns:
         {
             total: 总数 (integer),
-            applications: 应用列表。参数格式如下：[{
+            applications: Application list。参数格式如下：[{
                 id: 应用ID (string),
                 name: 应用名称 (string),
             }, ...],
@@ -145,7 +145,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
 
 def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dict:
     """
-    根据Initiator list查询CMDB主机列表。
+    根据Initiator list查询CMDB host list。
 
     Args:
         client: DME API client
@@ -153,7 +153,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
     Returns:
         {
-            hosts: CMDB主机列表。参数格式如下：[{
+            hosts: CMDB host list。参数格式如下：[{
                 id: Host ID (string),
                 name: Host name (string),
             }, ...],
@@ -176,7 +176,7 @@ ACTIONS = {
     # cmdb 子主题动作
     'cmdb_system_list': {
         'func': cmdb_system_list,
-        'description': '查询CMDB系统列表',
+        'description': '查询CMDB system list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
@@ -188,19 +188,19 @@ ACTIONS = {
     },
     'cmdb_host_show': {
         'func': cmdb_host_show,
-        'description': '查询指定CMDB主机详情',
+        'description': 'QueryCMDB主机详情',
         'params': ['cmdb_host_id'],
         'subtopic': 'cmdb'
     },
     'cmdb_app_list': {
         'func': cmdb_app_list,
-        'description': '查询CMDB系统中的应用列表',
+        'description': '查询CMDB系统中的Application list',
         'params': ['system_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_query_by_initiators': {
         'func': cmdb_host_query_by_initiators,
-        'description': '根据Initiator list查询CMDB主机列表',
+        'description': '根据Initiator list查询CMDB host list',
         'params': ['initiators'],
         'subtopic': 'cmdb'
     },

@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, name: str = None, 
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询交换机
+    Batch query交换机
     
     Args:
         client: DME API client
@@ -22,7 +22,7 @@ def list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: 总数量 (integer),
-            fcswitches: 交换机列表 (List<FcSwitchInfo>)。参数格式如下：[{
+            fcswitches: Switch list (List<FcSwitchInfo>)。参数格式如下：[{
                 id: 交换机ID (string),
                 name: 交换机名称 (string),
                 status: 运行状态 (string),
@@ -66,7 +66,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
                        port_name: str = None, page_no: int = 1, 
                        page_size: int = 20) -> dict:
     """
-    批量查询交换机端口
+    Batch query交换机端口
     
     Args:
         client: DME API client
@@ -100,7 +100,7 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
 def controller_list(client: DMEAPIClient, switch_id: str = None,
                              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询交换机控制处理器
+    Batch query交换机控制处理器
     
     Args:
         client: DME API client
@@ -130,7 +130,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
 def fabric_list(client: DMEAPIClient, name: str = None, 
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询光纤网络
+    Batch query光纤网络
     
     Args:
         client: DME API client
@@ -160,7 +160,7 @@ def fabric_list(client: DMEAPIClient, name: str = None,
 def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询指定光纤网络的端口列表
+    Query光纤网络的端口列表
 
     Args:
         client: DME API client
@@ -247,7 +247,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
               member_count: int = None, sort_key: str = None, sort_dir: str = None,
               page_no: int = None, page_size: int = None) -> dict:
     """
-    批量查询 zone
+    Batch query zone
 
     查询光纤 Zone 列表。
 
@@ -362,7 +362,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
     """
     修改 zone
 
-    修改光纤 Zone 的配置信息。
+    修改光纤 Zone 的Configuration info。
 
     Args:
         client: DME API client
@@ -424,7 +424,7 @@ def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
 
 def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) -> dict:
     """
-    批量创建 zone
+    Batch create zone
 
     注：根据 DME API 文档，需要 is_active_zone 和 zone_list 参数。
 
@@ -515,7 +515,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
 def alias_list(client: DMEAPIClient, fabric_wwn: str,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量查询别名
+    Batch query别名
     
     查询光纤 Alias 列表。
     
@@ -709,7 +709,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
 ACTIONS = {
     'list': {
         'func': list,
-        'description': '批量查询光纤交换机',
+        'description': 'Batch query光纤交换机',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
@@ -733,7 +733,7 @@ ACTIONS = {
     },
     'fabric_list': {
         'func': fabric_list,
-        'description': '批量查询 fabric',
+        'description': 'Batch query fabric',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },
@@ -751,13 +751,13 @@ ACTIONS = {
     },
     'vsan_list': {
         'func': vsan_list,
-        'description': '批量查询 vsan',
+        'description': 'Batch query vsan',
         'params': ['page_no', 'page_size'],
         'subtopic': 'vsan'
     },
     'zone_list': {
         'func': zone_list,
-        'description': '批量查询 zone',
+        'description': 'Batch query zone',
         'params': ['zone_name', 'page_no', 'page_size'],
         'subtopic': 'zone'
     },
@@ -781,7 +781,7 @@ ACTIONS = {
     },
     'zone_batch_create': {
         'func': zone_batch_create,
-        'description': '批量创建 zone',
+        'description': 'Batch create zone',
         'params': ['is_active_zone', 'zones'],
         'subtopic': 'zone'
     },
@@ -793,7 +793,7 @@ ACTIONS = {
     },
     'alias_list': {
         'func': alias_list,
-        'description': '批量查询别名',
+        'description': 'Batch query别名',
         'params': ['fabric_wwn', 'page_no', 'page_size'],
         'subtopic': 'alias'
     },

@@ -17,7 +17,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
                project_id: str = None, availability_zone: str = None,
                scheduler_hints: dict = None, mapping: dict = None) -> dict:
     """
-    服务化批量创建 LUN
+    服务化Batch create LUN
 
     Args:
         client: DME API client
@@ -211,7 +211,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
                         limit: int = 200, sort_key: str = 'name',
                         sort_dir: str = 'asc', type: str = None) -> dict:
     """
-    批量查询服务等级
+    Batch query服务等级
 
     查询服务等级列表，支持按名称、项目 ID、可用区、存储 ID 等过滤和分页。
 
@@ -264,9 +264,9 @@ def tier_list(client: DMEAPIClient, name: str = None,
 def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    批量查询业务群组与服务等级关联关系
+    Batch query业务群组与服务等级Association
 
-    查询业务群组与服务等级的关联关系列表，支持按服务等级 ID 过滤。
+    查询业务群组与服务等级的Association列表，支持按服务等级 ID 过滤。
 
     Args:
         client: DME API client
@@ -277,7 +277,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含关联关系列表
+        }，包含Association列表
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -299,7 +299,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
 def project_list(client: DMEAPIClient, name: str = None,
                   start: int = 1, limit: int = 20) -> dict:
     """
-    批量查询业务群组
+    Batch query业务群组
 
     查询业务群组列表，支持按名称过滤和分页。
 
@@ -331,9 +331,9 @@ def project_list(client: DMEAPIClient, name: str = None,
 def project_show_tiers(client: DMEAPIClient, project_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    批量查询业务群组与服务等级关联关系
+    Batch query业务群组与服务等级Association
 
-    查询指定业务群组的关联服务等级列表。
+    Query业务群组的关联服务等级列表。
 
     Args:
         client: DME API client
@@ -344,7 +344,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含关联关系列表
+        }，包含Association列表
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -366,33 +366,33 @@ ACTIONS = {
     # tier 子主题
     'tier_list': {
         'func': tier_list,
-        'description': '批量查询服务等级',
+        'description': 'Batch query服务等级',
         'params': ['name', 'project_id', 'available_zone_id', 'storage_array_id', 'start', 'limit', 'sort_key', 'sort_dir', 'type'],
         'subtopic': 'tier'
     },
     'tier_show_projects': {
         'func': tier_show_projects,
-        'description': '批量查询业务群组与服务等级关联关系',
+        'description': 'Batch query业务群组与服务等级Association',
         'params': ['tier_id', 'page_no', 'page_size'],
         'subtopic': 'tier'
     },
     # project 子主题
     'project_list': {
         'func': project_list,
-        'description': '批量查询业务群组',
+        'description': 'Batch query业务群组',
         'params': ['name', 'start', 'limit'],
         'subtopic': 'project'
     },
     'project_show_tiers': {
         'func': project_show_tiers,
-        'description': '批量查询业务群组与服务等级关联关系',
+        'description': 'Batch query业务群组与服务等级Association',
         'params': ['project_id', 'page_no', 'page_size'],
         'subtopic': 'project'
     },
     # lun 子主题
     'lun_create': {
         'func': lun_create,
-        'description': '服务化批量创建 LUN',
+        'description': '服务化Batch create LUN',
         'params': ['volumes', 'service_level_id', 'task_remarks', 'project_id', 'availability_zone', 'scheduler_hints', 'mapping'],
         'subtopic': 'lun'
     },
