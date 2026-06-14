@@ -1327,7 +1327,7 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
         if response.get('file_filter_rules'):
             result['file'] = response.get('file_filter_rules')
 
-    # 如果指定了 type，只返回对应类型的权限
+    # If type is specified, return only that type
     if type == 'user':
         return {'user_permissions': result['user']}
     elif type == 'ip':
@@ -1335,7 +1335,7 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
     elif type == 'file':
         return {'file_permissions': result['file']}
     else:
-        # 返回所有权限
+        # Return all permissions
         return {'user_permissions': result['user'], 'ip_permissions': result['ip'], 'file_permissions': result['file']}
 
 
@@ -1351,31 +1351,31 @@ def dataturbo_share_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
                    zone_name: str = None, scope: str = None, sort_key: str = None,
                    sort_dir: str = None) -> dict:
     """
-    查询 DataTurbo 共享列表
+    Query DataTurbo share list
 
     Args:
-        client: DME API 客户端
-        page_no: 分页页码（可选），1~10000000，默认 1
-        page_size: 每页数据条数（可选），1~1000，默认 10
-        raw_id: DataTurbo 共享在设备上 ID（可选），1~1024 个字符，精确查询
-        share_path: 共享路径（可选），1~1024 个字符，支持模糊搜索
-        fs_id: DataTurbo 共享所属文件系统 ID（可选），1~64 个字符，精确查询
-        fs_name: DataTurbo 共享所属文件系统名称（可选），1~256 个字符，支持模糊搜索
-        dtree_id: DataTurbo 共享所属 Dtree 的 ID（可选），32 个字符，正则 ^[A-F0-9]{32}$，精确查询
-        dtree_name: DataTurbo 共享所属 Dtree 名称（可选），1~256 个字符，支持模糊查询
-        vstore_id: DataTurbo 共享所属租户 ID（可选），1~64 个字符，精确查询
-        vstore_raw_id: DataTurbo 共享所属租户 RAW ID（可选），1~64 个字符，精确查询
-        vstore_name: DataTurbo 共享所属租户名称（可选），1~256 个字符，支持模糊搜索
-        storage_id: DataTurbo 共享所属存储设备 ID（可选），1~64 个字符，精确查询
-        storage_name: DataTurbo 共享所属存储设备名称（可选），1~256 个字符，支持模糊搜索
-        zone_id: DataTurbo 共享所属 zone ID（可选），1~64 个字符，精确查询
-        zone_name: DataTurbo 共享所属 zone 名称（可选），1~256 个字符，支持模糊搜索
-        scope: 资源所属范围（可选），可选值：local_scale（本地）、global_scale（全局）
-        sort_key: 排序字段（可选），可选值：raw_id（在设备上 ID）
-        sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
+        client: DME API client
+        page_no: Page number (Optional), 1~10000000, default 1
+        page_size: Items per page (Optional), 1~1000, default 10
+        raw_id: DataTurbo share ID on device (Optional), 1~1024 characters, exact match
+        share_path: Share path (Optional), 1~1024 characters, supports fuzzy search
+        fs_id: Filesystem ID (Optional), 1~64 characters, exact match
+        fs_name: Filesystem name (Optional), 1~256 characters, supports fuzzy search
+        dtree_id: Dtree ID (Optional), 32 characters, regex ^[A-F0-9]{32}$, exact match
+        dtree_name: Dtree name (Optional), 1~256 characters, supports fuzzy search
+        vstore_id: Tenant ID (Optional), 1~64 characters, exact match
+        vstore_raw_id: Tenant RAW ID (Optional), 1~64 characters, exact match
+        vstore_name: Tenant name (Optional), 1~256 characters, supports fuzzy search
+        storage_id: Storage device ID (Optional), 1~64 characters, exact match
+        storage_name: Storage device name (Optional), 1~256 characters, supports fuzzy search
+        zone_id: Zone ID (Optional), 1~64 characters, exact match
+        zone_name: Zone name (Optional), 1~256 characters, supports fuzzy search
+        scope: Resource scope (Optional). Options: local_scale, global_scale
+        sort_key: Sort field (Optional). Options: raw_id
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending), default asc
 
     Returns:
-        DataTurbo 共享列表
+        DataTurbo share list
     """
     url = "/rest/fileservice/v1/dpc-shares/query"
 
@@ -1423,14 +1423,14 @@ def dataturbo_share_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
 
 def dataturbo_share_show(client: DMEAPIClient, dataturbo_share_id: str) -> dict:
     """
-    查询指定 DataTurbo 共享详情
+    Query DataTurbo share details
 
     Args:
-        client: DME API 客户端
-        dataturbo_share_id: DataTurbo 共享 ID
+        client: DME API client
+        dataturbo_share_id: DataTurbo share ID
 
     Returns:
-        DataTurbo 共享详细信息
+        DataTurbo share details
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}"
 
@@ -1442,23 +1442,23 @@ def dataturbo_share_create(client: DMEAPIClient, charset: str, fs_id: str = None
                      dtree_id: str = None, description: str = None,
                      dataturbo_share_auth: list = None, task_remarks: str = None) -> dict:
     """
-    创建 DataTurbo 共享
+    Create DataTurbo share
 
     Args:
-        client: DME API 客户端
-        charset: 字符集编码，固定值 UTF_8
-        fs_id: 需共享的文件系统的 ID，与 dtree_id 互斥，必传其中一个
-        dtree_id: 需共享的 Dtree 的 ID，与 fs_id 互斥，必传其中一个
-        description: DataTurbo 共享描述
-        dataturbo_share_auth: DataTurbo 管理员列表 (可选)。参数格式如下：[{
-                dpc_user_id: DataTurbo管理员ID (必选, 1~64个字符),
-                permission: DataTurbo管理员权限 (必选, 固定值read_and_write),
+        client: DME API client
+        charset: Character set encoding, fixed value UTF_8
+        fs_id: Filesystem ID to share, mutually exclusive with dtree_id, one required
+        dtree_id: Dtree ID to share, mutually exclusive with fs_id, one required
+        description: DataTurbo share description
+        dataturbo_share_auth: DataTurbo admin list (Optional)。参数格式如下：[{
+                dpc_user_id: DataTurbo admin ID (Required, 1~64 characters),
+                permission: DataTurbo admin permission (Required, fixed value read_and_write),
              }, ...]
-        task_remarks: 异步任务备注信息
+        task_remarks: Async task remark
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
+            task_id: Task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/dpc-shares"
@@ -1487,17 +1487,17 @@ def dataturbo_share_modify(client: DMEAPIClient, dataturbo_share_id: str, descri
                      dataturbo_share_auth_deletion: list = None,
                      task_remarks: str = None) -> dict:
     """
-    修改指定 DataTurbo 共享
+    Modify DataTurbo share
 
     Args:
-        client: DME API 客户端
-        dataturbo_share_id: DataTurbo 共享 ID
-        description: DataTurbo 共享描述
-        dataturbo_share_auth_addition: 要增加的 DataTurbo 管理员列表 (可选)。参数格式如下：[{
-                dpc_user_id: DataTurbo管理员ID (必选, 0~64个字符),
-                permission: DataTurbo管理员权限 (必选, 固定值read_and_write),
+        client: DME API client
+        dataturbo_share_id: DataTurbo share ID
+        description: DataTurbo share description
+        dataturbo_share_auth_addition: DataTurbo admin list to add (Optional)。参数格式如下：[{
+                dpc_user_id: DataTurbo admin ID (Required, 0~64 characters),
+                permission: DataTurbo admin permission (Required, fixed value read_and_write),
              }, ...]
-        dataturbo_share_auth_deletion: 要删除的 DataTurbo 管理员 ID 列表
+        dataturbo_share_auth_deletion: DataTurbo admin ID list to delete
         task_remarks: 异步任务备注信息
 
     Returns:
