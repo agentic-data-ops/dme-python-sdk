@@ -186,8 +186,8 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接 pauseConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+ auto序号）；effective in auto-create mode
-                        name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
+                        name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32  byte，prefix_and_num max prefix length 251  byte
                         name_suffix: remote  LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manual config的Active-active Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
                                 local_lun_id: local  LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
@@ -199,8 +199,8 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_id: remote Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$； replication Pair creation mode为 auto effective when
-                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（前缀+local Resource name+后缀）、prefix_and_num（前缀+ auto序号）；effective in auto-create mode
-                        name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
+                        remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
+                        name_prefix: remote  LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32  byte，prefix_and_num max prefix length 251  byte
                         name_suffix: remote  LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manual config的Remote replication Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。 format：[{
                                 local_lun_id: local  LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
@@ -1007,8 +1007,8 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         remote_storage_pool_id: remote Storage pool ID
         remote_vstore_id: Remote device tenant ID
         remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
-        name_prefix: remote Resource name前缀
-        name_suffix: remote Resource name后缀
+        name_prefix: remote Resource name prefix
+        name_suffix: remote Resource name suffix
         speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
@@ -1018,7 +1018,7 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         rep_io_timeout: remote  IO timeout（second(s)），when replication mode isSync modeeffective when
         sync_snap_policy: User snapshotSync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
+        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的 switch
         enable_compress: Link compression，when replication mode isin async modeRequired
 
     Returns:
@@ -1093,7 +1093,7 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         rep_io_timeout: remote  IO timeout（second(s)），when replication mode isSync modeeffective when
         sync_snap_policy: User snapshotSync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
+        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的 switch
 
     Returns:
         {
@@ -1390,11 +1390,11 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
 
 def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapshots: list) -> dict:
     """
-    batch回滚 LUN  snapshot
+    batch rollback LUN  snapshot
 
     Args:
         client: DME API client
-        rollback_speed: 回滚 rate，Optional值：low, medium, high, highest
+        rollback_speed:  rollback rate，Optional值：low, medium, high, highest
         rollback_snapshots: Snapshot rollback resourceinfo list，Each item includes snapshot_id, target_type, target_id
 
     Returns:
@@ -1579,12 +1579,12 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
                             name_prefix: str = None, name_suffix: str = None,
                             target_snapshot_objects: list = None) -> dict:
     """
-    回滚Snapshot consistency group
+     rollbackSnapshot consistency group
 
     Args:
         client: DME API client
         snapshot_cg_id: Snapshot consistency group ID
-        rollback_speed: 回滚 rate，Optional值：low, medium, high, highest
+        rollback_speed:  rollback rate，Optional值：low, medium, high, highest
         snapshot_create_mode: Snapshot creation method，Optional值：auto, manual
         name_rule: Snapshot naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
@@ -1774,8 +1774,8 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         remote_storage_pool_id: remote Storage pool ID，effective in auto-create mode
         remote_vstore_id: Remote device tenant ID，effective in auto-create mode
         remote_resource_name_rule: Remote resource naming policy，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
-        name_prefix: remote Resource name前缀
-        name_suffix: remote Resource name后缀
+        name_prefix: remote Resource name prefix
+        name_suffix: remote Resource name suffix
 
     Returns:
         {
@@ -1845,7 +1845,7 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         rep_io_timeout: remote  IO timeout（second(s)），when replication mode isSync modeeffective when
         sync_snap_policy: User snapshotSync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的开关
+        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的 switch
 
     Returns:
         {
@@ -3017,7 +3017,7 @@ ACTIONS = {
     },
     'snapshot_rollback': {
         'func': snapshot_rollback,
-        'description': 'batch回滚 LUN  snapshot',
+        'description': 'batch rollback LUN  snapshot',
         'params': ['rollback_speed', 'rollback_snapshots'],
         'subtopic': 'snapshot'
     },
@@ -3054,7 +3054,7 @@ ACTIONS = {
     },
     'snapshot_group_rollback': {
         'func': snapshot_group_rollback,
-        'description': '回滚Snapshot consistency group',
+        'description': ' rollbackSnapshot consistency group',
         'params': ['snapshot_cg_id', 'rollback_speed', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },

@@ -110,7 +110,7 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     queryCMDB system中的Application list。
+     queryCMDB systemApplication list。
 
     Args:
         client: DME API client
@@ -194,7 +194,7 @@ ACTIONS = {
     },
     'cmdb_app_list': {
         'func': cmdb_app_list,
-        'description': ' queryCMDB system中的Application list',
+        'description': ' queryCMDB systemApplication list',
         'params': ['system_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },

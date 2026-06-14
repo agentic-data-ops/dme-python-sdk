@@ -53,7 +53,7 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     
     Args:
         client: DME API client
-        cluster_id: 备份 cluster ID（Required）
+        cluster_id:  backup cluster ID（Required）
     
     Returns:
         {
@@ -78,17 +78,17 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     
     Args:
         client: DME API client
-        cluster_id: 备份 cluster ID（Required）
-        quota_type: 配额 type（Optional）
+        cluster_id:  backup cluster ID（Required）
+        quota_type:  quota type（Optional）
         page_no: Page queryStart page，default 1
         page_size: per pagecount，1~1000，default 20
     
     Returns:
         {
-            total: 配额Total count (integer),
+            total:  quotaTotal count (integer),
             quotas: Tenant quota list。 parameter format：[{
                 tenant_id: Tenant ID (string),
-                quota: 配额 size (integer),
+                quota:  quota size (integer),
                 used: Used quota (integer),
             }, ...],
         }

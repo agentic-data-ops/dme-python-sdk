@@ -53,7 +53,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     
     Args:
         client: DME API client
-        server_id: Server ID（注意：需要使用 device_id  field，with hyphens UUID  format，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
+        server_id: Server ID（注意： need使用 device_id  field，with hyphens UUID  format，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
         {
@@ -98,7 +98,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
 def memory_list(client: DMEAPIClient, server_id: str,
                  start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server内存
+    Query on server memory
     
     Args:
         client: DME API client
@@ -107,7 +107,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        内存 list
+         memory list
     """
     url = "/rest/servermgmt/v1/memories/query"
     
@@ -124,7 +124,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
 def disk_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server硬盘集合
+    Query on server disk集合
     
     Args:
         client: DME API client
@@ -133,7 +133,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        硬盘 list
+         disk list
     """
     url = "/rest/servermgmt/v1/disks/query"
     
@@ -304,14 +304,14 @@ ACTIONS = {
     # subtopic actions - memory (three-level structure)
     'memory_list': {
         'func': memory_list,
-        'description': 'Query on server内存',
+        'description': 'Query on server memory',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'memory'
     },
     # subtopic actions - disk (three-level structure)
     'disk_list': {
         'func': disk_list,
-        'description': 'Query on server硬盘集合',
+        'description': 'Query on server disk集合',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },

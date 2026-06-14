@@ -12,7 +12,7 @@ def login(client: DMEAPIClient) -> dict:
     """
     Auth user login
 
-    强制调用 client.login() 完成认证，然后从 header get accessSession，
+    强制调用 client.login() 完成 auth，然后从 header get accessSession，
     Prompt user to configure env vars to reuse auth token，Avoid duplicate login。
 
     Args:
@@ -293,7 +293,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     Returns:
         {
             total: Backup serverTotal count (int32),
-            backup_servers: 备份Server list (List<BackupServerInfo>)。 parameter format：[{
+            backup_servers:  backupServer list (List<BackupServerInfo>)。 parameter format：[{
                 id: Backup serverid (string, 1~64 characters),
             }, ...]
         }
@@ -389,7 +389,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
 
 def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
     """
-    执行Pending task group
+     executePending task group
 
     Execute specifiedPending task group。
 
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: Business type（Required，wfa_execute_activity- auto化编排）
-        status: Pending item status list（Optional，1-未执行/2-Executing/3- success/4-partial success/5- failure/6-超时/7- warning/8-已 disable/9-待审核/10-审核不通过/21-预检查中/22-预检查 failure）
+        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9-待审核/10-审核不通过/21-预检查中/22-预检查 failure）
         page_no: Page index（Optional，default 1）
         page_size: per pagecount（Optional，1~10，default 10）
 
@@ -504,12 +504,12 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
     """
     Review pending task
 
-    对Pending item进行审核（批准或拒绝）。
+    对Pending item进行审核（批准或 reject）。
 
     Args:
         client: DME API client
         item_id: Pending item ID（Required）
-        is_approval: 是否批准（Required，true-批准/false-拒绝）
+        is_approval: 是否批准（Required，true-批准/false- reject）
         suggestion: 审核建议（Optional，0-63  character）
 
     Returns:
@@ -592,7 +592,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - description: task  description
         - parent_id: 父task  ID
         - seq_no: task 序号
-        - status:  status（1-Initial status;2-Executing;3- success;4-partial success;5- failure;6-超时）
+        - status:  status（1-Initial status;2-Executing;3- success;4-partial success;5- failure;6- timeout）
         - progress: task 进度
         - owner_name: Create task user name
         - owner_id: Create task user ID
@@ -602,9 +602,9 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - detail_en: Task details in English
         - detail_cn: Task details in Chinese
         - is_support_retry: supports retry
-        - is_support_rollback: supports回滚
+        - is_support_rollback: supports rollback
         - remarks: Remark
-        - resources: task 关联的Resource list
+        - resources: task  associated的Resource list
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
     
@@ -624,7 +624,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: paginationStart position，default 1
         limit: Page size, default 100
         task_name: Task name filter（Optional）
-        status:  status filter（Optional，1-Initial status;2-Executing;3- success;4-partial success;5- failure;6-超时）
+        status:  status filter（Optional，1-Initial status;2-Executing;3- success;4-partial success;5- failure;6- timeout）
         owner_id: Create task user ID  filter（Optional）
         create_time_from: Creation time起始（Optional，UTC 毫second(s)数）
         create_time_to: Creation time end（Optional，UTC 毫second(s)数）
@@ -692,7 +692,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         - 3:  success
         - 4: partial success
         - 5:  failure
-        - 6: 超时
+        - 6:  timeout
     """
     start_time = time.time()
 
@@ -708,7 +708,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         status = root_task.get('status')
 
         # Check if task is complete
-        if status in [3, 4, 5, 6]:  #  success、partial success、 failure、超时
+        if status in [3, 4, 5, 6]:  #  success、partial success、 failure、 timeout
             return root_task
 
         # Check timeout
@@ -839,7 +839,7 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
         client: DME API client
         name: Tag name（Required）
         tag_type_id: Tag type ID（Required）
-        tag_type_name: Tag type name（API 需要）
+        tag_type_name: Tag type name（API  need）
         description: Tag description（Optional）
         color: Tag color（Optional）
     
@@ -956,7 +956,7 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
         resources: Resource list，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
-        关联结果
+         associated结果
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}/associate-resources"
     
@@ -1098,7 +1098,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
         client: DME API client
         dc_id: Data center ID（Required）
         device_type: Device type list（Optional）
-                     取值：server, storage, network, switch, router, firewall,
+                      value：server, storage, network, switch, router, firewall,
                           loadbalancer, firewall_cluster, ipswitch, other
         page_no: Page queryStart page，default 1
         page_size: per pagecount，1~1000，default 20
@@ -1139,7 +1139,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         standby_ip_address: Region备IP address，supports fuzzy search (Optional, string,  max256 characters)
         sync_status: RegionSync status，Exact filter (Optional, List[string], max array members：3)。Optional值：normal (normal), sync (Syncing), failed (Sync failure)
         role: Region role，Exact filter (Optional, string)。Optional值：parent (上级Region), child (下级Region)
-        sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近Sync time)
+        sort_key: Sort field (Optional, string)。Optional值：last_sync_time ( recentSync time)
         sort_dir: Sort direction (Optional, string)。Optional值：asc (ascending), desc (descending)。Default：desc
         page_no: Page query start页 (Optional, int32, 1~100)。Default：1
         page_size: per pagecount (Optional, int32, 1~100)。Default：20
@@ -1299,7 +1299,7 @@ ACTIONS = {
     },
     'todo_task_group_execute': {
         'func': todo_task_group_execute,
-        'description': '执行Pending task group',
+        'description': ' executePending task group',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },

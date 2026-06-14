@@ -211,16 +211,16 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
 
     Args:
         client: DME API client
-        name: 全局Namespace name (1~255 characters, Required)
+        name:  globalNamespace name (1~255 characters, Required)
         gfs_group_id: Global data space ID (1~32 characters, Optional。与 gfs_group_name cannot both be empty; takes precedence when both have values gfs_group_id)
         gfs_group_name: Global data space name (1~255 characters, Optional。与 gfs_group_id cannot both be empty; takes precedence when both have values gfs_group_id)
         gfs_mode: Global namespace mode (Optional)。Optional值：smart_share。Default：smart_share
         single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (Only one member can write)
-        smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。 parameter format：[{
+        smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode  value为 smart_share 时Required)。 parameter format：[{
                 id: Namespace ID (1~64 characters, Required),
                 pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
-                cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required。Default：hour,
+                cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time  value时Required。Default：hour,
                 single_write_mode: Single write mode policy (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
              }, ...]
 
@@ -262,7 +262,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
                 pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
-                cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required,
+                cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time  value时Required,
              }, ...]
 
     Returns:
@@ -434,11 +434,11 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         gfs_id: Global namespace ID (1~64 characters, Required)
         task_name: Task name (1~255 characters, Optional)
         task_mode: task  mode (Required)。Optional值：pre_fetch (预取缓存), tier ( data拉取)
-        execute_mode: 执行 mode (Optional)。Optional值：interval (week(s)期性), one_time (只执行一次)。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_mode:  execute mode (Optional)。Optional值：interval (week(s)期性), one_time (只 execute一次)。当 task_mode 为 pre_fetch this parameter is ineffective
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         start_mode: Task execution mode (Required)。Optional值：manual ( manual), auto ( auto)
-        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config, 取值为 0 Immediate start
+        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config,  value为 0 Immediate start
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
@@ -465,7 +465,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         file_size:  file的 size (int64, 0~4398046511104, unit : KB, Optional)。与 size_operator must be sent together
         tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
         file_paths: filter by file listfilter policy uploaded fileIdentifier list (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可 config
-        authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIXlocal 认证), nis_domain (NIS域)
+        authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIXlocal  auth), nis_domain (NIS域)
         user_operator: Username匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
         user_name: Username (1~255 characters, Optional)。与 authentication_type、user_operator must be sent together
         group_operator: User group名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
@@ -579,7 +579,7 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         id: Data migration task ID (1~32 characters, Required)
         task_name: Task name (1~255 characters, Optional)
         start_mode: Task execution mode (Optional)。Optional值：manual ( manual), auto ( auto)
-        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config, 取值为 0 Immediate start
+        start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config,  value为 0 Immediate start
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when
         execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
@@ -652,7 +652,7 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
     Args:
         client: DME API client
         ids: Data migration task ID  list
-        operate_type: Operation type，includes  operate_type  field，取值 start( start), stop( stop)
+        operate_type: Operation type，includes  operate_type  field， value start( start), stop( stop)
 
     Returns:
         {

@@ -879,7 +879,7 @@ def main():
                                 try:
                                     param_value = json.loads(param_value)
                                 except (ValueError, json.JSONDecodeError):
-                                    print(f" warning： parameter {param_name} 需要 JSON  format")
+                                    print(f" warning： parameter {param_name}  need JSON  format")
 
                         typed_params[func_param_name] = param_value
 
@@ -926,11 +926,11 @@ def main():
 
         # if specified --help，显示帮助；otherwise execute action
         if show_help:
-            # 显示帮助（不需要登录）
+            # 显示帮助（不 need登录）
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
             return
 
-        # 执行动作（需要登录）
+        #  execute动作（ need登录）
         endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
         username = args.user or os.environ.get('DME_API_USERNAME')
         password = args.password or os.environ.get('DME_API_PASSWORD')
@@ -961,7 +961,7 @@ def main():
         func = action_info['func']
 
         # three-level structure shown as "topic subtopic action"
-        print(f"执行：{args.topic} {args.subtopic} {args.action}")
+        print(f" execute：{args.topic} {args.subtopic} {args.action}")
         print(f" description：{action_info.get('description', '')}")
         print("-" * 60)
 
@@ -1021,7 +1021,7 @@ def main():
                             try:
                                 param_value = json.loads(param_value)
                             except (ValueError, json.JSONDecodeError):
-                                print(f" warning： parameter {param_name} 需要 JSON  format")
+                                print(f" warning： parameter {param_name}  need JSON  format")
 
                     typed_params[func_param_name] = param_value
 

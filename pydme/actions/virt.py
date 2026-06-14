@@ -28,12 +28,12 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         name: Virtual machine name（supports fuzzy search）
         ip_address: Virtual machine IP  address（supports fuzzy search）
         status: Virtual machinestatus list
-                取值：running, stopped, unknown, hibernated, creating, shutting-down,
+                 value：running, stopped, unknown, hibernated, creating, shutting-down,
                      migrating, fault-resuming, starting, stopping, hibernating, pause,
                      recycling, deactivated, active, saving, deleted, other, uploading,
                      pending_delete, queued, importing, killed, storage_migrating,
                      building, error
-        is_template: 是否是模板（true/false）
+        is_template: 是否是 template（true/false）
         os_type: OS type list（Windows, Linux, Other）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: DatastoreData center ID（仅 vCenter Scenario support）
@@ -50,7 +50,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                 name: Virtual machine name (string),
                 status:  status (string),
                 cpu: CPUcount (integer),
-                memory: 内存 size (integer),
+                memory:  memory size (integer),
             }, ...],
         }
     """
@@ -108,7 +108,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        Virtual machineDetails，includes  CPU、内存、 disk、网卡等Configuration info
+        Virtual machineDetails，includes  CPU、 memory、 disk、网卡等Configuration info
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -137,10 +137,10 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         dc_id: Datastore所在Data center ID
         name: Datastore name（supports fuzzy search）
         status: Datastorestatus list
-                取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
+                 value：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
         storage_type:  dataStorage class型 list
-                      取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
+                       value：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: supports精简 mode（仅 FusionCompute Scenario support）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）

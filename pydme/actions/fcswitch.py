@@ -187,13 +187,13 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
                   backup_type: str = "full") -> dict:
     """
-    执行Fibre Channel networkConfig file backup
+     executeFibre Channel networkConfig file backup
     
     Args:
         client: DME API client
         fabric_id: Fibre Channel network ID（Required）
         backup_server_id: Backup server ID（Required）
-        backup_type: 备份 type，default full（full/incremental）
+        backup_type:  backup type，default full（full/incremental）
     
     Returns:
         {
@@ -306,13 +306,13 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     create  zone
 
-    注： based on DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
+    注： based on DME API  doc，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
         name: Zone  name（Required）
-        fabric_wwn: Fibre Channel network WWN（ conditionRequired，fabric create  zone 时需要）
-        vsan_wwn: VSAN WWN（ conditionRequired，vsan create  zone 时需要）
+        fabric_wwn: Fibre Channel network WWN（ conditionRequired，fabric create  zone 时 need）
+        vsan_wwn: VSAN WWN（ conditionRequired，vsan create  zone 时 need）
         wwn_members: WWN Member list（Optional）， format：["<wwn>",...]
         port_members: Port member list（Optional）， format：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fwwn_members: FWWN Member list（Optional）， format：["<fwwn>",...]
@@ -405,7 +405,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
     delete  zone
-    注： based on DME API 文档，使用 DELETE 方法到 /zones/{zone_id}
+    注： based on DME API  doc，使用 DELETE 方法到 /zones/{zone_id}
     
     Args:
         client: DME API client
@@ -426,7 +426,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     """
     Batch create zone
 
-    注： based on DME API 文档，需要 is_active_zone 和 zone_list  parameter。
+    注： based on DME API  doc， need is_active_zone 和 zone_list  parameter。
 
     Args:
         client: DME API client
@@ -549,7 +549,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     Create alias
 
-    注： based on DME API 文档，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
+    注： based on DME API  doc，must provide fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
@@ -602,7 +602,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     """
     Modify alias
 
-    注： based on DME API 文档，member modification requires {type}.added_members 和 {type}.removed_members  format。
+    注： based on DME API  doc，member modification requires {type}.added_members 和 {type}.removed_members  format。
 
     Args:
         client: DME API client
@@ -643,7 +643,7 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     Delete alias
 
-    注： based on DME API 文档，使用 DELETE 方法到 /aliases/{alias_id}
+    注： based on DME API  doc，使用 DELETE 方法到 /aliases/{alias_id}
 
     Args:
         client: DME API client
@@ -745,7 +745,7 @@ ACTIONS = {
     },
     'fabric_backup': {
         'func': fabric_backup,
-        'description': '备份 fabric  config',
+        'description': ' backup fabric  config',
         'params': ['fabric_id', 'backup_server_id', 'backup_type'],
         'subtopic': 'fabric'
     },

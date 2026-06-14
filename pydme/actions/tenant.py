@@ -27,7 +27,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
                 count: create count (1~500),
                 description:  description (0~255 characters),
                 start_suffix: Starting suffix number (0~9999),
-                suffix_length: Suffix length rule (1~4,  name length+后缀 length<=255),
+                suffix_length: Suffix length rule (1~4,  name length+ suffix length<=255),
              }, ...]
         service_level_id: Service level ID（Required，0~64  characters）
         task_remarks: Async task remark（Optional， max 1024  characters）
@@ -72,7 +72,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 def lun_change_tier(client: DMEAPIClient, volume_ids: list,
                                 tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    batch更新 LUN 的Service level
+    batch update LUN 的Service level
 
     Args:
         client: DME API client
@@ -102,7 +102,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 def lun_bind_tier(client: DMEAPIClient, volume_id: str,
                        tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    LUN 关联Service level
+    LUN  associatedService level
 
     Args:
         client: DME API client
@@ -131,7 +131,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
 
 def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
     """
-    解除 LUN 与Service level关联
+     unbind LUN 与Service level associated
 
     Args:
         client: DME API client
@@ -155,7 +155,7 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 def lun_bind_project(client: DMEAPIClient, volume_id: str,
                         business_group_id: str) -> dict:
     """
-    LUN 关联Project group
+    LUN  associatedProject group
 
     Args:
         client: DME API client
@@ -180,7 +180,7 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
 def lun_unbind_project(client: DMEAPIClient, volume_id: str,
                           business_group_id: str) -> dict:
     """
-    解除 LUN 与Project group间关联
+     unbind LUN 与Project group间 associated
 
     Args:
         client: DME API client
@@ -333,7 +333,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     """
     Batch queryProject group与Service levelAssociation
 
-    QueryProject group的关联Service level list。
+    QueryProject group的 associatedService level list。
 
     Args:
         client: DME API client
@@ -398,31 +398,31 @@ ACTIONS = {
     },
     'lun_change_tier': {
         'func': lun_change_tier,
-        'description': 'batch更新 LUN 的Service level',
+        'description': 'batch update LUN 的Service level',
         'params': ['volume_ids', 'tier_id'],
         'subtopic': 'lun'
     },
     'lun_bind_tier': {
         'func': lun_bind_tier,
-        'description': 'LUN 关联Service level',
+        'description': 'LUN  associatedService level',
         'params': ['volume_id', 'tier_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_tier': {
         'func': lun_unbind_tier,
-        'description': '解除 LUN 与Service level关联',
+        'description': ' unbind LUN 与Service level associated',
         'params': ['volume_id'],
         'subtopic': 'lun'
     },
     'lun_bind_project': {
         'func': lun_bind_project,
-        'description': 'LUN 关联Project group',
+        'description': 'LUN  associatedProject group',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_project': {
         'func': lun_unbind_project,
-        'description': '解除 LUN 与Project group间关联',
+        'description': ' unbind LUN 与Project group间 associated',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },

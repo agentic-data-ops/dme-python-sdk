@@ -186,7 +186,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     Args:
         client: DME API client
         alarm_id: alarm ID,supports fuzzy match
-        severity: Alarm severity list,取值:critical, major, minor, warning, indeterminate, cleared
+        severity: Alarm severity list, value:critical, major, minor, warning, indeterminate, cleared
         mo_dn: 被management object DN, support inc 操作符匹配
         alarm_group_id: alarm组 ID
         dc_id: Data center ID
@@ -200,7 +200,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         cleared: 是否已清除,true/false(History alarm query用)
         size: Max number of returned results,1~1000,default 100(History alarm query用)
         iterator: 迭代子,No need to pass on first query,Subsequent queries use last returned iterator(History alarm query用)
-        include_history: 开关 parameter,query both if specifiedHistory alarm
+        include_history:  switch parameter,query both if specifiedHistory alarm
 
     Returns:
         {
@@ -361,7 +361,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: Controller
             - NAMESPACE: Namespace
-        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support最近七day(s)内的诊断
+        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support recent七day(s)内的诊断
         end_time: 分析End time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: Intelligent analysis type list(Required),Array size:1~4,value range:
@@ -464,7 +464,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Query historyPerformance data
 
     Based on input parameters"range"Enum values or from start toEnd timeQuery data within range.
-    With aggregated data,Returned result sequence is average,并includes max,min以及对应Timestamp.
+    With aggregated data,Returned result sequence is average,并includes max,min以及 correspondingTimestamp.
 
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
@@ -472,30 +472,30 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
       1. running `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
       3. 使用 `cmdb instance list --class_name <Class  name>` Query instance list
-      4. obtain from response对应 resource的 instance_id (即 obj_ids  parameter)
+      4. obtain from response corresponding resource的 instance_id (即 obj_ids  parameter)
 
     Args:
         client: DME API client
-        obj_type_id: 监控Object type标识(Required),对应监控Object type ID
+        obj_type_id:  monitorObject type标识(Required), corresponding monitorObject type ID
                      从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        indicator_ids: Monitoring metricIdentifier list(Required, max 100 个),对应指标 ID
+        indicator_ids: Monitoring metricIdentifier list(Required, max 100 个), corresponding指标 ID
                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        obj_ids: 监控objectIdentifier list(Required, max 512 个),对应 CMDB instance ID
+        obj_ids:  monitorobjectIdentifier list(Required, max 512 个), corresponding CMDB instance ID
                  get方式:
                  1. running `cmdb instance list --help` View help,了解类定义
                  2. Determine what to query based on helpResource type (Class  name)
                  3. running `cmdb instance list --class_name <Class  name>`  queryinstance
                  4. obtain from response instance_id
-        obj_type: 监控Object type(Optional,1~512  characters)
+        obj_type:  monitorObject type(Optional,1~512  characters)
         indicators: Monitoring metric list(Optional, max 100 个)
         ext_dimensions: 扩展维度info list(Optional, max 100 个)
         interval: 间隔粒度(Optional)
                   value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
         range: Time range(Optional,default LAST_1_HOUR)
-               value range:LAST_5_MINUTE(最近 5 minute(s)), LAST_1_HOUR(最近 1 hour(s)),
-               LAST_1_DAY(最近 1 day(s)), LAST_1_WEEK(最近 1 week(s)), LAST_1_MONTH(最近 1 个month(s)),
-               LAST_1_QUARTER(最近 3 个month(s)), HALF_1_YEAR(最近半year(s)), LAST_1_YEAR(最近 1 year(s)),
+               value range:LAST_5_MINUTE( recent 5 minute(s)), LAST_1_HOUR( recent 1 hour(s)),
+               LAST_1_DAY( recent 1 day(s)), LAST_1_WEEK( recent 1 week(s)), LAST_1_MONTH( recent 1 个month(s)),
+               LAST_1_QUARTER( recent 3 个month(s)), HALF_1_YEAR( recent半year(s)), LAST_1_YEAR( recent 1 year(s)),
                BEGIN_END_TIME(Set start and endEnd time), INVALID(Invalid value)
         begin_time: Query start time(Optional),仅 range 为 BEGIN_END_TIME 时effective,必须比 end_time 小
         end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时effective,必须比 begin_time 大
@@ -536,7 +536,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
     Args:
         client: DME API client
-        indicators: 监控object指标Identifier list(Required, max 1000  characters)
+        indicators:  monitorobject指标Identifier list(Required, max 1000  characters)
                    可以是integer list或string list,如 [123, 456] 或 ["123", "456"]
 
     Returns:
@@ -559,7 +559,7 @@ def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
 
     Args:
         client: DME API client
-        obj_type_id: 监控Object type标识(Required)
+        obj_type_id:  monitorObject type标识(Required)
 
     Returns:
         Monitoring metric info,includes  indicator_ids  list
@@ -580,7 +580,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
                 如果提供,returns only matchesObject type
 
     Returns:
-        监控Object type list,includes  obj_type_id, parent_obj_type_id, resource_category,
+         monitorObject type list,includes  obj_type_id, parent_obj_type_id, resource_category,
         resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等 field
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types"
@@ -658,7 +658,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         client: DME API client
         object_type: Object type（Required）
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
-                           storage_disk（硬盘）, storage_port（Storage port）, fcswitch_port（光纤Switch port）,
+                           storage_disk（ disk）, storage_port（Storage port）, fcswitch_port（光纤Switch port）,
                            storage_file_system（Filesystem）, controller（Controller）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（ storage node）, dpc（DPC）
@@ -811,7 +811,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         page_size: Items per page，1~100，default 20
         sort_key: Sort field（last_check_time-Last check time，failed_count-Failed checksobjectcount）
         sort_dir: Sort method（asc-正序，desc-descending）
-        administrative_status: Management status（enable-启用，disable-禁用）
+        administrative_status: Management status（enable- enable，disable-禁用）
         policy_category: 检查分类（configuration- config，performance-性能，capacity- capacity，faults- fault，optimization-优化）
         object_category: object分类（Storage-Storage device，IPSwitch-Ethernet switch，FCSwitch-Fibre Channel switch，
                        Virtualization-虚拟化，Server-Server，HCI-超融合，Client-Client）

@@ -24,14 +24,14 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
         page_size: per page querycount（Required，1~1000）
         directory_id: 目录 id（Optional，1~64  characters）
         group: Template group name，supports fuzzy match（Optional， max 255  characters）
-        name: 模板 name，supports fuzzy match（Optional， max 255  characters）
+        name:  template name，supports fuzzy match（Optional， max 255  characters）
     
     Returns:
         {
-            total: 模板count (integer, max：500),
+            total:  templatecount (integer, max：500),
             templates: Template list。 parameter format：[{
-                id: 模板ID (string),
-                name: 模板 name (string),
+                id:  templateID (string),
+                name:  template name (string),
                 description:  description (string),
             }, ...],
         }
@@ -78,13 +78,13 @@ def template_groups(client: DMEAPIClient) -> dict:
 def template_show(client: DMEAPIClient, template_id: str,
                   template_version_id: str = None) -> dict:
     """
-     query模板Details
+     query templateDetails
     
-    Query模板的Details。
+    Query template的Details。
     
     Args:
         client: DME API client
-        template_id: 模板 id（Required，1~64  characters）
+        template_id:  template id（Required，1~64  characters）
         template_version_id: Template version id（Optional，1~64  characters）
     
     Returns:
@@ -141,12 +141,12 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         - instance_id: instance id
         - template_id: Instance template id
         - template_name: Instance template name
-        - state: 执行 status（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
-        - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
+        - state:  execute status（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
+        - stage:  execute阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
         - params: Execute instance parameters
         - step_list: Instance step list
-        - start_time: instance执行的Start time（毫second(s)）
-        - end_time: instance执行的End time（毫second(s)）
+        - start_time: instance execute的Start time（毫second(s)）
+        - end_time: instance execute的End time（毫second(s)）
         - instance_type: instance type（PRECHECK/EXECUTION）
         - template_version_id: Instance template version id
     """
@@ -164,11 +164,11 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     Create and execute instance
     
     Create and execute workflow instance。by specifying template id 与Template version id（Template version id default if not specified为最新 version）
-    to create and execute instance，or by specifying instance id 来找到对应Instance templateCreate and execute instance。
+    to create and execute instance，or by specifying instance id 来找到 correspondingInstance templateCreate and execute instance。
     
     Args:
         client: DME API client
-        template_id: 模板 id（Optional，1~64  characters，satisfies regex）
+        template_id:  template id（Optional，1~64  characters，satisfies regex）
         template_version_id: Template version id（Optional，1~64  characters，satisfies regex）
         instance_id: instance的 id（Optional，1~64  characters，satisfies regex）
         params: Execute instance parameters（Optional）， format：{"key1": "value1", "key2": "value2"}， max 100 个 parameter
@@ -237,7 +237,7 @@ ACTIONS = {
     },
     'template_show': {
         'func': template_show,
-        'description': ' query模板Details',
+        'description': ' query templateDetails',
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },
