@@ -15,7 +15,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
              vr_type: str = None, datacenter_id: str = None, sort_key: str = None,
              sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询VM list
+     queryVM list
     
     Args:
         client: DME API client
@@ -26,7 +26,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         host_id: Virtual machine所属Physical hostUnique identifier
         host_name: Virtual machine所属Host name（supports fuzzy search）
         name: Virtual machine name（supports fuzzy search）
-        ip_address: Virtual machine IP 地址（supports fuzzy search）
+        ip_address: Virtual machine IP  address（supports fuzzy search）
         status: Virtual machinestatus list
                 取值：running, stopped, unknown, hibernated, creating, shutting-down,
                      migrating, fault-resuming, starting, stopping, hibernating, pause,
@@ -45,7 +45,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     Returns:
         {
             total: Virtual machineTotal count (integer),
-            vms: VM list (List<VmInfo>)。参数格式如下：[{
+            vms: VM list (List<VmInfo>)。 parameter format如下：[{
                 id: Virtual machineID (string),
                 name: Virtual machine name (string),
                 status:  status (string),
@@ -100,7 +100,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
     QueryVirtual machine详情
     
-    查询Virtual machine的Details。
+     queryVirtual machine的Details。
     
     Args:
         client: DME API client
@@ -142,7 +142,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         storage_type: 数据Storage class型 list
                       取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: supports精简模式（仅 FusionCompute Scenario support）
+        allocate_type: supports精简 mode（仅 FusionCompute Scenario support）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: Datastore所属的 vCenter Data center ID（仅 vCenter Scenario support）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
@@ -193,7 +193,7 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
     """
     QueryDatastore details
     
-    查询Datastore的Details。
+     queryDatastore的Details。
     
     Args:
         client: DME API client
@@ -220,7 +220,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     """
     Query host list
     
-    查询Physical host list，supports multiple filter criteria。
+     queryPhysical host list，supports multiple filter criteria。
     
     Args:
         client: DME API client
@@ -228,7 +228,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         cluster_id: Host cluster ID
         dc_id: Data center ID
         host_name: Host name（supports fuzzy search）
-        ip_address: 主机 IP 地址
+        ip_address: 主机 IP  address
         status: Host status list
         vr_type: Virtualization platform type
         page_no: Page queryStart page，default 1
@@ -269,7 +269,7 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
     QueryHost details
     
-    查询Physical host的Details。
+     queryPhysical host的Details。
     
     Args:
         client: DME API client
@@ -333,7 +333,7 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
     """
     Query集群详情
     
-    查询集群的Details。
+     query集群的Details。
     
     Args:
         client: DME API client
@@ -398,7 +398,7 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
     QueryHost storage adapter list
     
-    查询Physical host的Storage adapter list。
+     queryPhysical host的Storage adapter list。
     
     Args:
         client: DME API client
@@ -464,7 +464,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     """
     Query virtual disk info list
     
-    查询Virtual disk list，supports multiple filter criteria。
+     queryVirtual disk list，supports multiple filter criteria。
     
     Args:
         client: DME API client
@@ -505,7 +505,7 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
     QueryVirtual disk info
     
-    查询Virtual disk的Details。
+     queryVirtual disk的Details。
     
     Args:
         client: DME API client
@@ -525,7 +525,7 @@ ACTIONS = {
     # Virtual machine管理
     'vm_list': {
         'func': vm_list,
-        'description': '查询VM list',
+        'description': ' queryVM list',
         'params': ['site_id', 'cluster_id', 'dc_id', 'cluster_name', 'host_id', 
                    'host_name', 'name', 'ip_address', 'status', 'is_template', 
                    'os_type', 'vr_type', 'datacenter_id', 'sort_key', 'sort_dir', 

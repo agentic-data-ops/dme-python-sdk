@@ -113,7 +113,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: Username (Required, string, 最多32 characters)。本地Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义字符、Invisible and special characters。远端Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊字符。
+        name: Username (Required, string, 最多32 characters)。本地Usernamecannot be less than6 characters，大于32 characters，Cannot contain spaces、转义 character、Invisible and special characters。远端Usernamecannot be less than1 characters，大于32 characters，Cannot contain invisible characters;特殊 character。
         type: User type (Required, integer, 无)。0：Local user；2：Remote user。
         value: 密码 (Optional, string, 8~32 characters)。Password lengthcannot be less than8 characters、大于32 characters。Password must contain at least2个字母，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters。Remote user不涉及。
         description:  description (Optional, string, 最多127 characters)
@@ -158,7 +158,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: Total count (integer, max：5000),
-            datas: User data (List<UserData>, max array members：5000)。参数格式如下：[{
+            datas: User data (List<UserData>, max array members：5000)。 parameter format如下：[{
                 id: 用户ID (integer, 1~2147483647),
                 name: Username (string, 6~32 characters),
                 description:  description (string, 最多127 characters),
@@ -191,7 +191,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
     Returns:
         {
             total: Total count (integer, max：10),
-            datas: Role data (List<RoleData>, max array members：5000)。参数格式如下：[{
+            datas: Role data (List<RoleData>, max array members：5000)。 parameter format如下：[{
                 id: 角色ID (integer, 1~2147483647),
                 name: 角色 name (string, 最多64 characters),
                 description:  description (string, 最多127 characters),
@@ -285,7 +285,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
 
     Args:
         client: DME API client
-        address: Backup server地址，支持IPv4地址，supports fuzzy match (Optional, string, 1~256 characters)
+        address: Backup server address，支持IPv4 address，supports fuzzy match (Optional, string, 1~256 characters)
         name: Backup server name (Optional, string)
         page_no: Page queryStart page (Optional, int32)。Default：1
         page_size: 每页count (Optional, int32, 1~1000)。Default：20
@@ -293,7 +293,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     Returns:
         {
             total: Backup serverTotal count (int32),
-            backup_servers: 备份Server list (List<BackupServerInfo>)。参数格式如下：[{
+            backup_servers: 备份Server list (List<BackupServerInfo>)。 parameter format如下：[{
                 id: Backup serverid (string, 1~64 characters),
             }, ...]
         }
@@ -324,7 +324,7 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
                end_time_from: str = None, end_time_to: str = None,
                sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    查询Pending task group list
+     queryPending task group list
 
     Args:
         client: DME API client
@@ -337,10 +337,10 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         limit: 分页count（Optional，1~1000）
         status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已关闭）
         todo_item_status: Pending item status list（Optional，0-待确认/1-未完成/2-Executing/3-Completed）
-        start_time_from: Start time起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
-        start_time_to: Start time结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
-        end_time_from: End time起始值（Optional，格式：yyyy-MM-dd HH:mm:ss）
-        end_time_to: End time结束值（Optional，格式：yyyy-MM-dd HH:mm:ss）
+        start_time_from: Start time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
+        start_time_to: Start time结束值（Optional， format：yyyy-MM-dd HH:mm:ss）
+        end_time_from: End time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
+        end_time_to: End time结束值（Optional， format：yyyy-MM-dd HH:mm:ss）
         sort_key: Sort field（Optional）
         sort_dir: Sort method（Optional，asc/desc）
 
@@ -463,7 +463,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
 def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
-    查询Pending itemDetails info
+     queryPending itemDetails info
 
     QueryPending item的Details。
 
@@ -510,7 +510,7 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
         client: DME API client
         item_id: Pending item ID（Required）
         is_approval: 是否批准（Required，true-批准/false-拒绝）
-        suggestion: 审核建议（Optional，0-63 字符）
+        suggestion: 审核建议（Optional，0-63  character）
 
     Returns:
         审核结果
@@ -555,7 +555,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     Args:
         client: DME API client
         item_id: Pending item ID（Required）
-        reason: Shutdown reason（Required，0-63 字符）
+        reason: Shutdown reason（Required，0-63  character）
 
     Returns:
         关闭结果
@@ -578,7 +578,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
     QueryTask details
     
-    By taskUnique identifier TaskId 进行查询。
+    By taskUnique identifier TaskId 进行 query。
     
     Args:
         client: DME API client
@@ -623,9 +623,9 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         client: DME API client
         start: 分页Start position，default 1
         limit: Page size, default 100
-        task_name: Task name过滤（Optional）
-        status:  status过滤（Optional，1-Initial status;2-Executing;3-成功;4-partial success;5-失败;6-超时）
-        owner_id: Create task user ID 过滤（Optional）
+        task_name: Task name filter（Optional）
+        status:  status filter（Optional，1-Initial status;2-Executing;3-成功;4-partial success;5-失败;6-超时）
+        owner_id: Create task user ID  filter（Optional）
         create_time_from: Creation time起始（Optional，UTC 毫second(s)数）
         create_time_to: Creation time结束（Optional，UTC 毫second(s)数）
     
@@ -761,7 +761,7 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         client: DME API client
         start: 分页Start position，default 1
         limit: Page size, default 100
-        name: Tag type name过滤（Optional）
+        name: Tag type name filter（Optional）
     
     Returns:
         Tag type list
@@ -873,8 +873,8 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         client: DME API client
         start: 分页Start position，default 1
         limit: Page size, default 100
-        name: Tag name过滤（Optional）
-        tag_type_id: Tag type ID 过滤（Optional）
+        name: Tag name filter（Optional）
+        tag_type_id: Tag type ID  filter（Optional）
     
     Returns:
         标签 list
@@ -1008,7 +1008,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     Returns:
         {
             total: Availability zoneTotal count (integer),
-            az_list: Availability zone list (List<GetAzResponse>)。参数格式如下：[{
+            az_list: Availability zone list (List<GetAzResponse>)。 parameter format如下：[{
                 id: Availability zoneid (string),
                 name: Availability zone name (string),
                 description: Availability zone description (string),
@@ -1042,7 +1042,7 @@ def dc_list(client: DMEAPIClient, name: str = None,
     """
     获取Data center list
     
-    查询Data center list，supports name filtering and pagination。
+     queryData center list，supports name filtering and pagination。
     
     Args:
         client: DME API client
@@ -1135,19 +1135,19 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         client: DME API client
         ids: RegionID list，支持exact match (Optional, List[string], max array members：100)
         name: Region name，supports fuzzy search (Optional, string, 最多256 characters)
-        active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256 characters)
-        standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256 characters)
-        sync_status: RegionSync status，Exact filter (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (Sync失败)
+        active_ip_address: Region主IP address，supports fuzzy search (Optional, string, 最多256 characters)
+        standby_ip_address: Region备IP address，supports fuzzy search (Optional, string, 最多256 characters)
+        sync_status: RegionSync status，Exact filter (Optional, List[string], max array members：3)。Optional值：normal (normal), sync (Syncing), failed (Sync失败)
         role: Region角色，Exact filter (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近Sync time)
-        sort_dir: Sort direction (Optional, string)。Optional值：asc (升序), desc (降序)。Default：desc
+        sort_dir: Sort direction (Optional, string)。Optional值：asc (ascending), desc (descending)。Default：desc
         page_no: Page query开始页 (Optional, int32, 1~100)。Default：1
         page_size: 每页count (Optional, int32, 1~100)。Default：20
 
     Returns:
         {
             total: Total count (integer),
-            regions: Region list。参数格式如下：[{
+            regions: Region list。 parameter format如下：[{
                 id: Region ID (string),
                 name: Region name (string),
                 role: Region角色 (string),
@@ -1290,7 +1290,7 @@ ACTIONS = {
     # subtopic actions - todo_task_group (three-level structure)
     'todo_task_group_list': {
         'func': todo_task_group_list,
-        'description': '查询Pending task group list',
+        'description': ' queryPending task group list',
         'params': ['group_id', 'name', 'creator_name', 'is_finished', 'is_group',
                    'start', 'limit', 'status', 'todo_item_status',
                    'start_time_from', 'start_time_to', 'end_time_from',

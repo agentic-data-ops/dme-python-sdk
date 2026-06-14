@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
          name: str = None, server_type: str = None) -> dict:
     """
-    查询Server list
+     queryServer list
     
     Args:
         client: DME API client
@@ -23,7 +23,7 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     Returns:
         {
             total: ServerTotal count (integer),
-            servers: Server list (List<ServerInfo>)。参数格式如下：[{
+            servers: Server list (List<ServerInfo>)。 parameter format如下：[{
                 id: ServerID (string),
                 name: Server name (string),
                 type: Server type (string),
@@ -53,7 +53,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     
     Args:
         client: DME API client
-        server_id: Server ID（注意：需要使用 device_id 字段，with hyphens UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
+        server_id: Server ID（注意：需要使用 device_id 字段，with hyphens UUID  format，如 507cb27f-3eda-44c8-a491-5a81ca035da5）
     
     Returns:
         {
@@ -284,7 +284,7 @@ ACTIONS = {
     # Direct action（Two-level structure）
     'list': {
         'func': list,
-        'description': '查询Server list',
+        'description': ' queryServer list',
         'params': ['start', 'limit', 'name', 'server_type'],
         'subtopic': None
     },

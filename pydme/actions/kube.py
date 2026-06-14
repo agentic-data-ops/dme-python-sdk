@@ -11,7 +11,7 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询Container cluster list
+     queryContainer cluster list
     
     Args:
         client: DME API client
@@ -22,7 +22,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: 集群Total count (integer),
-            clusters: Container cluster list。参数格式如下：[{
+            clusters: Container cluster list。 parameter format如下：[{
                 id: 集群ID (string),
                 name: Cluster name (string),
                 status:  status (string),
@@ -46,7 +46,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
 def node_list(client: DMEAPIClient, cluster_id: str = None,
                name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询Container node list
+     queryContainer node list
     
     Args:
         client: DME API client
@@ -57,7 +57,7 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            nodes: Container node list。参数格式如下：[{
+            nodes: Container node list。 parameter format如下：[{
                 id: 节点ID (string),
                 name: Node name (string),
                 status:  status (string),
@@ -84,9 +84,9 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询Pod list
+     queryPod list
     
-    查询Pod（Pod） list，支持按集群 ID、Namespace和 name过滤。
+     queryPod（Pod） list，支持按集群 ID、Namespace和 name filter。
     
     Args:
         client: DME API client
@@ -98,7 +98,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pods: Pod list。参数格式如下：[{
+            pods: Pod list。 parameter format如下：[{
                 name: Pod name (string),
                 status:  status (string),
                 node: 所在节点 (string),
@@ -172,7 +172,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pvcs: PVC list。参数格式如下：[{
+            pvcs: PVC list。 parameter format如下：[{
                 name: PVC name (string),
                 status:  status (string),
                 capacity: 容量 (string),
@@ -202,7 +202,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     """
     Query containerPV list
     
-    Query containerPersistent volume（PV） list，支持按集群 ID 和 name过滤。
+    Query containerPersistent volume（PV） list，支持按集群 ID 和 name filter。
     
     Args:
         client: DME API client
@@ -213,7 +213,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pvs: PV list。参数格式如下：[{
+            pvs: PV list。 parameter format如下：[{
                 name: PV name (string),
                 status:  status (string),
                 capacity: 容量 (string),
@@ -241,21 +241,21 @@ ACTIONS = {
     # 集群管理
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询Container cluster list',
+        'description': ' queryContainer cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     # Node management
     'node_list': {
         'func': node_list,
-        'description': '查询Container node list',
+        'description': ' queryContainer node list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'node'
     },
     # Pod管理
     'pod_list': {
         'func': pod_list,
-        'description': '查询Pod list',
+        'description': ' queryPod list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },

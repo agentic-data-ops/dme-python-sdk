@@ -21,7 +21,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: 待创建 LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
+        volumes: 待创建 LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format如下：[{
                 name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
                 capacity: 容量GB (1~262144),
                 count: 创建count (1~500),
@@ -33,11 +33,11 @@ def lun_create(client: DMEAPIClient, volumes: list,
         task_remarks: Async task remark（Optional，最多 1024  characters）
         project_id: Project group ID（Optional，0~64  characters）
         availability_zone: Availability zone ID（Optional，0~64  characters）
-        scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。参数格式如下：{
+        scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。 parameter format如下：{
                 affinity: Enable affinity。Optional值：true (开启), false (disabled)。defaultdisabled,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64 characters),
              }
-        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。参数格式如下：{
+        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。 parameter format如下：{
                 host_id: Host ID (Optional, 0~64 characters, 与hostgroup_idone of),
                 hostgroup_id: Host group ID (Optional, 0~64 characters, 与host_idone of),
              }
@@ -78,7 +78,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
         client: DME API client
         volume_ids: LUN ID  list
         tier_id: Service level ID
-        attributes_auto_change: 是否根据Service level参数刷新 LUN 属性（Optional，true/false）
+        attributes_auto_change: 是否根据Service level parameter刷新 LUN 属性（Optional，true/false）
 
     Returns:
         {
@@ -108,7 +108,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
         client: DME API client
         volume_id: LUN ID
         tier_id: Service level ID
-        attributes_auto_change: 是否根据Service level参数刷新 LUN 属性（Optional，true/false）
+        attributes_auto_change: 是否根据Service level parameter刷新 LUN 属性（Optional，true/false）
 
     Returns:
         {
@@ -213,7 +213,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryService level
 
-    查询Service level list，支持按 name、项目 ID、可用区、存储 ID filtering and pagination。
+     queryService level list，支持按 name、项目 ID、可用区、存储 ID filtering and pagination。
 
     Args:
         client: DME API client
@@ -221,7 +221,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
         project_id: Project group ID（Optional）
         available_zone_id: 可用区 ID（Optional）
         storage_array_id: Storage device ID（Optional）
-        start: 查询的Start position，default 0
+        start:  query的Start position，default 0
         limit: 每页count，10~1000，default 200
         sort_key: Sort field，name/total_capacity/created_at，default name
         sort_dir: Sort direction，asc/desc，default asc
@@ -266,7 +266,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     """
     Batch queryProject group与Service levelAssociation
 
-    查询Project group与Service level的Association list，支持按Service level ID 过滤。
+     queryProject group与Service level的Association list，支持按Service level ID  filter。
 
     Args:
         client: DME API client
@@ -301,7 +301,7 @@ def project_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryProject group
 
-    查询Project group list，supports name filtering and pagination。
+     queryProject group list，supports name filtering and pagination。
 
     Args:
         client: DME API client

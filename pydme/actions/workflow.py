@@ -21,7 +21,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     Args:
         client: DME API client
         page_no: Page index（Required，min：1）
-        page_size: 每页查询count（Required，1~1000）
+        page_size: 每页 querycount（Required，1~1000）
         directory_id: 目录 id（Optional，1~64  characters）
         group: Template group name，supports fuzzy match（Optional，最多 255  characters）
         name: 模板 name，supports fuzzy match（Optional，最多 255  characters）
@@ -29,7 +29,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     Returns:
         {
             total: 模板count (integer, max：500),
-            templates: Template list。参数格式如下：[{
+            templates: Template list。 parameter format如下：[{
                 id: 模板ID (string),
                 name: 模板 name (string),
                 description:  description (string),
@@ -78,7 +78,7 @@ def template_groups(client: DMEAPIClient) -> dict:
 def template_show(client: DMEAPIClient, template_id: str,
                   template_version_id: str = None) -> dict:
     """
-    查询模板Details
+     query模板Details
     
     Query模板的Details。
     
@@ -132,7 +132,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     
     Args:
         client: DME API client
-        instance_id: 查询实例的 id（Required，1~64  characters）
+        instance_id:  query实例的 id（Required，1~64  characters）
     
     Returns:
         {
@@ -171,7 +171,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
         template_id: 模板 id（Optional，1~64  characters，satisfies regex）
         template_version_id: Template version id（Optional，1~64  characters，satisfies regex）
         instance_id: 实例的 id（Optional，1~64  characters，satisfies regex）
-        params: Execute instance parameters（Optional），格式：{"key1": "value1", "key2": "value2"}，最多 100 个参数
+        params: Execute instance parameters（Optional）， format：{"key1": "value1", "key2": "value2"}，最多 100 个 parameter
     
     Returns:
         {
@@ -200,7 +200,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     """
     Query step log
     
-    查询WorkflowExecution log of specified step in instance。
+     queryWorkflowExecution log of specified step in instance。
     
     Args:
         client: DME API client
@@ -237,7 +237,7 @@ ACTIONS = {
     },
     'template_show': {
         'func': template_show,
-        'description': '查询模板Details',
+        'description': ' query模板Details',
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },

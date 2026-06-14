@@ -181,7 +181,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     """
     Query alarm info
 
-    查询Current alarm,Optionalchoose whether to query simultaneouslyHistory alarm.
+     queryCurrent alarm,Optionalchoose whether to query simultaneouslyHistory alarm.
 
     Args:
         client: DME API client
@@ -196,15 +196,15 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         occur_utc_end: Alarm occurredEnd time(毫second(s)Timestamp)
         fields: Specified return field list
         page_no: Page queryStart page,default 1
-        page_size: 每页count,1~1000,default 100(Current alarm查询用)
-        cleared: 是否已清除,true/false(History alarm查询用)
-        size: Max number of returned results,1~1000,default 100(History alarm查询用)
-        iterator: 迭代子,No need to pass on first query,Subsequent queries use last returned iterator(History alarm查询用)
-        include_history: 开关参数,query both if specifiedHistory alarm
+        page_size: 每页count,1~1000,default 100(Current alarm query用)
+        cleared: 是否已清除,true/false(History alarm query用)
+        size: Max number of returned results,1~1000,default 100(History alarm query用)
+        iterator: 迭代子,No need to pass on first query,Subsequent queries use last returned iterator(History alarm query用)
+        include_history: 开关 parameter,query both if specifiedHistory alarm
 
     Returns:
         {
-            current_alarms: Current alarm list (List<AlarmInfo>)。参数格式如下：[{
+            current_alarms: Current alarm list (List<AlarmInfo>)。 parameter format如下：[{
                 alarm_id: Alarm ID (string),
                 alarm_name: Alarm name (string),
                 severity: Alarm severity (string),
@@ -218,7 +218,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         'history_alarms': None
     }
 
-    # 查询Current alarm(Always query by default)
+    #  queryCurrent alarm(Always query by default)
     current_url = "/rest/alarmmgmt/v1/alarms/current-alarm/query"
     current_params = _build_current_alarm_params(
         alarm_id=alarm_id, severity=severity, mo_dn=mo_dn,
@@ -230,7 +230,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     current_response = client.post(current_url, body=current_params)
     result['current_alarms'] = current_response
 
-    # if specified include_history,同时查询History alarm
+    # if specified include_history,同时 queryHistory alarm
     if include_history:
         history_url = "/rest/alarmmgmt/v1/alarms/history-alarms/query"
         history_params = _build_history_alarm_params(
@@ -355,8 +355,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - STORAGE_POOL: Storage pool
             - IP_CLIENT: IP Client
             - HOST_GROUP: Storage host组
-            - FC_PORT: FC 端口
-            - ETH_PORT: 以太端口
+            - FC_PORT: FC  port
+            - ETH_PORT: 以太 port
             - LUN_GROUP: LUN 组
             - LOGIC_PORT: Logic port
             - CONTROLLER: Controller
@@ -472,7 +472,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
       1. 运行 `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
       3. 使用 `cmdb instance list --class_name <Class  name>` Query instance list
-      4. obtain from response对应资源的 instance_id (即 obj_ids 参数)
+      4. obtain from response对应资源的 instance_id (即 obj_ids  parameter)
 
     Args:
         client: DME API client
@@ -484,7 +484,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                  获取方式:
                  1. 运行 `cmdb instance list --help` View help,了解类定义
                  2. Determine what to query based on helpResource type (Class  name)
-                 3. 运行 `cmdb instance list --class_name <Class  name>` 查询实例
+                 3. 运行 `cmdb instance list --class_name <Class  name>`  query实例
                  4. obtain from response instance_id
         obj_type: 监控Object type(Optional,1~512  characters)
         indicators: Monitoring metric list(Optional,最多 100 个)
@@ -576,7 +576,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     Args:
         client: DME API client
-        filter: 过滤关键字(Optional),用于fuzzy match zh_cn 和 en_us 字段
+        filter:  filter关键字(Optional),用于fuzzy match zh_cn 和 en_us 字段
                 如果提供,returns only matchesObject type
 
     Returns:
@@ -587,7 +587,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     response = client.get(url)
 
-    # 如果提供了 filter 参数,过滤结果
+    # 如果提供了 filter  parameter, filter结果
     if filter is not None and response and 'data' in response:
         filter_lower = filter.lower()
         filtered_data = []
@@ -607,7 +607,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     """
     Query health-related data
 
-    查询Capacity prediction、Performance prediction、Performance anomalyhealth-related data。
+     queryCapacity prediction、Performance prediction、Performance anomalyhealth-related data。
 
     Args:
         client: DME API client
@@ -630,7 +630,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     elif type == 'performance_anomaly':
         url = "/rest/metrics/v1/performance/anomaly-data/query"
     else:
-        raise ValueError(f"不支持的 type 参数：{type}")
+        raise ValueError(f"不支持的 type  parameter：{type}")
 
     payload = {
         'object_id': object_id,
@@ -650,7 +650,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                       object_ids: list = None, page_no: int = None, page_size: int = None,
                       sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    查询object健康度
+     queryobject健康度
 
     Query typeobjecthealth info。
 
@@ -782,7 +782,7 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
 
 
 # ============================================================================
-# 检查策略 (check_policy) subtopic functions
+# 检查 policy (check_policy) subtopic functions
 # ============================================================================
 
 def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query: bool = None,
@@ -798,7 +798,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         client: DME API client
         policy_name: Policy name（supports fuzzy search，1~256  characters）
         exact_query:  name是否exact match（true-exact match，false-fuzzy search），default false
-        status: 策略 status（normal-正常，checking-检查中，failed-检查失败，queuing-Queued）
+        status:  policy status（normal-normal，checking-检查中，failed-检查失败，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity-容量threshold，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
                     performance_anomaly-Performance anomaly，performance_prediction-Performance warning，
@@ -810,16 +810,16 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         page_no: Page number，1~1000，default 1
         page_size: Items per page，1~100，default 20
         sort_key: Sort field（last_check_time-Last check time，failed_count-Failed checksobjectcount）
-        sort_dir: Sort method（asc-正序，desc-降序）
+        sort_dir: Sort method（asc-正序，desc-descending）
         administrative_status: Management status（enable-启用，disable-禁用）
-        policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults-故障，optimization-优化）
+        policy_category: 检查分类（configuration-配置，performance-性能，capacity-容量，faults- fault，optimization-优化）
         object_category: object分类（Storage-Storage device，IPSwitch-Ethernet switch，FCSwitch-Fibre Channel switch，
                        Virtualization-虚拟化，Server-Server，HCI-超融合，Client-Client）
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含 total（Total count）和 policies（策略 list）
+        }，包含 total（Total count）和 policies（ policy list）
     """
     url = "/rest/policymgmt/v2/policies/query"
 
@@ -861,11 +861,11 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Execute check policy
 
-    Execute specified检查策略。
+    Execute specified检查 policy。
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64  characters）
+        policy_id:  policy ID（1~64  characters）
 
     Returns:
         {
@@ -886,7 +886,7 @@ def check_policy_enable(client: DMEAPIClient, policy_id: str) -> dict:
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64  characters）
+        policy_id:  policy ID（1~64  characters）
 
     Returns:
         {
@@ -907,7 +907,7 @@ def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64  characters）
+        policy_id:  policy ID（1~64  characters）
 
     Returns:
         {
@@ -924,11 +924,11 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Delete check policy
 
-    Delete的检查策略。
+    Delete的检查 policy。
 
     Args:
         client: DME API client
-        policy_id: 策略 ID（1~64  characters）
+        policy_id:  policy ID（1~64  characters）
 
     Returns:
         {
@@ -965,7 +965,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         object_ids: object ID  list（最多 100 个）
         object_native_id: object nativeId（1~384  characters）
         object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
-        policy_id: 策略 ID（exact match，1~64  characters）
+        policy_id:  policy ID（exact match，1~64  characters）
         policy_name: Policy name（supports fuzzy search，1~256  characters）
         policy_types: Policy type list（最多 30 个）
         cause: 异常原因（supports fuzzy search，1~768  characters）
@@ -975,7 +975,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         page_no: Page number，1~10000，default 1
         page_size: Items per page，1~2000，default 20
         sort_key: Sort field（violation_count-异常次数）
-        sort_dir: Sort method（asc-正序，desc-降序）
+        sort_dir: Sort method（asc-正序，desc-descending）
 
     Returns:
         {
@@ -1051,13 +1051,13 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_id: str,
                lun_name: str = None, san_type: str = None, page_size: int = 20, page_no: int = 1) -> dict:
     r"""
-    查询拓扑图 Lun  list
+     query拓扑图 Lun  list
 
     via specified entryobjectQuery topology LUN  list。
 
     Args:
         client: DME API client
-        entry_objects: 入口object list（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
+        entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
             - host: 主机
             - storage: Storage device
             - host_group: 主机组
@@ -1106,14 +1106,14 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 
 def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type: str = None) -> dict:
     r"""
-    查询 SAN Path topology
+     query SAN Path topology
 
-    via specified entryobject查询 SAN Network from host toStorage pooltopology between。
+    via specified entryobject query SAN Network from host toStorage pooltopology between。
     支持 IP_SAN 和 FC_SAN 两种 type。
 
     Args:
         client: DME API client
-        entry_objects: 入口object list（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
+        entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
             - host: 主机
             - storage: Storage device
             - lun: LUN
@@ -1183,7 +1183,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         return response
 
     else:
-        raise ValueError(f"无效的 san_type 参数：{san_type}，only supports：ip_san, fc_san")
+        raise ValueError(f"无效的 san_type  parameter：{san_type}，only supports：ip_san, fc_san")
 
 
 
@@ -1191,14 +1191,14 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
               vm_name: str = None, page_size: int = 20, page_no: int = 1) -> dict:
     r"""
-    Query topology VM and virtual disk list，或查询 BMS Physical disk list below
+    Query topology VM and virtual disk list，或 query BMS Physical disk list below
 
     via specified entryobjectQuery virtualization resources，包括Virtual machine和Virtual disk list，
-    或者查询 BMS（裸金属Server）physical disk list under。
+    或者 query BMS（裸金属Server）physical disk list under。
 
     Args:
         client: DME API client
-        entry_objects: 入口object list（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
+        entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
             - vm: Virtual machine
             - host_group: 主机组
             - host: 主机
@@ -1259,8 +1259,8 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - hyper_scale_pool: 超大规模池
             - file_system: Filesystem
             - controller: Controller
-            - eth_port: 以太网端口
-            - ib_port: InfiniBand 端口
+            - eth_port: 以太网 port
+            - ib_port: InfiniBand  port
             - logic_port: Logic port
             - ip_client: IP Client
             - dtree: Dtree
@@ -1438,19 +1438,19 @@ ACTIONS = {
     # topology subtopic actions
     'topology_query_san_path': {
         'func': topology_query_san_path,
-        'description': '查询 SAN Path topology（支持 IP_SAN 和 FC_SAN）',
+        'description': ' query SAN Path topology（支持 IP_SAN 和 FC_SAN）',
         'params': ['entry_objects', 'san_type'],
         'subtopic': 'topology'
     },
     'topology_query_luns': {
         'func': topology_query_luns,
-        'description': '查询拓扑图 LUN  list',
+        'description': ' query拓扑图 LUN  list',
         'params': ['entry_objects', 'storage_pool_id', 'lun_name', 'san_type', 'page_size', 'page_no'],
         'subtopic': 'topology'
     },
     'topology_query_vms': {
         'func': topology_query_vms,
-        'description': 'Query topology VM and virtual disk list，或查询 BMS Physical disk list below',
+        'description': 'Query topology VM and virtual disk list，或 query BMS Physical disk list below',
         'params': ['entry_objects', 'host_id', 'vm_name', 'page_size', 'page_no'],
         'subtopic': 'topology'
     },
@@ -1469,7 +1469,7 @@ ACTIONS = {
     },
     'health_show_score': {
         'func': health_show_score,
-        'description': '查询object健康度',
+        'description': ' queryobject健康度',
         'params': ['object_type', 'object_name', 'object_ids', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'health'
     },

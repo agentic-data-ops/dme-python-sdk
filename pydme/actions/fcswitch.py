@@ -22,7 +22,7 @@ def list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            fcswitches: Switch list (List<FcSwitchInfo>)。参数格式如下：[{
+            fcswitches: Switch list (List<FcSwitchInfo>)。 parameter format如下：[{
                 id: SwitchID (string),
                 name: Switch name (string),
                 status: Running status (string),
@@ -217,7 +217,7 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
 
 def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 VSAN  list
+     query VSAN  list
     
     Args:
         client: DME API client
@@ -260,7 +260,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
         active_status: Zone status list（Optional），max array members：2
         member_count: 成员count（Optional），0~2147483647
         sort_key: Sort field（Optional），支持 member_count
-        sort_dir: Sort direction（Optional），asc：升序；desc：降序
+        sort_dir: Sort direction（Optional），asc：ascending；desc：descending
         page_no: Page number（Optional），1~65535
         page_size: 每页count（Optional），1~1000
 
@@ -311,14 +311,14 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     Args:
         client: DME API client
         name: Zone  name（Required）
-        fabric_wwn: Fibre Channel network WWN（条件Required，fabric 创建 zone 时需要）
-        vsan_wwn: VSAN WWN（条件Required，vsan 创建 zone 时需要）
-        wwn_members: WWN Member list（Optional），格式：["<wwn>",...]
-        port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
-        fwwn_members: FWWN Member list（Optional），格式：["<fwwn>",...]
-        fcid_members: FCID Member list（Optional），格式：["<fcid>",...]
-        alias_members: Alias member list（Optional），格式：["<alias>",...]
-        device_alias_members: Device alias member list（Optional），格式：["<deviceAlias>",...]
+        fabric_wwn: Fibre Channel network WWN（ conditionRequired，fabric 创建 zone 时需要）
+        vsan_wwn: VSAN WWN（ conditionRequired，vsan 创建 zone 时需要）
+        wwn_members: WWN Member list（Optional）， format：["<wwn>",...]
+        port_members: Port member list（Optional）， format：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
+        fwwn_members: FWWN Member list（Optional）， format：["<fwwn>",...]
+        fcid_members: FCID Member list（Optional）， format：["<fcid>",...]
+        alias_members: Alias member list（Optional）， format：["<alias>",...]
+        device_alias_members: Device alias member list（Optional）， format：["<deviceAlias>",...]
 
     Returns:
         {
@@ -368,12 +368,12 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
         client: DME API client
         zone_id: Zone ID（Required）
         zone_name: Zone  name（Optional）
-        wwn_members: WWN member modification（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
-        alias_members: Alias member modification（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
-        fwwn_members: FWWN member modification（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: Port member modification（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
-        fcid_members: FCID member modification（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
-        device_alias_members: Device alias member modification（Optional），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
+        wwn_members: WWN member modification（Optional）， format：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
+        alias_members: Alias member modification（Optional）， format：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
+        fwwn_members: FWWN member modification（Optional）， format：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
+        port_members: Port member modification（Optional）， format：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
+        fcid_members: FCID member modification（Optional）， format：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
+        device_alias_members: Device alias member modification（Optional）， format：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
 
     Returns:
         {
@@ -426,7 +426,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     """
     Batch create zone
 
-    注：根据 DME API 文档，需要 is_active_zone 和 zone_list 参数。
+    注：根据 DME API 文档，需要 is_active_zone 和 zone_list  parameter。
 
     Args:
         client: DME API client
@@ -434,12 +434,12 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
         zones: Zone 配置 list，each element should contain:
             - fabric_wwn: Fibre Channel network WWN（Required）
             - name: Zone  name（Required）
-            - wwn_members: WWN Member list（Optional），格式：["<wwn>",...]
-            - port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
-            - fwwn_members: FWWN Member list（Optional），格式：["<fwwn>",...]
-            - fcid_members: FCID Member list（Optional），格式：["<fcid>",...]
-            - alias_members: Alias member list（Optional），格式：["<alias>",...]
-            - device_alias_members: Device alias member list（Optional），格式：["<deviceAlias>",...]
+            - wwn_members: WWN Member list（Optional）， format：["<wwn>",...]
+            - port_members: Port member list（Optional）， format：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
+            - fwwn_members: FWWN Member list（Optional）， format：["<fwwn>",...]
+            - fcid_members: FCID Member list（Optional）， format：["<fcid>",...]
+            - alias_members: Alias member list（Optional）， format：["<alias>",...]
+            - device_alias_members: Device alias member list（Optional）， format：["<deviceAlias>",...]
 
     Returns:
         {
@@ -459,9 +459,9 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
 def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> dict:
     """
-    查询 zone 的成员
+     query zone 的成员
 
-    查询 Zone members contained in，支持Port member、WWN members and alias members。
+     query Zone members contained in，支持Port member、WWN members and alias members。
 
     Args:
         client: DME API client
@@ -554,8 +554,8 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     Args:
         client: DME API client
         name: Alias  name（Required）
-        fabric_wwn: Fibre Channel network WWN（条件Required，fabric Alias creation requires）
-        vsan_wwn: VSAN WWN（条件Required，vsan Alias creation requires）
+        fabric_wwn: Fibre Channel network WWN（ conditionRequired，fabric Alias creation requires）
+        vsan_wwn: VSAN WWN（ conditionRequired，vsan Alias creation requires）
         wwn_members: WWN Member list（Optional，思科Switch PWWN 成员）
         port_members: Port member list（Optional）
         fwwn_members: FWWN Member list（Optional）
@@ -602,13 +602,13 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     """
     Modify alias
 
-    注：根据 DME API 文档，member modification requires {type}.added_members 和 {type}.removed_members 格式。
+    注：根据 DME API 文档，member modification requires {type}.added_members 和 {type}.removed_members  format。
 
     Args:
         client: DME API client
         alias_id: Alias ID（Required）
         name: Alias  name（Optional）
-        wwn_members: WWN member modification（Optional，格式：{'added_members': [...], 'removed_members': [...]}）
+        wwn_members: WWN member modification（Optional， format：{'added_members': [...], 'removed_members': [...]}）
         fwwn_members: FWWN member modification（Optional）
         port_members: Port member modification（Optional）
         fcid_members: FCID member modification（Optional）
@@ -664,7 +664,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     """
     Query alias members
 
-    查询 Alias members contained in，支持查询Port member和 WWN 成员。
+     query Alias members contained in，支持 queryPort member和 WWN 成员。
 
     Args:
         client: DME API client
@@ -721,13 +721,13 @@ ACTIONS = {
     },
     'port_list': {
         'func': port_list,
-        'description': '查询Switch port list',
+        'description': ' querySwitch port list',
         'params': ['switch_id', 'port_name', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'controller_list': {
         'func': controller_list,
-        'description': '查询SwitchController list',
+        'description': ' querySwitchController list',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },
@@ -739,7 +739,7 @@ ACTIONS = {
     },
     'fabric_show_ports': {
         'func': fabric_show_ports,
-        'description': '查询 fabric 的端口 list',
+        'description': ' query fabric 的 port list',
         'params': ['fabric_id', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },
@@ -787,7 +787,7 @@ ACTIONS = {
     },
     'zone_show_members': {
         'func': zone_show_members,
-        'description': '查询 zone 的成员',
+        'description': ' query zone 的成员',
         'params': ['zone_id', 'type'],
         'subtopic': 'zone'
     },

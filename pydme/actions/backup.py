@@ -13,7 +13,7 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询Backup cluster list
+     queryBackup cluster list
     
     Args:
         client: DME API client
@@ -24,7 +24,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: 集群Total count (integer),
-            clusters: Backup cluster list。参数格式如下：[{
+            clusters: Backup cluster list。 parameter format如下：[{
                 id: 集群ID (string),
                 name: Cluster name (string),
                 status:  status (string),
@@ -86,7 +86,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     Returns:
         {
             total: 配额Total count (integer),
-            quotas: Tenant quota list。参数格式如下：[{
+            quotas: Tenant quota list。 parameter format如下：[{
                 tenant_id: Tenant ID (string),
                 quota: 配额大小 (integer),
                 used: Used quota (integer),
@@ -112,7 +112,7 @@ ACTIONS = {
     # subtopic actions - cluster（Three-level structure：backup cluster list/capacity/quota）
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询Backup cluster list',
+        'description': ' queryBackup cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },

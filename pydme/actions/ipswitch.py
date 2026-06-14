@@ -21,7 +21,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
     Returns:
         {
             total: Total count (integer),
-            data_list: Switch list。参数格式如下：[{
+            data_list: Switch list。 parameter format如下：[{
                 id: SwitchID (string),
                 name: Switch name (string),
                 status:  status (string),
@@ -44,7 +44,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
 
 def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP SwitchEnclosureList info
+     query IP SwitchEnclosureList info
     
     Args:
         client: DME API client
@@ -71,7 +71,7 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP Switch board list info
+     query IP Switch board list info
     
     Args:
         client: DME API client
@@ -98,7 +98,7 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP Switch subcard list info
+     query IP Switch subcard list info
     
     Args:
         client: DME API client
@@ -125,7 +125,7 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
 
 def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP SwitchPower supplyList info
+     query IP SwitchPower supplyList info
     
     Args:
         client: DME API client
@@ -152,7 +152,7 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP SwitchFanList info
+     query IP SwitchFanList info
     
     Args:
         client: DME API client
@@ -179,7 +179,7 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
 
 def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP Switch portList info
+     query IP Switch portList info
     
     Args:
         client: DME API client
@@ -214,37 +214,37 @@ ACTIONS = {
     },
     'frame_list': {
         'func': frame_list,
-        'description': '查询 IP SwitchEnclosureList info',
+        'description': ' query IP SwitchEnclosureList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'frame'
     },
     'board_list': {
         'func': board_list,
-        'description': '查询 IP Switch board list info',
+        'description': ' query IP Switch board list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'board'
     },
     'subcard_list': {
         'func': subcard_list,
-        'description': '查询 IP Switch subcard list info',
+        'description': ' query IP Switch subcard list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'subcard'
     },
     'power_list': {
         'func': power_list,
-        'description': '查询 IP SwitchPower supplyList info',
+        'description': ' query IP SwitchPower supplyList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'power'
     },
     'fan_list': {
         'func': fan_list,
-        'description': '查询 IP SwitchFanList info',
+        'description': ' query IP SwitchFanList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'port_list': {
         'func': port_list,
-        'description': '查询 IP Switch portList info',
+        'description': ' query IP Switch portList info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },

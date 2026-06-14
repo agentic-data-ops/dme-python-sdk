@@ -158,7 +158,7 @@ class DMECLI:
         if in_params:
             current_param = None
             param_lines = []
-            in_format_block = 0  # 参数格式块嵌套深度，>0 skip internal attribute parsing
+            in_format_block = 0  #  parameter format块嵌套深度，>0 skip internal attribute parsing
             
             for line in lines:
                 raw = line  # preserve original indentation
@@ -192,8 +192,8 @@ class DMECLI:
                     current_param = param_match.group(1)
                     param_lines = [param_match.group(2)]
                     
-                    # If this param line enters a 参数格式/属性格式 description block, track nesting depth
-                    if '参数格式如下：' in stripped or '属性格式如下：{' in stripped:
+                    # If this param line enters a  parameter format/属性 format description block, track nesting depth
+                    if ' parameter format如下：' in stripped or '属性 format如下：{' in stripped:
                         in_format_block = stripped.count('{') - stripped.count('}')
                         if in_format_block < 0:
                             in_format_block = 0
@@ -867,7 +867,7 @@ def main():
                                 try:
                                     param_value = param_type(param_value)
                                 except ValueError:
-                                    print(f"警告：参数 {param_name} 无法转换为 {param_type.__name__}")
+                                    print(f"警告： parameter {param_name} 无法转换为 {param_type.__name__}")
                             elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                                 import json
                                 try:
@@ -879,11 +879,11 @@ def main():
                                 try:
                                     param_value = json.loads(param_value)
                                 except (ValueError, json.JSONDecodeError):
-                                    print(f"警告：参数 {param_name} 需要 JSON 格式")
+                                    print(f"警告： parameter {param_name} 需要 JSON  format")
 
                         typed_params[func_param_name] = param_value
 
-                # Check if function requires client 参数
+                # Check if function requires client  parameter
                 sig_params = sig.parameters
                 if sig_params and 'client' in sig_params:
                     result = func(client, **typed_params)
@@ -907,10 +907,10 @@ def main():
     # 4. 指定了 <topic> <subtopic> <action>，Show action help or execute action
     if args.subtopic and args.action:
         # 尝试组合为 action_key（Three-level structure：<topic> <subtopic> <action>）
-        # 先尝试 subtopic_action 格式（Supports action names with spaces，如 "frame list"）
+        # 先尝试 subtopic_action  format（Supports action names with spaces，如 "frame list"）
         action_key = f"{args.subtopic}_{args.action}"
         
-        # 如果找不到，尝试 subtopic action 格式（空格分隔）
+        # 如果找不到，尝试 subtopic action  format（空格分隔）
         if action_key not in actions_info:
             # 尝试将 subtopic 和 action Combine into space-separated format
             space_action_key = f"{args.subtopic} {args.action}"
@@ -937,7 +937,7 @@ def main():
         auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
         if not auth_token and not (endpoint and username and password):
-            print("错误：must be provided endpoint、user 和 password 参数，或者使用 --token provide auth token")
+            print("错误：must be provided endpoint、user 和 password  parameter，或者使用 --token provide auth token")
             print("可通过 --endpoint, --user, --password, --token or set via environment variables")
             parser.print_help()
             sys.exit(1)
@@ -971,7 +971,7 @@ def main():
             sig = inspect.signature(func)
             typed_params = {}
 
-            # 参数名映射：CLI 参数名 -> 函数参数名
+            #  parameter名映射：CLI  parameter名 -> 函数 parameter名
             param_mapping = {
                 'name': 'name',
                 'alias_name': 'name',
@@ -1009,7 +1009,7 @@ def main():
                             try:
                                 param_value = param_type(param_value)
                             except ValueError:
-                                print(f"警告：参数 {param_name} 无法转换为 {param_type.__name__}")
+                                print(f"警告： parameter {param_name} 无法转换为 {param_type.__name__}")
                         elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                             import json
                             try:
@@ -1021,7 +1021,7 @@ def main():
                             try:
                                 param_value = json.loads(param_value)
                             except (ValueError, json.JSONDecodeError):
-                                print(f"警告：参数 {param_name} 需要 JSON 格式")
+                                print(f"警告： parameter {param_name} 需要 JSON  format")
 
                     typed_params[func_param_name] = param_value
 

@@ -69,7 +69,7 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
     Returns:
         {
             total: Total count (integer),
-            volumes: LUN list (List<VolumeInfo>)。参数格式如下：[{
+            volumes: LUN list (List<VolumeInfo>)。 parameter format如下：[{
                 id: LUN ID (string),
                 name: LUN name (string),
                 size: Capacity (integer),
@@ -146,7 +146,7 @@ def lun_show(client: DMEAPIClient, volume_id: str) -> dict:
 
     Returns:
         {
-            volume: LUN details (VolumeDetails object)。属性格式如下：{
+            volume: LUN details (VolumeDetails object)。属性 format如下：{
                 id: LUN unique identifier (string, 1~64 characters),
                 name: Name (string, 1~255 characters),
                 description: Description (string, 0~255 characters),
@@ -182,7 +182,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
     Args:
         client: DME API client
         storage_id: Storage device ID (Required), 1~64 characters, obtained via storage device query API
-        lun_specs: LUN basic parameters (Conditionally Required), List<LunSpecs> type, max array members 1000, max 10 groups per request; mutually exclusive with lun_specs_pass_through; required when storage mode is not pass-through. 参数格式如下：[{
+        lun_specs: LUN basic parameters (Conditionally Required), List<LunSpecs> type, max array members 1000, max 10 groups per request; mutually exclusive with lun_specs_pass_through; required when storage mode is not pass-through.  parameter format如下：[{
                 name: LUN name (1~255 characters, supports letters, digits, ._- and Chinese characters; when count>1, name is 1~27 characters),
                 count: Number of LUNs of this spec (1~500),
                 capacity: Single LUN capacity (1~262144, in GB),
@@ -194,7 +194,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 remote_lun_raw_id: External LUN ID (0~255 characters; effective when usage_type is edev),
                 disguise_status: LUN disguise (effective when usage_type is edev). Options: nodisguise, basic, expansion, inheritance,
              }, ...]
-        lun_specs_pass_through: LUN basic parameters for pass-through storage mode (Conditionally Required), List<lunSpecsPassThrough> type, max array members 24, max 24 groups per request; mutually exclusive with lun_specs; required when storage mode is pass-through. 参数格式如下：[{
+        lun_specs_pass_through: LUN basic parameters for pass-through storage mode (Conditionally Required), List<lunSpecsPassThrough> type, max array members 24, max 24 groups per request; mutually exclusive with lun_specs; required when storage mode is pass-through.  parameter format如下：[{
                 name: LUN name (1~247 characters, supports letters, digits, -._ and Chinese characters; final name is LUN name + suffix code + '-' + disk location),
                 description: LUN description (0~255 characters),
                 disk_location: Disk location for the LUN (1~255 characters),
@@ -207,15 +207,15 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: Initial capacity allocation policy（可选），only supports华为 V3/V5 设备，Dorado 系列不支持；
                                   Options：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；default automatic
-        prefetch_policy: 预取策略（可选），Affects disk read；
+        prefetch_policy: 预取 policy（可选），Affects disk read；
                         Options：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；default intelligent_prefetch
-        prefetch_value: 预取策略值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
-        tuning: 调优属性 (可选), CustomizeLunTuning object。参数格式如下：{
-                smart_tier: Data migration策略。Options：no_migration (不迁移), automatic_migration (自动迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。defaultno_migration,
+        prefetch_value: 预取 policy值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
+        tuning: 调优属性 (可选), CustomizeLunTuning object。 parameter format如下：{
+                smart_tier: Data migration policy。Options：no_migration (不迁移), automatic_migration (自动迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。defaultno_migration,
                 deduplication_enabled: Deduplication (仅Thin LUN支持)。Options：true (开启), false (关闭),
                 compression_enabled: Data compression (仅Thin LUN支持)。Options：true (开启), false (关闭),
                 alloction_type: LUNAllocation type。Options：thin, thick,
-                smart_qos: Smart QoSobject。属性格式如下：{
+                smart_qos: Smart QoSobject。属性 format如下：{
                         max_bandwidth: Max bandwidth (1~999999999Mbit/s; 与min_bandwidth/min_iopsmutually exclusive),
                         max_iops: Max IOPS (1~999999999; 与min_bandwidth/min_iopsmutually exclusive),
                         min_bandwidth: Min bandwidth (1~999999999Mbit/s; 与max_bandwidth/max_iopsmutually exclusive),
@@ -224,12 +224,12 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 },
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
-        mapping: Mapping info (可选), LunMapping object, If present, creates for host or host group LUN。参数格式如下：{
+        mapping: Mapping info (可选), LunMapping object, If present, creates for host or host group LUN。 parameter format如下：{
                 host_id: Host ID (1~64 characters; 与hostgroup_idone of, cannot coexist),
                 hostgroup_id: Host group ID (1~64 characters; 与host_idone of, cannot coexist),
                 host_type: 映射Host type。Options：storage_host (Storage host), host (主机)。defaulthost,
                 start_host_lun_id: 起始主机LUN ID (1~4096),
-                mapping_view: Mapping view请求 info (LunMappingRequestobject)。属性格式如下：{
+                mapping_view: Mapping view请求 info (LunMappingRequestobject)。属性 format如下：{
                         mapping_view_raw_id: Mapping viewon the storage deviceID (1~31 characters),
                         mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN组on the storage deviceID (1~31 characters),
@@ -247,7 +247,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
     url = "/rest/blockservice/v1/volumes/customize"
 
     if not storage_id:
-        raise ValueError("storage_id 是Required参数")
+        raise ValueError("storage_id 是Required parameter")
 
     payload = {
         'storage_id': storage_id
@@ -326,9 +326,9 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
         prefetch_policy: Prefetch policy (Optional, only non-service LUNs support modification)
                         Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch)
         prefetch_value: Prefetch policy value (Optional, only non-service LUNs support modification)
-        tuning: LUN tuning properties (Optional, only non-service LUNs support modification)。参数格式如下：{
+        tuning: LUN tuning properties (Optional, only non-service LUNs support modification)。 parameter format如下：{
                 smarttier: Data migration policy (Optional, default 0). Options: 0 (no migration), 1 (auto migration), 2 (migrate to higher tier), 3 (migrate to lower tier),
-                smartqos: SmartQos4Update object (Optional)。属性格式如下：{
+                smartqos: SmartQos4Update object (Optional)。属性 format如下：{
                         maxbandwidth: Max bandwidth (Optional, 0~2147483647; supports all devices; mutually exclusive with minbandwidth/miniops for V3/V5 series),
                         maxiops: Max iops (Optional, 0~2147483647; supports all devices; mutually exclusive with minbandwidth/miniops for V3/V5 series),
                         minbandwidth: Min bandwidth (Optional, 0~2147483647; supports Dorado V6/V3/V5; mutually exclusive with maxbandwidth/maxiops for V3/V5 series),
@@ -381,7 +381,7 @@ def lun_modify_name(client: DMEAPIClient, volumes: list) -> dict:
 
     Args:
         client: DME API client
-        volumes: List of LUN info to modify (max array members: 1000)。参数格式如下：[{
+        volumes: List of LUN info to modify (max array members: 1000)。 parameter format如下：[{
                 volume_id: LUN unique identifier (1~64 characters),
                 name: New LUN name (1~255 characters, supports letters, digits, ._- and Chinese characters),
              }, ...]
@@ -410,7 +410,7 @@ def lun_expand(client: DMEAPIClient, volumes: list, task_remarks: str = None) ->
 
     Args:
         client: DME API client
-        volumes: List of LUN info to expand (max array members: 1000)。参数格式如下：[{
+        volumes: List of LUN info to expand (max array members: 1000)。 parameter format如下：[{
                 volume_id: LUN unique identifier (Required, 1~64 characters),
                 added_capacity: Capacity increase in GB (Required, 1~262144),
              }, ...]
@@ -503,7 +503,7 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
     Returns:
         {
             total: Total LUN groups (integer),
-            lun_groups: LUN group list (List<LunGroupInfo>)。参数格式如下：[{
+            lun_groups: LUN group list (List<LunGroupInfo>)。 parameter format如下：[{
                 id: LUN group ID (string),
                 name: LUN group name (string),
                 storage_id: Storage device ID (string),
@@ -590,8 +590,8 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
         name: LUN group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters)
         description: LUN group description (Optional, 0~255 characters)
         existing_lun_ids: LUN ID list (Optional, mutually exclusive with customize_volumes, max array members: 1000)
-        customize_volumes: CustomizeVolumesParam object (Optional, mutually exclusive with existing_lun_ids)。参数格式如下：{
-                volume_specs: VolumeSpecsParam list (Optional, mutually exclusive with lun_specs_pass_through, max array members: 1000)。参数格式如下：[{
+        customize_volumes: CustomizeVolumesParam object (Optional, mutually exclusive with existing_lun_ids)。 parameter format如下：{
+                volume_specs: VolumeSpecsParam list (Optional, mutually exclusive with lun_specs_pass_through, max array members: 1000)。 parameter format如下：[{
                         name: LUN name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters; when count>1, name length is 1~27),
                         description: LUN description (Optional, 0~255 characters),
                         count: Number of LUNs of this spec (Required, 1~500),
@@ -600,7 +600,7 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
                         start_suffix: Starting suffix number (Optional, 0~9999),
                         start_lun_id: Starting LUN ID (Optional, 0~65535),
                      }, ...],
-                lun_specs_pass_through: lunSpecsPassThrough list (Optional, mutually exclusive with volume_specs, max array members: 24; required in pass-through mode)。参数格式如下：[{
+                lun_specs_pass_through: lunSpecsPassThrough list (Optional, mutually exclusive with volume_specs, max array members: 24; required in pass-through mode)。 parameter format如下：[{
                         name: LUN name (Required, 1~247 characters, supports letters, digits, -._ and Chinese characters; final name = LUN name + suffix + disk location),
                         description: LUN description (Optional, 0~255 characters),
                         disk_location: Disk location for LUN creation (Required, 1~255 characters),
@@ -614,8 +614,8 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
                 initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Options: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
                 prefetch_policy: Prefetch policy (Optional). Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
                 prefetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
-                tuning: CustomizeVolumeTuning object (Optional)。属性格式如下：{
-                        smartqos: SmartQos object (Optional)。属性格式如下：{
+                tuning: CustomizeVolumeTuning object (Optional)。属性 format如下：{
+                        smartqos: SmartQos object (Optional)。属性 format如下：{
                                 name: Smart QoS name (Optional, 1~255 characters),
                         },
                         alloctype: LUN allocation type (Optional). Options: thin, thick,
@@ -624,18 +624,18 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
              }
         task_remarks: Async task remark (Optional, max 1024 characters)
         vstore_id: Tenant ID (Optional, 1~64 characters; effective for OceanStor V300R006C30/V500R007C20/Dorado 6.1.3+)
-        zoning_info: ZoningParam object (Optional)。参数格式如下：{
+        zoning_info: ZoningParam object (Optional)。 parameter format如下：{
                 zone_policy_id: Zone policy id (Optional, 0~64 characters; auto zone if specified),
                 target_fcports: Port WWN list (Optional, mutually exclusive with target_fcportgroups, max array members: 1000; effective when port_group_id is empty in mapping_view),
                 target_fcportgroups: Port group id list (Optional, mutually exclusive with target_fcports, max array members: 1000; effective when port_group_id is empty in mapping_view),
              }
-        mapping_view: MappingViewRequestParam object (Optional)。参数格式如下：{
+        mapping_view: MappingViewRequestParam object (Optional)。 parameter format如下：{
                 mapping_view_name: Mapping view name on device (Optional, max 31 characters),
-                mapping_host_info: MappingHostInfo object (Optional, mutually exclusive with mapping_host_group_info)。属性格式如下：{
+                mapping_host_info: MappingHostInfo object (Optional, mutually exclusive with mapping_host_group_info)。属性 format如下：{
                         todo_host_name: Host name in todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese),
                         id: Host ID (Optional, 1~64 characters),
                 },
-                mapping_host_group_info: MappingHostGroupInfo object (Optional, mutually exclusive with mapping_host_info)。属性格式如下：{
+                mapping_host_group_info: MappingHostGroupInfo object (Optional, mutually exclusive with mapping_host_info)。属性 format如下：{
                         todo_host_group_name: Host group name in todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese),
                         id: Host group ID (Optional, 1~64 characters),
                 },
@@ -651,7 +651,7 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
     url = "/rest/blockservice/v1/lun-groups"
 
     if not storage_id or not name:
-        raise ValueError("storage_id 和 name 是Required参数")
+        raise ValueError("storage_id 和 name 是Required parameter")
 
     body_params = {
         'storage_id': storage_id,
@@ -720,11 +720,11 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
     Args:
         client: DME API client
         group_id: LUN group ID
-        existing_lun_ids: Existing LUN set (Optional, mutually exclusive with customize_volumes, max array members: 1000)。参数格式如下：[{
+        existing_lun_ids: Existing LUN set (Optional, mutually exclusive with customize_volumes, max array members: 1000)。 parameter format如下：[{
                 lun_id: Existing LUN ID (Required, 1~64 characters),
              }, ...]
-        customize_volumes: CustomizeVolumesParam object (Optional, mutually exclusive with existing_lun_ids)。参数格式如下：{
-                volume_specs: VolumeSpecsParam list (Optional, mutually exclusive with lun_specs_pass_through, max array members: 1000)。参数格式如下：[{
+        customize_volumes: CustomizeVolumesParam object (Optional, mutually exclusive with existing_lun_ids)。 parameter format如下：{
+                volume_specs: VolumeSpecsParam list (Optional, mutually exclusive with lun_specs_pass_through, max array members: 1000)。 parameter format如下：[{
                         name: LUN name (Required, 1~255 characters, supports letters, digits, ._- and Chinese; when count>1, name length 1~27),
                         description: LUN description (Optional, 0~255 characters),
                         count: LUN count of this spec (Required, 1~500),
@@ -733,7 +733,7 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
                         start_suffix: Starting suffix number (Optional, 0~9999),
                         start_lun_id: Starting LUN ID (Optional, 0~65535),
                      }, ...],
-                lun_specs_pass_through: lunSpecsPassThrough list (Optional, mutually exclusive with volume_specs, max array members: 24; required in pass-through mode)。参数格式如下：[{
+                lun_specs_pass_through: lunSpecsPassThrough list (Optional, mutually exclusive with volume_specs, max array members: 24; required in pass-through mode)。 parameter format如下：[{
                         name: LUN name (Required, 1~247 characters, supports letters, digits, -._ and Chinese; final name = LUN name + suffix + disk location),
                         description: LUN description (Optional, 0~255 characters),
                         disk_location: Disk location for LUN (Required, 1~255 characters),
@@ -747,15 +747,15 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
                 initial_distribute_policy: Initial capacity distribution policy (Optional, V3/V5 only, all-flash not supported). Options: 0 (auto), 1 (high-perf tier), 2 (perf tier), 3 (capacity tier). Default 0,
                 prefetch_policy: Prefetch policy (Optional). Options: 0 (no prefetch), 1 (fixed prefetch), 2 (variable prefetch), 3 (smart prefetch). Default 3,
                 prefetch_value: Prefetch value (Optional, 0~1024; fixed=0~1024KB, variable=0~1024x),
-                tuning: CustomizeVolumeTuning object (Optional)。属性格式如下：{
-                        smartqos: SmartQos object (Optional)。属性格式如下：{
+                tuning: CustomizeVolumeTuning object (Optional)。属性 format如下：{
+                        smartqos: SmartQos object (Optional)。属性 format如下：{
                                 name: Smart QoS name (Optional, 1~255 characters),
                         },
                         alloctype: LUN allocation type (Optional). Options: thin, thick,
                         workload_type_id: Workload type id (Optional),
                 }
              }
-        host_lun_id_infos: HostLunIdInfo list (Optional, max array members: 1000; Dorado V6/V7 and OceanStor V6/V7 only)。参数格式如下：[{
+        host_lun_id_infos: HostLunIdInfo list (Optional, max array members: 1000; Dorado V6/V7 and OceanStor V6/V7 only)。 parameter format如下：[{
                 host_lun_id: Host LUN ID assigned to LUN (Required, 0~4095),
                 lun_id: LUN ID to add to group (Required, 1~64 characters),
              }, ...]
@@ -899,21 +899,21 @@ def mapping_view_create(
         name: Mapping view name (Optional, 1~31 characters; effective for OceanStor V3/V5)
         port_group_id: Port group ID (Optional, 1~64 characters)
         start_host_lun_id: Host LUN SCSI ID start value (Optional, 0~2147483647)
-        host: Storage host (Optional, mutually exclusive with vbs/host_group)。属性格式如下：{
+        host: Storage host (Optional, mutually exclusive with vbs/host_group)。属性 format如下：{
                 todo_host_name: Host name in todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese),
                 id: Host ID (Optional, 1~64 characters),
              }
-        vbs: VBS client (Optional, mutually exclusive with host/host_group; OceanStor Pacific and FusionStorage only)。属性格式如下：{
+        vbs: VBS client (Optional, mutually exclusive with host/host_group; OceanStor Pacific and FusionStorage only)。属性 format如下：{
                 id: VBS ID (Optional, 1~64 characters),
              }
-        host_group: Storage host group (Optional, mutually exclusive with host/vbs)。属性格式如下：{
+        host_group: Storage host group (Optional, mutually exclusive with host/vbs)。属性 format如下：{
                 todo_host_group_name: Host group name in todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese),
                 id: Host group ID (Optional, 1~64 characters),
              }
-        lun_group: LUN group to map (Optional, mutually exclusive with luns)。属性格式如下：{
+        lun_group: LUN group to map (Optional, mutually exclusive with luns)。属性 format如下：{
                 id: LUN group ID (Optional, 1~64 characters),
              }
-        luns: LUN info to map (Optional, mutually exclusive with lun_group)。属性格式如下：{
+        luns: LUN info to map (Optional, mutually exclusive with lun_group)。属性 format如下：{
                 ids: LUN ID list to map (Optional, max array members: 1000),
                 lungroup_name: LUN group name (Optional, 1~255 characters; sent when creating LUN group during LUN mapping),
              }
@@ -1033,7 +1033,7 @@ def mapping_view_list(
     Returns:
         {
             total: Total mapping views (integer),
-            mapping_views: Mapping view list (List<MappingViewInfo>)。参数格式如下：[{
+            mapping_views: Mapping view list (List<MappingViewInfo>)。 parameter format如下：[{
                 id: Mapping view ID (string),
                 name: Mapping view name (string),
                 storage_id: Storage device ID (string),
@@ -1198,17 +1198,17 @@ def storage_host_create(client: DMEAPIClient, storage_id: str,
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~64 characters)
-        host_info: CreateStorageHostInfo object (Required)。属性格式如下：{
+        host_info: CreateStorageHostInfo object (Required)。属性 format如下：{
                 name: Host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese),
                 os_type: Host type (Required). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: Host IP address (Optional, max 127 characters),
                 description: Host description (Optional, max 63 characters),
-                initiators: StorageInitiatorParam list (Optional, max array members: 1000)。参数格式如下：[{
+                initiators: StorageInitiatorParam list (Optional, max array members: 1000)。 parameter format如下：[{
                         protocol: Initiator type (Required). Options: fc, iscsi, nvme_over_roce,
                         raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
                         alias: Initiator alias (Optional, max 31 characters),
                      }, ...],
-                multipath: MultiPathForCreateRequestParam object (Optional)。属性格式如下：{
+                multipath: MultiPathForCreateRequestParam object (Optional)。属性 format如下：{
                         multipath_type: Third-party multipath policy (Required). Options: default, third_party,
                         path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path,
                         failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua,
@@ -1360,13 +1360,13 @@ def storage_host_modify(client: DMEAPIClient, storage_host_id: str,
         storage_host_description: Storage host description (Optional, 0~63 characters)
         storage_host_ip: Host IP (Optional, max 127 characters)
         storage_host_os_type: Host type (Optional). Options: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
-        add_initiators: StorageInitiatorParam list (Optional, max array members: 1000)。参数格式如下：[{
+        add_initiators: StorageInitiatorParam list (Optional, max array members: 1000)。 parameter format如下：[{
                 protocol: Initiator type (Required). Options: fc, iscsi, nvme_over_roce,
                 raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
                 alias: Initiator alias (Optional, max 31 characters),
              }, ...]
         remove_initiators: Initiator ID list to remove (Optional, max array members: 1000)
-        multipath: MultiPathForCreateRequestParam object (Optional)。属性格式如下：{
+        multipath: MultiPathForCreateRequestParam object (Optional)。属性 format如下：{
                 multipath_type: Third-party multipath policy (Required). Options: default, third_party,
                 path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path,
                 failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua,
@@ -1501,17 +1501,17 @@ def storage_host_group_create(client: DMEAPIClient, storage_id: str, name: str,
         name: Host group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese; V3/V5 max 31 bytes, V6 max 255 bytes)
         description: Description (Optional, 0~63 characters)
         exist_host_ids: Host ID list to add to host group (Optional, mutually exclusive with create_storage_host_params, max array members: 1000)
-        create_storage_host_params: Create new storage host list (Optional, mutually exclusive with exist_host_ids, max array members: 1000)。参数格式如下：[{
+        create_storage_host_params: Create new storage host list (Optional, mutually exclusive with exist_host_ids, max array members: 1000)。 parameter format如下：[{
                 name: Host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese),
                 os_type: Host type (Required). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: Host IP address (Optional, max 127 characters),
                 description: Host description (Optional, max 63 characters),
-                initiators: Initiator list (Optional, max array members: 1000)。参数格式如下：[{
+                initiators: Initiator list (Optional, max array members: 1000)。 parameter format如下：[{
                         protocol: Initiator type (Required). Options: fc, iscsi, nvme_over_roce,
                         raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
                         alias: Initiator alias (Optional, max 31 characters),
                      }, ...],
-                multipath: Multipath configuration (Optional)。属性格式如下：{
+                multipath: Multipath configuration (Optional)。属性 format如下：{
                         multipath_type: Third-party multipath policy (Required). Options: default, third_party,
                         path_type: Initiator path type (Optional, effective with third-party multipath). Options: optimal_path, non_optimal_path,
                         failover_mode: Initiator failover mode (Optional, effective with third-party multipath). Options: early_version_alua, common_alua, alua_not_used, special_alua,
@@ -1622,20 +1622,20 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         client: DME API Client
         storage_host_group_id: Storage host组 ID (Required)
         storage_host_id_ids: 存储Host ID list (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
-        create_storage_host_params: 创建新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。参数格式如下：[{
+        create_storage_host_params: 创建新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。 parameter format如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。Options：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip: 主机ip地址 (可选, 最多127 characters),
+                ip: 主机ip address (可选, 最多127 characters),
                 description: 主机 description (可选, 最多63 characters),
-                initiators: Initiator list (可选, max array members: 1000)。参数格式如下：[{
+                initiators: Initiator list (可选, max array members: 1000)。 parameter format如下：[{
                         protocol: Initiator type (Required)。Options：fc, iscsi, nvme_over_roce,
                         raw_id: 主机Initiatorwwpn或iqn或nqn (Required, 1~223 characters),
                         alias: Initiator alias (可选, 最多31 characters),
                      }, ...],
-                multipath: 多路径配置 (可选)。属性格式如下：{
-                        multipath_type: Third-party multipath策略 (Required)。Options：default (default), third_party (Third-party multipath),
+                multipath: 多路径配置 (可选)。属性 format如下：{
+                        multipath_type: Third-party multipath policy (Required)。Options：default (default), third_party (Third-party multipath),
                         path_type: Initiator路径 type (可选, 开启Third-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: Initiator切换模式 (可选, 开启Third-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
+                        failover_mode: Initiator切换 mode (可选, 开启Third-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (可选, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
@@ -1678,9 +1678,9 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
 
     Args:
         client: DME API Client
-        storage_host_group_id: Storage host组 ID（Required，1~64 字符）
+        storage_host_group_id: Storage host组 ID（Required，1~64  character）
         storage_host_ids: hosts to remove ID  list（Required，最多 1000 个）
-        task_remarks: Task remark(Optional, max 1024 字符）
+        task_remarks: Task remark(Optional, max 1024  character）
 
     Returns:
         任务 ID
@@ -1708,7 +1708,7 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
     Args:
         client: DME API Client
         host_group_ids: Storage host组 ID  list（Required，1~100 个）
-        task_remarks: Task remark(Optional, max 1024 字符）
+        task_remarks: Task remark(Optional, max 1024  character）
 
     Returns:
         Deletion result
@@ -1733,12 +1733,12 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-    指定Storage host查询映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
+    指定Storage host query映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client
-        storage_host_id: Storage host ID（Required，1~64 字符）
-        name: LUN Name (Optional,1~256 字符，支持fuzzy search）
+        storage_host_id: Storage host ID（Required，1~64  character）
+        name: LUN Name (Optional,1~256  character，支持fuzzy search）
         page_size: Items per page（可选，1~1000，default 20）
         page_no: Page queryStart position（可选，1~10000000，default 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
@@ -1775,12 +1775,12 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-    指定Storage host组查询映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
+    指定Storage host组 query映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client
-        storage_host_group_id: Storage host组 ID（Required，1~64 字符）
-        name: LUN Name (Optional,1~256 字符，支持fuzzy search）
+        storage_host_group_id: Storage host组 ID（Required，1~64  character）
+        name: LUN Name (Optional,1~256  character，支持fuzzy search）
         page_size: Items per page（可选，1~1000，default 20）
         page_no: Page queryStart position（可选，1~10000000，default 1）
         sort_key: Sort field（可选，host_lun_id/mapping_view_raw_id/lun_raw_id）
@@ -2063,7 +2063,7 @@ def physical_host_create(client: DMEAPIClient, access_mode: str, type: str,
         username: Physical host access username (Required in ACCOUNT mode, 1~255 characters)
         password: Physical host access password (Required in ACCOUNT mode, 1~1024 characters)
         description: Physical host description (Optional, 0~63 characters)
-        initiator: Physical host initiator list (Required in NONE mode)。参数格式如下：[{
+        initiator: Physical host initiator list (Required in NONE mode)。 parameter format如下：[{
                 protocol: Initiator type (Required). Options: FC, ISCSI, NVME_OVER_ROCE,
                 port_name: Host initiator wwn or iqn (Required, 1~223 characters),
              }, ...]
@@ -2268,7 +2268,7 @@ def physical_host_add_initiators(client: DMEAPIClient, host_id: str,
     Args:
         client: DME API client
         host_id: Physical host ID (Required)
-        initiators: Initiator list (Required, max array members: 100)。参数格式如下：[{
+        initiators: Initiator list (Required, max array members: 100)。 parameter format如下：[{
                 protocol: Initiator type (Required). Options: FC (WWPN format, 16-char hex), ISCSI, NVME_OVER_ROCE,
                 port_name: Host initiator wwn or iqn (Required, 1~223 characters),
              }, ...]
@@ -2487,14 +2487,14 @@ def physical_host_map_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
         client: DME API client
         volume_ids: LUN ID list (Required, max array members: 1000)
         host_id: Physical host ID (Required, 1~64 characters)
-        mapping_policy: MappingPolicy list (Optional, max array members: 64; not needed for service LUNs)。参数格式如下：[{
+        mapping_policy: MappingPolicy list (Optional, max array members: 64; not needed for service LUNs)。 parameter format如下：[{
                 storage_id: Storage device ID (Optional, 0~64 characters),
                 start_host_lun_id: Starting host LUN ID (Optional, 0~4095),
                 auto_zoning: Auto zone (Optional). Options: true, false,
                 zone_policy_id: Zone policy ID (Optional, 0~64 characters; effective when auto_zoning is true),
                 target_fcports: Port WWN list (Optional, mutually exclusive with target_fcportgroups, max array members: 1000; effective when auto_zoning is true),
                 target_fcportgroups: Port group ID list (Optional, mutually exclusive with target_fcports, max array members: 1000; effective when auto_zoning is true),
-                mapping_view: MappingRequest object (Optional)。属性格式如下：{
+                mapping_view: MappingRequest object (Optional)。属性 format如下：{
                         mapping_view_id: Mapping view ID on device (Optional, max 31 characters),
                         mapping_view_name: Mapping view name on device (Optional, max 31 characters),
                         lun_group_id: LUN group ID on device (Optional, max 31 characters),
@@ -2884,14 +2884,14 @@ def physical_host_group_map_luns(client: DMEAPIClient, volume_ids: list, hostgro
         client: DME API client
         volume_ids: LUN ID list (Required, max array members: 1000)
         hostgroup_id: Physical host group ID (Required, 0~64 characters)
-        mapping_policy: MappingPolicy list (Optional)。参数格式如下：[{
+        mapping_policy: MappingPolicy list (Optional)。 parameter format如下：[{
                 storage_id: Storage device ID (Optional, 0~64 characters),
                 start_host_lun_id: Starting host LUN ID (Optional, 0~4095),
                 auto_zoning: Auto zone (Optional). Options: true, false,
                 zone_policy_id: Zone policy ID (Optional, 0~64 characters; effective when auto_zoning is true),
                 target_fcports: Port WWN list (Optional, mutually exclusive with target_fcportgroups, max array members: 1000; effective when auto_zoning is true),
                 target_fcportgroups: Port group ID list (Optional, mutually exclusive with target_fcports, max array members: 1000; effective when auto_zoning is true),
-                mapping_view: MappingRequest object (Optional)。属性格式如下：{
+                mapping_view: MappingRequest object (Optional)。属性 format如下：{
                         mapping_view_id: Mapping view ID on device (Optional, max 31 characters),
                         mapping_view_name: Mapping view name on device (Optional, max 31 characters),
                         lun_group_id: LUN group ID on device (Optional, max 31 characters),
@@ -3007,7 +3007,7 @@ def physical_host_group_show_related(client: DMEAPIClient, hostgroup_id: str,
     Returns:
         {
             total: Number of storage hosts queried (integer),
-            strorage_host_group_list: Storage host group list (List<StorageHostGroupResponse>)。参数格式如下：[{
+            strorage_host_group_list: Storage host group list (List<StorageHostGroupResponse>)。 parameter format如下：[{
                 host_group_id: Storage host group ID (string),
             }, ...],
         }
@@ -3052,7 +3052,7 @@ def mapping_view_query_host_to_lun(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: Number of mapping views (int32),
-            mapping_views: Mapping view list (List<HostToLunMappingView>)。参数格式如下：[{
+            mapping_views: Mapping view list (List<HostToLunMappingView>)。 parameter format如下：[{
                 id: Mapping view ID (string),
                 name: Mapping view name (string),
                 host_info: Storage host info (HostInfoRespParam object),
