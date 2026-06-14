@@ -1014,11 +1014,11 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         recovery_policy: Recovery policy, Options: automatic, manual
         sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-        sync_schedule: Timer rule, 当 sync_type 为 specified_time_policy 时Required
+        sync_schedule: Timer rule, required when sync_type is specified_time_policy
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        sync_snap_policy: User snapshotSync policy, Optional值: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的 switch
+        switch_to_async: Auto-convert sync to async remote replication switch
         enable_compress: Link compression, when replication mode isin async modeRequired
 
     Returns:
@@ -1089,11 +1089,11 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         enable_compress: Link compression, when replication mode isin async modeRequired
         sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-        sync_schedule: Timer rule, 当 sync_type 为 specified_time_policy 时Required
+        sync_schedule: Timer rule, required when sync_type is specified_time_policy
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        sync_snap_policy: User snapshotSync policy, Optional值: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的 switch
+        switch_to_async: Auto-convert sync to async remote replication switch
 
     Returns:
         {
@@ -1138,7 +1138,7 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
     Args:
         client: DME API client
         ids:  replication Pair instance ID  list
-        delete_mode: Delete mode, Optional值: primary_only, secondary_only, dual_ends, default dual_ends
+        delete_mode: Delete mode, Options: primary_only, secondary_only, dual_ends (default)
 
     Returns:
         {
@@ -1841,11 +1841,11 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         enable_compress: Link compression, when replication mode isin async modeRequired
         sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-        sync_schedule: Timer rule, 当 sync_type 为 specified_time_policy 时Required
+        sync_schedule: Timer rule, required when sync_type is specified_time_policy
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        sync_snap_policy: User snapshotSync policy, Optional值: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: SyncRemote replicationAuto-convert to asyncRemote replication的 switch
+        switch_to_async: Auto-convert sync to async remote replication switch
 
     Returns:
         {
@@ -1896,7 +1896,7 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
         client: DME API client
         ids: Remote replicationConsistency group ID  list
         is_self_adapt: supports adaptiveRemove member Pair, default false
-        delete_mode: Delete mode, Optional值: primary_only, secondary_only, dual_ends, default dual_ends
+        delete_mode: Delete mode, Options: primary_only, secondary_only, dual_ends (default)
 
     Returns:
         {
