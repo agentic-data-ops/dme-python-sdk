@@ -210,12 +210,12 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         prefetch_policy: Prefetch policy (Optional) , Affects disk read; 
                         Options: no_prefetch, constant_prefetch, variable_prefetch, intelligent_prefetch; default intelligent_prefetch
         prefetch_value: Prefetch policy value (Optional), 0~1024; required when prefetch_policy is set to fixed or variable; fixed prefetch value range 0~1024 KB, variable prefetch value range 0~1024 times
-        tuning:  tuning (Optional), CustomizeLunTuning object.  parameter format: {
-                smart_tier: Data migration policy. Options: no_migration, automatic_migration, migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
+        tuning: Tuning properties (Optional), CustomizeLunTuning object.  parameter format: {
+                smart_tier: Data migration policy. Options: no_migration, automatic_migration, migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). default: no_migration,
                 deduplication_enabled: Deduplication (Thin LUN only). Options: true, false,
                 compression_enabled: Data compression (Thin LUN only). Options: true, false,
-                alloction_type: LUNAllocation type. Options: thin, thick,
-                smart_qos: Smart QoSobject.  format: {
+                alloction_type: LUN allocation type. Options: thin, thick,
+                smart_qos: Smart QoS object.  format: {
                         max_bandwidth: Max bandwidth (1~999999999Mbit/s; mutually exclusive with min_bandwidth/min_iops),
                         max_iops: Max IOPS (1~999999999; mutually exclusive with min_bandwidth/min_iops),
                         min_bandwidth: Min bandwidth (1~999999999Mbit/s; mutually exclusive with max_bandwidth/max_iops),
@@ -225,19 +225,19 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 workload_type_raw_id: Workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
         mapping: Mapping info (Optional), LunMapping object, If present, creates for host or host group LUN.  parameter format: {
-                host_id: Host ID (1~64 characters; one of with hostgroup_id, cannot coexist),
-                hostgroup_id: Host group ID (1~64 characters; one of with host_id, cannot coexist),
-                host_type:  mappingHost type. Options: storage_host (Storage host), host ( host). defaulthost,
+                host_id: Host ID (1~64 characters; choose one with hostgroup_id, cannot coexist),
+                hostgroup_id: Host group ID (1~64 characters; choose one with host_id, cannot coexist),
+                host_type: Mapping host type. Options: storage_host, host. default: host,
                 start_host_lun_id: Starting host LUN ID (1~4096),
                 mapping_view: Mapping view request info (LunMappingRequestobject).  format: {
-                        mapping_view_raw_id: Mapping viewon the storage deviceID (1~31 characters),
-                        mapping_view_name: Mapping viewon the storage device name (1~31 characters),
+                        mapping_view_raw_id: Mapping view ID on storage device (1~31 characters),
+                        mapping_view_name: Mapping view name on storage device (1~31 characters),
                         lun_group_raw_id: LUN group ID on storage device (1~31 characters),
                         lun_group_name: LUN group name on storage device (1~255 characters),
-                        port_group_raw_id: Port group ID on storage device (1~31 characters; Host or host group does not exist specified, mapping relationship not available when specified),
+                        port_group_raw_id: Port group ID on storage device (1~31 characters; required when host or host group has no mapping; not allowed when mapping exists),
                 },
              }
-        task_remarks: Async taskRemark(Optional) ,  max 1024  characters
+        task_remarks: Async task remark (Optional), max 1024 characters
 
     Returns:
         {
