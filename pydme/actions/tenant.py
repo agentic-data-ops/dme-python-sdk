@@ -21,7 +21,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: 待create  LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format如下：[{
+        volumes: 待create  LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。 parameter format：[{
                 name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
                 capacity:  capacityGB (1~262144),
                 count: create count (1~500),
@@ -33,11 +33,11 @@ def lun_create(client: DMEAPIClient, volumes: list,
         task_remarks: Async task remark（Optional， max 1024  characters）
         project_id: Project group ID（Optional，0~64  characters）
         availability_zone: Availability zone ID（Optional，0~64  characters）
-        scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。 parameter format如下：{
+        scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。 parameter format：{
                 affinity: Enable affinity。Optional值：true ( enable), false (disabled)。defaultdisabled,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64 characters),
              }
-        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。 parameter format如下：{
+        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN)。 parameter format：{
                 host_id: Host ID (Optional, 0~64 characters, 与hostgroup_idone of),
                 hostgroup_id: Host group ID (Optional, 0~64 characters, 与host_idone of),
              }
@@ -72,13 +72,13 @@ def lun_create(client: DMEAPIClient, volumes: list,
 def lun_change_tier(client: DMEAPIClient, volume_ids: list,
                                 tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    批量更新 LUN 的Service level
+    batch更新 LUN 的Service level
 
     Args:
         client: DME API client
         volume_ids: LUN ID  list
         tier_id: Service level ID
-        attributes_auto_change: 是否 based onService level parameter刷新 LUN 属性（Optional，true/false）
+        attributes_auto_change: 是否 based onService level parameter刷新 LUN （Optional，true/false）
 
     Returns:
         {
@@ -108,7 +108,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
         client: DME API client
         volume_id: LUN ID
         tier_id: Service level ID
-        attributes_auto_change: 是否 based onService level parameter刷新 LUN 属性（Optional，true/false）
+        attributes_auto_change: 是否 based onService level parameter刷新 LUN （Optional，true/false）
 
     Returns:
         {
@@ -398,7 +398,7 @@ ACTIONS = {
     },
     'lun_change_tier': {
         'func': lun_change_tier,
-        'description': '批量更新 LUN 的Service level',
+        'description': 'batch更新 LUN 的Service level',
         'params': ['volume_ids', 'tier_id'],
         'subtopic': 'lun'
     },

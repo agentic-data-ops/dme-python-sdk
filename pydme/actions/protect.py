@@ -39,7 +39,7 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
     Returns:
         {
             total: Protection groupTotal count (integer),
-            protection_groups: Protection group list (List<ProtectionGroupInfo>)。 parameter format如下：[{
+            protection_groups: Protection group list (List<ProtectionGroupInfo>)。 parameter format：[{
                 id: Protection group ID (string),
                 name: Protection group name (string),
                 status:  status (string),
@@ -728,7 +728,7 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
 
     Args:
         client: DME API client
-        pair_id: Active-active Pair 实例 ID
+        pair_id: Active-active Pair instance ID
         speed: Active-active Pair Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: 自定义 rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
@@ -769,7 +769,7 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
 
     Args:
         client: DME API client
-        ids: Active-active Pair 实例 ID  list
+        ids: Active-active Pair instance ID  list
         delete_mode: Delete mode，Optional值：preferred_only, non_preferred_only, dual_ends
         is_lun_service_interrupt: 是否中断 LUN 业务，当 delete_mode 为 preferred_only 或 non_preferred_only effective when
 
@@ -1082,7 +1082,7 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
 
     Args:
         client: DME API client
-        pair_id:  replication Pair 实例 ID
+        pair_id:  replication Pair instance ID
         speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
@@ -1137,7 +1137,7 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
 
     Args:
         client: DME API client
-        ids:  replication Pair 实例 ID  list
+        ids:  replication Pair instance ID  list
         delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，default dual_ends
 
     Returns:
@@ -1390,7 +1390,7 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
 
 def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapshots: list) -> dict:
     """
-    批量回滚 LUN  snapshot
+    batch回滚 LUN  snapshot
 
     Args:
         client: DME API client
@@ -1618,7 +1618,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
 
 
 # ============================================================================
-# clone_group Subtopic - 克隆Consistency groupoperations
+# clone_group Subtopic - cloneConsistency groupoperations
 # ============================================================================
 
 def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
@@ -1627,11 +1627,11 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
                        copy_rate: str = None, is_sync: bool = None,
                        clone_pairs: list = None) -> dict:
     """
-    create 克隆Consistency group
+    create cloneConsistency group
 
     Args:
         client: DME API client
-        name: 克隆Consistency group name
+        name: cloneConsistency group name
         protect_group_id: Protection group ID
         create_mode: creation mode，Optional值：auto, manual
         description: Description
@@ -1640,7 +1640,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_suffix:  target LUN name suffix
         copy_rate: 拷贝 rate，Optional值：low, medium, high, highest，default medium
         is_sync: 是否立即Sync，default true
-        clone_pairs: 克隆 Pair  list，create_mode 为 manual 时Required
+        clone_pairs: clone Pair  list，create_mode 为 manual 时Required
 
     Returns:
         {
@@ -1678,16 +1678,16 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
                             name_rule: str = None, name_prefix: str = None,
                             name_suffix: str = None, clone_pairs: list = None) -> dict:
     """
-    Sync克隆Consistency group
+    SynccloneConsistency group
 
     Args:
         client: DME API client
-        clone_group_id: 克隆Consistency group ID
-        create_mode: 克隆 Pair creation mode，Optional值：auto, manual
+        clone_group_id: cloneConsistency group ID
+        create_mode: clone Pair creation mode，Optional值：auto, manual
         name_rule:  target LUN Naming rule，Optional值：prefix_and_suffix, prefix_and_num
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
-        clone_pairs: 克隆 Pair  list，create_mode 为 manual 时Required
+        clone_pairs: clone Pair  list，create_mode 为 manual 时Required
 
     Returns:
         {
@@ -1716,11 +1716,11 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
 def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool = None,
                        is_recycle_dst_lun_data: bool = None) -> dict:
     """
-    Batch delete克隆Consistency group
+    Batch deletecloneConsistency group
 
     Args:
         client: DME API client
-        ids: 克隆Consistency group ID  list
+        ids: cloneConsistency group ID  list
         is_delete_dst_lun: Delete target LUN
         is_recycle_dst_lun_data: Reclaim target LUN  data
 
@@ -2132,7 +2132,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
     Args:
         client: DME API client
-        ids: Active-active pair实例ID list (Optional, List[string])
+        ids: Active-active pairinstanceID list (Optional, List[string])
         name: Active-active pair name (Optional, string)
         status: Running status (Optional, string)
         storage_id: Storage device ID (Optional, string)
@@ -2149,7 +2149,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
     Returns:
         {
             total: Total count (integer),
-            filesystem_pairs: Filesystem active-active pair list。 parameter format如下：[{
+            filesystem_pairs: Filesystem active-active pair list。 parameter format：[{
                 id: Pair ID (string),
                 name:  name (string),
                 status:  status (string),
@@ -2191,7 +2191,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
 def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量 pauseFilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
+    batch pauseFilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
 
     Args:
         client: DME API client
@@ -2217,7 +2217,7 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
 def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量SyncFilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
+    batchSyncFilesystemActive-active pair。该APIPotentially affects production services，Proceed with caution.
 
     Args:
         client: DME API client
@@ -2249,7 +2249,7 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
 
     Args:
         client: DME API client
-        ids: Active-active pair实例ID list (Required, List[string])
+        ids: Active-active pairinstanceID list (Required, List[string])
         is_local_delete: Delete localConfiguration info (Optional, boolean, true,false)
         is_online_delete: Online deletion (Optional, boolean, true,false)
 
@@ -2329,7 +2329,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
     Returns:
         {
             total: Total count (integer),
-            snapshots: Filesystem snapshot list。 parameter format如下：[{
+            snapshots: Filesystem snapshot list。 parameter format：[{
                 id:  snapshotID (string),
                 name: Snapshot name (string),
                 status:  status (string),
@@ -2477,7 +2477,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            vstore_pairs: Active-active tenant pair list。 parameter format如下：[{
+            vstore_pairs: Active-active tenant pair list。 parameter format：[{
                 id: Pair ID (string),
                 name:  name (string),
                 status:  status (string),
@@ -2719,7 +2719,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
 
     Returns:
         {
-            optional_target_luns: Optional targetLUN list。 parameter format如下：[{
+            optional_target_luns: Optional targetLUN list。 parameter format：[{
                 lun_id: LUN ID (string),
                 lun_name: LUN name (string),
                 capacity:  capacity (integer),
@@ -3017,7 +3017,7 @@ ACTIONS = {
     },
     'snapshot_rollback': {
         'func': snapshot_rollback,
-        'description': '批量回滚 LUN  snapshot',
+        'description': 'batch回滚 LUN  snapshot',
         'params': ['rollback_speed', 'rollback_snapshots'],
         'subtopic': 'snapshot'
     },
@@ -3061,19 +3061,19 @@ ACTIONS = {
     # clone_group subtopic actions
     'clone_group_create': {
         'func': clone_group_create,
-        'description': 'create 克隆Consistency group',
+        'description': 'create cloneConsistency group',
         'params': ['name', 'protect_group_id', 'create_mode', 'description', 'name_rule', 'name_prefix', 'name_suffix', 'copy_rate', 'is_sync', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
     'clone_group_sync': {
         'func': clone_group_sync,
-        'description': 'Sync克隆Consistency group',
+        'description': 'SynccloneConsistency group',
         'params': ['clone_cg_id', 'create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
     'clone_group_delete': {
         'func': clone_group_delete,
-        'description': 'Batch delete克隆Consistency group',
+        'description': 'Batch deletecloneConsistency group',
         'params': ['ids', 'is_delete_dst_lun', 'is_recycle_dst_lun_data'],
         'subtopic': 'clone_group'
     },
@@ -3092,13 +3092,13 @@ ACTIONS = {
     },
     'filesystem_pair_pause': {
         'func': filesystem_pair_pause,
-        'description': '批量 pauseFilesystemActive-active pair',
+        'description': 'batch pauseFilesystemActive-active pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'filesystem_pair_sync': {
         'func': filesystem_pair_sync,
-        'description': '批量SyncFilesystemActive-active pair',
+        'description': 'batchSyncFilesystemActive-active pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },

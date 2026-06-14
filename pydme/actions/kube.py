@@ -22,7 +22,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total:  clusterTotal count (integer),
-            clusters: Container cluster list。 parameter format如下：[{
+            clusters: Container cluster list。 parameter format：[{
                 id:  clusterID (string),
                 name: Cluster name (string),
                 status:  status (string),
@@ -57,7 +57,7 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            nodes: Container node list。 parameter format如下：[{
+            nodes: Container node list。 parameter format：[{
                 id:  nodeID (string),
                 name: Node name (string),
                 status:  status (string),
@@ -98,7 +98,7 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pods: Pod list。 parameter format如下：[{
+            pods: Pod list。 parameter format：[{
                 name: Pod name (string),
                 status:  status (string),
                 node: 所在 node (string),
@@ -172,7 +172,7 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pvcs: PVC list。 parameter format如下：[{
+            pvcs: PVC list。 parameter format：[{
                 name: PVC name (string),
                 status:  status (string),
                 capacity:  capacity (string),
@@ -213,7 +213,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     
     Returns:
         {
-            pvs: PV list。 parameter format如下：[{
+            pvs: PV list。 parameter format：[{
                 name: PV name (string),
                 status:  status (string),
                 capacity:  capacity (string),

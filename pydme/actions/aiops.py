@@ -185,10 +185,10 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
 
     Args:
         client: DME API client
-        alarm_id: 告警 ID,supports fuzzy match
+        alarm_id: alarm ID,supports fuzzy match
         severity: Alarm severity list,取值:critical, major, minor, warning, indeterminate, cleared
         mo_dn: 被management object DN, support inc 操作符匹配
-        alarm_group_id: 告警组 ID
+        alarm_group_id: alarm组 ID
         dc_id: Data center ID
         product_name:  product name
         alarm_name: Alarm name,supports fuzzy match
@@ -204,13 +204,13 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
 
     Returns:
         {
-            current_alarms: Current alarm list (List<AlarmInfo>)。 parameter format如下：[{
+            current_alarms: Current alarm list (List<AlarmInfo>)。 parameter format：[{
                 alarm_id: Alarm ID (string),
                 alarm_name: Alarm name (string),
                 severity: Alarm severity (string),
                 status:  status (string),
             }, ...],
-            total: 告警Total count (integer),
+            total: alarmTotal count (integer),
         }
     """
     result = {
@@ -343,8 +343,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
 
     Args:
         client: DME API client
-        object_ids: 入口分析object ID  list(Required),Array size:1~50
-        object_type: 入口Object type(Required),value range:
+        object_ids: entry分析object ID  list(Required),Array size:1~50
+        object_type: entryObject type(Required),value range:
             - VM: Virtual machine
             - STORAGE_HOST: Storage host
             - STORAGE_DEVICE: Storage device
@@ -468,8 +468,8 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
 
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
-    - object ID (CMDB 实例 ID) 获取步骤:
-      1. 运行 `cmdb instance list --help` View help,see class definition and query method
+    - object ID (CMDB instance ID) get步骤:
+      1. running `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
       3. 使用 `cmdb instance list --class_name <Class  name>` Query instance list
       4. obtain from response对应 resource的 instance_id (即 obj_ids  parameter)
@@ -480,11 +480,11 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                      从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
         indicator_ids: Monitoring metricIdentifier list(Required, max 100 个),对应指标 ID
                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        obj_ids: 监控objectIdentifier list(Required, max 512 个),对应 CMDB 实例 ID
-                 获取方式:
-                 1. 运行 `cmdb instance list --help` View help,了解类定义
+        obj_ids: 监控objectIdentifier list(Required, max 512 个),对应 CMDB instance ID
+                 get方式:
+                 1. running `cmdb instance list --help` View help,了解类定义
                  2. Determine what to query based on helpResource type (Class  name)
-                 3. 运行 `cmdb instance list --class_name <Class  name>`  query实例
+                 3. running `cmdb instance list --class_name <Class  name>`  queryinstance
                  4. obtain from response instance_id
         obj_type: 监控Object type(Optional,1~512  characters)
         indicators: Monitoring metric list(Optional, max 100 个)
@@ -497,8 +497,8 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                LAST_1_DAY(最近 1 day(s)), LAST_1_WEEK(最近 1 week(s)), LAST_1_MONTH(最近 1 个month(s)),
                LAST_1_QUARTER(最近 3 个month(s)), HALF_1_YEAR(最近半year(s)), LAST_1_YEAR(最近 1 year(s)),
                BEGIN_END_TIME(Set start and endEnd time), INVALID(Invalid value)
-        begin_time: Query start time(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 end_time 小
-        end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 begin_time 大
+        begin_time: Query start time(Optional),仅 range 为 BEGIN_END_TIME 时effective,必须比 end_time 小
+        end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时effective,必须比 begin_time 大
 
     Returns:
         历史Performance data,includes  status_code, error_code, error_msg, data
@@ -713,7 +713,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                            tier, datastore, virtual_machine, storage_name_space, storage_node,
                            dpc, gfs, dpc_client, vbs_client
         health_dimension: 健康维度（Required）
-                        Optional值：alarm（告警）, performance_anomaly（Performance anomaly）,
+                        Optional值：alarm（alarm）, performance_anomaly（Performance anomaly）,
                               performance_prediction（Performance warning）, capacity_prediction（Capacity warning）
 
     Returns:
@@ -805,7 +805,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                     capacity_prediction-Capacity warning，history_performance-History performance，
                     load_imbalance-负载失衡，highload-高负载 resource）
         policy_source:  source（pre-define-预置，user-define-自定义）
-        alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
+        alarm_type: Alarm type（violation-异常，alarm-alarm，event-事件）
         object_type: Object type（storage- storage，lun-Logical unit，host- host等）
         page_no: Page number，1~1000，default 1
         page_size: Items per page，1~100，default 20
@@ -969,7 +969,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         policy_name: Policy name（supports fuzzy search，1~256  characters）
         policy_types: Policy type list（ max 30 个）
         cause: 异常原因（supports fuzzy search，1~768  characters）
-        alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
+        alarm_type: Alarm type（violation-异常，alarm-alarm，event-事件）
         first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，unit  ms）
         last_occur_time: Last exceptionTime range（{beginTime, endTime}，UTC Timestamp，unit  ms）
         page_no: Page number，1~10000，default 1
@@ -1057,7 +1057,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 
     Args:
         client: DME API client
-        entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
+        entry_objects: entryobject list（Required）， format：[{"id":"<entryObject ID>","type":"<entryObject type>"},...]，Supported types：
             - host:  host
             - storage: Storage device
             - host_group:  host组
@@ -1113,7 +1113,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
     Args:
         client: DME API client
-        entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
+        entry_objects: entryobject list（Required）， format：[{"id":"<entryObject ID>","type":"<entryObject type>"},...]，Supported types：
             - host:  host
             - storage: Storage device
             - lun: LUN
@@ -1198,7 +1198,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
 
     Args:
         client: DME API client
-        entry_objects: 入口object list（Required）， format：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
+        entry_objects: entryobject list（Required）， format：[{"id":"<entryObject ID>","type":"<entryObject type>"},...]，Supported types：
             - vm: Virtual machine
             - host_group:  host组
             - host:  host
@@ -1252,7 +1252,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 
     Args:
         client: DME API client
-        entry_res_type: 入口Resource type（Required），Supported types：
+        entry_res_type: entryResource type（Required），Supported types：
             - storage_device: Storage device
             - disk:  disk
             - storage_pool: Storage pool
@@ -1278,9 +1278,9 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - eth_switch: Ethernet switch
             - storage_zone:  storage区域
             - service_network: 服务 network
-            - db_instance:  data库实例
+            - db_instance:  data库instance
             - db_node:  data库 node
-        entry_res_id: 入口 resource ID（Required）
+        entry_res_id: entry resource ID（Required）
         type: Business type，Optional值：nas, k8s, db
         filter: Filter condition list， max 10 个
 

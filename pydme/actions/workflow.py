@@ -29,7 +29,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     Returns:
         {
             total: 模板count (integer, max：500),
-            templates: Template list。 parameter format如下：[{
+            templates: Template list。 parameter format：[{
                 id: 模板ID (string),
                 name: 模板 name (string),
                 description:  description (string),
@@ -107,13 +107,13 @@ def template_show(client: DMEAPIClient, template_id: str,
 
 def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """
-     stop实例
+     stopinstance
     
-     stopExecuting的Workflow实例。
+     stopExecuting的Workflowinstance。
     
     Args:
         client: DME API client
-        instance_id: 实例的 id（Required，1~64  characters）
+        instance_id: instance的 id（Required，1~64  characters）
     
     Returns:
         无
@@ -128,26 +128,26 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     """
     Query instance details
     
-    QueryWorkflow实例的Details。
+    QueryWorkflowinstance的Details。
     
     Args:
         client: DME API client
-        instance_id:  query实例的 id（Required，1~64  characters）
+        instance_id:  queryinstance的 id（Required，1~64  characters）
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
         }，includes ：
-        - instance_id: 实例 id
+        - instance_id: instance id
         - template_id: Instance template id
         - template_name: Instance template name
         - state: 执行 status（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
         - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
         - params: Execute instance parameters
         - step_list: Instance step list
-        - start_time: 实例执行的Start time（毫second(s)）
-        - end_time: 实例执行的End time（毫second(s)）
-        - instance_type: 实例 type（PRECHECK/EXECUTION）
+        - start_time: instance执行的Start time（毫second(s)）
+        - end_time: instance执行的End time（毫second(s)）
+        - instance_type: instance type（PRECHECK/EXECUTION）
         - template_version_id: Instance template version id
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}"
@@ -170,14 +170,14 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
         client: DME API client
         template_id: 模板 id（Optional，1~64  characters，satisfies regex）
         template_version_id: Template version id（Optional，1~64  characters，satisfies regex）
-        instance_id: 实例的 id（Optional，1~64  characters，satisfies regex）
+        instance_id: instance的 id（Optional，1~64  characters，satisfies regex）
         params: Execute instance parameters（Optional）， format：{"key1": "value1", "key2": "value2"}， max 100 个 parameter
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
         }，includes ：
-        - instance_id: 实例 id
+        - instance_id: instance id
     """
     url = "/rest/wfamgmt/v1/workflow/instances"
     
@@ -204,7 +204,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     
     Args:
         client: DME API client
-        instance_id: 实例 id（Required，1~64  characters）
+        instance_id: instance id（Required，1~64  characters）
         step_id: 步骤 id（Required，1~64  characters）
     
     Returns:
@@ -244,7 +244,7 @@ ACTIONS = {
     # instance subtopic actions
     'instance_stop': {
         'func': instance_stop,
-        'description': ' stop实例',
+        'description': ' stopinstance',
         'params': ['instance_id'],
         'subtopic': 'instance'
     },

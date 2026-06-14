@@ -44,7 +44,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
     Returns:
         {
             total: TenantTotal count (integer),
-            vstores: Tenant list (List<VstoreResp>, max array members：1000)。 parameter format如下：[{
+            vstores: Tenant list (List<VstoreResp>, max array members：1000)。 parameter format：[{
                 id: Tenant的Unique identifier (string, 1~64 characters),
                 qos_id: QoS policyID (string, 1~64 characters),
                 raw_id: 在 device中的TenantID (string, 1~64 characters),
@@ -271,7 +271,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
     Returns:
         {
             total: Storage deviceTotal count (int32),
-            datas: Storage device list (List<StorageSummaryInfo>)。 parameter format如下：[{
+            datas: Storage device list (List<StorageSummaryInfo>)。 parameter format：[{
                 id: Storage device ID (string),
                 name: Storage device name (string),
                 ip: IP  address (string),
@@ -356,7 +356,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         model: Product model (Optional, 0~128 characters)。
         version: Version info (Optional, 0~64 characters)。
         patch_version: Patch version info (Optional, 0~64 characters)。
-        location:  device位置 (Optional, 0~512 characters)。
+        location:  devicelocation (Optional, 0~512 characters)。
         maintenance_start: 维护Start time (Optional, format is mssecond(s)级Timestamp)。must appear with warranty expiration time and value must be less。
         maintenance_overtime: Warranty expiration time (Optional, format is mssecond(s)级Timestamp)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸 capacity (Optional, 0~2147483647, unit MB)。
@@ -425,7 +425,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
 
 def remove(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量Remove storage device。
+    batchRemove storage device。
 
     Args:
         client: DME API client
@@ -455,7 +455,7 @@ def sync(client: DMEAPIClient, storage_id: str) -> dict:
 
     Args:
         client: DME API client
-        storage_id: Storage deviceId (Required, string, 1~64 characters)。通过Batch query storage devices接口获取
+        storage_id: Storage deviceId (Required, string, 1~64 characters)。通过Batch query storage devices接口get
 
     Returns:
         无
@@ -485,20 +485,20 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client。
         storage_id: BBUStorage device的id (Optional, 1~64 characters)。
         health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery)。
-        running_status: Running status (Optional)。Options：unknown (unknown), normal (normal), running (运行), online (online), offline (offline), charging (正在充电), charging_completed (充电完成), discharging (正在放电)。
+        running_status: Running status (Optional)。Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电完成), discharging (正在放电)。
         enclosure_name: Enclosure name (Optional, 1~256 characters)。supports fuzzy match。
-        location: 位置 (Optional, 1~256 characters)。supports fuzzy match。
+        location: location (Optional, 1~256 characters)。supports fuzzy match。
         zone_id: Zone ID (Optional, 1~255 characters)。仅OceanStor A800series storage only。
         page_no: Page number (Optional, 1~2147483647, Default: 1)。
         page_size: Page size (Optional, 1~1000, Default: 20)。
     
     Returns:
         {
-            backup_powers: BBU list (List<StorageBackupPowerInfo>)。 parameter format如下：[{
+            backup_powers: BBU list (List<StorageBackupPowerInfo>)。 parameter format：[{
                 name:  name (1~255 characters),
-                location: 位置 (1~255 characters),
+                location: location (1~255 characters),
                 health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
-                running_status: Running status. Options：unknown (unknown), normal (normal), running (运行), online (online), offline (offline), charging (正在充电), charging_completed (充电完成), discharging (正在放电),
+                running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电完成), discharging (正在放电),
                 charge_times: 放电次数 (int64),
                 firmware_version: Firmware version号 (1~255 characters),
                 manufactured_date: 出厂日期 (1~255 characters),
@@ -537,7 +537,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
 
 def get_passphrase(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    获取Storage device访问的令牌
+    getStorage device访问的令牌
 
     Args:
         client: DME API client
@@ -568,10 +568,10 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client
         storage_id: Storage deviceID(Optional，1~64 characters）
         health_status: Health status(Optional). Options：unknown (unknown), normal (normal), faulty ( fault)
-        running_status: Running status(Optional). Options：unknown (unknown), normal (normal), running (运行), not_running (未运行), spin_down (休眠), online (online), offline (offline)
-        run_level: 运行档位(Optional). Options：low (低), normal (normal), high (高)
+        running_status: Running status(Optional). Options：unknown (unknown), normal (normal), running (running), not_running (未running), spin_down (休眠), online (online), offline (offline)
+        run_level: running档位(Optional). Options：low (低), normal (normal), high (高)
         enclosure_name: EnclosureName (Optional,1~256 characters），supports fuzzy match
-        location: 位置(Optional，1~256 characters），supports fuzzy match
+        location: location(Optional，1~256 characters），supports fuzzy match
         zone_id: Zone ID(Optional，1~255 characters），仅OceanStor A800series storage only
         page_no: Page number(Optional，1~2147483647，default 1）
         page_size: Page size(Optional，1~1000，default 20）
@@ -579,12 +579,12 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: Fancount (integer),
-            fans: Fan list (List<StorageFanInfo>)。 parameter format如下：[{
+            fans: Fan list (List<StorageFanInfo>)。 parameter format：[{
                 name:  name (1~128 characters),
-                location: 位置 (1~256 characters),
+                location: location (1~256 characters),
                 health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault),
-                running_status: Running status. Options：unknown (unknown), normal (normal), running (运行), not_running (未运行), spin_down (休眠), online (online), offline (offline),
-                run_level: 运行档位。Options：low (低), normal (normal), high (高),
+                running_status: Running status. Options：unknown (unknown), normal (normal), running (running), not_running (未running), spin_down (休眠), online (online), offline (offline),
+                run_level: running档位。Options：low (低), normal (normal), high (高),
                 enclosure_id: Enclosure在Storage device上ID (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
                 zone_id: Zone ID (1~255 characters)，仅OceanStor A800series storage only,
@@ -639,7 +639,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         storage_id: Storage device ID (1~36 characters, 满足uuid format)。
         ids: Port ID list (Optional, List<string>, max array members: 100, min array members: 0)。
         name: Disk name (Optional, 1~256 characters)。
-        slot_number: Slot number，位置 (Optional, 1~256 characters)。supports fuzzy search。
+        slot_number: Slot number，location (Optional, 1~256 characters)。supports fuzzy search。
         bom_id: BOM ID (Optional, 1~256 characters)。
         health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), fault ( fault), pre_fail (Impending failure), degraded (降级), single_link (单链路), no_redundant_link (无冗余链路), subhealthy (亚健康), offline (offline)。
         physical_type: Disk type (Optional)。Options：unknown (unknown), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
@@ -659,7 +659,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         status: Running status (Optional)。Options：unknown (unknown), normal (normal), abnormal ( fault), online (online), offline (offline)。
         enclosure_name: FanStorage device的Enclosure name (Optional, 1~255 characters)。supports fuzzy search。
         zone_id: Storage device的Zone id (Optional, 1~255 characters)。仅OceanStor A800storage support。
-        sort_key: Sort field (Optional)。Options：capacity (Total capacity), speed (转速), remainLife (剩余寿命), name (Disk name), management_ip (management  deviceip address), slot_number (位置)。
+        sort_key: Sort field (Optional)。Options：capacity (Total capacity), speed (转速), remainLife (剩余寿命), name (Disk name), management_ip (management  deviceip address), slot_number (location)。
         sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending)。
         page_no: Page number (Optional, 1~2147483647, Default: 1)。
         page_size: Page size (Optional, 1~1000, Default: 20)。
@@ -667,7 +667,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
     Returns:
         {
             total: 硬盘的count (integer),
-            disks: Disk list (List<DiskInfo>)。 parameter format如下：[{
+            disks: Disk list (List<DiskInfo>)。 parameter format：[{
                 id: 硬盘ID (string),
                 name: Disk name (string),
                 health_status: Health status (string),
@@ -756,7 +756,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total: Storage poolcount (int32),
-            datas: Storage pool basic info list (List<StoragePoolBasicInfo>)。 parameter format如下：[{
+            datas: Storage pool basic info list (List<StoragePoolBasicInfo>)。 parameter format：[{
                 id: Storage pool ID (1~32 characters),
                 name: Storage pool name (1~31 characters),
                 raw_id: Storage poolon the storage deviceID (1~64 characters),
@@ -838,7 +838,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
     Returns:
         {
             total: HyperScaleStorage poolTotal count (int32),
-            data: HyperScale storage pool list (List<HyperScalePoolInfo>)。 parameter format如下：[{
+            data: HyperScale storage pool list (List<HyperScalePoolInfo>)。 parameter format：[{
                 id: HyperScaleStorage pool ID (1~64 characters),
                 raw_id: Storage poolon the storage deviceID (1~64 characters),
                 name: HyperScaleStorage pool name (1~256 characters),
@@ -915,7 +915,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total:  node的count (integer),
-            nodes: Node list (List<StorageNodeBaseInfo>)。 parameter format如下：[{
+            nodes: Node list (List<StorageNodeBaseInfo>)。 parameter format：[{
                 id:  nodeid (1~64 characters),
                 name: Node name (1~255 characters),
                 raw_id:  nodeon the storage deviceID (1~64 characters),
@@ -930,7 +930,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 storage_name: Storage device name (1~255 characters),
                 eos_time:  storageEOS时间 (int64)，Greenwich Mean Time1970year(s)01month(s)01日00时00分00second(s)total ms from start to nowsecond(s)数,
                 installation_status: Storage software installation status。Options：installed (Storage software installed), not_installed (Storage software not installed),
-                ip_address_list: Node IP address list (List<StorageNodeIpInfo>)。 parameter format如下：[{
+                ip_address_list: Node IP address list (List<StorageNodeIpInfo>)。 parameter format：[{
                     ip_address: Node IP address (1~256 characters),
                     usage: Node IPAddress purpose list (List<string>)。Options：storage_frontend (Storage frontend networkIP), storage_backend (Storage backend networkIP), management_external_float (Management external network floatingIP), management_internal_float (Management internal network floatingIP), management_external (Management external networkIP), management_internal (Management internal networkIP), replication ( replication networkIP), quorum (仲裁 networkIP), iscsi (ISCSI networkIP),
                 }, ...],
@@ -980,10 +980,10 @@ def psu_list(client: DMEAPIClient, storage_id: str,
         client: DME API client
         storage_id: Storage deviceID（Required，1~64 characters）
         health_status: Health status(Optional). Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent (不一致), no_input (无输入)
-        running_status: Running status(Optional). Options：unknown (unknown), normal (normal), running (运行), online (online), offline (offline)
+        running_status: Running status(Optional). Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline)
         power_type: Power supply type(Optional). Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply)
         power_mode: Power supply mode(Optional). Options：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply)
-        location: 位置(Optional，1~256 characters），supports fuzzy match
+        location: location(Optional，1~256 characters），supports fuzzy match
         model:  model(Optional，1~256 characters），supports fuzzy match
         sn: Serial number(Optional，1~256 characters），supports fuzzy match
         enclosure_name: EnclosureName (Optional,1~256 characters），supports fuzzy match
@@ -994,11 +994,11 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: Power supply的count (int32),
-            storage_powers: Power list (List<StoragePowerInfo>)。 parameter format如下：[{
+            storage_powers: Power list (List<StoragePowerInfo>)。 parameter format：[{
                 name:  name (1~255 characters),
-                location: 位置 (1~255 characters),
+                location: location (1~255 characters),
                 health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent (不一致), no_input (无输入),
-                running_status: Running status. Options：unknown (unknown), normal (normal), running (运行), online (online), offline (offline),
+                running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline),
                 power_type: Power supply type。Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply),
                 model:  model (1~255 characters),
                 sn: Serial number (1~255 characters),
@@ -1060,7 +1060,7 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 
     Returns:
         {
-            storage_power_list: Storage power list (List<StoragePower>)。 parameter format如下：[{
+            storage_power_list: Storage power list (List<StoragePower>)。 parameter format：[{
                 storage_id:  storageID,
                 power:  storage功率，unit 千瓦 (number),
             }, ...],
@@ -1099,7 +1099,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         model: Product model (Optional, 0~128 characters)。
         version: Version info (Optional, 0~64 characters)。
         patch_version: Patch version info (Optional, 0~64 characters)。
-        location:  device位置 (Optional, 0~512 characters)。
+        location:  devicelocation (Optional, 0~512 characters)。
         maintenance_start: 维护Start time (Optional, format is mssecond(s)级Timestamp)。must appear with warranty expiration time and value must be less。
         maintenance_overtime: Warranty expiration time (Optional, format is mssecond(s)级Timestamp)。需要和维护Start timemust appear together and value greater thanStart time。
         total_capacity: 裸 capacity (Optional, -1~2147483647, unit MB)。Storage devicesum of all disk physical capacities，-1Indicates no raw capacity。
@@ -1237,7 +1237,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
     Returns:
         {
             total: Disk poolcount (int32),
-            disk_pools: Disk pool list (List<DiskPoolInfo>)。 parameter format如下：[{
+            disk_pools: Disk pool list (List<DiskPoolInfo>)。 parameter format：[{
                     id: Disk poolid (1~64 characters),
                     raw_id: Disk poolon the deviceid (1~64 characters),
                     name: Disk pool name (1~128 characters),
@@ -1279,7 +1279,7 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: Total count (int32),
-            disk_pools: Disk pool list。 parameter format如下：[{
+            disk_pools: Disk pool list。 parameter format：[{
                 id: Disk poolID (string),
                 name: Disk pool name (string),
                 status:  status (string),
@@ -1314,11 +1314,11 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         page_size: Page size(Optional，1~1000，default 20）
         storage_id: Storage deviceID(Optional，1~64 characters）
         name: Name (Optional,1~256 characters），supports fuzzy match
-        location: 位置(Optional，1~256 characters），supports fuzzy match
+        location: location(Optional，1~256 characters），supports fuzzy match
         health_status: Health status list(Optional，List<string>，max array members：3). Options：unknown (unknown), normal (normal), faulty ( fault)
         zone_name: ZoneName (Optional,1~255 characters），仅OceanStor A800series storage only，supports fuzzy match
         zone_id: Zone ID list(Optional，List<string>，max array members：100），仅OceanStor A800series storage only
-        running_status: Running status list(Optional，List<string>，max array members：7). Options：unknown (unknown), normal (normal), running (运行), sleep_in_high_temperature (高温休眠), online (online), offline (offline)
+        running_status: Running status list(Optional，List<string>，max array members：7). Options：unknown (unknown), normal (normal), running (running), sleep_in_high_temperature (高温休眠), online (online), offline (offline)
         power_mode: Power supply mode list(Optional，List<string>，max array members：2). Options：load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
         esn: EnclosureSerial number(Optional，1~256 characters），supports fuzzy match
         mac: MAC address(Optional，1~256 characters），supports fuzzy match
@@ -1328,21 +1328,21 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
     Returns:
         {
             total: Enclosurecount (integer),
-            data: Enclosure list (List<EnclosureItem>)。 parameter format如下：[{
+            data: Enclosure list (List<EnclosureItem>)。 parameter format：[{
                     id: EnclosureID (1~64 characters),
                     raw_id: Enclosure在Storage device上ID (1~64 characters),
                     name:  name (1~256 characters),
-                    model:  model (1~32 characters)。Options：0 (BMCController enclosure), 1 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 2 (2U 双控 6Gbit/s SAS 24盘位 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12盘位 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24盘位 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75盘位 3.5inch disk enclosure), 22 (SVP), 23 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 24 (2U 6Gbit/s SAS 25盘位 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24盘位 3.5inch disk enclosure), 26 (2U 双控 6Gbit/s SAS 25盘位 2.5inch controller enclosure), 37 (2U 双控 6Gbit/s SAS 12盘位 3.5inch controller enclosure), 38 (2U 双控 6Gbit/s SAS 25盘位 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75盘位 3.5inch disk enclosure), 40 (2U 双控 12Gbit/s SAS 25盘位 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25盘位 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24盘位 3.5inch disk enclosure), 67 (2U SAS 25盘位 2.5inch disk enclosure), 69 (4U SAS 24盘位 3.5inch disk enclosure), 96 (3U 双控Controller enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U 双控 12Gbit/s NVMe 25盘位 2.5inch controller enclosure), 101 (2U SSD NVMe 25盘位 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U 双控 SAS 25盘位 2.5inch controller enclosure), 114 (2U 双控 SAS 12盘位 3.5inch controller enclosure), 115 (2U 双控 NVMe 36盘位Controller enclosure), 116 (2U 双控 SAS 25盘位 2.5inch controller enclosure), 117 (2U 双控 SAS 12盘位 3.5inch controller enclosure), 118 (2U SAS 25盘位 2.5英寸智能Disk enclosure), 119 (2U SAS 12盘位 3.5英寸智能Disk enclosure), 120 (2U NVMe 36盘位智能Disk enclosure), 122 (2U 双控 NVMe 25盘位 2.5inch controller enclosure), 132 (4U 双控 4盘位2.5英寸 6盘位3.5英寸 Controller enclosure), 133 (4U 双控 NVMe 12盘位 2.5英寸 Controller enclosure), 135 (4U 双控 10盘位 2.5inch controller enclosure), 143 (8U NVME 双控 64盘位 2.5英寸 Controller enclosure),
+                    model:  model (1~32 characters)。Options：0 (BMCController enclosure), 1 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5英寸智能Disk enclosure), 119 (2U SAS 12disk slot 3.5英寸智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controller NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5英寸 6disk slot3.5英寸 Controller enclosure), 133 (4U dual controller NVMe 12disk slot 2.5英寸 Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controller 64disk slot 2.5英寸 Controller enclosure),
                     height: 高度，unit U (integer),
-                    location: Enclosure的位置 (1~128 characters),
+                    location: Enclosure的location (1~128 characters),
                     logic_type:  type。Options：disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
                     health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault),
-                    running_status: Running status. Options：unknown (unknown), normal (normal), running (运行), sleep_in_high_temperature (高温休眠), online (online), offline (offline), abnormal (异常),
+                    running_status: Running status. Options：unknown (unknown), normal (normal), running (running), sleep_in_high_temperature (高温休眠), online (online), offline (offline), abnormal (异常),
                     storage_id: Storage deviceID (1~64 characters),
                     storage_name: Storage device name (1~128 characters),
                     storage_ip: Storage deviceIP address (1~32 characters),
                     storage_sn: Storage deviceSerial number (1~64 characters),
-                    storage_location: Storage device的位置 (0~512 characters),
+                    storage_location: Storage device的location (0~512 characters),
                     zone_name: Zone name (0~512 characters)，仅OceanStor A800series storage only,
                     zone_ip: Zone IP address (1~128 characters)，仅OceanStor A800series storage only,
                     zone_id: Zone ID (0~512 characters)，仅OceanStor A800storage support,
@@ -1490,7 +1490,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
         initiator_id: Initiator ID (Required)
         vstore_id: Tenant ID (Optional, 1~64 characters;  device为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上effective when)
         alias: Initiator alias (Optional, 0~31 characters, supports alphanumeric._-and Chinese characters)
-        multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01及以上 support)。属性 format如下：{
+        multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01及以上 support)。 format：{
                 multi_path_type: InitiatorMultipath type (Optional)。Options：default (default), third_party (Third-party multipath),
                 path_type: Initiator路径 type (conditionally required, 当multi_path_type为third_partyrequired when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
                 failover_mode: Initiator切换 mode (conditionally required, 当multi_path_type为third_partyrequired when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
@@ -1968,28 +1968,28 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         io_policy_type: IO Policy type(Optional，total_perf_upper_limit/read_or_write_upper_limit）
         min_bandwidth: Min bandwidth MB/s(Optional）
         max_bandwidth: Max bandwidth MB/s(Optional）
-        burst_bandwidth: Burst bandwidth MB/s(Optional，需大于 max_bandwidth）
+        burst_bandwidth: Burst bandwidth MB/s(Optional，需greater than max_bandwidth）
         min_iops:  min IOPS(Optional）
         max_iops:  max IOPS(Optional）
-        burst_iops: 突发 IOPS(Optional，需大于 max_iops）
-        burst_time:  max突发durationsecond(s)(Optional，1~999999999）
+        burst_iops: burst IOPS(Optional，需greater than max_iops）
+        burst_time:  maxburstdurationsecond(s)(Optional，1~999999999）
         latency: IO 时延指标微second(s)(Optional，500/1500）
         max_read_bandwidth:  maxRead bandwidth MB/s(Optional）
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional）
-        burst_read_bandwidth: 突发Read bandwidth MB/s(Optional）
-        burst_write_bandwidth: 突发Write bandwidth MB/s(Optional）
+        burst_read_bandwidth: burstRead bandwidth MB/s(Optional）
+        burst_write_bandwidth: burstWrite bandwidth MB/s(Optional）
         max_read_iops:  max读 IOPS(Optional）
         max_write_iops:  max写 IOPS(Optional）
-        burst_read_iops: 突发读 IOPS(Optional）
-        burst_write_iops: 突发写 IOPS(Optional）
-        alarm_switch: 告警开关(Optional，on/off）
+        burst_read_iops: burst读 IOPS(Optional）
+        burst_write_iops: burst写 IOPS(Optional）
+        alarm_switch: alarm开关(Optional，on/off）
         alarm_level: Alarm severity(Optional，event/alarm）
-        alarm_threshold: 告警threshold%(Optional，0~100）
+        alarm_threshold: alarmthreshold%(Optional，0~100）
         resume_threshold:  resumethreshold%(Optional，0~100）
         schedule_policy: Scheduling policy(Optional，once/daily/weekly）
         schedule_start_date: Effective start date(Optional，yyyy-MM-dd）
-        start_time: 生效Start time(Optional，hh:mm）
-        duration: 生效durationsecond(s)(Optional，1800~86400）
+        start_time: effectiveStart time(Optional，hh:mm）
+        duration: effectivedurationsecond(s)(Optional，1800~86400）
         weekly_days: week(s)Scheduling policy(Optional，[0-6] 对应week(s)日到week(s)六）
     """
     url = "/rest/storagepolicy/v1/qos"
@@ -2107,20 +2107,20 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         burst_bandwidth: Burst bandwidth MB/s(Optional）
         min_iops:  min IOPS(Optional）
         max_iops:  max IOPS(Optional）
-        burst_iops: 突发 IOPS(Optional）
-        burst_time:  max突发durationsecond(s)(Optional）
+        burst_iops: burst IOPS(Optional）
+        burst_time:  maxburstdurationsecond(s)(Optional）
         latency: IO 时延指标微second(s)(Optional）
         max_read_bandwidth:  maxRead bandwidth MB/s(Optional）
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional）
-        burst_read_bandwidth: 突发Read bandwidth MB/s(Optional）
-        burst_write_bandwidth: 突发Write bandwidth MB/s(Optional）
+        burst_read_bandwidth: burstRead bandwidth MB/s(Optional）
+        burst_write_bandwidth: burstWrite bandwidth MB/s(Optional）
         max_read_iops:  max读 IOPS(Optional）
         max_write_iops:  max写 IOPS(Optional）
-        burst_read_iops: 突发读 IOPS(Optional）
-        burst_write_iops: 突发写 IOPS(Optional）
-        alarm_switch: 告警开关(Optional）
+        burst_read_iops: burst读 IOPS(Optional）
+        burst_write_iops: burst写 IOPS(Optional）
+        alarm_switch: alarm开关(Optional）
         alarm_level: Alarm severity(Optional）
-        alarm_threshold: 告警threshold%(Optional）
+        alarm_threshold: alarmthreshold%(Optional）
         resume_threshold:  resumethreshold%(Optional）
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}"
@@ -2215,7 +2215,7 @@ def qos_delete(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 
 def qos_activate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
-    批量 activate QoS  policy
+    batch activate QoS  policy
 
     Activate one or more QoS  policy。
 
@@ -2322,11 +2322,11 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
     Returns:
         {
             total: Logic port的count (integer),
-            logic_ports: Logic port list (List<StorageLogicPortResp>)。 parameter format如下：[{
+            logic_ports: Logic port list (List<StorageLogicPortResp>)。 parameter format：[{
                 id: 逻辑Port ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name: 逻辑Port name (1~255 characters),
-                running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
+                running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
                 operational_status: Active status。Options：ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2362,7 +2362,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 can_failover: EnableIPAddress drift (boolean)。Options：true, false,
                 failback_mode: Drift-back mode。Options：not_support (feature not supported), manual ( manual), automatic ( auto),
                 scope:  range。Options：hyperscale (全局), default (local )。仅OceanStor A800series storage only,
-                logicPortTags: Associated tag set (List<Tag>)。 parameter format如下：[{
+                logicPortTags: Associated tag set (List<Tag>)。 parameter format：[{
                     id:  tag的ID (1~32 characters),
                     tag_type_name: Tag type name (1~64 characters),
                     name: Tag name (1~128 characters),
@@ -2405,7 +2405,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             id: 逻辑Port ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name: 逻辑Port name (1~255 characters),
-            running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (运行), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
+            running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
             operational_status: Active status。Options：ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2441,7 +2441,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             can_failover: EnableIPAddress drift (boolean)。Options：true, false,
             failback_mode: Drift-back mode。Options：not_support (feature not supported), manual ( manual), automatic ( auto),
             scope:  range。Options：hyperscale (全局), default (local )。仅OceanStor A800series storage only,
-            logicPortTags: Associated tag set (List<Tag>)。 parameter format如下：[{
+            logicPortTags: Associated tag set (List<Tag>)。 parameter format：[{
                 id:  tag的ID (1~32 characters),
                 tag_type_name: Tag type name (1~64 characters),
                 name: Tag name (1~128 characters),
@@ -2696,7 +2696,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         client: DME API client
         storage_id: Storage device ID(Optional，1~36  characters）
         port_type: Port type(Optional，eth/fc/ib/bond/sas，returns all types if not specified）
-        location: 位置(Optional，仅 ETH port support，1~255  characters）
+        location: location(Optional，仅 ETH port support，1~255  characters）
         ipv4: IPv4  address(Optional，仅 ETH port support，1~255  characters）
         ipv6: IPv6  address(Optional，仅 ETH port support，1~255  characters）
         port_name: Port name(Optional，仅 ETH port support，1~255  characters）
@@ -3001,7 +3001,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: Failover groupcount (int32),
-            failover_groups: Failover group list (List<FailoverGroupResp>)。 parameter format如下：[{
+            failover_groups: Failover group list (List<FailoverGroupResp>)。 parameter format：[{
                 id: Failover groupid (1~64 characters),
                 name: Failover group name (1~64 characters),
                 failover_group_type: Failover group type (1~255 characters)。Options：system, VLAN, customized,
@@ -3125,7 +3125,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
     Returns:
         {
             total: ZoneTotal count (int32),
-            datas: Zone list (List<OceanStorA800ZoneInfo>)。 parameter format如下：[{
+            datas: Zone list (List<OceanStorA800ZoneInfo>)。 parameter format：[{
                 id: Zone在CMDB中的ID (1~64 characters),
                 native_id: native id (1~64 characters),
                 name: Zone name (1~128 characters),
@@ -3137,13 +3137,13 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 vendor: Zone vendor (1~32 characters),
                 model: ZoneProduct model (1~64 characters),
                 owning_ne_type: Storage device网元 type。Options：dorado (doradoseries storage), OceanStor A800 (OceanStor A800),
-                location: Zone位置 info (0~512 characters),
+                location: Zonelocation info (0~512 characters),
                 version: Version info (0~64 characters),
                 patch_version: Patch version info (0~64 characters),
                 add_time: Device access time (0~32 characters)，UTCTimestamp（精确到毫second(s)）,
                 last_sync_time: 上一次Sync time (0~32 characters)，UTCTimestamp（精确到毫second(s)）,
                 sync_process: Sync进度 (int32),
-                alarm_num: 告警count (number),
+                alarm_num: alarmcount (number),
                 parent_id:  clusterid,
                 zone_raw_id: zone raw id,
                 is_core_zone: Whether it is the core controller nodezone (boolean)。Options：true, false,
@@ -3197,7 +3197,7 @@ ACTIONS = {
     },
     'remove': {
         'func': remove,
-        'description': '批量Remove storage device',
+        'description': 'batchRemove storage device',
         'params': ['storage_ids'],
         'subtopic': None
     },
@@ -3223,7 +3223,7 @@ ACTIONS = {
     },
     'get_passphrase': {
         'func': get_passphrase,
-        'description': '获取Storage device访问的令牌',
+        'description': 'getStorage device访问的令牌',
         'params': ['storage_id'],
     },
     'fan_list': {
@@ -3261,7 +3261,7 @@ ACTIONS = {
     },
     'psu_list': {
         'func': psu_list,
-        'description': '获取Storage devicePower supply（PSU） list',
+        'description': 'getStorage devicePower supply（PSU） list',
         'params': ['storage_id', 'health_status', 'running_status', 'power_type',
                    'power_mode', 'location', 'model', 'sn', 'enclosure_name',
                    'zone_id', 'page_no', 'page_size'],
@@ -3461,7 +3461,7 @@ ACTIONS = {
     },
     'qos_activate': {
         'func': qos_activate,
-        'description': '批量 activate QoS  policy',
+        'description': 'batch activate QoS  policy',
         'params': ['qos_policy_ids'],
         'subtopic': 'qos'
     },
