@@ -221,7 +221,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
                 pull_mode: 读 data mode (Optional)。Optional值：no_cache ( forwarded read), on_demand ( read on demand)。Default：on_demand,
                 cache_time: cache duration (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time  value时Required。Default：hour,
-                single_write_mode: Single write mode policy (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
+                single_write_mode: Single write mode policy (Optional)。Optional值：read_only ( read-only), read_write ( read-write)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
              }, ...]
 
     Returns:

@@ -362,7 +362,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
     """
     modify  zone
 
-    modify 光纤 Zone 的Configuration info。
+    modify  fiber Zone 的Configuration info。
 
     Args:
         client: DME API client

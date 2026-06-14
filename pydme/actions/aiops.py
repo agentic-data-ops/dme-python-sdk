@@ -230,7 +230,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     current_response = client.post(current_url, body=current_params)
     result['current_alarms'] = current_response
 
-    # if specified include_history,同时 queryHistory alarm
+    # if specified include_history, simultaneously queryHistory alarm
     if include_history:
         history_url = "/rest/alarmmgmt/v1/alarms/history-alarms/query"
         history_params = _build_history_alarm_params(
@@ -658,7 +658,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         client: DME API client
         object_type: Object type（Required）
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
-                           storage_disk（ disk）, storage_port（Storage port）, fcswitch_port（光纤Switch port）,
+                           storage_disk（ disk）, storage_port（Storage port）, fcswitch_port（ fiberSwitch port）,
                            storage_file_system（Filesystem）, controller（Controller）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（ storage node）, dpc（DPC）

@@ -2148,7 +2148,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         storage_divice_id: Storage deviceid (Optional),
                         name: QoS name (Optional),
                         description:  description (Optional),
-                        iotype: Policy type (Optional)。Options：2 (总upper limit), 3 (读写upper limit),
+                        iotype: Policy type (Optional)。Options：2 (总upper limit), 3 ( read-writeupper limit),
                         vstore_id: Tenantid (Optional),
                         vstore_name: Tenant name (Optional),
                         global_flag:  whether global (Optional),
@@ -2296,7 +2296,7 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
         sort_dir: Sort direction，asc（ascending）或 desc（descending）
 
     Returns:
-        可用Filesystem list
+         availableFilesystem list
     """
     url = "/rest/fileservice/v1/filesystems/available-filesystems/query"
 
@@ -2391,7 +2391,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         storage_divice_id: Storage device ID (Optional, 1~64 character),
                         name: QoS name (Optional, 1~255 character; A800unused under),
                         description: QoS description (Optional, 1~255 character; A800unused under),
-                        iotype: Policy type (Optional)。Options：2 ( total performanceupper limit), 3 (读写upper limit; only supported by some devices),
+                        iotype: Policy type (Optional)。Options：2 ( total performanceupper limit), 3 ( read-writeupper limit; only supported by some devices),
                         vstore_id: Tenant ID (Optional, 1~64 character; A800unused under),
                         vstore_name: Tenant name (Optional, 1~64 character; A800unused under),
                         global_flag:  whether global (Optional; Current version only supports global; A800unused under),
@@ -2828,7 +2828,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
                        list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime  updateFrequency，4294967295： disable update；3600：1 hour(s) update；86400：1 day(s) update
-        acl_policy_type: NamespaceSecurity mode，Options：mixed（同时 support UNIX 和 Windows  permission），
+        acl_policy_type: NamespaceSecurity mode，Options：mixed（ simultaneously support UNIX 和 Windows  permission），
                         unix（适用于 NFS User permissions determined by Unix Mode/NFSv4 ACL  permission control），
                         native（与 Mixed Mode applicable to same scenario），
                         ntfs（适用于 CIFS User permissions determined by Windows NT ACL  permission control）

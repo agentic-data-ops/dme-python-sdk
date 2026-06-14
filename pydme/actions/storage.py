@@ -982,7 +982,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
         health_status: Health status(Optional). Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent ( inconsistent), no_input ( no input)
         running_status: Running status(Optional). Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline)
         power_type: Power supply type(Optional). Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply)
-        power_mode: Power supply mode(Optional). Options：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply)
+        power_mode: Power supply mode(Optional). Options：balanced_power ( balancePower supply), active_power (主Power supply), standby_power (备Power supply)
         location: location(Optional，1~256 characters），supports fuzzy match
         model:  model(Optional，1~256 characters），supports fuzzy match
         sn: Serial number(Optional，1~256 characters），supports fuzzy match
@@ -1007,7 +1007,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
                 production_date: 生产日期 (1~255 characters),
                 version:  version (1~255 characters),
                 bom_code: Power supply模块BOM编码 (1~255 characters),
-                power_mode: Power supply mode。Options：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply),
+                power_mode: Power supply mode。Options：balanced_power ( balancePower supply), active_power (主Power supply), standby_power (备Power supply),
                 zone_name: Zone name (1~255 characters)，仅OceanStor A800series storage only,
                 zone_id: Zone ID (1~255 characters)，仅OceanStor A800series storage only,
                 zone_ip: Zone IP address (1~255 characters)，仅OceanStor A800series storage only,
@@ -2491,7 +2491,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         vstore_raw_id: Logic portvStoreassigned on the deviceid(Optional, max64 characters）。role isCLIENT时，do not send this field
         role: Logic port role(Optional，default DATA). Options：MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
         dns_zone_name: DNS ZoneName (Optional, max255 characters）。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
-        listen_dns_query_enabled:  whether侦听DNSQuery request(Optional， regex NO|YES). Options：NO ( disable), YES ( open)。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
+        listen_dns_query_enabled:  whether listenDNSQuery request(Optional， regex NO|YES). Options：NO ( disable), YES ( open)。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
         can_failover: EnableIPAddress drift(Optional，boolean). Options：true, false。Data access protocol isKB_OVER_TCP时，do not send this field
         failback_mode: Drift-back mode(Optional). Options：not_support (feature not supported), manual ( manual), automatic ( auto)。Data access protocol isKB_OVER_TCP时，do not send this field
 
@@ -2577,7 +2577,7 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
         operational_status: Active status(Optional）
         failover_group_raw_id: Failover groupon the storage device ID(Optional）
         dns_zone_name: DNS Zone  name(Optional）
-        listen_dns_query_enabled:  whether侦听 DNS Query request(Optional）
+        listen_dns_query_enabled:  whether listen DNS Query request(Optional）
         can_failover: Enable IP Address drift(Optional）
         failback_mode: Drift-back mode(Optional）
 

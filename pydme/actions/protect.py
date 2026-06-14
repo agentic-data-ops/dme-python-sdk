@@ -509,7 +509,7 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
     Args:
         client: DME API client
         ids: Active-active consistency group ID  list
-        priority_station_type: Site type，Optional值：preferred（优先 site）, non_preferred（ non-preferred site）
+        priority_station_type: Site type，Optional值：preferred（ preferred site）, non_preferred（ non-preferred site）
 
     Returns:
         {
@@ -534,7 +534,7 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
     Args:
         client: DME API client
         ids: Active-active consistency group ID  list
-        priority_station_type: Site type，Optional值：preferred（优先 site）, non_preferred（ non-preferred site）
+        priority_station_type: Site type，Optional值：preferred（ preferred site）, non_preferred（ non-preferred site）
 
     Returns:
         {
