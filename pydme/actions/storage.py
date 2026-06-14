@@ -341,7 +341,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         used_capacity: float = None, free_capacity: float = None,
         subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    添加Storage device（仅支持录入离线Storage device信息）
+    添加Storage device（only supports录入离线Storage device信息）
 
     通过离线方式添加Storage device信息到 DME 系统。
 
@@ -500,7 +500,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 health_status: Health status。可选值：unknown (未知), normal (正常), faulty (故障), about_to_fail (即将故障), low_battery (电量不足),
                 running_status: Running status. Options：unknown (未知), normal (正常), running (运行), online (在线), offline (离线), charging (正在充电), charging_completed (充电完成), discharging (正在放电),
                 charge_times: 放电次数 (int64),
-                firmware_version: 固件版本号 (1~255 characters),
+                firmware_version: Firmware version号 (1~255 characters),
                 manufactured_date: 出厂日期 (1~255 characters),
                 enclosure_id: 所属Enclosure在Storage device上ID (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
@@ -974,7 +974,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
              enclosure_name: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询Storage devicePower supply详情信息，仅支持OceanStor A800存储。
+    查询Storage devicePower supply详情信息，only supportsOceanStor A800存储。
 
     Args:
         client: DME API client
@@ -1088,7 +1088,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    Modify storage device（仅支持修改录入的离线Storage device信息）
+    Modify storage device（only supports修改录入的离线Storage device信息）
 
     Args:
         client: DME API client。
@@ -1268,7 +1268,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
 def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query分布式Storage device的Disk pool。仅支持OceanStor Pacific和OceanStor A310存储。
+    Batch query分布式Storage device的Disk pool。only supportsOceanStor Pacific和OceanStor A310存储。
 
     Args:
         client: DME API client
@@ -2476,7 +2476,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         address_family: IP协议版本（Required). Options：IPv4 (IPv4), IPv6 (IPv6)
         home_port_type: 父Port type（Required). Options：ETHERNET_PORT (Ethernet port andRoCE端口), BOND (绑定), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB)
         zone_raw_id: Zoneon the deviceID（Required，1~64 characters），仅OceanStor A800series storage only
-        scope: 范围（Required). Options：hyperscale (全局), default (本地)。仅OceanStor A800series storage only。Data access protocol isKB_OVER_TCP时取值仅支持default
+        scope: 范围（Required). Options：hyperscale (全局), default (本地)。仅OceanStor A800series storage only。Data access protocol isKB_OVER_TCP时取值only supportsdefault
         mgmt_ip: Logic portIP地址(IPV4)(Optional, max64个字符，IPv4格式）
         ipv4_mask: Logic portIP地址掩码(IPV4)(Optional, max64个字符）
         ipv4_gateway: Logic port gatewayIP地址(IPV4)(Optional, max64个字符）
@@ -2901,7 +2901,7 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
     """
     创建 VLAN
 
-    注意：仅支持 OceanStor A800、A600 系列存储。
+    注意：only supports OceanStor A800、A600 系列存储。
 
     Args:
         client: DME API client
@@ -2934,7 +2934,7 @@ def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
     """
     删除 VLAN
 
-    注意：仅支持 OceanStor A800、A600 系列存储。
+    注意：only supports OceanStor A800、A600 系列存储。
 
     Args:
         client: DME API client
@@ -2956,7 +2956,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     """
     修改 VLAN
 
-    注意：仅支持 OceanStor A800、A600 系列存储。
+    注意：only supports OceanStor A800、A600 系列存储。
 
     Args:
         client: DME API client
@@ -3191,7 +3191,7 @@ ACTIONS = {
     },
     'add': {
         'func': add,
-        'description': '添加Storage device（仅支持录入离线Storage device信息）',
+        'description': '添加Storage device（only supports录入离线Storage device信息）',
         'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenance_start', 'maintenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
         'subtopic': None
     },
@@ -3209,7 +3209,7 @@ ACTIONS = {
     },
     'modify': {
         'func': modify,
-        'description': 'Modify storage device（仅支持修改录入的离线Storage device信息）',
+        'description': 'Modify storage device（only supports修改录入的离线Storage device信息）',
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
         'subtopic': None
     },
@@ -3549,19 +3549,19 @@ ACTIONS = {
     },
     'vlan_create': {
         'func': vlan_create,
-        'description': '创建 VLAN（仅支持 OceanStor A800、A600 系列存储）',
+        'description': '创建 VLAN（only supports OceanStor A800、A600 系列存储）',
         'params': ['name', 'vlan_id', 'storage_id', 'description'],
         'subtopic': 'vlan'
     },
     'vlan_delete': {
         'func': vlan_delete,
-        'description': '删除 VLAN（仅支持 OceanStor A800、A600 系列存储）',
+        'description': '删除 VLAN（only supports OceanStor A800、A600 系列存储）',
         'params': ['vlan_id'],
         'subtopic': 'vlan'
     },
     'vlan_modify': {
         'func': vlan_modify,
-        'description': '修改 VLAN（仅支持 OceanStor A800、A600 系列存储）',
+        'description': '修改 VLAN（only supports OceanStor A800、A600 系列存储）',
         'params': ['vlan_id', 'name', 'description'],
         'subtopic': 'vlan'
     },

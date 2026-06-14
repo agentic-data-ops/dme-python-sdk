@@ -1183,7 +1183,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         return response
 
     else:
-        raise ValueError(f"无效的 san_type 参数：{san_type}，仅支持：ip_san, fc_san")
+        raise ValueError(f"无效的 san_type 参数：{san_type}，only supports：ip_san, fc_san")
 
 
 

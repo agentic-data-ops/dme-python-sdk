@@ -2282,11 +2282,11 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
     """
     Query available的Filesystem
 
-    Query available于配置增删特性的Filesystem。当前仅支持可配置Remote replication的Filesystem。
+    Query available于配置增删特性的Filesystem。当前only supports可配置Remote replication的Filesystem。
 
     Args:
         client: DME API 客户端
-        feature_type: 特性类型，当前仅支持 remote_replication（Remote replication）
+        feature_type: 特性类型，当前only supports remote_replication（Remote replication）
         local_storage_id: 本端Storage device ID
         remote_storage_id: 远端Storage device ID（当 feature_type 为 remote_replication 时Required）
         name: 本端Filesystem name，支持fuzzy search
