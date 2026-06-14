@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: Password reset requiredUsername (Required, string, 1~128 characters)
-        new_value:  new password (Required, string, 8~32 characters). 要求: 1. Password lengthcannot be less than8 characters, greater than32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
+        new_value:  New password (Required, string, 8~32 characters). 要求: 1. Password length cannot be less than8 characters, greater thann32 characters. 2. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters (!"#$%&'()*+,-./:;<=>?@[]^`{|}~) . 3. Consecutive identical character count in passwordcannot exceed2, Cannot contain repeated character sequences ( repeat count is4, Consecutive character count1) . 4. Password cannot containUsername和Username reverse order, Cannot contain phone number or email, Cannot contain dictionary words. 
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false). true: Must perform initial password change on next login; false: Direct login next time, No initial modification required. Default: true
 
     Returns:
@@ -71,9 +71,9 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
     # Parameter validation
     if not user_name or len(user_name) > 128:
-        raise ValueError("user_name 是required parameter, 1~128 characters")
+        raise ValueError("user_name is required, 1~128 characters")
     if not new_value or len(new_value) < 8 or len(new_value) > 32:
-        raise ValueError("new_value 是required parameter, 8~32 characters")
+        raise ValueError("new_value is required, 8~32 characters")
 
     payload = {
         'newValue': new_value,
@@ -86,7 +86,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
 def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     """
-    Delete user. 该APIMay directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.. 
+    Delete user. This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.. 
 
     Args:
         client: DME API client
@@ -99,7 +99,7 @@ def user_delete(client: DMEAPIClient, user_id: int) -> dict:
 
     # Parameter validation
     if user_id is None:
-        raise ValueError("user_id 是required parameter")
+        raise ValueError("user_id is required")
 
     response = client.delete(url, params={"user_id": user_id})
     return response
@@ -113,9 +113,9 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 
     Args:
         client: DME API client
-        name: Username (Required, string,  max32 characters). local Usernamecannot be less than6 characters, greater than32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, greater than32 characters, Cannot contain invisible characters;特殊 character. 
+        name: Username (Required, string,  max 32 characters). Local username cannot be less than6 characters, greater thann32 characters, Cannot contain spaces, 转义 character, Invisible and special characters. remote Usernamecannot be less than1 characters, greater thann32 characters, Cannot contain invisible characters;特殊 character. 
         type: User type (Required, integer, N/A). 0: Local user; 2: Remote user. 
-        value: 密码 (Optional, string, 8~32 characters). Password lengthcannot be less than8 characters, greater than32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
+        value: 密码 (Optional, string, 8~32 characters). Password length cannot be less than8 characters, greater thann32 characters. Password must contain at least2 letters, must contain at least1uppercase letters, must contain at least1lowercase letters, must contain at least1count字, must contain at least1special characters. Remote user not involve. 
         description:  description (Optional, string,  max127 characters)
         roles: User role (Optional, List[integer], max array members: 10). 如Administrators,  northboundUser group, 安全Admin组, FilesystemGroup or custom user role. 
 
@@ -153,7 +153,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
         client: DME API client
         page_no: 页数 (Required, integer, min: 1). Default: 1
         page_size: Page size (Required, integer, 5~200). Default: 10
-        name: UsernameSearch keyword (Optional, string,  max32 characters)
+        name: UsernameSearch keyword (Optional, string,  max 32 characters)
 
     Returns:
         {
@@ -219,7 +219,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
     Returns:
         {
             id: user ID (integer, 1~2147483647),
-            name: Username (string,  max32 characters),
+            name: Username (string,  max 32 characters),
             type: User type (integer). Optional值: 0 (Local user), 1 (Third-party system access user), 2 (Remote user),
             description:  description (string,  max127 characters),
             roles: User role (List<integer>, max array members: 50),
@@ -229,7 +229,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
     
     # Parameter validation
     if user_id is None:
-        raise ValueError("user_id 是required parameter")
+        raise ValueError("user_id is required")
 
     response = client.get(url, params={"user_id": user_id})
     return response

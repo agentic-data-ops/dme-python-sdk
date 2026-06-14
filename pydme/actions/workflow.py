@@ -128,7 +128,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     """
     Query instance details
     
-    QueryWorkflowinstance的Details. 
+    Query workflow instance details. 
     
     Args:
         client: DME API client
@@ -142,11 +142,11 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         - template_id: Instance template id
         - template_name: Instance template name
         - state:  execute status (EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED) 
-        - stage:  execute阶段 (PRECHECK/MAIN/NORMAL_END/ABNORMAL_END) 
+        - stage:  Execution stage (PRECHECK/MAIN/NORMAL_END/ABNORMAL_END) 
         - params: Execute instance parameters
         - step_list: Instance step list
-        - start_time: instance execute的Start time (毫second(s)) 
-        - end_time: instance execute的End time (毫second(s)) 
+        - start_time: Instance execution start time (ms) 
+        - end_time: Instance execution end time (ms) 
         - instance_type: instance type (PRECHECK/EXECUTION) 
         - template_version_id: Instance template version id
     """
@@ -163,7 +163,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     Create and execute instance
     
-    Create and execute workflow instance. by specifying template id 与Template version id (Template version id default if not specified is latest version) 
+    Create and execute workflow instance. by specifying template ID and template version ID (Template version ID defaults if empty not specified is latest version) 
     to create and execute instance, or by specifying instance id  to find correspondingInstance templateCreate and execute instance. 
     
     Args:
@@ -205,7 +205,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     Args:
         client: DME API client
         instance_id: instance id (Required, 1~64  characters) 
-        step_id: 步骤 id (Required, 1~64  characters) 
+        step_id: Step ID (Required, 1~64  characters) 
     
     Returns:
         {

@@ -64,7 +64,7 @@ def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> di
     Args:
         client: DME API client
         id: Omni-Dataverse ID, cannot both be empty with name; ID takes precedence when both have values
-        name: Omni-Dataverse  name, 与 id cannot both be empty; ID takes precedence when both have values
+        name: Omni-Dataverse  name, cannot both be empty with id; ID takes precedence when both have values
 
     Returns:
         Omni-Dataverse Capacity statistics info
@@ -184,7 +184,7 @@ def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = Non
     Args:
         client: DME API client
         id: Global namespace ID, cannot both be empty with name_locator; ID takes precedence when both have values
-        name_locator: Name locator, format is: Global namespace name@Global data space name
+        name_locator: Name locator format:: global_namespace_name@global_data_space_name
 
     Returns:
         Global namespaceDetails
@@ -213,15 +213,15 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         client: DME API client
         name:  globalNamespace name (1~255 characters, Required)
         gfs_group_id: Global data space ID (1~32 characters, Optional. cannot both be empty with gfs_group_name; takes precedence when both have valuess_group_id)
-        gfs_group_name: Global data space name (1~255 characters, Optional. 与 gfs_group_id cannot both be empty; takes precedence when both have valuess_group_id)
+        gfs_group_name: Global data space name (1~255 characters, Optional. cannot both be empty with gfs_group_id; takes precedence when both have valuess_group_id)
         gfs_mode: Global namespace mode. Options: smart_share. Default: smart_share
         single_write_switch: Single write mode switch. Options: close (any member can write), open (only one member can write)
         smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional. required when gfs_mode is smart_share). 参数格式如下：[{
                 id: Namespace ID (1~64 characters, Required),
                 pull_mode: Read mode. Options: no_cache (forwarded read), on_demand (read on demand). Default: on_demand,
                 cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,
-                cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). required when cache_time has a value. Default: hour,
-                single_write_mode: Single write mode policy (Optional). Optional值: read_only ( read-only), read_write ( read-write). 当 single_write_switch 为 open 时, Exactly one member must have the value read_write,
+                cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value. Default: hour,
+                single_write_mode: Single write mode policy (Optional). Options: read_only, read_write ( read-write). 当 single_write_switch 为 open 时, Exactly one member must have the value read_write,
              }, ...]
 
     Returns:
@@ -257,12 +257,12 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace ID (1~32 characters, Optional. cannot both be empty with name_locator; takes precedence when both have values id)
-        name_locator: Name locator, format is: Global namespace name@Global data space name (3~507 characters, Optional. 与 id cannot both be empty; takes precedence when both have values id)
+        name_locator: Name locator format:: global_namespace_name@global_data_space_name (3~507 characters, Optional. cannot both be empty with id; takes precedence when both have values id)
         smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. 当Global namespace的 mode为 smart_share parameter effective when). 参数格式如下：[{
                 id: Namespace ID or filesystem ID (1~64 characters, Required),
-                pull_mode: 读 data mode (Optional). Optional值: no_cache ( forwarded read), on_demand ( read on demand),
+                pull_mode: Read data mode (Optional). Options: no_cache (forwarded read), on_demand (read on demand),
                 cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,
-                cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). required when cache_time has a value,
+                cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value,
              }, ...]
 
     Returns:
@@ -293,7 +293,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
     Args:
         client: DME API client
         id: Global namespace ID, cannot both be empty with name_locator
-        name_locator: Name locator, format is: Global namespace name@Global data space name
+        name_locator: Name locator format:: global_namespace_name@global_data_space_name
         is_delete_child:  Whether to delete child namespace, default true
 
     Returns:
@@ -449,16 +449,16 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         src_namespace_ids: Source site namespace ID under global namespace  list (List<string>, max array members: 32, Optional)
         atime_operator: File access time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 atime, atime_unit must be sent together
         atime: File access time interval (int32, 0~26304, Optional). 与 atime_operator, atime_unit must be sent together
-        atime_unit:  File access time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 atime_operator, atime must be sent together
+        atime_unit:  File access time interval unit (Optional). Options: hour, day. 与 atime_operator, atime must be sent together
         mtime_operator: File modification time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 mtime, mtime_unit must be sent together
         mtime: File modification time interval (int32, 0~26304, Optional). 与 mtime_operator, mtime_unit must be sent together
-        mtime_unit:  file的modify Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 mtime_operator, mtime must be sent together
+        mtime_unit:  file的modify Time interval unit (Optional). Options: hour, day. 与 mtime_operator, mtime must be sent together
         ctime_operator: file status modificationTime matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 ctime, ctime_unit must be sent together
         ctime: File status modification interval (int32, 0~26304, Optional). 与 ctime_operator, ctime_unit must be sent together
-        ctime_unit: file status modification改Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 ctime_operator, ctime must be sent together
+        ctime_unit: file status modification改Time interval unit (Optional). Options: hour, day. 与 ctime_operator, ctime must be sent together
         crtime_operator:  file的Creation time匹配 rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 crtime, crtime_unit must be sent together
         crtime:  File creation time interval (int32, 0~26304, Optional). 与 crtime_operator, crtime_unit must be sent together
-        crtime_unit:  File creation time intervalunit  (Optional). Optional值: hour (hour(s)), day (day(s)). 与 crtime_operator, crtime must be sent together
+        crtime_unit:  File creation time intervalunit  (Optional). Options: hour, day. 与 crtime_operator, crtime must be sent together
         name_operator: Filename matching rule (Optional). Optional值: equal (equal), not_equal (not equal). 与 name_filter must be sent together
         name_filter: Filename matching expression list (1~1023 characters, Optional). 与 name_operator must be sent together
         size_operator: File size matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 file_size must be sent together

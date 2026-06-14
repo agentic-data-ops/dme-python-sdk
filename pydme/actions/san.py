@@ -206,14 +206,14 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         vstore_id:  Tenant ID (Optional), 1~64  characters; for OceanStor V300R006C00, V500R007C00, Dorado 6.1.3, OceanStor 6.1.3 effective on this version and above
         owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage device
         initial_distribute_policy: Initial capacity allocation policy(Optional) , Huawei V3/V5 and Dorado series onlyries not support; 
-                                  Options: automatic, highest_performance, performancermance tier) , capacity ( capacity层) ; default automatic
-        prefetch_policy: 预取 policy(Optional) , Affects disk read; 
+                                  Options: automatic, highest_performance, performance) , capacity层) ; default automatic
+        prefetch_policy: Prefetch policy (Optional) , Affects disk read; 
                         Options: no_prefetch ( no prefetch) , constant_prefetch (Fixed prefetch) , variable_prefetch (Variable prefetch) , intelligent_prefetch (Smart prefetch) ; default intelligent_prefetch
-        prefetch_value: 预取 policy值(Optional) , 0~1024;  sent prefetch_policy required when value is fixed or variable prefetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
+        prefetch_value: Prefetch policy value (Optional) , 0~1024;  required when prefetch_policy is set value is fixed or variable prefetch; Fixed prefetchvalue range 0~1024KB, Variable prefetch value range 0~1024 倍
         tuning:  tuning (Optional), CustomizeLunTuning object.  parameter format: {
-                smart_tier: Data migration policy. Options: no_migration ( no migration), automatic_migration ( auto迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
-                deduplication_enabled: Deduplication (仅Thin LUN support). Options: true ( enable), false ( disable),
-                compression_enabled: Data compression (仅Thin LUN support). Options: true ( enable), false ( disable),
+                smart_tier: Data migration policy. Options: no_migration, automatic_migration, migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier). defaultno_migration,
+                deduplication_enabled: Deduplication (Thin LUN only). Options: true, false,
+                compression_enabled: Data compression (Thin LUN only). Options: true, false,
                 alloction_type: LUNAllocation type. Options: thin, thick,
                 smart_qos: Smart QoSobject.  format: {
                         max_bandwidth: Max bandwidth (1~999999999Mbit/s; mutually exclusive with min_bandwidth/min_iops),

@@ -904,10 +904,10 @@ def main():
             print_subtopic_help(cli, args.topic, args.subtopic)
             return
 
-    # 4.  specified了 <topic> <subtopic> <action>, Show action help or execute action
+    # 4.  specified topic, subtopic, action, Show action help or execute action
     if args.subtopic and args.action:
         # try to combine as action_key (Three-level structure: <topic> <subtopic> <action>) 
-        #  try subtopic_action format first (supports spaces in action names), 如 "frame list") 
+        #  try subtopic_action format first (supports spaces in action names), e.g. "frame list") 
         action_key = f"{args.subtopic}_{args.action}"
         
         # if not found, try subtopic action format (space-separated)
@@ -917,20 +917,20 @@ def main():
             if space_action_key in actions_info:
                 action_key = space_action_key
             else:
-                # still not found, 显示 error
+                # still not found, show error
                 print(f" error: Action not found '{args.topic} {args.subtopic} {args.action}'")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
-                    print(f"提示: Available actions include: {', '.join(available)}")
+                    print(f"Tip: Available actions include: {', '.join(available)}")
                 return
 
         # if specified --help, Show help; otherwise execute action
         if show_help:
-            # Show help (不 need login) 
+            # Show help (no login needed) 
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
             return
 
-        #  execute动作 ( need login) 
+        #  Execute action (login required) 
         endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
         username = args.user or os.environ.get('DME_API_USERNAME')
         password = args.password or os.environ.get('DME_API_PASSWORD')
