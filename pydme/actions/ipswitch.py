@@ -204,7 +204,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     return response
 
 
-# ACTIONS 字典, Define all available actions
+# Actions, Define all available actions
 ACTIONS = {
     'list': {
         'func': list,

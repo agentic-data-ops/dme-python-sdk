@@ -216,8 +216,8 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 compression_enabled: Data compression (仅Thin LUN support). Options: true ( enable), false ( disable),
                 alloction_type: LUNAllocation type. Options: thin, thick,
                 smart_qos: Smart QoSobject.  format: {
-                        max_bandwidth: Max bandwidth (1~999999999Mbit/s; 与min_bandwidth/min_iopsmutually exclusive),
-                        max_iops: Max IOPS (1~999999999; 与min_bandwidth/min_iopsmutually exclusive),
+                        max_bandwidth: Max bandwidth (1~999999999Mbit/s; mutually exclusive with min_bandwidth/min_iops),
+                        max_iops: Max IOPS (1~999999999; mutually exclusive with min_bandwidth/min_iops),
                         min_bandwidth: Min bandwidth (1~999999999Mbit/s; 与max_bandwidth/max_iopsmutually exclusive),
                         min_iops: Min IOPS (1~999999999; 与max_bandwidth/max_iopsmutually exclusive),
                         latency: Latency (1~999999999ms; Dorado V6系列unit 为us, Optional值为500/1500; 与max_bandwidth/max_iopsmutually exclusive),
@@ -1616,11 +1616,11 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     """
     Add storage host to storage host group
 
-    Add existing hosts toStorage host组, or create new hosts in host group. 
+    Add existing hosts toStorage host group, or create new hosts in host group. 
 
     Args:
         client: DME API Client
-        storage_host_group_id: Storage host组 ID (Required)
+        storage_host_group_id: Storage host group ID (Required)
         storage_host_id_ids:  storageHost ID list (Optional, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
         create_storage_host_params: create 新的Storage host list (Optional, 与storage_host_id_idsmutually exclusive, max array members: 1000). 参数格式如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
@@ -1678,7 +1678,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
 
     Args:
         client: DME API Client
-        storage_host_group_id: Storage host组 ID (Required, 1~64  character) 
+        storage_host_group_id: Storage host group ID (Required, 1~64  character) 
         storage_host_ids: hosts to remove ID  list (Required,  max 1000 个) 
         task_remarks: Task remark(Optional, max 1024  character) 
 
@@ -1703,11 +1703,11 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
     """
     Batch delete storage host groups
 
-    Batch delete specified的Storage host组. 
+    Batch delete specified的Storage host group. 
 
     Args:
         client: DME API Client
-        host_group_ids: Storage host组 ID  list (Required, 1~100 个) 
+        host_group_ids: Storage host group ID  list (Required, 1~100 个) 
         task_remarks: Task remark(Optional, max 1024  character) 
 
     Returns:
@@ -1775,11 +1775,11 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-     specifiedStorage host组 query mapping LUN info list, includes  LUN  info和 host LUN ID  info. 
+     specifiedStorage host group query mapping LUN info list, includes  LUN  info和 host LUN ID  info. 
 
     Args:
         client: DME API Client
-        storage_host_group_id: Storage host组 ID (Required, 1~64  character) 
+        storage_host_group_id: Storage host group ID (Required, 1~64  character) 
         name: LUN Name (Optional,1~256  character,  supportfuzzy search) 
         page_size: Items per page(Optional, 1~1000, default 20) 
         page_no: Page queryStart position(Optional, 1~10000000, default 1) 
@@ -3267,7 +3267,7 @@ ACTIONS = {
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'storage_host'
     },
-    # Storage host组subtopic actions (san storage_host_group xxx) 
+    # Storage host groupsubtopic actions (san storage_host_group xxx) 
     'storage_host_group_create': {
         'func': storage_host_group_create,
         'description': 'Create storage host group',
@@ -3308,7 +3308,7 @@ ACTIONS = {
     },
     'storage_host_group_unmap_luns': {
         'func': storage_host_group_unmap_luns,
-        'description': ' unbindStorage host组 mapping',
+        'description': ' unbindStorage host group mapping',
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },

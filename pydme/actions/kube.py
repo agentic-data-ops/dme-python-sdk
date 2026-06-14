@@ -202,7 +202,7 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     """
     Query containerPV list
     
-    Query containerPersistent volume (PV)  list,  support按 cluster ID 和 name filter. 
+    Query container PV list,  supports filtering by cluster ID and name. 
     
     Args:
         client: DME API client

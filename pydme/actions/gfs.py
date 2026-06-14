@@ -144,9 +144,9 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         name: Global namespace name, supports fuzzy search (0~256 characters, Optional)
         gfs_group_name: Global data space name, supports fuzzy search (0~256 characters, Optional)
         gfs_group_id: Global data space ID (1~32 characters, Optional)
-        gfs_type: Global namespace type. Options: enable_object_multi_version, disable_object_multi_versionpportobject多 version)
+        gfs_type: Global namespace type. Options: enable_object_multi_version, disable_object_multi_versionsupports object multi-version)
         sort_key: Sort field. Options: child_name_space_num
-        sort_dir:  Specified sort direction (Optional). Options: asc (ascending), desc (descending). Default: asc
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). Default: asc
         page_no: pagination start page (int32, 1~1000, Default: 1, Optional)
         page_size: Items per page (int32, 1~1000, Default: 20, Optional)
 
@@ -220,7 +220,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
                 id: Namespace ID (1~64 characters, Required),
                 pull_mode: Read mode. Options: no_cache (forwarded read), on_demand (read on demand). Default: on_demand,
                 cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,
-                cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). cache_time  value时Required. Default: hour,
+                cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). required when cache_time has a value. Default: hour,
                 single_write_mode: Single write mode policy (Optional). Optional值: read_only ( read-only), read_write ( read-write). 当 single_write_switch 为 open 时, Exactly one member must have the value read_write,
              }, ...]
 
@@ -259,10 +259,10 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         id: Global namespace ID (1~32 characters, Optional. cannot both be empty with name_locator; takes precedence when both have values id)
         name_locator: Name locator, format is: Global namespace name@Global data space name (3~507 characters, Optional. 与 id cannot both be empty; takes precedence when both have values id)
         smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. 当Global namespace的 mode为 smart_share parameter effective when). 参数格式如下：[{
-                id: Namespace ID 或Filesystem ID (1~64 characters, Required),
+                id: Namespace ID or filesystem ID (1~64 characters, Required),
                 pull_mode: 读 data mode (Optional). Optional值: no_cache ( forwarded read), on_demand ( read on demand),
                 cache_time: Cache duration (int32, Optional, Default: 8). when cache_time_unit is hour 1~4320, when day 1~180,
-                cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). cache_time  value时Required,
+                cache_time_unit: Cache duration unit (Optional). Optional值: hour (hour(s)), day (day(s)). required when cache_time has a value,
              }, ...]
 
     Returns:
@@ -288,13 +288,13 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
 def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = None,
                      is_delete_child: bool = True) -> dict:
     """
-    Delete的Global namespace
+    Delete global namespace
 
     Args:
         client: DME API client
         id: Global namespace ID, cannot both be empty with name_locator
         name_locator: Name locator, format is: Global namespace name@Global data space name
-        is_delete_child:  whetherdelete 子Namespace, default true
+        is_delete_child:  Whether to delete child namespace, default true
 
     Returns:
         {
@@ -335,18 +335,18 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         client: DME API client
         gfs_id: Global namespace ID (1~32 characters, Optional)
         task_name: Task name, supports fuzzy search (1~256 characters, Optional)
-        task_id: Data migration task在device side ID (1~256 characters, Optional)
+        task_id: Data migration task ID on device (1~256 characters, Optional)
         target_storage_name: Target site name (1~256 characters, Optional)
         namespace_name: Namespace name, supports fuzzy search (1~256 characters, Optional)
         namespace_id: Namespace ID (1~32 characters, Optional)
-        namespace_raw_id: Namespace在device side ID (1~256 characters, Optional)
-        local_path: Namespace under路径, supports fuzzy search (1~256 characters, Optional, Default: "/")
+        namespace_raw_id: Namespace ID on device (1~256 characters, Optional)
+        local_path: Namespace path, supports fuzzy search (1~256 characters, Optional, Default: "/")
         status: Task status list (List<string>, max array members: 9, Optional). Optional值: not_run (未running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled ( pending), partially_success (partial success), failed ( failure), unknown (unknown)
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
         execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
         page_no: Page number (int32, 1~1000, Default: 1, Optional)
         page_size: Items per page (int32, 1~1000, Default: 20, Optional)
-        sort_dir:  Specified sort direction (Optional). Optional值: asc (ascending), desc (descending). Default: desc
+        sort_dir: Sort direction (Optional). Optional值: asc (ascending), desc (descending). Default: desc
         sort_key: Sort key (Optional). Optional值: progress (Task execution进度), real_start_time (Task actual start time), real_finish_time (task 实际End time)
 
     Returns:
@@ -433,44 +433,44 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         client: DME API client
         gfs_id: Global namespace ID (1~64 characters, Required)
         task_name: Task name (1~255 characters, Optional)
-        task_mode: task  mode (Required). Optional值: pre_fetch (prefetch cache), tier ( data拉取)
+        task_mode: Task mode (Required). Optional值: pre_fetch (prefetch cache), tier (data pull)
         execute_mode:  execute mode (Optional). Optional值: interval (week(s)), one_time (只 execute一次). 当 task_mode 为 pre_fetch this parameter is ineffective
-        execute_time: week(s)Task executiontime interval (int32, 1~365, Optional). 当 execute_mode 为 interval must be sent when. 当 task_mode 为 pre_fetch this parameter is ineffective
-        execute_time_unit: week(s)Task executionTime interval unit (Optional). Optional值: minute (分), hour (hour(s)), day (day(s)), month (month(s)). 当 execute_mode 为 interval must be sent when. 当 task_mode 为 pre_fetch this parameter is ineffective
-        start_mode: Task execution mode (Required). Optional值: manual ( manual), auto ( auto)
+        execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval. 当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time_unit: week(s)Task executionTime interval unit (Optional). Optional值: minute (分), hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval. 当 task_mode 为 pre_fetch this parameter is ineffective
+        start_mode: Task execution mode (Required). Optional值: manual, auto
         start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional). 当 start_mode 为 auto  allowed when config,  value为 0 Immediate start
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). 与 period_end_day, period_time, period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). 与 period_start_day, period_time, period_max_bandwidth must be sent together
         period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). 与 period_start_day, period_end_day, period_max_bandwidth must be sent together
         period_max_bandwidth: Bandwidth for specified periodupper limit (Optional,  format: "bandwidth1;bandwidth2"). 与 period_start_day, period_end_day, period_time must be sent together
-        target_namespace_id: Global namespace下 targetNamespace ID (1~32 characters, Required)
-        local_path: Namespace under路径 (Optional, Default: "/")
-        src_namespace_ids: Global namespace下源 siteNamespace ID  list (List<string>, max array members: 32, Optional)
+        target_namespace_id: Target namespace ID under global namespace (1~32 characters, Required)
+        local_path: Namespace path (Optional, Default: "/")
+        src_namespace_ids: Source site namespace ID under global namespace  list (List<string>, max array members: 32, Optional)
         atime_operator: File access time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 atime, atime_unit must be sent together
         atime: File access time interval (int32, 0~26304, Optional). 与 atime_operator, atime_unit must be sent together
-        atime_unit:  file accessTime interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 atime_operator, atime must be sent together
+        atime_unit:  File access time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 atime_operator, atime must be sent together
         mtime_operator: File modification time matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 mtime, mtime_unit must be sent together
         mtime: File modification time interval (int32, 0~26304, Optional). 与 mtime_operator, mtime_unit must be sent together
         mtime_unit:  file的modify Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 mtime_operator, mtime must be sent together
         ctime_operator: file status modificationTime matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 ctime, ctime_unit must be sent together
-        ctime: file status modificationmodification interval (int32, 0~26304, Optional). 与 ctime_operator, ctime_unit must be sent together
+        ctime: File status modification interval (int32, 0~26304, Optional). 与 ctime_operator, ctime_unit must be sent together
         ctime_unit: file status modification改Time interval unit (Optional). Optional值: hour (hour(s)), day (day(s)). 与 ctime_operator, ctime must be sent together
         crtime_operator:  file的Creation time匹配 rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 crtime, crtime_unit must be sent together
-        crtime:  file的Creation time间隔 (int32, 0~26304, Optional). 与 crtime_operator, crtime_unit must be sent together
-        crtime_unit:  file的Creation time间隔unit  (Optional). Optional值: hour (hour(s)), day (day(s)). 与 crtime_operator, crtime must be sent together
-        name_operator: Filename matching rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 name_filter must be sent together
+        crtime:  File creation time interval (int32, 0~26304, Optional). 与 crtime_operator, crtime_unit must be sent together
+        crtime_unit:  File creation time intervalunit  (Optional). Optional值: hour (hour(s)), day (day(s)). 与 crtime_operator, crtime must be sent together
+        name_operator: Filename matching rule (Optional). Optional值: equal (equal), not_equal (not equal). 与 name_filter must be sent together
         name_filter: Filename matching expression list (1~1023 characters, Optional). 与 name_operator must be sent together
         size_operator: File size matching rule (Optional). Optional值: less_or_equal (less than or equal to), greater (greater than). 与 file_size must be sent together
-        file_size:  file的 size (int64, 0~4398046511104, unit : KB, Optional). 与 size_operator must be sent together
+        file_size:  File size (int64, 0~4398046511104, in KB, Optional). 与 size_operator must be sent together
         tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
         file_paths: filter by file listfilter policy uploaded fileIdentifier list (List<string>, max array members: 200, Optional). 仅 execute_mode 为 one_time 时可 config
-        authentication_type: Auth type (Optional). Optional值: ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIXlocal  auth), nis_domain (NIS域)
-        user_operator: Username匹配 rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 authentication_type, user_name must be sent together
+        authentication_type: Auth type (Optional). Optional值: ldap_or_ldaps_domain (LDAP/LDAPS domain), unix_local (UNIX local auth), nis_domain (NIS domain)
+        user_operator: Username匹配 rule (Optional). Optional值: equal (equal), not_equal (not equal). 与 authentication_type, user_name must be sent together
         user_name: Username (1~255 characters, Optional). 与 authentication_type, user_operator must be sent together
-        group_operator: User group name match rule (Optional). Optional值: equal (相等), not_equal ( not equal). 与 authentication_type, group_name must be sent together
-        group_name: User group名 (1~255 characters, Optional). 与 authentication_type, group_operator must be sent together
-        files_filter: filter by file list滤 request parameter (FilesFilterobject, Optional). 仅 execute_mode 为 one_time 时可 config.  parameter format: {
+        group_operator: User group name match rule (Optional). Optional值: equal (equal), not_equal (not equal). 与 authentication_type, group_name must be sent together
+        group_name: User group name (1~255 characters, Optional). 与 authentication_type, group_operator must be sent together
+        files_filter: Filter by file list request parameter (FilesFilterobject, Optional). 仅 execute_mode 为 one_time 时可 config.  parameter format: {
                 file_id: filter by file listfilter policy uploaded file ID (1~63 characters, Required),
                 file_name: filter by file listfilter policy uploaded file name (1~1023 characters, Required),
              }
@@ -578,10 +578,10 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         client: DME API client
         id: Data migration task ID (1~32 characters, Required)
         task_name: Task name (1~255 characters, Optional)
-        start_mode: Task execution mode (Optional). Optional值: manual ( manual), auto ( auto)
+        start_mode: Task execution mode (Optional). Optional值: manual, auto
         start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional). 当 start_mode 为 auto  allowed when config,  value为 0 Immediate start
-        execute_time: week(s)Task executiontime interval (int32, 1~365, Optional). 当 execute_mode 为 interval must be sent when
-        execute_time_unit: week(s)Task executionTime interval unit (Optional). Optional值: minute (分), hour (hour(s)), day (day(s)), month (month(s)). 当 execute_mode 为 interval must be sent when
+        execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval
+        execute_time_unit: week(s)Task executionTime interval unit (Optional). Optional值: minute (分), hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). 与 period_end_day, period_time, period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). 与 period_start_day, period_time, period_max_bandwidth must be sent together
@@ -718,7 +718,7 @@ ACTIONS = {
     },
     'namespace_delete': {
         'func': namespace_delete,
-        'description': 'Delete的Global namespace',
+        'description': 'Delete global namespace',
         'params': ['id', 'name_locator', 'is_delete_child'],
         'subtopic': 'namespace'
     },

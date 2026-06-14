@@ -341,13 +341,13 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         used_capacity: float = None, free_capacity: float = None,
         subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    add Storage device (only supports录入offlineStorage device info) 
+    Add storage device (offline info entry only) 
 
     Add storage device info to DME system via offline method. 
 
     Args:
         client: DME API client. 
-        name: Device name (1~256 characters). can only contain half-width letters,  half-width digits, \"_\", \"-\", \".\", 中文 character. 
+        name: Device name (1~256 characters). Supports half-width letters, digits, underscores, hyphens, dots and Chinese characters. 
         sn: Device serial number (regex is^[a-zA-Z0-9]{1,128}$). 
         ip: Device IP address (Optional, 0~128 characters,  supports IPv4 and IPv6, can also be empty). 
         dc_id: Data center ID (Optional, regex is^[a-zA-Z0-9]{1,128}$). 
@@ -356,26 +356,26 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         model: Product model (Optional, 0~128 characters). 
         version: Version info (Optional, 0~64 characters). 
         patch_version: Patch version info (Optional, 0~64 characters). 
-        location:  devicelocation (Optional, 0~512 characters). 
+        location: Device location (Optional, 0~512 characters). 
         maintenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  need和 Maintenance start timemust appear together and value greater thanStart time. 
+        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenance start time and value must be greater. 
         total_capacity: Raw capacity (Optional, 0~2147483647, in MB). 
         total_effective_capacity: Available capacity (Optional, 0~2147483647, in MB). 
         total_pool_capacity: Available capacity (Optional, 0~2147483647, in MB). 
         used_capacity: Used capacity (Optional, 0~2147483647, in MB). 
         free_capacity: Free capacity (Optional, 0~2147483647, in MB). 
-        subscription_capacity:  subscribed capacity (Optional, 0~2147483647, in MB). 
-        tag_ids:  tagID list (Optional, List<string>, max array members: 10, min array members: 0). 
+        subscription_capacity: Subscribed capacity (Optional, 0~2147483647, in MB). 
+        tag_ids: Tag ID list (Optional, List<string>, max array members: 10, min array members: 0). 
     
     Returns:
         {
             id: Storage device ID (string, 1~64 characters),
         }
     """
-    if not name:
+        raise ValueError("name is required")
         raise ValueError("name 是Required parameter")
     if not sn:
-        raise ValueError("sn 是Required parameter")
+        raise ValueError("sn is required")
 
     url = "/rest/storagemgmt/v2/storages/offline-storages"
 
@@ -2360,7 +2360,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
                 address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
                 can_failover: EnableIPAddress drift (boolean). Options: true, false,
-                failback_mode: Drift-back mode. Options: not_support (feature not supported), manual ( manual), automatic ( auto),
+                failback_mode: Drift-back mode. Options: not_support (feature not supported), manual, automatic ( auto),
                 scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only storage only,
                 logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                     id:  tag的ID (1~32 characters),
@@ -2439,7 +2439,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT (Ethernet port andRoCE port), BOND ( bind), VLAN (VLAN), VIP (VIP), SIP (SIP), IB (IB),
             address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
             can_failover: EnableIPAddress drift (boolean). Options: true, false,
-            failback_mode: Drift-back mode. Options: not_support (feature not supported), manual ( manual), automatic ( auto),
+            failback_mode: Drift-back mode. Options: not_support (feature not supported), manual, automatic ( auto),
             scope:  range. Options: hyperscale ( global), default (local ). OceanStor A800 series only storage only,
             logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
                 id:  tag的ID (1~32 characters),
@@ -2493,7 +2493,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         dns_zone_name: DNS ZoneName (Optional, max255 characters) . role isCLIENT或Data access protocol isKB_OVER_TCP时, do not send this field
         listen_dns_query_enabled:  whether listenDNSQuery request(Optional,  regex NO|YES). Options: NO ( disable), YES ( open). role isCLIENT或Data access protocol isKB_OVER_TCP时, do not send this field
         can_failover: EnableIPAddress drift(Optional, boolean). Options: true, false. Data access protocol isKB_OVER_TCP时, do not send this field
-        failback_mode: Drift-back mode(Optional). Options: not_support (feature not supported), manual ( manual), automatic ( auto). Data access protocol isKB_OVER_TCP时, do not send this field
+        failback_mode: Drift-back mode(Optional). Options: not_support (feature not supported), manual, automatic ( auto). Data access protocol isKB_OVER_TCP时, do not send this field
 
     Returns:
         {

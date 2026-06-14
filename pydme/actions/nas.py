@@ -688,7 +688,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                         fileoperations: Operation type list (Optional). Options: close, create, create_dir, delete, delete_dir, getattr, link, lookup, open, read, write, rename, rename_dir, setattr, symlink,
                      }, ...],
                 fs_id: Filesystem ID (与namespace_id mutually exclusive),
-                namespace_id: Namespace的id (与fs_idmutually exclusive),
+                namespace_id: Namespace ID (mutually exclusive with fs_id),
              }
         task_remarks: Async taskRemark
 
@@ -725,7 +725,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
         client: DME API Client
         nfs_share_id: NFS  share ID
         description: Description
-        character_encoding:  character encoding, Options: utf-8, zh, gbk 等
+        character_encoding:  character encoding (utf-8, zh, gbk, etc.)
         audit_items: Audit event list (Optional). 参数格式如下：[{
                 audititem: Audit event type. Options: none, all (all operations), open, create, read, write, close, delete, rename ( rename), get_security (Get security attribute), set_security (Set security attribute), get_attr (get), set_attr (设置),
              }, ...]
@@ -1875,27 +1875,27 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
                   nfs_count, cifs_count, dpc_count, dtree_count, name, allocate_pool_quota,
                   fs_raw_id, create_time, total_capacity_in_byte, available_capacity_in_byte,
                   alloc_capacity_in_byte, protection_capacity_in_byte, max_file_count, used_file_count
-        name: Filesystem name(Optional) , 1~256  characters, 与 fs_raw_id mutually exclusive,  supportfuzzy match
-        is_associated_qos: Filesystem whether已 associated QoS(Optional) , true: 是; false: 否
+        name: Filesystem name (Optional) , 1~256  characters, mutually exclusive with fs_raw_id,  supportfuzzy match
+        is_associated_qos: Whether filesystem has associated QoS(Optional) , true: yes; false: no
         qos_id: QoS  policy ID(Optional) , 1~256  characters
-        storage_name: FilesystemDevice name(Optional) , 1~256  characters, 与 storage_id mutually exclusive,  supportfuzzy match
+        storage_name: Filesystem device name(Optional) , 1~256  characters, mutually exclusive with storage_id,  supportfuzzy match
         manufacturer: Storage device vendor(Optional) , 1~64  characters; Options: huawei (Huawei) , dell_emc (DELL EMC) , 
                      fujitsu (FUJITSU) , hitachi (Hitachi) , hpe (HPE) , ibm (IBM) , netapp (NetApp) , 
                      pure, panji, third_part (non-Huawei) 
-        storage_pool_name: FilesystemStorage pool name(Optional) , 1~256  characters, 与 storage_pool_id mutually exclusive,  supportfuzzy match
+        storage_pool_name: Filesystem storage pool name(Optional) , 1~256  characters, mutually exclusive with storage_pool_id,  supportfuzzy match
         storage_pool_id: Storage pool ID(Optional) , 1~255  characters, 与 storage_pool_name mutually exclusive
-        tier_name: FilesystemService level name(Optional) , 1~256  characters, 与 tier_id mutually exclusive,  supportfuzzy match
+        tier_name: Filesystem service level name(Optional) , 1~256  characters, mutually exclusive with tier_id,  supportfuzzy match
         tier_id: Service level ID(Optional) , 1~256  characters, 与 tier_name mutually exclusive, exact match
-        vstore_name: Filesystem vStore  name(Optional) , 1~256  characters, 与 vstore_raw_id mutually exclusive,  supportfuzzy match
-        vstore_raw_id: FilesystemTenanton the storage device ID(Optional) , 1~64  characters, 与 vstore_name mutually exclusive
-        project_name: FilesystemProject group name(Optional) , 1~256  characters, 与 project_id mutually exclusive,  supportfuzzy match
-        project_id: Project group ID(Optional) , 1~256  characters, 与 project_name mutually exclusive, exact match
-        storage_id: Storage device ID(Optional) , 1~256  characters, 与 storage_name mutually exclusive, exact match
-        fs_raw_id: Filesystemon the device ID(Optional) , 1~256  characters, 与 name mutually exclusive
+        vstore_name: Filesystem vStore name(Optional) , 1~256  characters, mutually exclusive with vstore_raw_id,  supportfuzzy match
+        vstore_raw_id: Filesystem tenant ID on storage device(Optional) , 1~64  characters, mutually exclusive with vstore_name
+        project_name: Filesystem project group name(Optional) , 1~256  characters, mutually exclusive with project_id,  supportfuzzy match
+        project_id: Project group ID(Optional) , 1~256  characters, mutually exclusive with project_name, exact match
+        storage_id: Storage device ID(Optional) , 1~256  characters, mutually exclusive with storage_name, exact match
+        fs_raw_id: Filesystem ID on device(Optional) , 1~256  characters, mutually exclusive with name
         health_status: Health status(Optional) , Options: normal (normal), faulty (fault), unknown (unknown)
         running_status: Running status(Optional) , Options: online, offline, invalid , 
                        initializing (Initializing) , unknown (unknown)
-        alloc_type: FilesystemAllocation type(Optional) , Options: thin ( thin provisioning) , thick (Fixed allocation) 
+        alloc_type: Filesystem allocation type(Optional) , Options: thin ( thin provisioning) , thick (Fixed allocation) 
         type: Filesystem type(Optional) , Options: normal , worm , 
               migration , container (container app filesystem) , hash , 
               smart_mobility_internal 
@@ -1908,7 +1908,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         tag_filters: Tag filter list(Optional) , List<TagFilters>  type, max array members 11. 参数格式如下：[{
                         tag_ids:  tag ID  list(Optional) , max array members 10, Tags are OR-related,
                         tag_type_id: Tag type ID(Optional) ,  regex ^[a-fA-F0-9]{32}$,
-                        operator:  filter condition (Required) , Options: contain (includes ) , not_contain (不includes ) ,
+                        operator:  filter condition (Required) , Options: contain (includes ) , not_contain (does not include ) ,
         },...]
 
     Returns:
@@ -2102,9 +2102,9 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         vstore_id:  tenant ID(Optional) 
         zone_id:  zone ID(Optional) 
         task_remarks: Async taskRemark(Optional) 
-        gfs_group_id: Global data space的 ID(Optional) 
+        gfs_group_id: Global data space ID(Optional) 
         automatic_update_time: Update access time(Optional) 
-        atime_update_mode: Atime  updateFrequency, hour/day/close(Optional) 
+        atime_update_mode: Atime update frequency, hour/day/close(Optional) 
         schedule_name: Scheduled HyperCDP plan name(Optional) 
         quota_switch: Enable quota(Optional) 
         vaai_switch: VAAI  switch(Optional) 
@@ -2113,12 +2113,12 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         tuning: Tuning parameter (Optional).  parameter format: {
                 deduplication_enabled: EnableDeduplication (Optional, defaultfalse). Options: true, false,
                 compression_enabled: EnableData compression (Optional, defaultfalse). Options: true, false,
-                block_size: Filesystem块 sizeKB (Optional, default64). Options: 4, 8, 16, 32, 64, 128,
+                block_size: Filesystem block size in KB (Optional, default64). Options: 4, 8, 16, 32, 64, 128,
                 allocation_type: Allocation type (Optional, defaultthin). Options: thin, thick,
                 qos_policy_id: QoS policyID (Optional),
                 application_scenario:  App scenario (Optional, defaultuser_defined). Options: database, VM, user_defined, container,
                 workload_type_id: Application typeid (Optional, 1~32 character),
-                dist_alg: FilesystemDirectory dispersion policy (Optional, 仅A800Device support). Options: capacity_balance, subdirectory_round_robin,
+                dist_alg: Filesystem directory dispersion policy (Optional, A800 device only). Options: capacity_balance, subdirectory_round_robin,
                 qos_policy: SmartQosPolicy parameter info (Optional).  format: {
                         max_bandwidth: Max bandwidthMB/s (Optional, 1~999999999),
                         max_iops:  maxiops (Optional, 1~999999999),
@@ -2132,10 +2132,10 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         max_write_bandwidth:  maxWrite bandwidthMB/s (Optional),
                         burst_read_band_width: burstRead bandwidthMB/s (Optional),
                         burst_write_band_width: burstWrite bandwidthMB/s (Optional),
-                        max_read_iops:  max读iops (Optional),
-                        max_write_iops:  max写iops (Optional),
-                        burst_read_iops: burst读iops (Optional),
-                        burst_write_iops: burst写iops (Optional),
+                        max_read_iops:  max read IOPS (Optional),
+                        max_write_iops:  max write IOPS (Optional),
+                        burst_read_iops: burst read IOPS (Optional),
+                        burst_write_iops: burst write IOPS (Optional),
                         schedule_policy: Scheduling policy (Optional). Options: once, daily, weekly,
                         schedule_start_date: Effective start date (Optional,  formatyyyy-MM-dd),
                         start_time: effectiveStart time (Optional,  formathh:mm),
@@ -2148,7 +2148,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         storage_divice_id: Storage deviceid (Optional),
                         name: QoS name (Optional),
                         description:  description (Optional),
-                        iotype: Policy type (Optional). Options: 2 (总upper limit), 3 ( read-writeupper limit),
+                        iotype: Policy type (Optional). Options: 2 (total upper limit), 3 (read-write upper limit),
                         vstore_id: Tenantid (Optional),
                         vstore_name: Tenant name (Optional),
                         global_flag:  whether global (Optional),
@@ -2157,12 +2157,12 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         create_cifs_share_param: Auto-createCIFSShare parameters(Optional) . See action help for format: nas cifs_share create
         create_nfs_share_param: Auto-createNFSShare parameters(Optional) . See action help for format: nas nfs_share create
         create_dpc_share_param: Auto-createDataTurboShare parameters(Optional) . See action help for format: nas dataturbo_share create
-        owning_controller: Controller(Optional) , 2~16 characters,  format如0A, 1B
+        owning_controller: Controller (Optional) , 2~16 characters,  format e.g. 0A, 1B
         snapshot_expired_enabled: Delete old read-only snapshots(Optional) . true/false, default off
         checksum_enabled: Data verification switch(Optional) . true/false, Enabled by default
         ads_enabled: Enable data flow switching(Optional) . true/false, Enabled by default
         security_mode: Security mode(Optional) .  value: mixed/native/ntfs/unix
-        nas_locking_policy: NAS锁 policy(Optional) .  value: mandatory/advisory/unknown
+        nas_locking_policy: NAS locking policy(Optional) .  value: mandatory/advisory/unknown
         capacity_autonegotiation: Capacity adaptive parameter (Optional).  parameter format: {
                 capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off). Options: grow_off ( disable), grow (Auto-expand), grow_shrink ( auto scaling),
                 capacity_recycle_mode: Capacity reclamation mode (Optional, Default: expand first). Options: expand_capacity (Expand first), delete_snapshots (Prefer deleting old snapshots),
@@ -2179,21 +2179,21 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
                 max_protect_period_unit: Max protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
-                def_protect_period: Default protection period (Optional,  not less than min, 不greater than max, default70),
+                def_protect_period: Default protection period (Optional,  not less than min and not greater than max, default70),
                 def_protect_period_unit: Default protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
-                auto_lock: WORMAuto-lock mode (Optional, Enabled by default). Options: true, false,
+                auto_lock: WORM auto-lock mode (Optional, Enabled by default). Options: true, false,
                 auto_lock_time: Auto-lock time (Optional, default2),
                 auto_lock_time_unit: Auto-lock timeunit  (Optional, defaulthour). Options: minute, hour, day, month, year,
-                auto_del: Auto-delete mode (Optional, default off). Options: true, false,
+                auto_del: Auto-delete mode (Optional, default off)). Options: true, false,
                 is_worm_audit_log_fs: WORMAudit logFilesystem (Optional, default off). Options: true, false,
-                worm_append_unit: WORMAppend-only file protection granularity (Optional, 仅advance_mode support). Options: 256KB, 512KB, 1M,
+                worm_append_unit: WORM append-only file protection granularity (Optional, advance mode only). Options: 256KB, 512KB, 1M,
              }
         snapshot_reserved_space_percentage: Snapshot reserved space percentage(Optional) , 0~90
         periodic_snapshots_limit: Periodic snapshot count limit(Optional) , 1~2048
         snapshot_dir_visible: Snapshot directory visibility(Optional) . true/false
         object_service_optimization: object service optimization(Optional) . true/false
         case_sensitive: Case-sensitive mode(Optional) . true/false
-        audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr etc,  max 100
+        audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr, etc.,  max 100
         unix_permissions: Filesystem directory permission(Optional) ,  format e.g. 0755
 
     Returns:
@@ -2280,15 +2280,15 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
                                 page_size: int = 20, sort_key: str = None,
                                 sort_dir: str = None) -> dict:
     """
-    Query available的Filesystem
+    Query available filesystems
 
     Query filesystems available for feature configuration. Currently only supports remote replication. 
 
     Args:
         client: DME API Client
-        feature_type: Feature type, 当前only supports remote_replication (Remote replication) 
+        feature_type: Feature type, currently only supports remote_replication (Remote replication) 
         local_storage_id: local Storage device ID
-        remote_storage_id: remote Storage device ID (当 feature_type 为 remote_replication 时Required) 
+        remote_storage_id: Remote storage device ID (required when feature_type is remote_replication) 
         name: local Filesystem name,  supportfuzzy search
         page_no: Page number, default 1
         page_size: Items per page, default 20
@@ -2349,7 +2349,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         capacity_threshold: Total space capacity alarmthreshold 50-99(Optional) 
         initial_distribute_policy: Initial capacity allocation policy, auto/highest_perf/performance/capacity(Optional) 
         automatic_update_time: Update access time after file read, true enable/false disable(Optional) 
-        atime_update_mode: Atime  updateFrequency, hour (每hour(s)) /day (每day(s)) /close (not enabled) (Optional) 
+        atime_update_mode: Atime update frequency, hour (every hour) /day (every day) /close (not enabled) (Optional) 
         quota_switch: Enable quota, true enable/falsedisabled(Optional) 
         vaai_switch: VAAI  switch, Cannot be disabled once enabled, true enable/falsenot enabled(Optional) 
         owning_controller: Controller, 2~16 characters(Optional) 
@@ -2357,16 +2357,16 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         checksum_enabled: Data verification switch, true enable/false disable(Optional) 
         ads_enabled: Enable data flow switching, true enable/false disable, Cannot be disabled once enabled(Optional) 
         security_mode: Security mode, mixed/native/ntfs/unix(Optional) 
-        nas_locking_policy: NAS锁 policy, mandatory ( mandatory lock) /advisory ( advisory lock) /unknown(Optional) 
+        nas_locking_policy: NAS locking policy, mandatory /advisory /unknown(Optional) 
         snapshot_reserved_space_percentage: Snapshot reserved space percentage, 0~90(Optional) 
         periodic_snapshots_limit: Periodic snapshot count limit, 1~2048(Optional) 
         snapshot_dir_visible: Snapshot directory visibility, true: visible, false: invisible(Optional) 
         tuning: Tuning parameter (Optional).  parameter format: {
                 qos_policy: SmartQosPolicy parameter info (UpdateFileSystemQosPolicyobject).  format: {
-                        max_bandwidth: Max bandwidthMB/s (Optional, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800 not undermutually exclusive),
-                        max_iops: Max IOPS (Optional, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800 not undermutually exclusive),
-                        min_bandwidth: Min bandwidthMB/s (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 not undermutually exclusive),
-                        min_iops: Min IOPS (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 not undermutually exclusive),
+                        max_bandwidth: Max bandwidthMB/s (Optional, 1~999999999; mutually exclusive with min_bandwidth/min_iops, A800 does not support mutual exclusion),
+                        max_iops: Max IOPS (Optional, 1~999999999; mutually exclusive with min_bandwidth/min_iops, A800 does not support mutual exclusion),
+                        min_bandwidth: Min bandwidthMB/s (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 does not support mutual exclusion),
+                        min_iops: Min IOPS (Optional, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800 does not support mutual exclusion),
                         burst_band_width: Burst bandwidthMB/s (Optional, 1~999999999),
                         burst_iops: burstIOPS (Optional, 1~999999999),
                         burst_time: Max burst timesecond(s) (Optional, 1~999999999),
@@ -2387,20 +2387,20 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         alarm_switch: Upper limit alarm switch (Optional). Options: off, on,
                         alarm_level: Upper limit alarm severity (Optional). Options: event, alarm,
                         alarm_threshold: Upper limit alarm threshold % (Optional, 0~100),
-                        resume_threshold: 限高Alarm recoverythreshold% (Optional, 0~100),
+                        resume_threshold: Upper limit alarm recovery threshold% (Optional, 0~100),
                         storage_divice_id: Storage device ID (Optional, 1~64 character),
                         name: QoS name (Optional, 1~255 character; A800unused under),
                         description: QoS description (Optional, 1~255 character; A800unused under),
-                        iotype: Policy type (Optional). Options: 2 ( total performanceupper limit), 3 ( read-writeupper limit; only supported by some devices),
+                        iotype: Policy type (Optional). Options: 2 ( total performanceupper limit), 3 (read-write upper limit; only supported by some devices),
                         vstore_id: Tenant ID (Optional, 1~64 character; A800unused under),
                         vstore_name: Tenant name (Optional, 1~64 character; A800unused under),
                         global_flag:  whether global (Optional; Current version only supports global; A800unused under),
-                        qos_policy_id: QoS policyID (Optional, 0~64 character; 与除enabledother parameters exceptmutually exclusive),
+                        qos_policy_id: QoS policyID (Optional, 0~64 character; mutually exclusive with all parameters except enabled),
                         enabled: EnableQoSPolicy (Optional, defaultfalse),
                 },
                 deduplication_enabled: Deduplication (Optional, default off),
                 compression_enabled: Data compression (Optional, default off),
-                allocation_type: FilesystemAllocation type (Optional, defaultthin). Options: thin (精简), thick (厚),
+                allocation_type: Filesystem allocation type (Optional, defaultthin). Options: thin, thick,
              }
         capacity_autonegotiation: Capacity adaptive parameter (Optional).  parameter format: {
                 capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off). Options: grow_off ( disable), grow (Auto-expand), grow_shrink ( auto scaling),
@@ -2420,15 +2420,15 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 max_protect_period_unit: Max protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 def_protect_period: Default protection period (Optional, 0~4294967295, default70; not less than min and not greater than max),
                 def_protect_period_unit: Default protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
-                auto_lock: WORMAuto-lock mode (Optional, Enabled by default; advance_mode不 support). Options: true, false,
+                auto_lock: WORM auto-lock mode (Optional, Enabled by default; advance_mode not supported). Options: true, false,
                 auto_lock_time: Auto-lock time (Optional, min1, default2),
                 auto_lock_time_unit: Auto-lock timeunit  (Optional, defaulthour). Options: minute, hour, day, month, year,
-                auto_del: Auto-delete mode (Optional, default off; advance_mode不 support). Options: true, false,
+                auto_del: Auto-delete mode (Optional, default off); advance_mode not supported). Options: true, false,
                 is_worm_audit_log_fs: WORMAudit logFilesystem (Optional, default off; One tenant can only have one),
-                worm_append_unit: WORMAppend-only file protection granularity (Optional, 仅advance_mode support). Options: 256KB, 512KB, 1M,
+                worm_append_unit: WORM append-only file protection granularity (Optional, advance mode only). Options: 256KB, 512KB, 1M,
              }
         task_remarks: Async taskRemark, 0~1024 characters(Optional) 
-        audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr etc,  max 100
+        audit_log_rules: Audit log rule set(Optional) , 如: set_security, get_security, set_attr, get_attr, etc.,  max 100
         unix_permissions: Filesystem directory permission(Optional) ,  format e.g. 0755
 
     Returns:
@@ -2524,23 +2524,23 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         sort_key: Sort key(Optional) , Options: namespace_used_rate, file_used_rate
         name: Namespace name(Optional) , 1~256  characters,  supportfuzzy search
         vstore_name: NamespaceTenant name(Optional) , 1~256  characters,  supportfuzzy search
-        vstore_raw_id: Namespace vStore 在Storage deviceassigned on ID(Optional) , 1~128  characters
-        vstore_id: Namespace vStore 的 ID(Optional) , 1~128  characters
+        vstore_raw_id: Namespace vStore assigned ID on storage device(Optional) , 1~128  characters
+        vstore_id: Namespace vStore ID(Optional) , 1~128  characters
         raw_id: Namespaceon the storage device ID(Optional) , 1~256  characters
         pool_name: Storage pool name(Optional) , 1~256  characters,  supportfuzzy search
         storage_id: Storage device ID(Optional) , 1~255  characters
-        enable_encrypt: Enable encryption(Optional) , true: 是; false: 否
-        support_provisioning: supportsService provisioning(Optional) , true: 是; false: 否; send this field to filter unsupportedService provisioning device的 resource,  currently not supportService provisioning的 device有 DataTurbo 系列
+        enable_encrypt: Enable encryption (Optional) , true: yes; false: no
+        support_provisioning: supportsService provisioning(Optional) , true: yes; false: no; send this field to filter unsupportedService provisioning device的 resource,  currently not supportService provisioning的 device有 DataTurbo 系列
         gfs_id: Global namespace ID(Optional) , 1~64  characters
         gfs_name:  globalNamespace name(Optional) , 1~256  characters
-        has_gfs: IncludeGlobal namespace的Namespace(Optional) , true: 是; false: 否; has_gfs 为 false not supported when gfs_id
+        has_gfs: Include global namespace namespaces(Optional) , true: yes; false: no; has_gfs=false not supported when gfs_id is set
     
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
         }, includes : 
         - total: Namespacecount
-        - namespace_list: Namespace list, includes  id, raw_id, name, storage_id, vstore_id 等 info
+        - namespace_list: Namespace list, includes id, raw_id, name, storage_id, vstore_id 等 info
     """
     url = "/rest/fileservice/v1/namespaces/query"
     
@@ -2604,7 +2604,7 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - running_status: Running status (NORMAL/UNKNOWN) 
         - space_used_rate: Space usage ratio
         - file_used_rate: File usage ratio
-        - space_used: 已 use空间
+        - space_used: used space
         - file_used: Used file count
         - trash_enable: Enable recycle bin
         - enable_encrypt: Enable encryption
@@ -2644,16 +2644,16 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         namespace_specs: Namespacebatch parameter. 参数格式如下：[{
                 name:  name (Required, 1~255 character, supports letters, digits, underscores.-),
                 count: count (Required, 1~500),
-                start_suffix: Starting suffix number (Optional, 0~9999; 起始 suffix+count<=9999),
-                isInGfs:  whether在Global namespace中 (Optional). Options: true, false,
+                start_suffix: Starting suffix number (Optional, 0~9999; start suffix + count <= 9999),
+                isInGfs:  whether in global namespace (Optional). Options: true, false,
              }, ...]
-        enable_update_atime:  whether update Atime
+        enable_update_atime:  Whether to update atime
         trash_visible: Recycle bin directory visibility, default invisible
         trash_enable: Recycle bin enabled, defaultdisabled
-        interval_trash: Recycle bin retention period (minute(s)) , 0 Indicates permanent retention,  max 4294967295
+        interval_trash: Recycle bin retention period (minute(s)) , 0 = permanent retention,  max 4294967295
         dps_switch: Metadata search switch, true  enable
-        forbidden_dpc:  whether禁止 dpc 挂载
-        audit_log_switch: EnableAudit log, default off
+        forbidden_dpc:  whether to prohibit DPC mounting
+        audit_log_switch: Enable audit log, default off
         audit_log_rule: Audit log rule list, Options: open, create, read, write, close, 
                        delete, rename, get_attr, set_attr, get_security, set_security,
                        get_xattr, set_xattr, list_dir, contact, mount_or_unmount, login_or_logoff
@@ -2673,66 +2673,66 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 def_protect_period: Default protection period (Optional, 0~4294967295, default70),
                 def_protect_period_unit: defaultretention periodunit  (Optional, defaultyear). Options: day, year, month, hour, minute, infinite,
                 auto_lock_enabled: WORMAuto-lock (Optional, defaultfalse). Options: true, false,
-                auto_lock_time: Auto-lock time (Optional, 1~64800, default2; unit day时1~45, hour时1~1080, minute时1~64800),
+                auto_lock_time: Auto-lock time (Optional, 1~64800, default2; when unit is day: 1-45, when hour: 1-1080, when minute: 1-64800),
                 auto_lock_unit: Auto-lock timeunit  (Optional, defaulthour). Options: day, minute, hour,
                 legal_hold_modify: Legal hold file retention period modification switch (Optional, defaultfalse). Options: true, false,
              }
         qos_policy: QoS Policy configuration.  parameter format: {
                 qos_scale: upper limit control维度 (Required). Options: namespace, client, account, user, innertask,
                 name: QoS policy name (Optional, 1~63 character,  regex^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit),
-                qos_mode: QoS mode (Required). Options: by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
-                account_raw_id: 帐户on the storage deviceid (Optional, 0~4294967293; 当qos_scale为namespace/account/user时Required),
-                package_size: package capacityGB (Optional, 0~94371840; 当qos_mode为by_package时Required),
+                qos_mode: QoS mode (Required). Options: by_usage, by_package, manual,
+                account_raw_id: Account ID on storage device (Optional, 0~4294967293; 当qos_scale为namespace/account/user时Required),
+                package_size: Package capacity in GB (Optional, 0~94371840; when qos_mode is by_package时Required),
                 max_iops: IOPSupper limit (Optional, 0~1073741824000; Batch createwhen namespaceRequired),
-                max_mbps:  bandwidthupper limitMbps (Optional, 0~1073741824; 当qos_mode为manual时Required),
+                max_mbps:  Bandwidth upper limit in Mbps (Optional, 0~1073741824; 当qos_mode为manual时Required),
                 max_band_width: Max bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                basic_band_width: base bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                basic_band_width: Base bandwidth in Mbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+                bps_density: Bandwidth density in Mbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (Optional),
                 max_lock_cluster: max lockcount (Optional),
                 max_open_file_cluster: Max open file count (Optional),
-                read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+                read_ops: Read OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                write_ops: Write OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                read_mbps: Read bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
+                write_mbps: Write bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
              }
-        public_network_qos_policy: 公网 QoS Policy configuration.  parameter format: {
+        public_network_qos_policy: Public network QoS policy.  parameter format: {
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
-                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage (by used amount) , by_package (by fixed capacity) , manual (按upper limit) ; Batch createwhen namespaceRequired, non- when modifyingRequired,
+                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
-                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 required when qos_mode is manual,
+                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                bps_density: Bandwidth density in Mbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (Optional),
                 max_lock_cluster: max lockcount (Optional),
                 max_open_file_cluster: Max open file count (Optional),
-                read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+                read_ops: Read OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                write_ops: Write OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                read_mbps: Read bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
+                write_mbps: Write bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
              }
-        private_network_qos_policy: 私网 QoS Policy configuration.  parameter format: {
+        private_network_qos_policy: Private network QoS policy.  parameter format: {
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
-                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage (by used amount) , by_package (by fixed capacity) , manual (按upper limit) ; Batch createwhen namespaceRequired, non- when modifyingRequired,
+                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
-                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 required when qos_mode is manual,
+                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                bps_density: Bandwidth density in Mbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (Optional),
                 max_lock_cluster: max lockcount (Optional),
                 max_open_file_cluster: Max open file count (Optional),
-                read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+                read_ops: Read OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                write_ops: Write OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                read_mbps: Read bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
+                write_mbps: Write bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
              }
         create_s3_param: create  S3  protocol parameter (Optional).  parameter format: {
                 bucket_permission: Policy type (Required). Options: private (私有), public_read_only ( public read), public_write_only ( public write), public_read_write (Public read/write),
-                version_status: object多 version status (Optional, 0~2). Options: 0 ( disable), 1 ( open), 2 ( pause),
+                version_status: Object multi-version status (Optional, 0~2). Options: 0 (disable), 1 (open), 2 (pause),
              }
         application_type: Application type, Options: PACS (Medical imaging scenario) , GENERAL ( general scenario) 
         task_remarks: Async taskRemark
@@ -2816,76 +2816,76 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
     Args:
         client: DME API Client
         namespace_id: Namespace ID (Required, 1~64  characters) 
-        enable_update_atime:  whether update Atime, true:  update; false: 不 update
-        show_snap_dir: Snapshot directory visibility, true: 可见; false:  invisible
-        trash_visible: Recycle bin directory visibility, true: 可见; false:  invisible, default invisible
+        enable_update_atime:  Whether to update atime, true: update; false: no update
+        show_snap_dir: Snapshot directory visibility, true: visible; false: invisible
+        trash_visible: Recycle bin directory visibility, true: visible; false: invisible, default invisible
         trash_enable: Recycle bin enabled, true:  enable; false: disabled, defaultdisabled
-        interval_trash: Recycle bin retention period (minute(s)) , 0 Indicates permanent retention, 不 autodelete ,  max 4294967295
-        dps_switch: Metadata search switch, true:  enable; false:  disable
-        forbidden_dpc:  whether禁止 dpc 挂载, true: 禁止; false:  not prohibited
-        audit_log_switch: EnableAudit log, 缺省 disable, true:  enable; false:  disable
+        interval_trash: Recycle bin retention period (minute(s)) , 0 = permanent retention, no auto-delete ,  max 4294967295
+        dps_switch: Metadata search switch, true: enable; false: disable
+        forbidden_dpc:  whether to prohibit DPC mounting, true: 禁止; false:  not prohibited
+        audit_log_switch: Enable audit log, default disabled, true: enable; false: disable
         audit_log_rule: Audit log rule list, Options: open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
                        list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime  updateFrequency, 4294967295:  disable update; 3600: 1 hour(s) update; 86400: 1 day(s) update
-        acl_policy_type: NamespaceSecurity mode, Options: mixed ( simultaneously support UNIX 和 Windows  permission) , 
+        acl_policy_type: Namespace security mode, Options: mixed ( simultaneously supports UNIX and Windows permissions) , 
                         unix ( applicable to NFS User permissions determined by Unix Mode/NFSv4 ACL  permission control) , 
-                        native (与 Mixed Mode applicable to same scenario) , 
+                        native (mixed mode applicable to same scenario) , 
                         ntfs ( applicable to CIFS User permissions determined by Windows NT ACL  permission control) 
-        enable_encrypt: Enable encryption, true:  enable; false:  disable
+        enable_encrypt: Enable encryption, true: enable; false: disable
         qos_policy: QoS Policy configuration.  parameter format: {
                 qos_switch: QoS switch (Required). Options: on, off,
                 name: QoS policy name (Optional, 1~63 character,  regex^[a-zA-Z0-9][a-zA-Z0-9_-]*),
-                qos_mode: QoS mode ( conditionRequired). Options: by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
-                package_size: package capacityGB (Optional, 0~94371840; 当qos_mode为by_package时Required),
+                qos_mode: QoS mode ( conditionRequired). Options: by_usage, by_package, manual,
+                package_size: Package capacity in GB (Optional, 0~94371840; when qos_mode is by_package时Required),
                 max_iops: IOPSupper limit ( conditionRequired, 0~1073741824000),
-                max_mbps:  bandwidthupper limitMbps (Optional, 0~1073741824; 当qos_mode为manual时Required),
+                max_mbps:  Bandwidth upper limit in Mbps (Optional, 0~1073741824; 当qos_mode为manual时Required),
                 max_band_width: Max bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                basic_band_width: base bandwidthMbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
-                bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                basic_band_width: Base bandwidth in Mbps (Optional, 1~1073741824; 当qos_mode为by_usage或by_package时Required),
+                bps_density: Bandwidth density in Mbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (Optional),
                 max_lock_cluster: max lockcount (Optional),
                 max_open_file_cluster: Max open file count (Optional),
-                read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+                read_ops: Read OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                write_ops: Write OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                read_mbps: Read bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
+                write_mbps: Write bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
              }
-        public_network_qos_policy: 公网 QoS Policy configuration.  parameter format: {
+        public_network_qos_policy: Public network QoS policy.  parameter format: {
                         qos_switch: QoS  switch (Required) , Options: on, off,
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
-                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage (by used amount) , by_package (by fixed capacity) , manual (按upper limit) ; Batch createwhen namespaceRequired, non- when modifyingRequired,
+                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
-                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 required when qos_mode is manual,
+                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                bps_density: Bandwidth density in Mbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (Optional),
                 max_lock_cluster: max lockcount (Optional),
                 max_open_file_cluster: Max open file count (Optional),
-                read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+                read_ops: Read OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                write_ops: Write OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                read_mbps: Read bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
+                write_mbps: Write bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
              }
-        private_network_qos_policy: 私网 QoS Policy configuration.  parameter format: {
+        private_network_qos_policy: Private network QoS policy.  parameter format: {
                         qos_switch: QoS  switch (Required) , Options: on, off,
                         name: QoS Policy name(Optional) , 1~63  characters, regex ^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit,
-                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage (by used amount) , by_package (by fixed capacity) , manual (按upper limit) ; Batch createwhen namespaceRequired, non- when modifyingRequired,
+                        qos_mode: QoS  mode ( conditionRequired) , Options: by_usage , by_package , manual ; Batch createwhen namespaceRequired, non- when modifyingRequired,
                         package_size: package capacity(Optional) , 0~94371840 (GB) , 当 qos_mode 为 by_package 时Required,
                         max_iops: IOPS upper limit ( conditionRequired) , 0~1073741824000, Batch createwhen namespaceRequired, non- when modifyingRequired,
-                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 qos_mode 为 manual 时Required,
-                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 qos_mode 为 by_usage 或 by_package 时Required,
-                bps_density: bandwidth densityMbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
+                        max_mbps:  bandwidthupper limit(Optional) , 0~1073741824 (Mbps) , 当 required when qos_mode is manual,
+                        max_band_width: Max bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                        basic_band_width: base bandwidth(Optional) , 1~1073741824 (Mbps) , 当 required when qos_mode is by_usage or by_package,
+                bps_density: Bandwidth density in Mbps (Optional, 1~1024000; 当qos_mode为by_usage或by_package时Required),
                 max_conn_cluster: Max connections (Optional),
                 max_lock_cluster: max lockcount (Optional),
                 max_open_file_cluster: Max open file count (Optional),
-                read_ops: 读OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_ops: 写OPS limit (Optional, 0~1073741824000; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
-                write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
+                read_ops: Read OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                write_ops: Write OPS limit (Optional, 0~1073741824000; only required when qos_mode is manual and qos_scale is not account),
+                read_mbps: Read bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
+                write_mbps: Write bandwidth limit in Mbps (Optional, 0~1073741824; only required when qos_mode is manual and qos_scale is not account),
              }
         application_type: Application type, Options: PACS (Medical imaging scenario) , GENERAL ( general scenario) 
         task_remarks: Async taskRemark
@@ -3214,7 +3214,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         name: User group name,  supportfuzzy search filter (1~256 characters, Optional)
         raw_id: User groupon the storage device ID (1~256 characters, Optional)
         zone_id: Zone ID (1~64 characters, Optional). 仅 OceanStor A800 auth under storageUser groupsupports filtering by this field
-        sort_key: sort by specified field (Optional). Options: name (User group名), raw_id (User groupon the storage device ID), create_time (Creation time). Default: create_time
+        sort_key: sort by specified field (Optional). Options: name (User group name), raw_id (User groupon the storage device ID), create_time (Creation time). Default: create_time
         storage_id: Storage device ID (1~36 characters, Optional)
         sort_dir:  specifiedSort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
 

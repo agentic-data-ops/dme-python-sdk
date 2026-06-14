@@ -197,7 +197,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         rem_reps: request parameter for adding LUN to replication-capable protection group (Optional) , max array members 2, mutually exclusive with lun_ids parameter; Protection group exists replicationparameter effective when feature.  format: [{
                         is_delay: Deferred execution (Optional) , default true; true: yes; false: no; when deferred execution is true: if new pair is syncing,  will waitSyncafter completion, new Pair  joinConsistency group; when deferred execution is false 时:  directlySplitConsistency group和新 Pair, 将新 Pair  joinConsistency group, 再SyncConsistency group
                         create_mode: Remote replication pair creation mode (Required) , Options: auto, manual
-                        remote_storage_id: remote Storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
+                        remote_storage_id: Remote storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; replication pair creation modee为 auto effective when
                         remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local (same as local resource name), prefix_and_suffixix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix+ auto序号) ; effective in auto-create mode
                         name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffixix 或 prefix_and_num effective when; prefix_and_suffixix max prefix length 32  byte, prefix_and_num max prefix length 251  byte
@@ -385,7 +385,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         group_id: Active-active consistency group ID
         name: Active-active consistency group name
         description: Description
-        recovery_policy: Active-active Pair Recovery policy, Optional值: automatic ( auto) , manual ( manual) 
+        recovery_policy: Active-active Pair Recovery policy, Optional值: automatic ( auto) , manual 
         service_assurance_policy: Service assurance policy, Optional值: data_reliability_preferred (Data reliability first) , service_continuity_preferred (Business continuity priority) 
         speed: Sync rate, Optional值: low, medium, high, highest, custom
         bandwidth: Custom sync rate (MB/s) , 当 speed 为 custom 时Required
@@ -1003,7 +1003,7 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         client: DME API client
         local_storage_id: local Storage device ID
         local_lun_id: local  LUN ID
-        remote_storage_id: remote Storage device ID
+        remote_storage_id: Remote storage device ID
         remote_storage_pool_id: Remote storage pool ID
         remote_vstore_id: Remote device tenant ID
         remote_resource_name_rule: Remote resource naming policy, Optional值: same_as_local, prefix_and_suffixix, prefix_and_num
@@ -1762,12 +1762,12 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
     Args:
         client: DME API client
         cg_name: Remote replicationConsistency group name
-        remote_storage_id: remote Storage device ID
+        remote_storage_id: Remote storage device ID
         local_pg_id: local Protection group ID, 当Storage device version是 OceanStor V6, OceanStor Dorado V6 required when
         description: Description
         remote_lun_group_id: remote  LUN 组 ID, 当Storage device version是 OceanStor V6, OceanStor Dorado V6 时且local Protection group is based on LUN 组create 的required when
         local_storage_id: local Storage device ID, 当Storage device version不是 OceanStor V6, OceanStor Dorado V6 required when
-        create_mode: replication pair creation modee, Optional值: auto ( auto) , manual ( manual) 
+        create_mode: replication pair creation modee, Optional值: auto , manual 
         existed_pair_ids: Existing replication Pair  ID  list
         lun_pairs: In manual create mode,  replication Pair 的源 LUN,  target LUN ID list
         lun_ids: In auto-create mode, 源 LUN ID list
@@ -2084,7 +2084,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
     Args:
         client: DME API client
         vstore_pair_id: Active-active tenantPair ID (Required, string, 1~32 characters)
-        create_mode: creation mode (Optional, string). Optional值: manual ( manual). Default: manual
+        create_mode: creation mode (Optional, string). Optional值: manual. Default: manual
         fs_pairs: FilesystemPair list (Optional, List[FsPairInstance], max array members: 100)
         speed: Sync rate (Optional, string). Optional值: low, medium, high, highest, custom
         bandwidth:  bandwidth (Optional, integer, 1~1024). 当speed为custom时Required
@@ -2424,7 +2424,7 @@ def vstore_pair_create(client: DMEAPIClient, local_storage_id: str,
     Args:
         client: DME API client
         local_storage_id: local Storage device ID (Required, string)
-        remote_storage_id: remote Storage device ID (Required, string)
+        remote_storage_id: Remote storage device ID (Required, string)
         name:  tenantPair name (Optional, string)
         description:  description (Optional, string)
         remote_vstore_id: remote Tenant ID (Optional, string)
@@ -2468,7 +2468,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
         name:  name (Optional, string)
         status:  status (Optional, string)
         local_storage_id: local Storage device ID (Optional, string)
-        remote_storage_id: remote Storage device ID (Optional, string)
+        remote_storage_id: Remote storage device ID (Optional, string)
         health_status: Health status (Optional, string)
         running_status: Running status (Optional, string)
         page_no: Page number (Optional, int32)
