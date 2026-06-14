@@ -758,7 +758,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 nfs_share_client_id_in_storage: Client on storageID (Required, 1~32 character),
                 name: ClientIPor hostname or netgroup name (Optional, 1~32000 character),
              }, ...]
-        file_name_ex_filters: 扩展名Filter rule list (Optional)。 parameter format：[{
+        file_name_ex_filters:  extensionFilter rule list (Optional)。 parameter format：[{
                 update_type: Change type (Optional, defaultadd)。Options：add ( add), delete (delete ), modify (modify ),
                 param: Extension filter rule。 format：{
                         file_name_ex_id_in_storage: rule on storageID (Optional, 1~64 character, modify 时Required),
@@ -1092,7 +1092,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                         ip_addresses_or_segments: IP address(段) (Optional, 1~128 character,  max32条),
                 }
              }, ...]
-        file_name_ex_filters: 扩展名Filter rule list (Optional)。 parameter format：[{
+        file_name_ex_filters:  extensionFilter rule list (Optional)。 parameter format：[{
                 update_type: Change type (Optional, defaultadd)。Options：add ( add), delete (delete ), modify (modify ),
                 param: Extension filter ruleobject (Optional)。 format：{
                         file_name_ex_id_in_storage: rule on storageID (Optional, 1~64 character, when changing added rulesRequired),
@@ -2164,7 +2164,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         security_mode: Security mode(Optional）。 value：mixed/native/ntfs/unix
         nas_locking_policy: NAS锁 policy(Optional）。 value：mandatory/advisory/unknown
         capacity_autonegotiation: Capacity adaptive parameter (Optional)。 parameter format：{
-                capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink ( auto扩缩容),
+                capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink ( auto scaling),
                 capacity_recycle_mode: Capacity reclamation mode (Optional, Default: expand first)。Options：expand_capacity (Expand first), delete_snapshots (Prefer deleting old snapshots),
                 auto_size_enable: Auto capacity adjustment switch (Optional, defaulttrue)。Options：true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85),
@@ -2357,7 +2357,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         checksum_enabled: Data verification switch，true enable/false disable(Optional）
         ads_enabled: Enable data flow switching，true enable/false disable，Cannot be disabled once enabled(Optional）
         security_mode: Security mode，mixed/native/ntfs/unix(Optional）
-        nas_locking_policy: NAS锁 policy，mandatory（强制锁）/advisory（建议锁）/unknown(Optional）
+        nas_locking_policy: NAS锁 policy，mandatory（ mandatory lock）/advisory（ advisory lock）/unknown(Optional）
         snapshot_reserved_space_percentage: Snapshot reserved space percentage，0~90(Optional）
         periodic_snapshots_limit: 定时 snapshotcount limit，1~2048(Optional）
         snapshot_dir_visible: Snapshot directory visibility，true可见/false invisible(Optional）
@@ -2391,7 +2391,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         storage_divice_id: Storage device ID (Optional, 1~64 character),
                         name: QoS name (Optional, 1~255 character; A800unused under),
                         description: QoS description (Optional, 1~255 character; A800unused under),
-                        iotype: Policy type (Optional)。Options：2 (总性能upper limit), 3 (读写upper limit; only supported by some devices),
+                        iotype: Policy type (Optional)。Options：2 ( total performanceupper limit), 3 (读写upper limit; only supported by some devices),
                         vstore_id: Tenant ID (Optional, 1~64 character; A800unused under),
                         vstore_name: Tenant name (Optional, 1~64 character; A800unused under),
                         global_flag:  whether global (Optional; Current version only supports global; A800unused under),
@@ -2403,7 +2403,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 allocation_type: FilesystemAllocation type (Optional, defaultthin)。Options：thin (精简), thick (厚),
              }
         capacity_autonegotiation: Capacity adaptive parameter (Optional)。 parameter format：{
-                capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink ( auto扩缩容),
+                capacity_self_adjusting_mode: Auto capacity adjustment mode (Optional, default off)。Options：grow_off ( disable), grow (Auto-expand), grow_shrink ( auto scaling),
                 capacity_recycle_mode: Capacity reclamation mode (Optional, Default: expand first)。Options：expand_capacity (Expand first), delete_snapshots (Prefer deleting old snapshots),
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open)。Options：true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
@@ -2530,7 +2530,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
         pool_name: Storage pool name(Optional），1~256  characters， supportfuzzy search
         storage_id: Storage device ID(Optional），1~255  characters
         enable_encrypt: Enable encryption(Optional），true：是；false：否
-        support_provisioning: supportsService provisioning(Optional），true：是；false：否；send this field to filter unsupportedService provisioning device的 resource，当前不 supportService provisioning的 device有 DataTurbo 系列
+        support_provisioning: supportsService provisioning(Optional），true：是；false：否；send this field to filter unsupportedService provisioning device的 resource， currently not supportService provisioning的 device有 DataTurbo 系列
         gfs_id: Global namespace ID(Optional），1~64  characters
         gfs_name:  globalNamespace name(Optional），1~256  characters
         has_gfs: IncludeGlobal namespace的Namespace(Optional），true：是；false：否；has_gfs 为 false not supported when gfs_id
@@ -2606,7 +2606,7 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - file_used_rate: File usage ratio
         - space_used: 已 use空间
         - file_used: Used file count
-        - trash_enable: Enable回收站
+        - trash_enable: Enable recycle bin
         - enable_encrypt: Enable encryption
         - rdc: Data redundancy copies
         - acl_policy_type: Security mode
@@ -2731,7 +2731,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
              }
         create_s3_param: create  S3  protocol parameter (Optional)。 parameter format：{
-                bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only ( public write), public_read_write (Public read/write),
+                bucket_permission: Policy type (Required)。Options：private (私有), public_read_only ( public read), public_write_only ( public write), public_read_write (Public read/write),
                 version_status: object多 version status (Optional, 0~2)。Options：0 ( disable), 1 ( open), 2 ( pause),
              }
         application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（ general scenario）
@@ -3512,7 +3512,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
         kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required)。 parameter format：[{
                 name: KV Cache 库 name (1~255 characters, Required),
-                capacity: KV Cache 库 capacity (int64, 20971520~70368744177664, unit : 扇区数, 1扇区=512 byte, Required),
+                capacity: KV Cache 库 capacity (int64, 20971520~70368744177664, unit :  sector count, 1扇区=512 byte, Required),
                 description: Description (1~255 characters, Optional),
                 count: Batch create KV Cache 库的count (int32, 1~100, Default: 1, Optional),
                 start_suffix: Starting suffix number (int32, 0~9999, Optional。Starting suffix number+KV Cache库count<=9999),
@@ -3630,7 +3630,7 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         page_no: Page number (int32, 1~10000, Default: 1, Optional)
         page_size: Items per page (int32, 1~100, Default: 20, Optional)
         sort_dir:  specifiedSort direction (Optional)。Options：asc (ascending), desc (descending)。Default：asc
-        sort_key: Sort key (Optional)。Options：capacity (Total capacity), used_capacity (Used capacity), used_tokens (已 use的 token count), hit_ratio (命中率)
+        sort_key: Sort key (Optional)。Options：capacity (Total capacity), used_capacity (Used capacity), used_tokens (已 use的 token count), hit_ratio ( hit ratio)
 
     Returns:
         KV Cache 库 list

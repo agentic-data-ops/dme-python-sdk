@@ -364,7 +364,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         total_pool_capacity: Available capacity (Optional, 0~2147483647, unit MB)。
         used_capacity: Used capacity (Optional, 0~2147483647, unit MB)。
         free_capacity: Free capacity (Optional, 0~2147483647, unit MB)。
-        subscription_capacity: 已订阅 capacity (Optional, 0~2147483647, unit MB)。
+        subscription_capacity:  subscribed capacity (Optional, 0~2147483647, unit MB)。
         tag_ids:  tagID list (Optional, List<string>, max array members: 10, min array members: 0)。
     
     Returns:
@@ -641,7 +641,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         name: Disk name (Optional, 1~256 characters)。
         slot_number: Slot number，location (Optional, 1~256 characters)。supports fuzzy search。
         bom_id: BOM ID (Optional, 1~256 characters)。
-        health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link (单链路), no_redundant_link ( no redundant link), subhealthy ( sub-health), offline (offline)。
+        health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link ( single link), no_redundant_link ( no redundant link), subhealthy ( sub-health), offline (offline)。
         physical_type: Disk type (Optional)。Options：unknown (unknown), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
         new_physical_type: 真实的Disk type (Optional)。Options：SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD。
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB)。
@@ -779,7 +779,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 num_data_units: EC data块count (integer)，only when redundancy policy iseceffective when,
                 num_fault_tolerance: ECAllowed faulty node count (integer)，only when redundancy policy iseceffective when,
                 num_parity_units: EC校验块count (integer)，only when redundancy policy iseceffective when,
-                cache_media_type: Storage pool缓存 type。Options：ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘), none (无缓存)。仅FusionStorage、OceanStor 100D、OceanStor A310和OceanStor Pacificseries device support,
+                cache_media_type: Storage pool缓存 type。Options：ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘), none ( no cache)。仅FusionStorage、OceanStor 100D、OceanStor A310和OceanStor Pacificseries device support,
                 zone_id: Zone的ID (1~64 characters)，仅OceanStor A800series storage only,
                 zone_ip: Zone的IP (1~256 characters)，仅OceanStor A800series storage only,
                 zone_name: Zone name (1~256 characters)，仅OceanStor A80series storage only,
@@ -905,7 +905,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         mgmt_ip: Node managementIP address(Optional，1~256 characters），supports fuzzy search（case-insensitive）
         frame_number: 机柜/机架号(Optional，1~256 characters），supports fuzzy search（case-insensitive）
         slot_number: 槽位/机架内Slot number(Optional，1~256 characters），supports fuzzy search（case-insensitive）
-        status: Node status(Optional). Options：UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND (有坏块), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT (无输入), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT (单链路 fault)
+        status: Node status(Optional). Options：UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND ( bad block), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT ( inconsistent), BUSY (繁忙), NO_INPUT ( no input), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT ( single link fault)
         roles:  nodeRole list(Optional，List<string>，max array members：10). Options：management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
         page_no: Page number(Optional，1~10000，default 1）
         page_size: Page size(Optional，1~1000，default 20）
@@ -979,7 +979,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     Args:
         client: DME API client
         storage_id: Storage deviceID（Required，1~64 characters）
-        health_status: Health status(Optional). Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent ( inconsistent), no_input (无输入)
+        health_status: Health status(Optional). Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent ( inconsistent), no_input ( no input)
         running_status: Running status(Optional). Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline)
         power_type: Power supply type(Optional). Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply)
         power_mode: Power supply mode(Optional). Options：balanced_power (均衡Power supply), active_power (主Power supply), standby_power (备Power supply)
@@ -997,7 +997,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
             storage_powers: Power list (List<StoragePowerInfo>)。 parameter format：[{
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
-                health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent ( inconsistent), no_input (无输入),
+                health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), inconsistent ( inconsistent), no_input ( no input),
                 running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline),
                 power_type: Power supply type。Options：dc (直流Power supply), ac (交流Power supply), hv (高压直流Power supply),
                 model:  model (1~255 characters),
@@ -1488,9 +1488,9 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
     Args:
         client: DME API client
         initiator_id: Initiator ID (Required)
-        vstore_id: Tenant ID (Optional, 1~64 characters;  device为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上effective when)
+        vstore_id: Tenant ID (Optional, 1~64 characters;  device为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3 and aboveeffective when)
         alias: Initiator alias (Optional, 0~31 characters, supports alphanumeric._-and Chinese characters)
-        multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01及以上 support)。 format：{
+        multi_path: ModifyMultiPathRequestParamobject (Optional;  device为OceanStor V300R003C20/V500R007C20/Dorado V300R001C01 and above support)。 format：{
                 multi_path_type: InitiatorMultipath type (Optional)。Options：default (default), third_party (Third-party multipath),
                 path_type: Initiator路径 type (conditionally required, 当multi_path_type为third_partyrequired when)。Options：optimal_path (Preferred path), non_optimal_path (非Preferred path),
                 failover_mode: Initiator switch mode (conditionally required, 当multi_path_type为third_partyrequired when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
@@ -2326,7 +2326,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON ( powering on), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
+                running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
                 operational_status: Active status。Options：ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2341,7 +2341,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
                 current_port_name: Logic portcurrent physicalPort name (1~255 characters),
                 role:  port role (1~10 characters)。Options：0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 ( replication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
-                ddns_status: 动态DNS enable status。Options：INVALID (无效的), ENABLE ( enable), DISABLED (not enabled),
+                ddns_status: 动态DNS enable status。Options：INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
                 failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
                 failover_group_name: Failover group name (1~255 characters),
                 support_protocol: Logic portSupported data access protocols。Options：NONE (无 protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
@@ -2405,7 +2405,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             id:  logicalPort ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON ( powering on), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
+            running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP ( connected), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED (上电 failure),
             operational_status: Active status。Options：ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2420,7 +2420,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
             current_port_name: Logic portcurrent physicalPort name (1~255 characters),
             role:  port role (1~10 characters)。Options：0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 ( replication), 6 (currently meaningless), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( cluster间),
-            ddns_status: 动态DNS enable status。Options：INVALID (无效的), ENABLE ( enable), DISABLED (not enabled),
+            ddns_status: 动态DNS enable status。Options：INVALID ( invalid), ENABLE ( enable), DISABLED (not enabled),
             failover_group_raw_id: Failover groupon the storage deviceID (1~255 characters),
             failover_group_name: Failover group name (1~255 characters),
             support_protocol: Logic portSupported data access protocols。Options：NONE (无 protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),

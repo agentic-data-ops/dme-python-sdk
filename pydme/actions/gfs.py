@@ -218,7 +218,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (Only one member can write)
         smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode  value为 smart_share 时Required)。 parameter format：[{
                 id: Namespace ID (1~64 characters, Required),
-                pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand ( read on demand)。Default：on_demand,
+                pull_mode: 读 data mode (Optional)。Optional值：no_cache ( forwarded read), on_demand ( read on demand)。Default：on_demand,
                 cache_time: cache duration (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time  value时Required。Default：hour,
                 single_write_mode: Single write mode policy (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，Exactly one member must have the value read_write,
@@ -260,7 +260,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
         name_locator: Name locator，format is：Global namespace name@Global data space name (3~507 characters, Optional。与 id cannot both be empty; takes precedence when both have values id)
         smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional。当Global namespace的 mode为 smart_share parameter effective when)。 parameter format：[{
                 id: Namespace ID 或Filesystem ID (1~64 characters, Required),
-                pull_mode: 读 data mode (Optional)。Optional值：no_cache (转发读), on_demand ( read on demand),
+                pull_mode: 读 data mode (Optional)。Optional值：no_cache ( forwarded read), on_demand ( read on demand),
                 cache_time: cache duration (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
                 cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time  value时Required,
              }, ...]

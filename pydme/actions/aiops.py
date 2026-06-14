@@ -197,7 +197,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         fields: Specified return field list
         page_no: Page queryStart page,default 1
         page_size: per pagecount,1~1000,default 100(Current alarm query用)
-        cleared:  whether已清除,true/false(History alarm query用)
+        cleared:  whether cleared,true/false(History alarm query用)
         size: Max number of returned results,1~1000,default 100(History alarm query用)
         iterator: 迭代子,No need to pass on first query,Subsequent queries use last returned iterator(History alarm query用)
         include_history:  switch parameter,query both if specifiedHistory alarm
@@ -361,8 +361,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: Controller
             - NAMESPACE: Namespace
-        begin_time:  analysisStart time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support recent七day(s)diagnosis within
-        end_time:  analysisEnd time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
+        begin_time:  analysisStart time(Required),Unix Timestamp(毫second(s)),must be integerminute(s) time point, support recent七day(s)diagnosis within
+        end_time:  analysisEnd time(Required),Unix Timestamp(毫second(s)),must be integerminute(s) time point
                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: Intelligent analysis type list(Required),Array size:1~4,value range:
             - highLatency: 高时延
@@ -497,8 +497,8 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                LAST_1_DAY( recent 1 day(s)), LAST_1_WEEK( recent 1 week(s)), LAST_1_MONTH( recent 1 个month(s)),
                LAST_1_QUARTER( recent 3 个month(s)), HALF_1_YEAR( recent半year(s)), LAST_1_YEAR( recent 1 year(s)),
                BEGIN_END_TIME(Set start and endEnd time), INVALID(Invalid value)
-        begin_time: Query start time(Optional),仅 range 为 BEGIN_END_TIME 时effective,必须比 end_time 小
-        end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时effective,必须比 begin_time 大
+        begin_time: Query start time(Optional),仅 range 为 BEGIN_END_TIME 时effective, must be end_time 小
+        end_time: Query end time(Optional),仅 range 为 BEGIN_END_TIME 时effective, must be begin_time 大
 
     Returns:
         历史Performance data,includes  status_code, error_code, error_msg, data
@@ -759,14 +759,14 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
             - failed:  failure
             - success:  success
             - waiting: 等待
-            - terminated: 已终止
+            - terminated:  terminated
         - task_result: task  result,value range:
             - un_analyzed: 未 analysis
             - warning:  warning
             - abnormal:  exception
             - event:  event
         - total_step_count:  total steps
-        - finish_step_count: Completed步骤数
+        - finish_step_count: Completed step count
     """
     url = "/rest/dmegraphanalysis/v1/perf-tasks/query-status"
 
@@ -798,8 +798,8 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         client: DME API client
         policy_name: Policy name（supports fuzzy search，1~256  characters）
         exact_query:  name whetherexact match（true-exact match，false-fuzzy search），default false
-        status:  policy status（normal-normal，checking-检查中，failed-检查 failure，queuing-Queued）
-        policy_type: Policy type（performance-性能threshold，capacity- capacitythreshold，availability-可用性，
+        status:  policy status（normal-normal，checking- checking，failed-检查 failure，queuing-Queued）
+        policy_type: Policy type（performance-性能threshold，capacity- capacitythreshold，availability- availability，
                     configuration- config，recyclable- recyclable resource，lowload- low load resource，
                     performance_anomaly-Performance anomaly，performance_prediction-Performance warning，
                     capacity_prediction-Capacity warning，history_performance-History performance，
@@ -1051,7 +1051,7 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_id: str,
                lun_name: str = None, san_type: str = None, page_size: int = 20, page_no: int = 1) -> dict:
     r"""
-     query拓扑图 Lun  list
+     query topology Lun  list
 
     via specified entryobjectQuery topology LUN  list。
 
@@ -1145,7 +1145,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     """
     result = {}
 
-    # 如果未 specified san_type，call both simultaneously API
+    #  if not specified san_type，call both simultaneously API
     if san_type is None:
         # 调用 IP_SAN API
         ip_san_url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
@@ -1183,7 +1183,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
         return response
 
     else:
-        raise ValueError(f"无效的 san_type  parameter：{san_type}，only supports：ip_san, fc_san")
+        raise ValueError(f" invalid san_type  parameter：{san_type}，only supports：ip_san, fc_san")
 
 
 
@@ -1444,7 +1444,7 @@ ACTIONS = {
     },
     'topology_query_luns': {
         'func': topology_query_luns,
-        'description': ' query拓扑图 LUN  list',
+        'description': ' query topology LUN  list',
         'params': ['entry_objects', 'storage_pool_id', 'lun_name', 'san_type', 'page_size', 'page_no'],
         'subtopic': 'topology'
     },

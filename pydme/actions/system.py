@@ -12,7 +12,7 @@ def login(client: DMEAPIClient) -> dict:
     """
     Auth user login
 
-    Force call client.login()  completed auth，然后从 header get accessSession，
+    Force call client.login()  completed auth， then from header get accessSession，
     Prompt user to configure env vars to reuse auth token，Avoid duplicate login。
 
     Args:
@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: Password reset requiredUsername (Required, string, 1~128 characters)
-        new_value:  new password (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、greater than32 characters。2. Password must contain at least2 letters，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（ repeat count is4，Consecutive character count1）。4. Password cannot containUsername和Username的倒序，Cannot contain phone number or email，Cannot contain dictionary words。
+        new_value:  new password (Required, string, 8~32 characters)。要求：1. Password lengthcannot be less than8 characters、greater than32 characters。2. Password must contain at least2 letters，must contain at least1uppercase letters，must contain at least1lowercase letters，must contain at least1count字，must contain at least1special characters（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. Consecutive identical character count in passwordcannot exceed2，Cannot contain repeated character sequences（ repeat count is4，Consecutive character count1）。4. Password cannot containUsername和Username reverse order，Cannot contain phone number or email，Cannot contain dictionary words。
         is_initial_password: Flag whether password must be changed on next login after reset (Required, boolean, true,false)。true：Must perform initial password change on next login；false：Direct login next time，No initial modification required。Default：true
 
     Returns:
@@ -337,9 +337,9 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         limit: paginationcount（Optional，1~1000）
         status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已 disable）
         todo_item_status: Pending item status list（Optional，0- pending confirm/1-未 completed/2-Executing/3-Completed）
-        start_time_from: Start time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
+        start_time_from: Start time start value（Optional， format：yyyy-MM-dd HH:mm:ss）
         start_time_to: Start time end值（Optional， format：yyyy-MM-dd HH:mm:ss）
-        end_time_from: End time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
+        end_time_from: End time start value（Optional， format：yyyy-MM-dd HH:mm:ss）
         end_time_to: End time end值（Optional， format：yyyy-MM-dd HH:mm:ss）
         sort_key: Sort field（Optional）
         sort_dir: Sort method（Optional，asc/desc）
@@ -436,7 +436,7 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
     Args:
         client: DME API client
         service_type: Business type（Required，wfa_execute_activity- auto orchestration）
-        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22-预检查 failure）
+        status: Pending item status list（Optional，1-未 execute/2-Executing/3- success/4-partial success/5- failure/6- timeout/7- warning/8-已 disable/9- pending review/10-Review rejected/21- pre-checking/22- pre-check failure）
         page_no: Page index（Optional，default 1）
         page_size: per pagecount（Optional，1~10，default 10）
 
@@ -531,7 +531,7 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
     """
     Cancel review pending item
 
-     revoke specifiedPending item的审核。
+     revoke specifiedPending item review。
 
     Args:
         client: DME API client
@@ -1012,7 +1012,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
                 id: Availability zoneid (string),
                 name: Availability zone name (string),
                 description: Availability zone description (string),
-                operate_status: Availability zone的运营 status (string)。Default：offline,
+                operate_status: Availability zone operations status (string)。Default：offline,
                 site_urn:  siteurn (string, 1~64 characters),
             }, ...]
         }

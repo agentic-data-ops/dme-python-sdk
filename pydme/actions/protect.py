@@ -509,7 +509,7 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
     Args:
         client: DME API client
         ids: Active-active consistency group ID  list
-        priority_station_type: Site type，Optional值：preferred（优先 site）, non_preferred（非优先 site）
+        priority_station_type: Site type，Optional值：preferred（优先 site）, non_preferred（ non-preferred site）
 
     Returns:
         {
@@ -534,7 +534,7 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
     Args:
         client: DME API client
         ids: Active-active consistency group ID  list
-        priority_station_type: Site type，Optional值：preferred（优先 site）, non_preferred（非优先 site）
+        priority_station_type: Site type，Optional值：preferred（优先 site）, non_preferred（ non-preferred site）
 
     Returns:
         {
@@ -1895,7 +1895,7 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
     Args:
         client: DME API client
         ids: Remote replicationConsistency group ID  list
-        is_self_adapt: supports自适应Remove member Pair，default false
+        is_self_adapt: supports adaptiveRemove member Pair，default false
         delete_mode: Delete mode，Optional值：primary_only, secondary_only, dual_ends，default dual_ends
 
     Returns:
