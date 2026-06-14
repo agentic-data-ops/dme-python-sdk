@@ -472,7 +472,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
       1. running `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,Determine what to query from CMDB resource modelResource type (Class  name)
       3.  use `cmdb instance list --class_name <Class  name>` Query instance list
-      4. Obtain corresponding instance_id from response (即 obj_ids  parameter)
+      4. Obtain corresponding instance_id from response ((obj_ids parameter))
 
     Args:
         client: DME API client
@@ -611,7 +611,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
 
     Args:
         client: DME API client
-        type: Data type (Required) , Optional值: capacity_prediction (Capacity prediction) , performance_prediction (Performance prediction) , performance_anomaly (performance anomaly) 
+        type: Data type (Required) , Options: capacity_prediction (Capacity prediction) , performance_prediction (Performance prediction) , performance_anomaly (performance anomaly) 
         object_id:  resource ID (Required, 1~256  characters) 
         begin_time: Start time (Required) , from Jan 1, 1970 (00:00:00GMT) to current time in ms
         end_time: End time (Required) , from Jan 1, 1970 (00:00:00GMT) to current time in ms
@@ -667,7 +667,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         page_no: Page queryStart position (Optional, min: 1) 
         page_size: Items per page (Optional, 1~100, default 20) 
         sort_key: Sort field (Optional) , Sort by score. Options: health_score
-        sort_dir: Sort method (Optional) , Optional值: asc, desc
+        sort_dir: Sort method (Optional) , Options: asc, desc
 
     Returns:
         {

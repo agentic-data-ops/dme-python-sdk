@@ -1772,7 +1772,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_hard_quota: File hard quota(Optional) , -1 field is invalid; When both file hard/soft quotas arewhen both valid, File hard quota must exceed soft quota
         file_advisory_quota: File advisory quota(Optional) , -1 field is invalid; OceanStor Pacific only; When advisory quota and hard/soft quota are both valid hard/soft quotawhen both valid, Advisory quota must be less than hard or soft quota
         snap_space_switch: Include snapshot space(Optional) , true: Include snapshot space; false: Exclude snapshot space; OceanStor Pacific only
-        soft_grace_time:  Grace period (Optional) , 0~4294967294, in days; Grace period before soft limit becomes hard limit; not sent or value 0: soft quota warning only quota warning onlyft quota reached, warning only; 仅 OceanStor Pacific  support
+        soft_grace_time: Grace period (Optional), 0~4294967294, in days. Grace period before soft limit becomes hard limit. If not sent or value is 0, only warning when soft quota exceeded.t quota warning only quota warning onlyft quota reached, warning only; 仅 OceanStor Pacific  support
         task_remarks: Async taskRemark
 
     Returns:
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional).  parameter format: {
-                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_modelog (Audit log), non_worm (非WORM),
+                type: WORM protection mode (Optional). Options: none_mode, enterprise_mode, compliance_mode, advance_mode (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default 0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear). Options: minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2408,7 +2408,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                 auto_size_enable: Auto capacity adjustment switch (Optional, default open). Options: true, false,
                 auto_grow_threshold_percent: Auto-expand threshold% (Optional, 2~99, default85; must be greater thanShrink trigger threshold),
                 auto_shrink_threshold_percent: Auto-shrink threshold% (Optional, 1~98, default50),
-                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink valuemit和Filesystem capacity),
+                max_auto_size: Auto-expand upper limit in GB (Optional, 1~33554432, default 33554432; must be greater than or equal to shrink value和Filesystem capacity),
                 min_auto_size:  Auto-shrink lower limit in GB (Optional, 1~33554432, default 33554432),
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
@@ -3514,7 +3514,7 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
                 name: KV cache store name (1~255 characters, Required),
                 capacity: KV cache store capacity (int64, 20971520~70368744177664, in sectors (1 sector = 512 bytes), Required),
                 description: Description (1~255 characters, Optional),
-                count: Batch create KV cache stores的count (int32, 1~100, Default: 1, Optional),
+                count: Batch create KV cache stores count (int32, 1~100, Default: 1, Optional),
                 start_suffix: Starting suffix number (int32, 0~9999, Optional. start suffix + store count <= 9999),
              }, ...]
 
