@@ -187,7 +187,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         create_mode: Active-active pair creation mode (Required) , Options: auto, manual
                         remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Effective when active-active pair creation mode is auto
                         remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
-                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
+                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
                         name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manually configured active-active pair info list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
                                 local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
@@ -200,7 +200,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         remote_storage_id: Remote storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; replication pair creation modee为 auto effective when
                         remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
-                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
+                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
                         name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs:  manually configured remote replication pair info list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
                                 local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
@@ -770,8 +770,8 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
     Args:
         client: DME API client
         ids: Active-active Pair instance ID  list
-        delete_mode: Delete mode, Optional值: preferred_only, non_preferred_only, dual_ends
-        is_lun_service_interrupt:  whether中断 LUN 业务, 当 delete_mode 为 preferred_only 或 non_preferred_only effective when
+        delete_mode: Delete mode, Options: preferred_only, non_preferred_only, dual_ends
+        is_lun_service_interrupt:  Whether to interrupt LUN service, effective when delete_mode is preferred_only or non_preferred_only
 
     Returns:
         {
@@ -823,7 +823,7 @@ def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type
     Args:
         client: DME API client
         ids: Active-active Pair ID  list
-        priority_station_type: Site type, Optional值: preferred, non_preferred
+        priority_station_type: Site type, Options: preferred, non_preferred
 
     Returns:
         {
@@ -848,7 +848,7 @@ def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_stat
     Args:
         client: DME API client
         ids: Active-active Pair ID  list
-        priority_station_type: Site type, Optional值: preferred, non_preferred
+        priority_station_type: Site type, Options: preferred, non_preferred
 
     Returns:
         {
@@ -890,21 +890,21 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_domain Subtopic - Active-active域operations
+# hypermetro_domain Subtopic - Active-active domainoperations
 # ============================================================================
 
 def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
                             types: list = None) -> dict:
     """
-    Batch queryActive-active域
+    Batch queryActive-active domain
 
     Args:
         client: DME API client
         storage_id:  device ID
-        types: Active-active域 type list
+        types: Active-active domain type list
 
     Returns:
-        Active-active域 list
+        Active-active domain list
     """
     url = "/rest/protection/v1/hyper-metro-domains/query"
 
@@ -1012,8 +1012,8 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         speed: Sync rate. Options: low, medium, high, highest, custom
         bandwidth: Custom sync rate (MB/s) , required when speed is custom
         recovery_policy: Recovery policy, Options: automatic, manual
-        sync_type: Sync type, Optional值: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , 当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
         sync_schedule: Timer rule, 当 sync_type 为 specified_time_policy 时Required
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
         sync_snap_policy: User snapshotSync policy, Optional值: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
@@ -1087,8 +1087,8 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
         bandwidth: Custom sync rate (MB/s) , required when speed is custom
         recovery_policy: Recovery policy, Options: automatic, manual
         enable_compress: Link compression, when replication mode isin async modeRequired
-        sync_type: Sync type, Optional值: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , 当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
         sync_schedule: Timer rule, 当 sync_type 为 specified_time_policy 时Required
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
         sync_snap_policy: User snapshotSync policy, Optional值: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
@@ -1839,8 +1839,8 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
         bandwidth: Custom sync rate (MB/s) , required when speed is custom
         recovery_policy: Recovery policy, Options: automatic, manual
         enable_compress: Link compression, when replication mode isin async modeRequired
-        sync_type: Sync type, Optional值: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , 当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
+        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
         sync_schedule: Timer rule, 当 sync_type 为 specified_time_policy 时Required
         rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
         sync_snap_policy: User snapshotSync policy, Optional值: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
@@ -2589,17 +2589,17 @@ def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
 
 
 # ============================================================================
-# Active-active域 (hypermetro_domain) subtopic functions
+# Active-active domain (hypermetro_domain) subtopic functions
 # ============================================================================
 
 
 def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
     """
-    force startFilesystemActive-active域. 
+    force startFilesystemActive-active domain. 
 
     Args:
         client: DME API client
-        id: Active-active域ID (Required, string)
+        id: Active-active domainID (Required, string)
 
     Returns:
         {
@@ -2617,11 +2617,11 @@ def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
     """
-    Preferred site switchFilesystemActive-active域. 
+    Preferred site switchFilesystemActive-active domain. 
 
     Args:
         client: DME API client
-        id: Active-active域ID (Required, string)
+        id: Active-active domainID (Required, string)
 
     Returns:
         {
@@ -2639,11 +2639,11 @@ def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
     """
-     resumeFilesystemActive-active域. 
+     resumeFilesystemActive-active domain. 
 
     Args:
         client: DME API client
-        id: Active-active域ID (Required, string)
+        id: Active-active domainID (Required, string)
 
     Returns:
         {
@@ -2661,11 +2661,11 @@ def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
     """
-    SplitFilesystemActive-active域. 
+    SplitFilesystemActive-active domain. 
 
     Args:
         client: DME API client
-        id: Active-active域ID (Required, string)
+        id: Active-active domainID (Required, string)
 
     Returns:
         {
@@ -2683,11 +2683,11 @@ def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
     """
-    Primary/standby switchFilesystemActive-active域. 
+    Primary/standby switchFilesystemActive-active domain. 
 
     Args:
         client: DME API client
-        id: Active-active域ID (Required, string)
+        id: Active-active domainID (Required, string)
 
     Returns:
         {
@@ -2881,7 +2881,7 @@ ACTIONS = {
     # hypermetro_domain subtopic actions
     'hypermetro_domain_list': {
         'func': hypermetro_domain_list,
-        'description': 'Batch queryActive-active域',
+        'description': 'Batch queryActive-active domain',
         'params': ['storage_id', 'types'],
         'subtopic': 'hypermetro_domain'
     },
@@ -3167,31 +3167,31 @@ ACTIONS = {
     # hypermetro_domain subtopic actions
     'hypermetro_domain_force_start': {
         'func': hypermetro_domain_force_start,
-        'description': 'force startFilesystemActive-active域',
+        'description': 'force startFilesystemActive-active domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_switch_site': {
         'func': hypermetro_domain_switch_site,
-        'description': 'Preferred site switchFilesystemActive-active域',
+        'description': 'Preferred site switchFilesystemActive-active domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_recover': {
         'func': hypermetro_domain_recover,
-        'description': ' resumeFilesystemActive-active域',
+        'description': ' resumeFilesystemActive-active domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_split': {
         'func': hypermetro_domain_split,
-        'description': 'SplitFilesystemActive-active域',
+        'description': 'SplitFilesystemActive-active domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_swap_role': {
         'func': hypermetro_domain_swap_role,
-        'description': 'Primary/standby switchFilesystemActive-active域',
+        'description': 'Primary/standby switchFilesystemActive-active domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
