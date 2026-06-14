@@ -183,7 +183,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
                   description: str = None, nas_capacity_quota_alarm_switch: bool = None,
                   nas_capacity_quota_alarm_threshold: int = None) -> dict:
     """
-    修改指定租户，该操作会修改存储设备上指定的租户。
+    修改指定租户，该操作会Modify storage device上指定的租户。
 
     Args:
         client: DME API client
@@ -256,7 +256,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
          dc_id: str = None, tag_ids: str = None, start: int = 1, 
          limit: int = 20, ext_attrs: str = None) -> dict:
     """
-    批量查询存储设备：支持分页查询，过滤。
+    Batch query storage devices：支持分页查询，过滤。
 
     Args:
         client: DME API client。
@@ -271,7 +271,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
     Returns:
         {
             total: 存储设备总数 (int32),
-            datas: 存储设备列表 (List<StorageSummaryInfo>)。参数格式如下：[{
+            datas: Storage device list (List<StorageSummaryInfo>)。参数格式如下：[{
                 id: 存储设备ID (string),
                 name: 存储设备名称 (string),
                 ip: IP 地址 (string),
@@ -425,7 +425,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
 
 def remove(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量移除存储设备。
+    批量Remove storage device。
 
     Args:
         client: DME API client
@@ -455,7 +455,7 @@ def sync(client: DMEAPIClient, storage_id: str) -> dict:
 
     Args:
         client: DME API client
-        storage_id: 存储设备Id (必选, string, 1~64 characters)。通过批量查询存储设备接口获取
+        storage_id: 存储设备Id (必选, string, 1~64 characters)。通过Batch query storage devices接口获取
 
     Returns:
         无
@@ -494,7 +494,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
     
     Returns:
         {
-            backup_powers: BBU列表 (List<StorageBackupPowerInfo>)。参数格式如下：[{
+            backup_powers: BBU list (List<StorageBackupPowerInfo>)。参数格式如下：[{
                 name: 名称 (1~255 characters),
                 location: 位置 (1~255 characters),
                 health_status: 健康状态。可选值：unknown (未知), normal (正常), faulty (故障), about_to_fail (即将故障), low_battery (电量不足),
@@ -579,7 +579,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: 风扇数量 (integer),
-            fans: 风扇列表 (List<StorageFanInfo>)。参数格式如下：[{
+            fans: Fan list (List<StorageFanInfo>)。参数格式如下：[{
                 name: 名称 (1~128 characters),
                 location: 位置 (1~256 characters),
                 health_status: 健康状态。可选值：unknown (未知), normal (正常), faulty (故障),
@@ -667,7 +667,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
     Returns:
         {
             total: 硬盘的数量 (integer),
-            disks: 硬盘列表 (List<DiskInfo>)。参数格式如下：[{
+            disks: Disk list (List<DiskInfo>)。参数格式如下：[{
                 id: 硬盘ID (string),
                 name: 硬盘名称 (string),
                 health_status: 健康状态 (string),
@@ -756,7 +756,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total: 存储池数量 (int32),
-            datas: 存储池基础信息列表 (List<StoragePoolBasicInfo>)。参数格式如下：[{
+            datas: Storage pool basic info list (List<StoragePoolBasicInfo>)。参数格式如下：[{
                 id: 存储池ID (1~32个字符),
                 name: 存储池名称 (1~31个字符),
                 raw_id: 存储池在存储设备上的ID (1~64 characters),
@@ -838,7 +838,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
     Returns:
         {
             total: HyperScale存储池总数 (int32),
-            data: HyperScale存储池列表 (List<HyperScalePoolInfo>)。参数格式如下：[{
+            data: HyperScale storage pool list (List<HyperScalePoolInfo>)。参数格式如下：[{
                 id: HyperScale存储池ID (1~64 characters),
                 raw_id: 存储池在存储设备上的ID (1~64 characters),
                 name: HyperScale存储池名称 (1~256 characters),
@@ -893,7 +893,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
               page_no: int = 1, page_size: int = 20,
               sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    查询存储设备的节点列表
+    查询存储设备的Node list
 
     Args:
         client: DME API client
@@ -915,7 +915,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total: 节点的数量 (integer),
-            nodes: 节点列表 (List<StorageNodeBaseInfo>)。参数格式如下：[{
+            nodes: Node list (List<StorageNodeBaseInfo>)。参数格式如下：[{
                 id: 节点id (1~64 characters),
                 name: 节点名称 (1~255 characters),
                 raw_id: 节点在存储设备上的ID (1~64 characters),
@@ -930,7 +930,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 storage_name: Storage device名称 (1~255 characters),
                 eos_time: 存储EOS时间 (int64)，格林威治时间1970年01月01日00时00分00秒起至现在的总毫秒数,
                 installation_status: 存储软件安装状态。可选值：installed (已安装存储软件), not_installed (未安装存储软件),
-                ip_address_list: 节点IP地址列表 (List<StorageNodeIpInfo>)。参数格式如下：[{
+                ip_address_list: Node IP address list (List<StorageNodeIpInfo>)。参数格式如下：[{
                     ip_address: 节点IP地址 (1~256 characters),
                     usage: 节点IP地址用途列表 (List<string>)。可选值：storage_frontend (存储前端网络IP), storage_backend (存储后端网络IP), management_external_float (管理外部网络浮动IP), management_internal_float (管理内部网络浮动IP), management_external (管理外部网络IP), management_internal (管理内部网络IP), replication (复制网络IP), quorum (仲裁网络IP), iscsi (ISCSI网络IP),
                 }, ...],
@@ -994,7 +994,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: 电源的数量 (int32),
-            storage_powers: 电源列表 (List<StoragePowerInfo>)。参数格式如下：[{
+            storage_powers: Power list (List<StoragePowerInfo>)。参数格式如下：[{
                 name: 名称 (1~255 characters),
                 location: 位置 (1~255 characters),
                 health_status: 健康状态。可选值：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入),
@@ -1060,7 +1060,7 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 
     Returns:
         {
-            storage_power_list: 存储功率列表 (List<StoragePower>)。参数格式如下：[{
+            storage_power_list: Storage power list (List<StoragePower>)。参数格式如下：[{
                 storage_id: 存储ID,
                 power: 存储功率，单位千瓦 (number),
             }, ...],
@@ -1088,7 +1088,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    修改存储设备（仅支持修改录入的离线存储设备信息）
+    Modify storage device（仅支持修改录入的离线存储设备信息）
 
     Args:
         client: DME API client。
@@ -1108,7 +1108,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         used_capacity: 已用容量 (可选, -1~2147483647, 单位MB)。存储设备中所有存储池的已使用容量之和，-1表示无已用容量。
         free_capacity: 空闲容量 (可选, -1~2147483647, 单位MB)。存储设备的可用容量与已用容量的差值，-1表示无空闲容量。
         subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。存储设备中所有存储池的订阅容量之和，-1表示无已订阅容量。
-        tag_ids: 标签ID列表 (Optional, string, 0~512个字符)。数组格式字符串，最多支持10个标签，空数组代表移除存储设备关联的所有标签。
+        tag_ids: 标签ID列表 (Optional, string, 0~512个字符)。数组格式字符串，最多支持10个标签，空数组代表Remove storage device关联的所有标签。
 
     Returns:
         无
@@ -1226,7 +1226,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
 def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
-    批量查询硬盘域
+    Batch query disk pools
 
     Args:
         client: DME API client
@@ -1237,7 +1237,7 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
     Returns:
         {
             total: 硬盘域数量 (int32),
-            disk_pools: 硬盘域列表 (List<DiskPoolInfo>)。参数格式如下：[{
+            disk_pools: Disk pool list (List<DiskPoolInfo>)。参数格式如下：[{
                     id: 硬盘域id (1~64 characters),
                     raw_id: 硬盘域在设备上的id (1~64 characters),
                     name: 硬盘域名称 (1~128 characters),
@@ -1279,7 +1279,7 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: 总数 (int32),
-            disk_pools: 硬盘池列表。参数格式如下：[{
+            disk_pools: Disk pool list。参数格式如下：[{
                 id: 硬盘池ID (string),
                 name: 硬盘池名称 (string),
                 status: 状态 (string),
@@ -1306,7 +1306,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                    power_mode: list = None, esn: str = None, mac: str = None,
                    sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    批量查询机框信息
+    Batch query enclosures信息
 
     Args:
         client: DME API client
@@ -1328,7 +1328,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
     Returns:
         {
             total: 机框数量 (integer),
-            data: 机框列表 (List<EnclosureItem>)。参数格式如下：[{
+            data: Enclosure list (List<EnclosureItem>)。参数格式如下：[{
                     id: 机框ID (1~64 characters),
                     raw_id: 机框在存储设备上ID (1~64 characters),
                     name: 名称 (1~256 characters),
@@ -1483,7 +1483,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
     """
     修改存储侧启动器对象
 
-    修改启动器，该操作会修改存储设备上指定的启动器。
+    修改启动器，该操作会Modify storage device上指定的启动器。
 
     Args:
         client: DME API client
@@ -2308,7 +2308,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                     zone_raw_id: str = None, scope: str = None, page_no: int = 1,
                     page_size: int = 100) -> dict:
     """
-    查询存储设备的逻辑端口列表
+    查询存储设备的Logic port list
 
     Args:
         client: DME API client
@@ -2322,7 +2322,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
     Returns:
         {
             total: 逻辑端口的数量 (integer),
-            logic_ports: 逻辑端口列表 (List<StorageLogicPortResp>)。参数格式如下：[{
+            logic_ports: Logic port list (List<StorageLogicPortResp>)。参数格式如下：[{
                 id: 逻辑端口ID (1~255 characters),
                 raw_id: 逻辑端口在存储设备上的ID (1~255 characters),
                 name: 逻辑端口名称 (1~255 characters),
@@ -2362,7 +2362,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 can_failover: 是否启用IP地址漂移 (boolean)。可选值：true, false,
                 failback_mode: 回漂模式。可选值：not_support (不支持该功能), manual (手动), automatic (自动),
                 scope: 范围。可选值：hyperscale (全局), default (本地)。仅OceanStor A800系列存储支持,
-                logicPortTags: 关联标签集合 (List<Tag>)。参数格式如下：[{
+                logicPortTags: Associated tag set (List<Tag>)。参数格式如下：[{
                     id: 标签的ID (1~32个字符),
                     tag_type_name: 标签类型名称 (1~64 characters),
                     name: 标签名称 (1~128 characters),
@@ -2441,7 +2441,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             can_failover: 是否启用IP地址漂移 (boolean)。可选值：true, false,
             failback_mode: 回漂模式。可选值：not_support (不支持该功能), manual (手动), automatic (自动),
             scope: 范围。可选值：hyperscale (全局), default (本地)。仅OceanStor A800系列存储支持,
-            logicPortTags: 关联标签集合 (List<Tag>)。参数格式如下：[{
+            logicPortTags: Associated tag set (List<Tag>)。参数格式如下：[{
                 id: 标签的ID (1~32个字符),
                 tag_type_name: 标签类型名称 (1~64 characters),
                 name: 标签名称 (1~128 characters),
@@ -2559,7 +2559,7 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
                       dns_zone_name: str = None, listen_dns_query_enabled: str = None,
                       can_failover: bool = None, failback_mode: str = None) -> dict:
     """
-    修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
+    Modify storage device的逻辑端口（仅 OceanStor A800 系列存储支持）
 
     Args:
         client: DME API client
@@ -2989,7 +2989,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                         zone_id: str = None,
                         failover_group_service_type: list = None) -> dict:
     """
-    查询漂移组列表
+    查询Failover group list
 
     Args:
         client: DME API client
@@ -3001,7 +3001,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: 漂移组数量 (int32),
-            failover_groups: 漂移组列表 (List<FailoverGroupResp>)。参数格式如下：[{
+            failover_groups: Failover group list (List<FailoverGroupResp>)。参数格式如下：[{
                 id: 漂移组id (1~64 characters),
                 name: 漂移组名称 (1~64 characters),
                 failover_group_type: 漂移组类型 (1~255 characters)。可选值：system, VLAN, customized,
@@ -3125,7 +3125,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
     Returns:
         {
             total: Zone总数 (int32),
-            datas: Zone列表 (List<OceanStorA800ZoneInfo>)。参数格式如下：[{
+            datas: Zone list (List<OceanStorA800ZoneInfo>)。参数格式如下：[{
                 id: Zone在CMDB中的ID (1~64 characters),
                 native_id: native id (1~64 characters),
                 name: Zone名称 (1~128 characters),
@@ -3179,7 +3179,7 @@ ACTIONS = {
     # 直接动作（两级结构：<topic> <action>）
     'list': {
         'func': list,
-        'description': '批量查询存储设备',
+        'description': 'Batch query storage devices',
         'params': ['az', 'source', 'dc_id', 'tag_ids', 'start', 'limit', 'ext_attrs'],
         'subtopic': None
     },
@@ -3197,7 +3197,7 @@ ACTIONS = {
     },
     'remove': {
         'func': remove,
-        'description': '批量移除存储设备',
+        'description': '批量Remove storage device',
         'params': ['storage_ids'],
         'subtopic': None
     },
@@ -3209,7 +3209,7 @@ ACTIONS = {
     },
     'modify': {
         'func': modify,
-        'description': '修改存储设备（仅支持修改录入的离线存储设备信息）',
+        'description': 'Modify storage device（仅支持修改录入的离线存储设备信息）',
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
         'subtopic': None
     },
@@ -3253,7 +3253,7 @@ ACTIONS = {
     },
     'node_list': {
         'func': node_list,
-        'description': '查询存储设备的节点列表',
+        'description': '查询存储设备的Node list',
         'params': ['storage_id', 'raw_id', 'storage_name', 'name', 'ids',
                    'mgmt_ip', 'frame_number', 'slot_number', 'status', 'roles',
                    'page_no', 'page_size', 'sort_key', 'sort_dir'],
@@ -3286,7 +3286,7 @@ ACTIONS = {
     },
     'disk_domain_list': {
         'func': disk_domain_list,
-        'description': '批量查询硬盘域',
+        'description': 'Batch query disk pools',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_domain'
     },
@@ -3298,7 +3298,7 @@ ACTIONS = {
     },
     'enclosure_list': {
         'func': enclosure_list,
-        'description': '批量查询机框信息',
+        'description': 'Batch query enclosures信息',
         'params': ['page_no', 'page_size', 'storage_id', 'name', 'location',
                    'health_status', 'zone_name', 'zone_id', 'running_status',
                    'power_mode', 'esn', 'mac', 'sort_key', 'sort_dir'],
@@ -3486,7 +3486,7 @@ ACTIONS = {
     # logic_port 子主题动作（存储逻辑端口）
     'logic_port_list': {
         'func': logic_port_list,
-        'description': '查询存储设备的逻辑端口列表',
+        'description': '查询存储设备的Logic port list',
         'params': ['storage_id', 'vstore_raw_id', 'zone_raw_id', 'scope', 'page_no', 'page_size'],
         'subtopic': 'logic_port'
     },
@@ -3508,7 +3508,7 @@ ACTIONS = {
     },
     'logic_port_update': {
         'func': logic_port_update,
-        'description': '修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）',
+        'description': 'Modify storage device的逻辑端口（仅 OceanStor A800 系列存储支持）',
         'params': ['logic_port_id', 'name', 'address_family', 'mgmt_ip', 'ipv4_mask', 'ipv4_gateway',
                    'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway', 'home_port_raw_id', 'home_port_type',
                    'operational_status', 'failover_group_raw_id', 'dns_zone_name',
@@ -3568,7 +3568,7 @@ ACTIONS = {
     # failover_group 子主题动作（存储漂移组）
     'failover_group_list': {
         'func': failover_group_list,
-        'description': '查询漂移组列表',
+        'description': '查询Failover group list',
         'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover_group_service_type'],
         'subtopic': 'failover_group'
     },
