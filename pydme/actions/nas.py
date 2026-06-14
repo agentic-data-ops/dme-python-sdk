@@ -2109,9 +2109,9 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         quota_switch: Enable quota（可选）
         vaai_switch: VAAI 开关（可选）
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
-        capacity_threshold: 总空间容量告警threshold 50-99（可选）
+        capacity_threshold: Total space capacity alarmthreshold 50-99（可选）
         tuning: 调优参数 (可选)。参数格式如下：{
-                deduplication_enabled: 是否开启重复数据删除 (可选, 默认false)。可选值：true, false,
+                deduplication_enabled: 是否开启Deduplication (可选, 默认false)。可选值：true, false,
                 compression_enabled: 是否开启数据压缩 (可选, 默认false)。可选值：true, false,
                 block_size: Filesystem块大小KB (可选, 默认64)。可选值：4, 8, 16, 32, 64, 128,
                 allocation_type: 分配类型 (可选, 默认thin)。可选值：thin, thick,
@@ -2119,14 +2119,14 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 application_scenario: 应用场景 (可选, 默认user_defined)。可选值：database, VM, user_defined, container,
                 workload_type_id: 应用类型id (可选, 1~32字符),
                 dist_alg: Filesystem目录打散策略 (可选, 仅A800设备支持)。可选值：capacity_balance, subdirectory_round_robin,
-                qos_policy: SmartQos策略参数信息 (可选)。属性格式如下：{
+                qos_policy: SmartQosPolicy parameter info (可选)。属性格式如下：{
                         max_bandwidth: Max bandwidthMB/s (可选, 1~999999999),
                         max_iops: 最大iops (可选, 1~999999999),
                         min_bandwidth: Min bandwidthMB/s (可选, 1~999999999),
                         min_iops: 最小iops (可选, 1~999999999),
                         burst_band_width: 突发带宽MB/s (可选),
                         burst_iops: 突发IOPS (可选),
-                        burst_time: 最大突发时间second(s) (可选),
+                        burst_time: Max burst timesecond(s) (可选),
                         latency: 时延 (可选, 仅保护lower limit支持),
                         max_read_bandwidth: 最大Read bandwidthMB/s (可选),
                         max_write_bandwidth: 最大Write bandwidthMB/s (可选),
@@ -2141,7 +2141,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         start_time: 生效Start time (可选, 格式hh:mm),
                         duration: 生效durationsecond(s) (可选, 1800~86400),
                         weekly_days: week(s)Scheduling policy (可选, 1~6对应week(s)一到week(s)六),
-                        alarm_switch: 限高告警开关 (可选)。可选值：off, on,
+                        alarm_switch: Upper limit alarm switch (可选)。可选值：off, on,
                         alarm_level: Alarm severity (可选)。可选值：event, alarm,
                         alarm_threshold: 告警threshold% (可选, 0~100),
                         resume_threshold: 恢复threshold% (可选, 0~100),
@@ -2158,37 +2158,37 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         create_nfs_share_param: 自动创建NFS共享参数（可选）。See action help for format：nas nfs_share create
         create_dpc_share_param: 自动创建DataTurbo共享参数（可选）。See action help for format：nas dataturbo_share create
         owning_controller: 归属控制器（可选），2~16个字符，格式如0A、1B
-        snapshot_expired_enabled: 是否开启删除旧的只读快照（可选）。true/false，默认关闭
-        checksum_enabled: 数据校验开关（可选）。true/false，默认开启
-        ads_enabled: 是否开启交换数据流功能（可选）。true/false，默认开启
+        snapshot_expired_enabled: Delete old read-only snapshots（可选）。true/false，默认关闭
+        checksum_enabled: Data verification switch（可选）。true/false，默认开启
+        ads_enabled: Enable data flow switching（可选）。true/false，默认开启
         security_mode: 安全模式（可选）。取值：mixed/native/ntfs/unix
         nas_locking_policy: NAS锁策略（可选）。取值：mandatory/advisory/unknown
-        capacity_autonegotiation: 容量自适应参数 (可选)。参数格式如下：{
-                capacity_self_adjusting_mode: 容量自动调整模式 (可选, 默认关闭)。可选值：grow_off (关闭), grow (自动扩容), grow_shrink (自动扩缩容),
-                capacity_recycle_mode: 容量回收模式 (可选, 默认优先扩容)。可选值：expand_capacity (优先扩容), delete_snapshots (优先删除旧快照),
-                auto_size_enable: 自动调整容量开关 (可选, 默认true)。可选值：true, false,
-                auto_grow_threshold_percent: 自动扩容触发门限% (可选, 2~99, 默认85),
-                auto_shrink_threshold_percent: 自动缩容触发门限% (可选, 1~98, 默认50),
+        capacity_autonegotiation: Capacity adaptive parameter (可选)。参数格式如下：{
+                capacity_self_adjusting_mode: Auto capacity adjustment mode (可选, 默认关闭)。可选值：grow_off (关闭), grow (自动扩容), grow_shrink (自动扩缩容),
+                capacity_recycle_mode: Capacity reclamation mode (可选, Default: expand first)。可选值：expand_capacity (优先扩容), delete_snapshots (Prefer deleting old snapshots),
+                auto_size_enable: Auto capacity adjustment switch (可选, 默认true)。可选值：true, false,
+                auto_grow_threshold_percent: Auto-expand threshold% (可选, 2~99, 默认85),
+                auto_shrink_threshold_percent: Auto-shrink threshold% (可选, 1~98, 默认50),
                 max_auto_size: 自动扩容upper limitGB (可选, 1~33554432, 默认33554432),
                 min_auto_size: 自动缩容lower limitGB (可选, 1~33554432, 默认33554432),
-                auto_size_increment: 自动扩缩容单次变化量MB (可选, 64~102400, 默认1024),
+                auto_size_increment: Auto resize single change amountMB (可选, 64~102400, 默认1024),
              }
         worm: FilesystemWorm参数 (可选)。参数格式如下：{
                 type: WORM保护模式 (可选)。可选值：none_mode (无默认策略), enterprise_mode (企业遵从), compliance_mode (法规遵从), advance_mode (高安遵从), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: 最小保护期 (可选, 默认0),
-                min_protect_period_unit: 最小保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
+                min_protect_period_unit: Min protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
                 max_protect_period: 最大保护期 (可选, 0~4294967295, 默认70),
-                max_protect_period_unit: 最大保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
+                max_protect_period_unit: Max protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
                 def_protect_period: 默认保护期 (可选, 不小于最小, 不大于最大, 默认70),
-                def_protect_period_unit: 默认保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
-                auto_lock: WORM自动锁定模式 (可选, 默认开启)。可选值：true, false,
+                def_protect_period_unit: Default protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
+                auto_lock: WORMAuto-lock mode (可选, 默认开启)。可选值：true, false,
                 auto_lock_time: Auto-lock time (可选, 默认2),
                 auto_lock_time_unit: Auto-lock time单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
-                auto_del: 自动删除模式 (可选, 默认关闭)。可选值：true, false,
+                auto_del: Auto-delete mode (可选, 默认关闭)。可选值：true, false,
                 is_worm_audit_log_fs: WORMAudit logFilesystem (可选, 默认关闭)。可选值：true, false,
-                worm_append_unit: WORM追加态文件保护粒度 (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
+                worm_append_unit: WORMAppend-only file protection granularity (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
              }
-        snapshot_reserved_space_percentage: 快照预留空间百分比（可选），0~90
+        snapshot_reserved_space_percentage: Snapshot reserved space percentage（可选），0~90
         periodic_snapshots_limit: 定时快照count限制（可选），1~2048
         snapshot_dir_visible: Snapshot directory visibility（可选）。true/false
         object_service_optimization: object服务优化（可选）。true/false
@@ -2346,30 +2346,30 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         name: Filesystem name，1~255个字符（可选）
         description: Description，0~255个字符（可选）
         capacity: Filesystem容量，单位 GB，1~33554432（可选）
-        capacity_threshold: 总空间容量告警threshold 50-99（可选）
+        capacity_threshold: Total space capacity alarmthreshold 50-99（可选）
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
         automatic_update_time: 文件被读取后是否更新访问时间，true开启/false关闭（可选）
         atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
         quota_switch: Enable quota，true启用/falsedisabled（可选）
         vaai_switch: VAAI 开关，启用后不能关闭，true启用/false未启用（可选）
         owning_controller: 归属控制器，2~16个字符（可选）
-        snapshot_expired_enabled: 是否开启删除旧的只读快照，true开启/false关闭（可选）
-        checksum_enabled: 数据校验开关，true开启/false关闭（可选）
-        ads_enabled: 是否开启交换数据流功能，true开启/false关闭，开启后不允许关闭（可选）
+        snapshot_expired_enabled: Delete old read-only snapshots，true开启/false关闭（可选）
+        checksum_enabled: Data verification switch，true开启/false关闭（可选）
+        ads_enabled: Enable data flow switching，true开启/false关闭，开启后不允许关闭（可选）
         security_mode: 安全模式，mixed/native/ntfs/unix（可选）
         nas_locking_policy: NAS锁策略，mandatory（强制锁）/advisory（建议锁）/unknown（可选）
-        snapshot_reserved_space_percentage: 快照预留空间百分比，0~90（可选）
+        snapshot_reserved_space_percentage: Snapshot reserved space percentage，0~90（可选）
         periodic_snapshots_limit: 定时快照count限制，1~2048（可选）
         snapshot_dir_visible: Snapshot directory visibility，true可见/false不可见（可选）
         tuning: 调优参数 (可选)。参数格式如下：{
-                qos_policy: SmartQos策略参数信息 (UpdateFileSystemQosPolicyobject)。属性格式如下：{
+                qos_policy: SmartQosPolicy parameter info (UpdateFileSystemQosPolicyobject)。属性格式如下：{
                         max_bandwidth: Max bandwidthMB/s (可选, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
                         max_iops: Max IOPS (可选, 1~999999999; 与min_bandwidth/min_iopsmutually exclusive, A800下不mutually exclusive),
                         min_bandwidth: Min bandwidthMB/s (可选, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
                         min_iops: Min IOPS (可选, 1~999999999; 与max_bandwidth/max_iopsmutually exclusive, A800下不mutually exclusive),
                         burst_band_width: 突发带宽MB/s (可选, 1~999999999),
                         burst_iops: 突发IOPS (可选, 1~999999999),
-                        burst_time: 最大突发时间second(s) (可选, 1~999999999),
+                        burst_time: Max burst timesecond(s) (可选, 1~999999999),
                         latency: 时延 (可选, 1~999999999; A800/Dorado V6可选500/1500单位us, V3/V5可自定义单位ms),
                         max_read_bandwidth: 最大Read bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
                         max_write_bandwidth: 最大Write bandwidthMB/s (可选, 1~999999999; read/write upper limit policy only),
@@ -2384,7 +2384,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         start_time: 生效Start time (可选, 格式hh:mm, 0~64字符),
                         duration: 生效durationsecond(s) (可选, 1800~86400),
                         weekly_days: week(s)Scheduling policy (可选, 0-6对应week(s)日到week(s)六, 最多7个; schedule_policy为weekly时生效),
-                        alarm_switch: 限高告警开关 (可选)。可选值：off, on,
+                        alarm_switch: Upper limit alarm switch (可选)。可选值：off, on,
                         alarm_level: 限高Alarm severity (可选)。可选值：event (事件), alarm (告警),
                         alarm_threshold: 限高告警threshold% (可选, 0~100),
                         resume_threshold: 限高Alarm recoverythreshold% (可选, 0~100),
@@ -2398,34 +2398,34 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         qos_policy_id: QoS policyID (可选, 0~64字符; 与除enabled外的其他参数mutually exclusive),
                         enabled: 是否启用QoSPolicy (可选, 默认false),
                 },
-                deduplication_enabled: 重复数据删除 (可选, 默认关闭),
+                deduplication_enabled: Deduplication (可选, 默认关闭),
                 compression_enabled: 数据压缩 (可选, 默认关闭),
                 allocation_type: Filesystem分配类型 (可选, 默认thin)。可选值：thin (精简), thick (厚),
              }
-        capacity_autonegotiation: 容量自适应参数 (可选)。参数格式如下：{
-                capacity_self_adjusting_mode: 容量自动调整模式 (可选, 默认关闭)。可选值：grow_off (关闭), grow (自动扩容), grow_shrink (自动扩缩容),
-                capacity_recycle_mode: 容量回收模式 (可选, 默认优先扩容)。可选值：expand_capacity (优先扩容), delete_snapshots (优先删除旧快照),
-                auto_size_enable: 自动调整容量开关 (可选, 默认打开)。可选值：true, false,
-                auto_grow_threshold_percent: 自动扩容触发门限% (可选, 2~99, 默认85; must be greater than缩容触发门限),
-                auto_shrink_threshold_percent: 自动缩容触发门限% (可选, 1~98, 默认50),
+        capacity_autonegotiation: Capacity adaptive parameter (可选)。参数格式如下：{
+                capacity_self_adjusting_mode: Auto capacity adjustment mode (可选, 默认关闭)。可选值：grow_off (关闭), grow (自动扩容), grow_shrink (自动扩缩容),
+                capacity_recycle_mode: Capacity reclamation mode (可选, Default: expand first)。可选值：expand_capacity (优先扩容), delete_snapshots (Prefer deleting old snapshots),
+                auto_size_enable: Auto capacity adjustment switch (可选, 默认打开)。可选值：true, false,
+                auto_grow_threshold_percent: Auto-expand threshold% (可选, 2~99, 默认85; must be greater than缩容触发门限),
+                auto_shrink_threshold_percent: Auto-shrink threshold% (可选, 1~98, 默认50),
                 max_auto_size: 自动扩容upper limitGB (可选, 1~33554432, 默认33554432; must be greater than等于缩容lower limit和Filesystem容量),
                 min_auto_size: 自动缩容lower limitGB (可选, 1~33554432, 默认33554432),
-                auto_size_increment: 自动扩缩容单次变化量MB (可选, 64~102400, 默认1024),
+                auto_size_increment: Auto resize single change amountMB (可选, 64~102400, 默认1024),
              }
         worm: FilesystemWorm参数 (可选)。参数格式如下：{
                 type: WORM保护遵从模式 (可选)。可选值：none_mode, enterprise_mode, compliance_mode, advance_mode, audit_log, non_worm,
                 min_protect_period: 最小保护期 (可选, 0~4294967295, 默认0; 4294967295为无限期),
-                min_protect_period_unit: 最小保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
+                min_protect_period_unit: Min protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
                 max_protect_period: 最大保护期 (可选, 1~4294967295, 默认70; 4294967295为无限期),
-                max_protect_period_unit: 最大保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
+                max_protect_period_unit: Max protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
                 def_protect_period: 默认保护期 (可选, 0~4294967295, 默认70; 不小于最小且不大于最大),
-                def_protect_period_unit: 默认保护期单位 (可选, 默认year)。可选值：minute, hour, day, month, year,
-                auto_lock: WORM自动锁定模式 (可选, 默认开启; advance_mode不支持)。可选值：true, false,
+                def_protect_period_unit: Default protection period unit (可选, 默认year)。可选值：minute, hour, day, month, year,
+                auto_lock: WORMAuto-lock mode (可选, 默认开启; advance_mode不支持)。可选值：true, false,
                 auto_lock_time: Auto-lock time (可选, min1, 默认2),
                 auto_lock_time_unit: Auto-lock time单位 (可选, 默认hour)。可选值：minute, hour, day, month, year,
-                auto_del: 自动删除模式 (可选, 默认关闭; advance_mode不支持)。可选值：true, false,
+                auto_del: Auto-delete mode (可选, 默认关闭; advance_mode不支持)。可选值：true, false,
                 is_worm_audit_log_fs: WORMAudit logFilesystem (可选, 默认关闭; 一个租户只能有一个),
-                worm_append_unit: WORM追加态文件保护粒度 (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
+                worm_append_unit: WORMAppend-only file protection granularity (可选, 仅advance_mode支持)。可选值：256KB, 512KB, 1M,
              }
         task_remarks: Async taskRemark，0~1024个字符（可选）
         audit_log_rules: Audit log规则集合（可选），如：set_security、get_security、set_attr、get_attr等，最多100条
@@ -2608,7 +2608,7 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         - file_used: 已使用文件数
         - trash_enable: 是否开启回收站
         - enable_encrypt: Enable encryption
-        - rdc: 数据冗余份数
+        - rdc: Data redundancy copies
         - acl_policy_type: 安全模式
         - gfs_id: Global namespace ID
         - qos_policy: QoS 策略
@@ -2648,10 +2648,10 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 isInGfs: 是否在Global namespace中 (可选)。可选值：true, false,
              }, ...]
         enable_update_atime: 是否更新 Atime
-        trash_visible: 回收站目录是否可见，默认不可见
-        trash_enable: 回收站功能是否开启，默认disabled
-        interval_trash: 回收站保护时长（minute(s)），0 表示永久保留，最大 4294967295
-        dps_switch: 元数据检索开关，true 开启
+        trash_visible: Recycle bin directory visibility，默认不可见
+        trash_enable: Recycle bin enabled，默认disabled
+        interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，最大 4294967295
+        dps_switch: Metadata search switch，true 开启
         forbidden_dpc: 是否禁止 dpc 挂载
         audit_log_switch: 是否开启Audit log，默认关闭
         audit_log_rule: Audit log规则列表，可选值：open, create, read, write, close, 
@@ -2663,7 +2663,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         crypt_alg: 加密算法类型，可选值：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
         case_sensitive: 大小写是否敏感，默认不敏感
         show_snap_dir: Snapshot directory visibility
-        rdc: 数据冗余份数，可选值：redundancy_2, redundancy_3, redundancy_4
+        rdc: Data redundancy copies，可选值：redundancy_2, redundancy_3, redundancy_4
         worm: WORM 配置 (可选)。参数格式如下：{
                 worm_mode: WORM策略模式 (可选)。可选值：non_worm (None类型), enterprise_mode (企业级), compliance_mode (法规级),
                 min_protect_period: 最小保护期 (可选, 0~4294967295, 默认0; 4294967295为无限期),
@@ -2734,7 +2734,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 bucket_permission: 策略类型 (Required)。可选值：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (公共读写),
                 version_status: object多版本状态 (可选, 0~2)。可选值：0 (关闭), 1 (打开), 2 (暂停),
              }
-        application_type: 应用类型，可选值：PACS（医疗影像场景）, GENERAL（通用场景）
+        application_type: 应用类型，可选值：PACS（Medical imaging scenario）, GENERAL（通用场景）
         task_remarks: Async taskRemark
     
     Returns:
@@ -2818,10 +2818,10 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         namespace_id: Namespace ID（Required，1~64 个字符）
         enable_update_atime: 是否更新 Atime，true：更新；false：不更新
         show_snap_dir: Snapshot directory visibility，true：可见；false：不可见
-        trash_visible: 回收站目录是否可见，true：可见；false：不可见，默认不可见
-        trash_enable: 回收站功能是否开启，true：开启；false：disabled，默认disabled
-        interval_trash: 回收站保护时长（minute(s)），0 表示永久保留，不自动删除，最大 4294967295
-        dps_switch: 元数据检索开关，true：开启；false：关闭
+        trash_visible: Recycle bin directory visibility，true：可见；false：不可见，默认不可见
+        trash_enable: Recycle bin enabled，true：开启；false：disabled，默认disabled
+        interval_trash: Recycle bin retention period（minute(s)），0 Indicates permanent retention，不自动删除，最大 4294967295
+        dps_switch: Metadata search switch，true：开启；false：关闭
         forbidden_dpc: 是否禁止 dpc 挂载，true：禁止；false：不禁止
         audit_log_switch: 是否开启Audit log，缺省关闭，true：开启；false：关闭
         audit_log_rule: Audit log规则列表，可选值：open, create, read, write, close, delete, rename,
@@ -2829,9 +2829,9 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                        list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime 更新Frequency，4294967295：关闭更新；3600：1 hour(s)更新；86400：1 day(s)更新
         acl_policy_type: Namespace安全模式，可选值：mixed（同时支持 UNIX 和 Windows 权限），
-                        unix（适用于 NFS 用户的权限由 Unix Mode/NFSv4 ACL 权限控制），
+                        unix（适用于 NFS User permissions determined by Unix Mode/NFSv4 ACL 权限控制），
                         native（与 Mixed 模式适用于相同的场景），
-                        ntfs（适用于 CIFS 用户的权限由 Windows NT ACL 权限控制）
+                        ntfs（适用于 CIFS User permissions determined by Windows NT ACL 权限控制）
         enable_encrypt: Enable encryption，true：开启；false：关闭
         qos_policy: QoS 策略配置。参数格式如下：{
                 qos_switch: QoS开关 (Required)。可选值：on, off,
@@ -2887,7 +2887,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 read_mbps: Read bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
                 write_mbps: Write bandwidth限制Mbps (可选, 0~1073741824; 仅当qos_mode为manual且qos_scale不为account时可选),
              }
-        application_type: 应用类型，可选值：PACS（医疗影像场景）, GENERAL（通用场景）
+        application_type: 应用类型，可选值：PACS（Medical imaging scenario）, GENERAL（通用场景）
         task_remarks: Async taskRemark
     
     Returns:

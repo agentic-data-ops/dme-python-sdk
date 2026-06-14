@@ -3060,7 +3060,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
         return (ptype, resp)
 
     if port_type is None:
-        # 不指定类型，返回所有三种类型的端口，扁平化结构
+        # type not specified，返回所有三种类型的端口，扁平化结构
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             futures = [executor.submit(query_port_type, 'bond'),
                       executor.submit(query_port_type, 'eth'),

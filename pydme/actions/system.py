@@ -1092,7 +1092,7 @@ def dc_show_devices(client: DMEAPIClient, dc_id: str,
                  device_type: list = None, page_no: int = 1,
                  page_size: int = 20) -> dict:
     """
-    QueryData center的设备列表信息
+    QueryData centerdevice list info
     
     Args:
         client: DME API client
@@ -1455,7 +1455,7 @@ ACTIONS = {
     },
     'dc_show_devices': {
         'func': dc_show_devices,
-        'description': 'QueryData center的设备列表信息',
+        'description': 'QueryData centerdevice list info',
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },

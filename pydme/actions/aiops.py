@@ -540,7 +540,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
                    可以是integer列表或string列表,如 [123, 456] 或 ["123", "456"]
 
     Returns:
-        监控指标信息,包含 kpi, data_type, data_unit, en_us, zh_cn 等字段
+        Monitoring metric info,包含 kpi, data_type, data_unit, en_us, zh_cn 等字段
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
@@ -562,7 +562,7 @@ def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
         obj_type_id: 监控Object type标识(Required)
 
     Returns:
-        监控指标信息,包含 indicator_ids 列表
+        Monitoring metric info,包含 indicator_ids 列表
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types/{obj_type_id}/indicators"
 

@@ -46,7 +46,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
 def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                    ip: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询CMDB系统中的主机列表。
+    查询CMDBHost list in system。
 
     Args:
         client: DME API client
@@ -182,7 +182,7 @@ ACTIONS = {
     },
     'cmdb_host_list': {
         'func': cmdb_host_list,
-        'description': '查询CMDB系统中的主机列表',
+        'description': '查询CMDBHost list in system',
         'params': ['system_id', 'name', 'ip', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },

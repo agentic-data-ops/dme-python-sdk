@@ -331,7 +331,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
 
-    # fabric_wwn 或 vsan_wwn 至少提供一个
+    # fabric_wwn 或 vsan_wwn provide at least one
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
@@ -472,7 +472,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含成员列表
+        }，Includes member list
     """
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
 
@@ -497,7 +497,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
         if response.get('alias_members'):
             result['alias_members'] = response.get('alias_members')
 
-    # if specified type，只返回对应类型的成员
+    # if specified type，returns only matching member type
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
@@ -573,7 +573,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
     
-    # fabric_wwn 或 vsan_wwn 至少提供一个
+    # fabric_wwn 或 vsan_wwn provide at least one
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
@@ -675,7 +675,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     Returns:
         {
             task_id: Task ID (string, 1~64个字符),
-        }，包含成员列表
+        }，Includes member list
     """
     result = {'port_members': [], 'wwn_members': []}
 
@@ -694,7 +694,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
         if response.get('wwn_member'):
             result['wwn_members'] = response.get('wwn_member')
 
-    # if specified type，只返回对应类型的成员
+    # if specified type，returns only matching member type
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
