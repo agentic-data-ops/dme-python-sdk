@@ -33,7 +33,7 @@
 └── README.md
 ```
 
-## 如何使用
+## How to Use
 
 ### Installation
 
@@ -101,24 +101,24 @@ pydme storage list --limit 20
 pydme storage disk list --storage_id <id>
 ```
 
-可用主题：
+Available topics:
 
-| 主题 | 描述 |
+| Topic | Description |
 |-------|-------------|
-| `protect` | Data protection（保护组/双活/复制/快照/克隆） |
-| `san` | SAN block storage（LUN/映射视图/主机/端口组） |
-| `nas` | NAS file storage（NFS/CIFS/DPC/文件系统/配额） |
-| `storage` | Storage device management（租户/磁盘/池/端口/控制器） |
-| `system` | System management（用户/标签/任务/Region/证书） |
-| `aiops` | AIOps (alerts/performance/health/topology)（告警/性能/健康度/拓扑） |
-| `fcswitch` | FC switch management管理 |
+| `protect` | Data protection (protection groups/active-active/replication/snapshots/clones) |
+| `san` | SAN block storage (LUNs/mapping views/hosts/port groups) |
+| `nas` | NAS file storage (NFS/CIFS/DPC/filesystems/quotas) |
+| `storage` | Storage device management (tenants/disks/pools/ports/controllers) |
+| `system` | System management (users/tags/tasks/regions/certificates) |
+| `aiops` | AIOps (alerts/performance/health/topology) (alerts/performance/health/topology) |
+| `fcswitch` | FC switch management |
 | `gfs` | Global file system (GFS) |
-| `virt` | Virtualization services（VM/集群/数据存储） |
-| `server` | Server management（CPU/内存/RAID） |
-| `tenant` | Tenant self-service（服务化LUN/业务群组） |
-| `ipswitch` | IP switch management管理 |
+| `virt` | Virtualization services (VMs/clusters/datastores) |
+| `server` | Server management (CPU/memory/RAID) |
+| `tenant` | Tenant self-service (service LUNs/project groups) |
+| `ipswitch` | IP switch management |
 | `workflow` | Workflow management |
-| `kube` | Kubernetes management管理 |
+| `kube` | Kubernetes management |
 | `integrate` | Third-party integration (CMDB) |
 | `backup` | Backup management |
 | `workflow` | Workflow management |
@@ -142,7 +142,7 @@ from pydme.actions import *
 client = DMEAPIClient()
 client.login()
 
-# 通过模块名调用函数
+# Call functions by module name
 disks = storage.disk_list(client, storage_id="your-storage-id")
 alarms = aiops.alarm_list(client)
 luns = san.lun_list(client)
@@ -156,15 +156,15 @@ from pydme.actions import storage, aiops, san
 client = DMEAPIClient()
 client.login()
 
-# 查询存储设备磁盘
+# Query storage device disks
 disks = storage.disk_list(client, storage_id="your-storage-id")
 print(disks)
 
-# 查询告警
+# Query alarms
 alarms = aiops.alarm_list(client)
 print(alarms)
 
-# 查询 SAN LUN
+# Query SAN LUNs
 luns = san.lun_list(client, limit=20)
 print(luns)
 ```
@@ -185,24 +185,24 @@ All action functions follow the same pattern:
 - **Keyword arguments**：Action-specific parameters (see function documentation)
 - **Return value**：A `dict` containing the API response
 
-可用主题模块及常用函数：
+Available topic modules and common functions:
 
 | Module | Example function | Description |
 |--------|-----------------|-------------|
-| `aiops` | `aiops.alarm_list()` | AIOps (alerts/performance/health/topology)（告警/性能/健康度/拓扑） |
+| `aiops` | `aiops.alarm_list()` | AIOps (alerts/performance/health/topology) (alerts/performance/health/topology) |
 | `backup` | `backup.cluster_list()` | Backup management |
-| `fc_switch` | `fc_switch.zone_list()` | FC switch management管理 |
+| `fc_switch` | `fc_switch.zone_list()` | FC switch management |
 | `gfs` | `gfs.namespace_list()` | Global file system (GFS) |
-| `ip_switch` | `ip_switch.list()` | IP switch management管理 |
-| `kubernetes` | `kubernetes.cluster_list()` | Kubernetes management管理 |
+| `ip_switch` | `ip_switch.list()` | IP switch management |
+| `kubernetes` | `kubernetes.cluster_list()` | Kubernetes management |
 | `nas` | `nas.nfs_share_list()` | NAS operations (NFS/CIFS/filesystems/quotas) |
 | `protection` | `protection.snapshot_list()` | Protection (snapshots/active-active/replication) |
 | `san` | `san.lun_list()` | SAN operations (LUNs/mapping views/hosts) |
-| `self_service` | `self_service.lun_create()` | Tenant self-service（服务化 LUN/业务群组） |
-| `server` | `server.list()` | Server management（CPU/内存/RAID） |
-| `storage` | `storage.disk_list()` | Storage device management（磁盘/端口/控制器/QoS） |
-| `system` | `system.task_list()` | System management（用户/标签/任务/证书） |
-| `virtualization` | `virtualization.vm_list()` | Virtualization services（VM/集群/数据存储） |
+| `self_service` | `self_service.lun_create()` | Tenant self-service (service LUNs/project groups) |
+| `server` | `server.list()` | Server management (CPU/memory/RAID) |
+| `storage` | `storage.disk_list()` | Storage device management (disks/ports/controllers/QoS) |
+| `system` | `system.task_list()` | System management (users/tags/tasks/certificates) |
+| `virtualization` | `virtualization.vm_list()` | Virtualization services (VMs/clusters/datastores) |
 | `workflow` | `workflow.template_list()` | Workflow management |
 
 Browse available actions via CLI:
@@ -229,11 +229,11 @@ client.login()
 ```python
 import json
 
-# 查询存储设备列表
+# Query storage device list
 storage_list = client.get("/rest/storagemgmt/v1/storages").get("datas", [])
 print(json.dumps(storage_list, indent=2))
 
-# 按类型分类
+# Classify by type
 dorado_storage_list = [
     storage for storage in storage_list if storage.get("owning_ne_type") == "dorado"
 ]
