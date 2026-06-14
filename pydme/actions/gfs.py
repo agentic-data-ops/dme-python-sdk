@@ -220,7 +220,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
                 id: Namespace ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读)。Default：on_demand,
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
-                cache_time_unit: 缓存时长单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required。Default：hour,
+                cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required。Default：hour,
                 single_write_mode: 单写模式策略 (Optional)。Optional值：read_only (只读), read_write (读写)。当 single_write_switch 为 open 时，必须且只能有一个成员取值为 read_write,
              }, ...]
 
@@ -262,7 +262,7 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
                 id: Namespace ID 或Filesystem ID (1~64个字符, Required),
                 pull_mode: 读数据模式 (Optional)。Optional值：no_cache (转发读), on_demand (按需读),
                 cache_time: 缓存时长 (int32, Optional, Default: 8)。当 cache_time_unit 为 hour 时 1~4320, 为 day 时 1~180,
-                cache_time_unit: 缓存时长单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required,
+                cache_time_unit: Cache duration unit (Optional)。Optional值：hour (hour(s)), day (day(s))。cache_time 取值时Required,
              }, ...]
 
     Returns:
@@ -436,26 +436,26 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         task_mode: 任务模式 (Required)。Optional值：pre_fetch (预取缓存), tier (数据拉取)
         execute_mode: 执行模式 (Optional)。Optional值：interval (week(s)期性), one_time (只执行一次)。当 task_mode 为 pre_fetch this parameter is ineffective
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch this parameter is ineffective
-        execute_time_unit: week(s)期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch this parameter is ineffective
         start_mode: Task execution模式 (Required)。Optional值：manual (手动), auto (自动)
-        start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
+        start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
         max_bandwidth: 最大Sync速率 (int32, 1~10240, 单位: MB/s, Required)
-        period_start_day: 指定时间段的起始日期 (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
-        period_end_day: 指定时间段的结束日期 (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
-        period_time: 指定时间段的起止时间 (Optional, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
-        period_max_bandwidth: 指定时间段的带宽upper limit (Optional, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time must be sent together
+        period_start_day: Start date of specified period (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
+        period_end_day: End date of specified period (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
+        period_time: Start/end time of specified period (Optional, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
+        period_max_bandwidth: Bandwidth for specified periodupper limit (Optional, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time must be sent together
         target_namespace_id: Global namespace下目标Namespace ID (1~32个字符, Required)
         local_path: Namespace下的路径 (Optional, Default: "/")
         src_namespace_ids: Global namespace下源站点Namespace ID 列表 (List<string>, max array members: 32, Optional)
         atime_operator: 文件的访问时间匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 atime、atime_unit must be sent together
         atime: 文件的访问时间间隔 (int32, 0~26304, Optional)。与 atime_operator、atime_unit must be sent together
-        atime_unit: 文件的访问时间间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 atime_operator、atime must be sent together
+        atime_unit: 文件的访问Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 atime_operator、atime must be sent together
         mtime_operator: 文件的修改时间匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 mtime、mtime_unit must be sent together
         mtime: 文件的修改时间间隔 (int32, 0~26304, Optional)。与 mtime_operator、mtime_unit must be sent together
-        mtime_unit: 文件的修改时间间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 mtime_operator、mtime must be sent together
+        mtime_unit: 文件的修改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 mtime_operator、mtime must be sent together
         ctime_operator: 文件的状态修改时间匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 ctime、ctime_unit must be sent together
         ctime: 文件的状态修改时间间隔 (int32, 0~26304, Optional)。与 ctime_operator、ctime_unit must be sent together
-        ctime_unit: 文件的状态修改时间间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 ctime_operator、ctime must be sent together
+        ctime_unit: 文件的状态修改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 ctime_operator、ctime must be sent together
         crtime_operator: 文件的Creation time匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 crtime、crtime_unit must be sent together
         crtime: 文件的Creation time间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
         crtime_unit: 文件的Creation time间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
@@ -579,14 +579,14 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         id: Data migration task ID (1~32个字符, Required)
         task_name: 任务名称 (1~255个字符, Optional)
         start_mode: Task execution模式 (Optional)。Optional值：manual (手动), auto (自动)
-        start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
+        start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 Immediate start
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发
-        execute_time_unit: week(s)期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发
+        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发
         max_bandwidth: 最大Sync速率 (int32, 1~10240, 单位: MB/s, Optional)
-        period_start_day: 指定时间段的起始日期 (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
-        period_end_day: 指定时间段的结束日期 (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
-        period_time: 指定时间段的起止时间 (Optional, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
-        period_max_bandwidth: 指定时间段的带宽upper limit (Optional, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time must be sent together
+        period_start_day: Start date of specified period (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
+        period_end_day: End date of specified period (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
+        period_time: Start/end time of specified period (Optional, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
+        period_max_bandwidth: Bandwidth for specified periodupper limit (Optional, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time must be sent together
 
     Returns:
         {
@@ -647,7 +647,7 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) -> dict:
     """
-    批量暂停或者启动 Omni-Dataverse Data migration task
+    Batch pause or start Omni-Dataverse Data migration task
 
     Args:
         client: DME API client
@@ -755,7 +755,7 @@ ACTIONS = {
     },
     'migration_task_operate': {
         'func': migration_task_operate,
-        'description': '批量暂停或者启动 Omni-Dataverse Data migration task',
+        'description': 'Batch pause or start Omni-Dataverse Data migration task',
         'params': ['ids', 'operate_type'],
         'subtopic': 'migration_task'
     },
