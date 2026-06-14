@@ -13,7 +13,7 @@ def login(client: DMEAPIClient) -> dict:
     认证用户登录
 
     强制调用 client.login() 完成认证，然后从 header 获取 accessSession，
-    提示用户可配置环境变量复用认证密钥，避免重复登录。
+    提示用户可配置环境变量复用认证密钥，Avoid duplicate login。
 
     Args:
         client: DME API client
@@ -29,7 +29,7 @@ def login(client: DMEAPIClient) -> dict:
     accessSession = client.headers.get("X-Auth-Token", "")
     if accessSession:
         print(f"\n登录成功！")
-        print(f"\n提示：配置环境变量复用认证密钥，避免重复登录：")
+        print(f"\n提示：配置环境变量复用认证密钥，Avoid duplicate login：")
         print("  export DME_API_AUTH_TOKEN='<accessSession>'")
 
     return {
@@ -61,7 +61,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
     Args:
         client: DME API client
         user_name: 需要重置密码的用户名 (Required, string, 1~128个字符)
-        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度cannot be less than8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
+        new_value: 新密码 (Required, string, 8~32个字符)。要求：1. 密码长度cannot be less than8个字符、大于32个字符。2. Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符（!"#$%&'()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数cannot exceed2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。
         is_initial_password: 标识密码重置后当下次登录时是否必须修改密码 (Required, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。Default：true
 
     Returns:
@@ -115,7 +115,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
         client: DME API client
         name: 用户名 (Required, string, 最多32个字符)。本地用户名cannot be less than6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名cannot be less than1个字符，大于32个字符，不能包含不可见字符和;特殊字符。
         type: 用户类型 (Required, integer, 无)。0：本地用户；2：远端用户。
-        value: 密码 (Optional, string, 8~32个字符)。密码长度cannot be less than8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符。远端用户不涉及。
+        value: 密码 (Optional, string, 8~32个字符)。密码长度cannot be less than8个字符、大于32个字符。Password must contain at least2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1count字，至少包含1个特殊字符。远端用户不涉及。
         description: 描述 (Optional, string, 最多127个字符)
         roles: 用户所属角色 (Optional, List[integer], max array members：10)。如Administrators，北向用户组，安全管理员组，Filesystem组或用户自定义角色。
 
@@ -162,7 +162,7 @@ def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
                 id: 用户ID (integer, 1~2147483647),
                 name: 用户名 (string, 6~32个字符),
                 description: 描述 (string, 最多127个字符),
-                type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
+                type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (Third-party system access user), 2 (远端用户),
                 roles: 角色ID列表 (List<integer>, max array members：50),
             }, ...]
         }
@@ -220,7 +220,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
         {
             id: 用户ID (integer, 1~2147483647),
             name: 用户名 (string, 最多32个字符),
-            type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (三方系统接入用户), 2 (远端用户),
+            type: 用户类型 (integer)。Optional值：0 (本地用户), 1 (Third-party system access user), 2 (远端用户),
             description: 描述 (string, 最多127个字符),
             roles: 用户所属角色 (List<integer>, max array members：50),
         }
@@ -237,7 +237,7 @@ def user_show(client: DMEAPIClient, user_id: int) -> dict:
 
 def show(client: DMEAPIClient) -> dict:
     """
-    查询产品系统信息。
+    Query product system info。
 
     Args:
         client: DME API client
@@ -529,7 +529,7 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
 
 def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
     """
-    撤销审核待办项
+    Cancel review pending item
 
     撤销对指定待办项的审核。
 
@@ -594,8 +594,8 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - seq_no: 任务序号
         - status: 状态（1-初始状态;2-Executing;3-成功;4-部分成功;5-失败;6-超时）
         - progress: 任务进度
-        - owner_name: 创建任务用户名称
-        - owner_id: 创建任务用户 ID
+        - owner_name: Create task user名称
+        - owner_id: Create task user ID
         - create_time: Task creation时间（UTC 毫second(s)数）
         - start_time: 任务Start time（UTC 毫second(s)数）
         - end_time: 任务End time（UTC 毫second(s)数）
@@ -625,7 +625,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         limit: Page size, default 100
         task_name: 任务名称过滤（Optional）
         status: 状态过滤（Optional，1-初始状态;2-Executing;3-成功;4-部分成功;5-失败;6-超时）
-        owner_id: 创建任务用户 ID 过滤（Optional）
+        owner_id: Create task user ID 过滤（Optional）
         create_time_from: Creation time起始（Optional，UTC 毫second(s)数）
         create_time_to: Creation time结束（Optional，UTC 毫second(s)数）
     
@@ -676,7 +676,7 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
 def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
               poll_interval: int = 2) -> dict:
     """
-    等待任务完成
+    Wait for task completion
 
     轮询查询任务状态，直到任务完成或超时。
 
@@ -1042,7 +1042,7 @@ def dc_list(client: DMEAPIClient, name: str = None,
     """
     获取Data center列表
     
-    查询Data center列表，支持按名称过滤和分页。
+    查询Data center列表，supports name filtering and pagination。
     
     Args:
         client: DME API client
@@ -1232,7 +1232,7 @@ ACTIONS = {
     },
     'show': {
         'func': show,
-        'description': '查询产品系统信息',
+        'description': 'Query product system info',
         'params': [],
         'subtopic': None
     },
@@ -1336,7 +1336,7 @@ ACTIONS = {
     },
     'todo_task_revoke': {
         'func': todo_task_revoke,
-        'description': '撤销审核待办项',
+        'description': 'Cancel review pending item',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
@@ -1367,7 +1367,7 @@ ACTIONS = {
     },
     'task_wait': {
         'func': task_wait,
-        'description': '等待任务完成',
+        'description': 'Wait for task completion',
         'params': ['task_id', 'timeout', 'poll_interval'],
         'subtopic': 'task'
     },

@@ -306,7 +306,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     创建 zone
 
-    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
+    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
@@ -373,7 +373,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
         fwwn_members: FWWN 成员修改（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
         port_members: 端口成员修改（Optional），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，Brocade switch: specifyport_index，Cisco switch: specifyport_name
         fcid_members: FCID 成员修改（Optional），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
-        device_alias_members: 设备别名成员修改（Optional），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
+        device_alias_members: Device alias member modification（Optional），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
 
     Returns:
         {
@@ -467,7 +467,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
         client: DME API client
         zone_id: Zone ID（Required）
         type: 成员类型，Optional值：port（端口成员）,wwn（WWN 成员）,alias（别名成员）。
-             不指定时返回所有类型的成员
+             returns all member types if not specified
 
     Returns:
         {
@@ -549,13 +549,13 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     """
     创建别名
 
-    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
+    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，and at least one member type。
 
     Args:
         client: DME API client
         name: Alias 名称（Required）
-        fabric_wwn: 光纤网络 WWN（条件Required，fabric 创建别名时需要）
-        vsan_wwn: VSAN WWN（条件Required，vsan 创建别名时需要）
+        fabric_wwn: 光纤网络 WWN（条件Required，fabric Alias creation requires）
+        vsan_wwn: VSAN WWN（条件Required，vsan Alias creation requires）
         wwn_members: WWN 成员列表（Optional，思科交换机 PWWN 成员）
         port_members: Port member list（Optional）
         fwwn_members: FWWN 成员列表（Optional）
@@ -612,7 +612,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
         fwwn_members: FWWN 成员修改（Optional）
         port_members: 端口成员修改（Optional）
         fcid_members: FCID 成员修改（Optional）
-        device_alias_members: 设备别名成员修改（Optional）
+        device_alias_members: Device alias member modification（Optional）
     
     Returns:
         {
@@ -670,7 +670,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
         client: DME API client
         alias_id: Alias ID（Required）
         type: 成员类型，Optional值：port（端口成员）,wwn（WWN 成员）。
-             不指定时返回所有类型的成员
+             returns all member types if not specified
 
     Returns:
         {
@@ -705,7 +705,7 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
         return {'members': all_members}
 
 
-# ACTIONS 字典，定义所有可用动作
+# ACTIONS 字典，Define all available actions
 ACTIONS = {
     'list': {
         'func': list,

@@ -127,7 +127,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                     datacenter_id: str = None, sort_key: str = "name",
                     sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询数据存储列表
+    Query datastore list
     
     Args:
         client: DME API client
@@ -396,7 +396,7 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
 
 def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
-    Query主机存储适配器列表
+    QueryHost storage adapter list
     
     查询Physical host的存储适配器列表。
     
@@ -418,7 +418,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
                          disk_type: list = None, status: list = None,
                          page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询物理盘信息
+    Query physical disk info
     
     查询物理磁盘列表，supports multiple filter criteria。
     
@@ -462,7 +462,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
                         disk_type: list = None, status: list = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询虚拟磁盘信息列表
+    Query virtual disk info list
     
     查询虚拟磁盘列表，supports multiple filter criteria。
     
@@ -541,7 +541,7 @@ ACTIONS = {
     # 数据存储管理
     'datastore_list': {
         'func': datastore_list,
-        'description': '查询数据存储列表',
+        'description': 'Query datastore list',
         'params': ['site_id', 'cluster_id', 'host_id', 'dc_id', 'name', 
                    'status', 'storage_type', 'allocate_type', 'vr_type',
                    'datacenter_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -569,7 +569,7 @@ ACTIONS = {
     },
     'host_adapter_list': {
         'func': host_adapter_list,
-        'description': 'Query主机存储适配器列表',
+        'description': 'QueryHost storage adapter list',
         'params': ['host_id'],
         'subtopic': 'host'
     },
@@ -602,14 +602,14 @@ ACTIONS = {
     # 物理盘管理
     'disk_list': {
         'func': disk_list,
-        'description': '查询物理盘信息',
+        'description': 'Query physical disk info',
         'params': ['site_id', 'host_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'disk'
     },
     # 虚拟磁盘管理
     'vdisk_list': {
         'func': vdisk_list,
-        'description': '查询虚拟磁盘信息列表',
+        'description': 'Query virtual disk info list',
         'params': ['site_id', 'vm_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'vdisk'
     },

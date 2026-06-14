@@ -683,7 +683,7 @@ def nfs_share_create(client: DMEAPIClient, create_nfs_share_param: dict,
                      }, ...],
                 file_name_extension_filters: File extension过滤规则列表 (可选)。参数格式如下：[{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
-                        file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *只能位于最后一个字符),
+                        file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *must be at the last character),
                         rule_type: 规则允许/拒绝 (可选, 默认reject)。可选值：reject, permit,
                         fileoperations: Operation type list (可选)。可选值：close, create, create_dir, delete, delete_dir, getattr, link, lookup, open, read, write, rename, rename_dir, setattr, symlink,
                      }, ...],
@@ -743,7 +743,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
              }, ...]
         nfs_share_client_modification: 需要修改的 NFS Share client list (可选)。参数格式如下：[{
-                nfs_share_client_id_in_storage: 客户端在存储上的ID (Required, 1~32字符),
+                nfs_share_client_id_in_storage: Client on storageID (Required, 1~32字符),
                 permission: 权限 (Required)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5: krb5权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5i: krb5i权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
@@ -755,7 +755,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 anonymous_user_id: 匿名用户ID (可选, 0~4294967294),
              }, ...]
         nfs_share_client_deletion: 需要删除的 NFS Share client list (可选)。参数格式如下：[{
-                nfs_share_client_id_in_storage: 客户端在存储上的ID (Required, 1~32字符),
+                nfs_share_client_id_in_storage: Client on storageID (Required, 1~32字符),
                 name: 客户端IPor hostname or netgroup name (可选, 1~32000字符),
              }, ...]
         file_name_ex_filters: 扩展名过滤规则列表 (可选)。参数格式如下：[{
@@ -1096,7 +1096,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 update_type: 变更类型 (可选, 默认add)。可选值：add (新增), delete (删除), modify (修改),
                 param: 扩展名过滤规则object (可选)。属性格式如下：{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
-                        file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *只能位于最后一个字符),
+                        file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *must be at the last character),
                         rule_type: 规则类型 (可选, 默认reject)。可选值：reject (拒绝), permit (允许),
                         fileoperations: Operation type list (可选, 最多100个),
                 }

@@ -408,7 +408,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
                         object_type_id: str, object_ids: list,
                         indicator_ids: list) -> dict:
     """
-    创建性能文件收集任务
+    Create performance file collection task
 
     收集范围为开始日期到结束日期的性能文件,只支持收集 7 day(s)内的数据,
     每次传入的object乘以指标数不超过 2000.
@@ -605,7 +605,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_time: int,
                       end_time: int, object_type: str, indicator: str = None) -> dict:
     """
-    查询健康度相关数据
+    Query health-related data
 
     查询Capacity prediction、性能预测、性能异常等健康度相关数据。
 
@@ -613,8 +613,8 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
         client: DME API client
         type: 数据类型（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
         object_id: 资源 ID（Required，1~256 个字符）
-        begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
-        end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）至当前时间的毫second(s)数
+        begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
+        end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         object_type: Resource type（Required）
         indicator: Resource type所对应的指标（capacity_prediction 和 performance_prediction Required）
 
@@ -700,7 +700,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
 def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                        health_dimension: str) -> dict:
     """
-    查询健康维度的扣分详情
+    Query health dimension deduction details
 
     Queryobject在指定健康维度下的扣分详情。
 
@@ -741,7 +741,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
 def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
     r"""
-    查询性能诊断任务状态
+    Query performance diagnosis task status
 
     根据任务 ID 查询诊断任务状态.
 
@@ -792,7 +792,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                         administrative_status: str = None, policy_category: str = None,
                         object_category: str = None) -> dict:
     """
-    查询检查策略列表
+    Query check policy list
 
     Args:
         client: DME API client
@@ -954,7 +954,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
                           page_no: int = 1, page_size: int = 20, sort_key: str = None,
                           sort_dir: str = None) -> dict:
     """
-    查询检查策略异常检查结果列表
+    Query check policy exception results
 
     查询检查策略的异常检查结果，supports multiple filter criteria和Pagination。
 
@@ -1024,7 +1024,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
 
 def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     """
-    查询检查策略异常检查结果详情
+    Query check policy exception details
 
     Query检查结果的Details。
 
@@ -1191,7 +1191,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
               vm_name: str = None, page_size: int = 20, page_no: int = 1) -> dict:
     r"""
-    查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表
+    Query topology VM and virtual disk list，或查询 BMS 下物理磁盘列表
 
     via specified entryobject查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
     或者查询 BMS（裸金属服务器）下的物理磁盘列表。
@@ -1246,9 +1246,9 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
 def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_res_id: str,
                 type: str = None, filter: list = None) -> dict:
     r"""
-    查询拓扑图库信息
+    Query topology library info
 
-    via specified entry资源查询拓扑图库信息，支持 NAS、K8s、DB 等业务类型。
+    via specified entry资源Query topology library info，支持 NAS、K8s、DB 等业务类型。
 
     Args:
         client: DME API client
@@ -1350,14 +1350,14 @@ ACTIONS = {
     },
     'diagnose_task_status': {
         'func': diagnose_task_status,
-        'description': '查询性能诊断任务状态',
+        'description': 'Query performance diagnosis task status',
         'params': ['task_id'],
         'subtopic': 'diagnose_task'
     },
     # performance subtopic actions
     'performance_create_collect_task': {
         'func': performance_create_collect_task,
-        'description': '创建性能文件收集任务',
+        'description': 'Create performance file collection task',
         'params': ['begin_time', 'end_time', 'object_type_id', 'object_ids', 'indicator_ids'],
         'subtopic': 'performance'
     },
@@ -1394,20 +1394,20 @@ ACTIONS = {
     # check_result subtopic actions
     'check_result_list': {
         'func': check_result_list,
-        'description': '查询检查策略异常检查结果列表',
+        'description': 'Query check policy exception results',
         'params': ['object_name', 'level', 'object_ids', 'object_native_id', 'object_type', 'policy_id', 'policy_name', 'policy_types', 'cause', 'alarm_type', 'first_occur_time', 'last_occur_time', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'check_result'
     },
     'check_result_show': {
         'func': check_result_show,
-        'description': '查询检查策略异常检查结果详情',
+        'description': 'Query check policy exception details',
         'params': ['check_result_id'],
         'subtopic': 'check_result'
     },
     # check_policy subtopic actions
     'check_policy_list': {
         'func': check_policy_list,
-        'description': '查询检查策略列表',
+        'description': 'Query check policy list',
         'params': ['policy_name', 'exact_query', 'status', 'policy_type', 'policy_source', 'alarm_type', 'object_type', 'page_no', 'page_size', 'sort_key', 'sort_dir', 'administrative_status', 'policy_category', 'object_category'],
         'subtopic': 'check_policy'
     },
@@ -1450,20 +1450,20 @@ ACTIONS = {
     },
     'topology_query_vms': {
         'func': topology_query_vms,
-        'description': '查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表',
+        'description': 'Query topology VM and virtual disk list，或查询 BMS 下物理磁盘列表',
         'params': ['entry_objects', 'host_id', 'vm_name', 'page_size', 'page_no'],
         'subtopic': 'topology'
     },
     'topology_query_graph_path': {
         'func': topology_query_graph_path,
-        'description': '查询拓扑图库信息（支持 NAS、K8s、DB 等业务类型）',
+        'description': 'Query topology library info（支持 NAS、K8s、DB 等业务类型）',
         'params': ['entry_res_type', 'entry_res_id', 'type', 'filter'],
         'subtopic': 'topology'
     },
     # health subtopic actions
     'health_query_data': {
         'func': health_query_data,
-        'description': '查询健康度相关数据（Capacity prediction/性能预测/性能异常）',
+        'description': 'Query health-related data（Capacity prediction/性能预测/性能异常）',
         'params': ['type', 'object_id', 'begin_time', 'end_time', 'object_type', 'indicator'],
         'subtopic': 'health'
     },
@@ -1475,7 +1475,7 @@ ACTIONS = {
     },
     'health_show_detail': {
         'func': health_show_detail,
-        'description': '查询健康维度的扣分详情',
+        'description': 'Query health dimension deduction details',
         'params': ['object_id', 'object_type', 'health_dimension'],
         'subtopic': 'health'
     }

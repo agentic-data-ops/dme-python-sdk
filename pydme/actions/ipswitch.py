@@ -71,7 +71,7 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP 交换机单板列表信息
+    查询 IP Switch board list info
     
     Args:
         client: DME API client
@@ -98,7 +98,7 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 IP 交换机子卡列表信息
+    查询 IP Switch subcard list info
     
     Args:
         client: DME API client
@@ -204,7 +204,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     return response
 
 
-# ACTIONS 字典，定义所有可用动作
+# ACTIONS 字典，Define all available actions
 ACTIONS = {
     'list': {
         'func': list,
@@ -220,13 +220,13 @@ ACTIONS = {
     },
     'board_list': {
         'func': board_list,
-        'description': '查询 IP 交换机单板列表信息',
+        'description': '查询 IP Switch board list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'board'
     },
     'subcard_list': {
         'func': subcard_list,
-        'description': '查询 IP 交换机子卡列表信息',
+        'description': '查询 IP Switch subcard list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'subcard'
     },

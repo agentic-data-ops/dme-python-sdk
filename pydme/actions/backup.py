@@ -47,7 +47,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
 
 def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
-    查询备份集群容量
+    Query backup cluster capacity
     
     Query备份集群的容量信息。
     
@@ -118,7 +118,7 @@ ACTIONS = {
     },
     'cluster_capacity': {
         'func': cluster_capacity,
-        'description': '查询备份集群容量',
+        'description': 'Query backup cluster capacity',
         'params': ['cluster_id'],
         'subtopic': 'cluster'
     },

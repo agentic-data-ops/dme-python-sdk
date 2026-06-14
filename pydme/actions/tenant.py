@@ -301,7 +301,7 @@ def project_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryProject group
 
-    查询Project group列表，支持按名称过滤和分页。
+    查询Project group列表，supports name filtering and pagination。
 
     Args:
         client: DME API client
