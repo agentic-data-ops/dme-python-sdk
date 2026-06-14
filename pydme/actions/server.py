@@ -213,7 +213,7 @@ def power_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        Power supply list
+        power supply list
     """
     url = "/rest/servermgmt/v1/powers/query"
     

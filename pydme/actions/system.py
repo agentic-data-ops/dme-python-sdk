@@ -314,7 +314,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     return response
 
 
-# ==================== Pending task groupmanagement  (todo_task_group Subtopic)  ====================
+# ==================== pending task groupmanagement  (todo_task_group Subtopic)  ====================
 
 def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str = None,
                creator_name: str = None, is_finished: bool = None,
@@ -328,14 +328,14 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
 
     Args:
         client: DME API client
-        group_id: Pending task group ID (Optional) 
-        name: Pending task group name (Optional) 
+        group_id: pending task group ID (Optional) 
+        name: pending task group name (Optional) 
         creator_name: Creator name (Optional) 
         is_finished:  whetherCompleted (Optional) 
         is_group: Group task (Optional) 
         start: paginationStart position (Optional, 0~10000000) 
         limit: paginationcount (Optional, 1~1000) 
-        status: Pending task group status list (Optional, 1-Pending, 2-Executing, 3-Completed, 4-Disabled) 
+        status: pending task group status list (Optional, 1-Pending, 2-Executing, 3-Completed, 4-Disabled) 
         todo_item_status: Pending item status list (Optional, 0-Pending confirm, 1-Incomplete, 2-Executing, 3-Completed) 
         start_time_from: Start time start value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
         start_time_to: Start time end value (Optional,  format: yyyy-MM-dd HH:mm:ss) 
@@ -391,11 +391,11 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
     """
      execute pending task group
 
-    Execute specifiedPending task group. 
+    Execute specifiedpending task group. 
 
     Args:
         client: DME API client
-        group_id: Pending task group ID (Required) 
+        group_id: pending task group ID (Required) 
 
     Returns:
         Execution result, includes  task_id
@@ -408,11 +408,11 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
 
 def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     """
-    Confirm scheduled executionPending task group
+    Confirm scheduled executionpending task group
 
     Args:
         client: DME API client
-        group_id: Pending task group ID (Required) 
+        group_id: pending task group ID (Required) 
 
     Returns:
         Confirmation result
@@ -576,7 +576,7 @@ import time
 
 def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
-    QueryTask details
+    Query task details
     
     By taskUnique identifier TaskId query. 
     
@@ -1305,20 +1305,20 @@ ACTIONS = {
     },
     'todo_task_group_confirm': {
         'func': todo_task_group_confirm,
-        'description': 'Confirm scheduled executionPending task group',
+        'description': 'Confirm scheduled executionpending task group',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
     # subtopic actions - todo_task (three-level structure)
     'todo_task_list': {
         'func': todo_task_list,
-        'description': 'Query pendingTask list',
+        'description': 'Query pending task list',
         'params': ['service_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'todo_task'
     },
     'todo_task_show': {
         'func': todo_task_show,
-        'description': 'Query pendingTask details',
+        'description': 'Query pending task details',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
@@ -1349,7 +1349,7 @@ ACTIONS = {
     # subtopic actions - task (three-level structure)
     'task_show': {
         'func': task_show,
-        'description': 'QueryTask details',
+        'description': 'Query task details',
         'params': ['task_id'],
         'subtopic': 'task'
     },

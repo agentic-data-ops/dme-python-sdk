@@ -452,7 +452,7 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
 def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list,
                                 is_self_adapt: bool = None) -> dict:
     """
-    Active-active consistency groupAdd member Pair
+    Active-active consistency group - add member pair
 
     Args:
         client: DME API client
@@ -480,7 +480,7 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
 
 def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Active-active consistency groupRemove member Pair
+    Active-active consistency group - remove member pair
 
     Args:
         client: DME API client
@@ -504,7 +504,7 @@ def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids:
 
 def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-     pauseActive-active consistency group
+     pause active-active consistency group
 
     Args:
         client: DME API client
@@ -529,7 +529,7 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
 
 def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    force startActive-active consistency group
+    force start active-active consistency group
 
     Args:
         client: DME API client
@@ -554,7 +554,7 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
 
 def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     """
-    Active-active consistency groupPreferred site switch
+    Active-active consistency grouppreferred site switch
 
     Args:
         client: DME API client
@@ -795,7 +795,7 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
 
 def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    SyncActive-active Pair
+    Sync active-active pair
 
     Args:
         client: DME API client
@@ -818,7 +818,7 @@ def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
 
 def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-     pauseActive-active Pair
+     pause active-active pair
 
     Args:
         client: DME API client
@@ -843,7 +843,7 @@ def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type
 
 def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    force startActive-active Pair
+    force start active-active pair
 
     Args:
         client: DME API client
@@ -868,7 +868,7 @@ def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_stat
 
 def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     """
-    Active-active Pair Preferred site switch
+    Active-active Pair preferred site switch
 
     Args:
         client: DME API client
@@ -2617,7 +2617,7 @@ def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
     """
-    Preferred site switchFilesystemActive-active domain. 
+    preferred site switchFilesystemActive-active domain. 
 
     Args:
         client: DME API client
@@ -2801,31 +2801,31 @@ ACTIONS = {
     },
     'hypermetro_group_add_pairs': {
         'func': hypermetro_group_add_pairs,
-        'description': 'Active-active consistency groupAdd member Pair',
+        'description': 'Active-active consistency group - add member pair',
         'params': ['group_id', 'pair_ids', 'is_self_adapt'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_remove_pairs': {
         'func': hypermetro_group_remove_pairs,
-        'description': 'Active-active consistency groupRemove member Pair',
+        'description': 'Active-active consistency group - remove member pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_pause': {
         'func': hypermetro_group_pause,
-        'description': ' pauseActive-active consistency group',
+        'description': ' pause active-active consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_force_startup': {
         'func': hypermetro_group_force_startup,
-        'description': 'force startActive-active consistency group',
+        'description': 'force start active-active consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_switch_priority': {
         'func': hypermetro_group_switch_priority,
-        'description': 'Active-active consistency groupPreferred site switch',
+        'description': 'Active-active consistency grouppreferred site switch',
         'params': ['ids'],
         'subtopic': 'hypermetro_group'
     },
@@ -2856,25 +2856,25 @@ ACTIONS = {
     },
     'hypermetro_pair_sync': {
         'func': hypermetro_pair_sync,
-        'description': 'SyncActive-active Pair',
+        'description': 'Sync active-active pair',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_pause': {
         'func': hypermetro_pair_pause,
-        'description': ' pauseActive-active Pair',
+        'description': ' pause active-active pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_force_startup': {
         'func': hypermetro_pair_force_startup,
-        'description': 'force startActive-active Pair',
+        'description': 'force start active-active pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_switch_priority': {
         'func': hypermetro_pair_switch_priority,
-        'description': 'Active-active Pair Preferred site switch',
+        'description': 'Active-active Pair preferred site switch',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
@@ -3173,7 +3173,7 @@ ACTIONS = {
     },
     'hypermetro_domain_switch_site': {
         'func': hypermetro_domain_switch_site,
-        'description': 'Preferred site switchFilesystemActive-active domain',
+        'description': 'preferred site switchFilesystemActive-active domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },

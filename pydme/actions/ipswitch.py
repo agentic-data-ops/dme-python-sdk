@@ -44,7 +44,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
 
 def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query IP SwitchEnclosureList info
+     query IP Switchenclosure list info
     
     Args:
         client: DME API client
@@ -125,7 +125,7 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
 
 def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query IP SwitchPower supply list info
+     query IP Switchpower supply list info
     
     Args:
         client: DME API client
@@ -152,7 +152,7 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query IP SwitchFanList info
+     query IP switch fan list info
     
     Args:
         client: DME API client
@@ -214,7 +214,7 @@ ACTIONS = {
     },
     'frame_list': {
         'func': frame_list,
-        'description': ' query IP SwitchEnclosureList info',
+        'description': ' query IP Switchenclosure list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'frame'
     },
@@ -232,13 +232,13 @@ ACTIONS = {
     },
     'power_list': {
         'func': power_list,
-        'description': ' query IP SwitchPower supply list info',
+        'description': ' query IP Switchpower supply list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'power'
     },
     'fan_list': {
         'func': fan_list,
-        'description': ' query IP SwitchFanList info',
+        'description': ' query IP switch fan list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },

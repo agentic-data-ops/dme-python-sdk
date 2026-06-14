@@ -537,7 +537,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
 
 def get_passphrase(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    getStorage device access token
+    get storage device access token
 
     Args:
         client: DME API client
@@ -562,7 +562,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
              location: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query storage deviceFan info
+    query storage devicefan info
 
     Args:
         client: DME API client
@@ -632,7 +632,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
               sort_dir: str = None, page_no: int = 1,
               page_size: int = 20) -> dict:
     """
-    query storage deviceDisk info list
+    query storage devicedisk info list
 
     Args:
         client: DME API client. 
@@ -741,7 +741,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
               zone_id: str = None, page_no: int = 1, page_size: int = 10,
               sort_key: str = None, sort_dir: str = None) -> dict:
     """
-     query storage deviceStorage pool list
+     query storage devicestorage pool list
 
     Args:
         client: DME API client
@@ -819,7 +819,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
                          description: str = None, page_no: int = 1, page_size: int = 20,
                          sort_key: str = None, sort_dir: str = None) -> dict:
     """
-     query HyperScale Storage pool list
+     query HyperScale storage pool list
 
     Args:
         client: DME API client
@@ -893,7 +893,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
               page_no: int = 1, page_size: int = 20,
               sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    query storage deviceNode list
+    query storage devicenode list
 
     Args:
         client: DME API client
@@ -915,7 +915,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total:  Node count (integer),
-            nodes: Node list (List<StorageNodeBaseInfo>). 参数格式如下：[{
+            nodes: node list (List<StorageNodeBaseInfo>). 参数格式如下：[{
                 id:  nodeid (1~64 characters),
                 name: Node name (1~255 characters),
                 raw_id:  nodeon the storage deviceID (1~64 characters),
@@ -1861,7 +1861,7 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
              page_size: int = 10, sort_key: str = None,
              sort_dir: str = None) -> dict:
     """
-    Batch query QoS  policy
+    Batch query QoS policy
 
     Args:
         client: DME API client
@@ -3223,37 +3223,37 @@ ACTIONS = {
     },
     'get_passphrase': {
         'func': get_passphrase,
-        'description': 'getStorage device access token',
+        'description': 'get storage device access token',
         'params': ['storage_id'],
     },
     'fan_list': {
         'func': fan_list,
-        'description': 'query storage deviceFan info',
+        'description': 'query storage devicefan info',
         'params': ['storage_id', 'health_status', 'running_status', 'run_level',
                    'enclosure_name', 'location', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'disk_list': {
         'func': disk_list,
-        'description': 'query storage deviceDisk info list',
+        'description': 'query storage devicedisk info list',
         'params': ['storage_id'],
         'subtopic': 'disk'
     },
     'pool_list': {
         'func': pool_list,
-        'description': ' query storage deviceStorage pool list',
+        'description': ' query storage devicestorage pool list',
         'params': ['storage_id', 'raw_id', 'zone_id', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'pool'
     },
     'hyperscale_pool_list': {
         'func': hyperscale_pool_list,
-        'description': ' query HyperScale Storage pool list',
+        'description': ' query HyperScale storage pool list',
         'params': ['raw_id', 'name', 'local_pool_id', 'health_status', 'running_status', 'storage_id', 'description', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'hyperscale_pool'
     },
     'node_list': {
         'func': node_list,
-        'description': 'query storage deviceNode list',
+        'description': 'query storage devicenode list',
         'params': ['storage_id', 'raw_id', 'storage_name', 'name', 'ids',
                    'mgmt_ip', 'frame_number', 'slot_number', 'status', 'roles',
                    'page_no', 'page_size', 'sort_key', 'sort_dir'],
@@ -3261,7 +3261,7 @@ ACTIONS = {
     },
     'psu_list': {
         'func': psu_list,
-        'description': 'getStorage devicePower supply (PSU)  list',
+        'description': 'get storage devicepower supply (PSU) list',
         'params': ['storage_id', 'health_status', 'running_status', 'power_type',
                    'power_mode', 'location', 'model', 'sn', 'enclosure_name',
                    'zone_id', 'page_no', 'page_size'],
@@ -3413,7 +3413,7 @@ ACTIONS = {
     # qos subtopic actions
     'qos_list': {
         'func': qos_list,
-        'description': 'Batch query QoS  policy',
+        'description': 'Batch query QoS policy',
         'params': ['storage_id', 'name', 'raw_id', 'enable_status', 'running_status',
                    'zone_id', 'resource_type_list', 'vstore_id', 'vstore_name',
                    'alarm_status', 'io_policy_type', 'page_no', 'page_size',
