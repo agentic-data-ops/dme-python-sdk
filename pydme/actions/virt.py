@@ -21,7 +21,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         client: DME API client
         site_id: Virtual machine所属站点 ID
         cluster_id: Virtual machine所属集群 ID（HCS 场景不支持）
-        dc_id: Data center ID（仅 FusionCompute 场景支持）
+        dc_id: Data center ID（仅 FusionCompute Scenario support）
         cluster_name: Virtual machine所属Cluster name（supports fuzzy search，HCS 场景不支持）
         host_id: Virtual machine所属Physical hostUnique identifier
         host_name: Virtual machine所属Host name（supports fuzzy search）
@@ -36,7 +36,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         is_template: 是否是模板（true/false）
         os_type: OS type list（Windows, Linux, Other）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: DatastoreData center ID（仅 vCenter 场景支持）
+        datacenter_id: DatastoreData center ID（仅 vCenter Scenario support）
         sort_key: Sort field（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
         sort_dir: Sort direction（asc, desc），默认 asc
         page_no: Page queryStart page，默认 1
@@ -142,9 +142,9 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         storage_type: 数据Storage class型列表
                       取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: supports精简模式（仅 FusionCompute 场景支持）
+        allocate_type: supports精简模式（仅 FusionCompute Scenario support）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: Datastore所属的 vCenter Data center ID（仅 vCenter 场景支持）
+        datacenter_id: Datastore所属的 vCenter Data center ID（仅 vCenter Scenario support）
         sort_key: Sort field（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
         sort_dir: Sort direction（asc, desc），默认 asc
         page_no: Page queryStart page，默认 1
@@ -267,7 +267,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
-    Query主机详情
+    QueryHost details
     
     查询Physical host的Details。
     
@@ -563,7 +563,7 @@ ACTIONS = {
     },
     'host_show': {
         'func': host_show,
-        'description': 'Query主机详情',
+        'description': 'QueryHost details',
         'params': ['host_id', 'vr_type'],
         'subtopic': 'host'
     },

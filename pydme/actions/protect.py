@@ -174,9 +174,9 @@ def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
 def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                    hyper_metro: dict = None, rem_reps: list = None) -> dict:
     """
-    Protection group中添加成员 LUN
+    Protection group中Add member LUN
 
-    向指定Protection group中添加成员 LUN。
+    向指定Protection group中Add member LUN。
 
     Args:
         client: DME API client
@@ -187,7 +187,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
-                        name_prefix: 远端 LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
+                        name_prefix: 远端 LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
                         name_suffix: 远端 LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs: 手动配置的Active-active Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
@@ -200,7 +200,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
-                        name_prefix: 远端 LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
+                        name_prefix: 远端 LUN name prefix（Optional），0~251  characters；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num effective when；prefix_and_suffix max prefix length 32 字节，prefix_and_num max prefix length 251 字节
                         name_suffix: 远端 LUN name suffix（Optional），0~16  characters；auto-create mode and naming rule is prefix_and_suffix effective when
                         lun_pairs: 手动配置的Remote replication Pair info list（Optional），max array members 100；当 create_mode 为 manual effective when。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；The device performing the operation is defined as local，The peer device is defined as remote
@@ -452,7 +452,7 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
 def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list,
                                 is_self_adapt: bool = None) -> dict:
     """
-    Active-active consistency group添加成员 Pair
+    Active-active consistency groupAdd member Pair
 
     Args:
         client: DME API client
@@ -661,7 +661,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
 
     Args:
         client: DME API client
-        create_mode: Active-active Pair creation mode，Optional值：auto（自动创建）, manual（手动创建）
+        create_mode: Active-active Pair creation mode，Optional值：auto（Auto-create）, manual（手动创建）
         local_storage_id: 创建Active-active Pair 的Storage device ID
         domain_id: Active-active域 ID
         lun_ids: In auto-create mode，源 LUN 的 ID 列表
@@ -1920,7 +1920,7 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
 
 def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Remote replicationConsistency group添加成员 Pair
+    Remote replicationConsistency groupAdd member Pair
 
     Args:
         client: DME API client
@@ -2764,7 +2764,7 @@ ACTIONS = {
     },
     'group_add_luns': {
         'func': group_add_luns,
-        'description': 'Protection group中添加成员 LUN',
+        'description': 'Protection group中Add member LUN',
         'params': ['pg_id', 'lun_ids', 'hyper_metro', 'rem_reps'],
         'subtopic': 'group'
     },
@@ -2801,7 +2801,7 @@ ACTIONS = {
     },
     'hypermetro_group_add_pairs': {
         'func': hypermetro_group_add_pairs,
-        'description': 'Active-active consistency group添加成员 Pair',
+        'description': 'Active-active consistency groupAdd member Pair',
         'params': ['group_id', 'pair_ids', 'is_self_adapt'],
         'subtopic': 'hypermetro_group'
     },
@@ -2906,7 +2906,7 @@ ACTIONS = {
     },
     'replication_group_add_pairs': {
         'func': replication_group_add_pairs,
-        'description': 'Remote replicationConsistency group添加成员 Pair',
+        'description': 'Remote replicationConsistency groupAdd member Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },

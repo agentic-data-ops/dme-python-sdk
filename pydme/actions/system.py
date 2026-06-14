@@ -147,7 +147,7 @@ def user_create(client: DMEAPIClient, name: str, type: int,
 def user_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
               name: str = None) -> dict:
     """
-    Batch query用户信息。
+    Batch queryUser info。
 
     Args:
         client: DME API client
@@ -210,7 +210,7 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 
 def user_show(client: DMEAPIClient, user_id: int) -> dict:
     """
-    Query用户信息。
+    QueryUser info。
 
     Args:
         client: DME API client
@@ -837,7 +837,7 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
     
     Args:
         client: DME API client
-        name: 标签名称（Required）
+        name: Tag name（Required）
         tag_type_id: Tag type ID（Required）
         tag_type_name: Tag type name（API 需要）
         description: 标签描述（Optional）
@@ -873,7 +873,7 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         client: DME API client
         start: 分页Start position，默认 1
         limit: Page size, default 100
-        name: 标签名称过滤（Optional）
+        name: Tag name过滤（Optional）
         tag_type_id: Tag type ID 过滤（Optional）
     
     Returns:
@@ -903,7 +903,7 @@ def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
     Args:
         client: DME API client
         tag_id: 标签 ID（Required）
-        name: 标签名称（Optional）
+        name: Tag name（Optional）
         description: 标签描述（Optional）
         color: 标签颜色（Optional）
     
@@ -1217,7 +1217,7 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
 
 # Action list for CLI help
 ACTIONS = {
-    # 直接动作（两级结构）
+    # Direct action（Two-level structure）
     'login': {
         'func': login,
         'description': 'Auth user login',
@@ -1251,13 +1251,13 @@ ACTIONS = {
     # subtopic actions - user (three-level structure)
     'user_list': {
         'func': user_list,
-        'description': 'Batch query用户信息',
+        'description': 'Batch queryUser info',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'user'
     },
     'user_show': {
         'func': user_show,
-        'description': 'Query用户信息',
+        'description': 'QueryUser info',
         'params': ['user_id'],
         'subtopic': 'user'
     },

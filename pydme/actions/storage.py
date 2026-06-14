@@ -263,10 +263,10 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
         az: Availability zone ID (Optional, string, 1~64 characters)
         source: Storage device的来源 (Optional, string)。Options：add (接入), record (录入), all (所有)。默认查询接入设备
         dc_id: Storage deviceData center的ID (Optional, string, 1~32 characters)
-        tag_ids: Tag filter list (Optional, string)。最多支持10个标签ID组合过滤，多个过滤条件之间为且关系
+        tag_ids: Tag filter list (Optional, string)。supports up to10个标签ID组合过滤，多个过滤条件之间为且关系
         start: Page queryStart position (Optional, int32, 1~10000)。Default：1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
-        ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000 characters)。最多支持10extended attributes combined filter
+        ext_attrs: 扩展属性过滤列表 (Optional, string, 1~3000 characters)。supports up to10extended attributes combined filter
 
     Returns:
         {
@@ -1108,7 +1108,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         used_capacity: Used capacity (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的已使用容量之和，-1表示无Used capacity。
         free_capacity: Free capacity (可选, -1~2147483647, 单位MB)。Storage device的Available capacity与Used capacity的差值，-1表示无Free capacity。
         subscription_capacity: 订阅容量 (可选, -1~2147483647, 单位MB)。Storage device中所有Storage pool的订阅容量之和，-1表示无已订阅容量。
-        tag_ids: 标签ID列表 (Optional, string, 0~512 characters)。数组格式string，最多支持10个标签，空数组代表Remove storage device关联的所有标签。
+        tag_ids: 标签ID列表 (Optional, string, 0~512 characters)。数组格式string，supports up to10个标签，空数组代表Remove storage device关联的所有标签。
 
     Returns:
         无
@@ -1572,7 +1572,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         description: 本地Auth user description (1~255 characters, Optional)
         password: 本地Auth user password (1~255 characters, Required)
         primary_group_raw_id: 本地auth user所归属的User groupon device ID (1~64 characters, Required)
-        group_names: 创建的本地auth user所属的临时User group名称列表 (List<string>, min array members: 0, max array members: 31, Optional)
+        group_names: 创建的本地auth user所属的临时User groupName list (List<string>, min array members: 0, max array members: 31, Optional)
         vstore_id: 本地auth user所属的租户 ID (1~64 characters, Optional。conditionally required，当创建的本地required when auth user belongs to tenant)
 
     Returns:
@@ -1968,7 +1968,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         io_policy_type: IO Policy type（可选，total_perf_upper_limit/read_or_write_upper_limit）
         min_bandwidth: Min bandwidth MB/s（可选）
         max_bandwidth: Max bandwidth MB/s（可选）
-        burst_bandwidth: 突发带宽 MB/s（可选，需大于 max_bandwidth）
+        burst_bandwidth: Burst bandwidth MB/s（可选，需大于 max_bandwidth）
         min_iops: 最小 IOPS（可选）
         max_iops: 最大 IOPS（可选）
         burst_iops: 突发 IOPS（可选，需大于 max_iops）
@@ -2104,7 +2104,7 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         io_policy_type: IO Policy type（可选）
         min_bandwidth: Min bandwidth MB/s（可选）
         max_bandwidth: Max bandwidth MB/s（可选）
-        burst_bandwidth: 突发带宽 MB/s（可选）
+        burst_bandwidth: Burst bandwidth MB/s（可选）
         min_iops: 最小 IOPS（可选）
         max_iops: 最大 IOPS（可选）
         burst_iops: 突发 IOPS（可选）
@@ -2365,7 +2365,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 logicPortTags: Associated tag set (List<Tag>)。参数格式如下：[{
                     id: 标签的ID (1~32 characters),
                     tag_type_name: Tag type name (1~64 characters),
-                    name: 标签名称 (1~128 characters),
+                    name: Tag name (1~128 characters),
                 }, ...],
                 manufacturer: 厂商 (1~32 characters),
                 storage_model: 型号 (1~64 characters),
@@ -2444,7 +2444,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             logicPortTags: Associated tag set (List<Tag>)。参数格式如下：[{
                 id: 标签的ID (1~32 characters),
                 tag_type_name: Tag type name (1~64 characters),
-                name: 标签名称 (1~128 characters),
+                name: Tag name (1~128 characters),
             }, ...],
             manufacturer: 厂商 (1~32 characters),
             storage_model: 型号 (1~64 characters),
@@ -3173,10 +3173,10 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
 
 # Action list for CLI help
 # 格式：action_key: {func, description, params, subtopic}
-# subtopic 表示该动作属于哪个Subtopic，None 表示直接动作
+# subtopic 表示该动作属于哪个Subtopic，None 表示Direct action
 
 ACTIONS = {
-    # 直接动作（两级结构：<topic> <action>）
+    # Direct action（Two-level structure：<topic> <action>）
     'list': {
         'func': list,
         'description': 'Batch query storage devices',

@@ -281,7 +281,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
 
 # Action list for CLI help
 ACTIONS = {
-    # 直接动作（两级结构）
+    # Direct action（Two-level structure）
     'list': {
         'func': list,
         'description': '查询Server list',

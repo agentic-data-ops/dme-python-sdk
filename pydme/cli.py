@@ -108,7 +108,7 @@ class DMECLI:
                                 action_name = action_key[len(prefix_underscore):]
                             topics[topic]['_subtopics'][subtopic].append(action_name)
                         else:
-                            # 直接动作（两级结构）
+                            # Direct action（Two-level structure）
                             topics[topic]['_direct'].append(action_key)
                             
             except ImportError as e:

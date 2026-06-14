@@ -607,11 +607,11 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     """
     Query health-related data
 
-    查询Capacity prediction、性能预测、性能异常等健康度相关数据。
+    查询Capacity prediction、性能预测、Performance anomaly等健康度相关数据。
 
     Args:
         client: DME API client
-        type: Data type（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
+        type: Data type（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（Performance anomaly）
         object_id: 资源 ID（Required，1~256  characters）
         begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
@@ -663,7 +663,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                            volume（LUN）, tier（Service level）, datastore（Datastore）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256  characters）
-        object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
+        object_ids: object resId 列表，用于批量精确查找（Optional，supports up to 100 个 ID）
         page_no: Page queryStart position（Optional，min：1）
         page_size: Items per page（Optional，1~100，默认 20）
         sort_key: Sort field（Optional），按分数进行排序，Optional值：health_score
@@ -713,7 +713,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                            tier, datastore, virtual_machine, storage_name_space, storage_node,
                            dpc, gfs, dpc_client, vbs_client
         health_dimension: 健康维度（Required）
-                        Optional值：alarm（告警）, performance_anomaly（性能异常）,
+                        Optional值：alarm（告警）, performance_anomaly（Performance anomaly）,
                               performance_prediction（性能预警）, capacity_prediction（容量预警）
 
     Returns:
@@ -801,7 +801,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity-容量threshold，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
-                    performance_anomaly-性能异常，performance_prediction-性能预警，
+                    performance_anomaly-Performance anomaly，performance_prediction-性能预警，
                     capacity_prediction-容量预警，history_performance-History performance，
                     load_imbalance-负载失衡，highload-高负载资源）
         policy_source: 来源（pre-define-预置，user-define-自定义）
@@ -1057,7 +1057,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 
     Args:
         client: DME API client
-        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
+        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
             - host: 主机
             - storage: Storage device
             - host_group: 主机组
@@ -1113,7 +1113,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
     Args:
         client: DME API client
-        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
+        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
             - host: 主机
             - storage: Storage device
             - lun: LUN
@@ -1198,7 +1198,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
 
     Args:
         client: DME API client
-        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
+        entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，Supported types：
             - vm: Virtual machine
             - host_group: 主机组
             - host: 主机
@@ -1252,7 +1252,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 
     Args:
         client: DME API client
-        entry_res_type: 入口Resource type（Required），支持类型：
+        entry_res_type: 入口Resource type（Required），Supported types：
             - storage_device: Storage device
             - disk: 磁盘
             - storage_pool: Storage pool
@@ -1463,7 +1463,7 @@ ACTIONS = {
     # health subtopic actions
     'health_query_data': {
         'func': health_query_data,
-        'description': 'Query health-related data（Capacity prediction/性能预测/性能异常）',
+        'description': 'Query health-related data（Capacity prediction/性能预测/Performance anomaly）',
         'params': ['type', 'object_id', 'begin_time', 'end_time', 'object_type', 'indicator'],
         'subtopic': 'health'
     },

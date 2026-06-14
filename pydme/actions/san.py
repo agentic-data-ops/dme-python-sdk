@@ -214,7 +214,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 smart_tier: Data migration策略。Options：no_migration (不迁移), automatic_migration (自动迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。默认no_migration,
                 deduplication_enabled: Deduplication (仅Thin LUN支持)。Options：true (开启), false (关闭),
                 compression_enabled: 数据压缩 (仅Thin LUN支持)。Options：true (开启), false (关闭),
-                alloction_type: LUN分配类型。Options：thin, thick,
+                alloction_type: LUNAllocation type。Options：thin, thick,
                 smart_qos: Smart QoSobject。属性格式如下：{
                         max_bandwidth: Max bandwidth (1~999999999Mbit/s; 与min_bandwidth/min_iopsmutually exclusive),
                         max_iops: Max IOPS (1~999999999; 与min_bandwidth/min_iopsmutually exclusive),

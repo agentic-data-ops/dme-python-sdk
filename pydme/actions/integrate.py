@@ -85,7 +85,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
 
 def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     """
-    QueryCMDB主机详情。
+    QueryCMDBHost details。
 
     Args:
         client: DME API client
@@ -188,7 +188,7 @@ ACTIONS = {
     },
     'cmdb_host_show': {
         'func': cmdb_host_show,
-        'description': 'QueryCMDB主机详情',
+        'description': 'QueryCMDBHost details',
         'params': ['cmdb_host_id'],
         'subtopic': 'cmdb'
     },
