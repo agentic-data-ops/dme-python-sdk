@@ -25,9 +25,9 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
             total: ServerTotal count (integer),
             servers: Server list (List<ServerInfo>)。参数格式如下：[{
                 id: ServerID (string),
-                name: Server名称 (string),
-                type: Server类型 (string),
-                status: 状态 (string),
+                name: Server name (string),
+                type: Server type (string),
+                status:  status (string),
             }, ...],
         }
     """
@@ -58,9 +58,9 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
     Returns:
         {
             id: ServerID (string),
-            name: Server名称 (string),
-            status: 状态 (string),
-            type: Server类型 (string),
+            name: Server name (string),
+            status:  status (string),
+            type: Server type (string),
         }
     """
     url = "/rest/servermgmt/v1/servers/{server_id}/summary"
@@ -72,7 +72,7 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
 def cpu_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server所有 CPU 列表
+    Query on server所有 CPU  list
 
     Args:
         client: DME API client
@@ -81,7 +81,7 @@ def cpu_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
 
     Returns:
-        CPU 列表
+        CPU  list
     """
     url = "/rest/servermgmt/v1/processors/query"
 
@@ -107,7 +107,7 @@ def memory_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        内存列表
+        内存 list
     """
     url = "/rest/servermgmt/v1/memories/query"
     
@@ -133,7 +133,7 @@ def disk_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        硬盘列表
+        硬盘 list
     """
     url = "/rest/servermgmt/v1/disks/query"
     
@@ -159,7 +159,7 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
         page_size: 每页count，5~1000，default 20
 
     Returns:
-        网卡列表
+        网卡 list
     """
     url = "/rest/servermgmt/v1/network-adapters/query"
 
@@ -187,7 +187,7 @@ def fan_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        Fan列表
+        Fan list
     """
     url = "/rest/servermgmt/v1/fans/query"
     
@@ -213,7 +213,7 @@ def power_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        Power supply列表
+        Power supply list
     """
     url = "/rest/servermgmt/v1/powers/query"
     
@@ -239,7 +239,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        RAID 卡列表
+        RAID 卡 list
     """
     url = "/rest/servermgmt/v1/raid-cards/query"
     
@@ -256,7 +256,7 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
 def pcie_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server PCIe 卡信息
+    Query on server PCIe 卡 info
     
     Args:
         client: DME API client
@@ -265,7 +265,7 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        PCIe 卡列表
+        PCIe 卡 list
     """
     url = "/rest/servermgmt/v1/pcies/query"
     
@@ -297,7 +297,7 @@ ACTIONS = {
     # subtopic actions - cpu (three-level structure)
     'cpu_list': {
         'func': cpu_list,
-        'description': 'Query on server所有 CPU 列表',
+        'description': 'Query on server所有 CPU  list',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
@@ -346,7 +346,7 @@ ACTIONS = {
     # subtopic actions - pcie_card (three-level structure)
     'pcie_card_list': {
         'func': pcie_card_list,
-        'description': 'Query on server PCIe 卡信息',
+        'description': 'Query on server PCIe 卡 info',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'pcie_card'
     },

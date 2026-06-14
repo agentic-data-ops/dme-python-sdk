@@ -962,7 +962,7 @@ def main():
 
         # three-level structure shown as "topic subtopic action"
         print(f"执行：{args.topic} {args.subtopic} {args.action}")
-        print(f"描述：{action_info.get('description', '')}")
+        print(f" description：{action_info.get('description', '')}")
         print("-" * 60)
 
         try:

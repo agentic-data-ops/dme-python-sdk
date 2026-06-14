@@ -24,15 +24,15 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
         page_size: 每页查询count（Required，1~1000）
         directory_id: 目录 id（Optional，1~64  characters）
         group: Template group name，supports fuzzy match（Optional，最多 255  characters）
-        name: 模板名称，supports fuzzy match（Optional，最多 255  characters）
+        name: 模板 name，supports fuzzy match（Optional，最多 255  characters）
     
     Returns:
         {
             total: 模板count (integer, max：500),
             templates: Template list。参数格式如下：[{
                 id: 模板ID (string),
-                name: 模板名称 (string),
-                description: 描述 (string),
+                name: 模板 name (string),
+                description:  description (string),
             }, ...],
         }
     """
@@ -67,7 +67,7 @@ def template_groups(client: DMEAPIClient) -> dict:
         {
             task_id: Task ID (string, 1~64 characters),
         }，包含：
-        - groups: Template group列表，包含 name（Template group名称）
+        - groups: Template group list，包含 name（Template group name）
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
     
@@ -140,14 +140,14 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
         }，包含：
         - instance_id: 实例 id
         - template_id: Instance template id
-        - template_name: Instance template名称
-        - state: 执行状态（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
+        - template_name: Instance template name
+        - state: 执行 status（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
         - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
         - params: Execute instance parameters
         - step_list: Instance step list
         - start_time: 实例执行的Start time（毫second(s)）
         - end_time: 实例执行的End time（毫second(s)）
-        - instance_type: 实例类型（PRECHECK/EXECUTION）
+        - instance_type: 实例 type（PRECHECK/EXECUTION）
         - template_version_id: Instance template版本 id
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}"

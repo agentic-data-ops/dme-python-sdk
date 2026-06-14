@@ -27,7 +27,7 @@ def cluster_list(client: DMEAPIClient, name: str = None,
             clusters: Backup cluster list。参数格式如下：[{
                 id: 集群ID (string),
                 name: Cluster name (string),
-                status: 状态 (string),
+                status:  status (string),
             }, ...],
         }
     """
@@ -79,7 +79,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     Args:
         client: DME API client
         cluster_id: 备份集群 ID（Required）
-        quota_type: 配额类型（Optional）
+        quota_type: 配额 type（Optional）
         page_no: Page queryStart page，default 1
         page_size: 每页count，1~1000，default 20
     

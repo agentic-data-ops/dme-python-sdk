@@ -523,7 +523,7 @@ def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = 
                    zone_id: str = None, zone_name: str = None,
                    zone_ip: str = None, scope: str = None) -> dict:
     """
-    查询 NFS 共享列表
+    查询 NFS 共享 list
 
     Args:
         client: DME API Client
@@ -817,7 +817,7 @@ def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
 
     Args:
         client: DME API Client
-        nfs_share_ids: 待删除 NFS 共享 ID 列表
+        nfs_share_ids: 待删除 NFS 共享 ID  list
         task_remarks: Async taskRemark
 
     Returns:
@@ -1000,17 +1000,17 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                 user_and_user_group_info: User and user group list (Optional)。参数格式如下：[{
                         user_or_user_group_id_in_storage: user or user group on storageid (可选, 1~64字符, 变更时Required),
                         user_or_user_group_name: Username or group name (可选, 1~255字符; Group name with prefix@),
-                        domain_type: 域类型 (可选, defaultlocal)。Options：ad_domain, ldap_domain, local, nis_domain,
+                        domain_type: 域 type (可选, defaultlocal)。Options：ad_domain, ldap_domain, local, nis_domain,
                         permission: 权限 (可选, defaultread)。Options：read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
                      }, ...],
-                ip_addresses_and_segments: IP地址和IP地址段列表 (可选)。参数格式如下：[{
+                ip_addresses_and_segments: IP地址和IP地址段 list (可选)。参数格式如下：[{
                         ip_or_segments_id_in_storage: IP地址(段)on storageID (可选, 1~64字符, 变更时Required),
                         ip_addresses_or_segments: IP地址(段) (可选, 1~128字符, 最多32条),
                      }, ...],
                 file_name_extension_filters: File extensionFilter rule list (可选)。参数格式如下：[{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*),
-                        rule_type: 规则类型 (可选, defaultreject)。Options：reject, permit,
+                        rule_type: 规则 type (可选, defaultreject)。Options：reject, permit,
                         fileoperations: Operation type list (可选),
                      }, ...],
                 smb3_encryption_enable: EnableSMB3加密功能 (可选),
@@ -1078,16 +1078,16 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         show_snapshot_enabled: Enable显示 Snapshot 的功能
         user_and_user_group_info: 用户和User group list (可选)。参数格式如下：[{
                 update_type: Change type (可选, defaultadd)。Options：add (新增), delete (删除), modify (修改),
-                param: 用户和User group信息object (可选)。属性格式如下：{
+                param: 用户和User group infoobject (可选)。属性格式如下：{
                         user_or_user_group_id_in_storage: user or user group on storageid (可选, 1~64字符, 变更时Required),
                         user_or_user_group_name: Username or group name (可选, 1~255字符; Group name with prefix@),
-                        domain_type: 域类型 (可选, defaultlocal)。Options：ad_domain, ldap_domain, local, nis_domain,
+                        domain_type: 域 type (可选, defaultlocal)。Options：ad_domain, ldap_domain, local, nis_domain,
                         permission: 权限 (可选, defaultread)。Options：read, full_control, forbidden, read_and_write, read_and_write_not_del_rename,
                 }
              }, ...]
-        ip_and_segments: IP地址和IP地址段列表 (可选)。参数格式如下：[{
+        ip_and_segments: IP地址和IP地址段 list (可选)。参数格式如下：[{
                 update_type: Change type (可选, defaultadd)。Options：add (新增), delete (删除), modify (修改),
-                param: IP地址和IP地址段信息object (可选)。属性格式如下：{
+                param: IP地址和IP地址段 infoobject (可选)。属性格式如下：{
                         ip_or_segments_id_in_storage: IP地址(段)on storageID (可选, 1~64字符, 变更时Required),
                         ip_addresses_or_segments: IP地址(段) (可选, 1~128字符, 最多32条),
                 }
@@ -1097,7 +1097,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
                 param: Extension filter ruleobject (可选)。属性格式如下：{
                         file_name_ex_id_in_storage: rule on storageID (可选, 1~64字符, when changing added rulesRequired),
                         file_name_extension: File extension (Required, 1~127字符, supports wildcards?和*, *must be at the last character),
-                        rule_type: 规则类型 (可选, defaultreject)。Options：reject (拒绝), permit (允许),
+                        rule_type: 规则 type (可选, defaultreject)。Options：reject (拒绝), permit (允许),
                         fileoperations: Operation type list (可选, 最多100个),
                 }
              }, ...]
@@ -1538,7 +1538,7 @@ def dataturbo_share_delete(client: DMEAPIClient, dataturbo_share_ids: list,
 
     Args:
         client: DME API Client
-        dataturbo_share_ids: DataTurbo 共享 ID 列表
+        dataturbo_share_ids: DataTurbo 共享 ID  list
         task_remarks: Async taskRemark
 
     Returns:
@@ -1572,7 +1572,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
         page_no: Page number（可选），1~10000000，default 1
         page_size: Items per page（可选），1~1000，default 10
         user_id: DataTurbo Admin ID（可选），1~64  characters，exact match
-        user_name: DataTurbo Admin名称（可选），1~256  characters，支持fuzzy search
+        user_name: DataTurbo Admin name（可选），1~256  characters，支持fuzzy search
         permission: DataTurbo Admin权限（可选），Options：read_and_write (read/write)
 
     Returns:
@@ -1823,7 +1823,7 @@ def quota_delete(client: DMEAPIClient, quota_ids: list,
 
     Args:
         client: DME API Client
-        quota_ids: Quota to delete ID 列表
+        quota_ids: Quota to delete ID  list
         task_remarks: Async taskRemark
 
     Returns:
@@ -1886,9 +1886,9 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         storage_pool_id: Storage pool ID（可选），1~255  characters，与 storage_pool_name mutually exclusive
         tier_name: Filesystem所属Service level name（可选），1~256  characters，与 tier_id mutually exclusive，支持fuzzy match
         tier_id: Service level ID（可选），1~256  characters，与 tier_name mutually exclusive，exact match
-        vstore_name: Filesystem所属 vStore 名称（可选），1~256  characters，与 vstore_raw_id mutually exclusive，支持fuzzy match
+        vstore_name: Filesystem所属 vStore  name（可选），1~256  characters，与 vstore_raw_id mutually exclusive，支持fuzzy match
         vstore_raw_id: FilesystemTenanton the storage device ID（可选），1~64  characters，与 vstore_name mutually exclusive
-        project_name: FilesystemProject group名称（可选），1~256  characters，与 project_id mutually exclusive，支持fuzzy match
+        project_name: FilesystemProject group name（可选），1~256  characters，与 project_id mutually exclusive，支持fuzzy match
         project_id: Project group ID（可选），1~256  characters，与 project_name mutually exclusive，exact match
         storage_id: 归属Storage device ID（可选），1~256  characters，与 storage_name mutually exclusive，exact match
         fs_raw_id: Filesystemon the device ID（可选），1~256  characters，与 name mutually exclusive
@@ -1896,7 +1896,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         running_status: Running status（可选），Options：online (online)、offline (offline)、invalid（失效）、
                        initializing（Initializing）、unknown (unknown)
         alloc_type: FilesystemAllocation type（可选），Options：thin（按需分配）、thick（固定分配）
-        type: Filesystem类型（可选），Options：normal（普通Filesystem）、worm（wormFilesystem）、
+        type: Filesystem type（可选），Options：normal（普通Filesystem）、worm（wormFilesystem）、
               migration（migrationFilesystem）、container（容器应用Filesystem）、hash（哈希Filesystem）、
               smart_mobility_internal（SmartMobility内部Filesystem）
         protection: Protection status（可选），Options：protected (protected)、not_protected (unprotected)
@@ -1905,14 +1905,14 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         zone_id: 所属 zone 的 ID（可选），1~256  characters；仅 OceanStor A800 系列Filesystem支持搜索，传入集群IDQueries global scopeFilesystem
         product_name: FilesystemDevice product name（可选），1~256  characters，支持fuzzy search
         description: FilesystemDescription（可选），1~255  characters
-        tag_filters: Tag filter list（可选），List<TagFilters> 类型，max array members 11。参数格式如下：[{
-                        tag_ids: 标签 ID 列表（可选），max array members 10，Tags are OR-related,
+        tag_filters: Tag filter list（可选），List<TagFilters>  type，max array members 11。参数格式如下：[{
+                        tag_ids: 标签 ID  list（可选），max array members 10，Tags are OR-related,
                         tag_type_id: Tag type ID（可选），正则 ^[a-fA-F0-9]{32}$,
                         operator: 过滤条件（Required），Options：contain（包含）、not_contain（不包含）,
         },...]
 
     Returns:
-        Filesystem列表
+        Filesystem list
     """
     url = "/rest/fileservice/v1/filesystems/query"
 
@@ -2105,7 +2105,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         gfs_group_id: Global data space的 ID（可选）
         automatic_update_time: Update access time（可选）
         atime_update_mode: Atime 更新Frequency，hour/day/close（可选）
-        schedule_name: 定时 HyperCDP 计划名称（可选）
+        schedule_name: 定时 HyperCDP 计划 name（可选）
         quota_switch: Enable quota（可选）
         vaai_switch: VAAI 开关（可选）
         initial_distribute_policy: Initial capacity allocation policy，auto/highest_perf/performance/capacity（可选）
@@ -2147,7 +2147,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         resume_threshold: 恢复threshold% (可选, 0~100),
                         storage_divice_id: Storage deviceid (可选),
                         name: QoS name (可选),
-                        description: 描述 (可选),
+                        description:  description (可选),
                         iotype: Policy type (可选)。Options：2 (总upper limit), 3 (读写upper limit),
                         vstore_id: Tenantid (可选),
                         vstore_name: 所属Tenant name (可选),
@@ -2286,7 +2286,7 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
 
     Args:
         client: DME API Client
-        feature_type: 特性类型，当前only supports remote_replication（Remote replication）
+        feature_type: 特性 type，当前only supports remote_replication（Remote replication）
         local_storage_id: 本端Storage device ID
         remote_storage_id: 远端Storage device ID（当 feature_type 为 remote_replication 时Required）
         name: 本端Filesystem name，支持fuzzy search
@@ -2296,7 +2296,7 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
         sort_dir: Sort direction，asc（升序）或 desc（降序）
 
     Returns:
-        可用Filesystem列表
+        可用Filesystem list
     """
     url = "/rest/fileservice/v1/filesystems/available-filesystems/query"
 
@@ -2390,7 +2390,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         resume_threshold: 限高Alarm recoverythreshold% (可选, 0~100),
                         storage_divice_id: 所属Storage device ID (可选, 1~64字符),
                         name: QoS name (可选, 1~255字符; A800unused under),
-                        description: QoS描述 (可选, 1~255字符; A800unused under),
+                        description: QoS description (可选, 1~255字符; A800unused under),
                         iotype: Policy type (可选)。Options：2 (总性能upper limit), 3 (读写upper limit; only supported by some devices),
                         vstore_id: 所属Tenant ID (可选, 1~64字符; A800unused under),
                         vstore_name: 所属Tenant name (可选, 1~64字符; A800unused under),
@@ -2540,7 +2540,7 @@ def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
             task_id: Task ID (string, 1~64 characters),
         }，包含：
         - total: Namespacecount
-        - namespace_list: Namespace列表，包含 id, raw_id, name, storage_id, vstore_id 等信息
+        - namespace_list: Namespace list，包含 id, raw_id, name, storage_id, vstore_id 等 info
     """
     url = "/rest/fileservice/v1/namespaces/query"
     
@@ -2642,7 +2642,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         storage_id: Storage device ID（Required）
         pool_raw_id: Storage poolon the storage device ID（Required）
         namespace_specs: Namespace批量参数。参数格式如下：[{
-                name: 名称 (Required, 1~255字符, supports letters, digits, underscores.-),
+                name:  name (Required, 1~255字符, supports letters, digits, underscores.-),
                 count: count (Required, 1~500),
                 start_suffix: Starting suffix number (可选, 0~9999; 起始后缀+count<=9999),
                 isInGfs: 是否在Global namespace中 (可选)。Options：true, false,
@@ -2654,18 +2654,18 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         dps_switch: Metadata search switch，true 开启
         forbidden_dpc: 是否禁止 dpc 挂载
         audit_log_switch: EnableAudit log，default off
-        audit_log_rule: Audit log规则列表，Options：open, create, read, write, close, 
+        audit_log_rule: Audit log规则 list，Options：open, create, read, write, close, 
                        delete, rename, get_attr, set_attr, get_security, set_security,
                        get_xattr, set_xattr, list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime 更新Frequency，4294967295 关闭，3600 1 hour(s)，86400 1 day(s)
         acl_policy_type: Security mode，Options：mixed, unix, native, ntfs，default unix
         enable_encrypt: Enable encryption
-        crypt_alg: Encryption algorithm类型，Options：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
+        crypt_alg: Encryption algorithm type，Options：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
         case_sensitive: Case sensitive，default不敏感
         show_snap_dir: Snapshot directory visibility
         rdc: Data redundancy copies，Options：redundancy_2, redundancy_3, redundancy_4
         worm: WORM 配置 (可选)。参数格式如下：{
-                worm_mode: WORM策略模式 (可选)。Options：non_worm (None类型), enterprise_mode (企业级), compliance_mode (法规级),
+                worm_mode: WORM策略模式 (可选)。Options：non_worm (None type), enterprise_mode (企业级), compliance_mode (法规级),
                 min_protect_period: Min protection period (可选, 0~4294967295, default0; 4294967295is indefinite),
                 min_protect_period_unit: 最小retention period单位 (可选, defaultyear)。Options：day, year, month, hour, minute,
                 max_protect_period: Max protection period (可选, 1~4294967295, default70; 4294967295is indefinite),
@@ -2679,7 +2679,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }
         qos_policy: QoS Policy configuration。参数格式如下：{
                 qos_scale: upper limit控制维度 (Required)。Options：namespace, client, account, user, innertask,
-                name: QoS policy名称 (可选, 1~63字符, 正则^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit),
+                name: QoS policy name (可选, 1~63字符, 正则^[a-zA-Z0-9][a-zA-Z0-9_-]*, must start with letter or digit),
                 qos_mode: QoS模式 (Required)。Options：by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
                 account_raw_id: 帐户on the storage deviceid (可选, 0~4294967293; 当qos_scale为namespace/account/user时Required),
                 package_size: package capacityGB (可选, 0~94371840; 当qos_mode为by_package时Required),
@@ -2732,7 +2732,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
              }
         create_s3_param: 创建 S3 协议参数 (可选)。参数格式如下：{
                 bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (公共读写),
-                version_status: object多版本状态 (可选, 0~2)。Options：0 (关闭), 1 (打开), 2 (暂停),
+                version_status: object多版本 status (可选, 0~2)。Options：0 (关闭), 1 (打开), 2 (暂停),
              }
         application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
         task_remarks: Async taskRemark
@@ -2824,7 +2824,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         dps_switch: Metadata search switch，true：开启；false：关闭
         forbidden_dpc: 是否禁止 dpc 挂载，true：禁止；false：不禁止
         audit_log_switch: EnableAudit log，缺省关闭，true：开启；false：关闭
-        audit_log_rule: Audit log规则列表，Options：open, create, read, write, close, delete, rename,
+        audit_log_rule: Audit log规则 list，Options：open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
                        list_dir, contact, mount_or_unmount, login_or_logoff
         atime_update_mode: atime 更新Frequency，4294967295：关闭更新；3600：1 hour(s)更新；86400：1 day(s)更新
@@ -2835,7 +2835,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         enable_encrypt: Enable encryption，true：开启；false：关闭
         qos_policy: QoS Policy configuration。参数格式如下：{
                 qos_switch: QoS开关 (Required)。Options：on, off,
-                name: QoS policy名称 (可选, 1~63字符, 正则^[a-zA-Z0-9][a-zA-Z0-9_-]*),
+                name: QoS policy name (可选, 1~63字符, 正则^[a-zA-Z0-9][a-zA-Z0-9_-]*),
                 qos_mode: QoS模式 (条件Required)。Options：by_usage (by used amount), by_package (by fixed capacity), manual (按upper limit),
                 package_size: package capacityGB (可选, 0~94371840; 当qos_mode为by_package时Required),
                 max_iops: IOPSupper limit (条件Required, 0~1073741824000),
@@ -2953,7 +2953,7 @@ def namespace_delete(client: DMEAPIClient, namespace_ids: list, task_remarks: st
     
     Args:
         client: DME API Client
-        namespace_ids: Namespace ID 列表（Required），数组最大 100 个，最小 1 个
+        namespace_ids: Namespace ID  list（Required），数组最大 100 个，最小 1 个
         task_remarks: Async taskRemark（可选，0~1024  characters）
     
     Returns:
@@ -2997,7 +2997,7 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         sort_dir: Sort direction（可选），Options：asc（升序）、desc（降序），default asc
 
     Returns:
-        Client访问列表
+        Client访问 list
     """
     url = "/rest/fileservice/v2/nfs-auth-clients/query"
 
@@ -3046,14 +3046,14 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         name: DataTurbo Admin名，支持fuzzy search (1~256 characters, Optional)
         online_status: DataTurbo AdminOnline status (可选)。Options：offline (离线), online (在线)
         lock_status: DataTurbo AdminLock status (可选)。Options：unlocked (未锁定), locked (锁定)
-        account_state: DataTurbo Admin密码状态 (可选)。Options：normal (正常), expired (密码过期), initial (User password is in initial state，需要修改), expiring_soon (Password expiring soon), change_required (Must change password on next login), never (Password never expires)
+        account_state: DataTurbo Admin密码 status (可选)。Options：normal (正常), expired (密码过期), initial (User password is in initial state，需要修改), expiring_soon (Password expiring soon), change_required (Must change password on next login), never (Password never expires)
         sort_key: sort by specified field (可选)。Options：create_time
         sort_dir: 指定Sort direction (可选)。Options：asc (升序), desc (降序)
         page_no: Page queryStart page (int32, min: 1, Default: 1, Optional)
         page_size: 单页显示的count (int32, min: 1, max: 1000, Default: 20, Optional)
 
     Returns:
-        DataTurbo Admin列表，包含 total 和 administrators
+        DataTurbo Admin list，包含 total 和 administrators
     """
     url = "/rest/fileservice/v1/dpc-administrators/query"
 
@@ -3098,7 +3098,7 @@ def account_unix_user_modify(client: DMEAPIClient, id: str, raw_id: int = None,
         client: DME API Client
         id: UNIX 用户 ID (1~32 characters, Required)
         raw_id: UNIX 用户on the storage device ID (int64, 0~4294967294, Optional)
-        description: UNIX 用户描述 (0~255 characters, Optional)
+        description: UNIX 用户 description (0~255 characters, Optional)
         primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id 都下发仅 primary_group_raw_id 生效)
         primary_group_raw_id: 用户主组 ID (int64, 0~4294967294, Optional。与 primary_group_name 都下发仅 primary_group_raw_id 生效)
         status_enable: User status (boolean, Optional)。Options：true (启用), false (锁定)。仅 OceanStor Pacific 和 OceanStor A310 series storage only
@@ -3144,9 +3144,9 @@ def account_unix_user_group_create(client: DMEAPIClient, storage_id: str, name: 
     Args:
         client: DME API Client
         storage_id: 创建 UNIX User group所属Storage device ID (1~64 characters, Required)
-        name: UNIX User group名称 (1~64 characters, Required)
+        name: UNIX User group name (1~64 characters, Required)
         raw_id: UNIX User group ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310 存储Required)
-        description: UNIX User group描述 (0~255 characters, Optional)
+        description: UNIX User group description (0~255 characters, Optional)
         vstore_raw_id: 用户Tenanton the storage device ID (1~32 characters, Required)
         zone_id: 所属 Zone ID (1~64 characters, Optional。仅 OceanStor A800 storage support)
 
@@ -3178,7 +3178,7 @@ def account_unix_user_batch_delete(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API Client
-        ids: UNIX 用户 ID 列表 (List<string>, min array members: 1, max array members: 100, Required)
+        ids: UNIX 用户 ID  list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3211,7 +3211,7 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         storage_name: Device name，支持fuzzy match过滤 (1~256 characters, Optional)
         vstore_raw_id: Tenanton the storage device ID (1~64 characters, Optional)
         vstore_name: 所属Tenant name，支持fuzzy search过滤 (1~256 characters, Optional)
-        name: User group名称，支持fuzzy search过滤 (1~256 characters, Optional)
+        name: User group name，支持fuzzy search过滤 (1~256 characters, Optional)
         raw_id: User groupon the storage device ID (1~256 characters, Optional)
         zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800 auth under storageUser groupsupports filtering by this field
         sort_key: sort by specified field (可选)。Options：name (User group名), raw_id (User groupon the storage device ID), create_time (Creation time)。Default：create_time
@@ -3278,7 +3278,7 @@ def account_unix_user_group_modify(client: DMEAPIClient, id: str,
         client: DME API Client
         id: UNIX User group ID (1~32 characters, Required)
         raw_id: UNIX User groupon the storage device ID (int64, 0~4294967294, Optional)
-        description: UNIX User group描述 (0~255 characters, Optional)
+        description: UNIX User group description (0~255 characters, Optional)
 
     Returns:
         Modification result
@@ -3302,7 +3302,7 @@ def account_unix_user_group_batch_delete(client: DMEAPIClient, ids: list) -> dic
 
     Args:
         client: DME API Client
-        ids: UNIX User group的 ID 列表 (List<string>, min array members: 1, max array members: 100, Required)
+        ids: UNIX User group的 ID  list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3375,7 +3375,7 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         vstore_raw_id: Tenanton the storage device ID (1~64 characters, Optional)
         vstore_name: 所属Tenant name，支持fuzzy search过滤 (1~256 characters, Optional)
         name: Username称，支持fuzzy search过滤 (1~256 characters, Optional)
-        primary_group_name: 主组名称，支持fuzzy search过滤 (1~256 characters, Optional)
+        primary_group_name: 主组 name，支持fuzzy search过滤 (1~256 characters, Optional)
         raw_id: 用户on the storage device ID (1~255 characters, Optional)
         zone_id: Zone ID (1~64 characters, Optional)。仅 OceanStor A800 存储下的auth usersupports filtering by this field
         user_status: User status (可选)。Options：enable (启用), disable (禁用)
@@ -3457,7 +3457,7 @@ def account_unix_user_create(client: DMEAPIClient, storage_id: str, name: str, v
         storage_id: 创建 UNIX 用户所属Storage device ID (1~64 characters, Required)
         name: UNIX Username称 (1~64 characters, Required)
         raw_id: UNIX 用户 ID (int64, 0~4294967294, Optional。OceanStor Pacific 和 OceanStor A310 存储Required)
-        description: UNIX 用户描述 (0~255 characters, Optional)
+        description: UNIX 用户 description (0~255 characters, Optional)
         primary_group_raw_id: 用户主组 ID (int64, 0~4294967294, Optional。与 primary_group_name provide at least one，若都下发仅 primary_group_name 生效)
         primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id provide at least one，若都下发仅 primary_group_name 生效)
         vstore_raw_id: 用户Tenanton the storage device ID (1~32 characters, Required)
@@ -3510,8 +3510,8 @@ def kvcache_batch_create(client: DMEAPIClient, storage_id: str, zone_id: str,
         vstore_id: 租户 ID (length is32 characters, Required)
         data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off (关闭)。Default：off
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
-        kv_cache_stores: KV Cache 库列表 (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required)。参数格式如下：[{
-                name: KV Cache 库名称 (1~255 characters, Required),
+        kv_cache_stores: KV Cache 库 list (List<CreateKVCacheStoreBaseInfo>, min array members: 1, max array members: 100, Required)。参数格式如下：[{
+                name: KV Cache 库 name (1~255 characters, Required),
                 capacity: KV Cache 库容量 (int64, 20971520~70368744177664, 单位: 扇区数, 1扇区=512字节, Required),
                 description: Description (1~255 characters, Optional),
                 count: Batch create KV Cache 库的count (int32, 1~100, Default: 1, Optional),
@@ -3549,7 +3549,7 @@ def kvcache_modify(client: DMEAPIClient, kv_cache_stores_id: str, name: str = No
     Args:
         client: DME API Client
         kv_cache_stores_id: KV Cache 库 ID (1~64 characters, Required)
-        name: KV Cache 库名称 (1~255 characters, Optional)
+        name: KV Cache 库 name (1~255 characters, Optional)
         description: Description (0~255 characters, Optional)
         data_cleanup_switch: Cleanup switch (可选)。Options：on (打开), off (关闭)。Default：off
         max_survival_time: KV Cache Max TTL/survival time (int32, 1~3650, Optional。当 data_cleanup_switch 为 on 时Required)
@@ -3589,7 +3589,7 @@ def kvcache_batch_delete(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API Client
-        ids: KV Cache 库 ID 列表 (List<string>, min array members: 1, max array members: 100, Required)
+        ids: KV Cache 库 ID  list (List<string>, min array members: 1, max array members: 100, Required)
 
     Returns:
         Operation result
@@ -3619,7 +3619,7 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         storage_id: Storage device ID (length is36 characters, Optional)
         id: KV Cache 库 ID (length is32 characters, Optional)
         raw_id: KV Cache 库在 Zone 上的 ID (1~256 characters, Optional)
-        name: KV Cache 库名称 (1~256 characters, Optional)
+        name: KV Cache 库 name (1~256 characters, Optional)
         zone_id: 所属 Zone 的 ID (length is36 characters, Optional)
         pool_raw_id: Storage pool在所属 Zone 上的 ID (1~64 characters, Optional)
         vstore_id: 租户 ID (length is32 characters, Optional)
@@ -3633,7 +3633,7 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         sort_key: Sort key (可选)。Options：capacity (Total capacity), used_capacity (Used capacity), used_tokens (已使用的 token count), hit_ratio (命中率)
 
     Returns:
-        KV Cache 库列表
+        KV Cache 库 list
     """
     url = "/rest/kvcachemgmt/v1/kv-cache-stores/query"
 

@@ -229,11 +229,11 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                 hostgroup_id: Host group ID (1~64 characters; 与host_idone of, cannot coexist),
                 host_type: 映射Host type。Options：storage_host (Storage host), host (主机)。defaulthost,
                 start_host_lun_id: 起始主机LUN ID (1~4096),
-                mapping_view: Mapping view请求信息 (LunMappingRequestobject)。属性格式如下：{
+                mapping_view: Mapping view请求 info (LunMappingRequestobject)。属性格式如下：{
                         mapping_view_raw_id: Mapping viewon the storage deviceID (1~31 characters),
-                        mapping_view_name: Mapping viewon the storage device名称 (1~31 characters),
+                        mapping_view_name: Mapping viewon the storage device name (1~31 characters),
                         lun_group_raw_id: LUN组on the storage deviceID (1~31 characters),
-                        lun_group_name: LUN组on the storage device名称 (1~255 characters),
+                        lun_group_name: LUN组on the storage device name (1~255 characters),
                         port_group_raw_id: Port groupon the storage deviceID (1~31 characters; Host or host group does not existMapping relationship时可指定, 存在Mapping relationship时不可指定),
                 },
              }
@@ -1621,12 +1621,12 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     Args:
         client: DME API Client
         storage_host_group_id: Storage host组 ID (Required)
-        storage_host_id_ids: 存储Host ID列表 (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
-        create_storage_host_params: 创建新的Storage host列表 (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。参数格式如下：[{
+        storage_host_id_ids: 存储Host ID list (可选, 与create_storage_host_paramsmutually exclusive, max array members: 1000)
+        create_storage_host_params: 创建新的Storage host list (可选, 与storage_host_id_idsmutually exclusive, max array members: 1000)。参数格式如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required)。Options：LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip: 主机ip地址 (可选, 最多127 characters),
-                description: 主机描述 (可选, 最多63 characters),
+                description: 主机 description (可选, 最多63 characters),
                 initiators: Initiator list (可选, max array members: 1000)。参数格式如下：[{
                         protocol: Initiator type (Required)。Options：fc, iscsi, nvme_over_roce,
                         raw_id: 主机Initiatorwwpn或iqn或nqn (Required, 1~223 characters),
@@ -1634,7 +1634,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                      }, ...],
                 multipath: 多路径配置 (可选)。属性格式如下：{
                         multipath_type: Third-party multipath策略 (Required)。Options：default (default), third_party (Third-party multipath),
-                        path_type: Initiator路径类型 (可选, 开启Third-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
+                        path_type: Initiator路径 type (可选, 开启Third-party multipatheffective when)。Options：optimal_path (优选路径), non_optimal_path (非优选路径),
                         failover_mode: Initiator切换模式 (可选, 开启Third-party multipatheffective when)。Options：early_version_alua, common_alua, alua_not_used, special_alua,
                         special_mode_type: Special mode type (可选, effective when failover mode is special)。Options：mode_zero, mode_one, mode_two, mode_three,
                 }
@@ -1679,7 +1679,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     Args:
         client: DME API Client
         storage_host_group_id: Storage host组 ID（Required，1~64 字符）
-        storage_host_ids: hosts to remove ID 列表（Required，最多 1000 个）
+        storage_host_ids: hosts to remove ID  list（Required，最多 1000 个）
         task_remarks: Task remark(Optional, max 1024 字符）
 
     Returns:
@@ -1707,7 +1707,7 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
 
     Args:
         client: DME API Client
-        host_group_ids: Storage host组 ID 列表（Required，1~100 个）
+        host_group_ids: Storage host组 ID  list（Required，1~100 个）
         task_remarks: Task remark(Optional, max 1024 字符）
 
     Returns:
@@ -1733,7 +1733,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-    指定Storage host查询映射 LUN info list，包含 LUN 信息和主机 LUN ID 信息。
+    指定Storage host查询映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client
@@ -1775,7 +1775,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-    指定Storage host组查询映射 LUN info list，包含 LUN 信息和主机 LUN ID 信息。
+    指定Storage host组查询映射 LUN info list，包含 LUN  info和主机 LUN ID  info。
 
     Args:
         client: DME API Client

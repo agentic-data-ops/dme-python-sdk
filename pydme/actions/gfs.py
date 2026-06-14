@@ -20,7 +20,7 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
 
     Args:
         client: DME API client
-        name: Omni-Dataverse 名称，supports fuzzy search
+        name: Omni-Dataverse  name，supports fuzzy search
         id: Omni-Dataverse id
         raw_id: Omni-Dataverse 在device side的 id
         max_site_num: Omni-Dataverse 下Data service site最大count
@@ -30,10 +30,10 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
     Returns:
         {
             total: Total count (integer),
-            gfs_groups: Omni-Dataverse 列表。参数格式如下：[{
+            gfs_groups: Omni-Dataverse  list。参数格式如下：[{
                 id: ID (string),
-                name: 名称 (string),
-                status: 状态 (string),
+                name:  name (string),
+                status:  status (string),
             }, ...],
         }
     """
@@ -59,15 +59,15 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
 
 def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> dict:
     """
-    Query Omni-Dataverse 的Capacity statistics信息
+    Query Omni-Dataverse 的Capacity statistics info
 
     Args:
         client: DME API client
         id: Omni-Dataverse 的 ID，与 name cannot both be empty; takes precedence when both have values ID
-        name: Omni-Dataverse 名称，与 id cannot both be empty; takes precedence when both have values ID
+        name: Omni-Dataverse  name，与 id cannot both be empty; takes precedence when both have values ID
 
     Returns:
-        Omni-Dataverse Capacity statistics信息
+        Omni-Dataverse Capacity statistics info
     """
     url = "/rest/fileservice/v1/gfs-groups/query-summary"
 
@@ -102,7 +102,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
         page_size: Items per page，default 100，范围 1~1000
 
     Returns:
-        Data service site列表
+        Data service site list
     """
     url = "/rest/fileservice/v1/data-service-sites/query"
 
@@ -144,14 +144,14 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         name: Global namespace name，supports fuzzy search (0~256 characters, Optional)
         gfs_group_name: Global data space name，supports fuzzy search (0~256 characters, Optional)
         gfs_group_id: 所属Global data space的 ID (1~32 characters, Optional)
-        gfs_type: Global namespace类型 (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
+        gfs_type: Global namespace type (Optional)。Optional值：enable_object_multi_version (支持object多版本), disable_object_multi_version (不支持object多版本)
         sort_key: sort by specified field (Optional)。Optional值：child_name_space_num
         sort_dir: 指定Sort direction (Optional)。Optional值：asc (升序), desc (降序)。Default：asc
         page_no: 分页起始页 (int32, 1~1000, Default: 1, Optional)
         page_size: 每页查询的count (int32, 1~1000, Default: 20, Optional)
 
     Returns:
-        Global namespace列表
+        Global namespace list
     """
     url = "/rest/fileservice/v1/gfs/query"
 
@@ -213,7 +213,7 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
         client: DME API client
         name: 全局Namespace name (1~255 characters, Required)
         gfs_group_id: Global data space ID (1~32 characters, Optional。与 gfs_group_name cannot both be empty; takes precedence when both have values gfs_group_id)
-        gfs_group_name: Global data space名称 (1~255 characters, Optional。与 gfs_group_id cannot both be empty; takes precedence when both have values gfs_group_id)
+        gfs_group_name: Global data space name (1~255 characters, Optional。与 gfs_group_id cannot both be empty; takes precedence when both have values gfs_group_id)
         gfs_mode: Global namespace模式 (Optional)。Optional值：smart_share。Default：smart_share
         single_write_switch: Single write mode switch (Optional)。Optional值：close (Any member can write), open (Only one member can write)
         smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional。当 gfs_mode 取值为 smart_share 时Required)。参数格式如下：[{
@@ -446,7 +446,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         period_max_bandwidth: Bandwidth for specified periodupper limit (Optional, 格式: "bandwidth1;bandwidth2")。与 period_start_day、period_end_day、period_time must be sent together
         target_namespace_id: Global namespace下目标Namespace ID (1~32 characters, Required)
         local_path: Namespace下的路径 (Optional, Default: "/")
-        src_namespace_ids: Global namespace下源站点Namespace ID 列表 (List<string>, max array members: 32, Optional)
+        src_namespace_ids: Global namespace下源站点Namespace ID  list (List<string>, max array members: 32, Optional)
         atime_operator: File access time matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (大于)。与 atime、atime_unit must be sent together
         atime: File access time interval (int32, 0~26304, Optional)。与 atime_operator、atime_unit must be sent together
         atime_unit: 文件的访问Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 atime_operator、atime must be sent together
@@ -472,7 +472,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         group_name: User group名 (1~255 characters, Optional)。与 authentication_type、group_operator must be sent together
         files_filter: filter by file list滤请求参数 (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可配置。参数格式如下：{
                 file_id: filter by file listfilter policy uploaded文件 ID (1~63 characters, Required),
-                file_name: filter by file listfilter policy uploaded文件名称 (1~1023 characters, Required),
+                file_name: filter by file listfilter policy uploaded文件 name (1~1023 characters, Required),
              }
 
     Returns:
@@ -628,7 +628,7 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
 
     Args:
         client: DME API client
-        ids: Data migration task ID 列表
+        ids: Data migration task ID  list
 
     Returns:
         {
@@ -651,7 +651,7 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
 
     Args:
         client: DME API client
-        ids: Data migration task ID 列表
+        ids: Data migration task ID  list
         operate_type: Operation type，包含 operate_type 字段，取值 start(启动), stop(停止)
 
     Returns:
@@ -681,7 +681,7 @@ ACTIONS = {
     },
     'dataspace_show': {
         'func': dataspace_show,
-        'description': 'Query Omni-Dataverse 的Capacity statistics信息',
+        'description': 'Query Omni-Dataverse 的Capacity statistics info',
         'params': ['id', 'name'],
         'subtopic': 'dataspace'
     },

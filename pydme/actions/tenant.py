@@ -22,12 +22,12 @@ def lun_create(client: DMEAPIClient, volumes: list,
     Args:
         client: DME API client
         volumes: 待创建 LUN Basic parameter list (List<ServiceVolumeBasicParams>, max array members: 1000)。参数格式如下：[{
-                name: LUN名称 (1~255 characters, supports alphanumeric._-and Chinese characters),
+                name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
                 capacity: 容量GB (1~262144),
                 count: 创建count (1~500),
-                description: 描述 (0~255 characters),
+                description:  description (0~255 characters),
                 start_suffix: Starting suffix number (0~9999),
-                suffix_length: Suffix length rule (1~4, 名称长度+后缀长度<=255),
+                suffix_length: Suffix length rule (1~4,  name长度+后缀长度<=255),
              }, ...]
         service_level_id: Service level ID（Required，0~64  characters）
         task_remarks: Async task remark（Optional，最多 1024  characters）
@@ -76,7 +76,7 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 
     Args:
         client: DME API client
-        volume_ids: LUN ID 列表
+        volume_ids: LUN ID  list
         tier_id: Service level ID
         attributes_auto_change: 是否根据Service level参数刷新 LUN 属性（Optional，true/false）
 
@@ -213,7 +213,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryService level
 
-    查询Service level列表，支持按名称、项目 ID、可用区、存储 ID filtering and pagination。
+    查询Service level list，支持按 name、项目 ID、可用区、存储 ID filtering and pagination。
 
     Args:
         client: DME API client
@@ -230,7 +230,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Service level列表
+        }，包含Service level list
     """
     url = "/rest/service-policy/v1/service-levels"
 
@@ -266,7 +266,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     """
     Batch queryProject group与Service levelAssociation
 
-    查询Project group与Service level的Association列表，支持按Service level ID 过滤。
+    查询Project group与Service level的Association list，支持按Service level ID 过滤。
 
     Args:
         client: DME API client
@@ -277,7 +277,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Association列表
+        }，包含Association list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -301,18 +301,18 @@ def project_list(client: DMEAPIClient, name: str = None,
     """
     Batch queryProject group
 
-    查询Project group列表，supports name filtering and pagination。
+    查询Project group list，supports name filtering and pagination。
 
     Args:
         client: DME API client
-        name: Project group名称（Optional，supports fuzzy search）
+        name: Project group name（Optional，supports fuzzy search）
         start: Page number，从 1 开始，default 1
         limit: Page size，1~512，default 20
 
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Project group列表
+        }，包含Project group list
     """
     url = "/rest/projectmgmt/v1/projects"
 
@@ -333,7 +333,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     """
     Batch queryProject group与Service levelAssociation
 
-    QueryProject group的关联Service level列表。
+    QueryProject group的关联Service level list。
 
     Args:
         client: DME API client
@@ -344,7 +344,7 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，包含Association列表
+        }，包含Association list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 

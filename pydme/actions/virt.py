@@ -25,7 +25,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
         cluster_name: Virtual machine所属Cluster name（supports fuzzy search，HCS 场景不支持）
         host_id: Virtual machine所属Physical hostUnique identifier
         host_name: Virtual machine所属Host name（supports fuzzy search）
-        name: Virtual machine名称（supports fuzzy search）
+        name: Virtual machine name（supports fuzzy search）
         ip_address: Virtual machine IP 地址（supports fuzzy search）
         status: Virtual machinestatus list
                 取值：running, stopped, unknown, hibernated, creating, shutting-down,
@@ -47,8 +47,8 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
             total: Virtual machineTotal count (integer),
             vms: VM list (List<VmInfo>)。参数格式如下：[{
                 id: Virtual machineID (string),
-                name: Virtual machine名称 (string),
-                status: 状态 (string),
+                name: Virtual machine name (string),
+                status:  status (string),
                 cpu: CPUcount (integer),
                 memory: 内存大小 (integer),
             }, ...],
@@ -135,11 +135,11 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         cluster_id: Datastoreassociated clusters ID
         host_id: Datastoreassociated hosts ID
         dc_id: Datastore所在Data center ID
-        name: Datastore名称（supports fuzzy search）
+        name: Datastore name（supports fuzzy search）
         status: Datastorestatus list
                 取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
-        storage_type: 数据Storage class型列表
+        storage_type: 数据Storage class型 list
                       取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: supports精简模式（仅 FusionCompute Scenario support）
@@ -220,7 +220,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     """
     Query host list
     
-    查询Physical host列表，supports multiple filter criteria。
+    查询Physical host list，supports multiple filter criteria。
     
     Args:
         client: DME API client
@@ -426,7 +426,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         client: DME API client
         site_id: Physical disk site ID（Optional）
         host_id: 物理盘Host ID（Optional）
-        name: 物理盘名称（Optional）
+        name: 物理盘 name（Optional）
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
         page_no: Page queryStart page，default 1
@@ -464,20 +464,20 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     """
     Query virtual disk info list
     
-    查询Virtual disk列表，supports multiple filter criteria。
+    查询Virtual disk list，supports multiple filter criteria。
     
     Args:
         client: DME API client
         site_id: Virtual disk所属站点 ID（Optional）
         vm_id: Virtual disk所属Virtual machine ID（Optional）
-        name: Virtual disk名称（Optional）
+        name: Virtual disk name（Optional）
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
         page_no: Page queryStart page，default 1
         page_size: 每页count，1~1000，default 20
     
     Returns:
-        Virtual disk列表
+        Virtual disk list
     """
     url = "/rest/vmmgmt/v1/vdisks/query"
     

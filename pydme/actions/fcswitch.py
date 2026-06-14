@@ -193,7 +193,7 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
         client: DME API client
         fabric_id: Fibre Channel network ID（Required）
         backup_server_id: Backup server ID（Required）
-        backup_type: 备份类型，default full（full/incremental）
+        backup_type: 备份 type，default full（full/incremental）
     
     Returns:
         {
@@ -217,7 +217,7 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
 
 def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    查询 VSAN 列表
+    查询 VSAN  list
     
     Args:
         client: DME API client
@@ -249,13 +249,13 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
     """
     Batch query zone
 
-    Query Fibre Channel Zone 列表。
+    Query Fibre Channel Zone  list。
 
     Args:
         client: DME API client
         fabric_wwn: Fibre Channel network WWN（Optional），1~1024  characters
-        name: Zone 名称（Optional），supports fuzzy search，1~1024  characters
-        cfg_name: 所属 CFG 名称（Optional），supports fuzzy search，0~1024  characters
+        name: Zone  name（Optional），supports fuzzy search，1~1024  characters
+        cfg_name: 所属 CFG  name（Optional），supports fuzzy search，0~1024  characters
         zone_set: 所属 Zone 集合（Optional），supports fuzzy search，0~1024  characters
         active_status: Zone status list（Optional），max array members：2
         member_count: 成员count（Optional），0~2147483647
@@ -310,7 +310,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
 
     Args:
         client: DME API client
-        name: Zone 名称（Required）
+        name: Zone  name（Required）
         fabric_wwn: Fibre Channel network WWN（条件Required，fabric 创建 zone 时需要）
         vsan_wwn: VSAN WWN（条件Required，vsan 创建 zone 时需要）
         wwn_members: WWN Member list（Optional），格式：["<wwn>",...]
@@ -367,7 +367,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
     Args:
         client: DME API client
         zone_id: Zone ID（Required）
-        zone_name: Zone 名称（Optional）
+        zone_name: Zone  name（Optional）
         wwn_members: WWN member modification（Optional），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
         alias_members: Alias member modification（Optional），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
         fwwn_members: FWWN member modification（Optional），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
@@ -431,9 +431,9 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     Args:
         client: DME API client
         is_active_zone: 是否激活 Zone（Required，string "true" 或 "false"）
-        zones: Zone 配置列表，each element should contain:
+        zones: Zone 配置 list，each element should contain:
             - fabric_wwn: Fibre Channel network WWN（Required）
-            - name: Zone 名称（Required）
+            - name: Zone  name（Required）
             - wwn_members: WWN Member list（Optional），格式：["<wwn>",...]
             - port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
             - fwwn_members: FWWN Member list（Optional），格式：["<fwwn>",...]
@@ -517,7 +517,7 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     """
     Batch query别名
     
-    Query Fibre Channel Alias 列表。
+    Query Fibre Channel Alias  list。
     
     Args:
         client: DME API client
@@ -553,7 +553,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
 
     Args:
         client: DME API client
-        name: Alias 名称（Required）
+        name: Alias  name（Required）
         fabric_wwn: Fibre Channel network WWN（条件Required，fabric Alias creation requires）
         vsan_wwn: VSAN WWN（条件Required，vsan Alias creation requires）
         wwn_members: WWN Member list（Optional，思科Switch PWWN 成员）
@@ -607,7 +607,7 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
     Args:
         client: DME API client
         alias_id: Alias ID（Required）
-        name: Alias 名称（Optional）
+        name: Alias  name（Optional）
         wwn_members: WWN member modification（Optional，格式：{'added_members': [...], 'removed_members': [...]}）
         fwwn_members: FWWN member modification（Optional）
         port_members: Port member modification（Optional）
@@ -721,13 +721,13 @@ ACTIONS = {
     },
     'port_list': {
         'func': port_list,
-        'description': '查询Switch port列表',
+        'description': '查询Switch port list',
         'params': ['switch_id', 'port_name', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'controller_list': {
         'func': controller_list,
-        'description': '查询SwitchController列表',
+        'description': '查询SwitchController list',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },
@@ -739,7 +739,7 @@ ACTIONS = {
     },
     'fabric_show_ports': {
         'func': fabric_show_ports,
-        'description': '查询 fabric 的端口列表',
+        'description': '查询 fabric 的端口 list',
         'params': ['fabric_id', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },

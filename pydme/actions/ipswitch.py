@@ -10,7 +10,7 @@ from pydme.client import DMEAPIClient
 
 def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query EthernetSwitch list信息
+    Query EthernetSwitch list info
     
     Args:
         client: DME API client
@@ -24,7 +24,7 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
             data_list: Switch list。参数格式如下：[{
                 id: SwitchID (string),
                 name: Switch name (string),
-                status: 状态 (string),
+                status:  status (string),
             }, ...],
         }
     """
@@ -208,7 +208,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
 ACTIONS = {
     'list': {
         'func': list,
-        'description': 'Query EthernetSwitch list信息',
+        'description': 'Query EthernetSwitch list info',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
