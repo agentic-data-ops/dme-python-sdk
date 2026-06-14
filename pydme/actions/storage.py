@@ -27,15 +27,15 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
         client: DME API client
         raw_id: Tenant on device ID (Optional, string, 1~256 characters)
         vstore_id: Tenant ID (Optional, string, 1~64 characters)
-        qos_id: QoS policyID (Optional, string, 1~64 characters)
-        is_associated_qos: Tenant associatedQoS (Optional, boolean, true,false)
+        qos_id: QoS policy ID (Optional, string, 1~64 characters)
+        is_associated_qos: Tenant associated with QoS (Optional, boolean, true,false)
         name: Tenant name, supports fuzzy search (Optional, string, 1~256 characters)
         storage_id: Storage device ID (Optional, string, 1~255 characters)
         storage_ip: Storage device IP (Optional, string, 1~255 characters)
         storage_name: Storage device name (Optional, string, 1~255 characters)
-        zone_id: Zone ID (Optional, string, 1~64 characters). OceanStor A series only storage only. 
+        zone_id: Zone ID (Optional, string, 1~64 characters). OceanStor A series only. 
         status: Tenant status (Optional, string). Options: active (activated), inactive (inactive)
-        nas_capacity_quota_alarm_switch: NASCapacity quota alarm switch (Optional, boolean, true,false). OceanStor A series only storage only. 
+        nas_capacity_quota_alarm_switch: NAS capacity quota alarm switch (Optional, boolean, true,false). OceanStor A series only. 
         sort_key: Sort field (Optional, string)
         sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending)
         page_no: Page number (Optional, int32, 1~10000000). Default: 1
@@ -46,7 +46,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
             total: TenantTotal count (integer),
             vstores: Tenant list (List<VstoreResp>, max array members: 1000). 参数格式如下：[{
                 id: Tenant unique identifier (string, 1~64 characters),
-                qos_id: QoS policyID (string, 1~64 characters),
+                qos_id: QoS policy ID (string, 1~64 characters),
                 raw_id: tenant ID on device (string, 1~64 characters),
                 storage_sn: Storage deviceSN (string, 1~64 characters),
                 storage_id: Device ID (string, 1~64 characters),
@@ -133,7 +133,7 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
                   nas_capacity_quota_alarm_threshold: int = None,
                   associate_pool_ids: list = None) -> dict:
     """
-    create  tenant. OceanStor Dorado v3 devicefeature not supported. 
+    Create tenant. OceanStor Dorado v3 devicefeature not supported. 
 
     Args:
         client: DME API client
@@ -190,10 +190,10 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
         id:  tenant ID (Required, string, 1~64 characters). must satisfy UUID format or 32-bit hex
         name: Tenant name (Optional, string, 1~256 characters). Name supports letters, digits, underscores, hyphens, dots and Chinese characters
         san_capacity_quota: SANCapacity quota (Optional, string, 1~20 characters)
-        nas_capacity_quota: NASCapacity quota (Optional, string, 1~20 characters)
+        nas_capacity_quota: NAS capacity quota (Optional, string, 1~20 characters)
         description: Tenant description (Optional, string, 0~255 characters)
-        nas_capacity_quota_alarm_switch: NASCapacity quota alarm switch (Optional, boolean, true,false). A800 device only
-        nas_capacity_quota_alarm_threshold: NASCapacity quota alarmthreshold (Optional, int32, 50~100). A800 device only
+        nas_capacity_quota_alarm_switch: NAS capacity quota alarm switch (Optional, boolean, true,false). A800 device only
+        nas_capacity_quota_alarm_threshold: NAS capacity quota alarmthreshold (Optional, int32, 50~100). A800 device only
 
     Returns:
         {
@@ -226,7 +226,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
 
 def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch delete tenant, This operation will deleteStorage devicetenant specified on. This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.. 
+    Batch delete tenant, This operation will delete storage device tenant specified on. This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.. 
 
     Args:
         client: DME API client
@@ -256,7 +256,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
          dc_id: str = None, tag_ids: str = None, start: int = 1, 
          limit: int = 20, ext_attrs: str = None) -> dict:
     """
-    Batch query storage devices:  supportPagination,  filter. 
+    Batch query storage devices:  supports pagination,  filter. 
 
     Args:
         client: DME API client. 
@@ -264,13 +264,13 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
         source: Storage device source (Optional, string). Options: add, record, all. Queries access devices by default
         dc_id: Storage deviceData center ID (Optional, string, 1~32 characters)
         tag_ids: Tag filter list (Optional, string). supports up to 10 tag IDs combined filter, Multiple filter conditions are AND-related
-        start: Page queryStart position (Optional, int32, 1~10000). Default: 1
+        start: Page query start position (Optional, int32, 1~10000). Default: 1
         limit: Items per page (Optional, int32, 1~1000). Default: 20
         ext_attrs: Extended attribute filter list (Optional, string, 1~3000 characters). supports up to10extended attributes combined filter
 
     Returns:
         {
-            total: Storage deviceTotal count (int32),
+            total: Storage device total count (int32),
             datas: Storage device list (List<StorageSummaryInfo>). 参数格式如下：[{
                 id: Storage device ID (string),
                 name: Storage device name (string),
@@ -3318,7 +3318,7 @@ ACTIONS = {
     },
     'vstore_create': {
         'func': vstore_create,
-        'description': 'create  tenant',
+        'description': 'Create tenant',
         'params': ['name', 'storage_id', 'san_capacity_quota', 'nas_capacity_quota', 'description', 'nas_capacity_quota_alarm_switch', 'nas_capacity_quota_alarm_threshold', 'associate_pool_ids'],
         'subtopic': 'vstore'
     },
