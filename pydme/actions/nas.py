@@ -81,25 +81,25 @@ def dpc_list(client: DMEAPIClient, ids: list = None, hostname: str = None, ip: s
 
 def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
     """
-    查询并行客户端详情。
+    Query DPC details.
 
     Args:
-        client: DME API 客户端
-        dpc_id: 并行客户端 ID (必选, string)
+        client: DME API client
+        dpc_id: DPC ID (Required, string)
 
     Returns:
         {
-            id: 并行客户端ID (string),
-            hostname: 主机名称 (string),
-            ip: 管理IP (string),
-            status: 业务状态 (string),
-            mgmt_status: 管理状态 (string),
+            id: DPC ID (string),
+            hostname: Hostname (string),
+            ip: Management IP (string),
+            status: Service status (string),
+            mgmt_status: Management status (string),
         }
     """
     url = "/rest/dpc-mgmt/v1/dpcs/{dpc_id}"
 
     if not dpc_id:
-        raise ValueError("dpc_id 是必选参数")
+        raise ValueError("dpc_id is required")
 
     response = client.get(url, params={"dpc_id": dpc_id})
     return response
@@ -113,37 +113,37 @@ def dpc_client_list(client: DMEAPIClient, storage_id: str = None,
                      sort_dir: str = None,
                      page_no: int = 1, page_size: int = 10) -> dict:
     """
-    批量查询DPC客户端。
+    Batch query DPC clients.
 
     Args:
-        client: DME API 客户端
-        storage_id: 存储ID (可选, string, 1~64个字符)
-        process_id: DPC客户端进程ID (可选, string, 1~64个字符)
-        name: DPC客户端名称，支持模糊搜索 (可选, string, 1~256个字符)
-        manage_ip: DPC客户端节点管理IP，支持模糊搜索 (可选, string, 1~256个字符)
-        version: DPC客户端版本，支持模糊搜索 (可选, string, 1~256个字符)
-        status: DPC客户端状态 (可选, string)。可选值：normal (正常), abnormal (异常), disabled (未启用)
-        switch_status: 节点FSA开关状态 (可选, string)。可选值：on (开启), off (关闭)
-        upgrade_flag: 升级标记 (可选, string)。可选值：required (需要升级), not_required (无需升级)
-        sort_key: 排序字段 (可选, string)。可选值：manage_ip (节点管理IP), dpc_mem (DPC客户端节点内存)
-        sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)
-        page_no: 分页页码 (可选, int32, 1~10000000)。默认值：1
-        page_size: 每页数据条数 (可选, int32, 1~1000)。默认值：10
+        client: DME API client
+        storage_id: Storage ID (Optional, string, 1~64 characters)
+        process_id: DPC client process ID (Optional, string, 1~64 characters)
+        name: DPC client name, supports fuzzy search (Optional, string, 1~256 characters)
+        manage_ip: DPC client node management IP, supports fuzzy search (Optional, string, 1~256 characters)
+        version: DPC client version, supports fuzzy search (Optional, string, 1~256 characters)
+        status: DPC client status (Optional, string). Options: normal, abnormal, disabled
+        switch_status: Node FSA switch status (Optional, string). Options: on, off
+        upgrade_flag: Upgrade flag (Optional, string). Options: required, not_required
+        sort_key: Sort field (Optional, string). Options: manage_ip, dpc_mem
+        sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending)
+        page_no: Page number (Optional, int32, 1~10000000). Default: 1
+        page_size: Items per page (Optional, int32, 1~1000). Default: 10
 
     Returns:
         {
-            total: 总数 (integer),
-            data: DPC客户端数据 (List<DpcClient>)。参数格式如下：[{
+            total: Total count (integer),
+            data: DPC client data (List<DpcClient>)。参数格式如下：[{
                 id: ID (string),
-                storage_id: 存储ID (string),
-                process_id: DPC客户端进程ID (string),
-                name: DPC客户端名称 (string),
-                manage_ip: DPC客户端节点管理IP (string),
-                version: DPC客户端版本 (string),
-                status: DPC客户端状态 (string),
-                switch_status: 节点FSA开关状态 (string),
-                upgrade_flag: 升级标记 (string),
-                dpc_mem: DPC客户端节点内存 (int64),
+                storage_id: Storage ID (string),
+                process_id: DPC client process ID (string),
+                name: DPC client name (string),
+                manage_ip: DPC client node management IP (string),
+                version: DPC client version (string),
+                status: DPC client status (string),
+                switch_status: Node FSA switch status (string),
+                upgrade_flag: Upgrade flag (string),
+                dpc_mem: DPC client node memory (int64),
             }, ...],
         }
     """
@@ -180,27 +180,27 @@ def dpc_client_list(client: DMEAPIClient, storage_id: str = None,
 
 def dpc_client_show(client: DMEAPIClient, id: str) -> dict:
     """
-    查询DPC客户端详情。
+    Query DPC client details.
 
     Args:
-        client: DME API 客户端
-        id: 查询DPC客户端ID (必选, string, 1~64个字符)
+        client: DME API client
+        id: DPC client ID (Required, string, 1~64 characters)
 
     Returns:
         {
             id: ID (string),
-            storage_id: 存储ID (string),
-            process_id: DPC客户端进程ID (string),
-            name: DPC客户端名称 (string),
-            manage_ip: DPC客户端节点管理IP (string),
-            version: DPC客户端版本 (string),
-            status: DPC客户端状态 (string),
+            storage_id: Storage ID (string),
+            process_id: DPC client process ID (string),
+            name: DPC client name (string),
+            manage_ip: DPC client node management IP (string),
+            version: DPC client version (string),
+            status: DPC client status (string),
         }
     """
     url = "/rest/fileservice/v1/dpc-clients/{id}"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     response = client.get(url, params={"id": id})
     return response
@@ -215,39 +215,39 @@ def dtree_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None
                sort_dir: str = None, page_no: int = 1, page_size: int = 20,
                dc_id: str = None, dc_name: str = None) -> dict:
     """
-    查询 Dtree 列表
+    Query Dtree list
 
     Args:
-        client: DME API 客户端
-        id_in_storage: Dtree 在存储侧的 ID（可选），1~256 个字符
-        name: Dtree 名称（可选），1~256 个字符，支持模糊搜索
-        device_name: dtree 所属存储设备名称（可选），1~256 个字符，支持模糊搜索
-        storage_id: dtree 所属存储设备 ID（可选），1~64 个字符，支持过滤
-        zone_id: dtree 所属 zone 的 ID（可选），36 个字符；仅 OceanStor A800/A600 系列存储支持
-        manufacturer: dtree 所属存储设备厂商（可选），可选值：huawei（华为）、third_part（第三方）
-        tier_name: 服务等级名称（可选，预留字段），1~256 个字符，支持模糊搜索
-        fs_name: dtree 所属文件系统名称（可选），1~256 个字符，支持模糊搜索
-        fs_id: dtree 所属文件系统 ID（可选），1~64 个字符，与 namespace_id 互斥
-        namespace_name: dtree 所属命名空间名称（可选），1~64 个字符
-        namespace_id: dtree 所属命名空间 ID（可选），1~64 个字符，与 fs_id 互斥
-        quota_switch: 配额是否启用（可选），true：开启；false：关闭
-        security_mode: 安全模式（可选），1~32 个字符；可选值：mixed（mixed 安全模式）、native（native 安全模式）、ntfs（ntfs 安全模式）、unix（unix 安全模式）
-        nas_locking_policy: NAS 锁策略（可选），可选值：mandatory（强制锁）、advisory（建议锁）、unknown（未启用 Native 安全模式）
-        sort_key: 排序字段（可选），可选值：nfs_count、cifs_count、dataturbo_count、name
-        sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
-        page_no: 分页查询页码（可选），最小值 1，默认 1
-        page_size: 每页显示的数量（可选），1~1000，默认 20
-        dc_id: 数据中心 ID（可选），1~128 个字符，正则 ^[_A-Fa-f0-9\\-]+$
-        dc_name: 数据中心名称（可选），1~256 个字符
+        client: DME API client
+        id_in_storage: Dtree ID on storage (Optional), 1~256 characters
+        name: Dtree name (Optional), 1~256 characters, supports fuzzy search
+        device_name: Storage device name for the dtree (Optional), 1~256 characters, supports fuzzy search
+        storage_id: Storage device ID for the dtree (Optional), 1~64 characters
+        zone_id: Zone ID for the dtree (Optional), 36 characters; OceanStor A800/A600 series only
+        manufacturer: Storage device vendor (Optional). Options: huawei, third_part
+        tier_name: Service level name (Optional, reserved), 1~256 characters, supports fuzzy search
+        fs_name: Filesystem name for the dtree (Optional), 1~256 characters, supports fuzzy search
+        fs_id: Filesystem ID for the dtree (Optional), 1~64 characters, mutually exclusive with namespace_id
+        namespace_name: Namespace name for the dtree (Optional), 1~64 characters
+        namespace_id: Namespace ID for the dtree (Optional), 1~64 characters, mutually exclusive with fs_id
+        quota_switch: Quota enabled (Optional), true: enabled; false: disabled
+        security_mode: Security mode (Optional), 1~32 characters. Options: mixed, native, ntfs, unix
+        nas_locking_policy: NAS locking policy (Optional). Options: mandatory, advisory, unknown
+        sort_key: Sort field (Optional). Options: nfs_count, cifs_count, dataturbo_count, name
+        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending), default asc
+        page_no: Page number (Optional), min 1, default 1
+        page_size: Items per page (Optional), 1~1000, default 20
+        dc_id: Data center ID (Optional), 1~128 characters
+        dc_name: Data center name (Optional), 1~256 characters
 
     Returns:
         {
-            total: Dtree 总数 (integer),
-            dtrees: Dtree 列表 (List<DtreeInfo>)。参数格式如下：[{
+            total: Total Dtree count (integer),
+            dtrees: Dtree list (List<DtreeInfo>)。参数格式如下：[{
                 id: Dtree ID (string),
-                name: Dtree 名称 (string),
-                path: 路径 (string),
-                fs_id: 文件系统ID (string),
+                name: Dtree name (string),
+                path: Path (string),
+                fs_id: Filesystem ID (string),
             }, ...],
         }
     """
