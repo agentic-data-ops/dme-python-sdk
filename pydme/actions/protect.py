@@ -2068,6 +2068,673 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
     return response
 
 
+# ============================================================================
+# 文件系统双活Pair (fs_hypermetro_pair) 子主题函数
+# ============================================================================
+
+
+def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
+                            create_mode: str = "manual", fs_pairs: list = None,
+                            speed: str = None, bandwidth: int = None,
+                            service_assurance_policy: str = None,
+                            isolation_threshold_time: int = None) -> dict:
+    """
+    创建文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+
+    Args:
+        client: DME API 客户端
+        vstore_pair_id: 双活租户Pair的ID (必选, string, 1~32个字符)
+        create_mode: 创建模式 (可选, string)。可选值：manual (手动)。默认值：manual
+        fs_pairs: 文件系统Pair列表 (可选, List[FsPairInstance], 数组最大成员个数：100)
+        speed: 同步速率 (可选, string)。可选值：low, medium, high, highest, custom
+        bandwidth: 带宽 (可选, integer, 1~1024)。当speed为custom时必选
+        service_assurance_policy: 业务保障策略 (可选, string)。可选值：data_reliability_preferred, service_continuity_preferred
+        isolation_threshold_time: 隔离阈值 (可选, int32, 10~30000)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hypermetro/filesystem-pairs"
+
+    if not vstore_pair_id:
+        raise ValueError("vstore_pair_id 是必选参数")
+
+    payload = {
+        'vstore_pair_id': vstore_pair_id,
+        'create_mode': create_mode
+    }
+    if fs_pairs is not None:
+        payload['fs_pairs'] = fs_pairs
+    if speed is not None:
+        payload['speed'] = speed
+    if bandwidth is not None:
+        payload['bandwidth'] = bandwidth
+    if service_assurance_policy is not None:
+        payload['service_assurance_policy'] = service_assurance_policy
+    if isolation_threshold_time is not None:
+        payload['isolation_threshold_time'] = isolation_threshold_time
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
+                          status: str = None, storage_id: str = None,
+                          vstore_pair_id: str = None, local_fs_name: str = None,
+                          local_fs_id: str = None, health_status: str = None,
+                          running_status: str = None, sort_key: str = None,
+                          sort_dir: str = None, page_no: int = 1,
+                          page_size: int = 20) -> dict:
+    """
+    查询文件系统双活Pair列表。
+
+    Args:
+        client: DME API 客户端
+        ids: 双活Pair实例ID列表 (可选, List[string])
+        name: 双活Pair名称 (可选, string)
+        status: 运行状态 (可选, string)
+        storage_id: 存储设备ID (可选, string)
+        vstore_pair_id: 双活租户Pair的ID (可选, string)
+        local_fs_name: 本端文件系统名称 (可选, string)
+        local_fs_id: 本端文件系统ID (可选, string)
+        health_status: 健康状态 (可选, string)
+        running_status: 运行状态 (可选, string)
+        sort_key: 排序字段 (可选, string)
+        sort_dir: 排序方向 (可选, string)
+        page_no: 分页页码 (可选, int32)
+        page_size: 每页数量 (可选, int32)
+
+    Returns:
+        {
+            total: 总数 (integer),
+            filesystem_pairs: 文件系统双活Pair列表。参数格式如下：[{
+                id: Pair ID (string),
+                name: 名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
+    """
+    url = "/rest/protection/v1/hypermetro/filesystem-pairs/query"
+
+    payload = {
+        'page_no': page_no,
+        'page_size': page_size
+    }
+    if ids is not None:
+        payload['ids'] = ids
+    if name is not None:
+        payload['name'] = name
+    if status is not None:
+        payload['status'] = status
+    if storage_id is not None:
+        payload['storage_id'] = storage_id
+    if vstore_pair_id is not None:
+        payload['vstore_pair_id'] = vstore_pair_id
+    if local_fs_name is not None:
+        payload['local_fs_name'] = local_fs_name
+    if local_fs_id is not None:
+        payload['local_fs_id'] = local_fs_id
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if running_status is not None:
+        payload['running_status'] = running_status
+    if sort_key is not None:
+        payload['sort_key'] = sort_key
+    if sort_dir is not None:
+        payload['sort_dir'] = sort_dir
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
+    """
+    批量暂停文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+
+    Args:
+        client: DME API 客户端
+        fs_pair_ids: 文件系统双活Pair的ID列表 (必选, List[string], 数组最大成员个数：100, 数组最小成员个数：1)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hypermetro/filesystem-pairs/pause"
+
+    if not fs_pair_ids or len(fs_pair_ids) == 0:
+        raise ValueError("fs_pair_ids 是必选参数")
+
+    payload = {
+        'fs_pair_ids': fs_pair_ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
+    """
+    批量同步文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+
+    Args:
+        client: DME API 客户端
+        fs_pair_ids: 文件系统双活Pair的ID列表 (必选, List[string])
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hypermetro/filesystem-pairs/sync"
+
+    if not fs_pair_ids or len(fs_pair_ids) == 0:
+        raise ValueError("fs_pair_ids 是必选参数")
+
+    payload = {
+        'fs_pair_ids': fs_pair_ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def filesystem_pair_delete(client: DMEAPIClient, ids: list,
+                            is_local_delete: bool = None,
+                            is_online_delete: bool = None) -> dict:
+    """
+    批量删除文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+
+    Args:
+        client: DME API 客户端
+        ids: 双活Pair实例ID列表 (必选, List[string])
+        is_local_delete: 是否删除本端配置信息 (可选, boolean, true,false)
+        is_online_delete: 是否在线删除 (可选, boolean, true,false)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hypermetro/filesystem-pairs/delete"
+
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数")
+
+    payload = {
+        'ids': ids
+    }
+    if is_local_delete is not None:
+        payload['is_local_delete'] = is_local_delete
+    if is_online_delete is not None:
+        payload['is_online_delete'] = is_online_delete
+
+    response = client.post(url, body=payload)
+    return response
+
+
+# ============================================================================
+# 文件系统快照 (fs_snapshot) 子主题函数
+# ============================================================================
+
+
+def fs_snapshot_create(client: DMEAPIClient, vstore_pair_id: str,
+                        fs_pairs: list) -> dict:
+    """
+    创建文件系统快照。
+
+    Args:
+        client: DME API 客户端
+        vstore_pair_id: 文件名系统所属双活租户Pair的ID (必选, string)
+        fs_pairs: 快照参数列表 (必选, List)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/filesystem-snapshots"
+
+    if not vstore_pair_id:
+        raise ValueError("vstore_pair_id 是必选参数")
+
+    payload = {
+        'vstore_pair_id': vstore_pair_id,
+        'fs_pairs': fs_pairs
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
+                      name: str = None, status: str = None,
+                      local_fs_name: str = None, local_fs_id: str = None,
+                      page_no: int = 1, page_size: int = 20) -> dict:
+    """
+    批量查询文件系统快照。
+
+    Args:
+        client: DME API 客户端
+        fs_pair_id: 双活Pair ID (可选, string)
+        name: 快照名称 (可选, string, 支持模糊搜索)
+        status: 快照状态 (可选, string)
+        local_fs_name: 本端文件系统名称 (可选, string)
+        local_fs_id: 本端文件系统ID (可选, string)
+        page_no: 分页页码 (可选, int32)
+        page_size: 每页数量 (可选, int32)
+
+    Returns:
+        {
+            total: 总数 (integer),
+            snapshots: 文件系统快照列表。参数格式如下：[{
+                id: 快照ID (string),
+                name: 快照名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
+    """
+    url = "/rest/protection/v1/filesystem-snapshots/query"
+
+    payload = {
+        'page_no': page_no,
+        'page_size': page_size
+    }
+    if fs_pair_id is not None:
+        payload['fs_pair_id'] = fs_pair_id
+    if name is not None:
+        payload['name'] = name
+    if status is not None:
+        payload['status'] = status
+    if local_fs_name is not None:
+        payload['local_fs_name'] = local_fs_name
+    if local_fs_id is not None:
+        payload['local_fs_id'] = local_fs_id
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
+    """
+    批量删除文件系统快照。
+
+    Args:
+        client: DME API 客户端
+        ids: 快照ID列表 (必选, List[string])
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/filesystem-snapshots/delete"
+
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数")
+
+    payload = {
+        'ids': ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
+# ============================================================================
+# 双活租户Pair (vstore_hypermetro_pair) 子主题函数
+# ============================================================================
+
+
+def vstore_pair_force_start(client: DMEAPIClient, ids: list) -> dict:
+    """
+    批量强制启动双活租户Pair。
+
+    Args:
+        client: DME API 客户端
+        ids: 双活租户Pair的ID列表 (必选, List[string])
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/metro/vstore-pairs/force-start"
+
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数")
+
+    payload = {
+        'ids': ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def vstore_pair_create(client: DMEAPIClient, local_storage_id: str,
+                        remote_storage_id: str, name: str = None,
+                        description: str = None,
+                        remote_vstore_id: str = None) -> dict:
+    """
+    创建双活租户Pair。
+
+    Args:
+        client: DME API 客户端
+        local_storage_id: 本端存储设备ID (必选, string)
+        remote_storage_id: 远端存储设备ID (必选, string)
+        name: 租户Pair名称 (可选, string)
+        description: 描述 (可选, string)
+        remote_vstore_id: 远端租户ID (可选, string)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/metro/vstore-pairs"
+
+    if not local_storage_id or not remote_storage_id:
+        raise ValueError("local_storage_id 和 remote_storage_id 是必选参数")
+
+    payload = {
+        'local_storage_id': local_storage_id,
+        'remote_storage_id': remote_storage_id
+    }
+    if name is not None:
+        payload['name'] = name
+    if description is not None:
+        payload['description'] = description
+    if remote_vstore_id is not None:
+        payload['remote_vstore_id'] = remote_vstore_id
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
+                      status: str = None, local_storage_id: str = None,
+                      remote_storage_id: str = None,
+                      health_status: str = None, running_status: str = None,
+                      page_no: int = 1, page_size: int = 20) -> dict:
+    """
+    查询双活租户Pair列表。
+
+    Args:
+        client: DME API 客户端
+        ids: 双活租户Pair ID列表 (可选, List[string])
+        name: 名称 (可选, string)
+        status: 状态 (可选, string)
+        local_storage_id: 本端存储设备ID (可选, string)
+        remote_storage_id: 远端存储设备ID (可选, string)
+        health_status: 健康状态 (可选, string)
+        running_status: 运行状态 (可选, string)
+        page_no: 分页页码 (可选, int32)
+        page_size: 每页数量 (可选, int32)
+
+    Returns:
+        {
+            total: 总数 (integer),
+            vstore_pairs: 双活租户Pair列表。参数格式如下：[{
+                id: Pair ID (string),
+                name: 名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
+    """
+    url = "/rest/protection/v1/metro/vstore-pairs/query"
+
+    payload = {
+        'page_no': page_no,
+        'page_size': page_size
+    }
+    if ids is not None:
+        payload['ids'] = ids
+    if name is not None:
+        payload['name'] = name
+    if status is not None:
+        payload['status'] = status
+    if local_storage_id is not None:
+        payload['local_storage_id'] = local_storage_id
+    if remote_storage_id is not None:
+        payload['remote_storage_id'] = remote_storage_id
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if running_status is not None:
+        payload['running_status'] = running_status
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def vstore_pair_switch(client: DMEAPIClient, ids: list) -> dict:
+    """
+    批量主从切换双活租户Pair。
+
+    Args:
+        client: DME API 客户端
+        ids: 双活租户Pair的ID列表 (必选, List[string])
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/metro/vstore-pairs/switch"
+
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数")
+
+    payload = {
+        'ids': ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
+    """
+    批量删除双活租户Pair。
+
+    Args:
+        client: DME API 客户端
+        ids: 双活租户Pair的ID列表 (必选, List[string])
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/metro/vstore-pairs/delete"
+
+    if not ids or len(ids) == 0:
+        raise ValueError("ids 是必选参数")
+
+    payload = {
+        'ids': ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
+def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
+    """
+    修改指定双活租户pair。
+
+    Args:
+        client: DME API 客户端
+        id: 双活租户Pair的ID (必选, string)
+        name: 名称 (可选, string)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/metro/vstore-pairs/{id}"
+
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    payload = {}
+    if name is not None:
+        payload['name'] = name
+
+    response = client.put(url, body=payload, params={"id": id})
+    return response
+
+
+# ============================================================================
+# 双活域 (hypermetro_domain) 子主题函数
+# ============================================================================
+
+
+def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
+    """
+    强制启动文件系统双活域。
+
+    Args:
+        client: DME API 客户端
+        id: 双活域ID (必选, string)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hyper-metro-domains/{id}/force-start"
+
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    response = client.post(url, body={}, params={"id": id})
+    return response
+
+
+def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
+    """
+    优先站点切换文件系统双活域。
+
+    Args:
+        client: DME API 客户端
+        id: 双活域ID (必选, string)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hyper-metro-domains/{id}/switch-priority-site"
+
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    response = client.post(url, body={}, params={"id": id})
+    return response
+
+
+def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
+    """
+    恢复文件系统双活域。
+
+    Args:
+        client: DME API 客户端
+        id: 双活域ID (必选, string)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hyper-metro-domains/{id}/recover"
+
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    response = client.post(url, body={}, params={"id": id})
+    return response
+
+
+def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
+    """
+    分裂文件系统双活域。
+
+    Args:
+        client: DME API 客户端
+        id: 双活域ID (必选, string)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hyper-metro-domains/{id}/split"
+
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    response = client.post(url, body={}, params={"id": id})
+    return response
+
+
+def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
+    """
+    主从切换文件系统双活域。
+
+    Args:
+        client: DME API 客户端
+        id: 双活域ID (必选, string)
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/hyper-metro-domains/{id}/swap-role"
+
+    if not id:
+        raise ValueError("id 是必选参数")
+
+    response = client.post(url, body={}, params={"id": id})
+    return response
+
+
+# ============================================================================
+# 双活Pair (hypermetro_pair) 子主题函数
+# ============================================================================
+
+
+def hypermetro_pair_query_available_luns(client: DMEAPIClient,
+                                          source_lun_id: str) -> dict:
+    """
+    查询可创建双活Pair的目标LUN。
+
+    Args:
+        client: DME API 客户端
+        source_lun_id: 源LUN ID (必选, string)
+
+    Returns:
+        {
+            optional_target_luns: 可选目标LUN列表。参数格式如下：[{
+                lun_id: LUN ID (string),
+                lun_name: LUN名称 (string),
+                capacity: 容量 (integer),
+            }, ...],
+        }
+    """
+    url = "/rest/protection/v1/metro/lun-pairs/{source_lun_id}/optional-target-luns"
+
+    if not source_lun_id:
+        raise ValueError("source_lun_id 是必选参数")
+
+    response = client.get(url, params={"source_lun_id": source_lun_id})
+    return response
+
+
 # 动作列表，用于 CLI 帮助
 ACTIONS = {
     # group 子主题动作
@@ -2409,5 +3076,130 @@ ACTIONS = {
         'description': '批量删除克隆一致性组',
         'params': ['ids', 'is_delete_dst_lun', 'is_recycle_dst_lun_data'],
         'subtopic': 'clone_group'
+    },
+    # fs_hypermetro_pair 子主题动作
+    'filesystem_pair_create': {
+        'func': filesystem_pair_create,
+        'description': '创建文件系统双活Pair',
+        'params': ['vstore_pair_id', 'create_mode', 'fs_pairs', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time'],
+        'subtopic': 'fs_hypermetro_pair'
+    },
+    'filesystem_pair_list': {
+        'func': filesystem_pair_list,
+        'description': '查询文件系统双活Pair列表',
+        'params': ['ids', 'name', 'status', 'storage_id', 'vstore_pair_id', 'local_fs_name', 'local_fs_id', 'health_status', 'running_status', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
+        'subtopic': 'fs_hypermetro_pair'
+    },
+    'filesystem_pair_pause': {
+        'func': filesystem_pair_pause,
+        'description': '批量暂停文件系统双活Pair',
+        'params': ['fs_pair_ids'],
+        'subtopic': 'fs_hypermetro_pair'
+    },
+    'filesystem_pair_sync': {
+        'func': filesystem_pair_sync,
+        'description': '批量同步文件系统双活Pair',
+        'params': ['fs_pair_ids'],
+        'subtopic': 'fs_hypermetro_pair'
+    },
+    'filesystem_pair_delete': {
+        'func': filesystem_pair_delete,
+        'description': '批量删除文件系统双活Pair',
+        'params': ['ids', 'is_local_delete', 'is_online_delete'],
+        'subtopic': 'fs_hypermetro_pair'
+    },
+    # fs_snapshot 子主题动作
+    'fs_snapshot_create': {
+        'func': fs_snapshot_create,
+        'description': '创建文件系统快照',
+        'params': ['vstore_pair_id', 'fs_pairs'],
+        'subtopic': 'fs_snapshot'
+    },
+    'fs_snapshot_list': {
+        'func': fs_snapshot_list,
+        'description': '批量查询文件系统快照',
+        'params': ['fs_pair_id', 'name', 'status', 'local_fs_name', 'local_fs_id', 'page_no', 'page_size'],
+        'subtopic': 'fs_snapshot'
+    },
+    'fs_snapshot_delete': {
+        'func': fs_snapshot_delete,
+        'description': '批量删除文件系统快照',
+        'params': ['ids'],
+        'subtopic': 'fs_snapshot'
+    },
+    # vstore_hypermetro_pair 子主题动作
+    'vstore_pair_force_start': {
+        'func': vstore_pair_force_start,
+        'description': '批量强制启动双活租户Pair',
+        'params': ['ids'],
+        'subtopic': 'vstore_hypermetro_pair'
+    },
+    'vstore_pair_create': {
+        'func': vstore_pair_create,
+        'description': '创建双活租户Pair',
+        'params': ['local_storage_id', 'remote_storage_id', 'name', 'description', 'remote_vstore_id'],
+        'subtopic': 'vstore_hypermetro_pair'
+    },
+    'vstore_pair_list': {
+        'func': vstore_pair_list,
+        'description': '查询双活租户Pair列表',
+        'params': ['ids', 'name', 'status', 'local_storage_id', 'remote_storage_id', 'health_status', 'running_status', 'page_no', 'page_size'],
+        'subtopic': 'vstore_hypermetro_pair'
+    },
+    'vstore_pair_switch': {
+        'func': vstore_pair_switch,
+        'description': '批量主从切换双活租户Pair',
+        'params': ['ids'],
+        'subtopic': 'vstore_hypermetro_pair'
+    },
+    'vstore_pair_delete': {
+        'func': vstore_pair_delete,
+        'description': '批量删除双活租户Pair',
+        'params': ['ids'],
+        'subtopic': 'vstore_hypermetro_pair'
+    },
+    'vstore_pair_modify': {
+        'func': vstore_pair_modify,
+        'description': '修改指定双活租户pair',
+        'params': ['id', 'name'],
+        'subtopic': 'vstore_hypermetro_pair'
+    },
+    # hypermetro_domain 子主题动作
+    'hypermetro_domain_force_start': {
+        'func': hypermetro_domain_force_start,
+        'description': '强制启动文件系统双活域',
+        'params': ['id'],
+        'subtopic': 'hypermetro_domain'
+    },
+    'hypermetro_domain_switch_site': {
+        'func': hypermetro_domain_switch_site,
+        'description': '优先站点切换文件系统双活域',
+        'params': ['id'],
+        'subtopic': 'hypermetro_domain'
+    },
+    'hypermetro_domain_recover': {
+        'func': hypermetro_domain_recover,
+        'description': '恢复文件系统双活域',
+        'params': ['id'],
+        'subtopic': 'hypermetro_domain'
+    },
+    'hypermetro_domain_split': {
+        'func': hypermetro_domain_split,
+        'description': '分裂文件系统双活域',
+        'params': ['id'],
+        'subtopic': 'hypermetro_domain'
+    },
+    'hypermetro_domain_swap_role': {
+        'func': hypermetro_domain_swap_role,
+        'description': '主从切换文件系统双活域',
+        'params': ['id'],
+        'subtopic': 'hypermetro_domain'
+    },
+    # hypermetro_pair 子主题动作
+    'query_available_luns': {
+        'func': hypermetro_pair_query_available_luns,
+        'description': '查询可创建双活Pair的目标LUN',
+        'params': ['source_lun_id'],
+        'subtopic': 'hypermetro_pair'
     },
 }
