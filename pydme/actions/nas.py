@@ -1772,7 +1772,7 @@ def quota_modify(client: DMEAPIClient, quota_id: str,
         file_hard_quota: File hard quota(Optional），-1 field is invalid；When both file hard/soft quotas arewhen both valid，File hard quota must exceed soft quota
         file_advisory_quota: File advisory quota(Optional），-1 field is invalid；仅 OceanStor Pacific Device support；When advisory quota and hard/soft quotawhen both valid，Advisory quota must be less than hard or soft quota
         snap_space_switch: Include snapshot space(Optional），true：Include snapshot space；false：Exclude snapshot space；仅 OceanStor Pacific Device support
-        soft_grace_time: 超限时间(Optional），0~4294967294，unit （day(s)）；Grace period before soft limit becomes hard limit；not sent或 value 0 soft quota reached, warning only；仅 OceanStor Pacific  support
+        soft_grace_time:  grace period(Optional），0~4294967294，unit （day(s)）；Grace period before soft limit becomes hard limit；not sent或 value 0 soft quota reached, warning only；仅 OceanStor Pacific  support
         task_remarks: Async taskRemark
 
     Returns:
@@ -2174,7 +2174,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 auto_size_increment: Auto resize single change amountMB (Optional, 64~102400, default1024),
              }
         worm: FilesystemWorm parameter (Optional)。 parameter format：{
-                type: WORM保护 mode (Optional)。Options：none_mode (无default policy), enterprise_mode (Enterprise compliance), compliance_mode ( legal compliance), advance_mode (高安遵从), audit_log (Audit log), non_worm (非WORM),
+                type: WORM保护 mode (Optional)。Options：none_mode (无default policy), enterprise_mode (Enterprise compliance), compliance_mode ( legal compliance), advance_mode ( high security compliance), audit_log (Audit log), non_worm (非WORM),
                 min_protect_period: Min protection period (Optional, default0),
                 min_protect_period_unit: Min protection period unit (Optional, defaultyear)。Options：minute, hour, day, month, year,
                 max_protect_period: Max protection period (Optional, 0~4294967295, default70),
@@ -2734,7 +2734,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                 bucket_permission: Policy type (Required)。Options：private (私有), public_read_only (公共读), public_write_only (公共写), public_read_write (Public read/write),
                 version_status: object多 version status (Optional, 0~2)。Options：0 ( disable), 1 ( open), 2 ( pause),
              }
-        application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
+        application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（ general scenario）
         task_remarks: Async taskRemark
     
     Returns:
@@ -2887,7 +2887,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
                 read_mbps: Read bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
                 write_mbps: Write bandwidth limitMbps (Optional, 0~1073741824; only whenqos_mode为manual且qos_scalenotaccountwhen Optional),
              }
-        application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（通用场景）
+        application_type: Application type，Options：PACS（Medical imaging scenario）, GENERAL（ general scenario）
         task_remarks: Async taskRemark
     
     Returns:
@@ -3099,8 +3099,8 @@ def account_unix_user_modify(client: DMEAPIClient, id: str, raw_id: int = None,
         id: UNIX user  ID (1~32 characters, Required)
         raw_id: UNIX user on the storage device ID (int64, 0~4294967294, Optional)
         description: UNIX user  description (0~255 characters, Optional)
-        primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id 都下发仅 primary_group_raw_id effective)
-        primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional。与 primary_group_name 都下发仅 primary_group_raw_id effective)
+        primary_group_name: User primary group name (1~64 characters, Optional。与 primary_group_raw_id  both sent only primary_group_raw_id effective)
+        primary_group_raw_id: user 主组 ID (int64, 0~4294967294, Optional。与 primary_group_name  both sent only primary_group_raw_id effective)
         status_enable: User status (boolean, Optional)。Options：true ( enable), false ( lock)。仅 OceanStor Pacific 和 OceanStor A310 series storage only
 
     Returns:

@@ -485,7 +485,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client。
         storage_id: BBUStorage device的id (Optional, 1~64 characters)。
         health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery)。
-        running_status: Running status (Optional)。Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电 completed), discharging (正在放电)。
+        running_status: Running status (Optional)。Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging (正在放电)。
         enclosure_name: Enclosure name (Optional, 1~256 characters)。supports fuzzy match。
         location: location (Optional, 1~256 characters)。supports fuzzy match。
         zone_id: Zone ID (Optional, 1~255 characters)。仅OceanStor A800series storage only。
@@ -498,7 +498,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
-                running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电 completed), discharging (正在放电),
+                running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging ( charging), charging_completed (充电 completed), discharging (正在放电),
                 charge_times:  discharge count (int64),
                 firmware_version: Firmware version号 (1~255 characters),
                 manufactured_date: Manufacture date (1~255 characters),
@@ -641,7 +641,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
         name: Disk name (Optional, 1~256 characters)。
         slot_number: Slot number，location (Optional, 1~256 characters)。supports fuzzy search。
         bom_id: BOM ID (Optional, 1~256 characters)。
-        health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link (单链路), no_redundant_link (无冗余链路), subhealthy (亚健康), offline (offline)。
+        health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link (单链路), no_redundant_link ( no redundant link), subhealthy (亚健康), offline (offline)。
         physical_type: Disk type (Optional)。Options：unknown (unknown), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
         new_physical_type: 真实的Disk type (Optional)。Options：SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD。
         capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB)。
@@ -772,7 +772,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 filesystem_subscribed_capacity: FilesystemTotal subscribed capacity，unit MB (number)，仅OceanStor Dorado V6 storage6.1.0supported in version,
                 health_status: Health status。Options：normal (normal), fault ( fault), degraded ( degraded), unknown (unknown)。flash and third-party storage only,
                 running_status: Running status. Options：pre-copy (Pre-copy), rebuilt ( refactor), online (online), offline (offline), balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown (unknown)。flash storage only,
-                pool_status: Storage pool status。Options：normal (normal), fault ( fault), write-protect (写保护), stopped ( stop), fault-and-write-protect (Fault with write protection), migrating-data (Data migration), degraded ( degraded), rebuilding-data ( data refactor), migrating-services (服务迁移), all-copies-failed (全副本 fault), all-copies-failed-and-write-protect (All replicas failed with write protection), deleting (Deleting), deletion-failed (delete  failure), unknown (unknown)。distributed storage only,
+                pool_status: Storage pool status。Options：normal (normal), fault ( fault), write-protect (写保护), stopped ( stop), fault-and-write-protect (Fault with write protection), migrating-data (Data migration), degraded ( degraded), rebuilding-data ( data refactor), migrating-services ( service migration), all-copies-failed (全副本 fault), all-copies-failed-and-write-protect (All replicas failed with write protection), deleting (Deleting), deletion-failed (delete  failure), unknown (unknown)。distributed storage only,
                 disk_types: Disk type list (List<string>)，flash storage only,
                 capacity_usage: Capacity utilization,
                 redundancy_policy: 冗余 policy。Options：replication (副本), ec (EC)。仅FusionStorage、OceanStor 100D和OceanStor Pacificseries device support,
@@ -1973,7 +1973,7 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         max_iops:  max IOPS(Optional）
         burst_iops: burst IOPS(Optional，需greater than max_iops）
         burst_time:  maxburstdurationsecond(s)(Optional，1~999999999）
-        latency: IO 时延指标微second(s)(Optional，500/1500）
+        latency: IO  latency metric microsecond(s)(Optional，500/1500）
         max_read_bandwidth:  maxRead bandwidth MB/s(Optional）
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional）
         burst_read_bandwidth: burstRead bandwidth MB/s(Optional）
@@ -2109,7 +2109,7 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         max_iops:  max IOPS(Optional）
         burst_iops: burst IOPS(Optional）
         burst_time:  maxburstdurationsecond(s)(Optional）
-        latency: IO 时延指标微second(s)(Optional）
+        latency: IO  latency metric microsecond(s)(Optional）
         max_read_bandwidth:  maxRead bandwidth MB/s(Optional）
         max_write_bandwidth:  maxWrite bandwidth MB/s(Optional）
         burst_read_bandwidth: burstRead bandwidth MB/s(Optional）
@@ -2326,7 +2326,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
+                running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON ( powering on), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
                 operational_status: Active status。Options：ACTIVATED ( activate), NOT_ACTIVATED (inactive),
                 mgmt_ip: ipv4 address (1~255 characters),
                 ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
@@ -2405,7 +2405,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             id:  logicalPort ID (1~255 characters),
             raw_id: Logic porton the storage deviceID (1~255 characters),
             name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON (正在上电), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
+            running_status: Running status. Options：UNKNOWN (unknown), NORMAL (normal), RUNNING (running), LINK_UP (已连接), LINK_DOWN (未连接), TO_BE_RECOVERED (待 resume), INITIALIZING (Initializing), STANDBY (待工作), POWERING_ON ( powering on), POWERED_OFF (已下电), POWER_ON_FAILED (上电 failure),
             operational_status: Active status。Options：ACTIVATED ( activate), NOT_ACTIVATED (inactive),
             mgmt_ip: ipv4 address (1~255 characters),
             ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),

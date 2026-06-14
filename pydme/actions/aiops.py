@@ -411,7 +411,7 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     Create performance file collection task
 
     Collect performance files from start to end date,只 support收集 7 day(s)内的 data,
-    每次传入的objectmultiplied by metric count不超过 2000.
+     each passedobjectmultiplied by metric count不超过 2000.
 
     Args:
         client: DME API client
@@ -601,7 +601,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
     return response
 
 
-# Health 相关函数
+# Health  related function
 def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_time: int,
                       end_time: int, object_type: str, indicator: str = None) -> dict:
     """
@@ -803,7 +803,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                     configuration- config，recyclable-可回收 resource，lowload-低负载 resource，
                     performance_anomaly-Performance anomaly，performance_prediction-Performance warning，
                     capacity_prediction-Capacity warning，history_performance-History performance，
-                    load_imbalance-负载失衡，highload-高负载 resource）
+                    load_imbalance- load imbalance，highload-高负载 resource）
         policy_source:  source（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation- exception，alarm-alarm，event- event）
         object_type: Object type（storage- storage，lun-Logical unit，host- host等）
@@ -1131,7 +1131,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
     Returns:
         {
             task_id: Task ID (string, 1~64 characters),
-        }，includes  host到Storage pool的拓扑结构：
+        }，includes  host到Storage pool topology：
         - ip_san  data：
           - switches: Switch list
           - hosts:  host list
@@ -1256,7 +1256,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - storage_device: Storage device
             - disk:  disk
             - storage_pool: Storage pool
-            - hyper_scale_pool: 超大规模池
+            - hyper_scale_pool:  large-scale pool
             - file_system: Filesystem
             - controller: Controller
             - eth_port: 以太网 port
