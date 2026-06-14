@@ -1137,7 +1137,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         name: Region的名称，supports fuzzy search (Optional, string, 最多256个字符)
         active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256个字符)
         standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256个字符)
-        sync_status: Region同步状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (同步失败)
+        sync_status: RegionSync状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (Sync失败)
         role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近Sync time)
         sort_dir: Sort direction (Optional, string)。Optional值：asc (升序), desc (降序)。Default：desc
@@ -1151,7 +1151,7 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
                 id: Region ID (string),
                 name: Region名称 (string),
                 role: Region角色 (string),
-                sync_status: 同步状态 (string),
+                sync_status: Sync状态 (string),
             }, ...],
         }
     """

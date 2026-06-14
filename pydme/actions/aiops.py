@@ -659,7 +659,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
         object_type: Object type（Required）
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
                            storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤Switch port）,
-                           storage_file_system（Filesystem）, controller（控制器）, replication_cg（远程复制Consistency group）,
+                           storage_file_system（Filesystem）, controller（控制器）, replication_cg（Remote replicationConsistency group）,
                            volume（LUN）, tier（Service level）, datastore（数据存储）, virtual_machine（虚拟机）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）

@@ -736,7 +736,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 accesskrb5: krb5权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5i: krb5i权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5p: krb5p权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
-                write_mode: 写入模式 (可选)。可选值：synchronization (同步), asynchronization (异步),
+                write_mode: 写入模式 (可选)。可选值：synchronization (Sync), asynchronization (异步),
                 permission_constraint: 权限限制 (Required)。可选值：all_squash, no_all_squash,
                 root_permission_constraint: root权限限制 (Required)。可选值：root_squash, no_root_squash,
                 source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
@@ -748,7 +748,7 @@ def nfs_share_modify(client: DMEAPIClient, nfs_share_id: str,
                 accesskrb5: krb5权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5i: krb5i权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
                 accesskrb5p: krb5p权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
-                write_mode: 写入模式 (可选)。可选值：synchronization (同步), asynchronization (异步),
+                write_mode: 写入模式 (可选)。可选值：synchronization (Sync), asynchronization (异步),
                 permission_constraint: 权限限制 (Required)。可选值：all_squash, no_all_squash,
                 root_permission_constraint: root权限限制 (Required)。可选值：root_squash, no_root_squash,
                 source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
@@ -2104,7 +2104,7 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         task_remarks: Async taskRemark（可选）
         gfs_group_id: 全局数据空间的 ID（可选）
         automatic_update_time: 是否更新访问时间（可选）
-        atime_update_mode: Atime 更新频率，hour/day/close（可选）
+        atime_update_mode: Atime 更新Frequency，hour/day/close（可选）
         schedule_name: 定时 HyperCDP 计划名称（可选）
         quota_switch: 是否启用配额（可选）
         vaai_switch: VAAI 开关（可选）
@@ -2136,11 +2136,11 @@ def filesystem_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
                         max_write_iops: 最大写iops (可选),
                         burst_read_iops: 突发读iops (可选),
                         burst_write_iops: 突发写iops (可选),
-                        schedule_policy: 调度策略 (可选)。可选值：once, daily, weekly,
+                        schedule_policy: Scheduling policy (可选)。可选值：once, daily, weekly,
                         schedule_start_date: 生效开始日期 (可选, 格式yyyy-MM-dd),
                         start_time: 生效Start time (可选, 格式hh:mm),
                         duration: 生效durationsecond(s) (可选, 1800~86400),
-                        weekly_days: week(s)调度策略 (可选, 1~6对应week(s)一到week(s)六),
+                        weekly_days: week(s)Scheduling policy (可选, 1~6对应week(s)一到week(s)六),
                         alarm_switch: 限高告警开关 (可选)。可选值：off, on,
                         alarm_level: Alarm severity (可选)。可选值：event, alarm,
                         alarm_threshold: 告警threshold% (可选, 0~100),
@@ -2282,11 +2282,11 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
     """
     Query available的Filesystem
 
-    Query available于配置增删特性的Filesystem。当前仅支持可配置远程复制的Filesystem。
+    Query available于配置增删特性的Filesystem。当前仅支持可配置Remote replication的Filesystem。
 
     Args:
         client: DME API 客户端
-        feature_type: 特性类型，当前仅支持 remote_replication（远程复制）
+        feature_type: 特性类型，当前仅支持 remote_replication（Remote replication）
         local_storage_id: 本端Storage device ID
         remote_storage_id: 远端Storage device ID（当 feature_type 为 remote_replication 时Required）
         name: 本端Filesystem name，支持fuzzy search
@@ -2349,7 +2349,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
         capacity_threshold: 总空间容量告警threshold 50-99（可选）
         initial_distribute_policy: 容量初始分配策略，auto/highest_perf/performance/capacity（可选）
         automatic_update_time: 文件被读取后是否更新访问时间，true开启/false关闭（可选）
-        atime_update_mode: Atime 更新频率，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
+        atime_update_mode: Atime 更新Frequency，hour（每hour(s)）/day（每day(s)）/close（未启用）（可选）
         quota_switch: 是否启用配额，true启用/false不启用（可选）
         vaai_switch: VAAI 开关，启用后不能关闭，true启用/false未启用（可选）
         owning_controller: 归属控制器，2~16个字符（可选）
@@ -2379,11 +2379,11 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
                         max_write_iops: 最大Write IOPS (可选, 1~999999999; read/write upper limit policy only),
                         burst_read_iops: 突发Read IOPS (可选, 1~999999999; read/write upper limit policy only),
                         burst_write_iops: 突发Write IOPS (可选, 1~999999999; read/write upper limit policy only),
-                        schedule_policy: 调度策略 (可选)。可选值：once, daily, weekly,
+                        schedule_policy: Scheduling policy (可选)。可选值：once, daily, weekly,
                         schedule_start_date: 生效开始日期 (可选, 格式yyyy-MM-dd, 0~64字符),
                         start_time: 生效Start time (可选, 格式hh:mm, 0~64字符),
                         duration: 生效durationsecond(s) (可选, 1800~86400),
-                        weekly_days: week(s)调度策略 (可选, 0-6对应week(s)日到week(s)六, 最多7个; schedule_policy为weekly时生效),
+                        weekly_days: week(s)Scheduling policy (可选, 0-6对应week(s)日到week(s)六, 最多7个; schedule_policy为weekly时生效),
                         alarm_switch: 限高告警开关 (可选)。可选值：off, on,
                         alarm_level: 限高Alarm severity (可选)。可选值：event (事件), alarm (告警),
                         alarm_threshold: 限高告警threshold% (可选, 0~100),
@@ -2657,7 +2657,7 @@ def namespace_create(client: DMEAPIClient, storage_id: str, pool_raw_id: str,
         audit_log_rule: Audit log规则列表，可选值：open, create, read, write, close, 
                        delete, rename, get_attr, set_attr, get_security, set_security,
                        get_xattr, set_xattr, list_dir, contact, mount_or_unmount, login_or_logoff
-        atime_update_mode: atime 更新频率，4294967295 关闭，3600 1 hour(s)，86400 1 day(s)
+        atime_update_mode: atime 更新Frequency，4294967295 关闭，3600 1 hour(s)，86400 1 day(s)
         acl_policy_type: 安全模式，可选值：mixed, unix, native, ntfs，默认 unix
         enable_encrypt: Enable encryption
         crypt_alg: 加密算法类型，可选值：XTS_AES_128, XTS_AES_256, XTS_SM4, UNKNOWN
@@ -2827,7 +2827,7 @@ def namespace_modify(client: DMEAPIClient, namespace_id: str,
         audit_log_rule: Audit log规则列表，可选值：open, create, read, write, close, delete, rename,
                        get_attr, set_attr, get_security, set_security, get_xattr, set_xattr,
                        list_dir, contact, mount_or_unmount, login_or_logoff
-        atime_update_mode: atime 更新频率，4294967295：关闭更新；3600：1 hour(s)更新；86400：1 day(s)更新
+        atime_update_mode: atime 更新Frequency，4294967295：关闭更新；3600：1 hour(s)更新；86400：1 day(s)更新
         acl_policy_type: Namespace安全模式，可选值：mixed（同时支持 UNIX 和 Windows 权限），
                         unix（适用于 NFS 用户的权限由 Unix Mode/NFSv4 ACL 权限控制），
                         native（与 Mixed 模式适用于相同的场景），

@@ -45,7 +45,7 @@ def list(client: DMEAPIClient, name: str = None,
 
 def sync(client: DMEAPIClient, switch_id: str) -> dict:
     """
-    同步指定交换机
+    Sync指定交换机
     
     Args:
         client: DME API client
@@ -715,7 +715,7 @@ ACTIONS = {
     },
     'sync': {
         'func': sync,
-        'description': '同步交换机配置',
+        'description': 'Sync交换机配置',
         'params': ['switch_id'],
         'subtopic': None
     },

@@ -33,7 +33,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
         task_remarks: Async task remark（Optional，最多 1024 个字符）
         project_id: Project group ID（Optional，0~64 个字符）
         availability_zone: Availability zone ID（Optional，0~64 个字符）
-        scheduler_hints: 调度策略 (Optional, SchedulerHints object)。参数格式如下：{
+        scheduler_hints: Scheduling policy (Optional, SchedulerHints object)。参数格式如下：{
                 affinity: 是否开启亲和性。Optional值：true (开启), false (不开启)。默认不开启,
                 affinity_volume: 待亲和的 LUN ID (Optional, 0~64个字符),
              }
@@ -225,7 +225,7 @@ def tier_list(client: DMEAPIClient, name: str = None,
         limit: 每页count，10~1000，默认 200
         sort_key: Sort field，name/total_capacity/created_at，默认 name
         sort_dir: Sort direction，asc/desc，默认 asc
-        type: 存储类型，FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
+        type: Storage class型，FILE/BLOCK/VIRTUAL_DATASTORE（Optional）
 
     Returns:
         {

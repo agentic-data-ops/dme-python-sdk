@@ -181,28 +181,28 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     Args:
         client: DME API client
         pg_id: Protection group ID
-        lun_ids: 待添加到Protection group的 LUN 的 ID 列表（Optional），max array members 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs mutually exclusive；Protection group不存在双活、复制、环形 3DC 特性时此参数有效
-        hyper_metro: 添加 LUN 到有双活特性Protection group的请求参数（Optional），与 lun_ids 参数mutually exclusive；Protection group存在双活特性时此参数有效。格式：{
-                        is_delay: 是否延迟执行（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在同步"状态，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再同步Consistency group
-                        create_mode: 双活 Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
-                        remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；双活 Pair 创建模式为 auto 时有效
+        lun_ids: 待添加到Protection group的 LUN 的 ID 列表（Optional），max array members 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs mutually exclusive；Protection group不存在Active-active、复制、环形 3DC 特性时此参数有效
+        hyper_metro: 添加 LUN 到有Active-active特性Protection group的请求参数（Optional），与 lun_ids 参数mutually exclusive；Protection group存在Active-active特性时此参数有效。格式：{
+                        is_delay: 是否延迟执行（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync"状态，将直接暂停Consistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        create_mode: Active-active Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
+                        remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；auto-create mode and naming rule is prefix_and_suffix 时有效
-                        lun_pairs: 手动配置的双活 Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
+                        lun_pairs: 手动配置的Active-active Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
         rem_reps: 添加 LUN 到有复制特性Protection group的请求参数（Optional），max array members 2，与 lun_ids 参数mutually exclusive；Protection group存在复制特性时此参数有效。格式：[{
-                        is_delay: 是否延迟执行（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：将直接分裂Consistency group和新 Pair，将新 Pair 加入Consistency group，再同步Consistency group
-                        create_mode: 远程复制 Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
+                        is_delay: 是否延迟执行（Optional），默认 true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync"状态，将等待Sync完成后再将新 Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        create_mode: Remote replication Pair creation mode（Required），Optional值：auto（自动）、manual（手动）
                         remote_storage_id: 远端Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: 远端Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；复制 Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（Optional），Optional值：same_as_local（与本端Resource name保持一致）、prefix_and_suffix（前缀+本端Resource name+后缀）、prefix_and_num（前缀+自动序号）；effective in auto-create mode
                         name_prefix: 远端 LUN 名称前缀（Optional），0~251 个字符；auto-create mode and naming rule is prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（Optional），0~16 个字符；auto-create mode and naming rule is prefix_and_suffix 时有效
-                        lun_pairs: 手动配置的远程复制 Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
+                        lun_pairs: 手动配置的Remote replication Pair 信息列表（Optional），max array members 100；当 create_mode 为 manual 时有效。格式：[{
                                 local_lun_id: 本端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
                                 remote_lun_id: 远端 LUN 的 ID（Required），1~32  characters, regex ^[a-fA-F0-9]+$
                         },...]
@@ -239,7 +239,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
         client: DME API client
         pg_id: Protection group ID
         lun_ids: 待移除的Protection group成员 LUN 的 ID 列表
-        is_delay: 是否延迟执行。在远程复制，同步 + 异步的环形 3DC 情况下，此参数无效
+        is_delay: 是否延迟执行。在Remote replication，Sync + 异步的环形 3DC 情况下，此参数无效
 
     Returns:
         {
@@ -329,12 +329,12 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
 
     Args:
         client: DME API client
-        domain_id: 双活域 ID
+        domain_id: Active-active域 ID
         name: Active-active consistency group名称
         local_storage_id: 本端设备 ID
         local_pg_id: 本端Protection group的 ID，条件Required：当设备类型为 OceanStor Dorado V6、OceanStor V6 时Required
         description: Description
-        create_mode: 双活 Pair creation mode，Optional值：auto（自动模式）, manual（手动模式）
+        create_mode: Active-active Pair creation mode，Optional值：auto（自动模式）, manual（手动模式）
         remote_vstore_id: Remote device tenant ID，条件Required：当 create_mode 为 auto 且设备为 OceanStor Dorado 6.1.3 及以上版本时
         remote_storage_pool_id: 远端Storage pool ID，条件Required：当 create_mode 为 auto 时
         lun_ids: LUN 的 ID 列表，条件Optional：当 create_mode 为 auto 时
@@ -385,9 +385,9 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         group_id: Active-active consistency group ID
         name: Active-active consistency group名称
         description: Description
-        recovery_policy: 双活 Pair 恢复策略，Optional值：automatic（自动）, manual（手动）
+        recovery_policy: Active-active Pair Recovery policy，Optional值：automatic（自动）, manual（手动）
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred（数据可靠优先）, service_continuity_preferred（业务连续优先）
-        speed: 同步速率，Optional值：low, medium, high, highest, custom
+        speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
 
@@ -457,8 +457,8 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
     Args:
         client: DME API client
         group_id: Active-active consistency group ID
-        pair_ids: 双活 Pair ID 列表
-        is_self_adapt: 是否自适应修改双活 Pair 运行状态
+        pair_ids: Active-active Pair ID 列表
+        is_self_adapt: 是否自适应修改Active-active Pair 运行状态
 
     Returns:
         {
@@ -485,7 +485,7 @@ def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids:
     Args:
         client: DME API client
         group_id: Active-active consistency group ID
-        pair_ids: 双活 Pair ID 列表
+        pair_ids: Active-active Pair ID 列表
 
     Returns:
         {
@@ -576,7 +576,7 @@ def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_pair 子主题 - 双活 Pair operations
+# hypermetro_pair 子主题 - Active-active Pair operations
 # ============================================================================
 
 def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -588,7 +588,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
                          remote_vstore_id: str = None, remote_vstore_raw_id: str = None,
                          remote_volume_name: str = None) -> dict:
     """
-    Batch query LUN 双活 Pair
+    Batch query LUN Active-active Pair
 
     Args:
         client: DME API client
@@ -597,7 +597,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         group_id: 所属Active-active consistency group ID
         group_name: 所属Active-active consistency group名称，supports fuzzy match
         group_raw_id: 所属Active-active consistency groupon the storage device ID
-        pair_raw_id: 双活 Pair on the storage device ID
+        pair_raw_id: Active-active Pair on the storage device ID
         local_storage_id: 本端Storage device ID
         local_storage_name: 本端Storage device name，supports fuzzy match
         local_vstore_id: 所属本端租户的 ID，该参数和 local_vstore_raw_id mutually exclusive
@@ -609,7 +609,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         remote_volume_name: 远端 LUN 名称，supports fuzzy match
 
     Returns:
-        双活 Pair 列表
+        Active-active Pair 列表
     """
     url = "/rest/protection/v1/metro/lun-pairs/query"
 
@@ -657,25 +657,25 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
                            service_assurance_policy: str = None, isolation_threshold_time: int = None,
                            recovery_policy: str = None) -> dict:
     """
-    创建双活 Pair
+    创建Active-active Pair
 
     Args:
         client: DME API client
-        create_mode: 双活 Pair creation mode，Optional值：auto（自动创建）, manual（手动创建）
-        local_storage_id: 创建双活 Pair 的Storage device ID
-        domain_id: 双活域 ID
+        create_mode: Active-active Pair creation mode，Optional值：auto（自动创建）, manual（手动创建）
+        local_storage_id: 创建Active-active Pair 的Storage device ID
+        domain_id: Active-active域 ID
         lun_ids: 自动创建模式下，源 LUN 的 ID 列表
-        lun_pairs: 手动创建模式下，双活 Pair 的源 LUN、目标 LUN 的 ID 列表
+        lun_pairs: 手动创建模式下，Active-active Pair 的源 LUN、目标 LUN 的 ID 列表
         remote_storage_pool_id: 远端Storage pool ID，effective in auto-create mode
         remote_vstore_id: Remote device tenant ID，effective in auto-create mode
         remote_resource_name_rule: LUN 的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: 远端 LUN 名称前缀
         name_suffix: 远端 LUN 名称后缀
-        speed: 同步速率，Optional值：low, medium, high, highest, custom
+        speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时必传
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时必传
-        recovery_policy: 恢复策略，Optional值：automatic, manual
+        recovery_policy: Recovery policy，Optional值：automatic, manual
 
     Returns:
         {
@@ -724,14 +724,14 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
                             service_assurance_policy: str = None,
                             isolation_threshold_time: int = None) -> dict:
     """
-    修改双活 Pair
+    修改Active-active Pair
 
     Args:
         client: DME API client
-        pair_id: 双活 Pair 实例 ID
-        speed: 双活 Pair 同步速率，Optional值：low, medium, high, highest, custom
+        pair_id: Active-active Pair 实例 ID
+        speed: Active-active Pair Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: 自定义速率（MB/s），当 speed 为 custom 时Required
-        recovery_policy: 恢复策略，Optional值：automatic, manual
+        recovery_policy: Recovery policy，Optional值：automatic, manual
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
 
@@ -762,14 +762,14 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
 def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None,
                             is_lun_service_interrupt: bool = None) -> dict:
     """
-    Batch delete双活 Pair
+    Batch deleteActive-active Pair
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
     >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
-        ids: 双活 Pair 实例 ID 列表
+        ids: Active-active Pair 实例 ID 列表
         delete_mode: 删除模式，Optional值：preferred_only, non_preferred_only, dual_ends
         is_lun_service_interrupt: 是否中断 LUN 业务，当 delete_mode 为 preferred_only 或 non_preferred_only 时有效
 
@@ -795,11 +795,11 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
 
 def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    同步双活 Pair
+    SyncActive-active Pair
 
     Args:
         client: DME API client
-        ids: 双活 Pair ID 列表
+        ids: Active-active Pair ID 列表
 
     Returns:
         {
@@ -818,11 +818,11 @@ def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
 
 def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    暂停双活 Pair
+    暂停Active-active Pair
 
     Args:
         client: DME API client
-        ids: 双活 Pair ID 列表
+        ids: Active-active Pair ID 列表
         priority_station_type: 站点类型，Optional值：preferred, non_preferred
 
     Returns:
@@ -843,11 +843,11 @@ def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type
 
 def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    强制启动双活 Pair
+    强制启动Active-active Pair
 
     Args:
         client: DME API client
-        ids: 双活 Pair ID 列表
+        ids: Active-active Pair ID 列表
         priority_station_type: 站点类型，Optional值：preferred, non_preferred
 
     Returns:
@@ -868,11 +868,11 @@ def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_stat
 
 def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     """
-    双活 Pair Preferred site switch
+    Active-active Pair Preferred site switch
 
     Args:
         client: DME API client
-        ids: 双活 Pair ID 列表
+        ids: Active-active Pair ID 列表
 
     Returns:
         {
@@ -890,21 +890,21 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_domain 子主题 - 双活域operations
+# hypermetro_domain 子主题 - Active-active域operations
 # ============================================================================
 
 def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
                             types: list = None) -> dict:
     """
-    Batch query双活域
+    Batch queryActive-active域
 
     Args:
         client: DME API client
         storage_id: 设备 ID
-        types: 双活域类型列表
+        types: Active-active域类型列表
 
     Returns:
-        双活域列表
+        Active-active域列表
     """
     url = "/rest/protection/v1/hyper-metro-domains/query"
 
@@ -1009,16 +1009,16 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
         remote_resource_name_rule: 远端资源的名称策略，Optional值：same_as_local, prefix_and_suffix, prefix_and_num
         name_prefix: 远端Resource name前缀
         name_suffix: 远端Resource name后缀
-        speed: 同步速率，Optional值：low, medium, high, highest, custom
+        speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
-        recovery_policy: 恢复策略，Optional值：automatic, manual
-        sync_type: 同步类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        recovery_policy: Recovery policy，Optional值：automatic, manual
+        sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为同步模式时有效
-        sync_snap_policy: 用户快照同步策略，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为Sync模式时有效
+        sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: 从端用户快照保留count
-        switch_to_async: 同步远程复制自动转换为异步远程复制的开关
+        switch_to_async: SyncRemote replication自动转换为异步Remote replication的开关
         enable_compress: 链路压缩，当复制模式为异步模式时Required
 
     Returns:
@@ -1083,17 +1083,17 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
     Args:
         client: DME API client
         pair_id: 复制 Pair 实例 ID
-        speed: 同步速率，Optional值：low, medium, high, highest, custom
+        speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
-        recovery_policy: 恢复策略，Optional值：automatic, manual
+        recovery_policy: Recovery policy，Optional值：automatic, manual
         enable_compress: 链路压缩，当复制模式为异步模式时Required
-        sync_type: 同步类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为同步模式时有效
-        sync_snap_policy: 用户快照同步策略，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为Sync模式时有效
+        sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: 从端用户快照保留count
-        switch_to_async: 同步远程复制自动转换为异步远程复制的开关
+        switch_to_async: SyncRemote replication自动转换为异步Remote replication的开关
 
     Returns:
         {
@@ -1133,7 +1133,7 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
 
 def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None) -> dict:
     """
-    Batch delete远程复制 Pair
+    Batch deleteRemote replication Pair
 
     Args:
         client: DME API client
@@ -1206,7 +1206,7 @@ def replication_pair_split(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
     """
-    远程复制 Pair Batch primary/standby switch
+    Remote replication Pair Batch primary/standby switch
 
     Args:
         client: DME API client
@@ -1229,7 +1229,7 @@ def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, operation_type: str) -> dict:
     """
-    远程复制 Pair 从资源保护状态切换
+    Remote replication Pair 从资源保护状态切换
 
     Args:
         client: DME API client
@@ -1422,7 +1422,7 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
         client: DME API client
         snapshot_ids: 快照 ID 列表
         is_delete_target_lun: 是否删除目标 LUN，默认 true
-        is_auto_deactivate: 是否在删除前自动取消激活快照，默认 false
+        is_auto_deactivate: 是否在删除前自动Deactivate快照，默认 false
 
     Returns:
         {
@@ -1639,7 +1639,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_prefix: 目标 LUN 名称前缀
         name_suffix: 目标 LUN 名称后缀
         copy_rate: 拷贝速率，Optional值：low, medium, high, highest，默认 medium
-        is_sync: 是否立即同步，默认 true
+        is_sync: 是否立即Sync，默认 true
         clone_pairs: 克隆 Pair 列表，create_mode 为 manual 时Required
 
     Returns:
@@ -1678,7 +1678,7 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
                             name_rule: str = None, name_prefix: str = None,
                             name_suffix: str = None, clone_pairs: list = None) -> dict:
     """
-    同步克隆Consistency group
+    Sync克隆Consistency group
 
     Args:
         client: DME API client
@@ -1761,7 +1761,7 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
 
     Args:
         client: DME API client
-        cg_name: 远程复制Consistency group名称
+        cg_name: Remote replicationConsistency group名称
         remote_storage_id: 远端Storage device ID
         local_pg_id: 本端Protection group的 ID，当Storage device version是 OceanStor V6、OceanStor Dorado V6 时必传
         description: Description
@@ -1828,24 +1828,24 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
                               sync_snap_policy: str = None, user_snap_retention_num: int = None,
                               switch_to_async: bool = None) -> dict:
     """
-    修改远程复制Consistency group
+    修改Remote replicationConsistency group
 
     Args:
         client: DME API client
-        replication_group_id: 远程复制Consistency group ID
-        name: 远程复制Consistency group名称
+        replication_group_id: Remote replicationConsistency group ID
+        name: Remote replicationConsistency group名称
         description: Description
-        speed: 同步速率，Optional值：low, medium, high, highest, custom
+        speed: Sync速率，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
-        recovery_policy: 恢复策略，Optional值：automatic, manual
+        recovery_policy: Recovery policy，Optional值：automatic, manual
         enable_compress: 链路压缩，当复制模式为异步模式时Required
-        sync_type: 同步类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        sync_type: Sync类型，Optional值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
         timing_value_in_sec: 定时时长（second(s)），当 sync_type 为 wait_after_sync_begins 或 wait_after_sync_ends 时Required
         sync_schedule: 定时规则，当 sync_type 为 specified_time_policy 时Required
-        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为同步模式时有效
-        sync_snap_policy: 用户快照同步策略，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        rep_io_timeout: 远端 IO timeout（second(s)），当复制模式为Sync模式时有效
+        sync_snap_policy: 用户快照Sync policy，Optional值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
         user_snap_retention_num: 从端用户快照保留count
-        switch_to_async: 同步远程复制自动转换为异步远程复制的开关
+        switch_to_async: SyncRemote replication自动转换为异步Remote replication的开关
 
     Returns:
         {
@@ -1890,11 +1890,11 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
 def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: bool = None,
                               delete_mode: str = None) -> dict:
     """
-    Batch delete远程复制Consistency group
+    Batch deleteRemote replicationConsistency group
 
     Args:
         client: DME API client
-        ids: 远程复制Consistency group ID 列表
+        ids: Remote replicationConsistency group ID 列表
         is_self_adapt: 是否支持自适应移除成员 Pair，默认 false
         delete_mode: 删除模式，Optional值：primary_only, secondary_only, dual_ends，默认 dual_ends
 
@@ -1920,12 +1920,12 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
 
 def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    远程复制Consistency group添加成员 Pair
+    Remote replicationConsistency group添加成员 Pair
 
     Args:
         client: DME API client
-        group_id: 远程复制Consistency group的 ID
-        pair_ids: 远程复制 Pair 的 ID 列表
+        group_id: Remote replicationConsistency group的 ID
+        pair_ids: Remote replication Pair 的 ID 列表
 
     Returns:
         {
@@ -1944,12 +1944,12 @@ def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: l
 
 def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    远程复制Consistency group移除成员 Pair
+    Remote replicationConsistency group移除成员 Pair
 
     Args:
         client: DME API client
-        group_id: 远程复制Consistency group的 ID
-        pair_ids: 远程复制 Pair 的 ID 列表
+        group_id: Remote replicationConsistency group的 ID
+        pair_ids: Remote replication Pair 的 ID 列表
 
     Returns:
         {
@@ -2020,7 +2020,7 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
     """
-    远程复制Consistency groupBatch primary/standby switch
+    Remote replicationConsistency groupBatch primary/standby switch
 
     >![](public_sys-resources/icon-notice.gif) **须知：**
     >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
@@ -2046,7 +2046,7 @@ def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_switch_write_protection(client: DMEAPIClient, id: str, operation_type: str) -> dict:
     """
-    远程复制Consistency group从资源写保护状态切换
+    Remote replicationConsistency group从资源写保护状态切换
 
     Args:
         client: DME API client
@@ -2086,7 +2086,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
         vstore_pair_id: Active-active tenantPair的ID (Required, string, 1~32个字符)
         create_mode: 创建模式 (Optional, string)。Optional值：manual (手动)。Default：manual
         fs_pairs: FilesystemPair列表 (Optional, List[FsPairInstance], max array members：100)
-        speed: 同步速率 (Optional, string)。Optional值：low, medium, high, highest, custom
+        speed: Sync速率 (Optional, string)。Optional值：low, medium, high, highest, custom
         bandwidth: 带宽 (Optional, integer, 1~1024)。当speed为custom时Required
         service_assurance_policy: Service assurance policy (Optional, string)。Optional值：data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time: 隔离threshold (Optional, int32, 10~30000)
@@ -2217,7 +2217,7 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
 def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量同步FilesystemActive-active pair。该API可能会直接或间接影响现网业务运行，Proceed with caution.
+    批量SyncFilesystemActive-active pair。该API可能会直接或间接影响现网业务运行，Proceed with caution.
 
     Args:
         client: DME API client
@@ -2589,17 +2589,17 @@ def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
 
 
 # ============================================================================
-# 双活域 (hypermetro_domain) subtopic functions
+# Active-active域 (hypermetro_domain) subtopic functions
 # ============================================================================
 
 
 def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
     """
-    强制启动Filesystem双活域。
+    强制启动FilesystemActive-active域。
 
     Args:
         client: DME API client
-        id: 双活域ID (Required, string)
+        id: Active-active域ID (Required, string)
 
     Returns:
         {
@@ -2617,11 +2617,11 @@ def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
     """
-    Preferred site switchFilesystem双活域。
+    Preferred site switchFilesystemActive-active域。
 
     Args:
         client: DME API client
-        id: 双活域ID (Required, string)
+        id: Active-active域ID (Required, string)
 
     Returns:
         {
@@ -2639,11 +2639,11 @@ def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
     """
-    恢复Filesystem双活域。
+    恢复FilesystemActive-active域。
 
     Args:
         client: DME API client
-        id: 双活域ID (Required, string)
+        id: Active-active域ID (Required, string)
 
     Returns:
         {
@@ -2661,11 +2661,11 @@ def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
     """
-    分裂Filesystem双活域。
+    SplitFilesystemActive-active域。
 
     Args:
         client: DME API client
-        id: 双活域ID (Required, string)
+        id: Active-active域ID (Required, string)
 
     Returns:
         {
@@ -2683,11 +2683,11 @@ def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
     """
-    主从切换Filesystem双活域。
+    Primary/standby switchFilesystemActive-active域。
 
     Args:
         client: DME API client
-        id: 双活域ID (Required, string)
+        id: Active-active域ID (Required, string)
 
     Returns:
         {
@@ -2832,56 +2832,56 @@ ACTIONS = {
     # hypermetro_pair subtopic actions
     'hypermetro_pair_list': {
         'func': hypermetro_pair_list,
-        'description': 'Batch query LUN 双活 Pair',
+        'description': 'Batch query LUN Active-active Pair',
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'group_raw_id', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'local_host_access_state', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_create': {
         'func': hypermetro_pair_create,
-        'description': '创建双活 Pair',
+        'description': '创建Active-active Pair',
         'params': ['create_mode', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'local_storage_id', 'domain_id', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time', 'recovery_policy'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_modify': {
         'func': hypermetro_pair_modify,
-        'description': '修改双活 Pair',
+        'description': '修改Active-active Pair',
         'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'service_assurance_policy', 'isolation_threshold_time'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_delete': {
         'func': hypermetro_pair_delete,
-        'description': 'Batch delete双活 Pair',
+        'description': 'Batch deleteActive-active Pair',
         'params': ['ids', 'delete_mode', 'is_lun_service_interrupt'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_sync': {
         'func': hypermetro_pair_sync,
-        'description': '同步双活 Pair',
+        'description': 'SyncActive-active Pair',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_pause': {
         'func': hypermetro_pair_pause,
-        'description': '暂停双活 Pair',
+        'description': '暂停Active-active Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_force_startup': {
         'func': hypermetro_pair_force_startup,
-        'description': '强制启动双活 Pair',
+        'description': '强制启动Active-active Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_switch_priority': {
         'func': hypermetro_pair_switch_priority,
-        'description': '双活 Pair Preferred site switch',
+        'description': 'Active-active Pair Preferred site switch',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
     # hypermetro_domain subtopic actions
     'hypermetro_domain_list': {
         'func': hypermetro_domain_list,
-        'description': 'Batch query双活域',
+        'description': 'Batch queryActive-active域',
         'params': ['storage_id', 'types'],
         'subtopic': 'hypermetro_domain'
     },
@@ -2894,25 +2894,25 @@ ACTIONS = {
     },
     'replication_group_modify': {
         'func': replication_group_modify,
-        'description': '修改远程复制Consistency group',
+        'description': '修改Remote replicationConsistency group',
         'params': ['replication_group_id', 'name', 'description', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async'],
         'subtopic': 'replication_group'
     },
     'replication_group_delete': {
         'func': replication_group_delete,
-        'description': 'Batch delete远程复制Consistency group',
+        'description': 'Batch deleteRemote replicationConsistency group',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'replication_group'
     },
     'replication_group_add_pairs': {
         'func': replication_group_add_pairs,
-        'description': '远程复制Consistency group添加成员 Pair',
+        'description': 'Remote replicationConsistency group添加成员 Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_remove_pairs': {
         'func': replication_group_remove_pairs,
-        'description': '远程复制Consistency group移除成员 Pair',
+        'description': 'Remote replicationConsistency group移除成员 Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
@@ -2930,13 +2930,13 @@ ACTIONS = {
     },
     'replication_group_switch': {
         'func': replication_group_switch,
-        'description': '远程复制Consistency groupBatch primary/standby switch',
+        'description': 'Remote replicationConsistency groupBatch primary/standby switch',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_switch_write_protection': {
         'func': replication_group_switch_write_protection,
-        'description': '远程复制Consistency group从资源写保护状态切换',
+        'description': 'Remote replicationConsistency group从资源写保护状态切换',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_group'
     },
@@ -2961,7 +2961,7 @@ ACTIONS = {
     },
     'replication_pair_delete': {
         'func': replication_pair_delete,
-        'description': 'Batch delete远程复制 Pair',
+        'description': 'Batch deleteRemote replication Pair',
         'params': ['ids', 'delete_mode'],
         'subtopic': 'replication_pair'
     },
@@ -2979,13 +2979,13 @@ ACTIONS = {
     },
     'replication_pair_switch': {
         'func': replication_pair_switch,
-        'description': '远程复制 Pair Batch primary/standby switch',
+        'description': 'Remote replication Pair Batch primary/standby switch',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_switch_write_protection': {
         'func': replication_pair_switch_write_protection,
-        'description': '远程复制 Pair 从资源保护状态切换',
+        'description': 'Remote replication Pair 从资源保护状态切换',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_pair'
     },
@@ -3067,7 +3067,7 @@ ACTIONS = {
     },
     'clone_group_sync': {
         'func': clone_group_sync,
-        'description': '同步克隆Consistency group',
+        'description': 'Sync克隆Consistency group',
         'params': ['clone_cg_id', 'create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
@@ -3098,7 +3098,7 @@ ACTIONS = {
     },
     'filesystem_pair_sync': {
         'func': filesystem_pair_sync,
-        'description': '批量同步FilesystemActive-active pair',
+        'description': '批量SyncFilesystemActive-active pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
@@ -3167,31 +3167,31 @@ ACTIONS = {
     # hypermetro_domain subtopic actions
     'hypermetro_domain_force_start': {
         'func': hypermetro_domain_force_start,
-        'description': '强制启动Filesystem双活域',
+        'description': '强制启动FilesystemActive-active域',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_switch_site': {
         'func': hypermetro_domain_switch_site,
-        'description': 'Preferred site switchFilesystem双活域',
+        'description': 'Preferred site switchFilesystemActive-active域',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_recover': {
         'func': hypermetro_domain_recover,
-        'description': '恢复Filesystem双活域',
+        'description': '恢复FilesystemActive-active域',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_split': {
         'func': hypermetro_domain_split,
-        'description': '分裂Filesystem双活域',
+        'description': 'SplitFilesystemActive-active域',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_swap_role': {
         'func': hypermetro_domain_swap_role,
-        'description': '主从切换Filesystem双活域',
+        'description': 'Primary/standby switchFilesystemActive-active域',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },

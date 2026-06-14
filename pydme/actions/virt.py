@@ -139,7 +139,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
         status: 数据存储状态列表
                 取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
-        storage_type: 数据存储类型列表
+        storage_type: 数据Storage class型列表
                       取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
         allocate_type: 是否支持精简模式（仅 FusionCompute 场景支持）

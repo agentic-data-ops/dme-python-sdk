@@ -439,7 +439,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         execute_time_unit: week(s)期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发。当 task_mode 为 pre_fetch 时该参数无效
         start_mode: Task execution模式 (Required)。Optional值：manual (手动), auto (自动)
         start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
-        max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, Required)
+        max_bandwidth: 最大Sync速率 (int32, 1~10240, 单位: MB/s, Required)
         period_start_day: 指定时间段的起始日期 (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: 指定时间段的结束日期 (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
         period_time: 指定时间段的起止时间 (Optional, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together
@@ -582,7 +582,7 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         start_time: 任务启动的 UTC 时间戳 (int64, min: 0, 单位: second(s), Optional)。当 start_mode 为 auto 时允许配置, 取值为 0 表示立即启动
         execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval 时必须下发
         execute_time_unit: week(s)期性Task execution时间间隔单位 (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval 时必须下发
-        max_bandwidth: 最大同步速率 (int32, 1~10240, 单位: MB/s, Optional)
+        max_bandwidth: 最大Sync速率 (int32, 1~10240, 单位: MB/s, Optional)
         period_start_day: 指定时间段的起始日期 (Optional, 格式: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: 指定时间段的结束日期 (Optional, 格式: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together
         period_time: 指定时间段的起止时间 (Optional, 格式: "time1,duration1;time2,duration2")。与 period_start_day、period_end_day、period_max_bandwidth must be sent together

@@ -451,7 +451,7 @@ def remove(client: DMEAPIClient, ids: list) -> dict:
 
 def sync(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    同步Storage device信息，该接口为异步消息。
+    SyncStorage device信息，该接口为异步消息。
 
     Args:
         client: DME API client
@@ -1986,11 +1986,11 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         alarm_level: Alarm severity（可选，event/alarm）
         alarm_threshold: 告警threshold%（可选，0~100）
         resume_threshold: 恢复threshold%（可选，0~100）
-        schedule_policy: 调度策略（可选，once/daily/weekly）
+        schedule_policy: Scheduling policy（可选，once/daily/weekly）
         schedule_start_date: 生效开始日期（可选，yyyy-MM-dd）
         start_time: 生效Start time（可选，hh:mm）
         duration: 生效durationsecond(s)（可选，1800~86400）
-        weekly_days: week(s)调度策略（可选，[0-6] 对应week(s)日到week(s)六）
+        weekly_days: week(s)Scheduling policy（可选，[0-6] 对应week(s)日到week(s)六）
     """
     url = "/rest/storagepolicy/v1/qos"
 
@@ -2237,7 +2237,7 @@ def qos_deactivate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     Batch deactivate QoS 策略
 
-    取消激活一个或多个 QoS 策略。
+    Deactivate一个或多个 QoS 策略。
 
     Args:
         client: DME API client
@@ -3118,7 +3118,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
         name: zoneName (Optional,1~256 characters），exact match
         ip: zone ip地址Name (Optional,1~256 characters），exact match
         status: Zone状态列表（可选，List<string>，max array members：6). Options：OFFLINE (离线), NORMAL (正常), FAULT (故障), DEGRADED (降级), ABNORMAL (未管理), UNKNOWN (未知)
-        sync_status: Zone同步状态列表（可选，List<string>，max array members：5). Options：UNSYNC (未同步), SYNC (Syncing), NORMAL (同步完成), FAILED (同步失败), UNKNOWN (未知)
+        sync_status: ZoneSync状态列表（可选，List<string>，max array members：5). Options：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync完成), FAILED (Sync失败), UNKNOWN (未知)
         sn: Zone序列号（可选，1~128 characters），exact match
         storage_ids: OceanStor A800集群id列表（可选，List<string>，max array members：100，最小成员count：1），exact match
 
@@ -3131,7 +3131,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 name: Zone名称 (1~128 characters),
                 ip: Zone IP地址 (1~32个字符),
                 status: 状态 (1~32个字符)。可选值：OFFLINE (离线), NORMAL (正常), FAULT (故障), DEGRADED (降级), ABNORMAL (未管理),
-                sync_status: 同步状态 (1~32个字符)。可选值：UNSYNC (未同步), SYNC (Syncing), NORMAL (同步完成), FAILED (同步失败),
+                sync_status: Sync状态 (1~32个字符)。可选值：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync完成), FAILED (Sync失败),
                 sn: ZoneDevice serial number (1~64 characters),
                 wwn: Zone设备WWN号 (1~32个字符),
                 vendor: Zone厂商 (1~32个字符),
@@ -3142,7 +3142,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 patch_version: 补丁版本信息 (0~64 characters),
                 add_time: 接入设备时间 (0~32个字符)，UTC时间戳（精确到毫second(s)）,
                 last_sync_time: 上一次Sync time (0~32个字符)，UTC时间戳（精确到毫second(s)）,
-                sync_process: 同步进度 (int32),
+                sync_process: Sync进度 (int32),
                 alarm_num: 告警count (number),
                 parent_id: 集群id,
                 zone_raw_id: zone raw id,
@@ -3203,7 +3203,7 @@ ACTIONS = {
     },
     'sync': {
         'func': sync,
-        'description': '同步Storage device信息',
+        'description': 'SyncStorage device信息',
         'params': ['storage_id'],
         'subtopic': None
     },
