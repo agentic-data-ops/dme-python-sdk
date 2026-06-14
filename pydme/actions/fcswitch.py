@@ -405,7 +405,7 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
     delete  zone
-    注： based on DME API  doc，使用 DELETE 方法到 /zones/{zone_id}
+    注： based on DME API  doc， use DELETE 方法到 /zones/{zone_id}
     
     Args:
         client: DME API client
@@ -430,7 +430,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
     Args:
         client: DME API client
-        is_active_zone: 是否 activate Zone（Required，string "true" 或 "false"）
+        is_active_zone:  whether activate Zone（Required，string "true" 或 "false"）
         zones: Zone  config list，each element should contain:
             - fabric_wwn: Fibre Channel network WWN（Required）
             - name: Zone  name（Required）
@@ -643,7 +643,7 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     Delete alias
 
-    注： based on DME API  doc，使用 DELETE 方法到 /aliases/{alias_id}
+    注： based on DME API  doc， use DELETE 方法到 /aliases/{alias_id}
 
     Args:
         client: DME API client

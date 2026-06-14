@@ -123,7 +123,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
         {
             total: Total count (integer),
             applications: Application list。 parameter format：[{
-                id: 应用ID (string),
+                id:  appID (string),
                 name: Application name (string),
             }, ...],
         }

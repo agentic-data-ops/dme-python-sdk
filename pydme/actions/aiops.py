@@ -197,7 +197,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         fields: Specified return field list
         page_no: Page queryStart page,default 1
         page_size: per pagecount,1~1000,default 100(Current alarm query用)
-        cleared: 是否已清除,true/false(History alarm query用)
+        cleared:  whether已清除,true/false(History alarm query用)
         size: Max number of returned results,1~1000,default 100(History alarm query用)
         iterator: 迭代子,No need to pass on first query,Subsequent queries use last returned iterator(History alarm query用)
         include_history:  switch parameter,query both if specifiedHistory alarm
@@ -278,9 +278,9 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
 
 def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     r"""
-    取消Acknowledge alarm
+     cancelAcknowledge alarm
 
-    Execute on specified alarm行取消确认 (UNACK) 操作.
+    Execute on specified alarm行 cancel确认 (UNACK) 操作.
 
     Args:
         client: DME API client
@@ -343,7 +343,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
 
     Args:
         client: DME API client
-        object_ids: entry分析object ID  list(Required),Array size:1~50
+        object_ids: entry analysisobject ID  list(Required),Array size:1~50
         object_type: entryObject type(Required),value range:
             - VM: Virtual machine
             - STORAGE_HOST: Storage host
@@ -361,8 +361,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: Controller
             - NAMESPACE: Namespace
-        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support recent七day(s)内的诊断
-        end_time: 分析End time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
+        begin_time:  analysisStart time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点, support recent七day(s)内的诊断
+        end_time:  analysisEnd time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
                   Analysis interval rangemust be greater than 30 minute(s),小于 24 hour(s)
         analysis_types: Intelligent analysis type list(Required),Array size:1~4,value range:
             - highLatency: 高时延
@@ -370,8 +370,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - IOInterrupt: IO 中断
             - highReadLatency: 高Read latency
             - highWriteLatency: 高Write latency
-            - trafficAnalysis: 流量分析
-            - cpuUsageAnalysis: cpu 消耗分析
+            - trafficAnalysis: 流量 analysis
+            - cpuUsageAnalysis: cpu 消耗 analysis
 
     Returns:
         {
@@ -380,7 +380,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         - total: Intelligent analysis taskTotal count
         - data: Intelligent analysis task response result list，Each item includes:
             - id: task  ID
-            - analysis_type: 分析 type
+            - analysis_type:  analysis type
             - error_msg: Error message
             - is_succeed: Created successfully
     """
@@ -466,12 +466,12 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     Based on input parameters"range"Enum values or from start toEnd timeQuery data within range.
     With aggregated data,Returned result sequence is average,并includes max,min以及 correspondingTimestamp.
 
-    使用说明:
+     use说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
     - object ID (CMDB instance ID) get步骤:
       1. running `cmdb instance list --help` View help,see class definition and query method
       2. Based on help info,从 CMDB Determine what to query from resource modelResource type (Class  name)
-      3. 使用 `cmdb instance list --class_name <Class  name>` Query instance list
+      3.  use `cmdb instance list --class_name <Class  name>` Query instance list
       4. obtain from response corresponding resource的 instance_id (即 obj_ids  parameter)
 
     Args:
@@ -587,7 +587,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     response = client.get(url)
 
-    # 如果提供了 filter  parameter, filter结果
+    # 如果提供了 filter  parameter, filter result
     if filter is not None and response and 'data' in response:
         filter_lower = filter.lower()
         filtered_data = []
@@ -760,11 +760,11 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
             - success:  success
             - waiting: 等待
             - terminated: 已终止
-        - task_result: task 结果,value range:
-            - un_analyzed: 未分析
+        - task_result: task  result,value range:
+            - un_analyzed: 未 analysis
             - warning:  warning
-            - abnormal: 异常
-            - event: 事件
+            - abnormal:  exception
+            - event:  event
         - total_step_count: 总步骤数
         - finish_step_count: Completed步骤数
     """
@@ -797,7 +797,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
     Args:
         client: DME API client
         policy_name: Policy name（supports fuzzy search，1~256  characters）
-        exact_query:  name是否exact match（true-exact match，false-fuzzy search），default false
+        exact_query:  name whetherexact match（true-exact match，false-fuzzy search），default false
         status:  policy status（normal-normal，checking-检查中，failed-检查 failure，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity- capacitythreshold，availability-可用性，
                     configuration- config，recyclable-可回收 resource，lowload-低负载 resource，
@@ -805,7 +805,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                     capacity_prediction-Capacity warning，history_performance-History performance，
                     load_imbalance-负载失衡，highload-高负载 resource）
         policy_source:  source（pre-define-预置，user-define-自定义）
-        alarm_type: Alarm type（violation-异常，alarm-alarm，event-事件）
+        alarm_type: Alarm type（violation- exception，alarm-alarm，event- event）
         object_type: Object type（storage- storage，lun-Logical unit，host- host等）
         page_no: Page number，1~1000，default 1
         page_size: Items per page，1~100，default 20
@@ -942,7 +942,7 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
 
 
 # ============================================================================
-# 检查结果 (check_result) subtopic functions
+# 检查 result (check_result) subtopic functions
 # ============================================================================
 
 def check_result_list(client: DMEAPIClient, object_name: str = None, level: str = None,
@@ -961,20 +961,20 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
     Args:
         client: DME API client
         object_name: Object name（supports fuzzy search，1~256  characters）
-        level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
+        level:  exception级别（critical-紧急，major-重要，minor-次要，info-提示）
         object_ids: object ID  list（ max 100 个）
         object_native_id: object nativeId（1~384  characters）
         object_type: Object type（storage- storage，lun-Logical unit，host- host等）
         policy_id:  policy ID（exact match，1~64  characters）
         policy_name: Policy name（supports fuzzy search，1~256  characters）
         policy_types: Policy type list（ max 30 个）
-        cause: 异常原因（supports fuzzy search，1~768  characters）
-        alarm_type: Alarm type（violation-异常，alarm-alarm，event-事件）
-        first_occur_time: 第一次异常Time range（{beginTime, endTime}，UTC Timestamp，unit  ms）
+        cause:  exception原因（supports fuzzy search，1~768  characters）
+        alarm_type: Alarm type（violation- exception，alarm-alarm，event- event）
+        first_occur_time: 第一次 exceptionTime range（{beginTime, endTime}，UTC Timestamp，unit  ms）
         last_occur_time: Last exceptionTime range（{beginTime, endTime}，UTC Timestamp，unit  ms）
         page_no: Page number，1~10000，default 1
         page_size: Items per page，1~2000，default 20
-        sort_key: Sort field（violation_count-异常次数）
+        sort_key: Sort field（violation_count- exception次数）
         sort_dir: Sort method（asc-正序，desc-descending）
 
     Returns:
@@ -1026,11 +1026,11 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     """
     Query check policy exception details
 
-    Query检查结果的Details。
+    Query检查 result的Details。
 
     Args:
         client: DME API client
-        check_result_id: 检查结果 ID（1~64  characters）
+        check_result_id: 检查 result ID（1~64  characters）
 
     Returns:
         {
@@ -1064,7 +1064,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
             - lun: LUN
             - vm: Virtual machine
             - datastore: Datastore
-            - application: 应用
+            - application:  app
             - switch_port: Switch port
             - storage_pool: Storage pool
         storage_pool_id: Storage pool ID（Required）
@@ -1120,7 +1120,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - host_group:  host组
             - vm: Virtual machine
             - datastore: Datastore（仅 FC_SAN）
-            - application: 应用（仅 FC_SAN）
+            - application:  app（仅 FC_SAN）
             - switch_port: Switch port（仅 FC_SAN）
             - storage_pool: Storage pool
         san_type: SAN  type（Optional），Optional值：ip_san, fc_san
@@ -1265,7 +1265,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
             - ip_client: IP Client
             - dtree: Dtree
             - lun: LUN
-            - k8s_application: K8s 应用
+            - k8s_application: K8s  app
             - k8s_workload: K8s 工作负载
             - k8s_pod: K8s Pod
             - k8s_pvc: K8s PVC
@@ -1318,7 +1318,7 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 ACTIONS = {
     'alarm_list': {
         'func': alarm_list,
-        'description': 'Query alarm info(Current alarm,Optional择是否includes History alarm)',
+        'description': 'Query alarm info(Current alarm,Optional择 whetherincludes History alarm)',
         'params': ['alarm_id', 'severity', 'mo_dn', 'alarm_group_id', 'dc_id',
                    'product_name', 'alarm_name', 'occur_utc_start', 'occur_utc_end',
                    'fields', 'page_no', 'page_size', 'cleared', 'size', 'iterator', 'include_history'],
@@ -1332,7 +1332,7 @@ ACTIONS = {
     },
     'alarm_unack': {
         'func': alarm_unack,
-        'description': '取消Acknowledge alarm',
+        'description': ' cancelAcknowledge alarm',
         'params': ['csns'],
         'subtopic': 'alarm'
     },

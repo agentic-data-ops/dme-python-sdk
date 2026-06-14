@@ -485,7 +485,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
         client: DME API client。
         storage_id: BBUStorage device的id (Optional, 1~64 characters)。
         health_status: Health status (Optional)。Options：unknown (unknown), normal (normal), faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery)。
-        running_status: Running status (Optional)。Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电完成), discharging (正在放电)。
+        running_status: Running status (Optional)。Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电 completed), discharging (正在放电)。
         enclosure_name: Enclosure name (Optional, 1~256 characters)。supports fuzzy match。
         location: location (Optional, 1~256 characters)。supports fuzzy match。
         zone_id: Zone ID (Optional, 1~255 characters)。仅OceanStor A800series storage only。
@@ -498,7 +498,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery),
-                running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电完成), discharging (正在放电),
+                running_status: Running status. Options：unknown (unknown), normal (normal), running (running), online (online), offline (offline), charging (正在充电), charging_completed (充电 completed), discharging (正在放电),
                 charge_times: 放电次数 (int64),
                 firmware_version: Firmware version号 (1~255 characters),
                 manufactured_date: 出厂日期 (1~255 characters),
@@ -906,7 +906,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
         frame_number: 机柜/机架号(Optional，1~256 characters），supports fuzzy search（case-insensitive）
         slot_number: 槽位/机架内Slot number(Optional，1~256 characters），supports fuzzy search（case-insensitive）
         status: Node status(Optional). Options：UNKNOWN (unknown), NORMAL (normal), FAULT ( fault), PRE_FAIL (Impending failure), PARTIALLY_DAMAGED (部分损坏), DEGRADED ( degraded), BAD_SECTORS_FOUND (有坏块), BIT_ERRORS_FOUND (有误码), CONSISTENT (一致), INCONSISTENT (不一致), BUSY (繁忙), NO_INPUT (无输入), LOW_BATTERY (Low battery), SINGLE_LINK_FAULT (单链路 fault)
-        roles:  nodeRole list(Optional，List<string>，max array members：10). Options：management (management ), storage ( storage), compute (VBS计算), replication ( replication), paxos (控制), dpc_compute (DPC计算)
+        roles:  nodeRole list(Optional，List<string>，max array members：10). Options：management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
         page_no: Page number(Optional，1~10000，default 1）
         page_size: Page size(Optional，1~1000，default 20）
         sort_key: Sort field(Optional). Options：name (Node name), mgmt_ip (Node managementIP address)
@@ -924,7 +924,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 node_model:  node model (1~255 characters)。例如：DataTurbo，OceanStor Pacific，RH5288 V3,
                 frame_number: 机柜/机架号 (1~255 characters),
                 slot_number: 槽位/机架内Slot number (1~255 characters),
-                roles:  nodeRole list (List<string>)。Options：management (management ), storage ( storage), compute (VBS计算), replication ( replication), paxos (控制), dpc_compute (DPC计算),
+                roles:  nodeRole list (List<string>)。Options：management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute),
                 node_sn: Serial number info (1~255 characters),
                 storage_id: Storage deviceid (1~64 characters),
                 storage_name: Storage device name (1~255 characters),
@@ -1332,12 +1332,12 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                     id: EnclosureID (1~64 characters),
                     raw_id: Enclosure在Storage device上ID (1~64 characters),
                     name:  name (1~256 characters),
-                    model:  model (1~32 characters)。Options：0 (BMCController enclosure), 1 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5英寸智能Disk enclosure), 119 (2U SAS 12disk slot 3.5英寸智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controller NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5英寸 6disk slot3.5英寸 Controller enclosure), 133 (4U dual controller NVMe 12disk slot 2.5英寸 Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controller 64disk slot 2.5英寸 Controller enclosure),
+                    model:  model (1~32 characters)。Options：0 (BMCController enclosure), 1 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbit/s SAS 12disk slot 3.5inch controller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U 四控Controller enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U 四控Controller enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5 inch智能Disk enclosure), 119 (2U SAS 12disk slot 3.5 inch智能Disk enclosure), 120 (2U NVMe 36disk slot智能Disk enclosure), 122 (2U dual controller NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controller NVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controller 64disk slot 2.5 inch Controller enclosure),
                     height: 高度，unit U (integer),
                     location: Enclosure的location (1~128 characters),
                     logic_type:  type。Options：disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
                     health_status: Health status。Options：unknown (unknown), normal (normal), faulty ( fault),
-                    running_status: Running status. Options：unknown (unknown), normal (normal), running (running), sleep_in_high_temperature (高温休眠), online (online), offline (offline), abnormal (异常),
+                    running_status: Running status. Options：unknown (unknown), normal (normal), running (running), sleep_in_high_temperature (高温休眠), online (online), offline (offline), abnormal ( exception),
                     storage_id: Storage deviceID (1~64 characters),
                     storage_name: Storage device name (1~128 characters),
                     storage_ip: Storage deviceIP address (1~32 characters),
@@ -1571,7 +1571,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
         name: local Auth user name (1~255 characters, Required)
         description: local Auth user description (1~255 characters, Optional)
         password: local Auth user password (1~255 characters, Required)
-        primary_group_raw_id: local auth user所归属的User groupon device ID (1~64 characters, Required)
+        primary_group_raw_id: local auth user所的User groupon device ID (1~64 characters, Required)
         group_names: create 的local auth user的临时User groupName list (List<string>, min array members: 0, max array members: 31, Optional)
         vstore_id: local auth user的 tenant ID (1~64 characters, Optional。conditionally required，When creating localrequired when auth user belongs to tenant)
 
@@ -1621,7 +1621,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
         description: UNIX Auth user description (1~255 characters, Optional)
         password: UNIX Auth user password (1~255 characters, Optional)
         status_enabled: UNIX Auth user status (boolean, Optional)。Options：true ( start), false ( lock)
-        primary_group_raw_id: create 的 UNIX auth user所归属的User groupon device ID (1~64 characters, Required)
+        primary_group_raw_id: create 的 UNIX auth user所的User groupon device ID (1~64 characters, Required)
         vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional。conditionally required，当create 的 UNIX required when auth user belongs to tenant)
 
     Returns:
@@ -1871,7 +1871,7 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         enable_status: Active status(Optional，true/false）
         running_status: Running status(Optional，running/inactive/waiting）
         zone_id:  ZONE 的 ID(Optional）
-        resource_type_list: 控制的Resource type list(Optional，file_system/vstore/none）
+        resource_type_list:  control的Resource type list(Optional，file_system/vstore/none）
         vstore_id: Tenant ID(Optional）
         vstore_name: Tenant name(Optional）
         alarm_status: Alarm status(Optional，normal/event/alarm/invalid）
@@ -1959,8 +1959,8 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
         client: DME API client
         name: QoS Policy name（Required，1~31  character）
         storage_id: Storage device ID（Required）
-        resource_type: 控制的Resource type（Required，file_system/vstore）
-        resource_ids: 控制的 resource ID  list（Required，数组 1~512 个 member）
+        resource_type:  control的Resource type（Required，file_system/vstore）
+        resource_ids:  control的 resource ID  list（Required，数组 1~512 个 member）
         description:  description(Optional，1~255  character）
         zone_id:  ZONE 的 ID(Optional，A series storageRequired）
         vstore_id: Tenant ID(Optional，resource_type 为 file_system 时Required）
@@ -2346,7 +2346,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 failover_group_name: Failover group name (1~255 characters),
                 support_protocol: Logic portSupported data access protocols。Options：NONE (无 protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
                 logical_type:  logical type。Options：SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
-                listen_dns_query_enabled: 是否监听DNSQuery request (1~255 characters)。Options：NO ( disable), YES ( open),
+                listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters)。Options：NO ( disable), YES ( open),
                 management_access: Management access method (1~255 characters),
                 vstore_raw_id: Logic portvStoreassigned on the deviceid (1~255 characters),
                 vstore_name: Logic portvStore name (1~255 characters),
@@ -2425,7 +2425,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             failover_group_name: Failover group name (1~255 characters),
             support_protocol: Logic portSupported data access protocols。Options：NONE (无 protocol), NFS (NFS protocol), CIFS (CIFS protocol), NFS_AND_CIFS (NFS和CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS与objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
             logical_type:  logical type。Options：SERVICE ( host port/业务 port), MANAGEMENT (management  port), MAINTENANCE ( maintenance port),
-            listen_dns_query_enabled: 是否监听DNSQuery request (1~255 characters)。Options：NO ( disable), YES ( open),
+            listen_dns_query_enabled:  whether监听DNSQuery request (1~255 characters)。Options：NO ( disable), YES ( open),
             management_access: Management access method (1~255 characters),
             vstore_raw_id: Logic portvStoreassigned on the deviceid (1~255 characters),
             vstore_name: Logic portvStore name (1~255 characters),
@@ -2491,7 +2491,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         vstore_raw_id: Logic portvStoreassigned on the deviceid(Optional, max64 characters）。role isCLIENT时，do not send this field
         role: Logic port role(Optional，default DATA). Options：MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
         dns_zone_name: DNS ZoneName (Optional, max255 characters）。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
-        listen_dns_query_enabled: 是否侦听DNSQuery request(Optional， regex NO|YES). Options：NO ( disable), YES ( open)。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
+        listen_dns_query_enabled:  whether侦听DNSQuery request(Optional， regex NO|YES). Options：NO ( disable), YES ( open)。role isCLIENT或Data access protocol isKB_OVER_TCP时，do not send this field
         can_failover: EnableIPAddress drift(Optional，boolean). Options：true, false。Data access protocol isKB_OVER_TCP时，do not send this field
         failback_mode: Drift-back mode(Optional). Options：not_support (feature not supported), manual ( manual), automatic ( auto)。Data access protocol isKB_OVER_TCP时，do not send this field
 
@@ -2577,7 +2577,7 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
         operational_status: Active status(Optional）
         failover_group_raw_id: Failover groupon the storage device ID(Optional）
         dns_zone_name: DNS Zone  name(Optional）
-        listen_dns_query_enabled: 是否侦听 DNS Query request(Optional）
+        listen_dns_query_enabled:  whether侦听 DNS Query request(Optional）
         can_failover: Enable IP Address drift(Optional）
         failback_mode: Drift-back mode(Optional）
 
@@ -2901,7 +2901,7 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
     """
     create  VLAN
 
-    注意：only supports OceanStor A800、A600 series storage。
+     note：only supports OceanStor A800、A600 series storage。
 
     Args:
         client: DME API client
@@ -2934,7 +2934,7 @@ def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
     """
     delete  VLAN
 
-    注意：only supports OceanStor A800、A600 series storage。
+     note：only supports OceanStor A800、A600 series storage。
 
     Args:
         client: DME API client
@@ -2956,7 +2956,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     """
     modify  VLAN
 
-    注意：only supports OceanStor A800、A600 series storage。
+     note：only supports OceanStor A800、A600 series storage。
 
     Args:
         client: DME API client
@@ -3118,7 +3118,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
         name: zoneName (Optional,1~256 characters），exact match
         ip: zone ip addressName (Optional,1~256 characters），exact match
         status: Zonestatus list(Optional，List<string>，max array members：6). Options：OFFLINE (offline), NORMAL (normal), FAULT ( fault), DEGRADED ( degraded), ABNORMAL (未management ), UNKNOWN (unknown)
-        sync_status: ZoneSyncstatus list(Optional，List<string>，max array members：5). Options：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync完成), FAILED (Sync failure), UNKNOWN (unknown)
+        sync_status: ZoneSyncstatus list(Optional，List<string>，max array members：5). Options：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync completed), FAILED (Sync failure), UNKNOWN (unknown)
         sn: ZoneSerial number(Optional，1~128 characters），exact match
         storage_ids: OceanStor A800 clusterid list(Optional，List<string>，max array members：100， min membercount：1），exact match
 
@@ -3131,7 +3131,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
                 name: Zone name (1~128 characters),
                 ip: Zone IP address (1~32 characters),
                 status:  status (1~32 characters)。Options：OFFLINE (offline), NORMAL (normal), FAULT ( fault), DEGRADED ( degraded), ABNORMAL (未management ),
-                sync_status: Sync status (1~32 characters)。Options：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync完成), FAILED (Sync failure),
+                sync_status: Sync status (1~32 characters)。Options：UNSYNC (未Sync), SYNC (Syncing), NORMAL (Sync completed), FAILED (Sync failure),
                 sn: ZoneDevice serial number (1~64 characters),
                 wwn: Zone deviceWWN号 (1~32 characters),
                 vendor: Zone vendor (1~32 characters),

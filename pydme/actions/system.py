@@ -12,7 +12,7 @@ def login(client: DMEAPIClient) -> dict:
     """
     Auth user login
 
-    强制调用 client.login() 完成 auth，然后从 header get accessSession，
+    强制调用 client.login()  completed auth，然后从 header get accessSession，
     Prompt user to configure env vars to reuse auth token，Avoid duplicate login。
 
     Args:
@@ -331,12 +331,12 @@ def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str =
         group_id: Pending task group ID（Optional）
         name: Pending task group name（Optional）
         creator_name: create 人 name（Optional）
-        is_finished: 是否Completed（Optional）
+        is_finished:  whetherCompleted（Optional）
         is_group: Group task（Optional）
         start: paginationStart position（Optional，0~10000000）
         limit: paginationcount（Optional，1~1000）
         status: Pending task groupstatus list（Optional，1-Pending/2-Executing/3-Completed/4-已 disable）
-        todo_item_status: Pending item status list（Optional，0-待确认/1-未完成/2-Executing/3-Completed）
+        todo_item_status: Pending item status list（Optional，0-待确认/1-未 completed/2-Executing/3-Completed）
         start_time_from: Start time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
         start_time_to: Start time end值（Optional， format：yyyy-MM-dd HH:mm:ss）
         end_time_from: End time起始值（Optional， format：yyyy-MM-dd HH:mm:ss）
@@ -415,7 +415,7 @@ def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
         group_id: Pending task group ID（Required）
 
     Returns:
-        确认结果
+        确认 result
     """
     url = "/rest/taskmgmt/v1/todo-groups/{group_id}/confirm"
 
@@ -509,11 +509,11 @@ def todo_task_audit(client: DMEAPIClient, item_id: str, is_approval: bool,
     Args:
         client: DME API client
         item_id: Pending item ID（Required）
-        is_approval: 是否批准（Required，true-批准/false- reject）
+        is_approval:  whether批准（Required，true-批准/false- reject）
         suggestion: 审核建议（Optional，0-63  character）
 
     Returns:
-        审核结果
+        审核 result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/audit"
 
@@ -538,7 +538,7 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
         item_id: Pending item ID（Required）
 
     Returns:
-        撤销结果
+        撤销 result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/revoke-audit"
 
@@ -558,7 +558,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
         reason: Shutdown reason（Required，0-63  character）
 
     Returns:
-         disable结果
+         disable result
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}/close"
 
@@ -665,7 +665,7 @@ def task_retry(client: DMEAPIClient, task_id: str) -> dict:
         task_id: task  ID（Required，1~36  characters）
 
     Returns:
-         retry结果
+         retry result
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}/retry"
 
@@ -956,7 +956,7 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
         resources: Resource list，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
-         associated结果
+         associated result
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}/associate-resources"
     

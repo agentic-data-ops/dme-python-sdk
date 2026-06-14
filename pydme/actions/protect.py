@@ -149,7 +149,7 @@ def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
     """
     Batch deleteProtection group
 
-    >![](public_sys-resources/icon-notice.gif) **须知：**
+    >![](public_sys-resources/icon-notice.gif) **：**
     >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
@@ -183,7 +183,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         pg_id: Protection group ID
         lun_ids: 待add 到Protection group的 LUN 的 ID  list（Optional），max array members 100，与 hyper_metro 和 rem_reps 的 parameter lun_pairs mutually exclusive；Protection group不存在Active-active、 replication、环形 3DC parameter effective when feature
         hyper_metro: add  LUN 到有Active-active特性Protection group的 request parameter（Optional），与 lun_ids  parametermutually exclusive；Protection group存在Active-activeparameter effective when feature。 format：{
-                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接 pauseConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Required），true：是；false：否；when deferred execution is true 时：若Consistency group或新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair  joinConsistency group；when deferred execution is false 时：若Consistency group或新 Pair 处于"正在Sync" status，将直接 pauseConsistency group和新 Pair，将新 Pair  joinConsistency group，再SyncConsistency group
                         create_mode: Active-active Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$；Active-active Pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN naming policy（Optional），Optional值：same_as_local（与local Resource name保持一致）、prefix_and_suffix（ prefix+local Resource name+ suffix）、prefix_and_num（ prefix+ auto序号）；effective in auto-create mode
@@ -195,7 +195,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         },...]
         }
         rem_reps: add  LUN to replication-capableProtection group的 request parameter（Optional），max array members 2，与 lun_ids  parametermutually exclusive；Protection group存在 replicationparameter effective when feature。 format：[{
-                        is_delay: Deferred execution（Optional），default true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair 加入Consistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair 加入Consistency group，再SyncConsistency group
+                        is_delay: Deferred execution（Optional），default true；true：是；false：否；when deferred execution is true 时：若新 Pair 处于"正在Sync" status，将等待Syncafter completion, new Pair  joinConsistency group；when deferred execution is false 时：将直接SplitConsistency group和新 Pair，将新 Pair  joinConsistency group，再SyncConsistency group
                         create_mode: Remote replication Pair creation mode（Required），Optional值：auto（ auto）、manual（ manual）
                         remote_storage_id: remote Storage device ID（Required），1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
                         remote_storage_pool_id: remote Storage pool ID（Optional），1~32  characters, regex ^[a-fA-F0-9]+$； replication Pair creation mode为 auto effective when
@@ -389,7 +389,7 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred（Data reliability first）, service_continuity_preferred（Business continuity priority）
         speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom 时Required
-        isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
+        isolation_threshold_time:  isolationthreshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
 
     Returns:
         {
@@ -674,7 +674,7 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         speed: Sync rate，Optional值：low, medium, high, highest, custom
         bandwidth: Custom sync rate（MB/s），当 speed 为 custom required when
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred required when
+        isolation_threshold_time:  isolationthreshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred required when
         recovery_policy: Recovery policy，Optional值：automatic, manual
 
     Returns:
@@ -733,7 +733,7 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
         bandwidth: 自定义 rate（MB/s），当 speed 为 custom 时Required
         recovery_policy: Recovery policy，Optional值：automatic, manual
         service_assurance_policy: Service assurance policy，Optional值：data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time: 隔离threshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
+        isolation_threshold_time:  isolationthreshold（毫second(s)），当 service_assurance_policy 为 service_continuity_preferred 时Required
 
     Returns:
         {
@@ -764,14 +764,14 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
     """
     Batch deleteActive-active Pair
 
-    >![](public_sys-resources/icon-notice.gif) **须知：**
+    >![](public_sys-resources/icon-notice.gif) **：**
     >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
         client: DME API client
         ids: Active-active Pair instance ID  list
         delete_mode: Delete mode，Optional值：preferred_only, non_preferred_only, dual_ends
-        is_lun_service_interrupt: 是否中断 LUN 业务，当 delete_mode 为 preferred_only 或 non_preferred_only effective when
+        is_lun_service_interrupt:  whether中断 LUN 业务，当 delete_mode 为 preferred_only 或 non_preferred_only effective when
 
     Returns:
         {
@@ -1234,7 +1234,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
     Args:
         client: DME API client
         id:  replication Pair ID
-        operation_type: Operation type，Optional值：enable (on), disable（取消）
+        operation_type: Operation type，Optional值：enable (on), disable（ cancel）
 
     Returns:
         {
@@ -1639,7 +1639,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
         copy_rate: 拷贝 rate，Optional值：low, medium, high, highest，default medium
-        is_sync: 是否立即Sync，default true
+        is_sync:  whether立即Sync，default true
         clone_pairs: clone Pair  list，create_mode 为 manual 时Required
 
     Returns:
@@ -1970,7 +1970,7 @@ def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
     """
     Batch sync remote replicationConsistency group
 
-    >![](public_sys-resources/icon-notice.gif) **须知：**
+    >![](public_sys-resources/icon-notice.gif) **：**
     >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
@@ -1996,7 +1996,7 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
     """
     Batch split remote replicationConsistency group
 
-    >![](public_sys-resources/icon-notice.gif) **须知：**
+    >![](public_sys-resources/icon-notice.gif) **：**
     >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
@@ -2022,7 +2022,7 @@ def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
     """
     Remote replicationConsistency groupBatch primary/standby switch
 
-    >![](public_sys-resources/icon-notice.gif) **须知：**
+    >![](public_sys-resources/icon-notice.gif) **：**
     >该 API May directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.。
 
     Args:
@@ -2051,7 +2051,7 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
     Args:
         client: DME API client
         id: Consistency group的 ID
-        operation_type: Operation type，Optional值：enable (on), disable（取消）
+        operation_type: Operation type，Optional值：enable (on), disable（ cancel）
 
     Returns:
         {
@@ -2089,7 +2089,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
         speed: Sync rate (Optional, string)。Optional值：low, medium, high, highest, custom
         bandwidth:  bandwidth (Optional, integer, 1~1024)。当speed为custom时Required
         service_assurance_policy: Service assurance policy (Optional, string)。Optional值：data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time: 隔离threshold (Optional, int32, 10~30000)
+        isolation_threshold_time:  isolationthreshold (Optional, int32, 10~30000)
 
     Returns:
         {

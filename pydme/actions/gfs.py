@@ -294,7 +294,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
         client: DME API client
         id: Global namespace的 ID，与 name_locator cannot both be empty
         name_locator: Name locator，format is：Global namespace name@Global data space name
-        is_delete_child: 是否delete 子Namespace，default true
+        is_delete_child:  whetherdelete 子Namespace，default true
 
     Returns:
         {
@@ -341,7 +341,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         namespace_id: Namespace ID (1~32 characters, Optional)
         namespace_raw_id: Namespace在device side ID (1~256 characters, Optional)
         local_path: Namespace下的路径，supports fuzzy search (1~256 characters, Optional, Default: "/")
-        status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未running), synchronizing ( dataSyncing), completed (完成), suspended (Paused), faulty ( fault), to_be_scheduled (待调度), partially_success (partial success), failed ( failure), unknown (unknown)
+        status: Task status list (List<string>, max array members: 9, Optional)。Optional值：not_run (未running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled (待调度), partially_success (partial success), failed ( failure), unknown (unknown)
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
         execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
         page_no: Page number (int32, 1~1000, Default: 1, Optional)
@@ -434,9 +434,9 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         gfs_id: Global namespace ID (1~64 characters, Required)
         task_name: Task name (1~255 characters, Optional)
         task_mode: task  mode (Required)。Optional值：pre_fetch (预取缓存), tier ( data拉取)
-        execute_mode:  execute mode (Optional)。Optional值：interval (week(s)期性), one_time (只 execute一次)。当 task_mode 为 pre_fetch this parameter is ineffective
-        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
-        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_mode:  execute mode (Optional)。Optional值：interval (week(s)), one_time (只 execute一次)。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time: week(s)Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
+        execute_time_unit: week(s)Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when。当 task_mode 为 pre_fetch this parameter is ineffective
         start_mode: Task execution mode (Required)。Optional值：manual ( manual), auto ( auto)
         start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config,  value为 0 Immediate start
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
@@ -456,19 +456,19 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         ctime_operator: file status modificationTime matching rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 ctime、ctime_unit must be sent together
         ctime: file status modification改时间间隔 (int32, 0~26304, Optional)。与 ctime_operator、ctime_unit must be sent together
         ctime_unit: file status modification改Time interval unit (Optional)。Optional值：hour (hour(s)), day (day(s))。与 ctime_operator、ctime must be sent together
-        crtime_operator:  file的Creation time匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 crtime、crtime_unit must be sent together
+        crtime_operator:  file的Creation time匹配 rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 crtime、crtime_unit must be sent together
         crtime:  file的Creation time间隔 (int32, 0~26304, Optional)。与 crtime_operator、crtime_unit must be sent together
         crtime_unit:  file的Creation time间隔unit  (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
         name_operator: Filename matching rule (Optional)。Optional值：equal (相等), not_equal (不相等)。与 name_filter must be sent together
         name_filter: Filename matching expression list (1~1023 characters, Optional)。与 name_operator must be sent together
-        size_operator: File size的匹配规则 (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 file_size must be sent together
+        size_operator: File size的匹配 rule (Optional)。Optional值：less_or_equal (less than or equal to), greater (greater than)。与 file_size must be sent together
         file_size:  file的 size (int64, 0~4398046511104, unit : KB, Optional)。与 size_operator must be sent together
         tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
         file_paths: filter by file listfilter policy uploaded fileIdentifier list (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可 config
         authentication_type: Auth type (Optional)。Optional值：ldap_or_ldaps_domain (LDAP/LDAPS域), unix_local (UNIXlocal  auth), nis_domain (NIS域)
-        user_operator: Username匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
+        user_operator: Username匹配 rule (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、user_name must be sent together
         user_name: Username (1~255 characters, Optional)。与 authentication_type、user_operator must be sent together
-        group_operator: User group名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
+        group_operator: User group名匹配 rule (Optional)。Optional值：equal (相等), not_equal (不相等)。与 authentication_type、group_name must be sent together
         group_name: User group名 (1~255 characters, Optional)。与 authentication_type、group_operator must be sent together
         files_filter: filter by file list滤 request parameter (FilesFilterobject, Optional)。仅 execute_mode 为 one_time 时可 config。 parameter format：{
                 file_id: filter by file listfilter policy uploaded file ID (1~63 characters, Required),
@@ -580,8 +580,8 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
         task_name: Task name (1~255 characters, Optional)
         start_mode: Task execution mode (Optional)。Optional值：manual ( manual), auto ( auto)
         start_time: task  start的 UTC Timestamp (int64, min: 0, unit : second(s), Optional)。当 start_mode 为 auto 时允许 config,  value为 0 Immediate start
-        execute_time: week(s)期性Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when
-        execute_time_unit: week(s)期性Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when
+        execute_time: week(s)Task execution时间间隔 (int32, 1~365, Optional)。当 execute_mode 为 interval must be sent when
+        execute_time_unit: week(s)Task executionTime interval unit (Optional)。Optional值：minute (分), hour (hour(s)), day (day(s)), month (month(s))。当 execute_mode 为 interval must be sent when
         max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
         period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD)。与 period_end_day、period_time、period_max_bandwidth must be sent together
         period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD)。与 period_start_day、period_time、period_max_bandwidth must be sent together

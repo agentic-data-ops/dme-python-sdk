@@ -33,7 +33,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                      recycling, deactivated, active, saving, deleted, other, uploading,
                      pending_delete, queued, importing, killed, storage_migrating,
                      building, error
-        is_template: 是否是 template（true/false）
+        is_template:  whether是 template（true/false）
         os_type: OS type list（Windows, Linux, Other）
         vr_type: Virtualization platform type（FUSIONCOMPUTE, VMWARE, HCS）
         datacenter_id: DatastoreData center ID（仅 vCenter Scenario support）

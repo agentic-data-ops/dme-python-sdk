@@ -227,7 +227,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         mapping: Mapping info (Optional), LunMapping object, If present, creates for host or host group LUN。 parameter format：{
                 host_id: Host ID (1~64 characters; 与hostgroup_idone of, cannot coexist),
                 hostgroup_id: Host group ID (1~64 characters; 与host_idone of, cannot coexist),
-                host_type: 映射Host type。Options：storage_host (Storage host), host ( host)。defaulthost,
+                host_type:  mappingHost type。Options：storage_host (Storage host), host ( host)。defaulthost,
                 start_host_lun_id: 起始 hostLUN ID (1~4096),
                 mapping_view: Mapping view request info (LunMappingRequestobject)。 format：{
                         mapping_view_raw_id: Mapping viewon the storage deviceID (1~31 characters),
@@ -1733,7 +1733,7 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
     """
     Query LUN mapping list for storage host
 
-     specifiedStorage host query映射 LUN info list，includes  LUN  info和 host LUN ID  info。
+     specifiedStorage host query mapping LUN info list，includes  LUN  info和 host LUN ID  info。
 
     Args:
         client: DME API Client
@@ -1775,7 +1775,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     """
     Query LUN mapping list for storage host group
 
-     specifiedStorage host组 query映射 LUN info list，includes  LUN  info和 host LUN ID  info。
+     specifiedStorage host组 query mapping LUN info list，includes  LUN  info和 host LUN ID  info。
 
     Args:
         client: DME API Client
@@ -3263,7 +3263,7 @@ ACTIONS = {
     },
     'storage_host_unmap_luns': {
         'func': storage_host_unmap_luns,
-        'description': ' unbindStorage host映射',
+        'description': ' unbindStorage host mapping',
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'storage_host'
     },
@@ -3308,7 +3308,7 @@ ACTIONS = {
     },
     'storage_host_group_unmap_luns': {
         'func': storage_host_group_unmap_luns,
-        'description': ' unbindStorage host组映射',
+        'description': ' unbindStorage host组 mapping',
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
