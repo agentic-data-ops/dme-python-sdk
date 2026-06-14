@@ -550,12 +550,12 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     """
     Close pending task
 
-    关闭指定的Pending item，must provide关闭原因。
+    关闭指定的Pending item，must provideShutdown reason。
 
     Args:
         client: DME API client
         item_id: Pending item ID（Required）
-        reason: 关闭原因（Required，0-63 字符）
+        reason: Shutdown reason（Required，0-63 字符）
 
     Returns:
         关闭结果
@@ -604,7 +604,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         - is_support_retry: supports重试
         - is_support_rollback: supports回滚
         - remarks: Remark
-        - resources: 任务关联的资源列表
+        - resources: 任务关联的Resource list
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
     
@@ -953,7 +953,7 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     Args:
         client: DME API client
         tag_id: 标签 ID（Required）
-        resources: 资源列表，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
+        resources: Resource list，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
         关联结果
@@ -975,7 +975,7 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     Args:
         client: DME API client
         tag_id: 标签 ID（Required）
-        resources: 资源列表，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
+        resources: Resource list，format is [{"resource_id": "xxx", "resource_type": "xxx"}]（Required）
     
     Returns:
         取消关联结果
@@ -1001,8 +1001,8 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
         client: DME API client
         az_name: Availability zone名称，supports fuzzy match (Optional, string, 1~64 characters)
         operate_status: Availability zone运营状态。对于未上线的az，其operate_status是null，因此暂时只supports filtering上线online的az (Optional, string, 1~16 characters)
-        start: 分页的页号，从1开始 (Optional, int32, 1~10000000)。Default：1
-        limit: 分页的大小 (Optional, int32, 1~512)。Default：512
+        start: Page number，从1开始 (Optional, int32, 1~10000000)。Default：1
+        limit: Page size (Optional, int32, 1~512)。Default：512
         is_sc: 是否运营侧查询 (Optional, boolean, true,false)。Default：false
 
     Returns:
@@ -1137,8 +1137,8 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
         name: Region name，supports fuzzy search (Optional, string, 最多256 characters)
         active_ip_address: Region主IP地址，supports fuzzy search (Optional, string, 最多256 characters)
         standby_ip_address: Region备IP地址，supports fuzzy search (Optional, string, 最多256 characters)
-        sync_status: RegionSync状态，精确过滤 (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (Sync失败)
-        role: Region角色，精确过滤 (Optional, string)。Optional值：parent (上级Region), child (下级Region)
+        sync_status: RegionSync状态，Exact filter (Optional, List[string], max array members：3)。Optional值：normal (正常), sync (Syncing), failed (Sync失败)
+        role: Region角色，Exact filter (Optional, string)。Optional值：parent (上级Region), child (下级Region)
         sort_key: Sort field (Optional, string)。Optional值：last_sync_time (最近Sync time)
         sort_dir: Sort direction (Optional, string)。Optional值：asc (升序), desc (降序)。Default：desc
         page_no: Page query开始页 (Optional, int32, 1~100)。Default：1
@@ -1185,12 +1185,12 @@ def region_list(client: DMEAPIClient, ids: list = None, name: str = None,
 def region_query(client: DMEAPIClient, region_id: str, request_url: str,
                  request_method: str, request_body: str = None) -> dict:
     """
-    查询下级Region资源信息。
+    Query sub-levelRegionResource info。
 
     Args:
         client: DME API client
         region_id: 下级Region的ID (Required, string, 1~64 characters)
-        request_url: 查询下级相应资源北向接口URL (Required, string, 1~8192 characters)
+        request_url: Query sub-level相应资源北向接口URL (Required, string, 1~8192 characters)
         request_method: 请求方式 (Required, string)。Optional值：get (Get请求), post (Post请求)
         request_body: 调用下级北向接口请求Body体 (Optional, string, 1~20480 characters)
 
@@ -1312,13 +1312,13 @@ ACTIONS = {
     # subtopic actions - todo_task (three-level structure)
     'todo_task_list': {
         'func': todo_task_list,
-        'description': '查询待办Task list',
+        'description': 'Query pendingTask list',
         'params': ['service_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'todo_task'
     },
     'todo_task_show': {
         'func': todo_task_show,
-        'description': '查询待办Task details',
+        'description': 'Query pendingTask details',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
@@ -1468,7 +1468,7 @@ ACTIONS = {
     },
     'region_query': {
         'func': region_query,
-        'description': '查询下级Region资源信息',
+        'description': 'Query sub-levelRegionResource info',
         'params': ['region_id', 'request_url', 'request_method', 'request_body'],
         'subtopic': 'region'
     },

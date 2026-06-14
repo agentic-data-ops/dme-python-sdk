@@ -306,8 +306,8 @@ def project_list(client: DMEAPIClient, name: str = None,
     Args:
         client: DME API client
         name: Project group名称（Optional，supports fuzzy search）
-        start: 分页的页号，从 1 开始，默认 1
-        limit: 分页的大小，1~512，默认 20
+        start: Page number，从 1 开始，默认 1
+        limit: Page size，1~512，默认 20
 
     Returns:
         {

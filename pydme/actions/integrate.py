@@ -115,7 +115,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
     Args:
         client: DME API client
         system_id: CMDB系统ID（Optional）
-        name: 应用名称（Optional，supports fuzzy search）
+        name: Application name（Optional，supports fuzzy search）
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
 
@@ -124,7 +124,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
             total: Total count (integer),
             applications: Application list。参数格式如下：[{
                 id: 应用ID (string),
-                name: 应用名称 (string),
+                name: Application name (string),
             }, ...],
         }
     """

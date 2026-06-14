@@ -16,7 +16,7 @@ def _build_current_alarm_params(alarm_id: str = None, severity: list = None,
                                  alarm_name: str = None, occur_utc_start: str = None,
                                  occur_utc_end: str = None, fields: list = None,
                                  page_size: int = 100) -> dict:
-    """构建Current alarm查询参数"""
+    """构建Current alarmQuery parameters"""
     body_params = {'size': page_size}
 
     if alarm_id is not None or severity is not None or mo_dn is not None or \
@@ -108,7 +108,7 @@ def _build_history_alarm_params(alarm_id: str = None, severity: list = None,
                                  occur_utc_start: str = None, occur_utc_end: str = None,
                                  fields: list = None, size: int = 100,
                                  iterator: str = None) -> dict:
-    """构建History alarm查询参数"""
+    """构建History alarmQuery parameters"""
     body_params = {'size': size}
 
     query_filters = []
@@ -192,8 +192,8 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         dc_id: Data center ID
         product_name: 产品名称
         alarm_name: Alarm name,supports fuzzy match
-        occur_utc_start: 告警发生Start time(毫second(s)Timestamp)
-        occur_utc_end: 告警发生End time(毫second(s)Timestamp)
+        occur_utc_start: Alarm occurredStart time(毫second(s)Timestamp)
+        occur_utc_end: Alarm occurredEnd time(毫second(s)Timestamp)
         fields: 指定返回的字段列表
         page_no: Page queryStart page,默认 1
         page_size: 每页count,1~1000,默认 100(Current alarm查询用)
@@ -343,7 +343,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
 
     Args:
         client: DME API client
-        object_ids: 入口分析object ID 列表(Required),数组大小:1~50
+        object_ids: 入口分析object ID 列表(Required),Array size:1~50
         object_type: 入口Object type(Required),value range:
             - VM: Virtual machine
             - STORAGE_HOST: Storage host
@@ -361,10 +361,10 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
             - LOGIC_PORT: Logic port
             - CONTROLLER: Controller
             - NAMESPACE: Namespace
-        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
-        end_time: 分析End time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点
+        begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点,支持最近七day(s)内的诊断
+        end_time: 分析End time(Required),Unix Timestamp(毫second(s)),must be integerminute(s)时间点
                   分析时间间隔范围must be greater than 30 minute(s),小于 24 hour(s)
-        analysis_types: 智能分析类型列表(Required),数组大小:1~4,value range:
+        analysis_types: 智能分析类型列表(Required),Array size:1~4,value range:
             - highLatency: 高时延
             - healthAnalysis: 健康快检
             - IOInterrupt: IO 中断
@@ -461,7 +461,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
           range: str = None, begin_time: int = None,
           end_time: int = None) -> dict:
     """
-    查询历史Performance data
+    Query historyPerformance data
 
     根据传入参数中的"range"字段所取的枚举值或从开始到End time范围内的查询数据.
     有汇聚数据情况下,返回结果序列是平均值序列,并包含max,min以及对应Timestamp.
@@ -469,7 +469,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     使用说明:
     - Object type和指标定义:从Performance metricsobtain from model documentation (reference/dme_performance_model/index.md)
     - object ID (CMDB 实例 ID) 获取步骤:
-      1. 运行 `cmdb instance list --help` 查看帮助,see class definition and query method
+      1. 运行 `cmdb instance list --help` View help,see class definition and query method
       2. 根据帮助信息,从 CMDB 资源模型中确定要查询的Resource type (Class 名称)
       3. 使用 `cmdb instance list --class_name <Class 名称>` 查询实例列表
       4. obtain from response对应资源的 instance_id (即 obj_ids 参数)
@@ -478,11 +478,11 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         client: DME API client
         obj_type_id: 监控Object type标识(Required),对应监控Object type ID
                      从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        indicator_ids: Monitoring metric标识列表(Required,最多 100 个),对应指标 ID
+        indicator_ids: Monitoring metricIdentifier list(Required,最多 100 个),对应指标 ID
                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        obj_ids: 监控object标识列表(Required,最多 512 个),对应 CMDB 实例 ID
+        obj_ids: 监控objectIdentifier list(Required,最多 512 个),对应 CMDB 实例 ID
                  获取方式:
-                 1. 运行 `cmdb instance list --help` 查看帮助,了解类定义
+                 1. 运行 `cmdb instance list --help` View help,了解类定义
                  2. 根据帮助确定要查询的Resource type (Class 名称)
                  3. 运行 `cmdb instance list --class_name <Class 名称>` 查询实例
                  4. obtain from response instance_id
@@ -536,7 +536,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
     Args:
         client: DME API client
-        indicators: 监控object指标标识列表(Required,最多 1000  characters)
+        indicators: 监控object指标Identifier list(Required,最多 1000  characters)
                    可以是integer列表或string列表,如 [123, 456] 或 ["123", "456"]
 
     Returns:
@@ -555,7 +555,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
 
 def performance_list_indicators(client: DMEAPIClient, obj_type_id: int) -> dict:
     """
-    列出监控Object typeSupported monitoring metrics
+    List monitoringObject typeSupported monitoring metrics
 
     Args:
         client: DME API client
@@ -714,7 +714,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                            dpc, gfs, dpc_client, vbs_client
         health_dimension: 健康维度（Required）
                         Optional值：alarm（告警）, performance_anomaly（Performance anomaly）,
-                              performance_prediction（性能预警）, capacity_prediction（容量预警）
+                              performance_prediction（Performance warning）, capacity_prediction（Capacity warning）
 
     Returns:
         {
@@ -801,8 +801,8 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
         status: 策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-Queued）
         policy_type: Policy type（performance-性能threshold，capacity-容量threshold，availability-可用性，
                     configuration-配置，recyclable-可回收资源，lowload-低负载资源，
-                    performance_anomaly-Performance anomaly，performance_prediction-性能预警，
-                    capacity_prediction-容量预警，history_performance-History performance，
+                    performance_anomaly-Performance anomaly，performance_prediction-Performance warning，
+                    capacity_prediction-Capacity warning，history_performance-History performance，
                     load_imbalance-负载失衡，highload-高负载资源）
         policy_source: 来源（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
@@ -1369,7 +1369,7 @@ ACTIONS = {
     },
     'performance_query': {
         'func': performance_query,
-        'description': '查询历史Performance data',
+        'description': 'Query historyPerformance data',
         'params': ['obj_type_id', 'indicator_ids', 'obj_ids', 'obj_type', 'indicators', 'ext_dimensions', 'interval', 'range', 'begin_time', 'end_time'],
         'subtopic': 'performance'
     },
@@ -1381,7 +1381,7 @@ ACTIONS = {
     },
     'performance_list_indicators': {
         'func': performance_list_indicators,
-        'description': '列出监控Object typeSupported monitoring metrics',
+        'description': 'List monitoringObject typeSupported monitoring metrics',
         'params': ['obj_type_id'],
         'subtopic': 'performance'
     },
