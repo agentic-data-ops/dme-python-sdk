@@ -198,7 +198,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         is_delay: Deferred execution (Optional) , default true; true/false; when deferred execution is true if new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false:  directlySplitConsistency group和新 Pair, join new pair to consistency group, then sync consistency group
                         create_mode: Remote replication pair creation mode (Required) , Options: auto, manual
                         remote_storage_id: Remote storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
-                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; replication pair creation modee为 auto effective when
+                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Replication pair creation mode为 auto effective when
                         remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
                         name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
                         name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
@@ -598,7 +598,7 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         group_name: Active-active consistency group name, supports fuzzy match
         group_raw_id: Active-active consistency groupon the storage device ID
         pair_raw_id: Active-active Pair on the storage device ID
-        local_storage_id: local Storage device ID
+        local_storage_id: Local storage device ID
         local_storage_name: local Storage device name, supports fuzzy match
         local_vstore_id: local tenant ID, this parameter and local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: local tenanton the device ID, this parameter and local_vstore_id mutually exclusive
@@ -940,7 +940,7 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         group_id:  replicationConsistency group ID
         group_name:  replicationConsistency group name, supports fuzzy match
         pair_raw_id:  replication Pair on the storage device ID
-        local_storage_id: local Storage device ID
+        local_storage_id: Local storage device ID
         local_storage_name: local Storage device name, supports fuzzy match
         local_vstore_id: local tenant ID, this parameter and local_vstore_raw_id mutually exclusive
         local_vstore_raw_id: local tenanton the device ID, this parameter and local_vstore_id mutually exclusive
@@ -1001,7 +1001,7 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
 
     Args:
         client: DME API client
-        local_storage_id: local Storage device ID
+        local_storage_id: Local storage device ID
         local_lun_id: local  LUN ID
         remote_storage_id: Remote storage device ID
         remote_storage_pool_id: Remote storage pool ID
@@ -1234,7 +1234,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
     Args:
         client: DME API client
         id:  replication Pair ID
-        operation_type: Operation type, Optional值: enable (on), disable ( cancel) 
+        operation_type: Operation type, Options: enable, disable 
 
     Returns:
         {
@@ -1252,7 +1252,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
 
 
 # ============================================================================
-# device Subtopic -  device Pair 和 replication链路operations
+# Device pair and replication link operations
 # ============================================================================
 
 def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
@@ -1317,13 +1317,13 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         storage_id: Storage device ID
         raw_id:  snapshoton the storage device ID
         name: Snapshot name, supports fuzzy search
-        health_status: Health status, Optional值: normal, fault, write_protected
-        running_status: Running status, Optional值: activated, rolling_back, unactivated, initializing, deleting, unknown
-        source_lun_name: 源 LUN  name, supports fuzzy search
-        parent_name: 父Object name, supports fuzzy search
+        health_status: Health status, Options: normal, fault, write_protected
+        running_status: Running status, Options: activated, rolling_back, unactivated, initializing, deleting, unknown
+        source_lun_name: Source LUN name, supports fuzzy search
+        parent_name: Parent object name, supports fuzzy search
         activated_time_from: Query activation start time (Unix Timestamp, unit second(s)) 
         activated_time_to: Query activation end time (Unix Timestamp, unit second(s)) 
-        page_no: Page query start页, min为 1, Default为 1
+        page_no: Page start, min: 1, default: 1
         page_size: per pagecount, 1~1000, default 20
 
     Returns:
@@ -1394,7 +1394,7 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
 
     Args:
         client: DME API client
-        rollback_speed:  rollback rate, Optional值: low, medium, high, highest
+        rollback_speed:  Rollback rate. Options: low, medium, high, highest
         rollback_snapshots: Snapshot rollback resourceinfo list, Each item includes snapshot_id, target_type, target_id
 
     Returns:
@@ -1458,7 +1458,7 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
         name: Snapshot consistency group name
         protect_group_id: Protection group ID
         description: Description
-        creation_mode: creation mode, Optional值: new_snapshot
+        creation_mode: creation mode, Options: new_snapshot
 
     Returns:
         {
@@ -1488,7 +1488,7 @@ def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete
     Args:
         client: DME API client
         snapshot_cg_ids: Snapshot consistency group ID  list
-        is_delete_target_lun: Delete target LUN, 仅 Dorado 6.1.2 supported in version, default true
+        is_delete_target_lun: Delete target LUN. Dorado 6.1.2+ only, default true
 
     Returns:
         {
@@ -1518,9 +1518,9 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
     Args:
         client: DME API client
         snapshot_cg_id: Snapshot consistency group ID
-        object_type: Object type, Optional值: parent_object
-        snapshot_create_mode: Snapshot creation method, Optional值: auto, manual
-        name_rule: Snapshot naming rule, Optional值: prefix_and_suffix, prefix_and_num
+        object_type: Object type, Options: parent_object
+        snapshot_create_mode: Snapshot creation method, Options: auto, manual
+        name_rule: Snapshot naming rule, Options: prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
         name_suffix: Snapshot name suffix
         target_snapshot_objects:  target snapshotobject list
@@ -1584,9 +1584,9 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
     Args:
         client: DME API client
         snapshot_cg_id: Snapshot consistency group ID
-        rollback_speed:  rollback rate, Optional值: low, medium, high, highest
-        snapshot_create_mode: Snapshot creation method, Optional值: auto, manual
-        name_rule: Snapshot naming rule, Optional值: prefix_and_suffix, prefix_and_num
+        rollback_speed:  Rollback rate. Options: low, medium, high, highest
+        snapshot_create_mode: Snapshot creation method, Options: auto, manual
+        name_rule: Snapshot naming rule, Options: prefix_and_suffix, prefix_and_num
         name_prefix: Snapshot name prefix
         name_suffix: Snapshot name suffix
         target_snapshot_objects:  target snapshotobject list
@@ -1633,14 +1633,14 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         client: DME API client
         name: cloneConsistency group name
         protect_group_id: Protection group ID
-        create_mode: creation mode, Optional值: auto, manual
+        create_mode: creation mode, Options: auto, manual
         description: Description
-        name_rule:  target LUN Naming rule, Optional值: prefix_and_suffix, prefix_and_num
+        name_rule:  Target LUN naming rule, Options: prefix_and_suffix, prefix_and_num
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
-        copy_rate:  copy rate, Optional值: low, medium, high, highest, default medium
-        is_sync:  whether立即Sync, default true
-        clone_pairs: clone Pair  list, create_mode 为 manual 时Required
+        copy_rate:  Copy rate. Options: low, medium, high, highest (default: medium)
+        is_sync:  Whether to sync immediately, default true
+        clone_pairs: Clone pair list. Required when create_mode is manual
 
     Returns:
         {
@@ -1683,11 +1683,11 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
     Args:
         client: DME API client
         clone_group_id: cloneConsistency group ID
-        create_mode: clone Pair creation mode, Optional值: auto, manual
-        name_rule:  target LUN Naming rule, Optional值: prefix_and_suffix, prefix_and_num
+        create_mode: clone Pair creation mode, Options: auto, manual
+        name_rule:  Target LUN naming rule, Options: prefix_and_suffix, prefix_and_num
         name_prefix:  target LUN name prefix
         name_suffix:  target LUN name suffix
-        clone_pairs: clone Pair  list, create_mode 为 manual 时Required
+        clone_pairs: Clone pair list. Required when create_mode is manual
 
     Returns:
         {
@@ -1763,13 +1763,13 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         client: DME API client
         cg_name: Remote replicationConsistency group name
         remote_storage_id: Remote storage device ID
-        local_pg_id: Local protection group ID, 当Storage device version是 OceanStor V6, OceanStor Dorado V6 required when
+        local_pg_id: Local protection group ID, Required for OceanStor V6/Dorado V6
         description: Description
-        remote_lun_group_id: remote  LUN group ID, 当Storage device version是 OceanStor V6, OceanStor Dorado V6 时且local Protection group is based on LUN 组create 的required when
-        local_storage_id: local Storage device ID, 当Storage device version不是 OceanStor V6, OceanStor Dorado V6 required when
-        create_mode: replication pair creation modee, Optional值: auto , manual 
+        remote_lun_group_id: Remote LUN group ID, For OceanStor V6/Dorado V6 when local protection grouproup is based on LUN 组create 的required when
+        local_storage_id: Local storage device ID, Required for non-V6/non-Dorado V6
+        create_mode: Replication pair creation mode, Optional值: auto , manual 
         existed_pair_ids: Existing replication Pair  ID  list
-        lun_pairs: In manual create mode,  replication Pair 的源 LUN,  target LUN ID list
+        lun_pairs: In manual create mode,  Replication pair source and target LUN ID list
         lun_ids: In auto-create mode, Source LUN ID list
         remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
         remote_vstore_id: Remote device tenant ID, effective in auto-create mode
@@ -2051,7 +2051,7 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
     Args:
         client: DME API client
         id: Consistency group ID
-        operation_type: Operation type, Optional值: enable (on), disable ( cancel) 
+        operation_type: Operation type, Options: enable, disable 
 
     Returns:
         {
@@ -2079,15 +2079,15 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
                             service_assurance_policy: str = None,
                             isolation_threshold_time: int = None) -> dict:
     """
-    create FilesystemActive-active pair. 该APIPotentially affects production services, Proceed with caution.
+    Create filesystem active-active pair. This API potentially affects production services, Proceed with caution.
 
     Args:
         client: DME API client
         vstore_pair_id: Active-active tenantPair ID (Required, string, 1~32 characters)
-        create_mode: creation mode (Optional, string). Optional值: manual. Default: manual
+        create_mode:Creation mode. Options: manual (default)
         fs_pairs: FilesystemPair list (Optional, List[FsPairInstance], max array members: 100)
         speed: Sync rate (Optional, string). Optional值: low, medium, high, highest, custom
-        bandwidth:  bandwidth (Optional, integer, 1~1024). 当speed为custom时Required
+        bandwidth:  Bandwidth (Optional, integer, 1-1024). required when speed is custom
         service_assurance_policy: Service assurance policy (Optional, string). Options: data_reliability_preferred, service_continuity_preferred
         isolation_threshold_time:  isolationthreshold (Optional, int32, 10~30000)
 
@@ -2099,7 +2099,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
     url = "/rest/protection/v1/hypermetro/filesystem-pairs"
 
     if not vstore_pair_id:
-        raise ValueError("vstore_pair_id 是required parameter")
+        raise ValueError("vstore_pair_id is required")
 
     payload = {
         'vstore_pair_id': vstore_pair_id,
@@ -2191,7 +2191,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
 def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    batch pauseFilesystemActive-active pair. 该APIPotentially affects production services, Proceed with caution.
+    Batch pause filesystem active-active pair. This API potentially affects production services, Proceed with caution.
 
     Args:
         client: DME API client
@@ -2205,7 +2205,7 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/pause"
 
     if not fs_pair_ids or len(fs_pair_ids) == 0:
-        raise ValueError("fs_pair_ids 是required parameter")
+        raise ValueError("fs_pair_ids is required")
 
     payload = {
         'fs_pair_ids': fs_pair_ids
@@ -2217,7 +2217,7 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
 def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    batchSyncFilesystemActive-active pair. 该APIPotentially affects production services, Proceed with caution.
+    Batch sync filesystem active-active pair. This API potentially affects production services, Proceed with caution.
 
     Args:
         client: DME API client
@@ -2231,7 +2231,7 @@ def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/sync"
 
     if not fs_pair_ids or len(fs_pair_ids) == 0:
-        raise ValueError("fs_pair_ids 是required parameter")
+        raise ValueError("fs_pair_ids is required")
 
     payload = {
         'fs_pair_ids': fs_pair_ids
@@ -2245,7 +2245,7 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
                             is_local_delete: bool = None,
                             is_online_delete: bool = None) -> dict:
     """
-    Batch deleteFilesystemActive-active pair. 该APIPotentially affects production services, Proceed with caution.
+    Batch delete filesystem active-active pair. This API potentially affects production services, Proceed with caution.
 
     Args:
         client: DME API client
@@ -2261,7 +2261,7 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是required parameter")
+        raise ValueError("ids is required")
 
     payload = {
         'ids': ids
@@ -2298,7 +2298,7 @@ def fs_snapshot_create(client: DMEAPIClient, vstore_pair_id: str,
     url = "/rest/protection/v1/filesystem-snapshots"
 
     if not vstore_pair_id:
-        raise ValueError("vstore_pair_id 是required parameter")
+        raise ValueError("vstore_pair_id is required")
 
     payload = {
         'vstore_pair_id': vstore_pair_id,
@@ -2373,7 +2373,7 @@ def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/protection/v1/filesystem-snapshots/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是required parameter")
+        raise ValueError("ids is required")
 
     payload = {
         'ids': ids
@@ -2404,7 +2404,7 @@ def vstore_pair_force_start(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/protection/v1/metro/vstore-pairs/force-start"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是required parameter")
+        raise ValueError("ids is required")
 
     payload = {
         'ids': ids
@@ -2423,7 +2423,7 @@ def vstore_pair_create(client: DMEAPIClient, local_storage_id: str,
 
     Args:
         client: DME API client
-        local_storage_id: local Storage device ID (Required, string)
+        local_storage_id: Local storage device ID (Required, string)
         remote_storage_id: Remote storage device ID (Required, string)
         name:  tenantPair name (Optional, string)
         description:  description (Optional, string)
@@ -2437,7 +2437,7 @@ def vstore_pair_create(client: DMEAPIClient, local_storage_id: str,
     url = "/rest/protection/v1/metro/vstore-pairs"
 
     if not local_storage_id or not remote_storage_id:
-        raise ValueError("local_storage_id 和 remote_storage_id 是required parameter")
+        raise ValueError("local_storage_id and remote_storage_id are required")
 
     payload = {
         'local_storage_id': local_storage_id,
@@ -2467,7 +2467,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
         ids: Active-active tenantPair ID list (Optional, List[string])
         name:  name (Optional, string)
         status:  status (Optional, string)
-        local_storage_id: local Storage device ID (Optional, string)
+        local_storage_id: Local storage device ID (Optional, string)
         remote_storage_id: Remote storage device ID (Optional, string)
         health_status: Health status (Optional, string)
         running_status: Running status (Optional, string)
@@ -2525,7 +2525,7 @@ def vstore_pair_switch(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/protection/v1/metro/vstore-pairs/switch"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是required parameter")
+        raise ValueError("ids is required")
 
     payload = {
         'ids': ids
@@ -2551,7 +2551,7 @@ def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/protection/v1/metro/vstore-pairs/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是required parameter")
+        raise ValueError("ids is required")
 
     payload = {
         'ids': ids
@@ -2578,7 +2578,7 @@ def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
     url = "/rest/protection/v1/metro/vstore-pairs/{id}"
 
     if not id:
-        raise ValueError("id 是required parameter")
+        raise ValueError("id is required")
 
     payload = {}
     if name is not None:
@@ -2609,7 +2609,7 @@ def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/force-start"
 
     if not id:
-        raise ValueError("id 是required parameter")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2631,7 +2631,7 @@ def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/switch-priority-site"
 
     if not id:
-        raise ValueError("id 是required parameter")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2653,7 +2653,7 @@ def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/recover"
 
     if not id:
-        raise ValueError("id 是required parameter")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2675,7 +2675,7 @@ def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/split"
 
     if not id:
-        raise ValueError("id 是required parameter")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2697,7 +2697,7 @@ def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/swap-role"
 
     if not id:
-        raise ValueError("id 是required parameter")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2711,11 +2711,11 @@ def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
 def hypermetro_pair_query_available_luns(client: DMEAPIClient,
                                           source_lun_id: str) -> dict:
     """
-     query可create Active-active pair的 targetLUN. 
+     Query available target LUNs for active-active pair. 
 
     Args:
         client: DME API client
-        source_lun_id: 源LUN ID (Required, string)
+        source_lun_id: Source LUN ID (Required, string)
 
     Returns:
         {
@@ -2729,7 +2729,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
     url = "/rest/protection/v1/metro/lun-pairs/{source_lun_id}/optional-target-luns"
 
     if not source_lun_id:
-        raise ValueError("source_lun_id 是required parameter")
+        raise ValueError("source_lun_id is required")
 
     response = client.get(url, params={"source_lun_id": source_lun_id})
     return response
@@ -3080,7 +3080,7 @@ ACTIONS = {
     # fs_hypermetro_pair subtopic actions
     'filesystem_pair_create': {
         'func': filesystem_pair_create,
-        'description': 'create FilesystemActive-active pair',
+        'description': 'Create filesystem active-active pair',
         'params': ['vstore_pair_id', 'create_mode', 'fs_pairs', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time'],
         'subtopic': 'fs_hypermetro_pair'
     },
@@ -3092,19 +3092,19 @@ ACTIONS = {
     },
     'filesystem_pair_pause': {
         'func': filesystem_pair_pause,
-        'description': 'batch pauseFilesystemActive-active pair',
+        'description': 'Batch pause filesystem active-active pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'filesystem_pair_sync': {
         'func': filesystem_pair_sync,
-        'description': 'batchSyncFilesystemActive-active pair',
+        'description': 'Batch sync filesystem active-active pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'filesystem_pair_delete': {
         'func': filesystem_pair_delete,
-        'description': 'Batch deleteFilesystemActive-active pair',
+        'description': 'Batch delete filesystem active-active pair',
         'params': ['ids', 'is_local_delete', 'is_online_delete'],
         'subtopic': 'fs_hypermetro_pair'
     },
@@ -3198,7 +3198,7 @@ ACTIONS = {
     # hypermetro_pair subtopic actions
     'query_available_luns': {
         'func': hypermetro_pair_query_available_luns,
-        'description': ' query可create Active-active pair的 targetLUN',
+        'description': ' Query available target LUNs for active-active pair',
         'params': ['source_lun_id'],
         'subtopic': 'hypermetro_pair'
     },
