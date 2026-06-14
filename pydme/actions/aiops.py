@@ -1369,25 +1369,25 @@ ACTIONS = {
     },
     'performance_query': {
         'func': performance_query,
-        'description': 'Query historyPerformancece data',
+        'description': 'Query history performance data',
         'params': ['obj_type_id', 'indicator_ids', 'obj_ids', 'obj_type', 'indicators', 'ext_dimensions', 'interval', 'range', 'begin_time', 'end_time'],
         'subtopic': 'performance'
     },
     'performance_show_indicators': {
         'func': performance_show_indicators,
-        'description': 'Display monitoring metricsDetails',
+        'description': 'Display monitoring metric details',
         'params': ['indicators'],
         'subtopic': 'performance'
     },
     'performance_list_indicators': {
         'func': performance_list_indicators,
-        'description': 'List monitoringObject typeSupported monitoring metrics',
+        'description': 'List monitoring object types with supported metrics',
         'params': ['obj_type_id'],
         'subtopic': 'performance'
     },
     'performance_list_object_types': {
         'func': performance_list_object_types,
-        'description': 'Get all monitoringObject type',
+        'description': 'Get all monitoring object types',
         'params': ['filter'],
         'subtopic': 'performance'
     },
