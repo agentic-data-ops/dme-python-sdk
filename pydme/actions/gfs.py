@@ -93,7 +93,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
     Args:
         client: DME API client
         raw_id: Data service site在device side的 id
-        site_role: Data service site角色，包含 site_role 字段，取值范围：ORDINARY(普通站点)，METASTORE(元Data service site)
+        site_role: Data service site角色，包含 site_role 字段，value range：ORDINARY(普通站点)，METASTORE(元Data service site)
         gfs_group_id: Omni-Dataverse id
         storage_name: 根据存储名称查询Data service site，supports fuzzy search
         storage_pool_name: 根据Storage pool name查询Data service site，supports fuzzy search
@@ -461,7 +461,7 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
         crtime_unit: 文件的Creation time间隔单位 (Optional)。Optional值：hour (hour(s)), day (day(s))。与 crtime_operator、crtime must be sent together
         name_operator: 文件名匹配规则 (Optional)。Optional值：equal (相等), not_equal (不相等)。与 name_filter must be sent together
         name_filter: 文件名匹配表达式列表 (1~1023个字符, Optional)。与 name_operator must be sent together
-        size_operator: 文件大小的匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 file_size must be sent together
+        size_operator: File size的匹配规则 (Optional)。Optional值：less_or_equal (小于等于), greater (大于)。与 file_size must be sent together
         file_size: 文件的大小 (int64, 0~4398046511104, 单位: KB, Optional)。与 size_operator must be sent together
         tag: object标签匹配规则 (Optional, 格式: "key1:value1;key2:value2")
         file_paths: 按文件列表过滤策略上传的文件标识列表 (List<string>, max array members: 200, Optional)。仅 execute_mode 为 one_time 时可配置

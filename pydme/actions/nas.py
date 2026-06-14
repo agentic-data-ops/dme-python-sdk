@@ -1066,7 +1066,7 @@ def cifs_share_modify(client: DMEAPIClient, cifs_share_id: str, description: str
         op_lock_enabled: Oplock 功能开关
         notify_enabled: Notify 功能开关
         ca_enabled: Failover 连续可用特性开关
-        offline_file_mode: 离线缓存模式，none/manual/documents/programs
+        offline_file_mode: 离线Cache mode，none/manual/documents/programs
         ip_control_enabled: IP 访问控制特性开关
         abe_enabled: ABE 功能开关
         audititem_list: 支持审计的事件列表 (可选)。参数格式如下：[{
@@ -1899,7 +1899,7 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         type: Filesystem类型（可选），可选值：normal（普通Filesystem）、worm（wormFilesystem）、
               migration（migrationFilesystem）、container（容器应用Filesystem）、hash（哈希Filesystem）、
               smart_mobility_internal（SmartMobility内部Filesystem）
-        protection: 保护状态（可选），可选值：protected (protected)、not_protected (unprotected)
+        protection: Protection status（可选），可选值：protected (protected)、not_protected (unprotected)
         dc_id: Data center ID（可选），1~128  characters, regex ^[_A-Fa-f0-9\\-]+$
         dc_name: Data center name（可选），1~256 个字符
         zone_id: 所属 zone 的 ID（可选），1~256 个字符；仅 OceanStor A800 系列Filesystem支持搜索，传入集群ID代表查询全局Filesystem
@@ -2342,7 +2342,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
 
     Args:
         client: DME API 客户端
-        file_system_id: Filesystem唯一标识
+        file_system_id: FilesystemUnique identifier
         name: Filesystem name，1~255个字符（可选）
         description: Description，0~255个字符（可选）
         capacity: Filesystem容量，单位 GB，1~33554432（可选）

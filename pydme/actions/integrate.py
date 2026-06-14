@@ -16,7 +16,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
 
     Args:
         client: DME API client
-        name: CMDB系统名称（Optional，supports fuzzy search）
+        name: CMDBSystem name（Optional，supports fuzzy search）
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
 
@@ -25,7 +25,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
             total: Total count (integer),
             systems: CMDB system list。参数格式如下：[{
                 id: 系统ID (string),
-                name: 系统名称 (string),
+                name: System name (string),
                 ip: IP地址 (string),
             }, ...],
         }

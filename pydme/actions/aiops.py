@@ -344,8 +344,8 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
     Args:
         client: DME API client
         object_ids: 入口分析object ID 列表(Required),数组大小:1~50
-        object_type: 入口Object type(Required),取值范围:
-            - VM: 虚拟机
+        object_type: 入口Object type(Required),value range:
+            - VM: Virtual machine
             - STORAGE_HOST: Storage host
             - STORAGE_DEVICE: Storage device
             - LUN: LUN
@@ -364,7 +364,7 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         begin_time: 分析Start time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点,支持最近七day(s)内的诊断
         end_time: 分析End time(Required),Unix Timestamp(毫second(s)),必须为整minute(s)时间点
                   分析时间间隔范围must be greater than 30 minute(s),小于 24 hour(s)
-        analysis_types: 智能分析类型列表(Required),数组大小:1~4,取值范围:
+        analysis_types: 智能分析类型列表(Required),数组大小:1~4,value range:
             - highLatency: 高时延
             - healthAnalysis: 健康快检
             - IOInterrupt: IO 中断
@@ -478,7 +478,7 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         client: DME API client
         obj_type_id: 监控Object type标识(Required),对应监控Object type ID
                      从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
-        indicator_ids: 监控指标标识列表(Required,最多 100 个),对应指标 ID
+        indicator_ids: Monitoring metric标识列表(Required,最多 100 个),对应指标 ID
                        从Performance metricsobtain from model documentation:reference/dme_performance_model/index.md
         obj_ids: 监控object标识列表(Required,最多 512 个),对应 CMDB 实例 ID
                  获取方式:
@@ -487,16 +487,16 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
                  3. 运行 `cmdb instance list --class_name <Class 名称>` 查询实例
                  4. obtain from response instance_id
         obj_type: 监控Object type(Optional,1~512 个字符)
-        indicators: 监控指标列表(Optional,最多 100 个)
+        indicators: Monitoring metric列表(Optional,最多 100 个)
         ext_dimensions: 扩展维度信息列表(Optional,最多 100 个)
         interval: 间隔粒度(Optional)
-                  取值范围:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
+                  value range:ONE_MINUTE(1 minute(s)), MINUTE(5 minute(s)), HALF_HOUR(30 minute(s)),
                   HOUR(1 hour(s)), DAY(1 day(s)), WEEK(1 week(s)), MONTH(1 个month(s))
         range: Time range(Optional,默认 LAST_1_HOUR)
-               取值范围:LAST_5_MINUTE(最近 5 minute(s)), LAST_1_HOUR(最近 1 hour(s)),
+               value range:LAST_5_MINUTE(最近 5 minute(s)), LAST_1_HOUR(最近 1 hour(s)),
                LAST_1_DAY(最近 1 day(s)), LAST_1_WEEK(最近 1 week(s)), LAST_1_MONTH(最近 1 个month(s)),
                LAST_1_QUARTER(最近 3 个month(s)), HALF_1_YEAR(最近半year(s)), LAST_1_YEAR(最近 1 year(s)),
-               BEGIN_END_TIME(自行设置开始和End time), INVALID(无效值)
+               BEGIN_END_TIME(自行设置开始和End time), INVALID(Invalid value)
         begin_time: 查询开始时刻(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 end_time 小
         end_time: 查询结束时刻(Optional),仅 range 为 BEGIN_END_TIME 时生效,必须比 begin_time 大
 
@@ -611,7 +611,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
 
     Args:
         client: DME API client
-        type: 数据类型（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
+        type: Data type（Required），Optional值：capacity_prediction（Capacity prediction）, performance_prediction（性能预测）, performance_anomaly（性能异常）
         object_id: 资源 ID（Required，1~256 个字符）
         begin_time: Start time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
         end_time: End time（Required），自 1970 year(s) 1 month(s) 1 日（00:00:00GMT）to current time in mssecond(s)数
@@ -660,7 +660,7 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                     Optional值：storage（Storage device）, storage_pool（Storage pool）, storage_host（Storage host）,
                            storage_disk（硬盘）, storage_port（存储端口）, fcswitch_port（光纤Switch port）,
                            storage_file_system（Filesystem）, controller（控制器）, replication_cg（Remote replicationConsistency group）,
-                           volume（LUN）, tier（Service level）, datastore（数据存储）, virtual_machine（虚拟机）,
+                           volume（LUN）, tier（Service level）, datastore（数据存储）, virtual_machine（Virtual machine）,
                            storage_name_space（Namespace）, storage_node（存储节点）, dpc（DPC）
         object_name: Object name，supports fuzzy search（Optional，最多 256 个字符）
         object_ids: object resId 列表，用于批量精确查找（Optional，最多支持 100 个 ID）
@@ -754,13 +754,13 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
             task_id: Task ID (string, 1~64个字符),
         },包含:
         - task_id: 任务 ID
-        - task_status: 任务状态,取值范围:
+        - task_status: 任务状态,value range:
             - executing: Executing
             - failed: 失败
             - success: 成功
             - waiting: 等待
             - terminated: 已终止
-        - task_result: 任务结果,取值范围:
+        - task_result: 任务结果,value range:
             - un_analyzed: 未分析
             - warning: 警告
             - abnormal: 异常
@@ -806,7 +806,7 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
                     load_imbalance-负载失衡，highload-高负载资源）
         policy_source: 来源（pre-define-预置，user-define-自定义）
         alarm_type: Alarm type（violation-异常，alarm-告警，event-事件）
-        object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
+        object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
         page_no: Page number，1~1000，默认 1
         page_size: Items per page，1~100，默认 20
         sort_key: Sort field（last_check_time-最后检查时间，failed_count-检查不通过的objectcount）
@@ -964,7 +964,7 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
         level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
         object_ids: object ID 列表（最多 100 个）
         object_native_id: object nativeId（1~384 个字符）
-        object_type: Object type（storage-存储，lun-逻辑单元，host-主机等）
+        object_type: Object type（storage-存储，lun-Logical unit，host-主机等）
         policy_id: 策略 ID（exact match，1~64 个字符）
         policy_name: 策略名称（supports fuzzy search，1~256 个字符）
         policy_types: 策略类型列表（最多 30 个）
@@ -1062,7 +1062,7 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
             - storage: Storage device
             - host_group: 主机组
             - lun: LUN
-            - vm: 虚拟机
+            - vm: Virtual machine
             - datastore: 数据存储
             - application: 应用
             - switch_port: Switch port
@@ -1118,7 +1118,7 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
             - storage: Storage device
             - lun: LUN
             - host_group: 主机组
-            - vm: 虚拟机
+            - vm: Virtual machine
             - datastore: 数据存储（仅 FC_SAN）
             - application: 应用（仅 FC_SAN）
             - switch_port: Switch port（仅 FC_SAN）
@@ -1193,13 +1193,13 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     r"""
     Query topology VM and virtual disk list，或查询 BMS Physical disk list below
 
-    via specified entryobject查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
+    via specified entryobject查询虚拟化资源，包括Virtual machine和Virtual disk列表，
     或者查询 BMS（裸金属服务器）physical disk list under。
 
     Args:
         client: DME API client
         entry_objects: 入口object列表（Required），格式：[{"id":"<入口Object ID>","type":"<入口Object type>"},...]，支持类型：
-            - vm: 虚拟机
+            - vm: Virtual machine
             - host_group: 主机组
             - host: 主机
             - storage: Storage device
@@ -1208,7 +1208,7 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
             - switch_port: Switch port
             - storage_pool: Storage pool
         host_id: 主机 ID（Required）
-        vm_name: 虚拟机名称搜索参数，supports fuzzy match
+        vm_name: Virtual machine名称搜索参数，supports fuzzy match
         page_size: Items per page，1~20，默认 20
         page_no: Page queryStart position，默认 1
 

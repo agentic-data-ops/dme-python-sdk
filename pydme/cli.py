@@ -937,7 +937,7 @@ def main():
         auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
         if not auth_token and not (endpoint and username and password):
-            print("错误：必须提供 endpoint、user 和 password 参数，或者使用 --token 提供认证密钥")
+            print("错误：must be provided endpoint、user 和 password 参数，或者使用 --token 提供认证密钥")
             print("可通过 --endpoint, --user, --password, --token 或环境变量设置")
             parser.print_help()
             sys.exit(1)

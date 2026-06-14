@@ -130,7 +130,7 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
 def fabric_list(client: DMEAPIClient, name: str = None, 
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query光纤网络
+    Batch queryFibre Channel network
     
     Args:
         client: DME API client
@@ -164,7 +164,7 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 
     Args:
         client: DME API client
-        fabric_id: 光纤网络 ID（Required）
+        fabric_id: Fibre Channel network ID（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
 
@@ -187,11 +187,11 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
                   backup_type: str = "full") -> dict:
     """
-    执行光纤网络配置文件备份
+    执行Fibre Channel network配置文件备份
     
     Args:
         client: DME API client
-        fabric_id: 光纤网络 ID（Required）
+        fabric_id: Fibre Channel network ID（Required）
         backup_server_id: Backup server ID（Required）
         backup_type: 备份类型，默认 full（full/incremental）
     
@@ -253,7 +253,7 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
 
     Args:
         client: DME API client
-        fabric_wwn: 光纤网络 WWN（Optional），1~1024 个字符
+        fabric_wwn: Fibre Channel network WWN（Optional），1~1024 个字符
         name: Zone 名称（Optional），supports fuzzy search，1~1024 个字符
         cfg_name: 所属 CFG 名称（Optional），supports fuzzy search，0~1024 个字符
         zone_set: 所属 Zone 集合（Optional），supports fuzzy search，0~1024 个字符
@@ -311,7 +311,7 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     Args:
         client: DME API client
         name: Zone 名称（Required）
-        fabric_wwn: 光纤网络 WWN（条件Required，fabric 创建 zone 时需要）
+        fabric_wwn: Fibre Channel network WWN（条件Required，fabric 创建 zone 时需要）
         vsan_wwn: VSAN WWN（条件Required，vsan 创建 zone 时需要）
         wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
         port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
@@ -432,7 +432,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
         client: DME API client
         is_active_zone: 是否激活 Zone（Required，string "true" 或 "false"）
         zones: Zone 配置列表，每个元素应包含:
-            - fabric_wwn: 光纤网络 WWN（Required）
+            - fabric_wwn: Fibre Channel network WWN（Required）
             - name: Zone 名称（Required）
             - wwn_members: WWN 成员列表（Optional），格式：["<wwn>",...]
             - port_members: Port member list（Optional），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，Brocade switch: specifyport_index，Cisco switch: specifyport_name
@@ -521,7 +521,7 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
     
     Args:
         client: DME API client
-        fabric_wwn: 光纤网络 WWN（Required）
+        fabric_wwn: Fibre Channel network WWN（Required）
         page_no: Page number，默认 1
         page_size: 每页count，1~1000，默认 20
     
@@ -554,7 +554,7 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
     Args:
         client: DME API client
         name: Alias 名称（Required）
-        fabric_wwn: 光纤网络 WWN（条件Required，fabric Alias creation requires）
+        fabric_wwn: Fibre Channel network WWN（条件Required，fabric Alias creation requires）
         vsan_wwn: VSAN WWN（条件Required，vsan Alias creation requires）
         wwn_members: WWN 成员列表（Optional，思科交换机 PWWN 成员）
         port_members: Port member list（Optional）

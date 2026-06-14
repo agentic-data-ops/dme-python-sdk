@@ -45,7 +45,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
         {
             total: TenantTotal count (integer),
             vstores: Tenant列表 (List<VstoreResp>, max array members：1000)。参数格式如下：[{
-                id: Tenant的唯一标识 (string, 1~64 characters),
+                id: Tenant的Unique identifier (string, 1~64 characters),
                 qos_id: QoS policyID (string, 1~64 characters),
                 raw_id: 在设备中的TenantID (string, 1~64 characters),
                 storage_sn: Storage deviceSN (string, 1~64 characters),
@@ -53,7 +53,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
                 storage_ip: 设备IP (string, 1~255 characters),
                 storage_name: 设备名称 (string, 1~255 characters),
                 name: Tenant名称 (string, 1~256 characters),
-                description: 租户描述 (string, 0~255 characters),
+                description: Tenant description (string, 0~255 characters),
                 running_status: 运行状态 (string)。可选值：normal (正常), initializing (初始化),
                 status: Tenant状态 (string)。可选值：active (已激活), inactive (未激活),
                 encrypt_option: Tenant的加密选项 (boolean, true,false),
@@ -108,9 +108,9 @@ def vstore_show(client: DMEAPIClient, id: str) -> dict:
 
     Returns:
         {
-            id: Tenant的唯一标识 (string, 1~64 characters),
+            id: Tenant的Unique identifier (string, 1~64 characters),
             name: Tenant名称 (string, 1~256 characters),
-            description: 租户描述 (string, 0~255 characters),
+            description: Tenant description (string, 0~255 characters),
             storage_id: 设备ID (string, 1~64 characters),
             status: Tenant状态 (string)。可选值：active (已激活), inactive (未激活),
             running_status: 运行状态 (string)。可选值：normal (正常), initializing (初始化),
@@ -141,7 +141,7 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
         name: Tenant name (Required, string, 1~256 characters)。仅包含字母、数字、"_"、"-"、"."and Chinese characters
         san_capacity_quota: SAN 容量配额（可选，单位：扇区）
         nas_capacity_quota: NAS 容量配额（可选，单位：扇区）
-        description: 租户描述（可选，0~255 个字符）
+        description: Tenant description（可选，0~255 个字符）
         nas_capacity_quota_alarm_switch: NAS Capacity quota alarm switch（可选，仅 A800 设备支持）
         nas_capacity_quota_alarm_threshold: NAS Capacity quota alarmthreshold（可选，仅 A800 设备支持）
         associate_pool_ids: Related storage池 ID 列表（可选，仅 A series device support）
@@ -191,7 +191,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
         name: Tenant name (Optional, string, 1~256 characters)。名称包含字母、数字、"_"、"-"、"."and Chinese characters
         san_capacity_quota: SAN容量配额 (Optional, string, 1~20个字符)
         nas_capacity_quota: NAS容量配额 (Optional, string, 1~20个字符)
-        description: 租户描述 (Optional, string, 0~255 characters)
+        description: Tenant description (Optional, string, 0~255 characters)
         nas_capacity_quota_alarm_switch: NASCapacity quota alarm switch (Optional, boolean, true,false)。仅A800设备支持
         nas_capacity_quota_alarm_threshold: NASCapacity quota alarmthreshold (Optional, int32, 50~100)。仅A800设备支持
 

@@ -209,7 +209,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                                   可选值：automatic（自动）、highest_performance（高性能层）、performance（性能层）、capacity（容量层）；默认 automatic
         prefetch_policy: 预取策略（可选），影响磁盘读取；
                         可选值：no_prefetch（不预取）、constant_prefetch（固定预取）、variable_prefetch（可变预取）、intelligent_prefetch（智能预取）；默认 intelligent_prefetch
-        prefetch_value: 预取策略值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取取值范围 0~1024KB，Variable prefetch value range 0~1024 倍
+        prefetch_value: 预取策略值（可选），0~1024；下发了 prefetch_policy required when value is fixed or variable prefetch；固定预取value range 0~1024KB，Variable prefetch value range 0~1024 倍
         tuning: 调优属性 (可选), CustomizeLunTuning object。参数格式如下：{
                 smart_tier: Data migration策略。可选值：no_migration (不迁移), automatic_migration (自动迁移), migration_to_higher (migrate to higher tier), migration_to_lower (migrate to lower tier)。默认no_migration,
                 deduplication_enabled: Deduplication (仅Thin LUN支持)。可选值：true (开启), false (关闭),

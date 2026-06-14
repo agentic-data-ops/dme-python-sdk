@@ -578,7 +578,7 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
     QueryTask details
     
-    根据任务唯一标识 TaskId 进行查询。
+    根据任务Unique identifier TaskId 进行查询。
     
     Args:
         client: DME API client

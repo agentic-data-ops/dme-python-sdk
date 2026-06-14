@@ -1,5 +1,5 @@
 """
-工作流 (Workflow) operations
+Workflow (Workflow) operations
 """
 
 import sys
@@ -16,7 +16,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
     """
     PaginationTemplate list
     
-    Pagination工作流Template list。
+    PaginationWorkflowTemplate list。
     
     Args:
         client: DME API client
@@ -58,7 +58,7 @@ def template_groups(client: DMEAPIClient) -> dict:
     """
     Query all模板分组
     
-    Query all工作流模板分组。
+    Query allWorkflow模板分组。
     
     Args:
         client: DME API client
@@ -109,7 +109,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """
     停止实例
     
-    停止Executing的工作流实例。
+    停止Executing的Workflow实例。
     
     Args:
         client: DME API client
@@ -128,7 +128,7 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     """
     Query instance details
     
-    Query工作流实例的Details。
+    QueryWorkflow实例的Details。
     
     Args:
         client: DME API client
@@ -200,7 +200,7 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     """
     Query step log
     
-    查询工作流实例中指定步骤的执行日志。
+    查询Workflow实例中指定步骤的执行日志。
     
     Args:
         client: DME API client

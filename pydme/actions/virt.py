@@ -19,15 +19,15 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Args:
         client: DME API client
-        site_id: 虚拟机所属站点 ID
-        cluster_id: 虚拟机所属集群 ID（HCS 场景不支持）
+        site_id: Virtual machine所属站点 ID
+        cluster_id: Virtual machine所属集群 ID（HCS 场景不支持）
         dc_id: Data center ID（仅 FusionCompute 场景支持）
-        cluster_name: 虚拟机所属集群名称（supports fuzzy search，HCS 场景不支持）
-        host_id: 虚拟机所属Physical host唯一标识
-        host_name: 虚拟机所属Host name（supports fuzzy search）
-        name: 虚拟机名称（supports fuzzy search）
-        ip_address: 虚拟机 IP 地址（supports fuzzy search）
-        status: 虚拟机状态列表
+        cluster_name: Virtual machine所属集群名称（supports fuzzy search，HCS 场景不支持）
+        host_id: Virtual machine所属Physical hostUnique identifier
+        host_name: Virtual machine所属Host name（supports fuzzy search）
+        name: Virtual machine名称（supports fuzzy search）
+        ip_address: Virtual machine IP 地址（supports fuzzy search）
+        status: Virtual machine状态列表
                 取值：running, stopped, unknown, hibernated, creating, shutting-down,
                      migrating, fault-resuming, starting, stopping, hibernating, pause,
                      recycling, deactivated, active, saving, deleted, other, uploading,
@@ -44,10 +44,10 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Returns:
         {
-            total: 虚拟机Total count (integer),
+            total: Virtual machineTotal count (integer),
             vms: VM list (List<VmInfo>)。参数格式如下：[{
-                id: 虚拟机ID (string),
-                name: 虚拟机名称 (string),
+                id: Virtual machineID (string),
+                name: Virtual machine名称 (string),
                 status: 状态 (string),
                 cpu: CPUcount (integer),
                 memory: 内存大小 (integer),
@@ -98,17 +98,17 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
-    Query虚拟机详情
+    QueryVirtual machine详情
     
-    查询虚拟机的Details。
+    查询Virtual machine的Details。
     
     Args:
         client: DME API client
-        vm_id: 虚拟机 ID（Required）
+        vm_id: Virtual machine ID（Required）
         vr_type: Virtualization platform type（Optional）
     
     Returns:
-        虚拟机Details，包含 CPU、内存、磁盘、网卡等Configuration info
+        Virtual machineDetails，包含 CPU、内存、磁盘、网卡等Configuration info
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -464,20 +464,20 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     """
     Query virtual disk info list
     
-    查询虚拟磁盘列表，supports multiple filter criteria。
+    查询Virtual disk列表，supports multiple filter criteria。
     
     Args:
         client: DME API client
-        site_id: 虚拟磁盘所属站点 ID（Optional）
-        vm_id: 虚拟磁盘所属虚拟机 ID（Optional）
-        name: 虚拟磁盘名称（Optional）
+        site_id: Virtual disk所属站点 ID（Optional）
+        vm_id: Virtual disk所属Virtual machine ID（Optional）
+        name: Virtual disk名称（Optional）
         disk_type: Disk type list（Optional）
         status: Disk status list（Optional）
         page_no: Page queryStart page，默认 1
         page_size: 每页count，1~1000，默认 20
     
     Returns:
-        虚拟磁盘列表
+        Virtual disk列表
     """
     url = "/rest/vmmgmt/v1/vdisks/query"
     
@@ -505,14 +505,14 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
     QueryVirtual disk info
     
-    查询虚拟磁盘的Details。
+    查询Virtual disk的Details。
     
     Args:
         client: DME API client
-        virtual_disk_id: 虚拟磁盘 ID（Required）
+        virtual_disk_id: Virtual disk ID（Required）
     
     Returns:
-        虚拟磁盘Details
+        Virtual diskDetails
     """
     url = "/rest/vmmgmt/v1/vdisks/{virtual_disk_id}"
     
@@ -522,7 +522,7 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
 
 # Action list for CLI help
 ACTIONS = {
-    # 虚拟机管理
+    # Virtual machine管理
     'vm_list': {
         'func': vm_list,
         'description': '查询VM list',
@@ -534,7 +534,7 @@ ACTIONS = {
     },
     'vm_show': {
         'func': vm_show,
-        'description': 'Query虚拟机详情',
+        'description': 'QueryVirtual machine详情',
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
@@ -606,7 +606,7 @@ ACTIONS = {
         'params': ['site_id', 'host_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'disk'
     },
-    # 虚拟磁盘管理
+    # Virtual disk管理
     'vdisk_list': {
         'func': vdisk_list,
         'description': 'Query virtual disk info list',
