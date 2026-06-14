@@ -1622,7 +1622,7 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         client: DME API Client
         storage_host_group_id: Storage host group ID (Required)
         storage_host_id_ids:  Storage host ID list (Optional, mutually exclusive with create_storage_host_params, max array members: 1000)
-        create_storage_host_params: create 新的Storage host list (Optional, 与storage_host_id_idsmutually exclusive, max array members: 1000). 参数格式如下：[{
+        create_storage_host_params: Create new storage host list (Optional, mutually exclusive with storage_host_id_ids, max array members: 1000). 参数格式如下：[{
                 name: Host name (Required, 1~255 characters, supports alphanumeric._-and Chinese characters),
                 os_type: Host type (Required). Options: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
                 ip:  hostip address (Optional,  max127 characters),
