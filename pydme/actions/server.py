@@ -23,7 +23,7 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
     Returns:
         {
             total: ServerTotal count (integer),
-            servers: Server list (List<ServerInfo>). 参数格式如下：[{
+            servers: Server list (List<ServerInfo>). parameter format: [{
                 id: ServerID (string),
                 name: Server name (string),
                 type: Server type (string),

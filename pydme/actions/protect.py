@@ -39,7 +39,7 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
     Returns:
         {
             total: Protection groupTotal count (integer),
-            protection_groups: Protection group list (List<ProtectionGroupInfor>). 参数格式如下：[{
+            protection_groups: Protection group list (List<ProtectionGroupInfor>). parameter format: [{
                 id: Protection group ID (string),
                 name: Protection group name (string),
                 status:  status (string),
@@ -1361,13 +1361,13 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
     return response
 
 
-def snapshot_create(client: DMEAPIClient, snapshots_infor: list, is_consist_activate: bool = None) -> dict:
+def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activate: bool = None) -> dict:
     """
     Batch create LUN  snapshot
 
     Args:
         client: DME API client
-        snapshots_infor: LUN  snapshotcreate infor list, Each item includes name, source_type, source_id
+        snapshots_info: LUN  snapshotcreate info list, Each item includes name, source_type, source_id
         is_consist_activate: Consistency activation, default false
 
     Returns:
@@ -1378,7 +1378,7 @@ def snapshot_create(client: DMEAPIClient, snapshots_infor: list, is_consist_acti
     url = "/rest/protection/v1/lun-snapshots"
 
     payload = {
-        'snapshots_infor': snapshots_infor
+        'snapshots_info': snapshots_info
     }
 
     if is_consist_activate is not None:
@@ -2149,7 +2149,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
     Returns:
         {
             total: Total count (integer),
-            filesystem_pairs: Filesystem active-active pair list. 参数格式如下：[{
+            filesystem_pairs: Filesystem active-active pair list. parameter format: [{
                 id: Pair ID (string),
                 name:  name (string),
                 status:  status (string),
@@ -2329,7 +2329,7 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
     Returns:
         {
             total: Total count (integer),
-            snapshots: Filesystem snapshot list. 参数格式如下：[{
+            snapshots: Filesystem snapshot list. parameter format: [{
                 id:  snapshotID (string),
                 name: Snapshot name (string),
                 status:  status (string),
@@ -2477,7 +2477,7 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            vstore_pairs: Active-active tenant pair list. 参数格式如下：[{
+            vstore_pairs: Active-active tenant pair list. parameter format: [{
                 id: Pair ID (string),
                 name:  name (string),
                 status:  status (string),
@@ -2719,7 +2719,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
 
     Returns:
         {
-            optional_target_luns: Optional targetLUN list. 参数格式如下：[{
+            optional_target_luns: Optional targetLUN list. parameter format: [{
                 lun_id: LUN ID (string),
                 lun_name: LUN name (string),
                 capacity:  capacity (integer),
@@ -3012,7 +3012,7 @@ ACTIONS = {
     'snapshot_create': {
         'func': snapshot_create,
         'description': 'Batch create LUN  snapshot',
-        'params': ['snapshots_infor', 'is_consist_activate'],
+        'params': ['snapshots_info', 'is_consist_activate'],
         'subtopic': 'snapshot'
     },
     'snapshot_rollback': {

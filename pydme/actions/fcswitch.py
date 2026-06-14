@@ -22,7 +22,7 @@ def list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            fcswitches: Switch list (List<FcSwitchInfo>). 参数格式如下：[{
+            fcswitches: Switch list (List<FcSwitchInfo>). parameter format: [{
                 id: SwitchID (string),
                 name: Switch name (string),
                 status: Running status (string),

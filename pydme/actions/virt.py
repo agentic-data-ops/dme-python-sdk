@@ -45,7 +45,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     Returns:
         {
             total: Virtual machineTotal count (integer),
-            vms: VM list (List<VmInfo>). 参数格式如下：[{
+            vms: VM list (List<VmInfo>). parameter format: [{
                 id: Virtual machineID (string),
                 name: Virtual machine name (string),
                 status:  status (string),

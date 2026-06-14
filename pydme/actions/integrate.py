@@ -23,7 +23,7 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            systems: CMDB system list. 参数格式如下：[{
+            systems: CMDB system list. parameter format: [{
                 id:  systemID (string),
                 name: System name (string),
                 ip: IP address (string),
@@ -59,7 +59,7 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
     Returns:
         {
             total: Total count (integer),
-            hosts: CMDB host list. 参数格式如下：[{
+            hosts: CMDB host list. parameter format: [{
                 id: Host ID (string),
                 name: Host name (string),
                 ip: IP address (string),
@@ -122,7 +122,7 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
     Returns:
         {
             total: Total count (integer),
-            applications: Application list. 参数格式如下：[{
+            applications: Application list. parameter format: [{
                 id:  appID (string),
                 name: Application name (string),
             }, ...],
@@ -153,7 +153,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
     Returns:
         {
-            hosts: CMDB host list. 参数格式如下：[{
+            hosts: CMDB host list. parameter format: [{
                 id: Host ID (string),
                 name: Host name (string),
             }, ...],

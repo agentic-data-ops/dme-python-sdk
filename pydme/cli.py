@@ -193,7 +193,7 @@ class DMECLI:
                     param_lines = [param_match.group(2)]
                     
                     # If this param line enters a  parameter format/ format description block, track nesting depth
-                    if '参数格式如下：' in stripped or '属性格式如下：{' in stripped:
+                    if 'parameter format:' in stripped:
                         in_format_block = stripped.count('{') - stripped.count('}')
                         if in_format_block < 0:
                             in_format_block = 0

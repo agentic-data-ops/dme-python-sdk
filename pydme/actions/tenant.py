@@ -21,7 +21,7 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
     Args:
         client: DME API client
-        volumes: LUN basic parameter list to create (List<ServiceVolumeBasicParams>, max array members: 1000). 参数格式如下：[{
+        volumes: LUN basic parameter list to create (List<ServiceVolumeBasicParams>, max array members: 1000). parameter format: [{
                 name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
                 capacity:  capacityGB (1~262144),
                 count: create count (1~500),

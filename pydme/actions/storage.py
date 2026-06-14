@@ -44,7 +44,7 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
     Returns:
         {
             total: TenantTotal count (integer),
-            vstores: Tenant list (List<VstoreResp>, max array members: 1000). 参数格式如下：[{
+            vstores: Tenant list (List<VstoreResp>, max array members: 1000). parameter format: [{
                 id: Tenant unique identifier (string, 1~64 characters),
                 qos_id: QoS policy ID (string, 1~64 characters),
                 raw_id: tenant ID on device (string, 1~64 characters),
@@ -271,7 +271,7 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
     Returns:
         {
             total: Storage device total count (int32),
-            datas: Storage device list (List<StorageSummaryInfo>). 参数格式如下：[{
+            datas: Storage device list (List<StorageSummaryInfo>). parameter format: [{
                 id: Storage device ID (string),
                 name: Storage device name (string),
                 ip: IP  address (string),
@@ -335,8 +335,8 @@ def show(client: DMEAPIClient, storage_id: str) -> dict:
 def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         vendor: str = None, model: str = None, version: str = None,
         patch_version: str = None, dc_id: str = None, az: str = None,
-        location: str = None, maintenanceetenance_start: int = None,
-        maintenanceetenance_overtime: int = None, total_capacity: float = None,
+        location: str = None, maintenance_start: int = None,
+        maintenance_overtime: int = None, total_capacity: float = None,
         total_effective_capacity: float = None, total_pool_capacity: float = None,
         used_capacity: float = None, free_capacity: float = None,
         subscription_capacity: float = None, tag_ids: list = None) -> dict:
@@ -357,8 +357,8 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         version: Version info (Optional, 0~64 characters). 
         patch_version: Patch version info (Optional, 0~64 characters). 
         location: Device location (Optional, 0~512 characters). 
-        maintenanceetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenanceetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenanceetenance start time and value must be greater. 
+        maintenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
+        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenance start time and value must be greater. 
         total_capacity: Raw capacity (Optional, 0~2147483647, in MB). 
         total_effective_capacity: Available capacity (Optional, 0~2147483647, in MB). 
         total_pool_capacity: Available capacity (Optional, 0~2147483647, in MB). 
@@ -372,7 +372,7 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
             id: Storage device ID (string, 1~64 characters),
         }
     """
-        raise ValueError("name is required")
+    if not name:
         raise ValueError("name is required")
     if not sn:
         raise ValueError("sn is required")
@@ -400,10 +400,10 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         payload['az'] = az
     if location is not None:
         payload['location'] = location
-    if maintenanceetenance_start is not None:
-        payload['maintenanceetenance_start'] = maintenanceetenance_start
-    if maintenanceetenance_overtime is not None:
-        payload['maintenanceetenance_overtime'] = maintenanceetenance_overtime
+    if maintenance_start is not None:
+        payload['maintenance_start'] = maintenance_start
+    if maintenance_overtime is not None:
+        payload['maintenance_overtime'] = maintenance_overtime
     if total_capacity is not None:
         payload['total_capacity'] = total_capacity
     if total_effective_capacity is not None:
@@ -494,7 +494,7 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
     
     Returns:
         {
-            backup_powers: BBU list (List<StorageBackupPowerInfo>). 参数格式如下：[{
+            backup_powers: BBU list (List<StorageBackupPowerInfo>). parameter format: [{
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status. Options: unknown, normal, faulty, about_to_fail, low_battery,
@@ -579,7 +579,7 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: Fan count (integer),
-            fans: Fan list (List<StorageFanInfo>). 参数格式如下：[{
+            fans: Fan list (List<StorageFanInfo>). parameter format: [{
                 name:  name (1~128 characters),
                 location: location (1~256 characters),
                 health_status: Health status. Options: unknown, normal, faulty ( fault),
@@ -667,7 +667,7 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
     Returns:
         {
             total:  Disk count (integer),
-            disks: Disk list (List<DiskInfo>). 参数格式如下：[{
+            disks: Disk list (List<DiskInfo>). parameter format: [{
                 id:  diskID (string),
                 name: disk name (string),
                 health_status: Health status (string),
@@ -756,7 +756,7 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total: Storage poolcount (int32),
-            datas: Storage pool basic info list (List<StoragePoolBasicInfo>). 参数格式如下：[{
+            datas: Storage pool basic info list (List<StoragePoolBasicInfo>). parameter format: [{
                 id: Storage pool ID (1~32 characters),
                 name: Storage pool name (1~31 characters),
                 raw_id: Storage poolon the storage deviceID (1~64 characters),
@@ -838,7 +838,7 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
     Returns:
         {
             total: HyperScaleStorage poolTotal count (int32),
-            data: HyperScale storage pool list (List<HyperScalePoolInfo>). 参数格式如下：[{
+            data: HyperScale storage pool list (List<HyperScalePoolInfo>). parameter format: [{
                 id: HyperScaleStorage pool ID (1~64 characters),
                 raw_id: Storage poolon the storage deviceID (1~64 characters),
                 name: HyperScaleStorage pool name (1~256 characters),
@@ -915,7 +915,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
     Returns:
         {
             total:  Node count (integer),
-            nodes: node list (List<StorageNodeBaseInfo>). 参数格式如下：[{
+            nodes: node list (List<StorageNodeBaseInfo>). parameter format: [{
                 id:  nodeid (1~64 characters),
                 name: Node name (1~255 characters),
                 raw_id:  nodeon the storage deviceID (1~64 characters),
@@ -930,7 +930,7 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
                 storage_name: Storage device name (1~255 characters),
                 eos_time:  Storage EOS time (int64), GMT: Jan 1, 1970 00:00:00 - total ms to present,
                 installation_status: Storage software installation status. Options: installed (Storage software installed), not_installed (Storage software not installed),
-                ip_address_list: Node IP address list (List<StorageNodeIpInfo>). 参数格式如下：[{
+                ip_address_list: Node IP address list (List<StorageNodeIpInfo>). parameter format: [{
                     ip_address: Node IP address (1~256 characters),
                     usage: Node IP address purpose list (List<string>). Options: storage_frontend (Storage frontend network IP), storage_backend (Storage backend network IP), management_external_float (Management external network floating IP), management_internal_float (Management internal network floating IP), management_external (Management external network IP), management_internal (Management internal network IP), replication ( replication network IP), quorum (arbitration network IP), iscsi (iSCSI network IP),
                 }, ...],
@@ -994,7 +994,7 @@ def psu_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: Power supply count (int32),
-            storage_powers: Power list (List<StoragePowerInfo>). 参数格式如下：[{
+            storage_powers: Power list (List<StoragePowerInfo>). parameter format: [{
                 name:  name (1~255 characters),
                 location: location (1~255 characters),
                 health_status: Health status. Options: unknown, normal, faulty ( fault), inconsistent ( inconsistent), no_input ( no input),
@@ -1060,7 +1060,7 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 
     Returns:
         {
-            storage_power_list: Storage power list (List<StoragePower>). 参数格式如下：[{
+            storage_power_list: Storage power list (List<StoragePower>). parameter format: [{
                 storage_id:  storageID,
                 power:  Storage power in kW (number),
             }, ...],
@@ -1082,8 +1082,8 @@ def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
 def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            ip: str = None, vendor: str = None, model: str = None,
            version: str = None, patch_version: str = None,
-           location: str = None, maintenanceetenance_start: int = None,
-           maintenanceetenance_overtime: int = None, total_capacity: float = None,
+           location: str = None, maintenance_start: int = None,
+           maintenance_overtime: int = None, total_capacity: float = None,
            total_effective_capacity: float = None, total_pool_capacity: float = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
@@ -1100,8 +1100,8 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         version: Version info (Optional, 0~64 characters). 
         patch_version: Patch version info (Optional, 0~64 characters). 
         location:  devicelocation (Optional, 0~512 characters). 
-        maintenanceetenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenanceetenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenanceetenance start time and value greater thanStart time. 
+        maintenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
+        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenance start time and value greater thanStart time. 
         total_capacity: Raw capacity (Optional, -1~2147483647, in MB). Storage devicesum of all disk physical capacities, -1Indicates no raw capacity. 
         total_effective_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage device writable user data total, -1Indicates no available capacity. 
         total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Actual available disk physical space (Excluding RAID, metadata consumption) , -1Indicates N/AAvailable capacity. 
@@ -1133,10 +1133,10 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         payload['patch_version'] = patch_version
     if location is not None:
         payload['location'] = location
-    if maintenanceetenance_start is not None:
-        payload['maintenanceetenance_start'] = maintenanceetenance_start
-    if maintenanceetenance_overtime is not None:
-        payload['maintenanceetenance_overtime'] = maintenanceetenance_overtime
+    if maintenance_start is not None:
+        payload['maintenance_start'] = maintenance_start
+    if maintenance_overtime is not None:
+        payload['maintenance_overtime'] = maintenance_overtime
     if total_capacity is not None:
         payload['total_capacity'] = total_capacity
     if total_effective_capacity is not None:
@@ -1223,7 +1223,7 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     return response
 
 
-def disk_domaintenancee_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
+def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
     Batch query disk pools
@@ -1237,7 +1237,7 @@ def disk_domaintenancee_list(client: DMEAPIClient, storage_id: str = None, page_
     Returns:
         {
             total: Disk poolcount (int32),
-            disk_pools: Disk pool list (List<DiskPoolInfo>). 参数格式如下：[{
+            disk_pools: Disk pool list (List<DiskPoolInfo>). parameter format: [{
                     id: Disk poolid (1~64 characters),
                     raw_id: Disk poolon the deviceid (1~64 characters),
                     name: Disk pool name (1~128 characters),
@@ -1279,7 +1279,7 @@ def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
     Returns:
         {
             total: Total count (int32),
-            disk_pools: Disk pool list. 参数格式如下：[{
+            disk_pools: Disk pool list. parameter format: [{
                 id: Disk poolID (string),
                 name: Disk pool name (string),
                 status:  status (string),
@@ -1328,7 +1328,7 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
     Returns:
         {
             total: Enclosurecount (integer),
-            data: Enclosure list (List<EnclosureItem>). 参数格式如下：[{
+            data: Enclosure list (List<EnclosureItem>). parameter format: [{
                     id: EnclosureID (1~64 characters),
                     raw_id: Enclosure ID on storage device (1~64 characters),
                     name:  name (1~256 characters),
@@ -2322,7 +2322,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
     Returns:
         {
             total: Logic port count (integer),
-            logic_ports: Logic port list (List<StorageLogicPortResp>). 参数格式如下：[{
+            logic_ports: Logic port list (List<StorageLogicPortResp>). parameter format: [{
                 id:  logicalPort ID (1~255 characters),
                 raw_id: Logic porton the storage deviceID (1~255 characters),
                 name:  logicalPort name (1~255 characters),
@@ -2362,7 +2362,7 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
                 can_failover: Enable IP address drift (boolean). Options: true, false,
                 failback_mode: Drift-back mode. Options: not_support, manual, automatic,
                 scope:  range. Options: hyperscale, default. OceanStor A800 series only,
-                logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
+                logicPortTags: Associated tag set (List<Tag>). parameter format: [{
                     id:  tag ID (1~32 characters),
                     tag_type_name: Tag type name (1~64 characters),
                     name: Tag name (1~128 characters),
@@ -2441,7 +2441,7 @@ def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
             can_failover: Enable IP address drift (boolean). Options: true, false,
             failback_mode: Drift-back mode. Options: not_support, manual, automatic,
             scope:  range. Options: hyperscale, default. OceanStor A800 series only,
-            logicPortTags: Associated tag set (List<Tag>). 参数格式如下：[{
+            logicPortTags: Associated tag set (List<Tag>). parameter format: [{
                 id:  tag ID (1~32 characters),
                 tag_type_name: Tag type name (1~64 characters),
                 name: Tag name (1~128 characters),
@@ -3001,7 +3001,7 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
     Returns:
         {
             total: Failover group busi failover groupcount (int32),
-            failover_groups: Failover group busi failover group list (List<Failover group business typeloverGroupResp>). 参数格式如下：[{
+            failover_groups: Failover group busi failover group list (List<Failover group business typeloverGroupResp>). parameter format: [{
                 id: Failover group busi failover groupid (1~64 characters),
                 name: Failover group busi failover group name (1~64 characters),
                 failover_group_type: Failover group busi failover group type (1~255 characters). Options: system, VLAN, customized,
@@ -3125,7 +3125,7 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
     Returns:
         {
             total: ZoneTotal count (int32),
-            datas: Zone list (List<OceanStorA800ZoneInfo>). 参数格式如下：[{
+            datas: Zone list (List<OceanStorA800ZoneInfo>). parameter format: [{
                 id: Zone CMDB ID (1~64 characters),
                 native_id: native id (1~64 characters),
                 name: Zone name (1~128 characters),
@@ -3192,7 +3192,7 @@ ACTIONS = {
     'add': {
         'func': add,
         'description': 'Add storage device (offline info entry only) ',
-        'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenanceetenance_start', 'maintenanceetenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
+        'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenance_start', 'maintenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
         'subtopic': None
     },
     'remove': {
@@ -3284,11 +3284,11 @@ ACTIONS = {
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
-    'disk_domaintenancee_list': {
-        'func': disk_domaintenancee_list,
+    'disk_domain_list': {
+        'func': disk_domain_list,
         'description': 'Batch query disk pools',
         'params': ['storage_id', 'page_no', 'page_size'],
-        'subtopic': 'disk_domaintenancee'
+        'subtopic': 'disk_domain'
     },
     'disk_pool_list': {
         'func': disk_pool_list,
