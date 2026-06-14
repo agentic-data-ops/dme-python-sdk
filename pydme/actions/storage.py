@@ -2484,7 +2484,7 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
         ipv6_mask: Logic portIPNetmask(IPV6)(Optional, max128 characters) 
         ipv6_gateway: Logic port gatewayIP address(IPV6)(Optional, max128 characters) 
         home_port_raw_id: Parent porton the storage deviceID(Optional, 1~64 characters) 
-        support_protocol: Logic port supported protocols(Optional). Options: NFS (NFS protocol), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NFS_OVER_RDMA (NFS over RDMA protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE和TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS and objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). when role is CLIENT, do not send this field
+        support_protocol: Logic port supported protocols(Optional). Options: NFS (NFS protocol), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NFS_OVER_RDMA (NFS over RDMA protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE and TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS and objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). when role is CLIENT, do not send this field
         operational_status: Active status(Optional). Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive)
         home_controller_id: ControllerID(Optional, 1~64 characters) . when role is HEALTH_CHECK, this field is required
         failover_group_raw_id: Failover group ID on storage device(Optional, max64 characters) . when data access protocol is KB_OVER_TCP, this field is required
