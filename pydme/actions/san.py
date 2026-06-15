@@ -68,13 +68,44 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
     
     Returns:
         {
-            total: 总数 (integer),
-            volumes: LUN 列表 (List<VolumeInfo>)。参数格式如下：[{
-                id: LUN ID (string),
-                name: LUN名称 (string),
-                size: 容量 (integer),
-                status: 状态 (string),
-                health_status: 健康状态 (string),
+            count: LUN数量 (int32),
+            volumes: LUN列表 (List<Volume>)。参数格式如下：[{
+                id: LUN的唯一标识 (string, 1~64个字符),
+                pid: 保护发放业务ID (string, 1~64个字符),
+                name: 名称 (string, 1~255个字符),
+                nguid: 命名空间全局唯一标识符 (string, 1~256个字符),
+                vstore_raw_id: 租户ID (string, 1~64个字符),
+                vstore_name: 租户名称 (string, 1~256个字符),
+                description: 描述信息 (string, 0~255个字符),
+                status: 状态 (string)。可选值：creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected,
+                health_status: 健康状态 (string)。可选值：normal (正常), faulty (故障), write_protected (写保护),
+                attached: 映射状态。可选值：true (已映射), false (未映射),
+                project_id: 业务群组id (string, 1~64个字符),
+                alloctype: 分配类型。可选值：thin (按需分配), thick (固定分配),
+                usage_type: 使用类型。可选值：traditional (传统LUN), edev (eDevLUN),
+                capacity: 容量 (int32, GB)。注：建议使用total_capacity,
+                total_capacity: 总容量 (int64, 字节),
+                alloc_capacity: 已分配容量 (int64, 字节),
+                service_level_name: 服务等级名称 (string, 1~64个字符),
+                attachments: 映射信息 (List<Attachment>)。参数格式如下：[{
+                    id: 映射关系ID (string),
+                    volume_id: LUN唯一标识 (string),
+                    host_id: 主机id (string),
+                    host_name: 主机name (string),
+                    attached_at: 映射时间 (string),
+                    attached_host_group: 主机组id (string),
+                    host_group_name: 主机组name (string),
+                }, ...],
+                volume_raw_id: LUN在存储设备上的id (string, 1~64个字符),
+                volume_wwn: LUN在存储设备上的wwn (string, 1~64个字符),
+                pool_raw_id: 所属存储池在设备上的id (string, 1~64个字符),
+                capacity_usage: 容量利用率 (string),
+                protected: 保护状态。可选值：true (已保护), false (未保护),
+                updated_at: 更新时间 (string),
+                created_at: 创建时间 (string),
+                function_type: LUN类型。可选值：lun (普通LUN), snapshot (快照), clone (克隆),
+                remote_lun_wwn: 外部LUN的WWN (string),
+                take_over_lun_wwn: 接管LUN的WWN (string),
             }, ...],
         }
     """
@@ -1246,7 +1277,40 @@ def storage_host_batch_query(client: DMEAPIClient, ids: list) -> dict:
         ids: ID 列表（必选，1~1000 个）
 
     Returns:
-        存储主机信息列表
+        {
+            total: 存储主机数量 (int32),
+            hosts: 存储主机信息列表 (List<QueryStorageHostResponse>)。参数格式如下：[{
+                id: 存储主机ID (string, 1~64个字符),
+                raw_id: 在存储设备上的ID (string, 1~64个字符),
+                name: 存储主机名称 (string, 1~255个字符),
+                ip: 存储主机的IP (string, 1~255个字符),
+                health_status: 健康状态。可选值：normal, no_redundant_link, offline, fault, degraded,
+                os_type: 存储主机类型。可选值：LINUX, WINDOWS, SOLARIS, HPUX, AIX, VMWAREESX 等,
+                initiator_count: 启动器个数 (int32),
+                lun_count: 映射LUN个数 (int32),
+                lun_group_count: 映射LUN组个数 (int32),
+                description: 描述信息 (string, 1~255个字符),
+                capacity_in_byte: 已映射LUN容量 (int64, 字节),
+                allocated_capacity_in_byte: 已映射LUN已分配容量 (int64, 字节),
+                access_mode: 访问模式。可选值：unknown, balanced, asymmetric,
+                vstore_raw_id: 租户ID (string, 1~64个字符),
+                vstore_name: 租户名称 (string, 1~256个字符),
+                storage: 存储设备信息 (SimpleStorage)。属性格式如下：{
+                    storage_id: 存储设备ID (string, 1~64个字符),
+                    storage_name: 存储设备名称 (string, 1~255个字符),
+                    storage_ip: 存储设备IP (string, 1~255个字符),
+                },
+                host_group: 所属存储主机组信息 (List<HostGroupName>)。参数格式如下：[{
+                    id: 主机组ID (string),
+                    name: 主机组名称 (string),
+                }, ...],
+                physical_host_info: 物理主机信息 (PhysicalHostInfo)。属性格式如下：{
+                    id: 物理主机ID (string, 1~64个字符),
+                    name: 物理主机名称 (string, 1~255个字符),
+                    ip: 物理主机的IP (string, 1~255个字符),
+                },
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/storage-hosts/query-by-ids"
 
@@ -1294,8 +1358,39 @@ def storage_host_list(client: DMEAPIClient, page_size: int = None, page_no: int 
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含存储主机列表和总数
+            total: 存储主机数量 (int32),
+            hosts: 存储主机信息列表 (List<QueryStorageHostResponse>)。参数格式如下：[{
+                id: 存储主机ID (string, 1~64个字符),
+                raw_id: 在存储设备上的ID (string, 1~64个字符),
+                name: 存储主机名称 (string, 1~255个字符),
+                ip: 存储主机的IP (string, 1~255个字符),
+                health_status: 健康状态。可选值：normal, no_redundant_link, offline, fault, degraded,
+                os_type: 存储主机类型。可选值：LINUX, WINDOWS, SOLARIS 等,
+                initiator_count: 启动器个数 (int32),
+                lun_count: 映射LUN个数 (int32),
+                lun_group_count: 映射LUN组个数 (int32),
+                description: 描述信息 (string, 1~255个字符),
+                capacity_in_byte: 已映射LUN容量 (int64, 字节),
+                allocated_capacity_in_byte: 已映射LUN已分配容量 (int64, 字节),
+                access_mode: 访问模式。可选值：unknown, balanced, asymmetric,
+                vstore_raw_id: 租户ID (string, 1~64个字符),
+                vstore_name: 租户名称 (string, 1~256个字符),
+                storage: 存储设备信息 (SimpleStorage)。属性格式如下：{
+                    storage_id: 存储设备ID (string),
+                    storage_name: 存储设备名称 (string),
+                    storage_ip: 存储设备IP (string),
+                },
+                host_group: 所属存储主机组信息 (List<HostGroupName>)。参数格式如下：[{
+                    id: 主机组ID (string),
+                    name: 主机组名称 (string),
+                }, ...],
+                physical_host_info: 物理主机信息 (PhysicalHostInfo)。属性格式如下：{
+                    id: 物理主机ID (string),
+                    name: 物理主机名称 (string),
+                    ip: 物理主机的IP (string),
+                },
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/storage-hosts/query"
 
@@ -1459,7 +1554,22 @@ def storage_host_show_paths(client: DMEAPIClient, page_no: int = None, page_size
         initiator_type: 启动器类型 (可选)。可选值：iSCSI, FC, NVMe_over_RoCE, IB, vHBA
 
     Returns:
-        路径信息列表
+        {
+            total: 主机链路数量 (integer),
+            host_links: 主机链路列表 (List<HostLinkInfo>)。参数格式如下：[{
+                id: 链路ID (string),
+                host_id: 存储主机ID (string),
+                initiator_type: 启动器类型。可选值：iSCSI, FC, NVMe,
+                initiator_id: 启动器ID (string),
+                initiator_port_name: 启动器端口名称 (string),
+                storage_id: 存储设备ID (string),
+                target_id: 目标器ID (string),
+                target_port_name: 目标器端口名称 (string),
+                status: 状态 (string),
+                link_mode: 链路模式。可选值：single, multipath,
+                vstore_raw_id: 租户在设备上的ID (string),
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/host-links/query"
 
@@ -2034,7 +2144,35 @@ def physical_host_show(client: DMEAPIClient, host_id: str) -> dict:
         host_id: 物理主机 ID（必选）
 
     Returns:
-        物理主机详细信息
+        {
+            id: 物理主机ID (string),
+            name: 物理主机名称 (string),
+            description: 描述信息 (string),
+            ip: 物理主机IP (string),
+            port: 端口 (int32),
+            username: 用户名 (string),
+            display_status: 显示状态 (string),
+            managed_status: 管理状态 (string),
+            os_status: 操作系统状态 (string),
+            os_type: 操作系统类型 (string),
+            os_version: 操作系统版本 (string),
+            initiator_count: 启动器数量 (int32),
+            access_mode: 访问模式 (string),
+            multipathing_software: 多路径软件 (string),
+            project_id: 项目ID (string),
+            sync_to_storage: 同步到存储 (string),
+            multipath_type: 多路径类型 (string),
+            path_type: 路径类型 (string),
+            failover_mode: 故障切换模式 (string),
+            special_mode_type: 特殊模式类型 (string),
+            capacity_in_byte: 容量 (int64, 字节),
+            allocated_capacity_in_byte: 已分配容量 (int64, 字节),
+            hostGroups: 主机组信息 (List<HostGroupName>)。参数格式如下：[{
+                id: 主机组ID (string),
+                name: 主机组名称 (string),
+            }, ...],
+            azs: 可用区列表 (List<string>),
+        }
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/summary"
 
@@ -2323,7 +2461,19 @@ def physical_host_show_initiators(client: DMEAPIClient, host_id: str,
         status: 启动器状态 (可选, 1~32个字符)。可选值：UNKNOWN, ONLINE, OFFLINE, UNBOUND
 
     Returns:
-        启动器列表
+        {
+            total: 启动器数量 (int32),
+            initiators: 启动器列表 (List<InitiatorInHostResponse>)。参数格式如下：[{
+                id: 启动器ID (string),
+                port_name: 端口名称 (string),
+                status: 状态 (string),
+                protocol: 协议。可选值：iSCSI, FC, NVMe,
+                switch: 交换机信息。属性格式如下：{
+                    switch_id: 交换机ID (string),
+                    switch_name: 交换机名称 (string),
+                },
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/initiators"
 
@@ -2459,7 +2609,30 @@ def physical_host_query_by_initiator(client: DMEAPIClient, initiator_id: str = N
         protocol: 启动器类型（可选，FC/ISCSI/NVME_OVER_ROCE）
 
     Returns:
-        关联的物理主机信息
+        {
+            id: 物理主机ID (string),
+            name: 物理主机名称 (string),
+            ip: 物理主机IP (string),
+            description: 描述信息 (string),
+            display_status: 显示状态 (string),
+            managed_status: 管理状态 (string),
+            os_type: 操作系统类型 (string),
+            initiator_info: 启动器信息列表 (List<InitiatorInfo>)。参数格式如下：[{
+                id: 启动器ID (string),
+                port_name: 端口名称 (string),
+                status: 状态 (string),
+                protocol: 协议 (string),
+            }, ...],
+            lun_count: LUN数量 (int32),
+            storage_info: 存储信息列表 (List<StorageInfo>)。参数格式如下：[{
+                storage_id: 存储设备ID (string),
+                storage_name: 存储设备名称 (string),
+            }, ...],
+            multipath_type: 多路径类型 (string),
+            path_type: 路径类型 (string),
+            failover_mode: 故障切换模式 (string),
+            special_mode_type: 特殊模式类型 (string),
+        }
     """
     url = "/rest/hostmgmt/v1/hosts/query-by-initiator"
 
@@ -2669,7 +2842,22 @@ def physical_host_group_show_hosts(client: DMEAPIClient, hostgroup_id: str,
         page_no: 分页查询的页码 (可选, 1~10000000, 默认1)
 
     Returns:
-        物理主机列表
+        {
+            total: 主机数量 (int32),
+            hosts: 主机列表 (List<HostInHostGroupResponse>)。参数格式如下：[{
+                id: 物理主机ID (string),
+                name: 物理主机名称 (string),
+                ip: 物理主机IP (string),
+                port: 端口 (int32),
+                display_status: 显示状态 (string),
+                managed_status: 管理状态 (string),
+                os_status: 操作系统状态 (string),
+                os_type: 操作系统类型 (string),
+                os_version: 操作系统版本 (string),
+                manufacturer: 厂商 (string),
+                model: 型号 (string),
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/hosts/list"
 
