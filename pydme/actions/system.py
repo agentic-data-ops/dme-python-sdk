@@ -710,55 +710,39 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     """
     等待任务完成
 
-    轮询查询任务状态，直到任务完成或超时。
+    调用 DMEAPIClient.get_task_result 轮询任务状态，直到任务完成或超时。
+    Warning(7) 状态也视为任务已完成。
 
     Args:
         client: DME API 客户端
-        task_id: 任务 ID
-        timeout: 超时时间（秒），默认 300 秒
+        task_id: 任务 ID（必选，1~36 个字符）
+        timeout: 超时时间（秒），默认 300 秒。轮询次数 = timeout / poll_interval
         poll_interval: 轮询间隔（秒），默认 2 秒
 
     Returns:
         {
-            status: 任务状态 (string),
-            progress: 进度 (string),
-            result: 结果 (string),
+            id: 任务ID (string),
+            status: 任务状态 (integer)。可选值：3 (成功), 4 (部分成功), 5 (失败), 6 (超时), 7 (警告),
+            progress: 任务进度 (integer, 0~100),
+            name_en: 任务英文名称 (string),
+            name_cn: 任务中文名称 (string),
+            resources: 任务关联的资源列表 (List<AffectedResource>)。参数格式如下：[{
+                operate: 操作方式 (string)。可选值：CREATE, MODIFY, DELETE,
+                type: 受影响资源类型 (string),
+                id: 受影响资源ID (string),
+                name: 受影响资源名称 (string),
+            }, ...],
         }
-        status 说明：
-        - 3: 成功
-        - 4: 部分成功
-        - 5: 失败
-        - 6: 超时
+
+    Raises:
+        Exception: 任务查询超时（超过轮询次数仍未完成）
     """
-    start_time = time.time()
-
-    while True:
-        task_info = task_show(client, task_id)
-
-        # API 返回的是列表，获取根任务详情
-        for task in task_info:
-            if task["id"] == task_id:
-                root_task = task
-                break
-
-        status = root_task.get('status')
-
-        # 检查任务是否完成
-        if status in [3, 4, 5, 6]:  # 成功、部分成功、失败、超时
-            return root_task
-
-        # 检查是否超时
-        elapsed = time.time() - start_time
-        if elapsed >= timeout:
-            return {
-                'error': 'Task timeout',
-                'task_id': task_id,
-                'elapsed': elapsed,
-                'current_status': status
-            }
-
-        # 等待后继续轮询
-        time.sleep(poll_interval)
+    retry_times = max(1, timeout // poll_interval)
+    return client.get_task_result(
+        task_id,
+        retry_times=retry_times,
+        retry_interval=poll_interval,
+    )
 
 
 # ==================== 标签类型管理（tag_type 子主题） ====================
