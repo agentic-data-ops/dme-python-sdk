@@ -501,7 +501,12 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         end_time: 查询结束时刻(可选),仅 range 为 BEGIN_END_TIME 时生效,必须比 begin_time 大
 
     Returns:
-        历史性能数据,包含 status_code, error_code, error_msg, data
+        {
+            status_code: 状态码 (int32),
+            error_code: 错误码 (int32),
+            error_msg: 错误消息 (string),
+            data: 性能数据 (Map<object, Map<object, HistoryPerfData>>),
+        }
     """
     url = "/rest/metrics/v1/data-svc/history-data/action/query"
 
@@ -540,7 +545,12 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
                    可以是整数列表或字符串列表,如 [123, 456] 或 ["123", "456"]
 
     Returns:
-        监控指标信息,包含 kpi, data_type, data_unit, en_us, zh_cn 等字段
+        {
+            status_code: 状态码 (int32),
+            error_code: 错误码 (int32),
+            error_msg: 错误消息 (string),
+            data: 监控指标映射 (Map<object, SimpleIndicator>),
+        }
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
@@ -580,7 +590,19 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
                 如果提供,仅返回匹配的对象类型
 
     Returns:
-        监控对象类型列表,包含 obj_type_id, parent_obj_type_id, resource_category,
+        {
+            status_code: 状态码 (int32),
+            error_code: 错误码 (int32),
+            error_msg: 错误消息 (string),
+            data: 监控对象类型列表 (List<ObjectTypeBody>)。参数格式如下：[{
+                obj_type_id: 监控对象类型编号 (int64),
+                parent_obj_type_id: 父类型编号 (int64),
+                resource_category: 资源CI (string),
+                resource_provider: 资源提供者 (string),
+                en_us: 英文描述 (string),
+                zh_cn: 中文描述 (string),
+            }, ...],
+        }
         resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等字段
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types"
