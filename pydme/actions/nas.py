@@ -891,7 +891,27 @@ def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
         dc_name: 数据中心名称（可选），1~256 个字符
 
     Returns:
-        CIFS 共享列表
+        {
+            total: CIFS共享数量 (int32),
+            cifs_shares: CIFS共享列表 (List<CifsShare>)。参数格式如下：[{
+                id: 共享ID (string),
+                raw_id: 在设备上的ID (string),
+                name: 共享名称 (string),
+                share_path: 共享路径 (string),
+                description: 描述 (string),
+                vstore_raw_id: 租户ID (string),
+                vstore_name: 租户名称 (string),
+                fs_id: 文件系统ID (string),
+                fs_name: 文件系统名称 (string),
+                storage_id: 存储设备ID (string),
+                storage_name: 存储设备名称 (string),
+                storage_ip: 存储设备IP (string),
+                op_lock_enabled: 是否开启OPLock。可选值：true, false,
+                notify_enabled: 是否开启通知。可选值：true, false,
+                offline_file_mode: 离线文件模式 (string),
+                ca_enabled: 是否开启CA。可选值：true, false,
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/cifs-shares/query"
 
@@ -965,7 +985,26 @@ def cifs_share_show(client: DMEAPIClient, cifs_share_id: str) -> dict:
         cifs_share_id: CIFS 共享 ID
 
     Returns:
-        CIFS 共享详细信息
+        {
+            id: 共享ID (string),
+            raw_id: 在设备上的ID (string),
+            name: 共享名称 (string),
+            share_path: 共享路径 (string),
+            description: 描述 (string),
+            vstore_raw_id: 租户ID (string),
+            vstore_name: 租户名称 (string),
+            fs_id: 文件系统ID (string),
+            fs_name: 文件系统名称 (string),
+            storage_id: 存储设备ID (string),
+            storage_name: 存储设备名称 (string),
+            storage_ip: 存储设备IP (string),
+            op_lock_enabled: 是否开启OPLock。可选值：true, false,
+            notify_enabled: 是否开启通知。可选值：true, false,
+            offline_file_mode: 离线文件模式 (string),
+            ca_enabled: 是否开启CA。可选值：true, false,
+            abe_enabled: 是否开启ABE。可选值：true, false,
+            show_snapshot_enabled: 是否显示快照目录。可选值：true, false,
+        }
     """
     url = "/rest/fileservice/v1/cifs-shares/{cifs_share_id}"
 
@@ -1238,7 +1277,12 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
         page_size: 每页数据条数（可选），1~1000，默认 10
 
     Returns:
-        权限列表
+        {
+            permission_list: 权限列表。参数格式如下：[{
+                type: 权限类型 (string),
+                rules: 规则列表 (List),
+            }, ...],
+        }
     """
     result = {'user': [], 'ip': [], 'file': []}
 
@@ -1375,7 +1419,22 @@ def dataturbo_share_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
 
     Returns:
-        DataTurbo 共享列表
+        {
+            total: DataTurbo共享数量 (int32),
+            data: DataTurbo共享列表 (List<DpcShare>)。参数格式如下：[{
+                id: 共享ID (string),
+                raw_id: 在设备上的ID (string),
+                share_path: 共享路径 (string),
+                fs_id: 文件系统ID (string),
+                fs_name: 文件系统名称 (string),
+                storage_id: 存储设备ID (string),
+                storage_name: 存储设备名称 (string),
+                vstore_id: 租户ID (string),
+                vstore_raw_id: 租户在设备上的ID (string),
+                vstore_name: 租户名称 (string),
+                charset: 字符集 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/query"
 
@@ -1430,7 +1489,25 @@ def dataturbo_share_show(client: DMEAPIClient, dataturbo_share_id: str) -> dict:
         dataturbo_share_id: DataTurbo 共享 ID
 
     Returns:
-        DataTurbo 共享详细信息
+        {
+            id: 共享ID (string),
+            raw_id: 在设备上的ID (string),
+            description: 描述 (string),
+            share_path: 共享路径 (string),
+            fs_id: 文件系统ID (string),
+            fs_name: 文件系统名称 (string),
+            storage_id: 存储设备ID (string),
+            storage_name: 存储设备名称 (string),
+            storage_ip: 存储设备IP (string),
+            vstore_id: 租户ID (string),
+            vstore_raw_id: 租户在设备上的ID (string),
+            vstore_name: 租户名称 (string),
+            charset: 字符集 (string),
+            zone_id: 区域ID (string),
+            zone_name: 区域名称 (string),
+            zone_ip: 区域IP (string),
+            scope: 范围 (string),
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}"
 
@@ -1576,7 +1653,14 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
         permission: DataTurbo 管理员权限（可选），可选值：read_and_write（读写）
 
     Returns:
-        DataTurbo 共享管理员权限列表
+        {
+            total: 权限数量 (int32),
+            data: 权限列表 (List<DpcShareAuth>)。参数格式如下：[{
+                user_id: 用户ID (string),
+                user_name: 用户名称 (string),
+                permission: 权限 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}/dpc-share-auths/query"
 
@@ -1628,7 +1712,21 @@ def quota_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         zone_id: Zone id（可选），0~64 个字符，仅 OceanStor A800 存储支持
 
     Returns:
-        配额列表
+        {
+            total: 配额数量 (int32),
+            datas: 配额列表 (List<QuotaListItem>)。参数格式如下：[{
+                id: 配额ID (string),
+                raw_id: 在设备上的ID (string),
+                quota_type: 配额类型 (string),
+                parent_type: 父对象类型 (string),
+                owner_name: 属主名称 (string),
+                space_soft_quota: 空间软配额 (string),
+                space_hard_quota: 空间硬配额 (string),
+                space_hard_used_rate: 空间硬配额使用率 (string),
+                file_hard_quota: 文件数硬配额 (string),
+                file_hard_used: 文件数已使用 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/quotas/query"
 
@@ -1675,7 +1773,17 @@ def quota_show(client: DMEAPIClient, quota_id: str) -> dict:
         quota_id: 配额 ID
 
     Returns:
-        配额详细信息
+        {
+            id: 配额ID (string),
+            raw_id: 在设备上的ID (string),
+            quota_type: 配额类型 (string),
+            parent_type: 父对象类型 (string),
+            owner_name: 属主名称 (string),
+            space_soft_quota: 空间软配额 (string),
+            space_hard_quota: 空间硬配额 (string),
+            file_hard_quota: 文件数硬配额 (string),
+            file_hard_used: 文件数已使用 (string),
+        }
     """
     url = "/rest/fileservice/v1/quotas/query"
 
@@ -1912,7 +2020,31 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         },...]
 
     Returns:
-        文件系统列表
+        {
+            total: 文件系统数量 (int32),
+            data: 文件系统列表 (List<FileSystemSummary>)。参数格式如下：[{
+                id: 文件系统ID (string),
+                fs_raw_id: 在设备上的ID (string),
+                name: 名称 (string),
+                description: 描述 (string),
+                health_status: 健康状态 (string),
+                running_status: 运行状态 (string),
+                alloc_type: 分配类型。可选值：thin, thick,
+                type: 类型 (string),
+                protection: 保护状态 (string),
+                capacity: 容量 (string),
+                available_capacity: 可用容量 (string),
+                total_capacity_in_byte: 总容量 (int64, 字节),
+                available_capacity_in_byte: 可用容量 (int64, 字节),
+                nfs_count: NFS共享数 (int32),
+                cifs_count: CIFS共享数 (int32),
+                dpc_count: DPC客户端数 (int32),
+                dtree_count: dtree数 (int32),
+                storage_id: 存储设备ID (string),
+                storage_name: 存储设备名称 (string),
+                storage_ip: 存储设备IP (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/filesystems/query"
 
@@ -1991,7 +2123,29 @@ def filesystem_show(client: DMEAPIClient, filesystem_id: str) -> dict:
         filesystem_id: 文件系统 ID
 
     Returns:
-        文件系统详细信息
+        {
+            id: 文件系统ID (string),
+            fs_raw_id: 在设备上的ID (string),
+            name: 名称 (string),
+            description: 描述 (string),
+            health_status: 健康状态 (string),
+            running_status: 运行状态 (string),
+            alloc_type: 分配类型。可选值：thin, thick,
+            type: 类型 (string),
+            protection: 保护状态 (string),
+            capacity: 容量 (string),
+            available_capacity: 可用容量 (string),
+            total_capacity_in_byte: 总容量 (int64, 字节),
+            available_capacity_in_byte: 可用容量 (int64, 字节),
+            nfs_count: NFS共享数 (int32),
+            cifs_count: CIFS共享数 (int32),
+            dpc_count: DPC客户端数 (int32),
+            dtree_count: dtree数 (int32),
+            storage_id: 存储设备ID (string),
+            storage_name: 存储设备名称 (string),
+            storage_ip: 存储设备IP (string),
+            storage_type: 存储设备类型 (string),
+        }
     """
     url = "/rest/fileservice/v1/filesystems/{filesystem_id}"
 
@@ -2296,7 +2450,14 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
         sort_dir: 排序方向，asc（升序）或 desc（降序）
 
     Returns:
-        可用文件系统列表
+        {
+            total: 可用文件系统数量 (int32),
+            available_filesystems: 可用文件系统列表 (List<AvailableFilesystemResponse>)。参数格式如下：[{
+                id: 文件系统ID (string),
+                name: 文件系统名称 (string),
+                capacity: 容量 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/filesystems/available-filesystems/query"
 
@@ -2592,22 +2753,23 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         namespace_id: 命名空间 ID（必选，1~64 个字符）
     
     Returns:
-        命名空间详细信息，包含：
-        - id: 命名空间 ID
-        - raw_id: 命名空间在存储设备上的 ID
-        - name: 命名空间名称
-        - storage_id: 存储设备 ID
-        - vstore_id: 租户 ID
-        - vstore_name: 租户名称
-        - pool_id: 存储池 ID
-        - pool_name: 存储池名称
-        - running_status: 运行状态（NORMAL/UNKNOWN）
-        - space_used_rate: 空间使用率
-        - file_used_rate: 文件使用率
-        - space_used: 已使用空间
-        - file_used: 已使用文件数
-        - trash_enable: 是否开启回收站
-        - enable_encrypt: 是否开启加密
+        {
+            id: 命名空间ID (string),
+            raw_id: 在存储设备上的ID (string),
+            name: 命名空间名称 (string),
+            storage_id: 存储设备ID (string),
+            vstore_id: 租户ID (string),
+            vstore_name: 租户名称 (string),
+            pool_id: 存储池ID (string),
+            pool_name: 存储池名称 (string),
+            running_status: 运行状态。可选值：NORMAL, UNKNOWN,
+            space_used_rate: 空间使用率 (string),
+            file_used_rate: 文件使用率 (string),
+            space_used: 已使用空间 (string),
+            file_used: 已使用文件数 (string),
+            trash_enable: 是否开启回收站 (string),
+            enable_encrypt: 是否开启加密 (string),
+        }
         - rdc: 数据冗余份数
         - acl_policy_type: 安全模式
         - gfs_id: 全局命名空间 ID
@@ -2997,7 +3159,16 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         sort_dir: 排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
 
     Returns:
-        客户端访问列表
+        {
+            total: 客户端数量 (int32),
+            auth_client_list: 客户端访问列表 (List<AuthClientV2>)。参数格式如下：[{
+                client_id_in_storage: 客户端在设备的ID (string),
+                nfs_share_id_in_storage: NFS共享在设备的ID (string),
+                name: 客户端名称 (string),
+                permission: 权限 (string),
+                accesskrb5: Kerberos认证 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v2/nfs-auth-clients/query"
 
@@ -3053,7 +3224,14 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         page_size: 单页显示的数量 (int32, 最小值: 1, 最大值: 1000, 默认值: 20, 可选)
 
     Returns:
-        DataTurbo 管理员列表，包含 total 和 administrators
+        {
+            total: 管理员数量 (integer),
+            administrators: 管理员列表 (List<AdministratorQueryResp>)。参数格式如下：[{
+                id: 管理员ID (string),
+                name: 管理员名称 (string),
+                type: 管理员类型 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/dpc-administrators/query"
 
@@ -3219,7 +3397,14 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
 
     Returns:
-        UNIX 认证用户组列表
+        {
+            total: 用户组数量 (int32),
+            groups: UNIX认证用户组列表 (List<UnixUserGroup>)。参数格式如下：[{
+                id: 用户组ID (string),
+                name: 用户组名 (string),
+                gid: 组GID (int32),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/unix-user-groups/query"
 
@@ -3260,7 +3445,12 @@ def account_unix_user_group_show(client: DMEAPIClient, id: str) -> dict:
         id: 用户组 ID (1~32个字符, 必填)
 
     Returns:
-        UNIX 用户组详情
+        {
+            id: 用户组ID (string),
+            name: 用户组名 (string),
+            gid: 组GID (int32),
+            description: 描述 (string),
+        }
     """
     url = "/rest/fileservice/v1/unix-user-groups/{id}"
 
@@ -3349,7 +3539,13 @@ def account_unix_user_show(client: DMEAPIClient, id: str) -> dict:
         id: 用户 ID (1~32个字符, 必填)
 
     Returns:
-        UNIX 认证用户详情
+        {
+            id: 用户ID (string),
+            name: 用户名 (string),
+            uid: 用户UID (int32),
+            primary_group_name: 主组名称 (string),
+            description: 描述 (string),
+        }
     """
     url = "/rest/fileservice/v1/unix-users/{id}"
 
@@ -3384,7 +3580,15 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         sort_dir: 指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：desc
 
     Returns:
-        UNIX 认证用户列表
+        {
+            total: 用户数量 (int32),
+            users: UNIX认证用户列表 (List<UnixUser>)。参数格式如下：[{
+                id: 用户ID (string),
+                name: 用户名 (string),
+                uid: 用户UID (int32),
+                primary_group_name: 主组名称 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/unix-users/query"
 
@@ -3633,7 +3837,15 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         sort_key: 排序参数 (可选)。可选值：capacity (总容量), used_capacity (已用容量), used_tokens (已使用的 token 数量), hit_ratio (命中率)
 
     Returns:
-        KV Cache 库列表
+        {
+            total: KV Cache库数量 (int32),
+            kv_cache_stores: KV Cache库列表 (List<KVCacheStore>)。参数格式如下：[{
+                id: 库ID (string),
+                name: 库名称 (string),
+                status: 状态 (string),
+                capacity: 容量 (string),
+            }, ...],
+        }
     """
     url = "/rest/kvcachemgmt/v1/kv-cache-stores/query"
 
