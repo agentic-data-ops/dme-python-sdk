@@ -85,11 +85,9 @@
   ],
   "san": [
     "lun_delete",
-    "lun_expand",
     "lun_group_delete",
     "lun_group_remove_luns",
     "lun_modify",
-    "lun_modify_name",
     "mapping_view_delete",
     "physical_host_delete",
     "physical_host_group_delete",
