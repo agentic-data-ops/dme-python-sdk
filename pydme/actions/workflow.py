@@ -116,7 +116,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
         instance_id: 实例的 id（必选，1~64 个字符）
     
     Returns:
-        无
+        操作结果
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/stop"
     
