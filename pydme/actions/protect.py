@@ -38,11 +38,31 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
 
     Returns:
         {
-            total: 保护组总数 (integer),
-            protection_groups: 保护组列表 (List<ProtectionGroupInfo>)。参数格式如下：[{
-                id: 保护组ID (string),
-                name: 保护组名称 (string),
-                status: 状态 (string),
+            total: 保护组总数 (int32),
+            groups: 保护组列表 (List<ProtectionGroupResponse>)。参数格式如下：[{
+                id: 保护组唯一标识ID (string, 1~64个字符),
+                name: 保护组名称 (string, 1~256个字符),
+                description: 保护组描述 (string, 0~255个字符),
+                raw_id: 保护组在设备上的ID (string, 1~64个字符),
+                storage_id: 所属存储设备ID (string, 1~64个字符),
+                storage_sn: 所属存储设备SN号 (string, 1~64个字符),
+                storage_name: 所属存储设备名称 (string, 1~255个字符),
+                storage_ip: 所属存储设备IP (string, 1~64个字符),
+                local_copy_count: 本地副本数量 (int32),
+                remote_copy_count: 远端副本数量 (int32),
+                cloud_copy_count: 云备份副本数量 (int32),
+                snapshot_consistency_group_count: 快照一致性组数量 (int32),
+                clone_consistency_group_count: 克隆一致性组数量 (int32),
+                cdp_consistency_group_count: HyperCDP一致性组数量 (int32),
+                dring_consistency_group_count: 环形3DC一致性组数量 (int32),
+                metro_consistency_group_count: 双活一致性组数量 (int32),
+                rep_consistency_group_count: 远程复制一致性组数量 (int32),
+                project_id: 所属业务群组ID (string),
+                lun_group_raw_id: LUN组在设备上的ID (int32, -1~16383),
+                lun_group_name: LUN组名称 (string, 1~255个字符),
+                vstore_id: 所属租户ID (string),
+                vstore_raw_id: 所属租户在设备上的ID (string),
+                vstore_name: 所属租户名称 (string),
             }, ...],
         }
     """
@@ -287,7 +307,38 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         remote_vstore_raw_id: 所属远端租户在设备上的 ID，该参数和 remote_vstore_id 互斥
 
     Returns:
-        双活一致性组列表
+        {
+            total: 双活一致性组数量 (int32),
+            groups: 双活一致性组列表 (List<HyperMetroGroupResponse>)。参数格式如下：[{
+                id: 双活一致性组唯一标识 (string, 1~64个字符),
+                raw_id: 在设备上的ID (string, 1~64个字符),
+                name: 名称 (string, 1~255个字符),
+                local_storage_id: 本端存储设备ID (string, 1~64个字符),
+                local_storage_name: 本端存储设备名称 (string, 1~256个字符),
+                local_vstore_id: 所属本端租户ID (string),
+                local_vstore_raw_id: 所属本端租户在设备上的ID (string),
+                local_vstore_name: 所属本端租户名称 (string),
+                remote_storage_id: 远端存储设备ID (string, 0~64个字符),
+                remote_storage_name: 远端存储设备名称 (string, 0~256个字符),
+                remote_vstore_id: 所属远端租户ID (string),
+                remote_vstore_raw_id: 所属远端租户在设备上的ID (string),
+                remote_vstore_name: 所属远端租户名称 (string),
+                domain_name: 双活域名称 (string, 0~64个字符),
+                domain_raw_id: 双活域在设备上的ID (string, 0~64个字符),
+                health_status: 健康状态。可选值：unknown (未知), normal (正常), fault (故障),
+                running_status: 运行状态。可选值：normal (正常), synchronizing (同步中), invalid (失效), paused (暂停), forcibly_started (强制启动), to_be_synchronized (待同步), error (故障), unknown (未知),
+                recovery_policy: 恢复策略。可选值：automatic (自动恢复), manual (手动恢复),
+                priority_station_type: 优先站点类型。可选值：preferred (优先站点), non_preferred (非优先站点),
+                speed: 同步速率。可选值：low, medium, high, highest, custom,
+                bandwidth: 自定义同步速率 (int32, 1~1024 MB/s),
+                sync_direction: 数据同步方向。可选值：no_data_synchronization, local_to_remote, remote_to_local,
+                activation_state: 激活状态。可选值：active (激活), passive (未激活),
+                local_protect_group_name: 本端保护组名称 (string, 0~255个字符),
+                remote_protect_group_name: 远端保护组名称 (string, 0~255个字符),
+                isolation_enabled: 隔离开关。可选值：true (打开), false (关闭),
+                isolation_threshold_time: 隔离阈值 (int32, 10~30000ms),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/metro/groups/query"
 
@@ -609,7 +660,50 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         remote_volume_name: 远端 LUN 名称，支持模糊匹配
 
     Returns:
-        双活 Pair 列表
+        {
+            total: LUN双活Pair数量 (int32),
+            hypermetro_pairs: LUN双活Pair列表 (List<HyperMetroPairResponse>)。参数格式如下：[{
+                id: LUN双活Pair唯一标识 (string, 1~64个字符),
+                pair_raw_id: 在存储设备上的ID (string, 1~64个字符),
+                local_volume_raw_id: 本端LUN在设备上的ID (string, 1~64个字符),
+                local_volume_name: 本端LUN名称 (string, 1~255个字符),
+                remote_volume_raw_id: 远端LUN在设备上的ID (string, 1~64个字符),
+                remote_volume_name: 远端LUN名称 (string, 1~255个字符),
+                domain_raw_id: 双活域在设备上的ID (string, 0~64个字符),
+                domain_name: 双活域名称 (string, 0~64个字符),
+                volume_wwn: 本端LUN的WWN (string, 1~64个字符),
+                health_status: 健康状态。可选值：unknown (未知), normal (正常), fault (故障),
+                running_status: 运行状态。可选值：normal (正常), synchronizing (同步中), invalid (失效), pause (暂停), forced_start (强制启动), to_be_synchronized (待同步), unknown (未知), error (故障),
+                link_status: 链路状态。可选值：connected (已连接), disconnected (未连接), unknown (未知),
+                recovery_policy: 恢复策略。可选值：automatic (自动), manual (手动),
+                priority_station_type: 优先站点类型。可选值：preferred, non_preferred,
+                local_storage_id: 本端存储设备ID (string, 1~64个字符),
+                local_storage_name: 本端存储设备名称 (string, 1~255个字符),
+                local_vstore_id: 所属本端租户ID (string),
+                local_vstore_raw_id: 所属本端租户在设备上的ID (string),
+                local_vstore_name: 所属本端租户名称 (string),
+                remote_storage_id: 远端存储设备ID (string, 0~64个字符),
+                remote_storage_name: 远端端存储设备名称 (string, 0~255个字符),
+                remote_vstore_id: 所属远端租户ID (string),
+                remote_vstore_raw_id: 所属远端租户在设备上的ID (string),
+                remote_vstore_name: 所属远端租户名称 (string),
+                is_in_group: 是否属于一致性组。可选值：true, false,
+                group_id: 所属双活一致性组ID (string, 0~64个字符),
+                group_raw_id: 所属一致性组在设备上的ID (string, 0~64个字符),
+                group_name: 所属一致性组名称 (string, 0~255个字符),
+                speed: 同步速率。可选值：low, medium, high, highest,
+                sync_start_time: 最后一次同步启动时间 (string),
+                sync_end_time: 最后一次同步结束时间 (string),
+                local_data_state: 本端资源数据状态。可选值：consistent (完整), inconsistent (不完整),
+                remote_data_state: 远端资源数据状态。可选值：consistent (完整), inconsistent (不完整),
+                local_host_access_state: 本端资源主机访问状态。可选值：access_forbidden, read_only, read_write,
+                remote_host_access_state: 远端资源主机访问状态。可选值：access_forbidden, read_only, read_write,
+                sync_left_time: 同步完成剩余时间 (string),
+                sync_direction: 数据同步方向。可选值：no_data_synchronization, local_to_remote, remote_to_local,
+                progress: 同步进度 (int32),
+                activation_state: 激活状态。可选值：active (激活), passive (未激活),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/query"
 
@@ -904,7 +998,33 @@ def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
         types: 双活域类型列表
 
     Returns:
-        双活域列表
+        {
+            metro_domain_list: 双活域列表 (List<MetroDomain>)。参数格式如下：[{
+                id: 双活域ID (string),
+                storage_id: 设备ID (string),
+                storage_name: 设备名称 (string, 1~64个字符),
+                ip_address: 设备的IP地址 (string),
+                domain_id: 双活域在设备的ID (string, 1~32个字符),
+                domain_name: 双活域名称 (string, 1~64个字符),
+                running_status: 运行状态。可选值：normal, to_be_recovered, invalid, recovering, faulty, split, force_started,
+                domain_type: 双活域模式。可选值：AA_mode, AP_mode,
+                type: 双活域使用类型。可选值：block, file_system, block_file_system,
+                cp_type: 仲裁类型。可选值：quorum_server, quorum_disk, none,
+                cps_name: 仲裁服务器名称 (string, 1~64个字符),
+                cps_running_status: 仲裁服务器运行状态。可选值：online, offline,
+                standby_cps_name: 备用仲裁服务器名称 (string, 1~64个字符),
+                server_ip_master: 仲裁服务器IP地址 (string),
+                server_ip_slave: 备选仲裁服务器IP地址 (string),
+                iscsi_link_num: ISCSI链路数量 (integer),
+                fc_link_num: FC链路数量 (integer),
+                ip_link_num: IP链路数量 (integer),
+                remote_storage_id: 远端设备ID (string),
+                remote_storage_name: 远端设备名称 (string, 1~64个字符),
+                remote_storage_ip: 远端设备IP地址 (string),
+                remote_dev_running_status: 远端设备运行状态。可选值：link_up, link_down, disabled, connecting, air_gap_link_down,
+                config_role: 配置角色。可选值：active_site, standby_site,
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/hyper-metro-domains/query"
 
@@ -950,7 +1070,49 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         remote_volume_name: 远端 LUN 名称，支持模糊匹配
 
     Returns:
-        复制 Pair 列表
+        {
+            total: 复制Pair数量 (int32),
+            replication_pairs: 复制Pair列表 (List<ReplicationPairResponse>)。参数格式如下：[{
+                id: 复制Pair唯一标识 (string, 1~64个字符),
+                raw_id: 在存储设备上的ID (string, 1~64个字符),
+                local_storage_id: 本端存储设备ID (string, 1~64个字符),
+                local_storage_name: 本端设备名称 (string, 1~255个字符),
+                local_resource_raw_id: 本端资源在设备上的ID (string, 1~64个字符),
+                local_resource_name: 本端资源名称 (string, 1~255个字符),
+                remote_storage_id: 远端存储设备ID (string, 1~64个字符),
+                remote_storage_name: 远端存储设备名称 (string, 1~255个字符),
+                remote_resource_raw_id: 远端资源在设备上的ID (string, 1~64个字符),
+                remote_resource_name: 远端资源名称 (string, 1~255个字符),
+                local_resource_type: 本端资源类型。可选值：lun (卷), file_system (文件系统),
+                local_vstore_raw_id: 本端资源所属租户在设备上的ID (string, 1~64个字符),
+                remote_vstore_raw_id: 远端资源所属租户在设备上的ID (string, 1~64个字符),
+                health_status: 健康状态。可选值：unknown (未知), normal (正常), fault (故障),
+                running_status: 运行状态。可选值：normal, synchronizing, to_be_recoverd, interrupted, splited, invalid, standby, air_gap_link_down,
+                replication_mode: 复制模式。可选值：synchronous (同步复制), asynchronous (异步复制),
+                speed: 速率。可选值：low, medium, high, highest, custom,
+                bandwidth: 自定义同步速率 (int32, MB/s),
+                synchronize_type: 同步类型。可选值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy,
+                interval: 数据同步周期 (integer, 0~86400秒),
+                sync_left_time: 同步完成剩余时间 (string),
+                recovery_policy: 恢复策略。可选值：automatic (自动恢复), manual (手动恢复),
+                is_primary: 本端是否是主端。可选值：true, false,
+                rep_io_timeout: 远端IO超时时间 (integer, 10~255秒),
+                enable_compress: 链路压缩。可选值：true (压缩), false (不压缩),
+                compress_valid: 压缩是否有效。可选值：true, false,
+                sync_start_time: 最后一次同步启动时间 (string),
+                sync_end_time: 最后一次同步结束时间 (string),
+                is_in_group: 是否属于一致性组。可选值：true, false,
+                group_id: 所属远程复制一致性组ID (string, 1~64个字符),
+                group_raw_id: 所属一致性组在设备上的ID (string, 1~64个字符),
+                group_name: 所属一致性组名称 (string, 1~255个字符),
+                data_consistent_status: 主从数据是否一致。可选值：true, false,
+                primary_resource_data_status: 主端资源数据状态。可选值：synchronized, complete, incomplete, unknown,
+                secondary_resource_data_status: 从端资源数据状态。可选值：synchronized, complete, incomplete, unknown,
+                secondary_resource_protection: 从端资源读写设置。可选值：access_denied, read_only, read_write,
+                dr_ring_id: 环形3DC对象在设备上的ID (string, 1~64个字符),
+                progress: 同步进度 (int32, -1~100),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/replication/pairs/query"
 
@@ -1264,7 +1426,30 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: 存储设备 ID
 
     Returns:
-        设备 Pairs 列表
+        {
+            total: 设备Pair的数量 (int32),
+            device_pairs: 设备Pair列表 (List<DevicePairInfo>)。参数格式如下：[{
+                id: 设备Pair的ID (string, 1~64个字符),
+                local_storage_sn: 本端设备SN号 (string, 0~32个字符),
+                remote_storage_sn: 远端设备SN号 (string, 0~32个字符),
+                local_storage_ip: 本端设备的IP (string, 1~64个字符),
+                local_storage_name: 本端设备名称 (string, 0~255个字符),
+                local_storage_model: 本端设备的型号 (string, 0~32个字符),
+                local_storage_version: 本端设备的版本号 (string, 0~32个字符),
+                remote_storage_identifier: 远端设备在本端设备上的标识ID (string, 0~32个字符),
+                remote_storage_name: 远端设备的名称 (string, 0~255个字符),
+                remote_storage_wwn: 远端设备WWN号 (string, 0~64个字符),
+                remote_storage_vendor: 远端设备的厂商 (string, 0~32个字符),
+                remote_storage_ip: 远端设备的IP (string, 1~64个字符),
+                remote_storage_model: 远端设备的型号 (string, 0~32个字符),
+                remote_storage_type: 远端设备的类型。可选值：replication_device, heterogeneous_device, unknown_device, cloud_replication_device,
+                remote_storage_version: 远端设备的版本号 (string, 0~32个字符),
+                running_status: 运行状态。可选值：link_up (已连接), link_down (未连接), disabled (已禁用), connecting (正在连接), air_gap_link_down (Air Gap断开),
+                health_status: 健康状态。可选值：normal (正常), fault (故障), invalid (失效),
+                compress_alg_valid: 数据压缩状态是否有效。可选值：true, false,
+                compress_algorithm: 数据压缩策略。可选值：depth_compression, fast_compression, invalid, fault,
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/device-pairs/query"
 
@@ -1286,7 +1471,16 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: 存储设备 ID
 
     Returns:
-        复制链路列表
+        {
+            total: 复制链路数量 (int32),
+            replication_links: 复制链路列表 (List<ReplicationLinkInfo>)。参数格式如下：[{
+                id: 复制链路的ID (string, 1~64个字符),
+                link_type: 链路类型。可选值：fc_link (FC链路), ip_link (IP链路),
+                local_storage_id: 本端存储设备ID (string, 1~64个字符),
+                health_status: 健康状态。可选值：normal (正常), fault (故障),
+                running_status: 运行状态。可选值：link_up (已连接), link_down (未连接), disabled (已禁用), connecting (正在连接), air_gap_link_down (Air Gap断开),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/replication-links/query"
 
@@ -1327,7 +1521,35 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         page_size: 每页数量，1~1000，默认 20
 
     Returns:
-        LUN 快照列表
+        {
+            total: LUN快照数量 (int32),
+            snapshots: LUN快照列表 (List<LunSnapshotInfo>)。参数格式如下：[{
+                id: 快照ID (string, 1~64个字符),
+                raw_id: 快照在存储设备上的ID (string, 1~64个字符),
+                name: 快照名称 (string, 1~255个字符),
+                parent_type: 父对象类型。可选值：lun (LUN), snapshot (快照),
+                parent_id: 父对象ID (string, 1~64个字符),
+                parent_raw_id: 父对象在存储设备上的ID (string, 1~64个字符),
+                parent_name: 父对象名称 (string, 1~255个字符),
+                health_status: 健康状态。可选值：normal (正常), fault (故障), write_protected (写保护),
+                running_status: 运行状态。可选值：activated (已激活), rolling_back (正在回滚), unactivated (未激活), initializing (初始化中), deleting (删除中), unknown (未知),
+                description: 快照描述信息 (string, 0~255个字符),
+                activated_time: 快照激活时间 (int64),
+                rollback_start_time: 回滚开始时间 (int64),
+                rollback_end_time: 回滚结束时间 (int64),
+                rollback_speed: 回滚速率。可选值：low, medium, high, highest, unknown,
+                rollback_rate: 回滚进度 (int32, -1~100),
+                is_mapped: 映射状态。可选值：true (映射), false (未映射),
+                wwn: WWN (string, 1~64个字符),
+                user_capacity: 快照的用户容量 (int64, 字节),
+                consumed_capacity: 快照实际消耗的容量 (int64, 字节),
+                snapshot_cg_id: 快照一致性组ID (string, 1~64个字符),
+                snapshot_cg_name: 快照一致性组名称 (string, 1~255个字符),
+                source_lun_id: 源LUN ID (string, 1~64个字符),
+                source_lun_name: 源LUN名称 (string, 1~255个字符),
+                storage_id: 存储设备ID (string, 1~64个字符),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/lun-snapshots/query"
 
@@ -2148,11 +2370,36 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
     Returns:
         {
-            total: 总数 (integer),
-            filesystem_pairs: 文件系统双活Pair列表。参数格式如下：[{
-                id: Pair ID (string),
-                name: 名称 (string),
-                status: 状态 (string),
+            total: 文件系统双活Pair的总数 (int32),
+            file_system_pairs: 文件系统双活Pair列表 (List<FileSystemHyperMetroPair>)。参数格式如下：[{
+                id: 文件系统双活Pair的ID (string),
+                pair_raw_id: 在存储设备上的ID (string),
+                local_filesystem_raw_id: 本端文件系统在设备上的ID (string),
+                local_filesystem_name: 本端文件系统名称 (string),
+                remote_filesystem_raw_id: 远端文件系统在设备上的ID (string),
+                remote_filesystem_name: 远端文件系统名称 (string),
+                domain_raw_id: 双活域在存储设备上的ID (string),
+                domain_name: 双活域名称 (string),
+                health_status: 健康状态。可选值：unknown (未知), normal (正常), fault (故障),
+                running_status: 运行状态。可选值：normal, synchronizing, invalid, pause, forced_start, to_be_synchronized, unknown, error, creating, deleting,
+                recovery_policy: 恢复策略。可选值：automatic (自动), manual (手动), unknown (未知),
+                link_status: 链路状态。可选值：connected (已连接), disconnected (未连接), unknown (未知),
+                is_primary: 是否为优先站点。可选值：true, false,
+                local_storage_id: 本端存储设备ID (string),
+                remote_storage_id: 远端存储设备ID (string),
+                speed: 同步速率。可选值：low, medium, high, highest, custom,
+                bandwidth: 自定义同步速率 (int32, MB/s),
+                start_time: 最后一次同步启动时间 (string),
+                end_time: 最后一次同步结束时间 (string),
+                local_data_state: 本端数据状态。可选值：consistent (完整), inconsistent (不完整),
+                remote_data_state: 远端数据状态。可选值：consistent (完整), inconsistent (不完整),
+                local_host_access_state: 本端主机访问状态。可选值：access_forbidden, read_only, read_write, invalid, blocked, unknown,
+                remote_host_access_state: 远端主机访问状态。可选值：access_forbidden, read_only, read_write, invalid, blocked, unknown,
+                sync_lefttime: 同步完成剩余时间 (string),
+                sync_direction: 同步方向。可选值：no_data_synchronization, local_to_remote, remote_to_local,
+                sync_progress: 同步进度 (string),
+                activation_state: 激活状态。可选值：active (激活), passive (未激活),
+                vstore_pair_id: 所属租户Pair的ID (string),
             }, ...],
         }
     """
@@ -2328,8 +2575,8 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
 
     Returns:
         {
-            total: 总数 (integer),
-            snapshots: 文件系统快照列表。参数格式如下：[{
+            total: 文件系统快照总数 (int32),
+            snapshots: 文件系统快照列表 (List<FsSnapshotInfo>)。参数格式如下：[{
                 id: 快照ID (string),
                 name: 快照名称 (string),
                 status: 状态 (string),
@@ -2476,11 +2723,24 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
 
     Returns:
         {
-            total: 总数 (integer),
-            vstore_pairs: 双活租户Pair列表。参数格式如下：[{
-                id: Pair ID (string),
-                name: 名称 (string),
-                status: 状态 (string),
+            total: 双活租户Pair的数量 (int32),
+            vstore_pairs: 双活租户Pair的列表信息 (List<VstorePairListItem>)。参数格式如下：[{
+                id: 双活租户Pair的ID (string),
+                raw_id: 在存储设备上的ID (string),
+                local_vstore_name: 本端租户的名称 (string),
+                local_vstore_raw_id: 本端租户在存储设备的ID (string),
+                local_storage_id: 本端存储设备ID (string),
+                remote_vstore_name: 远端租户的名称 (string),
+                remote_vstore_raw_id: 远端租户在存储设备的ID (string),
+                remote_storage_id: 远端存储设备ID (string),
+                domain_id: 所属双活域的ID (string),
+                domain_name: 所属双活域的名称 (string),
+                running_status: 运行状态。可选值：normal (正常), unsynchronized (未同步), invalid (失效), force_start (强制启动), split (分裂),
+                config_status: 配置状态。可选值：normal (正常), synchronizing (同步中), to_be_synchronized (待同步),
+                health_status: 健康状态。可选值：unknown (未知), normal (正常), fault (故障),
+                link_status: 链路状态。可选值：connected (已连接), disconnected (未连接),
+                role: 角色。可选值：preferred (优先站点), non_preferred (非优先站点),
+                active_status: 激活状态。可选值：active (激活), passive (未激活),
             }, ...],
         }
     """
