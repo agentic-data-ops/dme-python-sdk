@@ -81,7 +81,15 @@ def cpu_list(client: DMEAPIClient, server_id: str,
         limit: 分页数量，默认 100
 
     Returns:
-        CPU 列表
+        {
+            total: CPU数量 (int32),
+            cpus: CPU列表 (List<CpuInfo>)。参数格式如下：[{
+                id: CPU ID (string),
+                name: 名称 (string),
+                cores: 核数 (int32),
+                frequency: 频率 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/processors/query"
 
@@ -107,7 +115,14 @@ def memory_list(client: DMEAPIClient, server_id: str,
         limit: 分页数量，默认 100
     
     Returns:
-        内存列表
+        {
+            total: 内存条数量 (int32),
+            memories: 内存列表 (List<MemoryInfo>)。参数格式如下：[{
+                id: 内存ID (string),
+                name: 名称 (string),
+                capacity: 容量 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/memories/query"
     
@@ -133,7 +148,15 @@ def disk_list(client: DMEAPIClient, server_id: str,
         limit: 分页数量，默认 100
     
     Returns:
-        硬盘列表
+        {
+            total: 硬盘数量 (int32),
+            disks: 硬盘列表 (List<DiskInfo>)。参数格式如下：[{
+                id: 硬盘ID (string),
+                name: 名称 (string),
+                capacity: 容量 (string),
+                health_status: 健康状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/disks/query"
     
@@ -159,7 +182,15 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
         page_size: 每页数量，5~1000，默认 20
 
     Returns:
-        网卡列表
+        {
+            total: 网卡数量 (int32),
+            nics: 网卡列表 (List<NicInfo>)。参数格式如下：[{
+                id: 网卡ID (string),
+                name: 名称 (string),
+                mac: MAC地址 (string),
+                speed: 速率 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/network-adapters/query"
 
@@ -187,7 +218,15 @@ def fan_list(client: DMEAPIClient, server_id: str,
         limit: 分页数量，默认 100
     
     Returns:
-        风扇列表
+        {
+            total: 风扇数量 (int32),
+            fans: 风扇列表 (List<FanInfo>)。参数格式如下：[{
+                id: 风扇ID (string),
+                name: 名称 (string),
+                speed: 转速 (string),
+                health_status: 健康状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/fans/query"
     
@@ -213,7 +252,15 @@ def power_list(client: DMEAPIClient, server_id: str,
         limit: 分页数量，默认 100
     
     Returns:
-        电源列表
+        {
+            total: 电源数量 (int32),
+            powers: 电源列表 (List<PowerInfo>)。参数格式如下：[{
+                id: 电源ID (string),
+                name: 名称 (string),
+                status: 状态 (string),
+                health_status: 健康状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/powers/query"
     
@@ -239,7 +286,14 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
         limit: 分页数量，默认 100
     
     Returns:
-        RAID 卡列表
+        {
+            total: RAID卡数量 (int32),
+            raid_cards: RAID卡列表 (List<RaidCardInfo>)。参数格式如下：[{
+                id: RAID卡ID (string),
+                name: 名称 (string),
+                model: 型号 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/raid-cards/query"
     
@@ -265,7 +319,14 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
         limit: 分页数量，默认 100
     
     Returns:
-        PCIe 卡列表
+        {
+            total: PCIe卡数量 (int32),
+            pcie_cards: PCIe卡列表 (List<PcieCardInfo>)。参数格式如下：[{
+                id: PCIe卡ID (string),
+                name: 名称 (string),
+                type: 类型 (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/pcies/query"
     
