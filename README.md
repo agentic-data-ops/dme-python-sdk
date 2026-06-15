@@ -185,26 +185,6 @@ alarms = alarm_list(client)
 - **关键字参数**：动作特定参数（详见函数文档）
 - **返回值**：包含 API 响应的 `dict`
 
-可用主题模块及常用函数：
-
-| 模块 | 示例函数 | 描述 |
-|--------|-----------------|-------------|
-| `aiops` | `aiops.alarm_list()` | AIOps 智能运维（告警/性能/健康度/拓扑） |
-| `backup` | `backup.cluster_list()` | 数据备份管理 |
-| `fc_switch` | `fc_switch.zone_list()` | FC 光纤交换机管理 |
-| `gfs` | `gfs.namespace_list()` | 全局文件系统 |
-| `ip_switch` | `ip_switch.list()` | IP 交换机管理 |
-| `kubernetes` | `kubernetes.cluster_list()` | Kubernetes 容器管理 |
-| `nas` | `nas.nfs_share_list()` | NAS 相关操作（NFS/CIFS/文件系统/配额） |
-| `protection` | `protection.snapshot_list()` | 保护（快照/双活/远程复制） |
-| `san` | `san.lun_list()` | SAN 相关操作（LUN/映射视图/主机） |
-| `self_service` | `self_service.lun_create()` | 租户自助服务（服务化 LUN/业务群组） |
-| `server` | `server.list()` | 服务器管理（CPU/内存/RAID） |
-| `storage` | `storage.disk_list()` | 存储设备管理（磁盘/端口/控制器/QoS） |
-| `system` | `system.task_list()` | 系统管理（用户/标签/任务/证书） |
-| `virtualization` | `virtualization.vm_list()` | 虚拟化服务（VM/集群/数据存储） |
-| `workflow` | `workflow.template_list()` | 工作流管理 |
-
 通过 CLI 浏览可用动作：
 
 ```bash
