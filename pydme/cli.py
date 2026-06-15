@@ -11,12 +11,88 @@ import importlib
 import pkgutil
 import re
 import inspect
+import json
+from pathlib import Path
 from typing import Optional, Dict, Any, List, Tuple
 
 # Add current directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pydme.client import DMEAPIClient
+
+
+def load_blacklist() -> Dict[str, list]:
+    """
+    Load risk action blacklist.
+
+    Priority:
+    1. User override ~/.config/pydme/blacklist.json
+    2. If not exist, copy from package pydme/config/blacklist.json
+
+    Returns:
+        { topic: [action_key, ...] }
+    """
+    user_path = Path.home() / '.config' / 'pydme' / 'blacklist.json'
+
+    if not user_path.exists():
+        # Try to copy default blacklist from package
+        try:
+            from importlib.resources import files as res_files
+            src = res_files('pydme.config').joinpath('blacklist.json')
+            default_data = src.read_text(encoding='utf-8')
+        except (ImportError, TypeError, FileNotFoundError, ModuleNotFoundError):
+            # Fallback: resolve via __file__ path (compat Python 3.8 / dev mode)
+            try:
+                pkg_dir = Path(__file__).resolve().parent / 'config'
+                default_data = (pkg_dir / 'blacklist.json').read_text(encoding='utf-8')
+            except FileNotFoundError:
+                print('Warning: blacklist.json not found, skipping risk check', file=sys.stderr)
+                return {}
+
+        # Write to user directory
+        try:
+            user_path.parent.mkdir(parents=True, exist_ok=True)
+            user_path.write_text(default_data, encoding='utf-8')
+        except (OSError, PermissionError):
+            # User dir not writable (e.g. CI), use package data directly
+            return json.loads(default_data)
+
+    try:
+        return json.loads(user_path.read_text(encoding='utf-8'))
+    except (json.JSONDecodeError, OSError) as e:
+        print(f'Warning: failed to read blacklist.json ({e}), skipping risk check', file=sys.stderr)
+        return {}
+
+
+def _accepts_risk(args) -> bool:
+    """Check whether user accepts risk (via CLI flag or env var)."""
+    return args.accept_risk or os.environ.get('DME_ACCEPT_RISK', '').lower() in ('true', '1', 'yes')
+
+
+def _check_risk(topic: str, action_key: str, args, *,
+                cmd_parts: list = None) -> None:
+    """Refuse execution if action is in blacklist and risk not accepted.
+
+    Args:
+        topic: Topic name (e.g. san)
+        action_key: Full action key in blacklist (e.g. lun_delete)
+        args: CLI parsed args
+        cmd_parts: Original command parts for display (e.g. ["san", "lun", "delete"])
+    """
+    blacklist = load_blacklist()
+    if topic not in blacklist or action_key not in blacklist[topic]:
+        return  # Not in blacklist, safe
+
+    cmd_display = ' '.join(cmd_parts) if cmd_parts else f'{topic} {action_key}'
+
+    print(f'\n⚠️  Risk operation warning: "{cmd_display}" is a high-risk operation (may cause data loss or service interruption)')
+
+    if _accepts_risk(args):
+        print(f'   ✅ Risk accepted (--accept-risk / DME_ACCEPT_RISK), proceeding...\n')
+        return
+
+    print(f'   ❌ Execution refused. To proceed, add --accept-risk or set DME_ACCEPT_RISK=true\n')
+    sys.exit(1)
 
 
 class DMECLI:
@@ -632,6 +708,8 @@ Format:
     parser.add_argument('subtopic', nargs='?', help='Subtopic (optional)')
     parser.add_argument('action', nargs='?', help='Action name (optional)')
     parser.add_argument('action_args', nargs='*', help='Action arguments (optional)')
+    parser.add_argument('--accept-risk', action='store_true',
+                        help='Acknowledge and accept risk for destructive operations (delete, modify, etc.)')
 
     return parser
 
@@ -795,6 +873,11 @@ def main():
                 return
 
             # No --help specified, execute the action (login required)
+
+            # Risk check
+            _check_risk(args.topic, action_key, args,
+                        cmd_parts=[args.topic, action_key])
+
             endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
             username = args.user or os.environ.get('DME_API_USERNAME')
             password = args.password or os.environ.get('DME_API_PASSWORD')
@@ -930,7 +1013,12 @@ def main():
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
             return
 
-        #  Execute action (login required) 
+        #  Execute action (login required)
+
+        # Risk check
+        _check_risk(args.topic, action_key, args,
+                    cmd_parts=[args.topic, args.subtopic, args.action])
+
         endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
         username = args.user or os.environ.get('DME_API_USERNAME')
         password = args.password or os.environ.get('DME_API_PASSWORD')

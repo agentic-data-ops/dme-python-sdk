@@ -119,6 +119,72 @@ pydme --endpoint https://dme-float-ip:26335 --user admin --password pass storage
 ```
 
 
+## High-Risk Operation Control
+
+To prevent accidental data loss or service interruption, the CLI has a built-in **high-risk operation blacklist** mechanism.
+
+### How It Works
+
+High-risk operations include: `delete`, `modify`, `remove`, `unmap`, `split`, `stop`, `rollback`, `switch`, etc.
+
+When a risky command is detected, the CLI intercepts and prompts for confirmation:
+
+```
+⚠️  Risk operation warning: "san lun delete" is a high-risk operation (may cause data loss or service interruption)
+   ❌ Execution refused. To proceed, add --accept-risk or set DME_ACCEPT_RISK=true
+```
+
+### How to Accept Risk
+
+**Option 1: CLI flag** (single invocation)
+
+```bash
+pydme san lun delete --id <lun_id> --accept-risk
+```
+
+**Option 2: Environment variable** (session-wide)
+
+```bash
+export DME_ACCEPT_RISK=true
+pydme san lun delete --id <lun_id>
+```
+
+### Blacklist Configuration File
+
+On first risky command execution, the CLI automatically generates a blacklist file:
+
+- **Linux**: `~/.config/pydme/blacklist.json`
+- **Windows**: `C:\Users\<username>\.config\pydme\blacklist.json`
+
+You can edit this file to customize the risk policy:
+
+```json
+{
+  "san": ["lun_delete", "lun_expand", "lun_modify"],
+  "storage": ["remove", "modify", "vstore_delete"]
+}
+```
+
+> **Tip**: To completely disable risk checks, set the file content to `{}`. Not recommended in production.
+
+### Covered Risk Actions
+
+Covers **10 topics, 122 high-risk actions**:
+
+| Topic | Risky Actions | Examples |
+|-------|---------------|----------|
+| `san` | 22 | `lun_delete`, `lun_expand`, `storage_host_unmap_luns` |
+| `protect` | 40 | `snapshot_rollback`, `hypermetro_domain_split`, `replication_group_switch` |
+| `nas` | 22 | `cifs_share_delete`, `filesystem_modify`, `quota_delete` |
+| `storage` | 13 | `remove`, `qos_deactivate`, `vstore_delete` |
+| `system` | 9 | `user_delete`, `tag_unbind`, `reset_password` |
+| `fcswitch` | 4 | `zone_delete`, `alias_modify` |
+| `gfs` | 4 | `namespace_delete`, `migration_task_modify` |
+| `tenant` | 3 | `lun_change_tier`, `lun_unbind_project` |
+| `aiops` | 1 | `alarm_clear` |
+| `workflow` | 1 | `instance_stop` |
+
+
 ### Using Action Modules
 
 Each action module provides topic-specific functions. These functions take an authenticated `DMEAPIClient` instance as the first parameter.
