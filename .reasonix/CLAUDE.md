@@ -25,7 +25,7 @@ pydme/
     ├── integrate.py   # Third-party system integration (CMDB)
     ├── ipswitch.py    # IP switch management
     ├── kube.py        # Kubernetes management
-    ├── nas.py         # NAS (NFS/CIFS/filesystem/quota/DPC)
+    ├── nas.py         # NAS (NFS/CIFS/filesystem/quota/DPC→dataturbo)
     ├── protect.py     # Protection (snapshot/dual-active/replication)
     ├── san.py         # SAN (LUN/mapping view/host)
     ├── server.py      # Server management
@@ -40,6 +40,40 @@ pydme/
 - **`pydme/client.py`**: Provides `DMEAPIClient` (REST client with auto-login & session), `StorageAPIClient` (device-native API proxy), and `BaseClient`.
 - **`pydme/actions/`**: Each module defines an `ACTIONS` dictionary mapping CLI action names to implementation functions + parameter specs. Auto-imported by `__init__.py`.
 - **`pyproject.toml`**: Package metadata + `pydme` CLI entry point.
+
+## `.reasonix/` Directory — Development Support Files
+
+Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore` 排除，不会提交到版本库中。
+
+```
+.reasonix/
+├── CLAUDE.md                    # 开发指南 + 任务跟踪（本文件）
+├── plans/                       # 计划文档
+│   ├── 001-generate-traverse-api-script.md
+│   ├── 100.rewrite-action-funcs-to-follow-api-ref.md
+│   └── 101-gen-actions-for-not-impl-apis.md
+├── scripts/                     # 生成/处理脚本（遗留工具）
+│   ├── read_api_reference.py    # 读取原始 API 文档，提取结构化信息
+│   └── traverse_api_reference.py # 遍历 dme-api-reference 目录生成汇总文档
+└── output/                      # 生成的输出文件
+    ├── dme-api-reference.md     # 结构化 API 参考文档（1.7MB，517+ API）
+    └── dme-api-reference/       # 预留目录（空，.gitkeep）
+```
+
+### 工具脚本说明
+
+| 脚本 | 用途 |
+|------|------|
+| `scripts/read_api_reference.py` | 读取原始 HTML/Markdown API 文档，提取方法、URI、参数表格、响应字段、状态码等结构化信息，以 Markdown 格式输出 |
+| `scripts/traverse_api_reference.py` | 遍历 `reference/dme-api-reference/` 目录（已移除），读取 `目录.md` 中的层级结构，调用 `read_api_reference.py` 处理每个叶节点 API 文件，生成汇总文档 |
+
+### 计划文档索引
+
+| 文件 | 内容 |
+|------|------|
+| `plans/001-generate-traverse-api-script.md` | 生成 `traverse_api_reference.py` 脚本遍历 API 文档 |
+| `plans/100.rewrite-action-funcs-to-follow-api-ref.md` | 按 API 参考文档重写所有 action 函数的 docstring、参数校验和响应描述 |
+| `plans/101-gen-actions-for-not-impl-apis.md` | 为未实现的 32 个 API 生成动作函数（含例外/升级/重命名任务） |
 
 ## Installation
 
@@ -199,108 +233,41 @@ Returns:
 
 When user ask to finish todo tasks, sequentially execute the unfinished todo tasks step by step. When each task finished, update the todo task checkbox, and execute git commit and push.
 
-### Code Refactoring and Consolidation Tasks
-
-**Notes**:
-- Do not create dependencies during migration and consolidation. After each topic migration is completed, test whether the migrated command help is correct.
-- List topics: `pydme --list-topics`
-- Topic help: `pydme <topic> --help`
-
-#### Package Restructuring
-- [x] Migrated from `scripts/` flat layout to `pydme/` Python package structure
-- [x] Created `pyproject.toml` with `pydme` CLI entry point and package metadata
-- [x] Created `pydme/__init__.py` exports: `DMEAPIClient`, `StorageAPIClient`, `BaseClient`
-- [x] Created `pydme/actions/__init__.py` with auto-import of all action modules
-- [x] Created comprehensive `README.md` with installation, CLI, and SDK usage documentation
-- [x] Removed `scripts/util/` (read_api_reference.py no longer needed)
-- [x] Removed `SKILL.md` and `param-doc-format.md` (content consolidated into CLAUDE.md)
-- [x] Removed `test/` directory
-
-#### san topic
-- [x] Migrate physical_host topic to san subtopic: physical_host => san physical_host
-- [x] Migrate physical_host_group topic to san subtopic: physical_host_group => san physical_host_group
-- [x] Migrate lun_group topic to san subtopic: lun_group => san lun_group
-- [x] Migrate mapping_view topic to san subtopic: mapping_view => san mapping_view
-- [x] Migrate storage host subtopic to san and rename to storage_host: storage host => san storage_host
-- [x] Migrate storage host_group subtopic to san and rename to storage_host_group: storage host_group => san storage_host_group
-- [x] Migrate storage port_group subtopic to san: storage port_group => san port_group
-- [x] Delete migrated topics
-
-#### aiops topic
-- [x] Migrate alarm topic to aiops subtopic: alarm => aiops alarm
-- [x] Migrate diagnose task to aiops: diagnose task => aiops diagnose_task
-- [x] Migrate performance actions to aiops
-- [x] Migrate policy result to aiops: policy result show/list => aiops check_result show/list
-- [x] Migrate policy topic to aiops subtopic: policy => aiops check_policy
-- [x] Migrate topology topic to aiops subtopic: topology => aiops topology
-- [x] Migrate health topic to aiops subtopic
-- [x] Delete migrated topics
-- [x] Remove redundant topology subtopics and merge into main topology subtopic
-
-### Code Review & Fix Task
-
-- [x] san.py: 完成检查和修复
-- [x] nas.py: 完成检查和修复，新增 account(13) 和 kvcache(4) 子主题动作
-- [x] gfs.py: 完成检查和修复，更新 namespace 和 migration_task 参数文档
-- [ ] storage.py: 完成检查和修复，account 动作重命名 + 新增 create 动作 + 清理孤立函数
-- [ ] self_service.py: 完成检查和修复：服务化创建LUN
-- [ ] aiops.py: 完成检查和修复
-
 ### Testing Tasks
 
 - [x] 执行测试用例：test/todo.md
 - [ ] test/ 目录已移除 — 后续如需测试需重新搭建测试框架
 
-
-### API reference clean task
-
-- [x] 处理文件中的格式问题：reference/dme-api-stormgmt.md — 已完成全部格式修复
-
-	该文件是通过PDF转换成的markdown，未正确将PDF中的表格转为Markdown格式，且未识别PDF表格中单元格内的换行
-	请遍历文件中的所有API章节，按如下方式处理：
-	- SLA在SLA项前添加行：**SLA**
-	- 将SLA项和描述转换为Markdown表格
-	- 将路径参数、查询参数、请求body参数、响应参数、内部对象属性、状态码表格内容转换为Markdown表格，请识别未被正确处理的单元格内的换行
-	- 删除请求header参数
-	- 格式化请求示例，按如下方式换行处理，并对请求body中的json格式进行格式化
-	<METHOD> <URL> HTTP/1.1
-	<HEADERS> （每个HEADER一行，请注意通过占位符<auth-token>替换X-Auth-Token的实际值）
-	<BODY>
-	- 格式化响应示例，按如下方式换行处理，并对响应body中的json格式进行格式化	
-	HTTP/1.1 <状态码>
-	<HEADERS>
-	<BODY>
-	- 状态码改为粗体：**状态码**
-	
-	注意不要使用脚本批量处理，请调用大模型理解能力，逐个API手动处理
-
 ## Current Project Status
 
 **Package**: `pydme` (installable via `pip install -e .`)
 **Active Topics**: 16
-**Total Actions**: 423
-**Total Functions**: 428
+**Total Actions**: 425 (注册在 ACTIONS 字典中的动作数)
+**Total Functions**: 429 (包括 ACTIONS 引用的函数 + `__init__.py` 中的工具函数)
 
 ### Topic Structure
 
-| # | Topic | Actions | File | Description |
-|---|-------|---------|------|-------------|
-| 1 | **protect** | 75 | `protect.py` | Protection (group/hypermetro/replication/snapshot/clone) |
-| 2 | **san** | 66 | `san.py` | Storage area network (LUN/mapping/host/port_group) |
-| 3 | **nas** | 61 | `nas.py` | Network attached storage (NFS/CIFS/DPC/quota/filesystem) |
-| 4 | **storage** | 60 | `storage.py` | Storage device management (vstore/disk/pool/license) |
-| 5 | **system** | 40 | `system.py` | System management (user/task/tag/region/cert/az/dc) |
-| 6 | **aiops** | 26 | `aiops.py` | AIOps (alarm/performance/topology/health/diagnose) |
-| 7 | **fcswitch** | 19 | `fcswitch.py` | FC fiber switch (port/zone/vsan/alias) |
-| 8 | **gfs** | 14 | `gfs.py` | Global file system (namespace/migration) |
-| 9 | **virt** | 14 | `virt.py` | Virtualization services (vm/datastore/host) |
-| 10 | **server** | 10 | `server.py` | Server management (fan/disk/PCIe/power/NIC) |
-| 11 | **tenant** | 10 | `tenant.py` | Tenant self service (LUN/tier/project) |
-| 12 | **ipswitch** | 7 | `ipswitch.py` | IP switch (frame/board/port/power/fan) |
-| 13 | **workflow** | 7 | `workflow.py` | Workflow management (template/instance) |
-| 14 | **kube** | 6 | `kube.py` | Kubernetes management (cluster/node/pod) |
-| 15 | **integrate** | 5 | `integrate.py` | Third-party integration (CMDB systems/hosts/apps) |
-| 16 | **backup** | 3 | `backup.py` | Data backup management (cluster/capacity/quota) |
+| # | Topic | Actions | Funcs | File | Description |
+|---|-------|---------|-------|------|-------------|
+| 1 | **protect** | 75 | 75 | `protect.py` | Protection (group/hypermetro/replication/snapshot/clone) |
+| 2 | **san** | 66 | 67 | `san.py` | Storage area network (LUN/mapping/host/port_group) |
+| 3 | **storage** | 62 | 63 | `storage.py` | Storage device management (vstore/disk/pool/license/account) |
+| 4 | **nas** | 61 | 61 | `nas.py` | Network attached storage (NFS/CIFS/DPC/quota/filesystem) |
+| 5 | **system** | 40 | 40 | `system.py` | System management (user/task/tag/region/cert/az/dc) |
+| 6 | **aiops** | 26 | 28 | `aiops.py` | AIOps (alarm/performance/topology/health/diagnose) |
+| 7 | **fcswitch** | 19 | 19 | `fcswitch.py` | FC fiber switch (port/zone/vsan/alias) |
+| 8 | **gfs** | 14 | 14 | `gfs.py` | Global file system (namespace/migration) |
+| 9 | **virt** | 14 | 14 | `virt.py` | Virtualization services (vm/datastore/host) |
+| 10 | **server** | 10 | 10 | `server.py` | Server management (fan/disk/PCIe/power/NIC) |
+| 11 | **tenant** | 10 | 10 | `tenant.py` | Tenant self service (LUN/tier/project) |
+| 12 | **ipswitch** | 7 | 7 | `ipswitch.py` | IP switch (frame/board/port/power/fan) |
+| 13 | **workflow** | 7 | 7 | `workflow.py` | Workflow management (template/instance) |
+| 14 | **kube** | 6 | 6 | `kube.py` | Kubernetes management (cluster/node/pod) |
+| 15 | **integrate** | 5 | 5 | `integrate.py` | Third-party integration (CMDB systems/hosts/apps) |
+| 16 | **backup** | 3 | 3 | `backup.py` | Data backup management (cluster/capacity/quota) |
+| | **Total** | **425** | **429** | 16 files | |
+
+> **注意**：Functions 列可能多于 Actions 列（如 `aiops` 28 funcs vs 26 actions，`san` 67 funcs vs 66 actions），原因是有少数辅助/工具函数未注册到 ACTIONS 字典。
 
 ### CLI Command Pattern
 
@@ -315,15 +282,14 @@ pydme system user create --name admin --type 0
 pydme protect group list
 pydme nas nfs_share create --name share1
 pydme system region list
-pydme nas dpc list
+pydme nas dataturbo list
 pydme san physical_host_group show_related --hostgroup_id xxx
 ```
 
 ### Reference Documents
 
-- `reference/dme-api-reference.md` — Structured API definitions (517 APIs, organized by topic)
-- `reference/dme-api-stormgmt.md` — Original raw reference document
-- `plans/101-gen-actions-for-not-impl-apis.md` — Plan for unimplemented APIs (32 remaining)
+- `.reasonix/output/dme-api-reference.md` — 结构化 API 参考文档（78 个 H2 章节、240 个 H3 章节、263 个 H4 子章节，涵盖 DME 所有 API 定义：方法/URI/参数/响应/状态码）
+- `.reasonix/plans/101-gen-actions-for-not-impl-apis.md` — 未实现 API 的生成计划（517 总 API 中 32 个待实现、76 个例外跳过、2 个重命名任务）
 
 **Documentation**:
 - `CLAUDE.md` — Development guide and task tracking (this file)
@@ -342,7 +308,10 @@ pydme san physical_host_group show_related --hostgroup_id xxx
 - **Subtopic rename**: nas `dpc` subtopic → `dataturbo` (existing DPC parallel client actions)
 - **Docstring format unification**: All Returns sections converted to JSON-style format
 - **Obsolete function cleanup**: Removed 3 unused functions not registered in ACTIONS
-- **Scripts cleanup**: Removed `scripts/` directory with temporary processing tools
+- **`.reasonix/` directory setup**: Plans, scripts, and output files organized under `.reasonix/` (gitignored)
+- **API reference migration**: Raw `reference/dme-api-stormgmt.md` cleaned and consolidated into `.reasonix/output/dme-api-reference.md`
+- **`reference/` directory removed**: Contents migrated to `.reasonix/output/`
+- **storage topic update**: Increased from 60→62 actions, 63 functions (account actions + cleanup)
 
 ## Generated Files Convention
 
@@ -354,4 +323,3 @@ Reasonix 工具生成的辅助文件遵循以下目录约定：
 | 脚本文件 | `.reasonix/scripts/` |
 | 输出文件 | `.reasonix/output/` |
 
-这些文件位于 `.reasonix/` 目录下，已被 `.gitignore` 排除，不会提交到版本库中。
