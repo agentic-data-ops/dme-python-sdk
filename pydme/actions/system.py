@@ -472,7 +472,21 @@ def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
         item_id: 待办项 ID（必选）
 
     Returns:
-        待办项详细信息
+        {
+            item_id: 待办项ID (string),
+            name: 名称 (string),
+            description: 描述 (string),
+            group_id: 组ID (string),
+            service_type: 服务类型 (string),
+            status: 状态 (string),
+            creator_name: 创建人 (string),
+            create_time: 创建时间 (string),
+            task_id: 任务ID (string),
+            start_time: 开始时间 (string),
+            end_time: 结束时间 (string),
+            close_reason: 关闭原因 (string),
+            suggestion: 审批意见 (string),
+        }
     """
     url = "/rest/taskmgmt/v1/todo-items/{item_id}"
 
@@ -585,26 +599,32 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         task_id: 任务 ID（必选，1~36 个字符）
     
     Returns:
-        任务详情列表，包含：
-        - id: 任务 ID
-        - name_en: 任务英文名称
-        - name_cn: 任务中文名称
-        - description: 任务描述
-        - parent_id: 父任务 ID
-        - seq_no: 任务序号
-        - status: 状态（1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
-        - progress: 任务进度
-        - owner_name: 创建任务用户名称
-        - owner_id: 创建任务用户 ID
-        - create_time: 任务创建时间（UTC 毫秒数）
-        - start_time: 任务开始时间（UTC 毫秒数）
-        - end_time: 任务结束时间（UTC 毫秒数）
-        - detail_en: 任务英文详情
-        - detail_cn: 任务中文详情
-        - is_support_retry: 是否支持重试
-        - is_support_rollback: 是否支持回滚
-        - remarks: 备注信息
-        - resources: 任务关联的资源列表
+        {
+            id: 任务ID (string),
+            name_en: 任务英文名称 (string),
+            name_cn: 任务中文名称 (string),
+            description: 任务描述 (string),
+            parent_id: 父任务ID (string),
+            seq_no: 任务序号 (string),
+            status: 状态。可选值：1 (初始状态), 2 (执行中), 3 (成功), 4 (部分成功), 5 (失败), 6 (超时),
+            progress: 任务进度 (string),
+            owner_name: 创建任务用户名称 (string),
+            owner_id: 创建任务用户ID (string),
+            create_time: 任务创建时间 (string, UTC毫秒数),
+            start_time: 任务开始时间 (string, UTC毫秒数),
+            end_time: 任务结束时间 (string, UTC毫秒数),
+            detail_en: 任务英文详情 (string),
+            detail_cn: 任务中文详情 (string),
+            is_support_retry: 是否支持重试 (boolean),
+            is_support_rollback: 是否支持回滚 (boolean),
+            remarks: 备注信息 (string),
+            resources: 任务关联的资源列表 (List<AffectedResource>)。参数格式如下：[{
+                operate: 操作类型 (string),
+                type: 资源类型 (string),
+                id: 资源ID (string),
+                name: 资源名称 (string),
+            }, ...],
+        }
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
     
@@ -630,7 +650,19 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         create_time_to: 创建时间结束（可选，UTC 毫秒数）
     
     Returns:
-        任务列表
+        {
+            total: 任务数量 (int32),
+            tasks: 任务列表 (List<TaskDetail>)。参数格式如下：[{
+                id: 任务ID (string),
+                name_en: 任务英文名称 (string),
+                status: 状态 (string),
+                progress: 任务进度 (string),
+                owner_name: 创建任务用户名称 (string),
+                create_time: 创建时间 (string),
+                start_time: 开始时间 (string),
+                end_time: 结束时间 (string),
+            }, ...],
+        }
     """
     url = "/rest/taskmgmt/v1/tasks"
     
@@ -687,7 +719,11 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
         poll_interval: 轮询间隔（秒），默认 2 秒
 
     Returns:
-        任务最终状态详情
+        {
+            status: 任务状态 (string),
+            progress: 进度 (string),
+            result: 结果 (string),
+        }
         status 说明：
         - 3: 成功
         - 4: 部分成功
@@ -737,7 +773,10 @@ def tag_type_create(client: DMEAPIClient, name: str, description: str = None) ->
         description: 标签类型描述（可选）
     
     Returns:
-        创建的标签类型信息
+        {
+            id: 标签类型ID (string),
+            name: 标签类型名称 (string),
+        }
     """
     url = "/rest/tagmgmt/v1/tag-types"
     
@@ -764,7 +803,13 @@ def tag_type_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         name: 标签类型名称过滤（可选）
     
     Returns:
-        标签类型列表
+        {
+            total: 标签类型数量 (int32),
+            datas: 标签类型列表 (List<TagType>)。参数格式如下：[{
+                id: 标签类型ID (string),
+                name: 标签类型名称 (string),
+            }, ...],
+        }
     """
     url = "/rest/tagmgmt/v1/tag-types/query"
     
@@ -792,7 +837,10 @@ def tag_type_modify(client: DMEAPIClient, tag_type_id: str, name: str = None,
         description: 标签类型描述（可选）
     
     Returns:
-        修改后的标签类型信息
+        {
+            id: 标签类型ID (string),
+            name: 标签类型名称 (string),
+        }
     """
     url = "/rest/tagmgmt/v1/tag-types/{tag_type_id}"
     
@@ -844,7 +892,9 @@ def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
         color: 标签颜色（可选）
     
     Returns:
-        创建的标签信息
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/tagmgmt/v1/tags"
     
@@ -877,7 +927,14 @@ def tag_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         tag_type_id: 标签类型 ID 过滤（可选）
     
     Returns:
-        标签列表
+        {
+            total: 标签数量 (int32),
+            datas: 标签列表 (List<Tag>)。参数格式如下：[{
+                id: 标签ID (string),
+                name: 标签名称 (string),
+                tag_type_name: 标签类型名称 (string),
+            }, ...],
+        }
     """
     url = "/rest/tagmgmt/v1/tags/query"
     
@@ -908,7 +965,10 @@ def tag_modify(client: DMEAPIClient, tag_id: str, name: str = None,
         color: 标签颜色（可选）
     
     Returns:
-        修改后的标签信息
+        {
+            id: 标签ID (string),
+            name: 标签名称 (string),
+        }
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}"
     
@@ -1080,7 +1140,24 @@ def dc_show(client: DMEAPIClient, dc_id: str) -> dict:
         dc_id: 数据中心 ID（必选）
     
     Returns:
-        数据中心详细信息
+        {
+            id: 数据中心ID (string),
+            name: 名称 (string),
+            description: 描述 (string),
+            longitude: 经度 (number),
+            latitude: 纬度 (number),
+            device_num: 设备数量 (int32),
+            critical_num: 紧急告警数 (int32),
+            major_num: 重要告警数 (int32),
+            minor_num: 次要告警数 (int32),
+            info_num: 提示告警数 (int32),
+            total_cpu: CPU总量 (int32),
+            allocated_cpu: 已分配CPU (int32),
+            total_memory: 内存总量 (int32),
+            allocated_memory: 已分配内存 (int32),
+            storage_total_usable_capacity: 存储总可用容量 (int64),
+            storage_total_used_capacity: 存储已用容量 (int64),
+        }
     """
     url = "/rest/dcmgmt/dcmgmtservice/v1/datacenters/{dc_id}"
     
