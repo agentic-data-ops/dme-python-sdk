@@ -108,7 +108,26 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
         vr_type: 虚拟化平台类型（可选）
     
     Returns:
-        虚拟机详细信息，包含 CPU、内存、磁盘、网卡等配置信息
+        {
+            id: 虚拟机ID (string),
+            name: 名称 (string),
+            status: 状态 (string),
+            cpu: CPU信息。属性格式如下：{
+                cores: CPU核数 (int32),
+                sockets: CPU插槽数 (int32),
+            },
+            memory: 内存大小 (int64, MB),
+            vm_nics: 网卡列表 (List<VmNicInfo>)。参数格式如下：[{
+                id: 网卡ID (string),
+                name: 网卡名称 (string),
+                mac: MAC地址 (string),
+            }, ...],
+            vm_disks: 磁盘列表 (List<VmDiskInfo>)。参数格式如下：[{
+                id: 磁盘ID (string),
+                name: 磁盘名称 (string),
+                capacity: 容量 (int64, GB),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -201,7 +220,14 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
         vr_type: 虚拟化平台类型（可选）
     
     Returns:
-        数据存储详细信息
+        {
+            id: 数据存储ID (string),
+            name: 名称 (string),
+            type: 类型 (string),
+            total_capacity: 总容量 (int64),
+            free_capacity: 空闲容量 (int64),
+            status: 状态 (string),
+        }
     """
     url = "/rest/vmmgmt/v1/datastores/{datastore_id}"
     
@@ -277,7 +303,15 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
         vr_type: 虚拟化平台类型（可选）
     
     Returns:
-        主机详细信息
+        {
+            id: 主机ID (string),
+            name: 名称 (string),
+            ip: IP地址 (string),
+            status: 状态 (string),
+            cpu_cores: CPU核数 (int32),
+            memory: 内存大小 (int64, MB),
+            os_type: 操作系统类型 (string),
+        }
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}"
     
@@ -341,7 +375,13 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
         vr_type: 虚拟化平台类型（可选）
     
     Returns:
-        集群详细信息
+        {
+            id: 集群ID (string),
+            name: 名称 (string),
+            type: 类型 (string),
+            host_count: 主机数量 (int32),
+            status: 状态 (string),
+        }
     """
     url = "/rest/vmmgmt/v1/clusters/{cluster_id}"
     
@@ -384,7 +424,11 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
         site_id: 站点 ID（必选）
     
     Returns:
-        站点详细信息
+        {
+            id: 站点ID (string),
+            name: 名称 (string),
+            status: 状态 (string),
+        }
     """
     url = "/rest/vmmgmt/v1/sites/{site_id}"
     
@@ -405,7 +449,15 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
         host_id: 主机 ID（必选）
     
     Returns:
-        存储适配器列表
+        {
+            total: 适配器数量 (int32),
+            adapters: 存储适配器列表 (List<HostAdapterInfo>)。参数格式如下：[{
+                id: 适配器ID (string),
+                name: 名称 (string),
+                type: 类型 (string),
+                wwn: WWN (string),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}/storage-adapters"
     
@@ -433,7 +485,15 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        物理磁盘列表
+        {
+            total: 磁盘数量 (int32),
+            disks: 物理磁盘列表 (List<PhysicalDiskInfo>)。参数格式如下：[{
+                id: 磁盘ID (string),
+                name: 名称 (string),
+                capacity: 容量 (int64),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/vdisks/pdisks"
     
@@ -477,7 +537,15 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
         page_size: 每页数量，1~1000，默认 20
     
     Returns:
-        虚拟磁盘列表
+        {
+            total: 虚拟磁盘数量 (int32),
+            vdisks: 虚拟磁盘列表 (List<VirtualDiskInfo>)。参数格式如下：[{
+                id: 虚拟磁盘ID (string),
+                name: 名称 (string),
+                capacity: 容量 (int64, GB),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/vdisks/query"
     
@@ -512,7 +580,13 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
         virtual_disk_id: 虚拟磁盘 ID（必选）
     
     Returns:
-        虚拟磁盘详细信息
+        {
+            id: 虚拟磁盘ID (string),
+            name: 名称 (string),
+            capacity: 容量 (int64, GB),
+            status: 状态 (string),
+            datastore_id: 所属数据存储ID (string),
+        }
     """
     url = "/rest/vmmgmt/v1/vdisks/{virtual_disk_id}"
     
