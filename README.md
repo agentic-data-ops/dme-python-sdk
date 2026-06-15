@@ -174,26 +174,6 @@ All action functions follow the same pattern:
 - **Keyword arguments**：Action-specific parameters (see function documentation)
 - **Return value**：A `dict` containing the API response
 
-Available topic modules and common functions:
-
-| Module | Example function | Description |
-|--------|-----------------|-------------|
-| `aiops` | `aiops.alarm_list()` | AIOps (alerts/performance/health/topology) (alerts/performance/health/topology) |
-| `backup` | `backup.cluster_list()` | Backup management |
-| `fc_switch` | `fc_switch.zone_list()` | FC switch management |
-| `gfs` | `gfs.namespace_list()` | Global file system (GFS) |
-| `ip_switch` | `ip_switch.list()` | IP switch management |
-| `kubernetes` | `kubernetes.cluster_list()` | Kubernetes management |
-| `nas` | `nas.nfs_share_list()` | NAS operations (NFS/CIFS/filesystems/quotas) |
-| `protection` | `protection.snapshot_list()` | Protection (snapshots/active-active/replication) |
-| `san` | `san.lun_list()` | SAN operations (LUNs/mapping views/hosts) |
-| `self_service` | `self_service.lun_create()` | Tenant self-service (service LUNs/project groups) |
-| `server` | `server.list()` | Server management (CPU/memory/RAID) |
-| `storage` | `storage.disk_list()` | Storage device management (disks/ports/controllers/QoS) |
-| `system` | `system.task_list()` | System management (users/tags/tasks/certificates) |
-| `virtualization` | `virtualization.vm_list()` | Virtualization services (VMs/clusters/datastores) |
-| `workflow` | `workflow.template_list()` | Workflow management |
-
 Browse available actions via CLI:
 
 ```bash
