@@ -130,6 +130,73 @@ pydme --endpoint https://dme-float-ip:26335 --user admin --password pass storage
 ```
 
 
+## 高风险操作控制
+
+为防止误操作导致数据丢失或服务中断，CLI 内置了**高风险操作黑名单**机制。
+
+### 工作机制
+
+高风险操作包括：`delete`（删除）、`modify`（修改）、`remove`（移除）、`unmap`（解除映射）、`split`（分裂）、`stop`（停止）、`rollback`（回滚）、`switch`（切换）等。
+
+执行高风险命令时，CLI 会拦截并提示确认：
+
+```
+⚠️  风险操作警告："san lun delete" 是高风险操作（可能造成数据丢失或服务中断）
+   ❌ 已拒绝执行。如确认要继续，请添加 --accept-risk 参数
+      或设置环境变量 DME_ACCEPT_RISK=true
+```
+
+### 接受风险的方式
+
+**方式一：命令行参数**（单次生效）
+
+```bash
+pydme san lun delete --id <lun_id> --accept-risk
+```
+
+**方式二：环境变量**（会话内生效）
+
+```bash
+export DME_ACCEPT_RISK=true
+pydme san lun delete --id <lun_id>
+```
+
+### 黑名单配置文件
+
+首次执行风险操作时，CLI 会自动在用户目录生成黑名单文件：
+
+- **Linux**: `~/.config/pydme/blacklist.json`
+- **Windows**: `C:\Users\<用户名>\.config\pydme\blacklist.json`
+
+你可以编辑此文件以自定义风险策略：
+
+```json
+{
+  "san": ["lun_delete", "lun_expand", "lun_modify"],
+  "storage": ["remove", "modify", "vstore_delete"]
+}
+```
+
+> **提示**：如果想完全禁用风险检查，可将配置文件内容清空为 `{}`。不推荐在生产环境中禁用。
+
+### 当前覆盖的风险动作
+
+覆盖 **10 个主题、122 个高风险动作**，包括：
+
+| 主题 | 风险动作数 | 示例 |
+|------|-----------|------|
+| `san` | 22 | `lun_delete`, `lun_expand`, `storage_host_unmap_luns` |
+| `protect` | 40 | `snapshot_rollback`, `hypermetro_domain_split`, `replication_group_switch` |
+| `nas` | 22 | `cifs_share_delete`, `filesystem_modify`, `quota_delete` |
+| `storage` | 13 | `remove`, `qos_deactivate`, `vstore_delete` |
+| `system` | 9 | `user_delete`, `tag_unbind`, `reset_password` |
+| `fcswitch` | 4 | `zone_delete`, `alias_modify` |
+| `gfs` | 4 | `namespace_delete`, `migration_task_modify` |
+| `tenant` | 3 | `lun_change_tier`, `lun_unbind_project` |
+| `aiops` | 1 | `alarm_clear` |
+| `workflow` | 1 | `instance_stop` |
+
+
 ### 使用动作模块
 
 每个动作模块提供主题相关的函数，这些函数以已认证的 `DMEAPIClient` 实例作为第一个参数。

@@ -5,18 +5,96 @@ DME 运维命令行工具
 """
 
 import argparse
+import json
 import os
 import sys
 import importlib
 import pkgutil
 import re
 import inspect
+from pathlib import Path
 from typing import Optional, Dict, Any, List, Tuple
 
 # 添加当前目录到路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pydme.client import DMEAPIClient
+
+
+def load_blacklist() -> Dict[str, list]:
+    """
+    加载风险操作黑名单。
+
+    优先级：
+    1. 用户自定义 ~/.config/pydme/blacklist.json
+    2. 如果不存在，从包内 pydme/config/blacklist.json 复制生成
+
+    Returns:
+        { topic: [action_key, ...] }
+    """
+    user_path = Path.home() / '.config' / 'pydme' / 'blacklist.json'
+
+    if not user_path.exists():
+        # 尝试从包内复制默认黑名单
+        try:
+            # Python 3.9+: importlib.resources.files
+            from importlib.resources import files as res_files
+            src = res_files('pydme.config').joinpath('blacklist.json')
+            default_data = src.read_text(encoding='utf-8')
+        except (ImportError, TypeError, FileNotFoundError, ModuleNotFoundError):
+            # 回退：基于 __file__ 路径（兼容 Python 3.8 / 开发模式）
+            try:
+                pkg_dir = Path(__file__).resolve().parent / 'config'
+                default_data = (pkg_dir / 'blacklist.json').read_text(encoding='utf-8')
+            except FileNotFoundError:
+                print('警告：未找到 blacklist.json，跳过风险检查', file=sys.stderr)
+                return {}
+
+        # 写入用户目录
+        try:
+            user_path.parent.mkdir(parents=True, exist_ok=True)
+            user_path.write_text(default_data, encoding='utf-8')
+        except (OSError, PermissionError):
+            # 用户目录不可写（如 CI 环境），直接用包内数据
+            return json.loads(default_data)
+
+    try:
+        return json.loads(user_path.read_text(encoding='utf-8'))
+    except (json.JSONDecodeError, OSError) as e:
+        print(f'警告：读取 blacklist.json 失败 ({e})，跳过风险检查', file=sys.stderr)
+        return {}
+
+
+def _accepts_risk(args) -> bool:
+    """检查用户是否确认接受风险（通过 CLI 参数或环境变量）。"""
+    return args.accept_risk or os.environ.get('DME_ACCEPT_RISK', '').lower() in ('true', '1', 'yes')
+
+
+def _check_risk(topic: str, action_key: str, args, *,
+                cmd_parts: list = None) -> None:
+    """如果 action 在黑名单中且用户未确认风险，则拒绝执行。
+
+    Args:
+        topic: 主题名（如 san）
+        action_key: 黑名单中的完整动作 key（如 lun_delete）
+        args: CLI 解析后的参数
+        cmd_parts: 原始命令的各部分，用于显示（如 ["san", "lun", "delete"]）
+    """
+    blacklist = load_blacklist()
+    if topic not in blacklist or action_key not in blacklist[topic]:
+        return  # 不在黑名单中，安全
+
+    cmd_display = ' '.join(cmd_parts) if cmd_parts else f'{topic} {action_key}'
+
+    print(f'\n⚠️  风险操作警告："{cmd_display}" 是高风险操作（可能造成数据丢失或服务中断）')
+
+    if _accepts_risk(args):
+        print(f'   ✅ 风险已确认（--accept-risk / DME_ACCEPT_RISK），继续执行...\n')
+        return
+
+    print(f'   ❌ 已拒绝执行。如确认要继续，请添加 --accept-risk 参数')
+    print(f'      或设置环境变量 DME_ACCEPT_RISK=true\n')
+    sys.exit(1)
 
 
 class DMECLI:
@@ -632,6 +710,8 @@ def create_parser(cli: DMECLI) -> argparse.ArgumentParser:
     parser.add_argument('subtopic', nargs='?', help='子主题（可选）')
     parser.add_argument('action', nargs='?', help='动作名称（可选）')
     parser.add_argument('action_args', nargs='*', help='动作参数（可选）')
+    parser.add_argument('--accept-risk', action='store_true',
+                        help='确认接受风险，允许执行有风险的操作（如删除、修改等）')
 
     return parser
 
@@ -795,6 +875,11 @@ def main():
                 return
 
             # 没有指定 --help，执行动作（需要登录）
+
+            # 风险操作检查
+            _check_risk(args.topic, action_key, args,
+                        cmd_parts=[args.topic, action_key])
+
             endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
             username = args.user or os.environ.get('DME_API_USERNAME')
             password = args.password or os.environ.get('DME_API_PASSWORD')
@@ -931,6 +1016,11 @@ def main():
             return
 
         # 执行动作（需要登录）
+
+        # 风险操作检查
+        _check_risk(args.topic, action_key, args,
+                    cmd_parts=[args.topic, args.subtopic, args.action])
+
         endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
         username = args.user or os.environ.get('DME_API_USERNAME')
         password = args.password or os.environ.get('DME_API_PASSWORD')
