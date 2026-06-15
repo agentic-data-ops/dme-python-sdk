@@ -67,7 +67,12 @@ def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> di
         name: Omni-Dataverse 名称，与 id 不能同时为空，都有值时优先使用 ID
 
     Returns:
-        Omni-Dataverse 容量统计信息
+        {
+            total_capacity: 总容量 (string),
+            used_capacity: 已用容量 (string),
+            available_capacity: 可用容量 (string),
+            file_count: 文件数量 (int64),
+        }
     """
     url = "/rest/fileservice/v1/gfs-groups/query-summary"
 
@@ -102,7 +107,14 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
         page_size: 分页查询的个数，默认 100，范围 1~1000
 
     Returns:
-        数据服务站点列表
+        {
+            total: 站点数量 (int32),
+            sites: 数据服务站点列表 (List<SiteInfo>)。参数格式如下：[{
+                id: 站点ID (string),
+                name: 站点名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/data-service-sites/query"
 
@@ -151,7 +163,14 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         page_size: 每页查询的数量 (int32, 1~1000, 默认值: 20, 可选)
 
     Returns:
-        全局命名空间列表
+        {
+            total: 命名空间数量 (int32),
+            namespaces: 全局命名空间列表 (List<NamespaceInfo>)。参数格式如下：[{
+                id: 命名空间ID (string),
+                name: 名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/gfs/query"
 
@@ -187,7 +206,13 @@ def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = Non
         name_locator: 名称定位器，格式为：全局命名空间的名称@全局数据空间的名称
 
     Returns:
-        全局命名空间详细信息
+        {
+            id: 命名空间ID (string),
+            name: 名称 (string),
+            description: 描述 (string),
+            status: 状态 (string),
+            storage_id: 存储设备ID (string),
+        }
     """
     url = "/rest/fileservice/v1/gfs/detail/query"
 
@@ -350,7 +375,14 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         sort_key: 排序参数 (可选)。可选值：progress (任务执行进度), real_start_time (任务实际启动时间), real_finish_time (任务实际结束时间)
 
     Returns:
-        数据迁移任务列表
+        {
+            total: 任务数量 (int32),
+            tasks: 数据迁移任务列表 (List<MigrationTaskInfo>)。参数格式如下：[{
+                id: 任务ID (string),
+                name: 任务名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/query"
 
@@ -398,7 +430,14 @@ def migration_task_show(client: DMEAPIClient, id: str) -> dict:
         id: 数据迁移任务 ID
 
     Returns:
-        数据迁移任务详细信息
+        {
+            id: 任务ID (string),
+            name: 任务名称 (string),
+            status: 状态 (string),
+            progress: 进度 (string),
+            source: 源端信息 (string),
+            target: 目标端信息 (string),
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
 

@@ -1174,7 +1174,13 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
         pool_id: 存储池id (可选, 1~64个字符, 字母和数字)。
     
     Returns:
-        应用类型信息，包含 datas 列表，每个元素包含 id, name, block_size, 
+        {
+            datas: 应用类型列表 (List<AppTypeInfo>)。参数格式如下：[{
+                id: 应用类型ID (string),
+                name: 应用类型名称 (string),
+                block_size: 块大小 (string),
+            }, ...],
+        } 
         enable_compress, enable_dedup, create_type 等字段
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/workloads"
@@ -1414,7 +1420,14 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
         storage_id: 存储设备ID (可选, 0~64个字符)
 
     Returns:
-        启动器列表
+        {
+            total: 启动器数量 (int32),
+            initiators: 启动器列表 (List<InitiatorInfo>)。参数格式如下：[{
+                id: 启动器ID (string),
+                port_name: 端口名称 (string),
+                status: 状态 (string),
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/storage-initiators/query"
 
@@ -1541,7 +1554,14 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
         page_size: 分页查询的每页大小，默认 20（可选）
 
     Returns:
-        本地认证用户信息列表，包含 total 和 local_users
+        {
+            total: 用户数量 (int32),
+            local_users: 本地认证用户列表 (List<LocalUserInfo>)。参数格式如下：[{
+                id: 用户ID (string),
+                name: 用户名 (string),
+                type: 用户类型 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-users/query"
 
@@ -1703,7 +1723,14 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
         page_size: 分页查询的每页大小，默认 20（可选）
 
     Returns:
-        UNIX 认证用户信息列表，包含 total 和 unix_users
+        {
+            total: 用户数量 (int32),
+            unix_users: UNIX认证用户列表 (List<UnixUserInfo>)。参数格式如下：[{
+                id: 用户ID (string),
+                name: 用户名 (string),
+                uid: UID (int32),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-users/query"
 
@@ -1735,7 +1762,13 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
         page_size: 分页查询的每页大小，默认 20（可选）
 
     Returns:
-        Windows 认证用户信息列表，包含 total 和 windows_users
+        {
+            total: 用户数量 (int32),
+            windows_users: Windows认证用户列表 (List<WindowsUserInfo>)。参数格式如下：[{
+                id: 用户ID (string),
+                name: 用户名 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-users/query"
 
@@ -1767,7 +1800,13 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
         page_size: 分页查询的每页大小，默认 20（可选）
 
     Returns:
-        本地认证用户组信息列表，包含 total 和 local_user_groups
+        {
+            total: 用户组数量 (int32),
+            local_user_groups: 本地认证用户组列表 (List<LocalUserGroupInfo>)。参数格式如下：[{
+                id: 用户组ID (string),
+                name: 用户组名 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-user-groups/query"
 
@@ -1799,7 +1838,14 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
         page_size: 分页查询的每页大小，默认 20（可选）
 
     Returns:
-        UNIX 认证用户组信息列表，包含 total 和 unix_user_groups
+        {
+            total: 用户组数量 (int32),
+            unix_user_groups: UNIX认证用户组列表 (List<UnixUserGroupInfo>)。参数格式如下：[{
+                id: 用户组ID (string),
+                name: 用户组名 (string),
+                gid: GID (int32),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-user-groups/query"
 
@@ -1831,7 +1877,13 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
         page_size: 分页查询的每页大小，默认 20（可选）
 
     Returns:
-        Windows 认证用户组信息列表，包含 total 和 windows_user_groups
+        {
+            total: 用户组数量 (int32),
+            windows_user_groups: Windows认证用户组列表 (List<WindowsUserGroupInfo>)。参数格式如下：[{
+                id: 用户组ID (string),
+                name: 用户组名 (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-user-groups/query"
 
