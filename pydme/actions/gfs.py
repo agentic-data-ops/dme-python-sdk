@@ -67,7 +67,12 @@ def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> di
         name: Omni-Dataverse  name, cannot both be empty with id; ID takes precedence when both have values
 
     Returns:
-        Omni-Dataverse Capacity statistics info
+        {
+            total_capacity: Total capacity (string),
+            used_capacity: Used capacity (string),
+            available_capacity: Available capacity (string),
+            file_count: Number of files (int64),
+        }
     """
     url = "/rest/fileservice/v1/gfs-groups/query-summary"
 
@@ -102,7 +107,14 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
         page_size: Items per page, default 100,  range 1~1000
 
     Returns:
-        Data service site list
+        {
+            total: Number of sites (int32),
+            sites: List of data service sites (List<SiteInfo>). Parameter format: [{
+                id: Site ID (string),
+                name: Site name (string),
+                status: Status (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/data-service-sites/query"
 
@@ -151,7 +163,14 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
         page_size: Items per page (int32, 1~1000, Default: 20, Optional)
 
     Returns:
-        Global namespace list
+        {
+            total: Number of namespaces (int32),
+            namespaces: List of global namespaces (List<NamespaceInfo>). Parameter format: [{
+                id: Namespace ID (string),
+                name: Name (string),
+                status: Status (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/gfs/query"
 
@@ -187,7 +206,13 @@ def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = Non
         name_locator: Name locator format:: global_namespace_name@global_data_space_name
 
     Returns:
-        Global namespaceDetails
+        {
+            id: Namespace ID (string),
+            name: Name (string),
+            description: Description (string),
+            status: Status (string),
+            storage_id: Storage device ID (string),
+        }
     """
     url = "/rest/fileservice/v1/gfs/detail/query"
 
@@ -350,7 +375,14 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
         sort_key: Sort key (Optional). Options: progress (Task execution progress), real_start_time (actual start time), real_finish_time (task actualEnd time)
 
     Returns:
-        Data migration task list
+        {
+            total: Number of tasks (int32),
+            tasks: List of data migration tasks (List<MigrationTaskInfo>). Parameter format: [{
+                id: Task ID (string),
+                name: Task name (string),
+                status: Status (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/query"
 
@@ -398,7 +430,14 @@ def migration_task_show(client: DMEAPIClient, id: str) -> dict:
         id: Data migration task ID
 
     Returns:
-        Data migration taskDetails
+        {
+            id: Task ID (string),
+            name: Task name (string),
+            status: Status (string),
+            progress: Progress (string),
+            source: Source info (string),
+            target: Target info (string),
+        }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
 

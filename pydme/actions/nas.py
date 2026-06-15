@@ -891,7 +891,27 @@ def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
         dc_name: Data center name (Optional), 1~256 characters
 
     Returns:
-        CIFS share list
+        {
+            total: Number of CIFS shares (int32),
+            cifs_shares: List of CIFS shares (List<CifsShare>). Parameter format: [{
+                id: Share ID (string),
+                raw_id: ID on the device (string),
+                name: Share name (string),
+                share_path: Share path (string),
+                description: Description (string),
+                vstore_raw_id: Tenant ID (string),
+                vstore_name: Tenant name (string),
+                fs_id: Filesystem ID (string),
+                fs_name: Filesystem name (string),
+                storage_id: Storage device ID (string),
+                storage_name: Storage device name (string),
+                storage_ip: Storage device IP (string),
+                op_lock_enabled: Whether to enable OPLock. Valid values: true, false,
+                notify_enabled: Whether to enable notification. Valid values: true, false,
+                offline_file_mode: Offline file mode (string),
+                ca_enabled: Whether to enable CA. Valid values: true, false,
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/cifs-shares/query"
 
@@ -965,7 +985,26 @@ def cifs_share_show(client: DMEAPIClient, cifs_share_id: str) -> dict:
         cifs_share_id: CIFS share ID
 
     Returns:
-        CIFS share details
+        {
+            id: Share ID (string),
+            raw_id: ID on the device (string),
+            name: Share name (string),
+            share_path: Share path (string),
+            description: Description (string),
+            vstore_raw_id: Tenant ID (string),
+            vstore_name: Tenant name (string),
+            fs_id: Filesystem ID (string),
+            fs_name: Filesystem name (string),
+            storage_id: Storage device ID (string),
+            storage_name: Storage device name (string),
+            storage_ip: Storage device IP (string),
+            op_lock_enabled: Whether to enable OPLock. Valid values: true, false,
+            notify_enabled: Whether to enable notification. Valid values: true, false,
+            offline_file_mode: Offline file mode (string),
+            ca_enabled: Whether to enable CA. Valid values: true, false,
+            abe_enabled: Whether to enable ABE. Valid values: true, false,
+            show_snapshot_enabled: Whether to show snapshot directory. Valid values: true, false,
+        }
     """
     url = "/rest/fileservice/v1/cifs-shares/{cifs_share_id}"
 
@@ -1238,7 +1277,12 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
         page_size: Items per page (Optional), 1~1000, default 10
 
     Returns:
-        Permission list
+        {
+            permission_list: List of permissions. Parameter format: [{
+                type: Permission type (string),
+                rules: List of rules (List),
+            }, ...],
+        }
     """
     result = {'user': [], 'ip': [], 'file': []}
 
@@ -1375,7 +1419,22 @@ def dataturbo_share_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending), default asc
 
     Returns:
-        DataTurbo share list
+        {
+            total: Number of DataTurbo shares (int32),
+            data: List of DataTurbo shares (List<DpcShare>). Parameter format: [{
+                id: Share ID (string),
+                raw_id: ID on the device (string),
+                share_path: Share path (string),
+                fs_id: Filesystem ID (string),
+                fs_name: Filesystem name (string),
+                storage_id: Storage device ID (string),
+                storage_name: Storage device name (string),
+                vstore_id: Tenant ID (string),
+                vstore_raw_id: Tenant ID on the device (string),
+                vstore_name: Tenant name (string),
+                charset: Character set (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/query"
 
@@ -1430,7 +1489,25 @@ def dataturbo_share_show(client: DMEAPIClient, dataturbo_share_id: str) -> dict:
         dataturbo_share_id: DataTurbo share ID
 
     Returns:
-        DataTurbo share details
+        {
+            id: Share ID (string),
+            raw_id: ID on the device (string),
+            description: Description (string),
+            share_path: Share path (string),
+            fs_id: Filesystem ID (string),
+            fs_name: Filesystem name (string),
+            storage_id: Storage device ID (string),
+            storage_name: Storage device name (string),
+            storage_ip: Storage device IP (string),
+            vstore_id: Tenant ID (string),
+            vstore_raw_id: Tenant ID on the device (string),
+            vstore_name: Tenant name (string),
+            charset: Character set (string),
+            zone_id: Zone ID (string),
+            zone_name: Zone name (string),
+            zone_ip: Zone IP (string),
+            scope: Scope (string),
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}"
 
@@ -1576,7 +1653,14 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
         permission: DataTurbo Admin permission(Optional) , Options: read_and_write (read/write)
 
     Returns:
-        DataTurbo  shareAdminPermission list
+        {
+            total: Number of permissions (int32),
+            data: List of permissions (List<DpcShareAuth>). Parameter format: [{
+                user_id: User ID (string),
+                user_name: User name (string),
+                permission: Permission (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/dpc-shares/{dataturbo_share_id}/dpc-share-auths/query"
 
@@ -1628,7 +1712,21 @@ def quota_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
         zone_id: Zone id (Optional), 0~64 characters, OceanStor A800 only
 
     Returns:
-        Quota list
+        {
+            total: Number of quotas (int32),
+            datas: List of quotas (List<QuotaListItem>). Parameter format: [{
+                id: Quota ID (string),
+                raw_id: ID on the device (string),
+                quota_type: Quota type (string),
+                parent_type: Parent object type (string),
+                owner_name: Owner name (string),
+                space_soft_quota: Space soft quota (string),
+                space_hard_quota: Space hard quota (string),
+                space_hard_used_rate: Space hard quota usage rate (string),
+                file_hard_quota: File hard quota (string),
+                file_hard_used: Files used (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/quotas/query"
 
@@ -1675,7 +1773,17 @@ def quota_show(client: DMEAPIClient, quota_id: str) -> dict:
         quota_id: Quota ID
 
     Returns:
-        Quota details
+        {
+            id: Quota ID (string),
+            raw_id: ID on the device (string),
+            quota_type: Quota type (string),
+            parent_type: Parent object type (string),
+            owner_name: Owner name (string),
+            space_soft_quota: Space soft quota (string),
+            space_hard_quota: Space hard quota (string),
+            file_hard_quota: File hard quota (string),
+            file_hard_used: Files used (string),
+        }
     """
     url = "/rest/fileservice/v1/quotas/query"
 
@@ -1912,7 +2020,31 @@ def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100
         },...]
 
     Returns:
-        Filesystem list
+        {
+            total: Number of filesystems (int32),
+            data: List of filesystems (List<FileSystemSummary>). Parameter format: [{
+                id: Filesystem ID (string),
+                fs_raw_id: ID on the device (string),
+                name: Name (string),
+                description: Description (string),
+                health_status: Health status (string),
+                running_status: Running status (string),
+                alloc_type: Allocation type. Valid values: thin, thick,
+                type: Type (string),
+                protection: Protection status (string),
+                capacity: Capacity (string),
+                available_capacity: Available capacity (string),
+                total_capacity_in_byte: Total capacity (int64, bytes),
+                available_capacity_in_byte: Available capacity (int64, bytes),
+                nfs_count: Number of NFS shares (int32),
+                cifs_count: Number of CIFS shares (int32),
+                dpc_count: Number of DPC clients (int32),
+                dtree_count: Number of dtrees (int32),
+                storage_id: Storage device ID (string),
+                storage_name: Storage device name (string),
+                storage_ip: Storage device IP (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/filesystems/query"
 
@@ -1991,7 +2123,29 @@ def filesystem_show(client: DMEAPIClient, filesystem_id: str) -> dict:
         filesystem_id: Filesystem ID
 
     Returns:
-        Filesystem details
+        {
+            id: Filesystem ID (string),
+            fs_raw_id: ID on the device (string),
+            name: Name (string),
+            description: Description (string),
+            health_status: Health status (string),
+            running_status: Running status (string),
+            alloc_type: Allocation type. Valid values: thin, thick,
+            type: Type (string),
+            protection: Protection status (string),
+            capacity: Capacity (string),
+            available_capacity: Available capacity (string),
+            total_capacity_in_byte: Total capacity (int64, bytes),
+            available_capacity_in_byte: Available capacity (int64, bytes),
+            nfs_count: Number of NFS shares (int32),
+            cifs_count: Number of CIFS shares (int32),
+            dpc_count: Number of DPC clients (int32),
+            dtree_count: Number of dtrees (int32),
+            storage_id: Storage device ID (string),
+            storage_name: Storage device name (string),
+            storage_ip: Storage device IP (string),
+            storage_type: Storage device type (string),
+        }
     """
     url = "/rest/fileservice/v1/filesystems/{filesystem_id}"
 
@@ -2296,7 +2450,14 @@ def filesystem_query_available(client: DMEAPIClient, feature_type: str,
         sort_dir: Sort direction, asc (ascending) or desc (descending) 
 
     Returns:
-         availableFilesystem list
+        {
+            total: Number of available filesystems (int32),
+            available_filesystems: List of available filesystems (List<AvailableFilesystemResponse>). Parameter format: [{
+                id: Filesystem ID (string),
+                name: Filesystem name (string),
+                capacity: Capacity (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/filesystems/available-filesystems/query"
 
@@ -2592,28 +2753,23 @@ def namespace_show(client: DMEAPIClient, namespace_id: str) -> dict:
         namespace_id: Namespace ID (Required, 1~64  characters) 
     
     Returns:
-        NamespaceDetails, includes : 
-        - id: Namespace ID
-        - raw_id: Namespaceon the storage device ID
-        - name: Namespace name
-        - storage_id: Storage device ID
-        - vstore_id:  tenant ID
-        - vstore_name: Tenant name
-        - pool_id: Storage pool ID
-        - pool_name: Storage pool name
-        - running_status: Running status (NORMAL/UNKNOWN) 
-        - space_used_rate: Space usage ratio
-        - file_used_rate: File usage ratio
-        - space_used: used space
-        - file_used: Used file count
-        - trash_enable: Enable recycle bin
-        - enable_encrypt: Enable encryption
-        - rdc: Data redundancy copies
-        - acl_policy_type: Security mode
-        - gfs_id: Global namespace ID
-        - qos_policy: QoS  policy
-        - worm: WORM  parameter
-        details
+        {
+            id: Namespace ID (string),
+            raw_id: Namespace ID on the storage device (string),
+            name: Namespace name (string),
+            storage_id: Storage device ID (string),
+            vstore_id: Tenant ID (string),
+            vstore_name: Tenant name (string),
+            pool_id: Storage pool ID (string),
+            pool_name: Storage pool name (string),
+            running_status: Running status. Valid values: NORMAL, UNKNOWN,
+            space_used_rate: Space usage rate (string),
+            file_used_rate: File usage rate (string),
+            space_used: Used space (string),
+            file_used: Used file count (string),
+            trash_enable: Whether to enable recycle bin (string),
+            enable_encrypt: Whether to enable encryption (string),
+        }
     """
     url = "/rest/fileservice/v1/namespaces/{namespace_id}"
     
@@ -2997,7 +3153,16 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
         sort_dir: Sort direction(Optional) , Options: asc (ascending) , desc (descending) , default asc
 
     Returns:
-        Client access list
+        {
+            total: Number of clients (int32),
+            auth_client_list: List of client access entries (List<AuthClientV2>). Parameter format: [{
+                client_id_in_storage: Client ID on the device (string),
+                nfs_share_id_in_storage: NFS share ID on the device (string),
+                name: Client name (string),
+                permission: Permission (string),
+                accesskrb5: Kerberos authentication (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v2/nfs-auth-clients/query"
 
@@ -3053,7 +3218,14 @@ def account_dataturbo_admin_list(client: DMEAPIClient, storage_id: str = None, v
         page_size: shown per pagecount (int32, min: 1, max: 1000, Default: 20, Optional)
 
     Returns:
-        DataTurbo admin list, includes  total and administrators
+        {
+            total: Number of administrators (integer),
+            administrators: List of administrators (List<AdministratorQueryResp>). Parameter format: [{
+                id: Administrator ID (string),
+                name: Administrator name (string),
+                type: Administrator type (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/dpc-administrators/query"
 
@@ -3219,7 +3391,14 @@ def account_unix_user_group_list(client: DMEAPIClient, storage_id: str = None,
         sort_dir:  specifiedSort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
 
     Returns:
-        UNIX  authUser group list
+        {
+            total: Number of user groups (int32),
+            groups: List of UNIX authenticated user groups (List<UnixUserGroup>). Parameter format: [{
+                id: User group ID (string),
+                name: User group name (string),
+                gid: Group GID (int32),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/unix-user-groups/query"
 
@@ -3260,7 +3439,12 @@ def account_unix_user_group_show(client: DMEAPIClient, id: str) -> dict:
         id: User group ID (1~32 characters, Required)
 
     Returns:
-        UNIX User group details
+        {
+            id: User group ID (string),
+            name: User group name (string),
+            gid: Group GID (int32),
+            description: Description (string),
+        }
     """
     url = "/rest/fileservice/v1/unix-user-groups/{id}"
 
@@ -3349,7 +3533,13 @@ def account_unix_user_show(client: DMEAPIClient, id: str) -> dict:
         id: user  ID (1~32 characters, Required)
 
     Returns:
-        UNIX Auth user details
+        {
+            id: User ID (string),
+            name: User name (string),
+            uid: User UID (int32),
+            primary_group_name: Primary group name (string),
+            description: Description (string),
+        }
     """
     url = "/rest/fileservice/v1/unix-users/{id}"
 
@@ -3384,7 +3574,15 @@ def account_unix_user_list(client: DMEAPIClient, storage_id: str = None,
         sort_dir:  specifiedSort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
 
     Returns:
-        UNIX  authUser list
+        {
+            total: Number of users (int32),
+            users: List of UNIX authenticated users (List<UnixUser>). Parameter format: [{
+                id: User ID (string),
+                name: User name (string),
+                uid: User UID (int32),
+                primary_group_name: Primary group name (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/unix-users/query"
 
@@ -3633,7 +3831,15 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
         sort_key: Sort key (Optional). Options: capacity (Total capacity), used_capacity (Used capacity), used_tokens (used tokens count), hit_ratio ( hit ratio)
 
     Returns:
-        KV cache store list
+        {
+            total: Number of KV cache stores (int32),
+            kv_cache_stores: List of KV cache stores (List<KVCacheStore>). Parameter format: [{
+                id: Store ID (string),
+                name: Store name (string),
+                status: Status (string),
+                capacity: Capacity (string),
+            }, ...],
+        }
     """
     url = "/rest/kvcachemgmt/v1/kv-cache-stores/query"
 

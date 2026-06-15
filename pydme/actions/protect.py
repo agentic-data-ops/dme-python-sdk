@@ -287,7 +287,38 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         remote_vstore_raw_id: remote tenanton the device ID, this parameter and remote_vstore_id mutually exclusive
 
     Returns:
-        Active-active consistency group list
+        {
+            total: Number of active-active consistency groups (int32),
+            groups: List of active-active consistency groups (List<HyperMetroGroupResponse>). Parameter format: [{
+                id: Active-active consistency group ID (string, 1-64 characters),
+                raw_id: ID on the device (string, 1-64 characters),
+                name: Name (string, 1-255 characters),
+                local_storage_id: Local storage device ID (string, 1-64 characters),
+                local_storage_name: Local storage device name (string, 1-256 characters),
+                local_vstore_id: Local tenant ID (string),
+                local_vstore_raw_id: Local tenant ID on the device (string),
+                local_vstore_name: Local tenant name (string),
+                remote_storage_id: Remote storage device ID (string, 0-64 characters),
+                remote_storage_name: Remote storage device name (string, 0-256 characters),
+                remote_vstore_id: Remote tenant ID (string),
+                remote_vstore_raw_id: Remote tenant ID on the device (string),
+                remote_vstore_name: Remote tenant name (string),
+                domain_name: Hyper-metro domain name (string, 0-64 characters),
+                domain_raw_id: Domain ID on the device (string, 0-64 characters),
+                health_status: Health status. Valid values: unknown, normal, fault,
+                running_status: Running status. Valid values: normal, synchronizing, invalid, paused, forcibly_started, to_be_synchronized, error, unknown,
+                recovery_policy: Recovery policy. Valid values: automatic, manual,
+                priority_station_type: Priority site type. Valid values: preferred, non_preferred,
+                speed: Sync speed. Valid values: low, medium, high, highest, custom,
+                bandwidth: Custom sync bandwidth (int32, 1-1024 MB/s),
+                sync_direction: Data sync direction. Valid values: no_data_synchronization, local_to_remote, remote_to_local,
+                activation_state: Activation state. Valid values: active, passive,
+                local_protect_group_name: Local protection group name (string, 0-255 characters),
+                remote_protect_group_name: Remote protection group name (string, 0-255 characters),
+                isolation_enabled: Isolation switch. Valid values: true, false,
+                isolation_threshold_time: Isolation threshold (int32, 10-30000ms),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/metro/groups/query"
 
@@ -609,7 +640,50 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
         remote_volume_name: remote  LUN  name, supports fuzzy match
 
     Returns:
-        Active-active Pair  list
+        {
+            total: Number of LUN active-active pairs (int32),
+            hypermetro_pairs: List of LUN active-active pairs (List<HyperMetroPairResponse>). Parameter format: [{
+                id: Active-active pair ID (string, 1-64 characters),
+                pair_raw_id: ID on the storage device (string, 1-64 characters),
+                local_volume_raw_id: Local LUN ID on the device (string, 1-64 characters),
+                local_volume_name: Local LUN name (string, 1-255 characters),
+                remote_volume_raw_id: Remote LUN ID on the device (string, 1-64 characters),
+                remote_volume_name: Remote LUN name (string, 1-255 characters),
+                domain_raw_id: Domain ID on the device (string, 0-64 characters),
+                domain_name: Domain name (string, 0-64 characters),
+                volume_wwn: Local LUN WWN (string, 1-64 characters),
+                health_status: Health status. Valid values: unknown, normal, fault,
+                running_status: Running status. Valid values: normal, synchronizing, invalid, pause, forced_start, to_be_synchronized, unknown, error,
+                link_status: Link status. Valid values: connected, disconnected, unknown,
+                recovery_policy: Recovery policy. Valid values: automatic, manual,
+                priority_station_type: Priority site type. Valid values: preferred, non_preferred,
+                local_storage_id: Local storage device ID (string, 1-64 characters),
+                local_storage_name: Local storage device name (string, 1-255 characters),
+                local_vstore_id: Local tenant ID (string),
+                local_vstore_raw_id: Local tenant ID on the device (string),
+                local_vstore_name: Local tenant name (string),
+                remote_storage_id: Remote storage device ID (string, 0-64 characters),
+                remote_storage_name: Remote storage device name (string, 0-255 characters),
+                remote_vstore_id: Remote tenant ID (string),
+                remote_vstore_raw_id: Remote tenant ID on the device (string),
+                remote_vstore_name: Remote tenant name (string),
+                is_in_group: Whether in a consistency group. Valid values: true, false,
+                group_id: Active-active consistency group ID (string, 0-64 characters),
+                group_raw_id: Group ID on the device (string, 0-64 characters),
+                group_name: Group name (string, 0-255 characters),
+                speed: Sync speed. Valid values: low, medium, high, highest,
+                sync_start_time: Last sync start time (string),
+                sync_end_time: Last sync end time (string),
+                local_data_state: Local data state. Valid values: consistent, inconsistent,
+                remote_data_state: Remote data state. Valid values: consistent, inconsistent,
+                local_host_access_state: Local host access state. Valid values: access_forbidden, read_only, read_write,
+                remote_host_access_state: Remote host access state. Valid values: access_forbidden, read_only, read_write,
+                sync_left_time: Estimated sync completion time (string),
+                sync_direction: Data sync direction. Valid values: no_data_synchronization, local_to_remote, remote_to_local,
+                progress: Sync progress (int32),
+                activation_state: Activation state. Valid values: active, passive,
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/metro/lun-pairs/query"
 
@@ -904,7 +978,33 @@ def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
         types: Active-active domain type list
 
     Returns:
-        Active-active domain list
+        {
+            metro_domain_list: List of hyper-metro domains (List<MetroDomain>). Parameter format: [{
+                id: Domain ID (string),
+                storage_id: Device ID (string),
+                storage_name: Device name (string, 1-64 characters),
+                ip_address: Device IP address (string),
+                domain_id: Domain ID on the device (string, 1-32 characters),
+                domain_name: Domain name (string, 1-64 characters),
+                running_status: Running status. Valid values: normal, to_be_recovered, invalid, recovering, faulty, split, force_started,
+                domain_type: Domain mode. Valid values: AA_mode, AP_mode,
+                type: Domain usage type. Valid values: block, file_system, block_file_system,
+                cp_type: Arbitration type. Valid values: quorum_server, quorum_disk, none,
+                cps_name: Arbitration server name (string, 1-64 characters),
+                cps_running_status: Arbitration server running status. Valid values: online, offline,
+                standby_cps_name: Standby arbitration server name (string, 1-64 characters),
+                server_ip_master: Arbitration server IP (string),
+                server_ip_slave: Alternate arbitration server IP (string),
+                iscsi_link_num: Number of iSCSI links (integer),
+                fc_link_num: Number of FC links (integer),
+                ip_link_num: Number of IP links (integer),
+                remote_storage_id: Remote device ID (string),
+                remote_storage_name: Remote device name (string, 1-64 characters),
+                remote_storage_ip: Remote device IP (string),
+                remote_dev_running_status: Remote device running status. Valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
+                config_role: Configuration role. Valid values: active_site, standby_site,
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/hyper-metro-domains/query"
 
@@ -950,7 +1050,49 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
         remote_volume_name: remote  LUN  name, supports fuzzy match
 
     Returns:
-         replication Pair  list
+        {
+            total: Number of replication pairs (int32),
+            replication_pairs: List of replication pairs (List<ReplicationPairResponse>). Parameter format: [{
+                id: Replication pair ID (string),
+                raw_id: ID on the device (string),
+                local_storage_id: Local storage device ID (string),
+                local_storage_name: Local storage device name (string),
+                local_resource_raw_id: Local resource ID on the device (string),
+                local_resource_name: Local resource name (string),
+                remote_storage_id: Remote storage device ID (string),
+                remote_storage_name: Remote storage device name (string),
+                remote_resource_raw_id: Remote resource ID on the device (string),
+                remote_resource_name: Remote resource name (string),
+                local_resource_type: Local resource type. Valid values: lun, file_system,
+                local_vstore_raw_id: Local tenant ID on the device (string),
+                remote_vstore_raw_id: Remote tenant ID on the device (string),
+                health_status: Health status.
+                running_status: Running status.
+                replication_mode: Replication mode. Valid values: synchronous, asynchronous,
+                speed: Sync speed.
+                bandwidth: Bandwidth (int32),
+                synchronize_type: Synchronization type.
+                interval: Synchronization interval (integer, 0-86400s),
+                sync_left_time: Remaining sync time,
+                recovery_policy: Recovery policy.
+                is_primary: Whether primary,
+                rep_io_timeout: Replication IO timeout (integer, 10-255s),
+                enable_compress: Enable compression,
+                compress_valid: Compression valid,
+                sync_start_time: Sync start time,
+                sync_end_time: Sync end time,
+                is_in_group: Whether in a consistency group,
+                group_id: Group ID (string),
+                group_raw_id: Group ID on the device (string),
+                group_name: Group name (string),
+                data_consistent_status: Data consistent status,
+                primary_resource_data_status: Primary resource data status,
+                secondary_resource_data_status: Secondary resource data status,
+                secondary_resource_protection: Secondary resource protection,
+                dr_ring_id: DR ring ID,
+                progress: Progress (int32, -1~100),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/replication/pairs/query"
 
@@ -1264,7 +1406,30 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: Storage device ID
 
     Returns:
-         device Pairs  list
+        {
+            total: Number of device pairs (int32),
+            device_pairs: List of device pairs (List<DevicePairInfo>). Parameter format: [{
+                id: Device pair ID (string, 1-64 characters),
+                local_storage_sn: Local device SN (string, 0-32 characters),
+                remote_storage_sn: Remote device SN (string, 0-32 characters),
+                local_storage_ip: Local device IP (string, 1-64 characters),
+                local_storage_name: Local device name (string, 0-255 characters),
+                local_storage_model: Local device model (string, 0-32 characters),
+                local_storage_version: Local device version (string, 0-32 characters),
+                remote_storage_identifier: Remote device identifier on local device (string, 0-32 characters),
+                remote_storage_name: Remote device name (string, 0-255 characters),
+                remote_storage_wwn: Remote device WWN (string, 0-64 characters),
+                remote_storage_vendor: Remote device vendor (string, 0-32 characters),
+                remote_storage_ip: Remote device IP (string, 1-64 characters),
+                remote_storage_model: Remote device model (string, 0-32 characters),
+                remote_storage_type: Remote device type. Valid values: replication_device, heterogeneous_device, unknown_device, cloud_replication_device,
+                remote_storage_version: Remote device version (string, 0-32 characters),
+                running_status: Running status. Valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
+                health_status: Health status. Valid values: normal, fault, invalid,
+                compress_alg_valid: Whether compression status is valid. Valid values: true, false,
+                compress_algorithm: Compression algorithm. Valid values: depth_compression, fast_compression, invalid, fault,
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/device-pairs/query"
 
@@ -1286,7 +1451,16 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
         storage_id: Storage device ID
 
     Returns:
-        Replication pair creation link list
+        {
+            total: Number of replication links (int32),
+            replication_links: List of replication links (List<ReplicationLinkInfo>). Parameter format: [{
+                id: Replication link ID (string, 1-64 characters),
+                link_type: Link type. Valid values: fc_link, ip_link,
+                local_storage_id: Local storage device ID (string, 1-64 characters),
+                health_status: Health status. Valid values: normal, fault,
+                running_status: Running status. Valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/replication-links/query"
 
@@ -1327,7 +1501,35 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
         page_size: per pagecount, 1~1000, default 20
 
     Returns:
-        LUN  snapshot list
+        {
+            total: Number of LUN snapshots (int32),
+            snapshots: List of LUN snapshots (List<SnapshotInfo>). Parameter format: [{
+                id: Snapshot ID (string),
+                raw_id: ID on the device (string),
+                name: Snapshot name (string),
+                parent_type: Parent type. Valid values: lun, snapshot,
+                parent_id: Parent ID (string),
+                parent_raw_id: Parent ID on the device (string),
+                parent_name: Parent name (string),
+                health_status: Health status.
+                running_status: Running status.
+                description: Description (string),
+                activated_time: Activation time (int64),
+                rollback_start_time: Rollback start time (int64),
+                rollback_end_time: Rollback end time (int64),
+                rollback_speed: Rollback speed.
+                rollback_rate: Rollback rate (int32, -1~100),
+                is_mapped: Whether mapped,
+                wwn: WWN (string),
+                user_capacity: User capacity (int64, bytes),
+                consumed_capacity: Consumed capacity (int64, bytes),
+                snapshot_cg_id: Snapshot consistency group ID (string),
+                snapshot_cg_name: Snapshot consistency group name (string),
+                source_lun_id: Source LUN ID (string),
+                source_lun_name: Source LUN name (string),
+                storage_id: Storage device ID (string),
+            }, ...],
+        }
     """
     url = "/rest/protection/v1/lun-snapshots/query"
 

@@ -678,51 +678,39 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     """
     Wait for task completion
 
-    Poll task status, Until task completes or times out. 
+    Poll task status by delegating to DMEAPIClient.get_task_result until the task completes or times out.
+    Warning status (7) is also considered as task completed.
 
     Args:
         client: DME API client
-        task_id: task  ID
-        timeout: timeout (second(s)) , default 300 second(s)
-        poll_interval:  Polling interval (second(s)) , default 2 second(s)
+        task_id: Task ID (required, 1-36 characters)
+        timeout: Timeout in seconds, default 300. Number of polls = timeout / poll_interval
+        poll_interval: Polling interval in seconds, default 2
 
     Returns:
-        Task final status details
-        Status description: 
-        - 3:  success
-        - 4: partial success
-        - 5:  failure
-        - 6:  timeout
+        {
+            id: Task ID (string),
+            status: Task status (integer). Valid values: 3 (success), 4 (partial success), 5 (failure), 6 (timeout), 7 (warning),
+            progress: Task progress (integer, 0-100),
+            name_en: Task English name (string),
+            name_cn: Task Chinese name (string),
+            resources: List of resources associated with the task (List<AffectedResource>). Parameter format: [{
+                operate: Operation type (string). Valid values: CREATE, MODIFY, DELETE,
+                type: Affected resource type (string),
+                id: Affected resource ID (string),
+                name: Affected resource name (string),
+            }, ...],
+        }
+
+    Raises:
+        Exception: Task query timeout (exceeded max retries without completion)
     """
-    start_time = time.time()
-
-    while True:
-        task_info = task_show(client, task_id)
-
-        # API returns a list, get root task details
-        for task in task_info:
-            if task["id"] == task_id:
-                root_task = task
-                break
-
-        status = root_task.get('status')
-
-        # Check if task is complete
-        if status in [3, 4, 5, 6]:  #  success, partial success,  failure,  timeout
-            return root_task
-
-        # Check timeout
-        elapsed = time.time() - start_time
-        if elapsed >= timeout:
-            return {
-                'error': 'Task timeout',
-                'task_id': task_id,
-                'elapsed': elapsed,
-                'current_status': status
-            }
-
-        # Wait then continue polling
-        time.sleep(poll_interval)
+    retry_times = max(1, timeout // poll_interval)
+    return client.get_task_result(
+        task_id,
+        retry_times=retry_times,
+        retry_interval=poll_interval,
+    )
 
 
 # ==================== Tag typemanagement  (tag_type Subtopic)  ====================
