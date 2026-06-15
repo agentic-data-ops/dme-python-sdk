@@ -70,14 +70,23 @@ def _accepts_risk(args) -> bool:
     return args.accept_risk or os.environ.get('DME_ACCEPT_RISK', '').lower() in ('true', '1', 'yes')
 
 
-def _check_risk(topic: str, action_key: str, args) -> None:
-    """如果 action 在黑名单中且用户未确认风险，则拒绝执行。"""
+def _check_risk(topic: str, action_key: str, args, *,
+                cmd_parts: list = None) -> None:
+    """如果 action 在黑名单中且用户未确认风险，则拒绝执行。
+
+    Args:
+        topic: 主题名（如 san）
+        action_key: 黑名单中的完整动作 key（如 lun_delete）
+        args: CLI 解析后的参数
+        cmd_parts: 原始命令的各部分，用于显示（如 ["san", "lun", "delete"]）
+    """
     blacklist = load_blacklist()
     if topic not in blacklist or action_key not in blacklist[topic]:
         return  # 不在黑名单中，安全
 
-    print(f'\n⚠️  风险操作警告："{topic} {action_key}" 是高风险操作（可能造成数据丢失或服务中断）')
-    print(f'   操作类型：{action_key}')
+    cmd_display = ' '.join(cmd_parts) if cmd_parts else f'{topic} {action_key}'
+
+    print(f'\n⚠️  风险操作警告："{cmd_display}" 是高风险操作（可能造成数据丢失或服务中断）')
 
     if _accepts_risk(args):
         print(f'   ✅ 风险已确认（--accept-risk / DME_ACCEPT_RISK），继续执行...\n')
@@ -868,7 +877,8 @@ def main():
             # 没有指定 --help，执行动作（需要登录）
 
             # 风险操作检查
-            _check_risk(args.topic, action_key, args)
+            _check_risk(args.topic, action_key, args,
+                        cmd_parts=[args.topic, action_key])
 
             endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
             username = args.user or os.environ.get('DME_API_USERNAME')
@@ -1008,7 +1018,8 @@ def main():
         # 执行动作（需要登录）
 
         # 风险操作检查
-        _check_risk(args.topic, action_key, args)
+        _check_risk(args.topic, action_key, args,
+                    cmd_parts=[args.topic, args.subtopic, args.action])
 
         endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
         username = args.user or os.environ.get('DME_API_USERNAME')

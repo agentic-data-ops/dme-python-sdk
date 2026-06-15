@@ -141,8 +141,7 @@ pydme --endpoint https://dme-float-ip:26335 --user admin --password pass storage
 执行高风险命令时，CLI 会拦截并提示确认：
 
 ```
-⚠️  风险操作警告："san lun_delete" 是高风险操作（可能造成数据丢失或服务中断）
-   操作类型：lun_delete
+⚠️  风险操作警告："san lun delete" 是高风险操作（可能造成数据丢失或服务中断）
    ❌ 已拒绝执行。如确认要继续，请添加 --accept-risk 参数
       或设置环境变量 DME_ACCEPT_RISK=true
 ```
