@@ -81,7 +81,15 @@ def cpu_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
 
     Returns:
-        CPU  list
+        {
+            total: Number of CPUs (int32),
+            cpus: List of CPUs (List<CpuInfo>). Parameter format: [{
+                id: CPU ID (string),
+                name: Name (string),
+                cores: Number of cores (int32),
+                frequency: Frequency (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/processors/query"
 
@@ -107,7 +115,14 @@ def memory_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-         memory list
+        {
+            total: Number of memory modules (int32),
+            memories: List of memory modules (List<MemoryInfo>). Parameter format: [{
+                id: Memory ID (string),
+                name: Name (string),
+                capacity: Capacity (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/memories/query"
     
@@ -133,7 +148,15 @@ def disk_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-         disk list
+        {
+            total: Number of disks (int32),
+            disks: List of disks (List<DiskInfo>). Parameter format: [{
+                id: Disk ID (string),
+                name: Name (string),
+                capacity: Capacity (string),
+                health_status: Health status (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/disks/query"
     
@@ -159,7 +182,15 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
         page_size: per pagecount, 5~1000, default 20
 
     Returns:
-        NIC list
+        {
+            total: Number of NICs (int32),
+            nics: List of NICs (List<NicInfo>). Parameter format: [{
+                id: NIC ID (string),
+                name: Name (string),
+                mac: MAC address (string),
+                speed: Speed (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/network-adapters/query"
 
@@ -187,7 +218,15 @@ def fan_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        Fan list
+        {
+            total: Number of fans (int32),
+            fans: List of fans (List<FanInfo>). Parameter format: [{
+                id: Fan ID (string),
+                name: Name (string),
+                speed: Speed (string),
+                health_status: Health status (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/fans/query"
     
@@ -213,7 +252,15 @@ def power_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        power supply list
+        {
+            total: Number of power supplies (int32),
+            powers: List of power supplies (List<PowerInfo>). Parameter format: [{
+                id: Power supply ID (string),
+                name: Name (string),
+                status: Status (string),
+                health_status: Health status (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/powers/query"
     
@@ -239,7 +286,14 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        RAID card list
+        {
+            total: Number of RAID cards (int32),
+            raid_cards: List of RAID cards (List<RaidCardInfo>). Parameter format: [{
+                id: RAID card ID (string),
+                name: Name (string),
+                model: Model (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/raid-cards/query"
     
@@ -265,7 +319,14 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
         limit: Page size, default 100
     
     Returns:
-        PCIe card list
+        {
+            total: Number of PCIe cards (int32),
+            pcie_cards: List of PCIe cards (List<PcieCardInfo>). Parameter format: [{
+                id: PCIe card ID (string),
+                name: Name (string),
+                type: Type (string),
+            }, ...],
+        }
     """
     url = "/rest/servermgmt/v1/pcies/query"
     

@@ -108,7 +108,26 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
         vr_type: Virtualization platform type (Optional) 
     
     Returns:
-        Virtual machineDetails, includes  CPU,  memory,  disk,  NIC etcConfiguration info
+        {
+            id: Virtual machine ID (string),
+            name: Name (string),
+            status: Status (string),
+            cpu: CPU info. Attribute format: {
+                cores: Number of CPU cores (int32),
+                sockets: Number of CPU sockets (int32),
+            },
+            memory: Memory size (int64, MB),
+            vm_nics: List of NICs (List<VmNicInfo>). Parameter format: [{
+                id: NIC ID (string),
+                name: NIC name (string),
+                mac: MAC address (string),
+            }, ...],
+            vm_disks: List of disks (List<VmDiskInfo>). Parameter format: [{
+                id: Disk ID (string),
+                name: Disk name (string),
+                capacity: Capacity (int64, GB),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
@@ -201,7 +220,14 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
         vr_type: Virtualization platform type (Optional) 
     
     Returns:
-        DatastoreDetails
+        {
+            id: Datastore ID (string),
+            name: Name (string),
+            type: Type (string),
+            total_capacity: Total capacity (int64),
+            free_capacity: Free capacity (int64),
+            status: Status (string),
+        }
     """
     url = "/rest/vmmgmt/v1/datastores/{datastore_id}"
     
@@ -277,7 +303,15 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
         vr_type: Virtualization platform type (Optional) 
     
     Returns:
-         hostDetails
+        {
+            id: Host ID (string),
+            name: Name (string),
+            ip: IP address (string),
+            status: Status (string),
+            cpu_cores: Number of CPU cores (int32),
+            memory: Memory size (int64, MB),
+            os_type: OS type (string),
+        }
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}"
     
@@ -341,7 +375,13 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
         vr_type: Virtualization platform type (Optional) 
     
     Returns:
-         clusterDetails
+        {
+            id: Cluster ID (string),
+            name: Name (string),
+            type: Type (string),
+            host_count: Number of hosts (int32),
+            status: Status (string),
+        }
     """
     url = "/rest/vmmgmt/v1/clusters/{cluster_id}"
     
@@ -384,7 +424,11 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
         site_id:  site ID (Required) 
     
     Returns:
-         siteDetails
+        {
+            id: Site ID (string),
+            name: Name (string),
+            status: Status (string),
+        }
     """
     url = "/rest/vmmgmt/v1/sites/{site_id}"
     
@@ -405,7 +449,15 @@ def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
         host_id:  host ID (Required) 
     
     Returns:
-        Storage adapter list
+        {
+            total: Number of adapters (int32),
+            adapters: List of storage adapters (List<HostAdapterInfo>). Parameter format: [{
+                id: Adapter ID (string),
+                name: Name (string),
+                type: Type (string),
+                wwn: WWN (string),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}/storage-adapters"
     
@@ -433,7 +485,15 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
         page_size: per pagecount, 1~1000, default 20
     
     Returns:
-        Physical disk list
+        {
+            total: Number of disks (int32),
+            disks: List of physical disks (List<PhysicalDiskInfo>). Parameter format: [{
+                id: Disk ID (string),
+                name: Name (string),
+                capacity: Capacity (int64),
+                status: Status (string),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/vdisks/pdisks"
     
@@ -477,7 +537,15 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
         page_size: per pagecount, 1~1000, default 20
     
     Returns:
-        Virtual disk list
+        {
+            total: Number of virtual disks (int32),
+            vdisks: List of virtual disks (List<VirtualDiskInfo>). Parameter format: [{
+                id: Virtual disk ID (string),
+                name: Name (string),
+                capacity: Capacity (int64, GB),
+                status: Status (string),
+            }, ...],
+        }
     """
     url = "/rest/vmmgmt/v1/vdisks/query"
     
@@ -512,7 +580,13 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
         virtual_disk_id: Virtual disk ID (Required) 
     
     Returns:
-        Virtual diskDetails
+        {
+            id: Virtual disk ID (string),
+            name: Name (string),
+            capacity: Capacity (int64, GB),
+            status: Status (string),
+            datastore_id: Datastore ID (string),
+        }
     """
     url = "/rest/vmmgmt/v1/vdisks/{virtual_disk_id}"
     

@@ -1246,7 +1246,40 @@ def storage_host_batch_query(client: DMEAPIClient, ids: list) -> dict:
         ids: ID list (Required, 1~1000)
 
     Returns:
-        Storage host info list
+        {
+            total: Number of storage hosts (int32),
+            hosts: List of storage hosts (List<QueryStorageHostResponse>). Parameter format: [{
+                id: Storage host ID (string, 1-64 characters),
+                raw_id: ID on the storage device (string, 1-64 characters),
+                name: Storage host name (string, 1-255 characters),
+                ip: Storage host IP (string, 1-255 characters),
+                health_status: Health status. Valid values: normal, no_redundant_link, offline, fault, degraded,
+                os_type: Storage host type. Valid values: LINUX, WINDOWS, SOLARIS, HPUX, AIX, VMWAREESX etc.,
+                initiator_count: Number of initiators (int32),
+                lun_count: Number of mapped LUNs (int32),
+                lun_group_count: Number of mapped LUN groups (int32),
+                description: Description (string, 1-255 characters),
+                capacity_in_byte: Mapped LUN capacity (int64, bytes),
+                allocated_capacity_in_byte: Allocated capacity of mapped LUNs (int64, bytes),
+                access_mode: Access mode. Valid values: unknown, balanced, asymmetric,
+                vstore_raw_id: Tenant ID (string, 1-64 characters),
+                vstore_name: Tenant name (string, 1-256 characters),
+                storage: Storage device info (SimpleStorage). Attribute format: {
+                    storage_id: Storage device ID (string, 1-64 characters),
+                    storage_name: Storage device name (string, 1-255 characters),
+                    storage_ip: Storage device IP (string, 1-255 characters),
+                },
+                host_group: Host group info (List<HostGroupName>). Parameter format: [{
+                    id: Host group ID (string),
+                    name: Host group name (string),
+                }, ...],
+                physical_host_info: Physical host info (PhysicalHostInfo). Attribute format: {
+                    id: Physical host ID (string, 1-64 characters),
+                    name: Physical host name (string, 1-255 characters),
+                    ip: Physical host IP (string, 1-255 characters),
+                },
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/storage-hosts/query-by-ids"
 
@@ -2034,7 +2067,35 @@ def physical_host_show(client: DMEAPIClient, host_id: str) -> dict:
         host_id: Physical host ID (Required)
 
     Returns:
-        Physical host details
+        {
+            id: Physical host ID (string),
+            name: Physical host name (string),
+            description: Description (string),
+            ip: Physical host IP (string),
+            port: Port (int32),
+            username: Username (string),
+            display_status: Display status (string),
+            managed_status: Management status (string),
+            os_status: OS status (string),
+            os_type: OS type (string),
+            os_version: OS version (string),
+            initiator_count: Number of initiators (int32),
+            access_mode: Access mode (string),
+            multipathing_software: Multipathing software (string),
+            project_id: Project ID (string),
+            sync_to_storage: Sync to storage (string),
+            multipath_type: Multipath type (string),
+            path_type: Path type (string),
+            failover_mode: Failover mode (string),
+            special_mode_type: Special mode type (string),
+            capacity_in_byte: Capacity (int64, bytes),
+            allocated_capacity_in_byte: Allocated capacity (int64, bytes),
+            hostGroups: Host group info (List<HostGroupName>). Parameter format: [{
+                id: Host group ID (string),
+                name: Host group name (string),
+            }, ...],
+            azs: Availability zone list (List<string>),
+        }
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/summary"
 
@@ -2323,7 +2384,19 @@ def physical_host_show_initiators(client: DMEAPIClient, host_id: str,
         status: Initiator status (Optional, 1~32 characters). Options: UNKNOWN, ONLINE, OFFLINE, UNBOUND
 
     Returns:
-        Initiator list
+        {
+            total: Number of initiators (int32),
+            initiators: List of initiators (List<InitiatorInHostResponse>). Parameter format: [{
+                id: Initiator ID (string),
+                port_name: Port name (string),
+                status: Status (string),
+                protocol: Protocol. Valid values: iSCSI, FC, NVMe,
+                switch: Switch info. Attribute format: {
+                    switch_id: Switch ID (string),
+                    switch_name: Switch name (string),
+                },
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/initiators"
 
@@ -2459,7 +2532,30 @@ def physical_host_query_by_initiator(client: DMEAPIClient, initiator_id: str = N
         protocol: Initiator type (Optional, FC/ISCSI/NVME_OVER_ROCE)
 
     Returns:
-        Associated physical host info
+        {
+            id: Physical host ID (string),
+            name: Physical host name (string),
+            ip: Physical host IP (string),
+            description: Description (string),
+            display_status: Display status (string),
+            managed_status: Management status (string),
+            os_type: OS type (string),
+            initiator_info: List of initiator info (List<InitiatorInfo>). Parameter format: [{
+                id: Initiator ID (string),
+                port_name: Port name (string),
+                status: Status (string),
+                protocol: Protocol (string),
+            }, ...],
+            lun_count: Number of LUNs (int32),
+            storage_info: List of storage info (List<StorageInfo>). Parameter format: [{
+                storage_id: Storage device ID (string),
+                storage_name: Storage device name (string),
+            }, ...],
+            multipath_type: Multipath type (string),
+            path_type: Path type (string),
+            failover_mode: Failover mode (string),
+            special_mode_type: Special mode type (string),
+        }
     """
     url = "/rest/hostmgmt/v1/hosts/query-by-initiator"
 
@@ -2669,7 +2765,22 @@ def physical_host_group_show_hosts(client: DMEAPIClient, hostgroup_id: str,
         page_no: Page number (Optional, 1~10000000, default 1)
 
     Returns:
-        Physical host list
+        {
+            total: Number of hosts (int32),
+            hosts: List of hosts (List<HostInHostGroupResponse>). Parameter format: [{
+                id: Physical host ID (string),
+                name: Physical host name (string),
+                ip: Physical host IP (string),
+                port: Port (int32),
+                display_status: Display status (string),
+                managed_status: Management status (string),
+                os_status: OS status (string),
+                os_type: OS type (string),
+                os_version: OS version (string),
+                manufacturer: Manufacturer (string),
+                model: Model (string),
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/hosts/list"
 

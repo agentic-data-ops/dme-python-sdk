@@ -501,7 +501,12 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
         end_time: Query end time(Optional),only effective when range is BEGIN_END_TIME, must be greater than begin_time
 
     Returns:
-        Historical performance data,includes  status_code, error_code, error_msg, data
+        {
+            status_code: Status code (int32),
+            error_code: Error code (int32),
+            error_msg: Error message (string),
+            data: Performance data (Map<object, Map<object, HistoryPerfData>>),
+        }
     """
     url = "/rest/metrics/v1/data-svc/history-data/action/query"
 
@@ -540,7 +545,12 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
                     can be integer list or string list,e.g., [123, 456] or ["123", "456"]
 
     Returns:
-        Monitoring metric info includes kpi, data_type, data_unit, en_us, zh_cn and other fields
+        {
+            status_code: Status code (int32),
+            error_code: Error code (int32),
+            error_msg: Error message (string),
+            data: Monitoring indicator mapping (Map<object, SimpleIndicator>),
+        }
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
@@ -580,8 +590,19 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
                 if provided,returns only matchesObject type
 
     Returns:
-         monitorObject type list,includes  obj_type_id, parent_obj_type_id, resource_category,
-        resource_provider, en_us, zh_cn, group_en_us, group_zh_cn and other fields
+        {
+            status_code: Status code (int32),
+            error_code: Error code (int32),
+            error_msg: Error message (string),
+            data: List of monitoring object types (List<ObjectTypeBody>). Parameter format: [{
+                obj_type_id: Monitoring object type ID (int64),
+                parent_obj_type_id: Parent type ID (int64),
+                resource_category: Resource CI (string),
+                resource_provider: Resource provider (string),
+                en_us: English description (string),
+                zh_cn: Chinese description (string),
+            }, ...],
+        }
     """
     url = "/rest/metrics/v1/mgr-svc/obj-types"
 

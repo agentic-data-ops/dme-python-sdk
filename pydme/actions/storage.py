@@ -1174,7 +1174,13 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
         pool_id: Storage poolid (Optional, 1~64 characters,  letters and digits). 
     
     Returns:
-        Application type info, includes  datas  list, Each element contains id, name, block_size, 
+        {
+            datas: List of application types (List<AppTypeInfo>). Parameter format: [{
+                id: Application type ID (string),
+                name: Application type name (string),
+                block_size: Block size (string),
+            }, ...],
+        }
         enable_compress, enable_dedup, create_type and other fields
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/workloads"
@@ -1414,7 +1420,14 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
         storage_id: Storage device ID (Optional, 0~64 characters)
 
     Returns:
-        Initiator list
+        {
+            total: Number of initiators (int32),
+            initiators: List of initiators (List<InitiatorInfo>). Parameter format: [{
+                id: Initiator ID (string),
+                port_name: Port name (string),
+                status: Status (string),
+            }, ...],
+        }
     """
     url = "/rest/hostmgmt/v1/storage-initiators/query"
 
@@ -1541,7 +1554,14 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        local Auth user info list, includes total and local_users
+        {
+            total: Number of users (int32),
+            local_users: List of local authenticated users (List<LocalUserInfo>). Parameter format: [{
+                id: User ID (string),
+                name: User name (string),
+                type: User type (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-users/query"
 
@@ -1703,7 +1723,14 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        UNIX Auth user info list, includes total and unix_users
+        {
+            total: Number of users (int32),
+            unix_users: List of UNIX authenticated users (List<UnixUserInfo>). Parameter format: [{
+                id: User ID (string),
+                name: User name (string),
+                uid: UID (int32),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-users/query"
 
@@ -1735,7 +1762,13 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Windows Auth user info list, includes total and windows_users
+        {
+            total: Number of users (int32),
+            windows_users: List of Windows authenticated users (List<WindowsUserInfo>). Parameter format: [{
+                id: User ID (string),
+                name: User name (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-users/query"
 
@@ -1767,7 +1800,13 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        local Auth user group info list, includes total and local_user_groups
+        {
+            total: Number of user groups (int32),
+            local_user_groups: List of local authenticated user groups (List<LocalUserGroupInfo>). Parameter format: [{
+                id: User group ID (string),
+                name: User group name (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-user-groups/query"
 
@@ -1799,7 +1838,14 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        UNIX Auth user group info list, includes total and unix_user_groups
+        {
+            total: Number of user groups (int32),
+            unix_user_groups: List of UNIX authenticated user groups (List<UnixUserGroupInfo>). Parameter format: [{
+                id: User group ID (string),
+                name: User group name (string),
+                gid: GID (int32),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-user-groups/query"
 
@@ -1831,7 +1877,13 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
         page_size: Page size, default 20(Optional) 
 
     Returns:
-        Windows Auth user group info list, includes total and windows_user_groups
+        {
+            total: Number of user groups (int32),
+            windows_user_groups: List of Windows authenticated user groups (List<WindowsUserGroupInfo>). Parameter format: [{
+                id: User group ID (string),
+                name: User group name (string),
+            }, ...],
+        }
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-user-groups/query"
 
