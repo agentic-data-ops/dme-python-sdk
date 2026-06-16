@@ -773,10 +773,37 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 8.15.1b | `system tag create` | PASS | task_id returned |
 | 8.15.2 | `system tag bind` | SKIP | needs tag_id from async task |
 
+### 第二轮补充测试（参数修复验证）
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 2.1.1b | `storage list --start 1 --limit 5` | PASS | total=8, HTTP 200 ✅ 参数路由修复 |
+| 2.2.1 | `storage show --storage_id` | PASS | URL 显示真实 UUID ✅ 不再 `True` |
+| 5.1.1b | `fcswitch list --page_no 1 --page_size 5` | PASS | total=2 ✅ 参数路由修复 |
+| 6.1.1b | `server list --start 1 --limit 5` | PASS | total=2 ✅ 参数路由修复 |
+| 2.5.1 | `storage pool list --storage_id` | PASS | total=0, HTTP 200 ✅ 参数路由修复 |
+| 2.10.1 | `storage fan list --storage_id` | PASS | HTTP 200 |
+| 2.11.1 | `storage bbu list --storage_id` | PASS | HTTP 200 |
+| 2.12.1 | `storage psu list --storage_id` | PASS | HTTP 200 |
+| 2.9.1 | `storage vstore list --storage_id` | PASS | HTTP 200 |
+| 2.22.1 | `storage qos list --storage_id` | PASS | HTTP 200 |
+| 2.8.1 | `storage port list --storage_id` | PASS | HTTP 200 |
+| 2.21.1 | `storage logic_port list --storage_id` | PASS | HTTP 200 |
+| 2.7.1 | `storage node list --storage_id` | FAIL | HTTP 500（服务端错误） |
+| 2.6.1 | `storage controller list --storage_id` | FAIL | HTTP 400（该模型不支持） |
+| 2.14.1 | `storage disk_domain list --storage_id` | FAIL | HTTP 500（服务端错误） |
+| 2.17.1 | `storage app_type list --storage_id` | FAIL | timeout |
+| 2.19.1 | `storage failover_group list --storage_id` | FAIL | HTTP 400（仅 A800 支持） |
+| 2.16.1 | `storage initiator list` | FAIL | timeout |
+
+更新统计: **38 PASS / 15 FAIL / 1 SKIP**
+
 ### 已知问题
 
 1. ~~**CLI 参数限制** — 2 级直接动作的 `--param value` 被 argparse 吞为 position arg，无法传参~~  
-   ✅ **已修复**（提交 `pydme/cli.py`）：在 `actions_info` 加载后检测误吞，还原到 `action_params`
+   ✅ **已修复**（`pydme/cli.py` 两次提交）：  
+   1. `2e6c584` — 从 `args.action` 恢复被吞的值补回 orphan `--param`  
+   2. `d4c6d17` — 清空 `args.action` 使 dispatch 进入 2-arg 路径
 2. **API 受限** — user/role/task/dc/region 返回 common.0001/0003（该 DME 实例受限）
 3. **网络超时** — `virt vm list` 504（vCenter 不可达），`san lun list` 等超时
 
