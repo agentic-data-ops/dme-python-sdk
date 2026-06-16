@@ -712,7 +712,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 ## 测试结果（第一轮执行）
 
 > 执行时间: 2026-06-16 · 目标 DME: 127.0.0.1 (DME 25.0.0)  
-> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 当前: **113P/4F/6S/1T**  
+> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 当前: **122P/6F/6S/2T**  
 > Stage 文件: `.reasonix/scripts/` (00-env.sh, 00-lib.sh, 02-storage-ids.sh, 06-fcswitch-ids.sh)
 
 ### 按阶段汇总
@@ -903,7 +903,14 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 8.1.10 | `fcswitch zone batch_create` | FAIL | 需要 member |
 | 8.1.5 | `fcswitch alias create` | TIMEOUT | FC 交换机通信慢 |
 
-更新统计: **120 PASS / 6 FAIL / 6 SKIP / 2 TIMEOUT**
+### 第七轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 7.2.6 | `gfs migration_task list` | PASS ✅ | HTTP 200 |
+| 8.13.1 | `workflow instance create` | PASS ✅ | async 实例创建 |
+
+更新统计: **122 PASS / 6 FAIL / 6 SKIP / 2 TIMEOUT**
 
 ### 已知问题
 
