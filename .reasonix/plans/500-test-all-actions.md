@@ -835,7 +835,43 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 7.1.2 | `tenant tier show_projects` | PASS ✅ | HTTP 200 |
 | 7.1.4 | `tenant project show_tiers` | PASS ✅ | HTTP 200 |
 
-更新统计: **85 PASS / 1 FAIL / 5 SKIP**
+### 第四轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 2.3.1 | `storage sync` | PASS ✅ | HTTP 200 |
+| 2.9.2 | `storage vstore show` | PASS ✅ | HTTP 200 |
+| 2.20.1 | `storage vlan list` | PASS ✅ | HTTP 200 |
+| 2.23.1 | `storage hyperscale_pool list` | PASS ✅ | HTTP 200 |
+| 5.2.3-5.2.7 | `ipswitch board/subcard/power/fan/port list` | PASS ✅ | 全部 HTTP 200 |
+| 6.2.12 | `virt disk list` | PASS ✅ | HTTP 200 |
+| 6.2.13 | `virt vdisk list` | PASS ✅ | HTTP 200 |
+| 6.2.2 | `virt site show` | PASS ✅ | HTTP 200（bug 修复后）|
+| 6.2.4 | `virt cluster show` | PASS ✅ | HTTP 200（bug 修复后）|
+| 6.2.7 | `virt host_adapter list` | PASS ✅ | HTTP 200 |
+| 7.2.6 | `gfs migration_task list` | PASS ✅ | HTTP 200 |
+| 7.3.2 | `workflow template list` | PASS ✅ | HTTP 200 |
+| 7.3.3 | `workflow template show` | PASS ✅ | HTTP 200（bug 修复后）|
+| 7.4.4 | `integrate cmdb host_show` | PASS ✅ | HTTP 200 |
+| 7.6.1.1 | `aiops alarm list` | PASS ✅ | HTTP 200 |
+| 7.6.1.3 | `aiops performance list_object_types` | PASS ✅ | HTTP 200 |
+| 7.6.1.5 | `aiops health show_score` | PASS ✅ | HTTP 200 |
+| 7.6.1.4 | `aiops topology query_*` | SKIP | 动作名与计划不一致（应为 `query_san_path` 等）|
+
+Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow template_show` — 路径参数未传入 client.get()
+
+### Phase 8 写操作执行
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 8.2.1 | `storage vstore create` | PASS ✅ | HTTP 200 |
+| 8.15.1 | `system tag bind` | FAIL | HTTP 400（资源格式问题） |
+| 8.15.2 | `system tag unbind` | FAIL | HTTP 400 |
+| 8.17.1 | `san storage_host create` | PASS ✅ | HTTP 200 |
+| 8.17.2 | `san lun_group create` | PASS ✅ | HTTP 202 async |
+| 8.1.1 | `fcswitch zone create` | TIMEOUT | FC 交换机通信慢 |
+
+更新统计: **107 PASS / 3 FAIL / 6 SKIP / 1 TIMEOUT**
 
 ### 已知问题
 
