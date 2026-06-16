@@ -1185,16 +1185,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/workloads"
     
-    query_params = {}
-    if create_type is not None:
-        query_params['create_type'] = create_type
-    if template_type is not None:
-        query_params['template_type'] = template_type
-    if pool_id is not None:
-        query_params['pool_id'] = pool_id
-    
-    
-    query_params = {}
+    query_params = {"storage_id": storage_id}
     if create_type is not None:
         query_params['create_type'] = create_type
     if template_type is not None:
