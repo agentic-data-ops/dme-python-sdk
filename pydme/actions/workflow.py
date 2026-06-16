@@ -95,7 +95,7 @@ def template_show(client: DMEAPIClient, template_id: str,
     """
     url = "/rest/wfamgmt/v1/workflow/templates/{template_id}"
     
-    params_dict = {}
+    params_dict = {"template_id": template_id}
     if template_version_id is not None:
         params_dict['template_version_id'] = template_version_id
     
