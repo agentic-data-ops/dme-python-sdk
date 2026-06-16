@@ -712,7 +712,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 ## 测试结果（第一轮执行）
 
 > 执行时间: 2026-06-16 · 目标 DME: 127.0.0.1 (DME 25.0.0)  
-> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S**  
+> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 当前: **113P/4F/6S/1T**  
 > Stage 文件: `.reasonix/scripts/` (00-env.sh, 00-lib.sh, 02-storage-ids.sh, 06-fcswitch-ids.sh)
 
 ### 按阶段汇总
@@ -871,7 +871,23 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 8.17.2 | `san lun_group create` | PASS ✅ | HTTP 202 async |
 | 8.1.1 | `fcswitch zone create` | TIMEOUT | FC 交换机通信慢 |
 
-更新统计: **107 PASS / 3 FAIL / 6 SKIP / 1 TIMEOUT**
+### 第五轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 8.2.2 | `storage vstore modify` | PASS ✅ | HTTP 202 async |
+| 8.2.3 | `storage vstore delete` | PASS ✅ | HTTP 202 (param_mapping 修复后) |
+| 8.1.2 | `fcswitch zone show_members` | PASS ✅ | HTTP 200 |
+| 8.1.5 | `fcswitch alias create` | FAIL | 需要至少一个 member |
+| 4.1.5 | `protect hypermetro_domain list` | PASS ✅ | HTTP 200 |
+| 4.1.6 | `protect hypermetro_group list` | PASS ✅ | HTTP 200 |
+| 4.1.9 | `protect fs_snapshot list` | PASS ✅ | HTTP 200 |
+| 4.1.11 | `protect vstore_pair list` | PASS ✅ | HTTP 200 |
+| 6.2.9 | `virt vm show` | PASS ✅ | HTTP 200 (bug 修复后) |
+
+新增 param_mapping: `vstore_ids→ids`, `qos_policy_ids→ids`, `tag_type_ids→ids` 等
+
+更新统计: **113 PASS / 4 FAIL / 6 SKIP / 1 TIMEOUT**
 
 ### 已知问题
 
