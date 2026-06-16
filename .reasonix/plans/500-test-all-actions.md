@@ -795,7 +795,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.7.1 | `storage node list --storage_id` | PASS ✅ | HTTP 200, total=0 |
 | 2.6.1 | `storage controller list --storage_id` | PASS ✅ | Dorado 5500 V6 total=2, HTTP 200 — 参数路由修复 |
 | 2.14.1 | `storage disk_domain list --storage_id` | PASS ✅ | HTTP 200 |
-| 2.17.1 | `storage app_type list --storage_id` | FAIL | timeout |
+| 2.17.1 | `storage app_type list --storage_id` | PASS ✅ | HTTP 200, 12 app types (bug 修复) |
 | 2.19.1 | `storage failover_group list --storage_id` | SKIP | 仅 A800 系列支持 |
 | 2.16.1 | `storage initiator list` | PASS ✅ | HTTP 200, 返回启动器列表 |
 
@@ -946,7 +946,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 7.6.1.4c | `topology query_vms` | FAIL | 需要先同步拓扑数据 |
 | 7.6.1.4d | `topology query_graph_path` | FAIL | body 参数错误 |
 
-更新统计: **137 PASS / 11 FAIL / 6 SKIP / 2 TIMEOUT**
+| 2.17.1 | `storage app_type list` | PASS ✅ | bug 修复: 缺 `storage_id` 路径参数 |
+
+更新统计: **138 PASS / 10 FAIL / 6 SKIP / 2 TIMEOUT**
 
 ### 已知问题
 
