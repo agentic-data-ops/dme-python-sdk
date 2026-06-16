@@ -1115,6 +1115,15 @@ def main():
                 'zone_ids': 'zone_ids',
                 'switch_id': 'switch_id',
                 'storageId': 'storageId',
+                'vstore_ids': 'ids',
+                'initiator_ids': 'ids',
+                'qos_policy_ids': 'ids',
+                'tag_type_ids': 'ids',
+                'tag_ids': 'ids',
+                'storage_ids': 'storage_ids',
+                'volume_ids': 'volume_ids',
+                'lun_ids': 'lun_ids',
+                'zone_ids': 'zone_ids',
             }
 
             for param_name, param_value in action_params.items():
