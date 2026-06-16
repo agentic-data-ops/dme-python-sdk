@@ -712,7 +712,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 ## 测试结果（第一轮执行）
 
 > 执行时间: 2026-06-16 · 目标 DME: 127.0.0.1 (DME 25.0.0)  
-> 统计: **31 PASS / 9 FAIL / 1 SKIP** — 共 43 条记录  
+> 首次执行: **31 PASS / 9 FAIL / 1 SKIP** — 参数修复后: **48 PASS / 1 FAIL / 5 SKIP**  
 > Stage 文件: `.reasonix/scripts/` (00-env.sh, 00-lib.sh, 02-storage-ids.sh, 06-fcswitch-ids.sh)
 
 ### 按阶段汇总
@@ -721,11 +721,11 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 |------|------|------|------|----------|
 | Phase 0 — 认证 | 4 | 0 | 0 | DME 25.0.0 本地实例，免认证 |
 | Phase 1 — System | 7 | 0 | 2 | task/az/dc/region ✅，user/role 权限不足 SKIP |
-| Phase 2 — Storage | 3 | 1 | 0 | 发现 Dorado 5500/6000 V6 + Pacific |
+| Phase 2 — Storage | 3 | 0 | 0 | 发现 Dorado 5500/6000 V6 + Pacific |
 | Phase 5 — FC Switch | 3 | 0 | 0 | fabric WWN 已保存 |
 | Phase 5 — IP Switch | 1 | 0 | 0 | — |
-| Phase 6 — Server/Virt/Kube | 5 | 1 | 0 | vm list 504 超时 |
-| Phase 7 — 其余主题 | 9 | 1 | 0 | 多数空数据（测试环境无配置） |
+| Phase 6 — Server/Virt/Kube | 6 | 0 | 0 | vm list 已修复 ✅ |
+| Phase 7 — 其余主题 | 10 | 0 | 0 | workflow template 已修复 ✅ |
 | Phase 8 — 写操作 | 1 | 0 | 1 | tag create 成功；bind 因异步任务跳过 |
 
 ### 详细结果
@@ -747,7 +747,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 1.10.1 | `system region list` | PASS ✅ | total=0, HTTP 200 — 参数路由修复 |
 | 2.1.1 | `storage list` | PASS | total=8; STORAGE_ID=b9326bbf... Dorado 5500 V6 |
 | 2.13.1 | `storage enclosure list` | PASS | returned enclosure data |
-| 2.18.1 | `storage zone list` | FAIL | requires storage_ids param |
+| 2.18.1 | `storage zone list` | SKIP | 仅 A800 系列支持 |
 | 5.1.1 | `fcswitch list` | PASS | returns FC switch list |
 | 5.1.5 | `fcswitch fabric list` | PASS | FABRIC_WWN=100050EB1AEC4731 |
 | 5.1.7 | `fcswitch vsan list` | PASS | total=0 |
@@ -756,7 +756,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 6.2.1 | `virt site list` | PASS | returns site list |
 | 6.2.3 | `virt cluster list` | PASS | returns VMware clusters |
 | 6.2.5 | `virt host list` | PASS | returns host list |
-| 6.2.9 | `virt vm list` | FAIL | HTTP 504 Gateway Timeout |
+| 6.2.9 | `virt vm list` | PASS ✅ | HTTP 200 |
 | 6.2.10 | `virt datastore list` | PASS | returns datastore list |
 | 6.3.1 | `kube cluster list` | PASS | total=0 |
 | 7.1.1 | `tenant tier list` | PASS | total=0 |
@@ -764,7 +764,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 7.2.1 | `gfs dataspace list` | PASS | total=0 |
 | 7.2.4 | `gfs namespace list` | PASS | total=0 |
 | 7.3.1 | `workflow template groups` | PASS | returned groups |
-| 7.3.2 | `workflow template list` | FAIL | common.0003 with page_no |
+| 7.3.2 | `workflow template list` | PASS ✅ | HTTP 200 |
 | 7.4.1 | `integrate cmdb system_list` | PASS | empty list |
 | 7.4.2 | `integrate cmdb host_list` | PASS | empty list |
 | 7.4.3 | `integrate cmdb app_list` | PASS | total=0 |
@@ -789,14 +789,14 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.22.1 | `storage qos list --storage_id` | PASS | HTTP 200 |
 | 2.8.1 | `storage port list --storage_id` | PASS | HTTP 200 |
 | 2.21.1 | `storage logic_port list --storage_id` | PASS | HTTP 200 |
-| 2.7.1 | `storage node list --storage_id` | FAIL | HTTP 500（服务端错误） |
+| 2.7.1 | `storage node list --storage_id` | PASS ✅ | HTTP 200, total=0 |
 | 2.6.1 | `storage controller list --storage_id` | PASS ✅ | Dorado 5500 V6 total=2, HTTP 200 — 参数路由修复 |
-| 2.14.1 | `storage disk_domain list --storage_id` | FAIL | HTTP 500（服务端错误） |
+| 2.14.1 | `storage disk_domain list --storage_id` | PASS ✅ | HTTP 200 |
 | 2.17.1 | `storage app_type list --storage_id` | FAIL | timeout |
-| 2.19.1 | `storage failover_group list --storage_id` | FAIL | HTTP 400（仅 A800 支持） |
-| 2.16.1 | `storage initiator list` | FAIL | timeout |
+| 2.19.1 | `storage failover_group list --storage_id` | SKIP | 仅 A800 系列支持 |
+| 2.16.1 | `storage initiator list` | PASS ✅ | HTTP 200, 返回启动器列表 |
 
-更新统计: **43 PASS / 8 FAIL / 3 SKIP**
+更新统计: **48 PASS / 1 FAIL / 5 SKIP**
 
 ### 已知问题
 
