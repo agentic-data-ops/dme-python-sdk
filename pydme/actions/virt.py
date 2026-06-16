@@ -131,7 +131,7 @@ def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
-    params_dict = {}
+    params_dict = {"vm_id": vm_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
@@ -231,7 +231,7 @@ def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None)
     """
     url = "/rest/vmmgmt/v1/datastores/{datastore_id}"
     
-    params_dict = {}
+    params_dict = {"datastore_id": datastore_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
@@ -315,7 +315,7 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}"
     
-    params_dict = {}
+    params_dict = {"host_id": host_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
@@ -385,7 +385,7 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
     """
     url = "/rest/vmmgmt/v1/clusters/{cluster_id}"
     
-    params_dict = {}
+    params_dict = {"cluster_id": cluster_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
