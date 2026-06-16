@@ -790,13 +790,13 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.8.1 | `storage port list --storage_id` | PASS | HTTP 200 |
 | 2.21.1 | `storage logic_port list --storage_id` | PASS | HTTP 200 |
 | 2.7.1 | `storage node list --storage_id` | FAIL | HTTP 500（服务端错误） |
-| 2.6.1 | `storage controller list --storage_id` | FAIL | HTTP 400（该模型不支持） |
+| 2.6.1 | `storage controller list --storage_id` | PASS ✅ | Dorado 5500 V6 total=2, HTTP 200 — 参数路由修复 |
 | 2.14.1 | `storage disk_domain list --storage_id` | FAIL | HTTP 500（服务端错误） |
 | 2.17.1 | `storage app_type list --storage_id` | FAIL | timeout |
 | 2.19.1 | `storage failover_group list --storage_id` | FAIL | HTTP 400（仅 A800 支持） |
 | 2.16.1 | `storage initiator list` | FAIL | timeout |
 
-更新统计: **42 PASS / 9 FAIL / 3 SKIP**
+更新统计: **43 PASS / 8 FAIL / 3 SKIP**
 
 ### 已知问题
 
