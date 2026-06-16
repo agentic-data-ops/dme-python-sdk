@@ -606,7 +606,10 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 7.6.1.1 | `aiops alarm list` | `pydme aiops alarm list --page_size 10` | 无 | login | `ALARM_CSN` → `15-aiops-ids.sh` | |
 | 7.6.1.2 | `aiops check_policy list` | `pydme aiops check_policy list --page_no 1 --page_size 10` | 无 | login | `POLICY_ID` → `15-aiops-ids.sh` | |
 | 7.6.1.3 | `aiops performance list_object_types` | `pydme aiops performance list_object_types` | 无 | login | `OBJ_TYPE_ID` → `15-aiops-ids.sh` | |
-| 7.6.1.4 | `aiops topology list` | `pydme aiops topology list --entry_res_type storage --entry_res_id $STORAGE_ID` | `entry_res_type`, `entry_res_id` | 2.1.1 | — | |
+| 7.6.1.4a | `aiops topology query_san_path` | `pydme aiops topology query_san_path --entry_objects '[{"id":"$STORAGE_ID","type":"storage"}]'` | `entry_objects` | 2.1.1 | — | |
+| 7.6.1.4b | `aiops topology query_luns` | `pydme aiops topology query_luns --entry_objects '[{"id":"$STORAGE_ID","type":"storage"}]' --storage_pool_id <raw_id>` | `entry_objects`, `storage_pool_id` | 2.1.1 | — | |
+| 7.6.1.4c | `aiops topology query_vms` | `pydme aiops topology query_vms --entry_objects '[{"id":"$STORAGE_ID","type":"storage"}]' --host_id <host_id>` | `entry_objects`, `host_id` | 2.1.1 | — | |
+| 7.6.1.4d | `aiops topology query_graph_path` | `pydme aiops topology query_graph_path --entry_res_type storage --entry_res_id $STORAGE_ID` | `entry_res_type`, `entry_res_id` | 2.1.1 | — | |
 | 7.6.1.5 | `aiops health show_score` | `pydme aiops health show_score --object_type storage` | `object_type` | login | — | |
 | 7.6.1.6 | `aiops diagnose task_status` | `pydme aiops diagnose task_status --task_id <from earlier>` | `task_id` | 2.3.1 | — | |
 
@@ -932,7 +935,18 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 8.6.1 | `storage initiator modify` | PASS ✅ | HTTP 202, 真实 ID |
 | 8.13.2 | `workflow instance step_log` | PASS ✅ | |
 
-更新统计: **135 PASS / 8 FAIL / 6 SKIP / 2 TIMEOUT**
+### 第十轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 6.2.9 | `virt vm show` | PASS ✅ | 真实 VM ID (URN 格式) |
+| 6.2.11 | `virt datastore show` | PASS ✅ | 真实 DS ID |
+| 7.6.1.4a | `topology query_san_path` | PASS ✅ | `entry_objects` 正确格式 |
+| 7.6.1.4b | `topology query_luns` | FAIL | `storagePoolId` 为空 |
+| 7.6.1.4c | `topology query_vms` | FAIL | 需要先同步拓扑数据 |
+| 7.6.1.4d | `topology query_graph_path` | FAIL | body 参数错误 |
+
+更新统计: **137 PASS / 11 FAIL / 6 SKIP / 2 TIMEOUT**
 
 ### 已知问题
 
