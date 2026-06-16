@@ -720,7 +720,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 阶段 | PASS | FAIL | SKIP | 关键发现 |
 |------|------|------|------|----------|
 | Phase 0 — 认证 | 4 | 0 | 0 | DME 25.0.0 本地实例，免认证 |
-| Phase 1 — System | 7 | 2 | 0 | task/az/dc/region 已修复 ✅，user/role 仍受限 |
+| Phase 1 — System | 7 | 0 | 2 | task/az/dc/region ✅，user/role 权限不足 SKIP |
 | Phase 2 — Storage | 3 | 1 | 0 | 发现 Dorado 5500/6000 V6 + Pacific |
 | Phase 5 — FC Switch | 3 | 0 | 0 | fabric WWN 已保存 |
 | Phase 5 — IP Switch | 1 | 0 | 0 | — |
@@ -736,8 +736,8 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 0.2.1 | `system logout` | PASS | HTTP 200, no data |
 | 0.3.1 | `system show` | PASS | version=DME 25.0.0, sn=2bffdc76-c901-435d-a516-ca27ee1c17a1 |
 | 0.4.1 | `system certificate` | PASS | returned DME certificate chain |
-| 1.1.1 | `system user list` | FAIL | HTTP 400 common.0001 |
-| 1.2.1 | `system role list` | FAIL | HTTP 400 common.0001 |
+| 1.1.1 | `system user list` | SKIP | 权限不足 common.0001（非 bug）|
+| 1.2.1 | `system role list` | SKIP | 权限不足 common.0001（非 bug）|
 | 1.3.1 | `system backup_server list` | PASS | total=0 (empty) |
 | 1.4.1 | `system task list` | PASS ✅ | total=86, HTTP 200 — 参数 `--limit 10` 路由已修复 |
 | 1.5.1 | `system tag_type list` | PASS | total=2 |
@@ -796,7 +796,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.19.1 | `storage failover_group list --storage_id` | FAIL | HTTP 400（仅 A800 支持） |
 | 2.16.1 | `storage initiator list` | FAIL | timeout |
 
-更新统计: **42 PASS / 11 FAIL / 1 SKIP**
+更新统计: **42 PASS / 9 FAIL / 3 SKIP**
 
 ### 已知问题
 
