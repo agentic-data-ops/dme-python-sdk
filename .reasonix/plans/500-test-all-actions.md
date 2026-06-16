@@ -720,7 +720,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 阶段 | PASS | FAIL | SKIP | 关键发现 |
 |------|------|------|------|----------|
 | Phase 0 — 认证 | 4 | 0 | 0 | DME 25.0.0 本地实例，免认证 |
-| Phase 1 — System | 4 | 5 | 0 | task list 已修复 ✅，user/role/dc/region 仍受限 |
+| Phase 1 — System | 7 | 2 | 0 | task/az/dc/region 已修复 ✅，user/role 仍受限 |
 | Phase 2 — Storage | 3 | 1 | 0 | 发现 Dorado 5500/6000 V6 + Pacific |
 | Phase 5 — FC Switch | 3 | 0 | 0 | fabric WWN 已保存 |
 | Phase 5 — IP Switch | 1 | 0 | 0 | — |
@@ -742,9 +742,9 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 1.4.1 | `system task list` | PASS ✅ | total=86, HTTP 200 — 参数 `--limit 10` 路由已修复 |
 | 1.5.1 | `system tag_type list` | PASS | total=2 |
 | 1.6.1 | `system tag list` | PASS | total=1 |
-| 1.8.1 | `system az list` | FAIL | HTTP 400 common.0001 |
-| 1.9.1 | `system dc list` | FAIL | common.0003 body param error |
-| 1.10.1 | `system region list` | FAIL | common.0003 body param error |
+| 1.8.1 | `system az list` | PASS ✅ | total=0, HTTP 200 — 参数路由修复 |
+| 1.9.1 | `system dc list` | PASS ✅ | total=1, HTTP 200 — 参数路由修复 |
+| 1.10.1 | `system region list` | PASS ✅ | total=0, HTTP 200 — 参数路由修复 |
 | 2.1.1 | `storage list` | PASS | total=8; STORAGE_ID=b9326bbf... Dorado 5500 V6 |
 | 2.13.1 | `storage enclosure list` | PASS | returned enclosure data |
 | 2.18.1 | `storage zone list` | FAIL | requires storage_ids param |
@@ -796,7 +796,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.19.1 | `storage failover_group list --storage_id` | FAIL | HTTP 400（仅 A800 支持） |
 | 2.16.1 | `storage initiator list` | FAIL | timeout |
 
-更新统计: **39 PASS / 14 FAIL / 1 SKIP**
+更新统计: **42 PASS / 11 FAIL / 1 SKIP**
 
 ### 已知问题
 
