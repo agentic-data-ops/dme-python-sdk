@@ -2,7 +2,7 @@
 
 ## 测试结果
 
-**131 PASS · 7 FAIL · 6 SKIP · 2 TIMEOUT**
+**135 PASS · 8 FAIL · 6 SKIP · 2 TIMEOUT**
 
 覆盖 **146 / 225** 个计划动作（65%），已测用例通过率 **89.7%**
 
