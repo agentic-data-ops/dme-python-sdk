@@ -739,10 +739,24 @@ def main():
                 action_params[param_name] = unknown[i + 1]
                 i += 2
             else:
+                # 参数值可能被 argparse 吞为 action position 参数
+                # 如 pydme storage show --storage_id XXX
+                #   → argparse 把 XXX 吃进 args.action
+                #   → unknown = ['--storage_id']（值丢失）
+                # 此时 args.action 中有被误吞的原始值，用它补位
                 action_params[param_name] = True
                 i += 1
         else:
             i += 1
+
+    # 修正：orphan --param 的值被 argparse 吃掉后，用 args.action 补值
+    # 这里处理上面的 else 分支中设为 True 的裸参数
+    if args.action:
+        for pname, pval in list(action_params.items()):
+            if pval is True:
+                action_params[pname] = args.action
+                # 成功补位后清除 args.action，避免后续逻辑混淆
+                break
 
     # 处理位置参数（如 host_id 等）
     if hasattr(args, 'action_args') and args.action_args:
@@ -859,18 +873,12 @@ def main():
         return
 
     # 修正：argparse 将直接动作的参数值误吞为 action position 参数
-    # 例如: pydme storage show --storage_id XXX
-    #   → argparse 把 XXX 当作 action（nargs=?）吃掉，--storage_id 进 unknown
-    #   → 实际 subtopic 是直接动作，不应该有 action 参数
-    # 检测到后还原：将误吞的值放入 action_params，清空 args.action
+    # 值已在未知参数解析阶段（745-749 行）通过 orphan 检测补回到 action_params，
+    # 此处只需清空 args.action，确保 dispatch 进入 2-arg 路径
     if args.action and args.subtopic in actions_info:
         _direct_info = actions_info.get(args.subtopic, {})
         if _direct_info.get('subtopic') is None:
-            # subtopic 是直接动作，action 被 argparse 误吞
-            stolen = args.action
             args.action = None
-            if 'host_id' not in action_params:
-                action_params['host_id'] = stolen
 
     # 2. 只指定了 <topic>，显示主题帮助
     if not args.subtopic and not args.action:
