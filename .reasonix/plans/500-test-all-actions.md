@@ -712,7 +712,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 ## 测试结果（第一轮执行）
 
 > 执行时间: 2026-06-16 · 目标 DME: 127.0.0.1 (DME 25.0.0)  
-> 首次执行: **31 PASS / 9 FAIL / 1 SKIP** — 参数修复后: **48 PASS / 1 FAIL / 5 SKIP**  
+> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S**  
 > Stage 文件: `.reasonix/scripts/` (00-env.sh, 00-lib.sh, 02-storage-ids.sh, 06-fcswitch-ids.sh)
 
 ### 按阶段汇总
@@ -797,6 +797,45 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.16.1 | `storage initiator list` | PASS ✅ | HTTP 200, 返回启动器列表 |
 
 更新统计: **48 PASS / 1 FAIL / 5 SKIP**
+
+### 第三轮补充测试（顺序执行）
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 1.4.2 | `system task show` | PASS ✅ | HTTP 200 |
+| 1.4.3 | `system task wait` | PASS ✅ | HTTP 200 |
+| 1.5.2 | `system tag_type create` | PASS ✅ | HTTP 200 |
+| 1.5.3 | `system tag_type modify` | PASS ✅ | HTTP 200 |
+| 1.5.4 | `system tag_type delete` | PASS ✅ | HTTP 202 |
+| 1.6.2 | `system tag create` | PASS ✅ | task_id |
+| 1.6.3 | `system tag modify` | PASS ✅ | HTTP 200 |
+| 1.6.4 | `system tag delete` | PASS ✅ | HTTP 200 |
+| 1.9.2 | `system dc show` | PASS ✅ | HTTP 200 |
+| 1.9.3 | `system dc show_devices` | PASS ✅ | HTTP 200 |
+| 3.1.1.1 | `san lun list` | PASS ✅ | HTTP 200 |
+| 3.1.2.1 | `san lun_group list` | PASS ✅ | HTTP 200 |
+| 3.1.3.1 | `san storage_host list` | PASS ✅ | HTTP 200 |
+| 3.1.4.1 | `san port_group list` | PASS ✅ | HTTP 200 |
+| 3.1.5.1 | `san mapping_view list` | PASS ✅ | HTTP 200 |
+| 3.1.6.1 | `san physical_host list` | PASS ✅ | HTTP 200 |
+| 3.2.1.1 | `nas filesystem list` | PASS ✅ | HTTP 200 |
+| 3.2.2.1 | `nas nfs_share list` | PASS ✅ | HTTP 200 |
+| 3.2.3.1 | `nas cifs_share list` | PASS ✅ | HTTP 200 |
+| 3.2.4.1 | `nas quota list` | PASS ✅ | HTTP 200 |
+| 3.2.5.1 | `nas dtree list` | PASS ✅ | HTTP 200 |
+| 3.2.6.1 | `nas namespace list` | PASS ✅ | HTTP 200 |
+| 3.2.7.1 | `nas kvcache list` | PASS ✅ | HTTP 200 |
+| 4.1.1 | `protect snapshot list` | PASS ✅ | HTTP 200 |
+| 4.1.3 | `protect group list` | PASS ✅ | HTTP 200 |
+| 5.1.3 | `fcswitch port list` | PASS ✅ | HTTP 200 |
+| 5.1.4 | `fcswitch controller list` | PASS ✅ | HTTP 200 |
+| 5.1.8 | `fcswitch zone list` | PASS ✅ | HTTP 200 |
+| 5.1.9 | `fcswitch alias list` | PASS ✅ | HTTP 200 |
+| 5.2.2 | `ipswitch frame list` | PASS ✅ | HTTP 200 |
+| 7.1.2 | `tenant tier show_projects` | PASS ✅ | HTTP 200 |
+| 7.1.4 | `tenant project show_tiers` | PASS ✅ | HTTP 200 |
+
+更新统计: **85 PASS / 1 FAIL / 5 SKIP**
 
 ### 已知问题
 
