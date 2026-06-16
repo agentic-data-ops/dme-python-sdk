@@ -1,0 +1,5 @@
+export STORAGE_ID="b9326bbf-0e3c-321c-b472-e36c619aab85"
+export STORAGE_NAME="New-Gen_OceanStorDoradoAll-FlashStorage_236"
+export STORAGE_MODEL="OceanStor Dorado 5500 V6"
+export PACIFIC_ID="4f193ca3-a404-32f9-b1f4-c04bad8240d5"
+export DORADO2_ID="d9a27b22-5121-3c3c-8fbb-bc22e4229cda"

@@ -1,0 +1,7 @@
+# 全局环境变量（从 system show 执行结果自动提取）
+# 自动接受风险操作：所有 WRITE 动作无需逐个追加 --accept-risk
+export DME_ACCEPT_RISK=true
+DME_VERSION="DME 25.0.0"
+DME_SN="2bffdc76-c901-435d-a516-ca27ee1c17a1"
+ACCESS_SESSION="x-djdfankapdk61ijv449c47g4hgapin9dhh1hup7v1gqp84o5dhfwlfiq049g9f5h9gqmtf7xqroavz6m7y884avz8b9gdciqqnunuonxtf2m8bpd04qrnuqpun5do8k9"
+export DME_API_AUTH_TOKEN="x-djdfankapdk61ijv449c47g4hgapin9dhh1hup7v1gqp84o5dhfwlfiq049g9f5h9gqmtf7xqroavz6m7y884avz8b9gdciqqnunuonxtf2m8bpd04qrnuqpun5do8k9"

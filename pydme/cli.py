@@ -858,6 +858,20 @@ def main():
         print(f"错误：未找到主题 '{args.topic}'")
         return
 
+    # 修正：argparse 将直接动作的参数值误吞为 action position 参数
+    # 例如: pydme storage show --storage_id XXX
+    #   → argparse 把 XXX 当作 action（nargs=?）吃掉，--storage_id 进 unknown
+    #   → 实际 subtopic 是直接动作，不应该有 action 参数
+    # 检测到后还原：将误吞的值放入 action_params，清空 args.action
+    if args.action and args.subtopic in actions_info:
+        _direct_info = actions_info.get(args.subtopic, {})
+        if _direct_info.get('subtopic') is None:
+            # subtopic 是直接动作，action 被 argparse 误吞
+            stolen = args.action
+            args.action = None
+            if 'host_id' not in action_params:
+                action_params['host_id'] = stolen
+
     # 2. 只指定了 <topic>，显示主题帮助
     if not args.subtopic and not args.action:
         print_topic_help(cli, args.topic)
