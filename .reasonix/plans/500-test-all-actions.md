@@ -723,7 +723,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | Phase 1 — System | 7 | 0 | 2 | task/az/dc/region ✅，user/role 权限不足 SKIP |
 | Phase 2 — Storage | 3 | 0 | 0 | 发现 Dorado 5500/6000 V6 + Pacific |
 | Phase 5 — FC Switch | 3 | 0 | 0 | fabric WWN 已保存 |
-| Phase 5 — IP Switch | 1 | 0 | 0 | — |
+| Phase 5 — IP Switch | 8 | 0 | 0 | 全部子主题通过 ✅ |
 | Phase 6 — Server/Virt/Kube | 6 | 0 | 0 | vm list 已修复 ✅ |
 | Phase 7 — 其余主题 | 10 | 0 | 0 | workflow template 已修复 ✅ |
 | Phase 8 — 写操作 | 1 | 0 | 1 | tag create 成功；bind 因异步任务跳过 |
@@ -887,7 +887,23 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 
 新增 param_mapping: `vstore_ids→ids`, `qos_policy_ids→ids`, `tag_type_ids→ids` 等
 
-更新统计: **113 PASS / 4 FAIL / 6 SKIP / 1 TIMEOUT**
+### 第六轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 5.2.3 | `ipswitch board list` | PASS ✅ | 真实 IPSwitch ID |
+| 5.2.4 | `ipswitch subcard list` | PASS ✅ | |
+| 5.2.5 | `ipswitch power list` | PASS ✅ | |
+| 5.2.6 | `ipswitch fan list` | PASS ✅ | |
+| 5.2.7 | `ipswitch port list` | PASS ✅ | |
+| 7.6.1.4 | `aiops perf create_collect_task` | PASS ✅ | |
+| 7.6.1.5 | `aiops health show_detail` | PASS ✅ | |
+| 4.1.2-4.1.10 | protect clone/hypermetro/replication/fs | TIMEOUT | DME protect 模块响应慢 |
+| 5.1.2 | `fcswitch sync` | FAIL | switch_id 格式不匹配 |
+| 8.1.10 | `fcswitch zone batch_create` | FAIL | 需要 member |
+| 8.1.5 | `fcswitch alias create` | TIMEOUT | FC 交换机通信慢 |
+
+更新统计: **120 PASS / 6 FAIL / 6 SKIP / 2 TIMEOUT**
 
 ### 已知问题
 
