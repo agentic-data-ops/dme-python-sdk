@@ -712,7 +712,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 ## 测试结果（第一轮执行）
 
 > 执行时间: 2026-06-16 · 目标 DME: 127.0.0.1 (DME 25.0.0)  
-> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 当前: **122P/6F/6S/2T**  
+> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 当前: **131P/7F/6S/2T**  
 > Stage 文件: `.reasonix/scripts/` (00-env.sh, 00-lib.sh, 02-storage-ids.sh, 06-fcswitch-ids.sh)
 
 ### 按阶段汇总
@@ -910,7 +910,19 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 7.2.6 | `gfs migration_task list` | PASS ✅ | HTTP 200 |
 | 8.13.1 | `workflow instance create` | PASS ✅ | async 实例创建 |
 
-更新统计: **122 PASS / 6 FAIL / 6 SKIP / 2 TIMEOUT**
+### 第八轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 2.4.1 | `storage disk list (Pacific)` | PASS ✅ | 返回数据 |
+| 8.6.1 | `storage initiator modify` | PASS ✅ | 真实 initiator ID |
+| 2.3.1 | `storage sync (Pacific)` | PASS ✅ | |
+| 3.2.1 | `nas filesystem list (Pacific)` | PASS ✅ | 跨存储测试 |
+| 3.2.2 | `nas nfs_share list (Pacific)` | PASS ✅ | |
+| 3.2.6 | `nas namespace list (Pacific)` | PASS ✅ | |
+| 7.6.1.3b | `perf list_indicators` | PASS ✅ | |
+
+更新统计: **131 PASS / 7 FAIL / 6 SKIP / 2 TIMEOUT**
 
 ### 已知问题
 
