@@ -749,14 +749,25 @@ def main():
         else:
             i += 1
 
-    # 修正：orphan --param 的值被 argparse 吃掉后，用 args.action 补值
-    # 这里处理上面的 else 分支中设为 True 的裸参数
-    if args.action:
-        for pname, pval in list(action_params.items()):
-            if pval is True:
-                action_params[pname] = args.action
-                # 成功补位后清除 args.action，避免后续逻辑混淆
-                break
+    # 修正：orphan --param 的值被 argparse 吃掉后，用被吞的值补位
+    # 值可能被吞入 args.action（2 级命令）或 args.action_args（3 级命令）
+    # 例如: pydme storage show --storage_id X  → args.action = "X"
+    # 例如: pydme system task list --limit 10  → action_args = ["10"]
+    if args.action or args.action_args:
+        orphan_params = [p for p, v in action_params.items() if v is True]
+        if orphan_params:
+            # 优先用 action_args 补位（3 级命令场景）
+            stolen_value = None
+            if args.action_args:
+                stolen_value = args.action_args[0]
+                args.action_args = args.action_args[1:]
+            elif args.action:
+                stolen_value = args.action
+                args.action = None
+            if stolen_value is not None:
+                for pname in orphan_params:
+                    action_params[pname] = stolen_value
+                    break
 
     # 处理位置参数（如 host_id 等）
     if hasattr(args, 'action_args') and args.action_args:
