@@ -1,5 +1,5 @@
 """
-Backup management (Backup) operations
+Backup management operations
 """
 
 import sys
@@ -13,21 +13,21 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query backup cluster list
+    Query backup cluster list
     
     Args:
         client: DME API client
-        name: Backup cluster name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: Backup cluster name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total:  clusterTotal count (integer),
+            total: total clusters (integer),
             clusters: Backup cluster list. parameter format: [{
-                id:  clusterID (string),
-                name: Cluster name (string),
-                status:  status (string),
+                id: Cluster ID (string),
+                name: cluster name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -49,17 +49,17 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
     Query backup cluster capacity
     
-    Query backup cluster capacity info. 
+    Query specified backup cluster capacity info.
     
     Args:
         client: DME API client
-        cluster_id:  backup cluster ID (Required) 
+        cluster_id: Backup cluster ID (Required)
     
     Returns:
         {
-            total_capacity: Total capacity (integer),
-            used_capacity: Used capacity (integer),
-            free_capacity: Free capacity (integer),
+            total_capacity: total capacity (integer),
+            used_capacity: used capacity (integer),
+            free_capacity: free capacity (integer),
         }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/{cluster_id}/capacity"
@@ -74,22 +74,22 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     """
     Query backup cluster tenant quota list
     
-    Query backup cluster tenant quota list. 
+    Query the tenant quota list under a specified backup cluster.
     
     Args:
         client: DME API client
-        cluster_id:  backup cluster ID (Required) 
-        quota_type:  quota type (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: Backup cluster ID (Required)
+        quota_type: Quota type (Optional)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total:  quotaTotal count (integer),
+            total: total quotas (integer),
             quotas: Tenant quota list. parameter format: [{
-                tenant_id: Tenant ID (string),
-                quota:  quota size (integer),
-                used: Used quota (integer),
+                tenant_id: tenant ID (string),
+                quota: quota size (integer),
+                used: used quota (integer),
             }, ...],
         }
     """
@@ -107,12 +107,12 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    # subtopic actions - cluster (Three-level structure: backup cluster list/capacity/quota) 
+    # subtopic action - cluster (three-level structure: backup cluster list/capacity/quota)
     'cluster_list': {
         'func': cluster_list,
-        'description': ' query backup cluster list',
+        'description': 'Query backup cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },

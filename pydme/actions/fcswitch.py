@@ -1,5 +1,5 @@
 """
-FC Switch (Fibre Channel switch) operations
+FC Switch related operations
 """
 
 import sys
@@ -11,21 +11,21 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, name: str = None, 
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query switch
+    Batch query switches
     
     Args:
         client: DME API client
-        name: Switch name (Optional, supports fuzzy search) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: switch name (Optional, supports fuzzy query)
+        page_no: page number for paginated query, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total: Total count (integer),
-            fcswitches: Switch list (List<FcSwitchInfo>). parameter format: [{
-                id: SwitchID (string),
-                name: Switch name (string),
-                status: Running status (string),
+            total: total count (integer),
+            fcswitches: switch list (List<FcSwitchInfo>). parameter format: [{
+                id: switch ID (string),
+                name: switch name (string),
+                status: running status (string),
             }, ...],
         }
     """
@@ -45,15 +45,15 @@ def list(client: DMEAPIClient, name: str = None,
 
 def sync(client: DMEAPIClient, switch_id: str) -> dict:
     """
-    Sync specifiedSwitch
+    Sync specified switch
     
     Args:
         client: DME API client
-        switch_id: Switch ID (Required) 
+        switch_id: switch ID (Required)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/{switch_id}/sync"
@@ -66,18 +66,18 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
                        port_name: str = None, page_no: int = 1, 
                        page_size: int = 20) -> dict:
     """
-    Batch query switch port
+    Batch query switch ports
     
     Args:
         client: DME API client
-        switch_id: Switch ID (Optional) 
-        port_name: Port name (Optional) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        switch_id: switch ID (Optional)
+        port_name: port name (Optional)
+        page_no: page number for paginated query, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }, includes total and ports fields
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/ports/query"
@@ -100,17 +100,17 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
 def controller_list(client: DMEAPIClient, switch_id: str = None,
                              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query switch control processor
+    Batch query switch control processors
     
     Args:
         client: DME API client
-        switch_id: Switch ID (Optional) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        switch_id: switch ID (Optional)
+        page_no: page number for paginated query, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }, includes total and controllers fields
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/controllers/query"
@@ -130,17 +130,17 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
 def fabric_list(client: DMEAPIClient, name: str = None, 
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query fibre Channel network
+    Batch query fabrics
     
     Args:
         client: DME API client
-        name: FC network name (Optional, supports fuzzy search) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: fabric name (Optional, supports fuzzy query)
+        page_no: page number for paginated query, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }, includes total and fabrics fields
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/list"
@@ -160,17 +160,17 @@ def fabric_list(client: DMEAPIClient, name: str = None,
 def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryFC network port list
+    Query port list of specified fabric
 
     Args:
         client: DME API client
-        fabric_id: Fibre Channel network ID (Required) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        fabric_id: fabric ID (Required)
+        page_no: page number for paginated query, default 1
+        page_size: items per page, 1~1000, default 20
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }, includes total and ports fields
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/ports/list"
@@ -187,17 +187,17 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
                   backup_type: str = "full") -> dict:
     """
-     executeFibre Channel networkConfig file backup
+    Execute fabric configuration file backup
     
     Args:
         client: DME API client
-        fabric_id: Fibre Channel network ID (Required) 
-        backup_server_id: Backup server ID (Required) 
-        backup_type:  backup type, default full (full/incremental) 
+        fabric_id: fabric ID (Required)
+        backup_server_id: backup server ID (Required)
+        backup_type: backup type, default full (full/incremental)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/backup"
@@ -213,20 +213,20 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
     return response
 
 
-# ==================== VSAN operations ====================
+# ==================== VSAN related operations ====================
 
 def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query VSAN  list
+    Query VSAN list
     
     Args:
         client: DME API client
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        page_no: page number for paginated query, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }, includes total and vsans fields
     """
     url = "/rest/fcswitchmgmt/v1/vsans/query"
@@ -240,7 +240,7 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     return response
 
 
-# ==================== Zone operations ====================
+# ==================== zone related operations ====================
 
 def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
               cfg_name: str = None, zone_set: str = None, active_status: list = None,
@@ -249,25 +249,36 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
     """
     Batch query zone
 
-    Query Fibre Channel Zone  list. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        fabric_wwn: Fibre Channel network WWN (Optional) , 1~1024  characters
-        name: Zone  name (Optional) , supports fuzzy search, 1~1024  characters
-        cfg_name:  CFG  name (Optional) , supports fuzzy search, 0~1024  characters
-        zone_set:  Zone set (Optional) , supports fuzzy search, 0~1024  characters
-        active_status: Zone status list (Optional) , max array members: 2
-        member_count:  membercount (Optional) , 0~2147483647
-        sort_key: Sort field (Optional) ,  support member_count
-        sort_dir: Sort direction (Optional) , asc: ascending; desc: descending
-        page_no: Page number (Optional) , 1~65535
-        page_size: per pagecount (Optional) , 1~1000
+        fabric_wwn: fabric WWN (Optional, string, 1~1024 characters)
+        name: zone name (Optional, string, 1~1024 characters), supports fuzzy query
+        cfg_name: CFG name (Optional, string, 0~1024 characters), supports fuzzy query
+        zone_set: zone set (Optional, string, 0~1024 characters), supports fuzzy query
+        active_status: zone status list (Optional, List<string>, max array members: 2). valid values: ACTIVATED, INATIVATED
+        member_count: member count (Optional, int32, 0~2147483647)
+        sort_key: sort field (Optional, string), valid values: member_count
+        sort_dir: sort direction (Optional, string), valid values: asc, desc, default asc
+        page_no: page number for paginated query (Optional, int32, 1~65535)
+        page_size: items per page (Optional, int32, 1~1000)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and zones fields
+            total: zone count (int32),
+            zones: zone list (List<zoneBaseInfoResponse>). parameter format: [{
+                id: zone id (string, 1~128 characters),
+                fabric_id: fabric id (string, 0~128 characters),
+                name: zone name (string, 1~64 characters),
+                active_status: zone status (string, 1~16 characters). valid values: ACTIVATED, INATIVATED,
+                member_count: member count (integer),
+                cfg_name: CFG name (string, 0~256 characters),
+                zone_set: zone set (string, 0~256 characters),
+                modifiable: whether the zone can be modified (boolean, true/false),
+                zone_type: zone type (string). valid values: regular, user_specified_peer_zone, target_driven_peer_zone,
+            }, ...],
+        }
     """
     url = "/rest/fcswitchmgmt/v1/zones/list"
 
@@ -304,26 +315,33 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                 fcid_members: list = None, alias_members: list = None,
                 device_alias_members: list = None) -> dict:
     """
-    create  zone
+    Create zone
+    Create a zone instance in the fabric, must include one of WWN members, port members, or alias members. 
 
-    Note:  Based on DME API documentation, must provide fabric_wwn or vsan_wwn, and at least one member type. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        name: Zone  name (Required) 
-        fabric_wwn: Fibre Channel network WWN ( conditionRequired, required when creating zone in fabric) 
-        vsan_wwn: VSAN WWN ( conditionRequired, required when creating zone in VSAN) 
-        wwn_members: WWN Member list (Optional) ,  format: ["<wwn>",...]
-        port_members: Port member list (Optional) ,  format: [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
-        fwwn_members: FWWN Member list (Optional) ,  format: ["<fwwn>",...]
-        fcid_members: FCID Member list (Optional) ,  format: ["<fcid>",...]
-        alias_members: Alias member list (Optional) ,  format: ["<alias>",...]
-        device_alias_members: Device alias member list (Optional) ,  format: ["<deviceAlias>",...]
+        name: zone name (Required, string, 1~64 characters, regex ^[A-Za-z][A-Za-z0-9_^$\\-]*$)
+        fabric_wwn: fabric WWN (Required, string, 1~128 characters, regex ^[A-Za-z0-9:]+$)
+        vsan_wwn: VSAN WWN (Optional, string, 1~32 characters). Conditionally required: must pass when creating zone in VSAN
+        wwn_members: WWN member list (Optional, List<string>, max array members: 100)
+        port_members: port member list (Optional, List<PortMemberRequest>, max array members: 100). parameter format: [{
+                domain_id: domain ID (Optional, int32, 0~65535),
+                port_index: port number (conditionally required, int32, 0~65535), set for Brocade switches,
+                port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set for Cisco switches,
+                switch_wwn: switch WWN (Optional, string, 1~32 characters), set for Cisco switches when specifying remote switch,
+            }, ...]
+        fwwn_members: FWWN member list (Optional, List<string>, max array members: 100)
+        fcid_members: FCID member list (Optional, List<string>, max array members: 100)
+        alias_members: alias member list (Optional, List<string>, max array members: 100)
+        device_alias_members: device alias member list (Optional, List<string>, max array members: 100)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes newly created Zone ID
+            id: zone id (string, 1~64 characters),
+            zone_name: zone name (string, 1~64 characters),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/zones"
 
@@ -331,13 +349,13 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
 
-    # Provide at least fabric_wwn or vsan_wwn
+    # Provide at least one of fabric_wwn or vsan_wwn
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
 
-    # Member list
+    # member list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -360,25 +378,47 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
                 fwwn_members: dict = None, port_members: dict = None,
                 fcid_members: dict = None, device_alias_members: dict = None) -> dict:
     """
-    modify  zone
+    Modify zone
+    Modify zone name or change members. This operation modifies the zone name or changes members on the specified switch. 
 
-    Modify fibre channel zone configuration. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        zone_id: Zone ID (Required) 
-        zone_name: Zone  name (Optional) 
-        wwn_members: WWN member modification (Optional) ,  format: {"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
-        alias_members: Alias member modification (Optional) ,  format: {"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
-        fwwn_members: FWWN member modification (Optional) ,  format: {"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: Port member modification (Optional) ,  format: {"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}, Brocade switch: specifyport_index, Cisco switch: specifyport_name
-        fcid_members: FCID member modification (Optional) ,  format: {"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
-        device_alias_members: Device alias member modification (Optional) ,  format: {"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
+        zone_id: zone ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        zone_name: zone name (Optional, string, 1~64 characters, regex ^[A-Za-z][A-Za-z0-9_^$\\-]*$)
+        wwn_members: WWN member modification (Optional, ModifyWwnMembersRequest object). parameter format: {
+                added_members: WWN members to add (Optional, List<string>, max array members: 100),
+                removed_members: WWN members to remove (Optional, List<string>, max array members: 100),
+            }
+        port_members: port member modification (Optional, ModifyPortMembersRequest object). parameter format: {
+                added_members: port members to add (Optional, List<PortMemberRequest>, max array members: 100). attribute format: {
+                    domain_id: domain ID (Optional, int32, 0~65535),
+                    port_index: port number (conditionally required, int32, 0~65535), set for Brocade switches,
+                    port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set for Cisco switches,
+                    switch_wwn: switch WWN (Optional, string, 1~32 characters),
+                },
+                removed_members: port members to remove (Optional, List<PortMemberRequest>, max array members: 100),
+            }
+        alias_members: alias member modification (Optional, ModifyAliasMembersRequest object). parameter format: {
+                added_members: alias members to add (Optional, List<string>, max array members: 100),
+                removed_members: alias members to remove (Optional, List<string>, max array members: 100),
+            }
+        fwwn_members: FWWN member modification (Optional, ModifyFwwnMembersRequest object). parameter format: {
+                added_members: FWWN members to add (Optional, List<string>, max array members: 100),
+                removed_members: FWWN members to remove (Optional, List<string>, max array members: 100),
+            }
+        fcid_members: FCID member modification (Optional, ModifyFcidMembersRequest object). parameter format: {
+                added_members: FCID members to add (Optional, List<string>, max array members: 100),
+                removed_members: FCID members to remove (Optional, List<string>, max array members: 100),
+            }
+        device_alias_members: device alias member modification (Optional, ModifyDeviceAliasMembersRequest object). parameter format: {
+                added_members: device alias members to add (Optional, List<string>, max array members: 100),
+                removed_members: device alias members to remove (Optional, List<string>, max array members: 100),
+            }
 
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        None. 
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
 
@@ -404,17 +444,17 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
-    delete  zone
-    Note:  Based on DME API documentation,  Use DELETE method to /zones/{zone_id}
-    
+    Delete zone
+    This operation deletes the zone on the specified switch. 
+
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
+
     Args:
         client: DME API client
-        zone_id: Zone ID (Required) 
-    
+        zone_id: zone ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        None. 
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
     
@@ -424,27 +464,32 @@ def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
 
 def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) -> dict:
     """
-    Batch create zone
+    Batch create zones
 
-    Note:  Based on DME API documentation,  requires is_active_zone and zone_list parameters. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        is_active_zone:  Whether to activate zone (Required, string "true" or "false") 
-        zones: Zone  config list, each element should contain:
-            - fabric_wwn: Fibre Channel network WWN (Required) 
-            - name: Zone  name (Required) 
-            - wwn_members: WWN Member list (Optional) ,  format: ["<wwn>",...]
-            - port_members: Port member list (Optional) ,  format: [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
-            - fwwn_members: FWWN Member list (Optional) ,  format: ["<fwwn>",...]
-            - fcid_members: FCID Member list (Optional) ,  format: ["<fcid>",...]
-            - alias_members: Alias member list (Optional) ,  format: ["<alias>",...]
-            - device_alias_members: Device alias member list (Optional) ,  format: ["<deviceAlias>",...]
+        is_active_zone: whether to activate zones (Required, boolean), valid values: true, false
+        zones: zone create request list (List<zoneCreateRequest>, Required, min array items: 1, max array members: 20). parameter format: [{
+                fabric_wwn: fabric WWN (Required, string, 1~128 characters, regex ^[A-Za-z0-9:]+$),
+                name: zone name (Required, string, 1~64 characters, regex ^[A-Za-z][A-Za-z0-9_^$\\-]*$),
+                vsan_wwn: VSAN WWN (Optional, string, 1~32 characters). Conditionally required: must pass when creating ZONE in VSAN,
+                wwn_members: WWN member list (Optional, List<string>, max array members: 100),
+                port_members: port member list (Optional, List<PortMemberRequest>, max array members: 100). attribute format: [{
+                    domain_id: domain ID (Optional, int32, 0~65535),
+                    port_index: port number (conditionally required, int32, 0~65535), set for Brocade switches,
+                    port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set for Cisco switches,
+                    switch_wwn: switch WWN (Optional, string, 1~32 characters),
+                }, ...],
+                alias_members: alias member list (Optional, List<string>, max array members: 100),
+                device_alias_members: device alias member list (Optional, List<string>, max array members: 100),
+                fwwn_members: FWWN member list (Optional, List<string>, max array members: 100),
+                fcid_members: FCID member list (Optional, List<string>, max array members: 100),
+            }, ...]
 
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        None. 
     """
     url = "/rest/fcswitchmgmt/v1/zones/batch-create"
 
@@ -459,24 +504,47 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
 def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> dict:
     """
-     Query zone members
+    Query zone members
+    Query members in a zone, supports port members, WWN members, and alias members. 
 
-     query Zone members contained in,  supportPort member, WWN members and alias members. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        zone_id: Zone ID (Required) 
-        type: Member type, Options: port, wwn, alias . 
-             returns all member types if not specified
+        zone_id: zone ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        type: member type (Optional, string). valid values: port, wwn, alias. Returns all types when not specified
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, Includes member list
+            total: WWN member count (int32, when type=wwn),
+            wwn_members: WWN member list (List<GetWwnMembersResponse>, when type=wwn). parameter format: [{
+                member_wwn: member WWN (string, 1~128 characters),
+            }, ...],
+            total: port member count (int32, when type=port),
+            port_members: port member list (List<zonePortMemberResponse>, when type=port). parameter format: [{
+                domain_id: domain id (int32, 0~65535),
+                port_index: switch port index (int32, 0~65535),
+                port_name: port name (string, 1~256 characters),
+                switch_ip: switch IP of the port (string, 1~32 characters),
+                switch_name: switch name of the port (string, 1~2048 characters),
+            }, ...],
+            total: alias member count (int32, when type=alias),
+            alias_members: alias member list (List<AliasBaseInfo>, when type=alias). parameter format: [{
+                id: alias id (string, 1~64 characters),
+                role: member type (string). valid values: regular, principal, non_principal,
+                type: alias member type (string). valid values: wwn, port, fwwn, fcid, ip-address, device-alias, domain-id, symbolic-node-name, empty, mixed,
+                fabric_id: fabric id (string, 0~64 characters),
+                fabric_wwn: fabric WWN (string, 1~32 characters),
+                name: alias name (string, 1~128 characters),
+                member_count: alias member count (int32, 0~65535),
+                modifiable: whether the alias can be modified (boolean, true/false),
+            }, ...],
+            members: all members list (List, when type not specified),
+        }
     """
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
 
-    #  based on type parameter to query matching member type
+    # Query members of the corresponding type based on type parameter
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/zones/{zone_id}/port-members/list"
         payload = {}
@@ -497,7 +565,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
         if response.get('alias_members'):
             result['alias_members'] = response.get('alias_members')
 
-    # if specified type, returns only matching member type
+    # If type is specified, return only members of that type
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
@@ -505,30 +573,42 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     elif type == 'alias':
         return {'alias_members': result['alias_members']}
     else:
-        # returns all members
+        # Return all members
         all_members = result['port_members'] + result['wwn_members'] + result['alias_members']
         return {'members': all_members}
 
 
-# ==================== Alias operations ====================
+# ==================== Alias related operations ====================
 
 def alias_list(client: DMEAPIClient, fabric_wwn: str,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query alias
-    
-    Query Fibre Channel Alias  list. 
-    
+    Batch query aliases
+
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
+
     Args:
         client: DME API client
-        fabric_wwn: Fibre Channel network WWN (Required) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
-    
+        fabric_wwn: fabric WWN (Required, string, 1~1024 characters), obtained from query fabric interface
+        name: alias name (Optional, string, 1~1024 characters), supports fuzzy query
+        member_count: member count (Optional, int32, 0~65535)
+        page_no: page number for paginated query (Optional, int32, 1~2147483647), default 1
+        page_size: items per page (Optional, int32, 1~1000), default 20
+        sort_key: sort field (Optional, string), valid values: member_count
+        sort_dir: sort direction (Optional, string), valid values: asc, desc, default asc
+
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and aliases fields
+            total: alias total (int32),
+            aliases: alias list (List<AliasBaseInfoResponse>). parameter format: [{
+                id: alias id (string, 1~64 characters),
+                fabric_id: fabric id (string, 1~64 characters),
+                fabric_wwn: fabric WWN (string, 1~32 characters),
+                name: alias name (string, 1~128 characters),
+                member_count: member count (int32, 0~65535),
+                modifiable: whether the alias can be modified (boolean, true/false),
+            }, ...],
+        }
     """
     url = "/rest/fcswitchmgmt/v1/aliases/list"
     
@@ -548,24 +628,30 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                  fcid_members: list = None, device_alias_members: list = None) -> dict:
     """
     Create alias
+    This operation creates an alias on the specified switch. 
 
-    Note:  Based on DME API documentation, must provide fabric_wwn or vsan_wwn, and at least one member type. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        name: Alias  name (Required) 
-        fabric_wwn: Fibre Channel network WWN ( conditionRequired, fabric Alias creation requires) 
-        vsan_wwn: VSAN WWN ( conditionRequired, vsan Alias creation requires) 
-        wwn_members: WWN Member list (Optional, Cisco switch PWWN member) 
-        port_members: Port member list (Optional) 
-        fwwn_members: FWWN Member list (Optional) 
-        fcid_members: FCID Member list (Optional) 
-        device_alias_members: Device alias member list (Optional) 
-    
+        name: alias name (Required, string, 1~64 characters, regex ^[A-Za-z0-9][A-Za-z0-9_^$\\-]*$)
+        fabric_wwn: fabric WWN (conditionally required, string, 1~32 characters), must pass when creating alias in fabric
+        vsan_wwn: VSAN WWN (conditionally required, string, 1~32 characters), must pass when creating alias in VSAN
+        wwn_members: WWN member list (Optional, List<string>, max array members: 100). For Cisco switches, PWWN members use this parameter. Huawei/Brocade switches: at least one of WWN members or port members required; Cisco switches: at least one of PWWN, FWWN, port, FCID, device alias required
+        fwwn_members: FWWN member list (Optional, List<string>, max array members: 100). Cisco switches: at least one of PWWN, FWWN, port, FCID, device alias required
+        port_members: port member list (Optional, List<PortMemberRequest>, max array members: 100). parameter format: [{
+                domain_id: domain ID (Optional, int32, 0~65535),
+                port_index: port number (conditionally required, int32, 0~65535), set when configuring port members on Brocade switches,
+                port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set when configuring port members on Cisco switches,
+                switch_wwn: switch WWN (Optional, string, 1~32 characters), set for Cisco switches when specifying remote switch,
+            }, ...]
+        fcid_members: FCID member list (Optional, List<string>, max array members: 100). Cisco switches: at least one of PWWN, FWWN, port, FCID, device alias required
+        device_alias_members: device alias member list (Optional, List<string>, max array members: 100). Cisco switches: at least one of PWWN, FWWN, port, FCID, device alias required
+
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes newly created Alias ID
+            id: alias id (string, 1~64 characters),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/aliases"
     
@@ -573,13 +659,13 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
     
-    # Provide at least fabric_wwn or vsan_wwn
+    # Provide at least one of fabric_wwn or vsan_wwn
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
     
-    # Member list
+    # member list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -601,23 +687,42 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
                  device_alias_members: dict = None) -> dict:
     """
     Modify alias
+    Modify alias members. Brocade switches support WWN member and port member modification; Cisco switches support PWWN, FWWN, port, FCID, and device alias member modification. 
 
-    Note:  Based on DME API documentation, member modification requires {type}.added_members and {type}.removed_members format. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        alias_id: Alias ID (Required) 
-        name: Alias  name (Optional) 
-        wwn_members: WWN member modification (Optional,  format: {'added_members': [...], 'removed_members': [...]}) 
-        fwwn_members: FWWN member modification (Optional) 
-        port_members: Port member modification (Optional) 
-        fcid_members: FCID member modification (Optional) 
-        device_alias_members: Device alias member modification (Optional) 
-    
+        alias_id: alias ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        name: alias name (Optional, string, 1~64 characters, regex ^[A-Za-z0-9][A-Za-z0-9_^$\\-]*$). Conditionally optional: Cisco switches support modifying alias name, Brocade switches do not
+        wwn_members: WWN member modification (Optional, WwnMembersRequest object). parameter format: {
+                added_members: WWN members to add (Optional, List<string>, max array members: 100),
+                removed_members: WWN members to remove (Optional, List<string>, max array members: 100),
+            }
+        fwwn_members: FWWN member modification (Optional, FwwnMembersRequest object). parameter format: {
+                added_members: FWWN members to add (Optional, List<string>, max array members: 100),
+                removed_members: FWWN members to remove (Optional, List<string>, max array members: 100),
+            }
+        port_members: port member modification (Optional, PortMembersRequest object). parameter format: {
+                added_members: port members to add (Optional, List<PortMemberRequest>, max array members: 100). attribute format: {
+                    domain_id: domain ID (Optional, int32, 0~65535),
+                    port_index: port number (conditionally required, int32, 0~65535), set for Brocade switches,
+                    port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set for Cisco switches,
+                    switch_wwn: switch WWN (Optional, string, 1~32 characters),
+                },
+                removed_members: port members to remove (Optional, List<PortMemberRequest>, max array members: 100),
+            }
+        fcid_members: FCID member modification (Optional, FcidMembersRequest object). parameter format: {
+                added_members: FCID members to add (Optional, List<string>, max array members: 100),
+                removed_members: FCID members to remove (Optional, List<string>, max array members: 100),
+            }
+        device_alias_members: device alias member modification (Optional, DeviceAliasMembersRequest object). parameter format: {
+                added_members: device alias members to add (Optional, List<string>, max array members: 100),
+                removed_members: device alias members to remove (Optional, List<string>, max array members: 100),
+            }
+
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        None. 
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
     
@@ -642,17 +747,16 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
 def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     Delete alias
+    This operation deletes the alias on the specified switch. 
 
-    Note:  Based on DME API documentation,  Use DELETE method to /aliases/{alias_id}
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        alias_id: Alias ID (Required) 
-    
+        alias_id: alias ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        None. 
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
     
@@ -663,23 +767,35 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
 def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) -> dict:
     """
     Query alias members
+    Query members in an Alias, supports querying port members and WWN members. 
 
-     Query alias members,  supports port member and WWN member. 
+    ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
 
     Args:
         client: DME API client
-        alias_id: Alias ID (Required) 
-        type: Member type, Options: port, wwn . 
-             returns all member types if not specified
+        alias_id: alias ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        type: member type (Optional, string). valid values: port, wwn. Returns all types when not specified
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, Includes member list
+            total: WWN member total (int32, when type=wwn),
+            wwn_member: WWN member list (List<GetWwnMembersResponse>, when type=wwn). parameter format: [{
+                member_wwn: member WWN (string, 1~128 characters),
+            }, ...],
+            total: port member total (int32, when type=port),
+            port_members: port member list (List<PortMemberInfoResponse>, when type=port). parameter format: [{
+                domain_id: domain id (int32, 0~65535),
+                port_index: switch port index (int32, 0~65535),
+                port_name: switch port name (string, 1~128 characters),
+                switch_ip: switch IP of the port (string, 1~32 characters),
+                switch_name: switch name of the port (string, 1~2048 characters),
+            }, ...],
+            members: all members list (List, when type not specified),
+        }
     """
     result = {'port_members': [], 'wwn_members': []}
 
-    # if type is not specified or is None, Query matching member type
+    # If type is specified or defaults to None, query members of the corresponding type
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/port-members/list"
         payload = {}
@@ -690,50 +806,50 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     if type is None or type == 'wwn':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/wwn-members/list"
         response = client.get(url, params={"alias_id": alias_id})
-        # API returns field wwn_member ( singular) 
+        # API returns field wwn_member (singular)
         if response.get('wwn_member'):
             result['wwn_members'] = response.get('wwn_member')
 
-    # if specified type, returns only matching member type
+    # If type is specified, return only members of that type
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
         return {'wwn_members': result['wwn_members']}
     else:
-        # returns all members
+        # Return all members
         all_members = result['port_members'] + result['wwn_members']
         return {'members': all_members}
 
 
-# Actions, Define all available actions
+# ACTIONS dictionary, defines all available actions
 ACTIONS = {
     'list': {
         'func': list,
-        'description': 'Batch query fibre Channel switch',
+        'description': 'Batch query FC switches',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
     'sync': {
         'func': sync,
-        'description': 'Sync switch config',
+        'description': 'Sync switch configuration',
         'params': ['switch_id'],
         'subtopic': None
     },
     'port_list': {
         'func': port_list,
-        'description': ' query switch port list',
+        'description': 'Query switch port list',
         'params': ['switch_id', 'port_name', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'controller_list': {
         'func': controller_list,
-        'description': ' query switch controller list',
+        'description': 'Query switch controller list',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },
     'fabric_list': {
         'func': fabric_list,
-        'description': 'Batch query fabric',
+        'description': 'Batch query fabrics',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },
@@ -745,55 +861,55 @@ ACTIONS = {
     },
     'fabric_backup': {
         'func': fabric_backup,
-        'description': ' backup fabric  config',
+        'description': 'Backup fabric configuration',
         'params': ['fabric_id', 'backup_server_id', 'backup_type'],
         'subtopic': 'fabric'
     },
     'vsan_list': {
         'func': vsan_list,
-        'description': 'Batch query vsan',
+        'description': 'Batch query VSANs',
         'params': ['page_no', 'page_size'],
         'subtopic': 'vsan'
     },
     'zone_list': {
         'func': zone_list,
-        'description': 'Batch query zone',
+        'description': 'Batch query zones',
         'params': ['zone_name', 'page_no', 'page_size'],
         'subtopic': 'zone'
     },
     'zone_create': {
         'func': zone_create,
-        'description': 'create  zone',
+        'description': 'Create zone',
         'params': ['name', 'fabric_wwn', 'vsan_wwn', 'wwn_members', 'port_members', 'fwwn_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_modify': {
         'func': zone_modify,
-        'description': 'modify  zone',
+        'description': 'Modify zone',
         'params': ['zone_id', 'zone_name', 'wwn_members', 'fwwn_members', 'port_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_delete': {
         'func': zone_delete,
-        'description': 'delete  zone',
+        'description': 'Delete zone',
         'params': ['zone_id'],
         'subtopic': 'zone'
     },
     'zone_batch_create': {
         'func': zone_batch_create,
-        'description': 'Batch create zone',
+        'description': 'Batch create zones',
         'params': ['is_active_zone', 'zones'],
         'subtopic': 'zone'
     },
     'zone_show_members': {
         'func': zone_show_members,
-        'description': ' Query zone members',
+        'description': 'Query zone members',
         'params': ['zone_id', 'type'],
         'subtopic': 'zone'
     },
     'alias_list': {
         'func': alias_list,
-        'description': 'Batch query alias',
+        'description': 'Batch query aliases',
         'params': ['fabric_wwn', 'page_no', 'page_size'],
         'subtopic': 'alias'
     },
@@ -822,5 +938,3 @@ ACTIONS = {
         'subtopic': 'alias'
     },
 }
-
-

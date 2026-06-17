@@ -1,5 +1,5 @@
 """
-GFS (Global File System) operations
+GFS (Global File System) related operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# Dataspace subtopic actions
+# Dataspace subtopic related actions
 # ============================================================================
 
 def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
@@ -20,20 +20,20 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
 
     Args:
         client: DME API client
-        name: Omni-Dataverse  name, supports fuzzy search
+        name: Omni-Dataverse name, supports fuzzy query
         id: Omni-Dataverse id
-        raw_id: Omni-Dataverse ID on device
-        max_site_num: max data service sites under Omni-Dataverse
-        page_no: Page number, default 1,  range 1~10000
-        page_size: Items per page, default 100,  range 1~1000
+        raw_id: Omni-Dataverse id on the device side
+        max_site_num: Maximum count of data service sites under Omni-Dataverse
+        page_no: Page number for paginated query, default 1, range 1~10000
+        page_size: Number of items per page for paginated query, default 100, range 1~1000
 
     Returns:
         {
-            total: Total count (integer),
-            gfs_groups: Omni-Dataverse  list. parameter format: [{
+            total: total (integer),
+            gfs_groups: Omni-Dataverse list. parameter format: [{
                 id: ID (string),
-                name:  name (string),
-                status:  status (string),
+                name: name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -59,19 +59,19 @@ def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
 
 def dataspace_show(client: DMEAPIClient, id: str = None, name: str = None) -> dict:
     """
-    Query Omni-Dataverse capacity statistics
+    Query capacity statistics info of the specified Omni-Dataverse
 
     Args:
         client: DME API client
-        id: Omni-Dataverse ID, cannot both be empty with name; ID takes precedence when both have values
-        name: Omni-Dataverse  name, cannot both be empty with id; ID takes precedence when both have values
+        id: Omni-Dataverse ID, cannot be empty simultaneously with name, ID is used first when both have values
+        name: Omni-Dataverse name, cannot be empty simultaneously with id, ID is used first when both have values
 
     Returns:
         {
-            total_capacity: Total capacity (string),
-            used_capacity: Used capacity (string),
-            available_capacity: Available capacity (string),
-            file_count: Number of files (int64),
+            total_capacity: total capacity (string),
+            used_capacity: used capacity (string),
+            available_capacity: available capacity (string),
+            file_count: file count (int64),
         }
     """
     url = "/rest/fileservice/v1/gfs-groups/query-summary"
@@ -93,26 +93,26 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
                         account_name: str = None, page_no: int = 1,
                         page_size: int = 100) -> dict:
     """
-     query Omni-Dataverse Data service site
+    Query Omni-Dataverse data service sites
 
     Args:
         client: DME API client
-        raw_id: Data service siteID on device
-        site_role: Data service site role, Options: ORDINARY, METASTORE
+        raw_id: Data service site id on the device side
+        site_role: Data service site role, contains site_role field. valid values: ORDINARY, METASTORE
         gfs_group_id: Omni-Dataverse id
-        storage_name: Query by storage nameData service site, supports fuzzy search
-        storage_pool_name:  based onStorage pool name queryData service site, supports fuzzy search
-        account_name: Query by account nameData service site, supports fuzzy search
-        page_no: Page number, default 1,  range 1~10000
-        page_size: Items per page, default 100,  range 1~1000
+        storage_name: Query data service sites by storage name, supports fuzzy query
+        storage_pool_name: Query data service sites by storage pool name, supports fuzzy query
+        account_name: Query data service sites by account name, supports fuzzy query
+        page_no: Page number for paginated query, default 1, range 1~10000
+        page_size: Number of items per page for paginated query, default 100, range 1~1000
 
     Returns:
         {
-            total: Number of sites (int32),
-            sites: List of data service sites (List<SiteInfo>). Parameter format: [{
-                id: Site ID (string),
-                name: Site name (string),
-                status: Status (string),
+            total: site count (int32),
+            sites: Data service site list (List<SiteInfo>). parameter format: [{
+                id: site ID (string),
+                name: site name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -141,7 +141,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
 
 
 # ============================================================================
-# Namespace subtopic actions
+# Namespace subtopic related actions
 # ============================================================================
 
 def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str = None,
@@ -149,26 +149,26 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
                    sort_key: str = None, sort_dir: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query global namespace
+    Batch query global Namespace
 
     Args:
         client: DME API client
-        name: Global namespace name, supports fuzzy search (0~256 characters, Optional)
-        gfs_group_name: Global data space name, supports fuzzy search (0~256 characters, Optional)
-        gfs_group_id: Global data space ID (1~32 characters, Optional)
-        gfs_type: Global namespace type. Options: enable_object_multi_version, disable_object_multi_versionsupports object multi-version)
-        sort_key: Sort field. Options: child_name_space_num
-        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). Default: asc
-        page_no: pagination start page (int32, 1~1000, Default: 1, Optional)
-        page_size: Items per page (int32, 1~1000, Default: 20, Optional)
+        name: Global Namespace name, supports fuzzy search (0~256 characters, Optional)
+        gfs_group_name: Global dataspaces name, supports fuzzy search (0~256 characters, Optional)
+        gfs_group_id: ID of the owning global dataspaces (1~32 characters, Optional)
+        gfs_type: Global Namespace type (Optional). valid values: enable_object_multi_version, disable_object_multi_version
+        sort_key: Sort by the specified field (Optional). valid values: child_name_space_num
+        sort_dir: Specify sort direction (Optional). valid values: asc, desc. default: asc
+        page_no: Pagination start page (int32, 1~1000, default: 1, Optional)
+        page_size: Number of items per page (int32, 1~1000, default: 20, Optional)
 
     Returns:
         {
-            total: Number of namespaces (int32),
-            namespaces: List of global namespaces (List<NamespaceInfo>). Parameter format: [{
-                id: Namespace ID (string),
-                name: Name (string),
-                status: Status (string),
+            total: Namespace count (int32),
+            namespaces: Global Namespace list (List<NamespaceInfo>). parameter format: [{
+                id: namespace ID (string),
+                name: name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -198,20 +198,20 @@ def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str =
 
 def namespace_show(client: DMEAPIClient, id: str = None, name_locator: str = None) -> dict:
     """
-     query global namespace details
+    Query global Namespace details
 
     Args:
         client: DME API client
-        id: Global namespace ID, cannot both be empty with name_locator; ID takes precedence when both have values
-        name_locator: Name locator format:: global_namespace_name@global_data_space_name
+        id: Global Namespace ID, cannot be empty simultaneously with name_locator, ID is used first when both have values
+        name_locator: Name locator, format: global Namespace name@global dataspaces name
 
     Returns:
         {
-            id: Namespace ID (string),
-            name: Name (string),
-            description: Description (string),
-            status: Status (string),
-            storage_id: Storage device ID (string),
+            id: namespace ID (string),
+            name: name (string),
+            description: description (string),
+            status: status (string),
+            storage_id: storage device ID (string),
         }
     """
     url = "/rest/fileservice/v1/gfs/detail/query"
@@ -232,26 +232,26 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
                      single_write_switch: str = None,
                      smart_share_members: list = None) -> dict:
     """
-    create Global namespace
+    Create global Namespace
 
     Args:
         client: DME API client
-        name:  globalNamespace name (1~255 characters, Required)
-        gfs_group_id: Global data space ID (1~32 characters, Optional. cannot both be empty with gfs_group_name; takes precedence when both have valuess_group_id)
-        gfs_group_name: Global data space name (1~255 characters, Optional. cannot both be empty with gfs_group_id; takes precedence when both have valuess_group_id)
-        gfs_mode: Global namespace mode. Options: smart_share. Default: smart_share
-        single_write_switch: Single write mode switch. Options: close (any member can write), open (only one member can write)
-        smart_share_members: SmartShare Member list (List<SmartShareMember>, max array members: 32, Optional. required when gfs_mode is smart_share). parameter format: [{
+        name: Global namespace name (1~255 characters, Required)
+        gfs_group_id: Global dataspaces ID (1~32 characters, Optional. Cannot be empty simultaneously with gfs_group_name, gfs_group_id is used first when both have values)
+        gfs_group_name: Global dataspaces name (1~255 characters, Optional. Cannot be empty simultaneously with gfs_group_id, gfs_group_id is used first when both have values)
+        gfs_mode: Global Namespace mode (Optional). valid values: smart_share. default: smart_share
+        single_write_switch: Single write mode switch (Optional). valid values: close (any member can write), open (only one member can write)
+        smart_share_members: SmartShare member list (List<SmartShareMember>, max array members: 32, Optional. Required when gfs_mode is smart_share). parameter format: [{
                 id: Namespace ID (1~64 characters, Required),
-                pull_mode: Read mode. Options: no_cache (forwarded read), on_demand (read on demand). Default: on_demand,
-                cache_time: Cache duration (int32, Optional, Default: 8). When unit is hour: 1-4320, when day: 1-180,
-                cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value. Default: hour,
-                single_write_mode: Single write mode policy (Optional). Options: read_only, read_write. When single_write_switch is open, exactly one member must have the value read_write,
+                pull_mode: Data read mode (Optional). valid values: no_cache (forward read), on_demand (on-demand read). default: on_demand,
+                cache_time: Cache duration (int32, Optional, default: 8). When cache_time_unit is hour: 1~4320, when day: 1~180,
+                cache_time_unit: Cache duration unit (Optional). valid values: hour, day. Required when cache_time is set. default: hour,
+                single_write_mode: Single write mode policy (Optional). valid values: read_only, read_write. When single_write_switch is open, exactly one member must have read_write,
              }, ...]
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs"
@@ -277,22 +277,22 @@ def namespace_create(client: DMEAPIClient, name: str, gfs_group_id: str = None,
 def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = None,
                      smart_share_members: list = None) -> dict:
     """
-    ModifyGlobal namespace
+    Modify the specified global Namespace
 
     Args:
         client: DME API client
-        id: Global namespace ID (1~32 characters, Optional. cannot both be empty with name_locator; takes precedence when both have values id)
-        name_locator: Name locator format:: global_namespace_name@global_data_space_name (3~507 characters, Optional. cannot both be empty with id; takes precedence when both have values id)
-        smart_share_members: SmartShare Member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. When global namespace mode is smart_share parameter effective when). parameter format: [{
-                id: Namespace ID or filesystem ID (1~64 characters, Required),
-                pull_mode: Read data mode (Optional). Options: no_cache (forwarded read), on_demand (read on demand),
-                cache_time: Cache duration (int32, Optional, Default: 8). When unit is hour: 1-4320, when day: 1-180,
-                cache_time_unit: Cache duration unit (Optional). Options: hour, day. required when cache_time has a value,
+        id: Global Namespace ID (1~32 characters, Optional. Cannot be empty simultaneously with name_locator, id is used first when both have values)
+        name_locator: Name locator, format: global Namespace name@global dataspaces name (3~507 characters, Optional. Cannot be empty simultaneously with id, id is used first when both have values)
+        smart_share_members: SmartShare member list (List<ModifySmartShareMember>, min array members: 0, max array members: 256, Optional. Valid when global Namespace mode is smart_share). parameter format: [{
+                id: Namespace ID or Filesystem ID (1~64 characters, Required),
+                pull_mode: Data read mode (Optional). valid values: no_cache (forward read), on_demand (on-demand read),
+                cache_time: Cache duration (int32, Optional, default: 8). When cache_time_unit is hour: 1~4320, when day: 1~180,
+                cache_time_unit: Cache duration unit (Optional). valid values: hour, day. Required when cache_time is set,
              }, ...]
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/modify"
@@ -313,17 +313,17 @@ def namespace_modify(client: DMEAPIClient, id: str = None, name_locator: str = N
 def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = None,
                      is_delete_child: bool = True) -> dict:
     """
-    Delete global namespace
+    Delete the specified global Namespace
 
     Args:
         client: DME API client
-        id: Global namespace ID, cannot both be empty with name_locator
-        name_locator: Name locator format:: global_namespace_name@global_data_space_name
-        is_delete_child:  Whether to delete child namespace, default true
+        id: Global Namespace ID, cannot be empty simultaneously with name_locator
+        name_locator: Name locator, format: global Namespace name@global dataspaces name
+        is_delete_child: Whether to delete child Namespace, default true
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/delete"
@@ -342,7 +342,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
 
 
 # ============================================================================
-# Migration Task subtopic actions
+# Migration Task subtopic related actions
 # ============================================================================
 
 def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
@@ -354,33 +354,33 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
                         page_no: int = 1, page_size: int = 20,
                         sort_dir: str = 'desc', sort_key: str = None) -> dict:
     """
-    Batch query Omni-Dataverse Data migration task
+    Batch query Omni-Dataverse data migration tasks
 
     Args:
         client: DME API client
-        gfs_id: Global namespace ID (1~32 characters, Optional)
-        task_name: Task name, supports fuzzy search (1~256 characters, Optional)
-        task_id: Data migration task ID on device (1~256 characters, Optional)
+        gfs_id: Global Namespace ID (1~32 characters, Optional)
+        task_name: task name, supports fuzzy query (1~256 characters, Optional)
+        task_id: Data migration task ID on the device side (1~256 characters, Optional)
         target_storage_name: Target site name (1~256 characters, Optional)
-        namespace_name: Namespace name, supports fuzzy search (1~256 characters, Optional)
+        namespace_name: namespace name, supports fuzzy query (1~256 characters, Optional)
         namespace_id: Namespace ID (1~32 characters, Optional)
-        namespace_raw_id: Namespace ID on device (1~256 characters, Optional)
-        local_path: Namespace path, supports fuzzy search (1~256 characters, Optional, Default: "/")
-        status: Task status list (List<string>, max array members: 9, Optional). Options: not_run (not running), synchronizing ( dataSyncing), completed ( completed), suspended (Paused), faulty ( fault), to_be_scheduled ( pending), partially_success (partial success), failed ( failure), unknown (unknown)
+        namespace_raw_id: Namespace ID on the device side (1~256 characters, Optional)
+        local_path: Path under Namespace, supports fuzzy query (1~256 characters, Optional, default: "/")
+        status: task status list (List<string>, max array members: 9, Optional). valid values: not_run, synchronizing, completed, suspended, faulty, to_be_scheduled, partially_success, failed, unknown
         task_mode: Task mode list (List<string>, max array members: 2, Optional)
-        execute_mode: Execution mode list (List<string>, max array members: 2, Optional)
-        page_no: Page number (int32, 1~1000, Default: 1, Optional)
-        page_size: Items per page (int32, 1~1000, Default: 20, Optional)
-        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). Default: desc
-        sort_key: Sort key (Optional). Options: progress (Task execution progress), real_start_time (actual start time), real_finish_time (task actualEnd time)
+        execute_mode: Execute mode list (List<string>, max array members: 2, Optional)
+        page_no: Pagination query page number (int32, 1~1000, default: 1, Optional)
+        page_size: Items per page (int32, 1~1000, default: 20, Optional)
+        sort_dir: Specify sort direction (Optional). valid values: asc, desc. default: desc
+        sort_key: Sort parameter (Optional). valid values: progress (task execution progress), real_start_time (task actual start time), real_finish_time (task actual end time)
 
     Returns:
         {
-            total: Number of tasks (int32),
-            tasks: List of data migration tasks (List<MigrationTaskInfo>). Parameter format: [{
-                id: Task ID (string),
-                name: Task name (string),
-                status: Status (string),
+            total: task count (int32),
+            tasks: Data migration task list (List<MigrationTaskInfo>). parameter format: [{
+                id: task ID (string),
+                name: task name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -423,7 +423,7 @@ def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
 
 def migration_task_show(client: DMEAPIClient, id: str) -> dict:
     """
-     query Omni-Dataverse Data migration task details
+    Query Omni-Dataverse data migration task details
 
     Args:
         client: DME API client
@@ -431,12 +431,12 @@ def migration_task_show(client: DMEAPIClient, id: str) -> dict:
 
     Returns:
         {
-            id: Task ID (string),
-            name: Task name (string),
-            status: Status (string),
-            progress: Progress (string),
-            source: Source info (string),
-            target: Target info (string),
+            id: task ID (string),
+            name: task name (string),
+            status: status (string),
+            progress: progress (string),
+            source: source info (string),
+            target: target info (string),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
@@ -466,57 +466,57 @@ def migration_task_create(client: DMEAPIClient, gfs_id: str, task_mode: str,
                           user_name: str = None, group_operator: str = None,
                           group_name: str = None, files_filter: dict = None) -> dict:
     """
-    create  Omni-Dataverse Data migration task
+    Create Omni-Dataverse data migration task
 
     Args:
         client: DME API client
-        gfs_id: Global namespace ID (1~64 characters, Required)
-        task_name: Task name (1~255 characters, Optional)
-        task_mode: Task mode (Required). Options: pre_fetch (prefetch cache), tier (data pull)
-        execute_mode:  execute mode (Optional). Options: interval (week(s)), one_time (execute once only). when task_mode is pre_fetchs parameter is ineffective
-        execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
-        execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval. when task_mode is pre_fetchs parameter is ineffective
-        start_mode: Task execution mode (Required). Options: manual, auto
-        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediate start
-        max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Required)
-        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
-        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidth must be sent together
-        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). used with period_start_day, period_end_day, period_max_bandwidth must be sent together
-        period_max_bandwidth: Bandwidth upper limit for specified period (Optional,  format: "bandwidth1;bandwidth2"). used with period_start_day, period_end_day, period_time must be sent together
-        target_namespace_id: Target namespace ID under global namespace (1~32 characters, Required)
-        local_path: Namespace path (Optional, Default: "/")
-        src_namespace_ids: Source site namespace ID under global namespace  list (List<string>, max array members: 32, Optional)
-        atime_operator: File access time matching rule (Optional). Options: less_or_equal, greater. must be sent with atime and atime_unitt be sent together
-        atime: File access time interval (int32, 0~26304, Optional). must be sent with atime_operator and atime_unit
-        atime_unit:  File access time interval unit (Optional). Options: hour, day. must be sent with atime_operator and atime
-        mtime_operator: File modification time matching rule (Optional). Options: less_or_equal, greater. must be sent with mtime and mtime_unitit must be sent together
-        mtime: File modification time interval (int32, 0~26304, Optional). must be sent with mtime_operator and mtime_unit
-        mtime_unit:  File modification time interval unit (Optional). Options: hour, day. must be sent with mtime_operator and mtime
-        ctime_operator: File status modification time matching rule (Optional). Options: less_or_equal, greater. must be sent with ctime and ctime_unittime_unit must be sent together
-        ctime: File status modification interval (int32, 0~26304, Optional). must be sent with ctime_operator and ctime_unit
-        ctime_unit: File status modification time interval unit (Optional). Options: hour, day. must be sent with ctime_operator and ctiment together
-        crtime_operator:  File creation time matching rule (Optional). Options: less_or_equal, greater. must be sent with crtime and crtime_unitit must be sent together
-        crtime:  File creation time interval (int32, 0~26304, Optional). must be sent with crtime_operator and crtime_unit
-        crtime_unit:  File creation time interval unit  (Optional). Options: hour, day. must be sent with crtime_operator and crtimether
-        name_operator: Filename matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with name_filter
-        name_filter: Filename matching expression list (1~1023 characters, Optional). must be sent with name_operator
-        size_operator: File size matching rule (Optional). Options: less_or_equal, greater. must be sent with file_sizeer
-        file_size:  File size (int64, 0~4398046511104, in KB, Optional). must be sent with size_operator
-        tag: objectTag matching rule (Optional,  format: "key1:value1;key2:value2")
-        file_paths: Filter by file list upload file ID list (List<string>, max array members: 200, Optional). can only be configured when execute_mode is one_time
-        authentication_type: Auth type (Optional). Options: ldap_or_ldaps_domain (LDAP/LDAPS domain), unix_local (UNIX local auth), nis_domain (NIS domain)
-        user_operator: Username matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with authentication_type and user_nameme must be sent together
-        user_name: Username (1~255 characters, Optional). must be sent with authentication_type and user_operator
-        group_operator: User group name matching rule (Optional). Options: equal (equal), not_equal (not equal). must be sent with authentication_type and group_operatorype, group_name must be sent together
-        group_name: User group name (1~255 characters, Optional). must be sent with authentication_type and group_operatorype, group_operator must be sent together
-        files_filter: Filter by file list request parameter (FilesFilterobject, Optional). can only be configured when execute_mode is one_time.  parameter format: {
-                file_id: filter by file listfilter policy uploaded file ID (1~63 characters, Required),
-                file_name: filter by file listfilter policy uploaded file name (1~1023 characters, Required),
+        gfs_id: Global Namespace ID (1~64 characters, Required)
+        task_name: task name (1~255 characters, Optional)
+        task_mode: Task mode (Required). valid values: pre_fetch (prefetch cache), tier (data pull)
+        execute_mode: Execute mode (Optional). valid values: interval (periodic), one_time (execute once). Invalid when task_mode is pre_fetch
+        execute_time: Periodic task execution interval (int32, 1~365, Optional). Required when execute_mode is interval. Invalid when task_mode is pre_fetch
+        execute_time_unit: Periodic task execution interval unit (Optional). valid values: minute, hour, day, month. Required when execute_mode is interval. Invalid when task_mode is pre_fetch
+        start_mode: Task execution mode (Required). valid values: manual, auto
+        start_time: Task start UTC timestamp (int64, min: 0, unit: seconds, Optional). Configurable when start_mode is auto, value 0 means start immediately
+        max_bandwidth: Maximum sync rate (int32, 1~10240, unit: MB/s, Required)
+        period_start_day: Start date of the specified time period (Optional, format: YYYY-MM-DD). Must be provided together with period_end_day, period_time, period_max_bandwidth
+        period_end_day: End date of the specified time period (Optional, format: YYYY-MM-DD). Must be provided together with period_start_day, period_time, period_max_bandwidth
+        period_time: Start and end time of the specified time period (Optional, format: "time1,duration1;time2,duration2"). Must be provided together with period_start_day, period_end_day, period_max_bandwidth
+        period_max_bandwidth: Bandwidth cap for the specified time period (Optional, format: "bandwidth1;bandwidth2"). Must be provided together with period_start_day, period_end_day, period_time
+        target_namespace_id: Target Namespace ID under the global Namespace (1~32 characters, Required)
+        local_path: Path under Namespace (Optional, default: "/")
+        src_namespace_ids: Source site Namespace ID list under the global Namespace (List<string>, max array members: 32, Optional)
+        atime_operator: File access time match rule (Optional). valid values: less_or_equal, greater. Must be provided together with atime, atime_unit
+        atime: File access time interval (int32, 0~26304, Optional). Must be provided together with atime_operator, atime_unit
+        atime_unit: File access time interval unit (Optional). valid values: hour, day. Must be provided together with atime_operator, atime
+        mtime_operator: File modify time match rule (Optional). valid values: less_or_equal, greater. Must be provided together with mtime, mtime_unit
+        mtime: File modify time interval (int32, 0~26304, Optional). Must be provided together with mtime_operator, mtime_unit
+        mtime_unit: File modify time interval unit (Optional). valid values: hour, day. Must be provided together with mtime_operator, mtime
+        ctime_operator: File status change time match rule (Optional). valid values: less_or_equal, greater. Must be provided together with ctime, ctime_unit
+        ctime: File status change time interval (int32, 0~26304, Optional). Must be provided together with ctime_operator, ctime_unit
+        ctime_unit: File status change time interval unit (Optional). valid values: hour, day. Must be provided together with ctime_operator, ctime
+        crtime_operator: File creation time match rule (Optional). valid values: less_or_equal, greater. Must be provided together with crtime, crtime_unit
+        crtime: File creation time interval (int32, 0~26304, Optional). Must be provided together with crtime_operator, crtime_unit
+        crtime_unit: File creation time interval unit (Optional). valid values: hour, day. Must be provided together with crtime_operator, crtime
+        name_operator: File name match rule (Optional). valid values: equal, not_equal. Must be provided together with name_filter
+        name_filter: File name match expression list (1~1023 characters, Optional). Must be provided together with name_operator
+        size_operator: File size match rule (Optional). valid values: less_or_equal, greater. Must be provided together with file_size
+        file_size: File size (int64, 0~4398046511104, unit: KB, Optional). Must be provided together with size_operator
+        tag: Object tag match rule (Optional, format: "key1:value1;key2:value2")
+        file_paths: File identifier list uploaded by file list filter policy (List<string>, max array members: 200, Optional). Configurable only when execute_mode is one_time
+        authentication_type: Authentication type (Optional). valid values: ldap_or_ldaps_domain, unix_local, nis_domain
+        user_operator: Username match rule (Optional). valid values: equal, not_equal. Must be provided together with authentication_type, user_name
+        user_name: Username (1~255 characters, Optional). Must be provided together with authentication_type, user_operator
+        group_operator: User group name match rule (Optional). valid values: equal, not_equal. Must be provided together with authentication_type, group_name
+        group_name: User group name (1~255 characters, Optional). Must be provided together with authentication_type, group_operator
+        files_filter: File list filter request parameters (FilesFilter object, Optional). Configurable only when execute_mode is one_time. parameter format: {
+                file_id: File ID uploaded by file list filter policy (1~63 characters, Required),
+                file_name: File name uploaded by file list filter policy (1~1023 characters, Required),
              }
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks"
@@ -611,25 +611,25 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
                           period_end_day: str = None, period_time: str = None,
                           period_max_bandwidth: str = None) -> dict:
     """
-    modify  Omni-Dataverse Data migration task
+    Modify Omni-Dataverse data migration task
 
     Args:
         client: DME API client
         id: Data migration task ID (1~32 characters, Required)
-        task_name: Task name (1~255 characters, Optional)
-        start_mode: Task execution mode (Optional). Options: manual, auto
-        start_time: Task start UTC timestamp (int64, min: 0, unit : second(s), Optional). when start_mode is autoig,  value 0 = immediate start
-        execute_time: Weekly task execution interval (int32, 1~365, Optional). must be sent when execute_mode is interval
-        execute_time_unit: Weekly task execution time interval unit (Optional). Options: minute, hour (hour(s)), day (day(s)), month (month(s)). must be sent when execute_mode is interval
-        max_bandwidth:  maxSync rate (int32, 1~10240, unit : MB/s, Optional)
-        period_start_day: Start date of specified period (Optional,  format: YYYY-MM-DD). used with period_end_day, period_time, period_max_bandwidthx_bandwidth must be sent together
-        period_end_day: End date of specified period (Optional,  format: YYYY-MM-DD). used with period_start_day, period_time, period_max_bandwidth must be sent together
-        period_time: Start/end time of specified period (Optional,  format: "time1,duration1;time2,duration2"). used with period_start_day, period_end_day, period_max_bandwidth must be sent together
-        period_max_bandwidth: Bandwidth upper limit for specified period (Optional,  format: "bandwidth1;bandwidth2"). used with period_start_day, period_end_day, period_time must be sent together
+        task_name: task name (1~255 characters, Optional)
+        start_mode: Task execution mode (Optional). valid values: manual, auto
+        start_time: Task start UTC timestamp (int64, min: 0, unit: seconds, Optional). Configurable when start_mode is auto, value 0 means start immediately
+        execute_time: Periodic task execution interval (int32, 1~365, Optional). Required when execute_mode is interval
+        execute_time_unit: Periodic task execution interval unit (Optional). valid values: minute, hour, day, month. Required when execute_mode is interval
+        max_bandwidth: Maximum sync rate (int32, 1~10240, unit: MB/s, Optional)
+        period_start_day: Start date of the specified time period (Optional, format: YYYY-MM-DD). Must be provided together with period_end_day, period_time, period_max_bandwidth
+        period_end_day: End date of the specified time period (Optional, format: YYYY-MM-DD). Must be provided together with period_start_day, period_time, period_max_bandwidth
+        period_time: Start and end time of the specified time period (Optional, format: "time1,duration1;time2,duration2"). Must be provided together with period_start_day, period_end_day, period_max_bandwidth
+        period_max_bandwidth: Bandwidth cap for the specified time period (Optional, format: "bandwidth1;bandwidth2"). Must be provided together with period_start_day, period_end_day, period_time
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/{id}"
@@ -663,15 +663,15 @@ def migration_task_modify(client: DMEAPIClient, id: str, task_name: str = None,
 
 def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch delete Omni-Dataverse Data migration task
+    Batch delete Omni-Dataverse data migration tasks
 
     Args:
         client: DME API client
-        ids: Data migration task ID  list
+        ids: Data migration task ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/delete"
@@ -686,16 +686,16 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) -> dict:
     """
-    Batch pause or start Omni-Dataverse Data migration task
+    Batch pause or start Omni-Dataverse data migration tasks
 
     Args:
         client: DME API client
-        ids: Data migration task ID  list
-        operate_type: Operation type, includes  operate_type  field,  value start( start), stop( stop)
+        ids: Data migration task ID list
+        operate_type: Operation type, contains operate_type field, values: start, stop
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/gfs/migration-tasks/operate"
@@ -709,9 +709,9 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) 
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    # Dataspace subtopic actions
+    # Dataspace subtopic action
     'dataspace_list': {
         'func': dataspace_list,
         'description': 'Batch query Omni-Dataverse',
@@ -720,17 +720,17 @@ ACTIONS = {
     },
     'dataspace_show': {
         'func': dataspace_show,
-        'description': 'Query Omni-Dataverse capacity statistics',
+        'description': 'Query capacity statistics info of the specified Omni-Dataverse',
         'params': ['id', 'name'],
         'subtopic': 'dataspace'
     },
     'dataspace_site_list': {
         'func': dataspace_site_list,
-        'description': ' query Omni-Dataverse Data service site',
+        'description': 'Query Omni-Dataverse data service sites',
         'params': ['raw_id', 'site_role', 'gfs_group_id', 'storage_name', 'storage_pool_name', 'account_name', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
-    # Namespace subtopic actions
+    # Namespace subtopic action
     'namespace_list': {
         'func': namespace_list,
         'description': 'Batch query global namespace',
@@ -739,62 +739,62 @@ ACTIONS = {
     },
     'namespace_show': {
         'func': namespace_show,
-        'description': ' query global namespace details',
+        'description': 'Query global namespace details',
         'params': ['id', 'name_locator'],
         'subtopic': 'namespace'
     },
     'namespace_create': {
         'func': namespace_create,
-        'description': 'create Global namespace',
+        'description': 'Create global namespace',
         'params': ['name', 'gfs_group_id', 'gfs_group_name', 'gfs_mode', 'single_write_switch', 'smart_share_members'],
         'subtopic': 'namespace'
     },
     'namespace_modify': {
         'func': namespace_modify,
-        'description': 'Modify global namespace',
+        'description': 'Modify the specified global namespace',
         'params': ['id', 'name_locator', 'smart_share_members'],
         'subtopic': 'namespace'
     },
     'namespace_delete': {
         'func': namespace_delete,
-        'description': 'Delete global namespace',
+        'description': 'Delete the specified global namespace',
         'params': ['id', 'name_locator', 'is_delete_child'],
         'subtopic': 'namespace'
     },
-    # Migration Task subtopic actions
+    # Migration Task subtopic action
     'migration_task_list': {
         'func': migration_task_list,
-        'description': 'Batch query Omni-Dataverse Data migration task',
+        'description': 'Batch query Omni-Dataverse data migration tasks',
         'params': ['gfs_id', 'task_name', 'task_id', 'target_storage_name', 'namespace_name', 'namespace_id', 'namespace_raw_id', 'local_path', 'status', 'task_mode', 'execute_mode', 'page_no', 'page_size', 'sort_dir', 'sort_key'],
         'subtopic': 'migration_task'
     },
     'migration_task_show': {
         'func': migration_task_show,
-        'description': ' query Omni-Dataverse Data migration task details',
+        'description': 'Query Omni-Dataverse data migration task details',
         'params': ['id'],
         'subtopic': 'migration_task'
     },
     'migration_task_create': {
         'func': migration_task_create,
-        'description': 'create  Omni-Dataverse Data migration task',
+        'description': 'Create Omni-Dataverse data migration task',
         'params': ['gfs_id', 'task_mode', 'start_mode', 'max_bandwidth', 'target_namespace_id', 'task_name', 'execute_mode', 'execute_time', 'execute_time_unit', 'start_time', 'period_start_day', 'period_end_day', 'period_time', 'period_max_bandwidth', 'local_path', 'src_namespace_ids', 'atime_operator', 'atime', 'atime_unit', 'mtime_operator', 'mtime', 'mtime_unit', 'ctime_operator', 'ctime', 'ctime_unit', 'crtime_operator', 'crtime', 'crtime_unit', 'name_operator', 'name_filter', 'size_operator', 'file_size', 'tag', 'file_paths', 'authentication_type', 'user_operator', 'user_name', 'group_operator', 'group_name', 'files_filter'],
         'subtopic': 'migration_task'
     },
     'migration_task_modify': {
         'func': migration_task_modify,
-        'description': 'modify  Omni-Dataverse Data migration task',
+        'description': 'Modify Omni-Dataverse data migration task',
         'params': ['id', 'task_name', 'start_mode', 'start_time', 'execute_time', 'execute_time_unit', 'max_bandwidth', 'period_start_day', 'period_end_day', 'period_time', 'period_max_bandwidth'],
         'subtopic': 'migration_task'
     },
     'migration_task_delete': {
         'func': migration_task_delete,
-        'description': 'Batch delete Omni-Dataverse Data migration task',
+        'description': 'Batch delete Omni-Dataverse data migration tasks',
         'params': ['ids'],
         'subtopic': 'migration_task'
     },
     'migration_task_operate': {
         'func': migration_task_operate,
-        'description': 'Batch pause or start Omni-Dataverse Data migration task',
+        'description': 'Batch pause or start Omni-Dataverse data migration tasks',
         'params': ['ids', 'operate_type'],
         'subtopic': 'migration_task'
     },

@@ -1,5 +1,5 @@
 """
-Servermanagement  (Server) operations
+Server management related operations
 """
 
 import sys
@@ -11,23 +11,23 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
          name: str = None, server_type: str = None) -> dict:
     """
-     query server list
+    Query server list
     
     Args:
         client: DME API client
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
-        name: Server name filter (Optional) 
-        server_type: Server type filter (Optional) 
+        name: Server name filter (Optional)
+        server_type: Server type filter (Optional)
     
     Returns:
         {
-            total: ServerTotal count (integer),
+            total: Total servers (integer),
             servers: Server list (List<ServerInfo>). parameter format: [{
-                id: ServerID (string),
+                id: Server ID (string),
                 name: Server name (string),
                 type: Server type (string),
-                status:  status (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -49,17 +49,17 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 
 def show(client: DMEAPIClient, server_id: str) -> dict:
     """
-    Query server overview info
+    Query overview info of a specified server
     
     Args:
         client: DME API client
-        server_id: Server ID (use device_id field, UUID format with hyphens, e.g. 507cb27f-3eda-44c8-a491-5a81ca035da5) 
+        server_id: Server ID (Note: must use the device_id field, which is a UUID with hyphens, e.g. 507cb27f-3eda-44c8-a491-5a81ca035da5)
     
     Returns:
         {
-            id: ServerID (string),
+            id: Server ID (string),
             name: Server name (string),
-            status:  status (string),
+            status: status (string),
             type: Server type (string),
         }
     """
@@ -72,21 +72,21 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
 def cpu_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query all CPU list on server
+    Query all CPU list on a server
 
     Args:
         client: DME API client
         server_id: Server ID
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
 
     Returns:
         {
-            total: Number of CPUs (int32),
-            cpus: List of CPUs (List<CpuInfo>). Parameter format: [{
+            total: CPU count (int32),
+            cpus: CPU list (List<CpuInfo>). parameter format: [{
                 id: CPU ID (string),
-                name: Name (string),
-                cores: Number of cores (int32),
+                name: name (string),
+                cores: Core count (int32),
                 frequency: Frequency (string),
             }, ...],
         }
@@ -106,21 +106,21 @@ def cpu_list(client: DMEAPIClient, server_id: str,
 def memory_list(client: DMEAPIClient, server_id: str,
                  start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server memory
+    Query memory on a server
     
     Args:
         client: DME API client
         server_id: Server ID
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
     
     Returns:
         {
-            total: Number of memory modules (int32),
-            memories: List of memory modules (List<MemoryInfo>). Parameter format: [{
+            total: Memory module count (int32),
+            memories: Memory list (List<MemoryInfo>). parameter format: [{
                 id: Memory ID (string),
-                name: Name (string),
-                capacity: Capacity (string),
+                name: name (string),
+                capacity: capacity (string),
             }, ...],
         }
     """
@@ -139,22 +139,22 @@ def memory_list(client: DMEAPIClient, server_id: str,
 def disk_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query disk collection on server
+    Query disk collection on a server
     
     Args:
         client: DME API client
         server_id: Server ID
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
     
     Returns:
         {
-            total: Number of disks (int32),
-            disks: List of disks (List<DiskInfo>). Parameter format: [{
+            total: Disk count (int32),
+            disks: Disk list (List<DiskInfo>). parameter format: [{
                 id: Disk ID (string),
-                name: Name (string),
-                capacity: Capacity (string),
-                health_status: Health status (string),
+                name: name (string),
+                capacity: capacity (string),
+                health_status: health status (string),
             }, ...],
         }
     """
@@ -173,20 +173,20 @@ def disk_list(client: DMEAPIClient, server_id: str,
 def nic_list(client: DMEAPIClient, server_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query on serverNIC collection
+    Query NIC collection on a server
 
     Args:
         client: DME API client
-        server_id: Server ID (Optional) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 5~1000, default 20
+        server_id: Server ID (Optional)
+        page_no: Pagination query page number, default 1
+        page_size: items per page, 5~1000, default 20
 
     Returns:
         {
-            total: Number of NICs (int32),
-            nics: List of NICs (List<NicInfo>). Parameter format: [{
+            total: NIC count (int32),
+            nics: NIC list (List<NicInfo>). parameter format: [{
                 id: NIC ID (string),
-                name: Name (string),
+                name: name (string),
                 mac: MAC address (string),
                 speed: Speed (string),
             }, ...],
@@ -209,22 +209,22 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
 def fan_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server fan
+    Query fans on a server
     
     Args:
         client: DME API client
         server_id: Server ID
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
     
     Returns:
         {
-            total: Number of fans (int32),
-            fans: List of fans (List<FanInfo>). Parameter format: [{
+            total: Fan count (int32),
+            fans: Fan list (List<FanInfo>). parameter format: [{
                 id: Fan ID (string),
-                name: Name (string),
-                speed: Speed (string),
-                health_status: Health status (string),
+                name: name (string),
+                speed: Rotation speed (string),
+                health_status: health status (string),
             }, ...],
         }
     """
@@ -243,22 +243,22 @@ def fan_list(client: DMEAPIClient, server_id: str,
 def power_list(client: DMEAPIClient, server_id: str,
                      start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server power supply
+    Query power supplies on a server
     
     Args:
         client: DME API client
         server_id: Server ID
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
     
     Returns:
         {
-            total: Number of power supplies (int32),
-            powers: List of power supplies (List<PowerInfo>). Parameter format: [{
+            total: Power supply count (int32),
+            powers: Power supply list (List<PowerInfo>). parameter format: [{
                 id: Power supply ID (string),
-                name: Name (string),
-                status: Status (string),
-                health_status: Health status (string),
+                name: name (string),
+                status: status (string),
+                health_status: health status (string),
             }, ...],
         }
     """
@@ -277,21 +277,21 @@ def power_list(client: DMEAPIClient, server_id: str,
 def raid_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query RAID card details on server
+    Query RAID card details on a server
     
     Args:
         client: DME API client
         server_id: Server ID
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
     
     Returns:
         {
-            total: Number of RAID cards (int32),
-            raid_cards: List of RAID cards (List<RaidCardInfo>). Parameter format: [{
+            total: RAID card count (int32),
+            raid_cards: RAID card list (List<RaidCardInfo>). parameter format: [{
                 id: RAID card ID (string),
-                name: Name (string),
-                model: Model (string),
+                name: name (string),
+                model: model (string),
             }, ...],
         }
     """
@@ -310,21 +310,21 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
 def pcie_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server PCIe card info
+    Query PCIe card info on a server
     
     Args:
         client: DME API client
         server_id: Server ID
-        start: paginationStart position, default 1
+        start: Pagination start position, default 1
         limit: Page size, default 100
     
     Returns:
         {
-            total: Number of PCIe cards (int32),
-            pcie_cards: List of PCIe cards (List<PcieCardInfo>). Parameter format: [{
+            total: PCIe card count (int32),
+            pcie_cards: PCIe card list (List<PcieCardInfo>). parameter format: [{
                 id: PCIe card ID (string),
-                name: Name (string),
-                type: Type (string),
+                name: name (string),
+                type: type (string),
             }, ...],
         }
     """
@@ -340,74 +340,74 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    # Direct action (Two-level structure) 
+    # Direct actions (two-level structure)
     'list': {
         'func': list,
-        'description': ' query server list',
+        'description': 'Query server list',
         'params': ['start', 'limit', 'name', 'server_type'],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': 'Query server overview info',
+        'description': 'Query overview info of specified server',
         'params': ['server_id'],
         'subtopic': None
     },
-    # subtopic actions - cpu (three-level structure)
+    # subtopic action - cpu (three-level structure)
     'cpu_list': {
         'func': cpu_list,
         'description': 'Query all CPU list on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
-    # subtopic actions - memory (three-level structure)
+    # subtopic action - memory (three-level structure)
     'memory_list': {
         'func': memory_list,
-        'description': 'Query on server memory',
+        'description': 'Query memory on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'memory'
     },
-    # subtopic actions - disk (three-level structure)
+    # subtopic action - disk (three-level structure)
     'disk_list': {
         'func': disk_list,
         'description': 'Query disk collection on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },
-    # subtopic actions - nic (three-level structure)
+    # subtopic action - nic (three-level structure)
     'nic_list': {
         'func': nic_list,
-        'description': 'Query on serverNIC collection',
+        'description': 'Query NIC collection on server',
         'params': ['server_id', 'page_no', 'page_size'],
         'subtopic': 'nic'
     },
-    # subtopic actions - fan (three-level structure)
+    # subtopic action - fan (three-level structure)
     'fan_list': {
         'func': fan_list,
-        'description': 'Query on server fan',
+        'description': 'Query fans on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
-    # subtopic actions - power (three-level structure)
+    # subtopic action - power (three-level structure)
     'power_list': {
         'func': power_list,
-        'description': 'Query on server power supply',
+        'description': 'Query power supplies on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },
-    # subtopic actions - raid_card (three-level structure)
+    # subtopic action - raid_card (three-level structure)
     'raid_card_list': {
         'func': raid_card_list,
         'description': 'Query RAID card details on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },
-    # subtopic actions - pcie_card (three-level structure)
+    # subtopic action - pcie_card (three-level structure)
     'pcie_card_list': {
         'func': pcie_card_list,
-        'description': 'Query on server PCIe card info',
+        'description': 'Query PCIe card info on server',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'pcie_card'
     },

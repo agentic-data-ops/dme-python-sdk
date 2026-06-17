@@ -1,5 +1,5 @@
 """
-Workflow (Workflow) operations
+Workflow related operations
 """
 
 import sys
@@ -8,31 +8,31 @@ import os
 from pydme.client import DMEAPIClient
 
 
-# ==================== template Subtopic ====================
+# ==================== template subtopic ====================
 
 def template_list(client: DMEAPIClient, page_no: int, page_size: int,
                   directory_id: str = None, group: str = None,
                   name: str = None) -> dict:
     """
-    PaginationTemplate list
+    Paginated query template list
     
-    PaginationWorkflowTemplate list. 
+    Paginated query of workflow template list.
     
     Args:
         client: DME API client
-        page_no: Page index (Required, min: 1) 
-        page_size: per page querycount (Required, 1~1000) 
-        directory_id: Directory ID (Optional, 1~64  characters) 
-        group: Template group name, supports fuzzy match (Optional,  max 255  characters) 
-        name:  template name, supports fuzzy match (Optional,  max 255  characters) 
+        page_no: Page index (required, minimum: 1)
+        page_size: Number of items per page (required, 1~1000)
+        directory_id: Directory id (optional, 1~64 characters)
+        group: Template group name, supports fuzzy match (optional, at most 255 characters)
+        name: Template name, supports fuzzy match (optional, at most 255 characters)
     
     Returns:
         {
-            total:  templatecount (integer, max: 500),
+            total: Template count (integer, max: 500),
             templates: Template list. parameter format: [{
-                id:  templateID (string),
-                name:  template name (string),
-                description:  description (string),
+                id: Template ID (string),
+                name: Template name (string),
+                description: description (string),
             }, ...],
         }
     """
@@ -56,18 +56,18 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
 
 def template_groups(client: DMEAPIClient) -> dict:
     """
-    Query all template group
+    Query all template groups
     
-    Query allWorkflowTemplate group. 
+    Query all workflow template groups.
     
     Args:
         client: DME API client
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes : 
-        - groups: Template group list, includes  name (Template group name) 
+            task_id: task ID (string, 1~64 characters),
+        }, including:
+        - groups: Template group list, containing name (template group name)
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
     
@@ -78,24 +78,24 @@ def template_groups(client: DMEAPIClient) -> dict:
 def template_show(client: DMEAPIClient, template_id: str,
                   template_version_id: str = None) -> dict:
     """
-     query template details
+    Query template detailed info
     
-    Query template details.
+    Query detailed info of a specified template.
     
     Args:
         client: DME API client
-        template_id:  template id (Required, 1~64  characters) 
-        template_version_id: Template version id (Optional, 1~64  characters) 
+        template_id: Template id (required, 1~64 characters)
+        template_version_id: Template version id (optional, 1~64 characters)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes : 
+            task_id: task ID (string, 1~64 characters),
+        }, including:
         - template_version_id: Template version id
     """
     url = "/rest/wfamgmt/v1/workflow/templates/{template_id}"
     
-    params_dict = {}
+    params_dict = {"template_id": template_id}
     if template_version_id is not None:
         params_dict['template_version_id'] = template_version_id
     
@@ -103,20 +103,20 @@ def template_show(client: DMEAPIClient, template_id: str,
     return response
 
 
-# ==================== instance Subtopic ====================
+# ==================== instance subtopic ====================
 
 def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """
-     stopinstance
+    Stop instance
     
-     Stop executing workflow instance. 
+    Stop a running workflow instance.
     
     Args:
         client: DME API client
-        instance_id: Instance ID (Required, 1~64  characters) 
+        instance_id: Instance id (required, 1~64 characters)
     
     Returns:
-        N/A
+        operation result
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/stop"
     
@@ -128,27 +128,27 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     """
     Query instance details
     
-    Query workflow instance details. 
+    Query detailed info of a specified workflow instance.
     
     Args:
         client: DME API client
-        instance_id:  query instance ID (Required, 1~64  characters) 
+        instance_id: Instance id to query (required, 1~64 characters)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes : 
-        - instance_id: instance id
-        - template_id: Instance template id
-        - template_name: Instance template name
-        - state:  execute status (EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED) 
-        - stage:  Execution stage (PRECHECK/MAIN/NORMAL_END/ABNORMAL_END) 
-        - params: Execute instance parameters
-        - step_list: Instance step list
-        - start_time: Instance execution start time (ms) 
-        - end_time: Instance execution end time (ms) 
-        - instance_type: instance type (PRECHECK/EXECUTION) 
-        - template_version_id: Instance template version id
+            task_id: task ID (string, 1~64 characters),
+        }, including:
+        - instance_id: Instance id
+        - template_id: Template id of the instance
+        - template_name: Template name of the instance
+        - state: Execution status (EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED)
+        - stage: Execution stage (PRECHECK/MAIN/NORMAL_END/ABNORMAL_END)
+        - params: Execution instance parameters
+        - step_list: Step list of the instance
+        - start_time: Instance start time (milliseconds)
+        - end_time: Instance end time (milliseconds)
+        - instance_type: Instance type (PRECHECK/EXECUTION)
+        - template_version_id: Template version id of the instance
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}"
     
@@ -163,21 +163,23 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     """
     Create and execute instance
     
-    Create and execute workflow instance. by specifying template ID and template version ID (Template version ID defaults if empty not specified is latest version) 
-    to create and execute instance, or by specifying instance id  to find correspondingInstance templateCreate and execute instance. 
+    Create and execute a workflow instance. It can create and execute an instance by specifying
+    template id and template version id (when template version id is not specified, the latest version
+    is used by default), or it can create and execute an instance by finding the template
+    corresponding to an existing instance id.
     
     Args:
         client: DME API client
-        template_id:  template id (Optional, 1~64  characters, satisfies regex) 
-        template_version_id: Template version id (Optional, 1~64  characters, satisfies regex) 
-        instance_id: Instance ID (Optional, 1~64  characters, satisfies regex) 
-        params: Execute instance parameters (Optional) ,  format: {"key1": "value1", "key2": "value2"},  max 100 parameter
+        template_id: Template id (optional, 1~64 characters, matching regex)
+        template_version_id: Template version id (optional, 1~64 characters, matching regex)
+        instance_id: Instance id (optional, 1~64 characters, matching regex)
+        params: Execution instance parameters (Optional), format: {"key1": "value1", "key2": "value2"}, at most 100 parameters
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes : 
-        - instance_id: instance id
+            task_id: task ID (string, 1~64 characters),
+        }, including:
+        - instance_id: Instance id
     """
     url = "/rest/wfamgmt/v1/workflow/instances"
     
@@ -200,18 +202,18 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     """
     Query step log
     
-     queryWorkflowExecution log of specified step in instance. 
+    Query the execution log of a specified step in a workflow instance.
     
     Args:
         client: DME API client
-        instance_id: instance id (Required, 1~64  characters) 
-        step_id: Step ID (Required, 1~64  characters) 
+        instance_id: Instance id (required, 1~64 characters)
+        step_id: Step id (required, 1~64 characters)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes : 
-        - logs: Step log list ( max 6000  entries) 
+            task_id: task ID (string, 1~64 characters),
+        }, including:
+        - logs: Step log list (at most 6000 entries)
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"
     
@@ -219,32 +221,32 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     return response
 
 
-# ==================== Action registration info ====================
+# ==================== action registration info ====================
 
 ACTIONS = {
-    # template subtopic actions
+    # template subtopic action
     'template_list': {
         'func': template_list,
-        'description': 'PaginationTemplate list',
+        'description': 'Paginated query template list',
         'params': ['page_no', 'page_size', 'directory_id', 'group', 'name'],
         'subtopic': 'template'
     },
     'template_groups': {
         'func': template_groups,
-        'description': 'Query all template group',
+        'description': 'Query all template groups',
         'params': [],
         'subtopic': 'template'
     },
     'template_show': {
         'func': template_show,
-        'description': ' query template details',
+        'description': 'Query template detailed info',
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },
-    # instance subtopic actions
+    # instance subtopic action
     'instance_stop': {
         'func': instance_stop,
-        'description': ' stopinstance',
+        'description': 'Stop instance',
         'params': ['instance_id'],
         'subtopic': 'instance'
     },

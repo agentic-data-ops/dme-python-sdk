@@ -1,5 +1,5 @@
 """
-Virtualization service (Virtualization) operations
+Virtualization service related operations
 """
 
 import sys
@@ -15,42 +15,42 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
              vr_type: str = None, datacenter_id: str = None, sort_key: str = None,
              sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query VM list
+    Query virtual machine list
     
     Args:
         client: DME API client
-        site_id: Virtual machine site ID
-        cluster_id: Virtual machine cluster ID (HCS  scenario not support) 
-        dc_id: Data center ID (FusionCompute only) 
-        cluster_name: Virtual machineCluster name (supports fuzzy search, HCS  scenario not support) 
-        host_id: Virtual machinePhysical hostUnique identifier
-        host_name: Virtual machineHost name (supports fuzzy search) 
-        name: Virtual machine name (supports fuzzy search) 
-        ip_address: Virtual machine IP  address (supports fuzzy search) 
-        status: Virtual machinestatus list
-                 value: running, stopped, unknown, hibernated, creating, shutting-down,
+        site_id: Site ID the VM belongs to
+        cluster_id: Cluster ID the VM belongs to (not supported in HCS scenario)
+        dc_id: Data center ID (only supported in FusionCompute scenario)
+        cluster_name: Cluster name the VM belongs to (supports fuzzy search, not supported in HCS scenario)
+        host_id: Unique identifier of the physical host the VM belongs to
+        host_name: Host name the VM belongs to (supports fuzzy search)
+        name: VM name (supports fuzzy search)
+        ip_address: VM IP address (supports fuzzy search)
+        status: VM status list
+                values: running, stopped, unknown, hibernated, creating, shutting-down,
                      migrating, fault-resuming, starting, stopping, hibernating, pause,
                      recycling, deactivated, active, saving, deleted, other, uploading,
                      pending_delete, queued, importing, killed, storage_migrating,
                      building, error
-        is_template:  whether template (true/false) 
-        os_type: OS type list (Windows, Linux, Other) 
-        vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS) 
-        datacenter_id: Datastore data center ID (vCenter only) 
-        sort_key: Sort field (name, cpu_core, memory_size, disk_total_size, create_time, ip_address) 
-        sort_dir: Sort direction (asc, desc) , default asc
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        is_template: Whether it is a template (true/false)
+        os_type: OS type list (Windows, Linux, Other)
+        vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS)
+        datacenter_id: Data store data center ID (only supported in vCenter scenario)
+        sort_key: Sort field (name, cpu_core, memory_size, disk_total_size, create_time, ip_address)
+        sort_dir: Sort direction (asc, desc), default asc
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total: Virtual machineTotal count (integer),
+            total: Total number of VMs (integer),
             vms: VM list (List<VmInfo>). parameter format: [{
-                id: Virtual machineID (string),
-                name: Virtual machine name (string),
-                status:  status (string),
-                cpu: CPUcount (integer),
-                memory:  memory size (integer),
+                id: VM ID (string),
+                name: VM name (string),
+                status: status (string),
+                cpu: CPU core count (integer),
+                memory: Memory size (integer),
             }, ...],
         }
     """
@@ -98,40 +98,40 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
-    Query virtual machine details
+    Query specified VM details
     
-     Query virtual machine details.
+    Query detailed info of a virtual machine.
     
     Args:
         client: DME API client
-        vm_id: Virtual machine ID (Required) 
-        vr_type: Virtualization platform type (Optional) 
+        vm_id: VM ID (Required)
+        vr_type: Virtualization platform type (Optional)
     
     Returns:
         {
-            id: Virtual machine ID (string),
-            name: Name (string),
-            status: Status (string),
-            cpu: CPU info. Attribute format: {
-                cores: Number of CPU cores (int32),
-                sockets: Number of CPU sockets (int32),
+            id: VM ID (string),
+            name: name (string),
+            status: status (string),
+            cpu: CPU info. attribute format: {
+                cores: CPU core count (int32),
+                sockets: CPU socket count (int32),
             },
             memory: Memory size (int64, MB),
-            vm_nics: List of NICs (List<VmNicInfo>). Parameter format: [{
+            vm_nics: NIC list (List<VmNicInfo>). parameter format: [{
                 id: NIC ID (string),
                 name: NIC name (string),
                 mac: MAC address (string),
             }, ...],
-            vm_disks: List of disks (List<VmDiskInfo>). Parameter format: [{
+            vm_disks: Disk list (List<VmDiskInfo>). parameter format: [{
                 id: Disk ID (string),
                 name: Disk name (string),
-                capacity: Capacity (int64, GB),
+                capacity: capacity (int64, GB),
             }, ...],
         }
     """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
-    params_dict = {}
+    params_dict = {"vm_id": vm_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
@@ -146,33 +146,33 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                     datacenter_id: str = None, sort_key: str = "name",
                     sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query datastore list
+    Query data store list
     
     Args:
         client: DME API client
-        site_id: Datastore located site ID
-        cluster_id: Datastoreassociated clusters ID
-        host_id: Datastoreassociated hosts ID
-        dc_id: Datastore data center ID
-        name: Datastore name (supports fuzzy search) 
-        status: Datastorestatus list
-                 value: NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
+        site_id: Site ID of the data store
+        cluster_id: Cluster ID associated with the data store
+        host_id: Host ID associated with the data store
+        dc_id: Data center ID of the data store
+        name: Data store name (supports fuzzy query)
+        status: Data store status list
+                values: NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
                      RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
-        storage_type:  Datastore class type list
-                       value: LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
+        storage_type: Data store type list
+                       values: LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
                            LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: supports thin mode (FusionCompute only) 
-        vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS) 
-        datacenter_id: Datastore vCenter data center ID (vCenter only) 
-        sort_key: Sort field (name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate) 
-        sort_dir: Sort direction (asc, desc) , default asc
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        allocate_type: Whether thin provisioning is supported (only supported in FusionCompute scenario)
+        vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS)
+        datacenter_id: vCenter data center ID the data store belongs to (only supported in vCenter scenario)
+        sort_key: Sort field (name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate)
+        sort_dir: Sort direction (asc, desc), default asc
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and datastores fields
+            task_id: task ID (string, 1~64 characters),
+        }, including total and datastores fields
     """
     url = "/rest/vmmgmt/v1/datastores/query"
     
@@ -210,28 +210,28 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
 
 def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None) -> dict:
     """
-    Query datastore details
+    Query specified data store details
     
-     Query datastore details. 
+    Query detailed info of a data store.
     
     Args:
         client: DME API client
-        datastore_id: Datastore ID (Required) 
-        vr_type: Virtualization platform type (Optional) 
+        datastore_id: Data store ID (Required)
+        vr_type: Virtualization platform type (Optional)
     
     Returns:
         {
-            id: Datastore ID (string),
-            name: Name (string),
-            type: Type (string),
-            total_capacity: Total capacity (int64),
-            free_capacity: Free capacity (int64),
-            status: Status (string),
+            id: Data store ID (string),
+            name: name (string),
+            type: type (string),
+            total_capacity: total capacity (int64),
+            free_capacity: free capacity (int64),
+            status: status (string),
         }
     """
     url = "/rest/vmmgmt/v1/datastores/{datastore_id}"
     
-    params_dict = {}
+    params_dict = {"datastore_id": datastore_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
@@ -246,24 +246,24 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     """
     Query host list
     
-     query physical host list, supports multiple filter criteria. 
+    Query physical host list, supports multiple filter criteria.
     
     Args:
         client: DME API client
-        site_id: Host site ID
-        cluster_id: Host cluster ID
+        site_id: Site ID of the host
+        cluster_id: Cluster ID of the host
         dc_id: Data center ID
-        host_name: Host name (supports fuzzy search) 
-        ip_address:  host IP  address
+        host_name: Host name (supports fuzzy search)
+        ip_address: Host IP address
         status: Host status list
         vr_type: Virtualization platform type
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes host list
+            task_id: task ID (string, 1~64 characters),
+        }, including host list
     """
     url = "/rest/vmmgmt/v1/hosts/query"
     
@@ -293,29 +293,29 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
-    QueryHost details
+    Query specified host details
     
-     Query physical host details. 
+    Query detailed info of a physical host.
     
     Args:
         client: DME API client
-        host_id:  host ID (Required) 
-        vr_type: Virtualization platform type (Optional) 
+        host_id: Host ID (Required)
+        vr_type: Virtualization platform type (Optional)
     
     Returns:
         {
-            id: Host ID (string),
-            name: Name (string),
+            id: host ID (string),
+            name: name (string),
             ip: IP address (string),
-            status: Status (string),
-            cpu_cores: Number of CPU cores (int32),
+            status: status (string),
+            cpu_cores: CPU core count (int32),
             memory: Memory size (int64, MB),
             os_type: OS type (string),
         }
     """
     url = "/rest/vmmgmt/v1/hosts/{host_id}"
     
-    params_dict = {}
+    params_dict = {"host_id": host_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
@@ -331,17 +331,17 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     
     Args:
         client: DME API client
-        site_id: Cluster site ID
+        site_id: Site ID of the cluster
         dc_id: Data center ID
-        name: Cluster name (supports fuzzy search) 
+        name: Cluster name (supports fuzzy search)
         vr_type: Virtualization platform type
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes cluster list
+            task_id: task ID (string, 1~64 characters),
+        }, including cluster list
     """
     url = "/rest/vmmgmt/v1/clusters/query"
     
@@ -365,27 +365,27 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
 
 def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> dict:
     """
-    Query cluster details
+    Query specified cluster details
     
-     Query cluster details. 
+    Query detailed info of a cluster.
     
     Args:
         client: DME API client
-        cluster_id:  cluster ID (Required) 
-        vr_type: Virtualization platform type (Optional) 
+        cluster_id: Cluster ID (Required)
+        vr_type: Virtualization platform type (Optional)
     
     Returns:
         {
             id: Cluster ID (string),
-            name: Name (string),
-            type: Type (string),
-            host_count: Number of hosts (int32),
-            status: Status (string),
+            name: name (string),
+            type: type (string),
+            host_count: Host count (int32),
+            status: status (string),
         }
     """
     url = "/rest/vmmgmt/v1/clusters/{cluster_id}"
     
-    params_dict = {}
+    params_dict = {"cluster_id": cluster_id}
     if vr_type is not None:
         params_dict['vr_type'] = vr_type
     
@@ -397,15 +397,15 @@ def site_list(client: DMEAPIClient) -> dict:
     """
     Query site list
     
-    Query allVirtualization site list. 
+    Query all virtualization site list.
     
     Args:
         client: DME API client
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes site list
+            task_id: task ID (string, 1~64 characters),
+        }, including site list
     """
     url = "/rest/vmmgmt/v1/sites/query"
     
@@ -415,19 +415,19 @@ def site_list(client: DMEAPIClient) -> dict:
 
 def site_show(client: DMEAPIClient, site_id: str) -> dict:
     """
-    Query site details
+    Query specified site details
     
-    Query virtualization siteDetails. 
+    Query detailed info of a virtualization site.
     
     Args:
         client: DME API client
-        site_id:  site ID (Required) 
+        site_id: Site ID (Required)
     
     Returns:
         {
             id: Site ID (string),
-            name: Name (string),
-            status: Status (string),
+            name: name (string),
+            status: status (string),
         }
     """
     url = "/rest/vmmgmt/v1/sites/{site_id}"
@@ -440,21 +440,21 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
 
 def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
-    QueryHost storage adapter list
+    Query specified host storage adapter list
     
-     Query physical host storage adapter list. 
+    Query the storage adapters of a physical host.
     
     Args:
         client: DME API client
-        host_id:  host ID (Required) 
+        host_id: Host ID (Required)
     
     Returns:
         {
-            total: Number of adapters (int32),
-            adapters: List of storage adapters (List<HostAdapterInfo>). Parameter format: [{
+            total: Adapter count (int32),
+            adapters: Storage adapter list (List<HostAdapterInfo>). parameter format: [{
                 id: Adapter ID (string),
-                name: Name (string),
-                type: Type (string),
+                name: name (string),
+                type: type (string),
                 wwn: WWN (string),
             }, ...],
         }
@@ -472,26 +472,26 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
     """
     Query physical disk info
     
-    Query physical disk list, supports multiple filter criteria. 
+    Query physical disk list, supports multiple filter criteria.
     
     Args:
         client: DME API client
-        site_id: Physical disk site ID (Optional) 
-        host_id:  physical diskHost ID (Optional) 
-        name:  physical disk name (Optional) 
-        disk_type: Disk type list (Optional) 
-        status: Disk status list (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        site_id: Site ID of the physical disk (Optional)
+        host_id: Host ID of the physical disk (Optional)
+        name: Physical disk name (Optional)
+        disk_type: Disk type list (Optional)
+        status: Disk status list (Optional)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total: Number of disks (int32),
-            disks: List of physical disks (List<PhysicalDiskInfo>). Parameter format: [{
+            total: Disk count (int32),
+            disks: Physical disk list (List<PhysicalDiskInfo>). parameter format: [{
                 id: Disk ID (string),
-                name: Name (string),
-                capacity: Capacity (int64),
-                status: Status (string),
+                name: name (string),
+                capacity: capacity (int64),
+                status: status (string),
             }, ...],
         }
     """
@@ -524,26 +524,26 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
     """
     Query virtual disk info list
     
-     query virtual disk list, supports multiple filter criteria. 
+    Query virtual disk list, supports multiple filter criteria.
     
     Args:
         client: DME API client
-        site_id: Virtual disk site ID (Optional) 
-        vm_id: Virtual diskVirtual machine ID (Optional) 
-        name: Virtual disk name (Optional) 
-        disk_type: Disk type list (Optional) 
-        status: Disk status list (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        site_id: Site ID of the virtual disk (Optional)
+        vm_id: VM ID of the virtual disk (Optional)
+        name: Virtual disk name (Optional)
+        disk_type: Disk type list (Optional)
+        status: Disk status list (Optional)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total: Number of virtual disks (int32),
-            vdisks: List of virtual disks (List<VirtualDiskInfo>). Parameter format: [{
+            total: Virtual disk count (int32),
+            vdisks: Virtual disk list (List<VirtualDiskInfo>). parameter format: [{
                 id: Virtual disk ID (string),
-                name: Name (string),
-                capacity: Capacity (int64, GB),
-                status: Status (string),
+                name: name (string),
+                capacity: capacity (int64, GB),
+                status: status (string),
             }, ...],
         }
     """
@@ -571,21 +571,21 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
 
 def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
-    Query virtual disk info
+    Query specified virtual disk info
     
-     Query virtual disk details. 
+    Query detailed info of a virtual disk.
     
     Args:
         client: DME API client
-        virtual_disk_id: Virtual disk ID (Required) 
+        virtual_disk_id: Virtual disk ID (Required)
     
     Returns:
         {
             id: Virtual disk ID (string),
-            name: Name (string),
-            capacity: Capacity (int64, GB),
-            status: Status (string),
-            datastore_id: Datastore ID (string),
+            name: name (string),
+            capacity: capacity (int64, GB),
+            status: status (string),
+            datastore_id: Data store ID (string),
         }
     """
     url = "/rest/vmmgmt/v1/vdisks/{virtual_disk_id}"
@@ -594,12 +594,12 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    # Virtual machinemanagement 
+    # VM management
     'vm_list': {
         'func': vm_list,
-        'description': ' query VM list',
+        'description': 'Query virtual machine list',
         'params': ['site_id', 'cluster_id', 'dc_id', 'cluster_name', 'host_id', 
                    'host_name', 'name', 'ip_address', 'status', 'is_template', 
                    'os_type', 'vr_type', 'datacenter_id', 'sort_key', 'sort_dir', 
@@ -608,14 +608,14 @@ ACTIONS = {
     },
     'vm_show': {
         'func': vm_show,
-        'description': 'Query virtual machine details',
+        'description': 'Query specified VM details',
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
-    # Datastoremanagement 
+    # Data store management
     'datastore_list': {
         'func': datastore_list,
-        'description': 'Query datastore list',
+        'description': 'Query data store list',
         'params': ['site_id', 'cluster_id', 'host_id', 'dc_id', 'name', 
                    'status', 'storage_type', 'allocate_type', 'vr_type',
                    'datacenter_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -623,11 +623,11 @@ ACTIONS = {
     },
     'datastore_show': {
         'func': datastore_show,
-        'description': 'Query datastore details',
+        'description': 'Query specified data store details',
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
-    #  hostmanagement 
+    # Host management
     'host_list': {
         'func': host_list,
         'description': 'Query host list',
@@ -637,17 +637,17 @@ ACTIONS = {
     },
     'host_show': {
         'func': host_show,
-        'description': 'Query host details',
+        'description': 'Query specified host details',
         'params': ['host_id', 'vr_type'],
         'subtopic': 'host'
     },
     'host_adapter_list': {
         'func': host_adapter_list,
-        'description': 'Query host storage adapter list',
+        'description': 'Query specified host storage adapter list',
         'params': ['host_id'],
         'subtopic': 'host'
     },
-    #  clustermanagement 
+    # Cluster management
     'cluster_list': {
         'func': cluster_list,
         'description': 'Query cluster list',
@@ -656,11 +656,11 @@ ACTIONS = {
     },
     'cluster_show': {
         'func': cluster_show,
-        'description': 'Query cluster details',
+        'description': 'Query specified cluster details',
         'params': ['cluster_id', 'vr_type'],
         'subtopic': 'cluster'
     },
-    #  sitemanagement 
+    # Site management
     'site_list': {
         'func': site_list,
         'description': 'Query site list',
@@ -669,18 +669,18 @@ ACTIONS = {
     },
     'site_show': {
         'func': site_show,
-        'description': 'Query site details',
+        'description': 'Query specified site details',
         'params': ['site_id'],
         'subtopic': 'site'
     },
-    #  physical diskmanagement 
+    # Physical disk management
     'disk_list': {
         'func': disk_list,
         'description': 'Query physical disk info',
         'params': ['site_id', 'host_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'disk'
     },
-    # Virtual diskmanagement 
+    # Virtual disk management
     'vdisk_list': {
         'func': vdisk_list,
         'description': 'Query virtual disk info list',
@@ -689,7 +689,7 @@ ACTIONS = {
     },
     'vdisk_show': {
         'func': vdisk_show,
-        'description': 'Query virtual disk info',
+        'description': 'Query specified virtual disk info',
         'params': ['virtual_disk_id'],
         'subtopic': 'vdisk'
     },

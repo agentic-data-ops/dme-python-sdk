@@ -1,5 +1,5 @@
 """
-Storage device (Storage) operations
+Storage device related operations
 """
 
 import sys
@@ -21,42 +21,42 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
                 nas_capacity_quota_alarm_switch: bool = None,
                 sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    Batch query storage device tenant info. 
+    Batch query Storage device tenant info.
 
     Args:
         client: DME API client
-        raw_id: Tenant on device ID (Optional, string, 1~256 characters)
-        vstore_id: Tenant ID (Optional, string, 1~64 characters)
+        raw_id: The ID of the tenant on the device (Optional, string, 1~256 characters)
+        vstore_id: tenant ID (Optional, string, 1~64 characters)
         qos_id: QoS policy ID (Optional, string, 1~64 characters)
-        is_associated_qos: Tenant associated with QoS (Optional, boolean, true,false)
-        name: Tenant name, supports fuzzy search (Optional, string, 1~256 characters)
-        storage_id: Storage device ID (Optional, string, 1~255 characters)
+        is_associated_qos: Whether the tenant is associated with QoS (Optional, boolean, true,false)
+        name: Tenant name, supports fuzzy query (Optional, string, 1~256 characters)
+        storage_id: storage device ID (Optional, string, 1~255 characters)
         storage_ip: Storage device IP (Optional, string, 1~255 characters)
-        storage_name: Storage device name (Optional, string, 1~255 characters)
-        zone_id: Zone ID (Optional, string, 1~64 characters). OceanStor A series only. 
-        status: Tenant status (Optional, string). Options: active (activated), inactive (inactive)
-        nas_capacity_quota_alarm_switch: NAS capacity quota alarm switch (Optional, boolean, true,false). OceanStor A series only. 
+        storage_name: storage device name (Optional, string, 1~255 characters)
+        zone_id: zone ID (Optional, string, 1~64 characters). Only supported by OceanStor A series storage.
+        status: Tenant status (Optional, string). valid values: active, inactive
+        nas_capacity_quota_alarm_switch: NAS capacity quota alarm switch (Optional, boolean, true,false). Only supported by OceanStor A series storage.
         sort_key: Sort field (Optional, string)
-        sort_dir: Sort direction (Optional, string). Options: asc (ascending), desc (descending)
-        page_no: Page number (Optional, int32, 1~10000000). Default: 1
-        page_size: Items per page (Optional, int32, 1~1000). Default: 100
+        sort_dir: Sort direction (Optional, string). valid values: asc, desc
+        page_no: Start page for paginated query (Optional, int32, 1~10000000). default value: 1
+        page_size: Number of items per page (Optional, int32, 1~1000). default value: 100
 
     Returns:
         {
-            total: TenantTotal count (integer),
-            vstores: Tenant list (List<VstoreResp>, max array members: 1000). parameter format: [{
-                id: Tenant unique identifier (string, 1~64 characters),
+            total: Total count of tenants (integer),
+            vstores: List of tenants (List<VstoreResp>, max array members: 1000). parameter format: [{
+                id: Unique identifier of the tenant (string, 1~64 characters),
                 qos_id: QoS policy ID (string, 1~64 characters),
-                raw_id: tenant ID on device (string, 1~64 characters),
-                storage_sn: Storage deviceSN (string, 1~64 characters),
+                raw_id: Tenant ID on the device (string, 1~64 characters),
+                storage_sn: Storage device SN (string, 1~64 characters),
                 storage_id: Device ID (string, 1~64 characters),
                 storage_ip: Device IP (string, 1~255 characters),
                 storage_name: Device name (string, 1~255 characters),
                 name: Tenant name (string, 1~256 characters),
                 description: Tenant description (string, 0~255 characters),
-                running_status: Running status (string). Options: normal, initializing ( initialize),
-                status: Tenant status (string). Options: active (activated), inactive (inactive),
-                encrypt_option: Tenant encryption options (boolean, true,false),
+                running_status: running status (string). valid values: normal, initializing,
+                status: Tenant status (string). valid values: active, inactive,
+                encrypt_option: Encryption option of the tenant (boolean, true,false),
             }, ...]
         }
     """
@@ -100,27 +100,27 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
 
 def vstore_show(client: DMEAPIClient, id: str) -> dict:
     """
-    Query tenant details. 
+    Query tenant details.
 
     Args:
         client: DME API client
-        id:  tenantid (Required, string, 1~256 characters). must satisfy UUID format or 32-bit hex
+        id: Tenant id (Required, string, 1~256 characters). Must satisfy UUID format or 32-bit hexadecimal
 
     Returns:
         {
-            id: Tenant unique identifier (string, 1~64 characters),
+            id: Unique identifier of the tenant (string, 1~64 characters),
             name: Tenant name (string, 1~256 characters),
             description: Tenant description (string, 0~255 characters),
             storage_id: Device ID (string, 1~64 characters),
-            status: Tenant status (string). Options: active (activated), inactive (inactive),
-            running_status: Running status (string). Options: normal, initializing ( initialize),
+            status: Tenant status (string). valid values: active, inactive,
+            running_status: running status (string). valid values: normal, initializing,
         }
     """
     url = "/rest/fileservice/v1/vstores/{id}"
 
     # Parameter validation
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     response = client.get(url, params={"id": id})
     return response
@@ -133,28 +133,28 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
                   nas_capacity_quota_alarm_threshold: int = None,
                   associate_pool_ids: list = None) -> dict:
     """
-    Create tenant. OceanStor Dorado v3 devicefeature not supported. 
+    Create tenant. OceanStor Dorado v3 devices do not support this feature.
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, string, 1~36 characters). must satisfy UUID format or 32-bit hex
-        name: Tenant name (Required, string, 1~256 characters). Supports letters, digits, underscores, hyphens, dots and Chinese characters
-        san_capacity_quota: SAN Capacity quota(Optional, unit :  sector) 
-        nas_capacity_quota: NAS Capacity quota(Optional, unit :  sector) 
-        description: Tenant description(Optional, 0~255  characters) 
-        nas_capacity_quota_alarm_switch: NAS Capacity quota alarm switch(Optional, A800 device only) 
-        nas_capacity_quota_alarm_threshold: NAS Capacity quota alarmthreshold(Optional, A800 device only) 
-        associate_pool_ids: Related storage pool ID list (Optional, A series device only) 
+        storage_id: storage device ID (Required, string, 1~36 characters). Must satisfy UUID format or 32-bit hexadecimal
+        name: Tenant name (Required, string, 1~256 characters). Only contains letters, digits, "_", "-", "." and Chinese characters
+        san_capacity_quota: SAN capacity quota (Optional, unit: sectors)
+        nas_capacity_quota: NAS capacity quota (Optional, unit: sectors)
+        description: Tenant description (Optional, 0~255 characters)
+        nas_capacity_quota_alarm_switch: NAS capacity quota alarm switch (Optional, only supported by A800 devices)
+        nas_capacity_quota_alarm_threshold: NAS capacity quota alarm threshold (Optional, only supported by A800 devices)
+        associate_pool_ids: Associated Storage pool ID list (Optional, only supported by A series devices)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/vstores"
 
     if not storage_id:
-        raise ValueError("storage_id is required")
+        raise ValueError("storage_id is a required parameter")
 
     payload = {
         'storage_id': storage_id,
@@ -183,28 +183,28 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
                   description: str = None, nas_capacity_quota_alarm_switch: bool = None,
                   nas_capacity_quota_alarm_threshold: int = None) -> dict:
     """
-    Modify tenant, This operation modifies storage devicetenant specified on. 
+    Modify the specified tenant. This operation will modify the specified tenant on the Storage device.
 
     Args:
         client: DME API client
-        id:  tenant ID (Required, string, 1~64 characters). must satisfy UUID format or 32-bit hex
-        name: Tenant name (Optional, string, 1~256 characters). Name supports letters, digits, underscores, hyphens, dots and Chinese characters
-        san_capacity_quota: SANCapacity quota (Optional, string, 1~20 characters)
+        id: Tenant ID (Required, string, 1~64 characters). Must satisfy UUID format or 32-bit hexadecimal
+        name: Tenant name (Optional, string, 1~256 characters). name contains letters, digits, "_", "-", "." and Chinese characters
+        san_capacity_quota: SAN capacity quota (Optional, string, 1~20 characters)
         nas_capacity_quota: NAS capacity quota (Optional, string, 1~20 characters)
         description: Tenant description (Optional, string, 0~255 characters)
-        nas_capacity_quota_alarm_switch: NAS capacity quota alarm switch (Optional, boolean, true,false). A800 device only
-        nas_capacity_quota_alarm_threshold: NAS capacity quota alarmthreshold (Optional, int32, 50~100). A800 device only
+        nas_capacity_quota_alarm_switch: NAS capacity quota alarm switch (Optional, boolean, true,false). Only supported by A800 devices
+        nas_capacity_quota_alarm_threshold: NAS capacity quota alarm threshold (Optional, int32, 50~100). Only supported by A800 devices
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/vstores/{id}"
 
     # Parameter validation
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     payload = {}
     if name is not None:
@@ -226,22 +226,24 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
 
 def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch delete tenant, This operation will delete storage device tenant specified on. This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.. 
+    Batch delete tenants. This operation will delete the specified tenants on the Storage device.
+    This API may directly or indirectly affect current network operations, cause service interruption,
+    critical data loss, etc. Please proceed with caution.
 
     Args:
         client: DME API client
-        ids:  tenantID list (Required, List[string], max array members: 100, min array members: 1)
+        ids: List of tenant IDs (Required, List[string], max array members: 100, min array members: 1)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/fileservice/v1/vstores/delete"
 
     # Parameter validation
     if not ids or len(ids) == 0:
-        raise ValueError("ids is required, at least 1 tenant ID is required")
+        raise ValueError("ids is a required parameter, at least 1 tenant ID is needed")
 
     payload = {
         'ids': ids
@@ -256,28 +258,28 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
          dc_id: str = None, tag_ids: str = None, start: int = 1, 
          limit: int = 20, ext_attrs: str = None) -> dict:
     """
-    Batch query storage devices:  supports pagination,  filter. 
+    Batch query Storage devices: supports paginated query and filtering.
 
     Args:
-        client: DME API client. 
+        client: DME API client.
         az: Availability zone ID (Optional, string, 1~64 characters)
-        source: Storage device source (Optional, string). Options: add, record, all. Queries access devices by default
-        dc_id: Storage deviceData center ID (Optional, string, 1~32 characters)
-        tag_ids: Tag filter list (Optional, string). supports up to 10 tag IDs combined filter, Multiple filter conditions are AND-related
-        start: Page query start position (Optional, int32, 1~10000). Default: 1
-        limit: Items per page (Optional, int32, 1~1000). Default: 20
-        ext_attrs: Extended attribute filter list (Optional, string, 1~3000 characters). supports up to10extended attributes combined filter
+        source: Source of the Storage device (Optional, string). valid values: add, record, all. default queries connected devices
+        dc_id: ID of the data center the Storage device belongs to (Optional, string, 1~32 characters)
+        tag_ids: Tag filter list (Optional, string). Supports up to 10 tag IDs combined for filtering, multiple filter conditions are AND relations
+        start: Start page for paginated query (Optional, int32, 1~10000). default value: 1
+        limit: Number of items per page (Optional, int32, 1~1000). default value: 20
+        ext_attrs: Extended attribute filter list (Optional, string, 1~3000 characters). Supports up to 10 extended attributes combined for filtering
 
     Returns:
         {
-            total: Storage device total count (int32),
+            total: Storage device total (int32),
             datas: Storage device list (List<StorageSummaryInfo>). parameter format: [{
-                id: Storage device ID (string),
-                name: Storage device name (string),
-                ip: IP  address (string),
-                status: Running status (string),
+                id: storage device ID (string),
+                name: storage device name (string),
+                ip: IP address (string),
+                status: running status (string),
                 sn: Device serial number (string),
-                vendor:  vendor (string),
+                vendor: Vendor (string),
                 model: Product model (string),
             }, ...]
         }
@@ -306,27 +308,27 @@ def list(client: DMEAPIClient, az: str = None, source: str = None,
 
 def show(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    Query storage device. 
+    Query the specified Storage device.
 
     Args:
         client: DME API client
-        storage_id: Storage device ID, Required (Required, string, 1~36 characters). must satisfy UUID format or 32-bit hex
+        storage_id: storage device ID, Required (Required, string, 1~36 characters). Must satisfy UUID format or 32-bit hexadecimal
 
     Returns:
         {
-            id: Storage device ID (string),
-            name: Storage device name (string),
-            ip: IP  address (string),
-            status: Running status (string),
+            id: storage device ID (string),
+            name: storage device name (string),
+            ip: IP address (string),
+            status: running status (string),
             sn: Device serial number (string),
-            vendor:  vendor (string),
+            vendor: Vendor (string),
             model: Product model (string),
         }
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/detail"
 
     if not storage_id:
-        raise ValueError("storage_id is required")
+        raise ValueError("storage_id is a required parameter")
 
     response = client.get(url, params={"storage_id": storage_id})
     return response
@@ -341,41 +343,41 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         used_capacity: float = None, free_capacity: float = None,
         subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    Add storage device (offline info entry only) 
+    Add a Storage device (only supports recording offline Storage device info)
 
-    Add storage device info to DME system via offline method. 
+    Add Storage device info to the DME system in an offline manner.
 
     Args:
-        client: DME API client. 
-        name: Device name (1~256 characters). Supports half-width letters, digits, underscores, hyphens, dots and Chinese characters. 
-        sn: Device serial number (regex is^[a-zA-Z0-9]{1,128}$). 
-        ip: Device IP address (Optional, 0~128 characters,  supports IPv4 and IPv6, can also be empty). 
-        dc_id: Data center ID (Optional, regex is^[a-zA-Z0-9]{1,128}$). 
-        az: Availability zone (Optional, string). 
-        vendor:  vendor (Optional, 0~128 characters). 
-        model: Product model (Optional, 0~128 characters). 
-        version: Version info (Optional, 0~64 characters). 
-        patch_version: Patch version info (Optional, 0~64 characters). 
-        location: Device location (Optional, 0~512 characters). 
-        maintenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp). Must appear with maintenance start time and value must be greater. 
-        total_capacity: Raw capacity (Optional, 0~2147483647, in MB). 
-        total_effective_capacity: Available capacity (Optional, 0~2147483647, in MB). 
-        total_pool_capacity: Available capacity (Optional, 0~2147483647, in MB). 
-        used_capacity: Used capacity (Optional, 0~2147483647, in MB). 
-        free_capacity: Free capacity (Optional, 0~2147483647, in MB). 
-        subscription_capacity: Subscribed capacity (Optional, 0~2147483647, in MB). 
-        tag_ids: Tag ID list (Optional, List<string>, max array members: 10, min array members: 0). 
+        client: DME API client.
+        name: Device name (1~256 characters). Can only contain half-width letters, half-width digits, \"_\", \"-\", \".\", and Chinese characters.
+        sn: Device serial number (regex pattern ^[a-zA-Z0-9]{1,128}$).
+        ip: Device IP address (Optional, 0~128 characters, supports IPv4 and IPv6 formats, can also be an empty string).
+        dc_id: Data center ID (Optional, regex pattern ^[a-zA-Z0-9]{1,128}$).
+        az: Availability zone (Optional, string).
+        vendor: Vendor (Optional, 0~128 characters).
+        model: Product model (Optional, 0~128 characters).
+        version: Version info (Optional, 0~64 characters).
+        patch_version: Patch version info (Optional, 0~64 characters).
+        location: Device location (Optional, 0~512 characters).
+        maintenance_start: Maintenance start time (Optional, format is millisecond timestamp). Must appear together with maintenance overtime and the value must be less than maintenance overtime.
+        maintenance_overtime: Maintenance overtime (Optional, format is millisecond timestamp). Must appear together with maintenance start time and the value must be greater than maintenance start time.
+        total_capacity: Raw capacity (Optional, 0~2147483647, unit MB).
+        total_effective_capacity: Effective capacity (Optional, 0~2147483647, unit MB).
+        total_pool_capacity: Available capacity (Optional, 0~2147483647, unit MB).
+        used_capacity: Used capacity (Optional, 0~2147483647, unit MB).
+        free_capacity: Free capacity (Optional, 0~2147483647, unit MB).
+        subscription_capacity: Subscribed capacity (Optional, 0~2147483647, unit MB).
+        tag_ids: Tag ID list (Optional, List<string>, max array members: 10, min array members: 0).
     
     Returns:
         {
-            id: Storage device ID (string, 1~64 characters),
+            id: storage device ID (string, 1~64 characters),
         }
     """
     if not name:
-        raise ValueError("name is required")
+        raise ValueError("name is a required parameter")
     if not sn:
-        raise ValueError("sn is required")
+        raise ValueError("sn is a required parameter")
 
     url = "/rest/storagemgmt/v2/storages/offline-storages"
 
@@ -425,21 +427,21 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
 
 def remove(client: DMEAPIClient, ids: list) -> dict:
     """
-    batchRemove storage device. 
+    Batch remove Storage devices.
 
     Args:
         client: DME API client
-        ids: Storage device ID list (Required, List[string], max array members: 100, min array members: 1)
+        ids: List of storage device IDs (Required, List[string], max array members: 100, min array members: 1)
 
     Returns:
         {
-            task_id: task Id (string, 1~64 characters),
+            task_id: Task Id (string, 1~64 characters),
         }
     """
     url = "/rest/storagemgmt/v2/storages/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids is required, at least 1 storage device ID needed")
+        raise ValueError("ids is a required parameter, at least 1 storage device ID is needed")
 
     payload = {
         'ids': ids
@@ -451,19 +453,19 @@ def remove(client: DMEAPIClient, ids: list) -> dict:
 
 def sync(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    Sync storage device info, This API is async. 
+    Sync Storage device info. This interface is an asynchronous message.
 
     Args:
         client: DME API client
-        storage_id: Storage deviceId (Required, string, 1~64 characters). obtained via Batch query storage devices API
+        storage_id: Storage device Id (Required, string, 1~64 characters). Obtained via the batch query Storage device interface
 
     Returns:
-        N/A
+        None
     """
     url = "/rest/storagemgmt/v1/storages/refresh"
 
     if not storage_id:
-        raise ValueError("storage_id is required")
+        raise ValueError("storage_id is a required parameter")
 
     payload = {
         'id': storage_id
@@ -479,36 +481,36 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
              zone_id: str = None, page_no: int = 1,
              page_size: int = 20) -> dict:
     """
-    query storage device BBU info list
+    Query the BBU info list of a Storage device
 
     Args:
-        client: DME API client. 
-        storage_id: BBU storage device ID (Optional, 1~64 characters). 
-        health_status: Health status (Optional). Options: unknown, normal, faulty ( fault), about_to_fail (Impending failure), low_battery (Low battery). 
-        running_status: Running status (Optional). Options: unknown, normal, running, online, offline, charging, charging_completed, discharging. 
-        enclosure_name: Enclosure name (Optional, 1~256 characters). supports fuzzy match. 
-        location: location (Optional, 1~256 characters). supports fuzzy match. 
-        zone_id: Zone ID (Optional, 1~255 characters). OceanStor A800 series only. 
-        page_no: Page number (Optional, 1~2147483647, Default: 1). 
-        page_size: Page size (Optional, 1~1000, Default: 20). 
+        client: DME API client.
+        storage_id: The id of the BBU storage device (Optional, 1~64 characters).
+        health_status: health status (Optional). valid values: unknown, normal, faulty, about_to_fail, low_battery.
+        running_status: running status (Optional). valid values: unknown, normal, running, online, offline, charging, charging_completed, discharging.
+        enclosure_name: Name of the enclosure it belongs to (Optional, 1~256 characters). supports fuzzy match.
+        location: location (Optional, 1~256 characters). supports fuzzy match.
+        zone_id: Zone ID (Optional, 1~255 characters). Only supported by OceanStor A800 series storage.
+        page_no: Page number for paginated query (Optional, 1~2147483647, default value: 1).
+        page_size: Page size for paginated query (Optional, 1~1000, default value: 20).
     
     Returns:
         {
             backup_powers: BBU list (List<StorageBackupPowerInfo>). parameter format: [{
-                name:  name (1~255 characters),
+                name: name (1~255 characters),
                 location: location (1~255 characters),
-                health_status: Health status. Options: unknown, normal, faulty, about_to_fail, low_battery,
-                running_status: Running status. Options: unknown, normal, running, online, offline, charging, charging_completed, discharging,
-                charge_times: Discharge count (int64),
-                firmware_version: Firmware version (1~255 characters),
+                health_status: health status. valid values: unknown, normal, faulty, about_to_fail, low_battery,
+                running_status: running status. valid values: unknown, normal, running, online, offline, charging, charging_completed, discharging,
+                charge_times: Number of discharge cycles (int64),
+                firmware_version: Firmware version number (1~255 characters),
                 manufactured_date: Manufacture date (1~255 characters),
-                enclosure_id: Enclosure ID on storage device (1~255 characters),
-                enclosure_name: Enclosure name (1~255 characters),
-                zone_id: Zone ID (1~255 characters), OceanStor A800 series only,
-                zone_ip: Zone IP address (1~255 characters), OceanStor A800 series only,
-                zone_name: Zone name (1~255 characters), OceanStor A800 series only,
+                enclosure_id: ID of the enclosure on the Storage device (1~255 characters),
+                enclosure_name: Name of the enclosure (1~255 characters),
+                zone_id: Zone ID (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_ip: Zone IP address (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_name: Zone name (1~255 characters), only supported by OceanStor A800 series storage,
             }, ...],
-            total: BBU count (int32),
+            total: Count of BBUs (int32),
         }
     """
     url = "/rest/storagemgmt/v1/backup-powers/query"
@@ -537,17 +539,17 @@ def bbu_list(client: DMEAPIClient, storage_id: str = None,
 
 def get_passphrase(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    get storage device access token
+    Get the access token for a Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required) 
+        storage_id: storage device ID(Required)
 
     Returns:
         {
             ip: Storage device IP address,
-            passphrase: Storage device access token,
-            port: Storage device access port (int32),
+            passphrase: Token to access the Storage device,
+            port: Port to access the Storage device (int32),
         }
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/passphrase"
@@ -562,34 +564,34 @@ def fan_list(client: DMEAPIClient, storage_id: str = None,
              location: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query storage devicefan info
+    Query the fan info of a Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage deviceID(Optional, 1~64 characters) 
-        health_status: Health status (Optional). Options: unknown, normal, faulty
-        running_status: Running status (Optional). Options: unknown, normal, running, not_running, spin_down, online, offline
-        run_level: Running level(Optional). Options: low, normal, high
-        enclosure_name: EnclosureName (Optional,1~256 characters) , supports fuzzy match
-        location: location(Optional, 1~256 characters) , supports fuzzy match
-        zone_id: Zone ID (Optional, 1~255 characters), OceanStor A800 series only
-        page_no: Page number (Optional, 1~2147483647, default 1)
-        page_size: Page size (Optional, 1~1000, default 20) 
+        storage_id: ID of the storage device (Optional, 1~64 characters)
+        health_status: health status(Optional). valid values: unknown, normal, faulty
+        running_status: running status(Optional). valid values: unknown, normal, running, not_running, spin_down, online, offline
+        run_level: Run level(Optional). valid values: low, normal, high
+        enclosure_name: Name of the enclosure (Optional, 1~256 characters), supports fuzzy match
+        location: location (Optional, 1~256 characters), supports fuzzy match
+        zone_id: Zone ID (Optional, 1~255 characters), only supported by OceanStor A800 series storage
+        page_no: Page number for paginated query (Optional, 1~2147483647, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
 
     Returns:
         {
             total: Fan count (integer),
             fans: Fan list (List<StorageFanInfo>). parameter format: [{
-                name:  name (1~128 characters),
+                name: name (1~128 characters),
                 location: location (1~256 characters),
-                health_status: Health status. Options: unknown, normal, faulty ( fault),
-                running_status: Running status. Options: unknown, normal, running, not_running, spin_down, online, offline,
-                run_level: Running level. Options: low, normal, high,
-                enclosure_id: Enclosure ID on storage device (1~255 characters),
-                enclosure_name: Enclosure name (1~255 characters),
-                zone_id: Zone ID (1~255 characters), OceanStor A800 series only,
-                zone_ip: Zone IP address (1~255 characters), OceanStor A800 series only,
-                zone_name: Zone name (1~255 characters), OceanStor A800 series only,
+                health_status: health status. valid values: unknown, normal, faulty,
+                running_status: running status. valid values: unknown, normal, running, not_running, spin_down, online, offline,
+                run_level: Run level. valid values: low, normal, high,
+                enclosure_id: ID of the enclosure on the Storage device (1~255 characters),
+                enclosure_name: Name of the enclosure (1~255 characters),
+                zone_id: Zone ID (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_ip: Zone IP address (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_name: Zone name (1~255 characters), only supported by OceanStor A800 series storage,
             }, ...],
         }
     """
@@ -632,48 +634,48 @@ def disk_list(client: DMEAPIClient, storage_id: str, ids: list = None,
               sort_dir: str = None, page_no: int = 1,
               page_size: int = 20) -> dict:
     """
-    query storage devicedisk info list
+    Query the disk info list of a Storage device
 
     Args:
-        client: DME API client. 
-        storage_id: Storage device ID (1~36 characters, must satisfy UUID format). 
-        ids: Port ID list (Optional, List<string>, max array members: 100, min array members: 0). 
-        name: disk name (Optional, 1~256 characters). 
-        slot_number: Slot number, location (Optional, 1~256 characters). supports fuzzy search. 
-        bom_id: BOM ID (Optional, 1~256 characters). 
-        health_status: Health status (Optional). Options: unknown, normal, fault ( fault), pre_fail (Impending failure), degraded ( degraded), single_link ( single link), no_redundant_link ( no redundant link), subhealthy ( sub-health), offline. 
-        physical_type: Disk type (Optional). Options: unknown, sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card, scm, nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD). 
-        new_physical_type: Actual disk type (Optional). Options: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD. 
-        capacity: Total capacity (Optional, max: 9223372036854775807, unit : GB). 
-        role:  disk role (Optional). Options: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaint, maintenance), shared ( share), spare, unassigned ( unallocated), unsupported, remote, mediator. 
-        disk_pool_name: Disk pool name (Optional, 1~256 characters). supports fuzzy search. 
-        disk_pool_id: Disk pool ID (Optional, 1~64 characters).  Huawei storage device only, third-party device supports this field. 
-        storage_pool_id: Storage pool ID (Optional, 1~64 characters). 
-        bar_code:  Disk barcode (Optional, 1~256 characters). 
-        sn:  diskSerial number (Optional, 1~256 characters).  Huawei storage device only, third-party device supports this field. 
-        speed: Rotation speed (Optional, max: 2147483647, in RPM). 
-        storage_ip:  deviceip address (Optional, 1~255 characters). 
-        management_ip: management  deviceip address (Optional, 1~256 characters). 
-        node_name: Node name (Optional, 1~256 characters). 
-        virtual_disk: Virtual disk (Optional). Options: true, false. 
-        status: Running status (Optional). Options: unknown, normal, abnormal ( fault), online, offline. 
-        enclosure_name: Fan enclosure name on storage device (Optional, 1~255 characters). supports fuzzy search. 
-        zone_id: Storage device zone ID (Optional, 1~255 characters). OceanStor A800 series only. 
-        sort_key: Sort field (Optional). Options: capacity (Total capacity), speed, remaintenanceeLife, name (disk name), management_ip (management  deviceip address), slot_number (location). 
-        sort_dir: Sort direction (Optional). Options: asc (ascending), desc (descending). 
-        page_no: Page number (Optional, 1~2147483647, Default: 1). 
-        page_size: Page size (Optional, 1~1000, Default: 20). 
+        client: DME API client.
+        storage_id: storage device ID (1~36 characters, must satisfy uuid format).
+        ids: Port ID list (Optional, List<string>, max array members: 100, min array members: 0).
+        name: Disk name (Optional, 1~256 characters).
+        slot_number: Slot number, location (Optional, 1~256 characters). Supports fuzzy search.
+        bom_id: BOM ID (Optional, 1~256 characters).
+        health_status: health status (Optional). valid values: unknown, normal, fault, pre_fail, degraded, single_link, no_redundant_link, subhealthy, offline.
+        physical_type: Disk type (Optional). valid values: unknown, sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD card), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD).
+        new_physical_type: Actual disk type (Optional). valid values: SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD.
+        capacity: total capacity (Optional, max: 9223372036854775807, unit: GB).
+        role: Disk role (Optional). valid values: unknown, free, member, hotSpare, cache, aggregate, broken, foreign, labelmaint, maintenance, shared, spare, unassigned, unsupported, remote, mediator.
+        disk_pool_name: Name of the disk domain it belongs to (Optional, 1~256 characters). Supports fuzzy search.
+        disk_pool_id: Disk pool or disk domain ID (Optional, 1~64 characters). Only supported by Huawei Storage devices and third-party devices.
+        storage_pool_id: storage pool ID (Optional, 1~64 characters).
+        bar_code: Disk barcode (Optional, 1~256 characters).
+        sn: Disk serial number (Optional, 1~256 characters). Only supported by Huawei Storage devices and third-party devices.
+        speed: Rotational speed (Optional, max: 2147483647, unit: RPM).
+        storage_ip: IP address of the device (Optional, 1~255 characters).
+        management_ip: Management device IP address (Optional, 1~256 characters).
+        node_name: Node name (Optional, 1~256 characters).
+        virtual_disk: Virtual disk (Optional). valid values: true, false.
+        status: running status (Optional). valid values: unknown, normal, abnormal, online, offline.
+        enclosure_name: Enclosure name of the fan storage device (Optional, 1~255 characters). Supports fuzzy search.
+        zone_id: zone id of the storage device (Optional, 1~255 characters). Only supported by OceanStor A800 storage.
+        sort_key: Sort field (Optional). valid values: capacity (total capacity), speed, remainLife, name (disk name), management_ip, slot_number (location).
+        sort_dir: Sort direction (Optional). valid values: asc, desc.
+        page_no: Page number for paginated query (Optional, 1~2147483647, default value: 1).
+        page_size: Page size for paginated query (Optional, 1~1000, default value: 20).
 
     Returns:
         {
-            total:  Disk count (integer),
+            total: Disk count (integer),
             disks: Disk list (List<DiskInfo>). parameter format: [{
-                id:  diskID (string),
-                name: disk name (string),
-                health_status: Health status (string),
+                id: Disk ID (string),
+                name: Disk name (string),
+                health_status: health status (string),
                 physical_type: Disk type (string),
-                capacity: Total capacity (integer),
-                sn:  diskSerial number (string),
+                capacity: total capacity (integer),
+                sn: Disk serial number (string),
             }, ...],
         }
     """
@@ -741,52 +743,52 @@ def pool_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
               zone_id: str = None, page_no: int = 1, page_size: int = 10,
               sort_key: str = None, sort_dir: str = None) -> dict:
     """
-     query storage devicestorage pool list
+    Query Storage device Storage pool list
 
     Args:
         client: DME API client
-        storage_id: Storage device ID(Optional, 1~64 characters) 
-        raw_id: Storage poolon the storage deviceID(Optional, 1~64 characters) 
-        zone_id: Zone ID(Optional, 1~256 characters) , supports exact search, OceanStor A800 series only
-        page_no: Page number(Optional, 1~10000, default 1) 
-        page_size: Page size(Optional, 1~1000, default 10) 
-        sort_key: Sort field(Optional). Options: total_capacity, consumed_capacity (Storage poolUsed capacity), free_capacity (Storage poolFree capacity, Flash storage only), replication_capacity (Storage poolProtection capacity)
-        sort_dir: Sort direction(Optional). Options: asc (ascending), desc (descending)
+        storage_id: Storage device ID (Optional, 1~64 characters)
+        raw_id: Storage pool ID on the Storage device (Optional, 1~64 characters)
+        zone_id: Zone ID (Optional, 1~256 characters), supports exact search, only supported by OceanStor A800 storage
+        page_no: Page number for paginated query (Optional, 1~10000, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 10)
+        sort_key: Sort field(Optional). valid values: total_capacity (Storage pool total capacity), consumed_capacity (Storage pool used capacity), free_capacity (Storage pool free capacity, only flash storage), replication_capacity (Storage pool protection capacity)
+        sort_dir: Sort direction(Optional). valid values: asc, desc
 
     Returns:
         {
-            total: Storage poolcount (int32),
+            total: Storage pool count (int32),
             datas: Storage pool basic info list (List<StoragePoolBasicInfo>). parameter format: [{
-                id: Storage pool ID (1~32 characters),
-                name: Storage pool name (1~31 characters),
-                raw_id: Storage poolon the storage deviceID (1~64 characters),
-                storage_id: Storage device ID (1~64 characters),
-                storage_name: Storage device name (1~127 characters),
-                usage_type: Storage pool usage. Options: block-and-file, block, file, object, hdfs, converged,
-                total_capacity: Total capacity, in MB (number),
-                free_capacity: Free capacity, in MB (number), Flash storage only, OceanStor A800Device support,
-                consumed_capacity: Used capacity, in MB (number),
-                replication_capacity:  dataProtection capacity, in MB (number), flash storage only,
-                subscribed_capacity: Total subscribed capacity, in MB (number), Flash storage only, DistributedDevice support,
-                lun_subscribed_capacity: LUN subscribed capacity, in MB (number), flash storage only,
-                filesystem_subscribed_capacity: Filesystem total subscribed capacity, in MB (number), OceanStor Dorado V6 6.1.0+ onlysion,
-                health_status: Health status. Options: normal, fault ( fault), degraded ( degraded), unknown. flash and third-party storage only,
-                running_status: Running status. Options: pre-copy (Pre-copy), rebuilt ( refactor), online, offline, balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown. flash storage only,
-                pool_status: Storage pool status. Options: normal, fault ( fault), write-protect ( write protect), stopped ( stop), fault-and-write-protect (Fault with write protection), migrating-data (Data migration), degraded ( degraded), rebuilding-data ( data refactor), migrating-services ( service migration), all-copies-failed ( all replicas fault), all-copies-failed-and-write-protect (All replicas failed with write protection), deleting (Deleting), deletion-failed (delete  failure), unknown. distributed storage only,
-                disk_types: Disk type list (List<string>), flash storage only,
+                id: storage pool ID (1~32 characters),
+                name: storage pool name (1~31 characters),
+                raw_id: Storage pool ID on the Storage device (1~64 characters),
+                storage_id: storage device ID (1~64 characters),
+                storage_name: storage device name (1~127 characters),
+                usage_type: Storage pool usage. valid values: block-and-file (LUN/Filesystem), block, file, object, hdfs, converged,
+                total_capacity: total capacity, unit MB (number),
+                free_capacity: free capacity, unit MB (number), only supported by flash storage and OceanStor A800 devices,
+                consumed_capacity: used capacity, unit MB (number),
+                replication_capacity: Data protection capacity, unit MB (number), only supported by flash storage,
+                subscribed_capacity: Total subscribed capacity, unit MB (number), only supported by flash storage and distributed devices,
+                lun_subscribed_capacity: LUN subscribed capacity, unit MB (number), only supported by flash storage,
+                filesystem_subscribed_capacity: Filesystem total subscribed capacity, unit MB (number), only supported by OceanStor Dorado V6 storage version 6.1.0 and above,
+                health_status: health status. valid values: normal, fault, degraded, unknown. Only supported by flash storage and third-party storage,
+                running_status: running status. valid values: pre-copy, rebuilt, online, offline, balancing, initializing, deleting, unknown. Only supported by flash storage,
+                pool_status: Storage pool status. valid values: normal, fault, write-protect, stopped, fault-and-write-protect, migrating-data, degraded, rebuilding-data, migrating-services, all-copies-failed, all-copies-failed-and-write-protect, deleting, deletion-failed, unknown. Only supported by distributed storage,
+                disk_types: Disk type list (List<string>), only supported by flash storage,
                 capacity_usage: Capacity utilization,
-                redundancy_policy: Redundancy policy. Options: replication, ec. FusionStorage, OceanStor 100D and OceanStor Pacific series onlyt,
-                num_data_units: EC data block count (integer), effective when redundancy policy is EC,
-                num_fault_tolerance: ECAllowed faulty node count (integer), effective when redundancy policy is EC,
-                num_parity_units: EC parity block count (integer), effective when redundancy policy is EC,
-                cache_media_type: Storage pool cache type. Options: ssd_card, ssd_disk, none. FusionStorage, OceanStor 100D, OceanStor A310 and OceanStor Pacificseries device support,
-                zone_id: Zone ID (1~64 characters), OceanStor A800 series only,
-                zone_ip: Zone IP (1~256 characters), OceanStor A800 series only,
-                zone_name: Zone name (1~256 characters), OceanStor A800 series only,
-                raid_level: RAID level list (List<string>). Options: RAID0, RAID1, RAID2, RAID3, RAID5, RAID6, RAID10, RAID50, RAID_TP. Flash storage only, OceanDisk, OceanStor A800Device support,
-                disk_pool_id: Disk pool ID (1~64 characters). Supports flash devices, Pacific, A310 and OceanStor A800Device support,
-                disk_pool_name: Disk pool name (1~256 characters),
-                media_type: Storage pool maintenancee memory type. Options: sas_disk, sata_disk, ssd_card, ssd_disk. OceanStor Pacific, OceanStor A310, OceanStor 100DDevice support,
+                redundancy_policy: Redundancy policy. valid values: replication, ec (EC). Only supported by FusionStorage, OceanStor 100D and OceanStor Pacific series devices,
+                num_data_units: Number of EC data blocks (integer), only valid when redundancy policy is ec,
+                num_fault_tolerance: Number of EC allowable faulty nodes (integer), only valid when redundancy policy is ec,
+                num_parity_units: Number of EC parity blocks (integer), only valid when redundancy policy is ec,
+                cache_media_type: Storage pool cache type. valid values: ssd_card (SSD card & NVMe SSD), ssd_disk (SSD disk), none. Only supported by FusionStorage, OceanStor 100D, OceanStor A310 and OceanStor Pacific series devices,
+                zone_id: Zone ID (1~64 characters), only supported by OceanStor A800 series storage,
+                zone_ip: Zone IP (1~256 characters), only supported by OceanStor A800 series storage,
+                zone_name: Zone name (1~256 characters), only supported by OceanStor A800 series storage,
+                raid_level: RAID level list (List<string>). valid values: RAID0, RAID1, RAID2, RAID3, RAID5, RAID6, RAID10, RAID50, RAID_TP. Only supported by flash storage, OceanDisk, OceanStor A800 devices,
+                disk_pool_id: Disk pool or disk domain ID (1~64 characters). The disk domain supports flash devices, the disk pool supports Pacific, A310 devices, OceanStor A800 devices support,
+                disk_pool_name: Disk pool or disk domain name (1~256 characters),
+                media_type: Storage pool primary storage type. valid values: sas_disk (SAS disk), sata_disk (SATA disk), ssd_card (SSD card & NVMe SSD), ssd_disk (SSD disk). Only supported by OceanStor Pacific, OceanStor A310, OceanStor 100D devices,
             }, ...]
         }
     """
@@ -819,43 +821,43 @@ def hyperscale_pool_list(client: DMEAPIClient, raw_id: str = None, name: str = N
                          description: str = None, page_no: int = 1, page_size: int = 20,
                          sort_key: str = None, sort_dir: str = None) -> dict:
     """
-     query HyperScale storage pool list
+    Query HyperScale Storage pool list
 
     Args:
         client: DME API client
-        raw_id: Storage poolon the storage deviceID(Optional, 1~64 characters) , supports exact search
-        name: HyperScaleStorage pool name(Optional, 1~256 characters) , supports fuzzy search
-        local_pool_id: Local storage pool ID under HyperScale storage pool(Optional, 0~64 characters) , supports filtering by local storage poolyperScaleStorage pool
-        health_status: Health status(Optional). Options: normal, faulty ( fault), degraded ( degraded)
-        running_status: Running status(Optional). Options: pre_copy (Pre-copy), rebuilding ( refactor), online, offline, balancing (Balancing), initializing (Initializing), deleting (Deleting)
-        storage_id: Storage device ID(Optional, 0~64 characters) 
-        description: HyperScaleStorage pool description(Optional, 0~256 characters) 
-        page_no: Page number(Optional, 1~10000, default 1) 
-        page_size: Page size(Optional, 1~1000, default 20) 
-        sort_key: Sort field(Optional). Options: raw_id, total_capacity, consumed_capacity, capacity_usage (Capacity utilization), free_capacity (Free capacity), subscribed_capacity_percentage (Subscription rate)
-        sort_dir: Sort direction(Optional). Options: asc (ascending), desc (descending)
+        raw_id: Storage pool ID on the Storage device (Optional, 1~64 characters), supports exact search
+        name: HyperScale storage pool name (Optional, 1~256 characters), supports fuzzy search
+        local_pool_id: Local storage pool ID under HyperScale Storage pool (Optional, 0~64 characters), supports filtering HyperScale Storage pool associated with the specified local Storage pool
+        health_status: health status(Optional). valid values: normal, faulty, degraded
+        running_status: running status(Optional). valid values: pre_copy, rebuilding, online, offline, balancing, initializing, deleting
+        storage_id: storage device ID (Optional, 0~64 characters)
+        description: HyperScale Storage pool description (Optional, 0~256 characters)
+        page_no: Page number for paginated query (Optional, 1~10000, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
+        sort_key: Sort field(Optional). valid values: raw_id (ID), total_capacity (Storage pool total capacity), consumed_capacity (used capacity), capacity_usage, free_capacity, subscribed_capacity_percentage
+        sort_dir: Sort direction(Optional). valid values: asc, desc
 
     Returns:
         {
-            total: HyperScaleStorage poolTotal count (int32),
-            data: HyperScale storage pool list (List<HyperScalePoolInfo>). parameter format: [{
-                id: HyperScaleStorage pool ID (1~64 characters),
-                raw_id: Storage poolon the storage deviceID (1~64 characters),
-                name: HyperScaleStorage pool name (1~256 characters),
-                description: HyperScaleStorage pool description (1~256 characters),
-                storage_id: Storage device ID (1~64 characters),
+            total: HyperScale Storage pool total (int32),
+            data: HyperScale Storage pool list (List<HyperScalePoolInfo>). parameter format: [{
+                id: HyperScale storage pool ID (1~64 characters),
+                raw_id: Storage pool ID on the Storage device (1~64 characters),
+                name: HyperScale storage pool name (1~256 characters),
+                description: HyperScale Storage pool description (1~256 characters),
+                storage_id: storage device ID (1~64 characters),
                 storage_ip: Storage device IP (1~255 characters),
-                storage_name: Storage device name (1~127 characters),
-                health_status: Health status. Options: normal, faulty ( fault), degraded ( degraded),
-                running_status: Running status. Options: pre_copy (Pre-copy), rebuilding ( refactor), online, offline, balancing (Balancing), initializing (Initializing), deleting (Deleting),
-                total_capacity: Total capacity, in MB (number),
-                consumed_capacity: Used capacity, in MB (number),
+                storage_name: storage device name (1~127 characters),
+                health_status: health status. valid values: normal, faulty, degraded,
+                running_status: running status. valid values: pre_copy, rebuilding, online, offline, balancing, initializing, deleting,
+                total_capacity: total capacity, unit MB (number),
+                consumed_capacity: used capacity, unit MB (number),
                 capacity_usage: Capacity utilization (number),
-                free_capacity: Free capacity, in MB (number),
-                subscribed_capacity_percentage: Subscription rate (number),
-                subscribed_capacity: Total subscribed capacity, in MB (number),
-                used_subscribed_capacity: Used subscribed capacity, in MB (number),
-                redundancy_strategy: Redundancy policy. Options: disk, distributed_ec,
+                free_capacity: free capacity, unit MB (number),
+                subscribed_capacity_percentage: Subscription ratio (number),
+                subscribed_capacity: Total subscribed capacity, unit MB (number),
+                used_subscribed_capacity: Used subscribed capacity, unit MB (number),
+                redundancy_strategy: Redundancy strategy. valid values: disk (disk-level redundancy), distributed_ec (distributed EC),
             }, ...]
         }
     """
@@ -893,46 +895,46 @@ def node_list(client: DMEAPIClient, storage_id: str = None, raw_id: str = None,
               page_no: int = 1, page_size: int = 20,
               sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    query storage devicenode list
+    Query the node list of a Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID(Optional, 1~64 characters) , supports filtering
-        raw_id:  nodeon the storage deviceID(Optional, 1~64 characters) 
-        storage_name: Storage deviceName (Optional,1~255 characters) , supports filtering
-        name:  nodeName (Optional,1~256 characters) , supports fuzzy search (case-insensitive) 
-        ids:  nodeID list(Optional, List<string>, max array members: 100) 
-        mgmt_ip: Node managementIP address(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        frame_number: Rack/ rack number(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        slot_number: Slot number in rack(Optional, 1~256 characters) , supports fuzzy search (case-insensitive) 
-        status: Node status(Optional). Options: UNKNOWN, NORMAL, FAULT, PRE_FAIL, PARTIALLY_DAMAGED, DEGRADED, BAD_SECTORS_FOUND, BIT_ERRORS_FOUND ( has error code), CONSISTENT, INCONSISTENT, BUSY, NO_INPUT, LOW_BATTERY, SINGLE_LINK_FAULT
-        roles:  nodeRole list(Optional, List<string>, max array members: 10). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute)
-        page_no: Page number(Optional, 1~10000, default 1) 
-        page_size: Page size(Optional, 1~1000, default 20) 
-        sort_key: Sort field(Optional). Options: name (Node name), mgmt_ip (Node managementIP address)
-        sort_dir: Sort direction(Optional). Options: asc (ascending), desc (descending)
+        storage_id: storage device id (Optional, 1~64 characters), supports filtering
+        raw_id: Node ID on the Storage device (Optional, 1~64 characters)
+        storage_name: Storage device name (Optional, 1~255 characters), supports filtering
+        name: Node name (Optional, 1~256 characters), supports fuzzy query (case insensitive)
+        ids: Node ID list (Optional, List<string>, max array members: 100)
+        mgmt_ip: Node management IP address (Optional, 1~256 characters), supports fuzzy query (case insensitive)
+        frame_number: Cabinet/rack number (Optional, 1~256 characters), supports fuzzy query (case insensitive)
+        slot_number: Slot/position within rack (Optional, 1~256 characters), supports fuzzy query (case insensitive)
+        status: Node status(Optional). valid values: UNKNOWN, NORMAL, FAULT, PRE_FAIL, PARTIALLY_DAMAGED, DEGRADED, BAD_SECTORS_FOUND, BIT_ERRORS_FOUND, CONSISTENT, INCONSISTENT, BUSY, NO_INPUT, LOW_BATTERY, SINGLE_LINK_FAULT
+        roles: Node role list (Optional, List<string>, max array members: 10). valid values: management, storage, compute (VBS computing), replication, paxos, dpc_compute (DPC computing)
+        page_no: Page number for paginated query (Optional, 1~10000, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
+        sort_key: Sort field(Optional). valid values: name (node name), mgmt_ip (node management IP address)
+        sort_dir: Sort direction(Optional). valid values: asc, desc
 
     Returns:
         {
-            total:  Node count (integer),
-            nodes: node list (List<StorageNodeBaseInfo>). parameter format: [{
-                id:  nodeid (1~64 characters),
+            total: Node count (integer),
+            nodes: Node list (List<StorageNodeBaseInfo>). parameter format: [{
+                id: Node id (1~64 characters),
                 name: Node name (1~255 characters),
-                raw_id:  nodeon the storage deviceID (1~64 characters),
-                mgmt_ip: Node managementIP address (1~255 characters),
-                status: Node status (1~255 characters). Options: UNKNOWN, NORMAL, FAULT, PARTIALLY_DAMAGED,
-                node_model:  Node model (1~255 characters). E.g.: DataTurbo, OceanStor Pacific, RH5288 V3,
-                frame_number: Rack/ rack number (1~255 characters),
-                slot_number: Slot number in rack (1~255 characters),
-                roles:  nodeRole list (List<string>). Options: management (management ), storage ( storage), compute (VBS compute), replication ( replication), paxos ( control), dpc_compute (DPC compute),
+                raw_id: Node ID on the Storage device (1~64 characters),
+                mgmt_ip: Node management IP address (1~255 characters),
+                status: Node status (1~255 characters). valid values: UNKNOWN, NORMAL, FAULT, PARTIALLY_DAMAGED,
+                node_model: Node model (1~255 characters). e.g.: DataTurbo, OceanStor Pacific, RH5288 V3,
+                frame_number: Cabinet/rack number (1~255 characters),
+                slot_number: Slot/position within rack (1~255 characters),
+                roles: Node role list (List<string>). valid values: management, storage, compute (VBS computing), replication, paxos, dpc_compute (DPC computing),
                 node_sn: Serial number info (1~255 characters),
-                storage_id: Storage device ID (1~64 characters),
+                storage_id: storage device id (1~64 characters),
                 storage_name: Storage device name (1~255 characters),
-                eos_time:  Storage EOS time (int64), GMT: Jan 1, 1970 00:00:00 - total ms to present,
-                installation_status: Storage software installation status. Options: installed (Storage software installed), not_installed (Storage software not installed),
+                eos_time: Storage EOS time (int64), total milliseconds from 1970-01-01 00:00:00 GMT to the present,
+                installation_status: Storage software installation status. valid values: installed, not_installed,
                 ip_address_list: Node IP address list (List<StorageNodeIpInfo>). parameter format: [{
                     ip_address: Node IP address (1~256 characters),
-                    usage: Node IP address purpose list (List<string>). Options: storage_frontend (Storage frontend network IP), storage_backend (Storage backend network IP), management_external_float (Management external network floating IP), management_internal_float (Management internal network floating IP), management_external (Management external network IP), management_internal (Management internal network IP), replication ( replication network IP), quorum (arbitration network IP), iscsi (iSCSI network IP),
+                    usage: Node IP address usage list (List<string>). valid values: storage_frontend, storage_backend, management_external_float, management_internal_float, management_external, management_internal, replication, quorum, iscsi,
                 }, ...],
             }, ...]
         }
@@ -974,47 +976,47 @@ def psu_list(client: DMEAPIClient, storage_id: str,
              enclosure_name: str = None, zone_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query storage devicePower supplyDetails info, only supportsOceanStor A800 storage. 
+    Query Storage device power supply details info, only supported by OceanStor A800 storage.
 
     Args:
         client: DME API client
-        storage_id: Storage deviceID (Required, 1~64 characters) 
-        health_status: Health status(Optional). Options: unknown, normal, faulty ( fault), inconsistent ( inconsistent), no_input ( no input)
-        running_status: Running status(Optional). Options: unknown, normal, running, online, offline
-        power_type: Power supply type(Optional). Options: dc, ac, hv
-        power_mode: Power supply mode(Optional). Options: balanced_power ( balanced power supply), active_power (primary power supply), standby_power (standby power supply)
-        location: location(Optional, 1~256 characters) , supports fuzzy match
-        model:  model(Optional, 1~256 characters) , supports fuzzy match
-        sn: Serial number(Optional, 1~256 characters) , supports fuzzy match
-        enclosure_name: EnclosureName (Optional,1~256 characters) , supports fuzzy match
-        zone_id: Zone ID(Optional, 1~64 characters) , OceanStor A800 series only
-        page_no: Page number(Optional, 1~2147483647, default 1) 
-        page_size: Page size(Optional, 1~1000, default 20) 
+        storage_id: Storage device ID (Required, 1~64 characters)
+        health_status: health status(Optional). valid values: unknown, normal, faulty, inconsistent, no_input
+        running_status: running status(Optional). valid values: unknown, normal, running, online, offline
+        power_type: Power supply type(Optional). valid values: dc (DC power supply), ac (AC power supply), hv (high-voltage DC power supply)
+        power_mode: Power mode(Optional). valid values: balanced_power, active_power, standby_power
+        location: location (Optional, 1~256 characters), supports fuzzy match
+        model: model (Optional, 1~256 characters), supports fuzzy match
+        sn: Serial number (Optional, 1~256 characters), supports fuzzy match
+        enclosure_name: Enclosure name (Optional, 1~256 characters), supports fuzzy match
+        zone_id: Zone ID (Optional, 1~64 characters), only supported by OceanStor A800 series storage
+        page_no: Page number for paginated query (Optional, 1~2147483647, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
 
     Returns:
         {
             total: Power supply count (int32),
-            storage_powers: Power list (List<StoragePowerInfo>). parameter format: [{
-                name:  name (1~255 characters),
+            storage_powers: Power supply list (List<StoragePowerInfo>). parameter format: [{
+                name: name (1~255 characters),
                 location: location (1~255 characters),
-                health_status: Health status. Options: unknown, normal, faulty ( fault), inconsistent ( inconsistent), no_input ( no input),
-                running_status: Running status. Options: unknown, normal, running, online, offline,
-                power_type: Power supply type. Options: dc, ac, hv,
-                model:  model (1~255 characters),
+                health_status: health status. valid values: unknown, normal, faulty, inconsistent, no_input,
+                running_status: running status. valid values: unknown, normal, running, online, offline,
+                power_type: Power supply type. valid values: dc (DC power supply), ac (AC power supply), hv (high-voltage DC power supply),
+                model: model (1~255 characters),
                 sn: Serial number (1~255 characters),
                 manufacturer: Manufacturer (1~255 characters),
                 enclosure_name: Enclosure name (1~255 characters),
-                production_date:  production date (1~255 characters),
-                version:  version (1~255 characters),
-                bom_code: Power supply module BOM code (1~255 characters),
-                power_mode: Power supply mode. Options: balanced_power ( balanced power supply), active_power (primary power supply), standby_power (standby power supply),
-                zone_name: Zone name (1~255 characters), OceanStor A800 series only,
-                zone_id: Zone ID (1~255 characters), OceanStor A800 series only,
-                zone_ip: Zone IP address (1~255 characters), OceanStor A800 series only,
-                storage_id: Storage deviceID (1~64 characters),
+                production_date: Production date (1~255 characters),
+                version: version (1~255 characters),
+                bom_code: Power module BOM code (1~255 characters),
+                power_mode: Power mode. valid values: balanced_power, active_power, standby_power,
+                zone_name: Zone name (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_id: Zone ID (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_ip: Zone IP address (1~255 characters), only supported by OceanStor A800 series storage,
+                storage_id: Storage device ID (1~64 characters),
                 storage_name: Storage device name (1~128 characters),
-                storage_ip: Storage deviceIP address (1~32 characters),
-                storage_sn: Storage deviceSerial number (1~64 characters),
+                storage_ip: Storage device IP address (1~32 characters),
+                storage_sn: Storage device serial number (1~64 characters),
             }, ...],
         }
     """
@@ -1049,20 +1051,20 @@ def psu_list(client: DMEAPIClient, storage_id: str,
 def query_power_data(client: DMEAPIClient, start_time: str, end_time: str,
                       storage_ids: list, time_granularity: str) -> dict:
     """
-     Query storage device power data
+    Query Storage device power data
 
     Args:
         client: DME API client
-        start_time: Start timestamp (Required, 13-digit ms timestamp,  regex ^([0-9]){13}$) 
-        end_time: End timestamp (Required, 13-digit ms timestamp,  regex ^([0-9]){13}$) 
-        storage_ids:  storageID list (Required, List<string>, max array members: 300) 
-        time_granularity: Time granularity (Required). Options: HOUR (hour(s)), DAY (day(s)), MONTH ( months)
+        start_time: Start time stamp (Required, 13-digit millisecond timestamp, pattern ^([0-9]){13}$)
+        end_time: End time stamp (Required, 13-digit millisecond timestamp, pattern ^([0-9]){13}$)
+        storage_ids: Storage ID list (Required, List<string>, max array members: 300)
+        time_granularity: Time granularity(Required). valid values: HOUR, DAY, MONTH
 
     Returns:
         {
             storage_power_list: Storage power list (List<StoragePower>). parameter format: [{
-                storage_id:  storageID,
-                power:  Storage power in kW (number),
+                storage_id: Storage ID,
+                power: Storage power, unit kilowatt (number),
             }, ...],
         }
     """
@@ -1088,33 +1090,33 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
     """
-    Modify storage device (only suppsupports modify recorded offline storage device info) 
+    Modify a Storage device (only supports modifying recorded offline Storage device info)
 
     Args:
-        client: DME API client. 
-        storage_id: Storage device ID (Required) . 
-        name: Device name (Optional, 1~256 characters). supports half-width letters, digits, underscores, hyphens, dots and Chinese characters. 
-        ip: Device IP address (Optional, 0~128 characters,  supports IPv4 and IPv6, can also be empty). 
-        vendor:  vendor (Optional, 0~128 characters). 
-        model: Product model (Optional, 0~128 characters). 
-        version: Version info (Optional, 0~64 characters). 
-        patch_version: Patch version info (Optional, 0~64 characters). 
-        location:  devicelocation (Optional, 0~512 characters). 
-        maintenance_start:  Maintenance start time (Optional, format is ms-level timestamp). must appear with warranty expiration time and value must be less. 
-        maintenance_overtime: Warranty expiration time (Optional, format is ms-level timestamp).  Must appear with maintenance start time and value greater thanStart time. 
-        total_capacity: Raw capacity (Optional, -1~2147483647, in MB). Storage devicesum of all disk physical capacities, -1Indicates no raw capacity. 
-        total_effective_capacity: Available capacity (Optional, -1~2147483647, in MB). Storage device writable user data total, -1Indicates no available capacity. 
-        total_pool_capacity: Available capacity (Optional, -1~2147483647, in MB). Actual available disk physical space (Excluding RAID, metadata consumption) , -1Indicates N/AAvailable capacity. 
-        used_capacity: Used capacity (Optional, -1~2147483647, in MB). Sum of used capacity across all storage pools, -1N/A for used capacity. 
-        free_capacity: Free capacity (Optional, -1~2147483647, in MB). Difference between available and used capacity, -1N/A for free capacity. 
-        subscription_capacity: Subscribed capacity (Optional, -1~2147483647, in MB). Sum of subscribed capacity across all storage pools, -1Indicates no subscribed capacity. 
-        tag_ids:  Tag ID list (Optional, string, 0~512 characters). Array format string, supports up to 10 tags,  empty array meansRemove all storage device tagsassociated tags. 
+        client: DME API client.
+        storage_id: Storage device ID (Required).
+        name: Device name (Optional, 1~256 characters). Can only contain half-width letters, half-width digits, "_", "-", ".", and Chinese characters.
+        ip: Device IP address (Optional, 0~128 characters, supports IPv4 and IPv6 formats, can also be an empty string).
+        vendor: Vendor (Optional, 0~128 characters).
+        model: Product model (Optional, 0~128 characters).
+        version: Version info (Optional, 0~64 characters).
+        patch_version: Patch version info (Optional, 0~64 characters).
+        location: Device location (Optional, 0~512 characters).
+        maintenance_start: Maintenance start time (Optional, format is millisecond timestamp). Must appear together with maintenance overtime and the value must be less than maintenance overtime.
+        maintenance_overtime: Maintenance overtime (Optional, format is millisecond timestamp). Must appear together with maintenance start time and the value must be greater than maintenance start time.
+        total_capacity: raw capacity (Optional, -1~2147483647, unit MB). The sum of physical capacities of all disks in the Storage device, -1 means no raw capacity.
+        total_effective_capacity: effective capacity (Optional, -1~2147483647, unit MB). The total amount of user data that can be written to the Storage device, -1 means no effective capacity.
+        total_pool_capacity: available capacity (Optional, -1~2147483647, unit MB). The actual usable disk physical space of the Storage device (after deducting RAID, metadata, etc.), -1 means no available capacity.
+        used_capacity: used capacity (Optional, -1~2147483647, unit MB). The sum of used capacities of all Storage pools in the Storage device, -1 means no used capacity.
+        free_capacity: free capacity (Optional, -1~2147483647, unit MB). The difference between the available capacity and used capacity of the Storage device, -1 means no free capacity.
+        subscription_capacity: subscribed capacity (Optional, -1~2147483647, unit MB). The sum of subscribed capacities of all Storage pools in the Storage device, -1 means no subscribed capacity.
+        tag_ids: tag ID list (Optional, string, 0~512 characters). Array format string, supports up to 10 tags, empty array means removing all tags associated with the Storage device.
 
     Returns:
-        N/A
+        None
     """
     if not storage_id:
-        raise ValueError("storage_id is required")
+        raise ValueError("storage_id is a required parameter")
 
     url = "/rest/storagemgmt/v2/storages/offline-storages/{storage_id}"
 
@@ -1154,7 +1156,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         payload['tag_ids'] = json.dumps(tag_ids) if isinstance(tag_ids, list) else tag_ids
 
     response = client.put(url, body=payload, params={"storage_id": storage_id})
-    # modify API returns empty response, Returns empty dict on success
+    # The modify interface returns an empty response, return an empty dict to indicate success
     return response if response else {}
 
 
@@ -1162,39 +1164,30 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
                  create_type: int = None, template_type: int = None, 
                  pool_id: str = None) -> dict:
     """
-    Query storage device application type
+    Query the application types of a specified Storage device
     
-    Dorado series only. 
+    Only supported by Dorado type devices.
     
     Args:
-        client: DME API client. 
-        storage_id: Storage device id (1~36 characters, must satisfy UUID format). 
-        create_type: Create type (Optional, 0~1). Options: 0 ( system preset), 1 (user defined). returns all types if not provided. 
-        template_type: Application type category (Optional, 0~1). Options: 0 (LUN), 1 (NAS). default: LUN if not specified. 
-        pool_id: Storage poolid (Optional, 1~64 characters,  letters and digits). 
+        client: DME API client.
+        storage_id: Storage device id (1~36 characters, must satisfy uuid format).
+        create_type: create type (Optional, 0~1). valid values: 0 (system preset), 1 (user defined). Returns all types if not provided.
+        template_type: Application type category (Optional, 0~1). valid values: 0 (LUN type), 1 (NAS type). Default is LUN type if not provided.
+        pool_id: Storage pool id (Optional, 1~64 characters, letters and digits).
     
     Returns:
         {
-            datas: List of application types (List<AppTypeInfo>). Parameter format: [{
-                id: Application type ID (string),
+            datas: Application type list (List<AppTypeInfo>). parameter format: [{
+                id: workload type ID (string),
                 name: Application type name (string),
                 block_size: Block size (string),
             }, ...],
         }
-        enable_compress, enable_dedup, create_type and other fields
+        Fields include: enable_compress, enable_dedup, create_type, etc.
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/workloads"
     
-    query_params = {}
-    if create_type is not None:
-        query_params['create_type'] = create_type
-    if template_type is not None:
-        query_params['template_type'] = template_type
-    if pool_id is not None:
-        query_params['pool_id'] = pool_id
-    
-    
-    query_params = {}
+    query_params = {"storage_id": storage_id}
     if create_type is not None:
         query_params['create_type'] = create_type
     if template_type is not None:
@@ -1208,19 +1201,19 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
 
 def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     """
-    Query storage devicecontroller info
+    Query the Controller info of a specified Storage device
     
-    query storage deviceControllerList info. 
+    Query the Controller list info of a Storage device.
     
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters, UUID format or 32-bit hex) 
+        storage_id: Storage device ID (Required, 1~36 characters, UUID format or 32-bit hexadecimal)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }, includes total and controllers fields
-        - total: ControllerTotal count
+        - total: Controller total
         - controllers: Controller list, includes id, name, status, type and other info
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/controllers"
@@ -1232,29 +1225,29 @@ def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
 def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int = 1,
                    page_size: int = 20) -> dict:
     """
-    Batch query disk pools
+    Batch query disk domains
 
     Args:
         client: DME API client
-        storage_id: Storage device ID(Optional, 1~64  characters) , supports filtering
-        page_no: Page number(Optional, 1~2147483647, default 1) 
-        page_size: Page size(Optional, 1~1000, default 20) 
+        storage_id: Storage device ID (Optional, 1~64 characters), supports filtering
+        page_no: Page number for paginated query (Optional, 1~2147483647, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
 
     Returns:
         {
-            total: Disk poolcount (int32),
-            disk_pools: Disk pool list (List<DiskPoolInfo>). parameter format: [{
-                    id: Disk poolid (1~64 characters),
-                    raw_id: Disk poolon the deviceid (1~64 characters),
-                    name: Disk pool name (1~128 characters),
-                    running_status: Running status. Options: online, offline, pre_copy (Pre-copy), reconstruction ( refactor), balancing (Balancing), initializing (Initializing), deleting (Deleting), unknown,
-                    health_status: Health status. Options: normal, fault ( fault), degraded ( degraded), unknown,
-                    total_capacity: Total available raw capacity, in MB (number),
-                    spare_capacity: Total hot spare raw capacity, in MB (number),
-                    used_capacity: Allocated raw capacity, in MB (number),
-                    used_spare_capacity: Used hot spare raw capacity, in MB (number),
-                    free_capacity: Free capacity, in MB (number),
-                    storage_id: Storage device ID (1~64 characters),
+            total: Disk domain count (int32),
+            disk_pools: Disk domain list (List<DiskPoolInfo>). parameter format: [{
+                    id: Disk domain id (1~64 characters),
+                    raw_id: Disk domain id on the device (1~64 characters),
+                    name: Disk domain name (1~128 characters),
+                    running_status: running status. valid values: online, offline, pre_copy, reconstruction, balancing, initializing, deleting, unknown,
+                    health_status: health status. valid values: normal, fault, degraded, unknown,
+                    total_capacity: Total available raw capacity, unit MB (number),
+                    spare_capacity: Total hot spare raw capacity, unit MB (number),
+                    used_capacity: Allocated raw capacity, unit MB (number),
+                    used_spare_capacity: Used hot spare raw capacity, unit MB (number),
+                    free_capacity: free capacity, unit MB (number),
+                    storage_id: storage device id (1~64 characters),
                  }, ...]
         }
     """
@@ -1274,21 +1267,21 @@ def disk_domain_list(client: DMEAPIClient, storage_id: str = None, page_no: int 
 def disk_pool_list(client: DMEAPIClient, storage_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query distributed storage device disk pools. OceanStor Pacific and A310 only. 
+    Batch query disk pools of distributed Storage devices. Only supported by OceanStor Pacific and OceanStor A310 storage.
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Optional, string, 1~64 characters). Non-Pacific/A310 device reports parameter error
-        page_no: Page number (Optional, int32, 1~2147483647). Default: 1
-        page_size: Page size (Optional, int32, 1~1000). Default: 20
+        storage_id: Storage device id (Optional, string, 1~64 characters). Non-OceanStor Pacific or A310 devices will report a parameter error
+        page_no: Page number for paginated query (Optional, int32, 1~2147483647). default value: 1
+        page_size: Page size for paginated query (Optional, int32, 1~1000). default value: 20
 
     Returns:
         {
-            total: Total count (int32),
+            total: total (int32),
             disk_pools: Disk pool list. parameter format: [{
-                id: Disk poolID (string),
+                id: Disk pool ID (string),
                 name: Disk pool name (string),
-                status:  status (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -1312,53 +1305,53 @@ def enclosure_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
                    power_mode: list = None, esn: str = None, mac: str = None,
                    sort_key: str = None, sort_dir: str = None) -> dict:
     """
-    Batch query enclosures info
+    Batch query enclosure info
 
     Args:
         client: DME API client
-        page_no: Page number(Optional, 1~2147483647, default 1) 
-        page_size: Page size(Optional, 1~1000, default 20) 
-        storage_id: Storage deviceID(Optional, 1~64 characters) 
-        name: Name (Optional,1~256 characters) , supports fuzzy match
-        location: location(Optional, 1~256 characters) , supports fuzzy match
-        health_status: Health status list(Optional, List<string>, max array members: 3). Options: unknown, normal, faulty ( fault)
-        zone_name: ZoneName (Optional,1~255 characters) , OceanStor A800 series only, supports fuzzy match
-        zone_id: Zone ID list(Optional, List<string>, max array members: 100) , OceanStor A800 series only
-        running_status: Running status list(Optional, List<string>, max array members: 7). Options: unknown, normal, running, sleep_in_high_temperature, online, offline
-        power_mode: Power supply mode list(Optional, List<string>, max array members: 2). Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode)
-        esn: EnclosureSerial number(Optional, 1~256 characters) , supports fuzzy match
-        mac: MAC address(Optional, 1~256 characters) , supports fuzzy match
-        sort_key: Sort field(Optional). Options: temperature
-        sort_dir: Sort direction(Optional). Options: asc (ascending), desc (descending). Returns ascending by default
+        page_no: Page number for paginated query (Optional, 1~2147483647, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
+        storage_id: Storage device ID (Optional, 1~64 characters)
+        name: name (Optional, 1~256 characters), supports fuzzy match
+        location: location (Optional, 1~256 characters), supports fuzzy match
+        health_status: health status list (Optional, List<string>, max array members: 3). valid values: unknown, normal, faulty
+        zone_name: Zone name (Optional, 1~255 characters), only supported by OceanStor A800 series storage, supports fuzzy match
+        zone_id: Zone ID list (Optional, List<string>, max array members: 100), only supported by OceanStor A800 series storage
+        running_status: running status list (Optional, List<string>, max array members: 7). valid values: unknown, normal, running, sleep_in_high_temperature, online, offline
+        power_mode: Power mode list (Optional, List<string>, max array members: 2). valid values: load_balance, active_standby_power
+        esn: Enclosure serial number (Optional, 1~256 characters), supports fuzzy match
+        mac: MAC address (Optional, 1~256 characters), supports fuzzy match
+        sort_key: Sort field(Optional). valid values: temperature
+        sort_dir: Sort direction(Optional). valid values: asc, desc. default returns in ascending order
 
     Returns:
         {
-            total: Enclosurecount (integer),
+            total: Enclosure count (integer),
             data: Enclosure list (List<EnclosureItem>). parameter format: [{
-                    id: EnclosureID (1~64 characters),
-                    raw_id: Enclosure ID on storage device (1~64 characters),
-                    name:  name (1~256 characters),
-                    model:  Model (1~32 characters). Options: 0 (BMC controller enclosure), 1 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controller enclosure), 2 (2U dual controller 6Gbit/s SAS 24disk slot 2.5inch controller enclosure), 16 (2U 6Gbit/s SAS 12disk slot 3.5inch disk enclosure), 17 (2U SAS 24disk cascading enclosure), 18 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 19 (4U FC 24disk cascading enclosure), 20 (1U PCIe dataSwitch), 21 (4U 6Gbit/s SAS 75disk slot 3.5inch disk enclosure), 22 (SVP), 23 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controller enclosure), 24 (2U 6Gbit/s SAS 25disk slot 2.5inch disk enclosure), 25 (4U 6Gbit/s SAS 24disk slot 3.5inch disk enclosure), 26 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 37 (2U dual controller 6Gbps SAS 12-disk 3.5-inch controller enclosure), 38 (2U dual controller 6Gbit/s SAS 25disk slot 2.5inch controller enclosure), 39 (4U 12Gbit/s SAS 75disk slot 3.5inch disk enclosure), 40 (2U dual controller 12Gbit/s SAS 25disk slot 2.5inch controller enclosure), 65 (2U 12Gbit/s SAS 25disk slot 2.5inch disk enclosure), 66 (4U 12Gbit/s SAS 24disk slot 3.5inch disk enclosure), 67 (2U SAS 25disk slot 2.5inch disk enclosure), 69 (4U SAS 24disk slot 3.5inch disk enclosure), 96 (3U dual controllerController enclosure), 97 (6U quad-controllerController enclosure), 98 (2U SSD 25disk cascading enclosure), 99 (2U dual controller 12Gbit/s NVMe 25disk slot 2.5inch controller enclosure), 101 (2U SSD NVMe 25disk slot 2.5inch disk enclosure), 112 (4U quad-controllerController enclosure), 113 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 114 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 115 (2U dual controller NVMe 36disk slotController enclosure), 116 (2U dual controller SAS 25disk slot 2.5inch controller enclosure), 117 (2U dual controller SAS 12disk slot 3.5inch controller enclosure), 118 (2U SAS 25disk slot 2.5 inchsmartDisk enclosure), 119 (2U SAS 12disk slot 3.5 inchsmartDisk enclosure), 120 (2U NVMe 36disk slotsmartDisk enclosure), 122 (2U dual controller NVMe 25disk slot 2.5inch controller enclosure), 132 (4U dual controller 4disk slot2.5 inch 6disk slot3.5 inch Controller enclosure), 133 (4U dual controller NVMe 12disk slot 2.5 inch Controller enclosure), 135 (4U dual controller 10disk slot 2.5inch controller enclosure), 143 (8U NVME dual controller 64disk slot 2.5 inch Controller enclosure),
-                    height: Height in U (integer),
+                    id: Enclosure ID (1~64 characters),
+                    raw_id: Enclosure ID on the Storage device (1~64 characters),
+                    name: name (1~256 characters),
+                    model: model (1~32 characters). valid values: 0 (BMC control box), 1 (2U dual-controller 6Gbit/s SAS 12-bay 3.5-inch control box), 2 (2U dual-controller 6Gbit/s SAS 24-bay 2.5-inch control box), 16 (2U 6Gbit/s SAS 12-bay 3.5-inch disk enclosure), 17 (2U SAS 24-bay cascade box), 18 (4U 6Gbit/s SAS 24-bay 3.5-inch disk enclosure), 19 (4U FC 24-bay cascade box), 20 (1U PCIe data switch), 21 (4U 6Gbit/s SAS 75-bay 3.5-inch disk enclosure), 22 (SVP), 23 (2U dual-controller 6Gbit/s SAS 12-bay 3.5-inch control box), 24 (2U 6Gbit/s SAS 25-bay 2.5-inch disk enclosure), 25 (4U 6Gbit/s SAS 24-bay 3.5-inch disk enclosure), 26 (2U dual-controller 6Gbit/s SAS 25-bay 2.5-inch control box), 37 (2U dual-controller 6Gbit/s SAS 12-bay 3.5-inch control box), 38 (2U dual-controller 6Gbit/s SAS 25-bay 2.5-inch control box), 39 (4U 12Gbit/s SAS 75-bay 3.5-inch disk enclosure), 40 (2U dual-controller 12Gbit/s SAS 25-bay 2.5-inch control box), 65 (2U 12Gbit/s SAS 25-bay 2.5-inch disk enclosure), 66 (4U 12Gbit/s SAS 24-bay 3.5-inch disk enclosure), 67 (2U SAS 25-bay 2.5-inch disk enclosure), 69 (4U SAS 24-bay 3.5-inch disk enclosure), 96 (3U dual-controller control box), 97 (6U quad-controller control box), 98 (2U SSD 25-bay cascade box), 99 (2U dual-controller 12Gbit/s NVMe 25-bay 2.5-inch control box), 101 (2U SSD NVMe 25-bay 2.5-inch disk enclosure), 112 (4U quad-controller control box), 113 (2U dual-controller SAS 25-bay 2.5-inch control box), 114 (2U dual-controller SAS 12-bay 3.5-inch control box), 115 (2U dual-controller NVMe 36-bay control box), 116 (2U dual-controller SAS 25-bay 2.5-inch control box), 117 (2U dual-controller SAS 12-bay 3.5-inch control box), 118 (2U SAS 25-bay 2.5-inch smart disk enclosure), 119 (2U SAS 12-bay 3.5-inch smart disk enclosure), 120 (2U NVMe 36-bay smart disk enclosure), 122 (2U dual-controller NVMe 25-bay 2.5-inch control box), 132 (4U dual-controller 4-bay 2.5-inch 6-bay 3.5-inch control box), 133 (4U dual-controller NVMe 12-bay 2.5-inch control box), 135 (4U dual-controller 10-bay 2.5-inch control box), 143 (8U NVME dual-controller 64-bay 2.5-inch control box),
+                    height: Height, unit U (integer),
                     location: Enclosure location (1~128 characters),
-                    logic_type:  type. Options: disk_enclosure (Disk enclosure), controller_enclosure (Controller enclosure), data_switch ( dataSwitch), management_switch (management Switch), management_server (management Server),
-                    health_status: Health status. Options: unknown, normal, faulty ( fault),
-                    running_status: Running status. Options: unknown, normal, running, sleep_in_high_temperature, online, offline, abnormalxception),
-                    storage_id: Storage deviceID (1~64 characters),
+                    logic_type: type. valid values: disk_enclosure, controller_enclosure, data_switch, management_switch, management_server,
+                    health_status: health status. valid values: unknown, normal, faulty,
+                    running_status: running status. valid values: unknown, normal, running, sleep_in_high_temperature, online, offline, abnormal,
+                    storage_id: Storage device ID (1~64 characters),
                     storage_name: Storage device name (1~128 characters),
-                    storage_ip: Storage deviceIP address (1~32 characters),
-                    storage_sn: Storage deviceSerial number (1~64 characters),
+                    storage_ip: Storage device IP address (1~32 characters),
+                    storage_sn: Storage device serial number (1~64 characters),
                     storage_location: Storage device location (0~512 characters),
-                    zone_name: Zone name (0~512 characters), OceanStor A800 series only,
-                    zone_ip: Zone IP address (1~128 characters), OceanStor A800 series only,
-                    zone_id: Zone ID (0~512 characters), OceanStor A800 series only,
-                    esn: EnclosureSerial number (0~512 characters),
+                    zone_name: Zone name (0~512 characters), only supported by OceanStor A800 series storage,
+                    zone_ip: Zone IP address (1~128 characters), only supported by OceanStor A800 series storage,
+                    zone_id: Zone ID (0~512 characters), only supported by OceanStor A800 storage,
+                    esn: Enclosure serial number (0~512 characters),
                     mac: MAC address (0~512 characters),
-                    power_mode: Power supply mode. Options: load_balance (Load balancing mode), active_standby_power (Primary/standby power mode),
-                    bar_code:  barcode (0~256 characters),
+                    power_mode: Power mode. valid values: load_balance, active_standby_power,
+                    bar_code: Barcode (0~256 characters),
                     board_type: Board type (0~128 characters),
-                    description:  description (0~1024 characters),
-                    temperature: Temperature in °C (0~128 characters),
+                    description: description (0~1024 characters),
+                    temperature: Temperature, unit °C (0~128 characters),
                  }, ...]
         }
     """
@@ -1399,33 +1392,33 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
                    support_provisioning: bool = None, vstore_raw_id: str = None,
                    vstore_name: str = None, storage_id: str = None) -> dict:
     """
-    Batch query storage initiator objects
+    Batch query storage-side initiator objects
 
-    Batch query storage initiator object list. 
+    Batch query the list of initiator objects on the storage side.
 
     Args:
         client: DME API client
-        page_size: Items per page (Optional, 1~1000, default 100)
-        page_no: Page number (Optional, min1, default1)
-        raw_id: InitiatorWWPN/IQN/NQN (Optional, 0~256 characters, supports fuzzy match)
+        page_size: Number of items per page (Optional, 1~1000, default 100)
+        page_no: Page number for paginated query (Optional, min 1, default 1)
+        raw_id: Initiator WWPN/IQN/NQN (Optional, 0~256 characters, supports fuzzy match)
         alias: Initiator alias (Optional, 0~256 characters, supports fuzzy match)
-        status: Initiator status (Optional). Options: unknown, online, offline
-        associated_host_name: Initiator associatedHost name (Optional, 0~256 characters, supports fuzzy match)
-        associated_host_id: Initiator associatedHost ID (Optional, 0~64 characters; Empty field queries hosts not addedInitiator)
-        multipath_type: Third-party multipath policy (Optional, only for non-Dorado V6 product). Options: default (default), third_party (Third-party multipath)
-        protocol: Initiator type (Optional). Options: fc, iscsi, nvme_over_roce, sas, nvme_over_fabric, unknown
-        support_provisioning: Supports provisioning (Optional). Options: true, false
-        vstore_raw_id: Tenant ID (Optional)
+        status: Initiator status (Optional). valid values: unknown, online, offline
+        associated_host_name: Host name associated with the initiator (Optional, 0~256 characters, supports fuzzy match)
+        associated_host_id: Host ID associated with the initiator (Optional, 0~64 characters; empty field queries initiators not added to a host)
+        multipath_type: Third-party multipath policy (Optional, only for non-Dorado V6 products). valid values: default, third_party
+        protocol: Initiator type (Optional). valid values: fc, iscsi, nvme_over_roce, sas, nvme_over_fabric, unknown
+        support_provisioning: Whether provisioning is supported (Optional). valid values: true, false
+        vstore_raw_id: tenant ID (Optional)
         vstore_name: Tenant name (Optional)
-        storage_id: Storage device ID (Optional, 0~64 characters)
+        storage_id: storage device ID (Optional, 0~64 characters)
 
     Returns:
         {
-            total: Number of initiators (int32),
-            initiators: List of initiators (List<InitiatorInfo>). Parameter format: [{
+            total: Initiator count (int32),
+            initiators: Initiator list (List<InitiatorInfo>). parameter format: [{
                 id: Initiator ID (string),
                 port_name: Port name (string),
-                status: Status (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -1467,15 +1460,15 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
 def initiator_delete(client: DMEAPIClient, initiator_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    Batch delete storage device initiator objects
+    Batch delete initiator objects from a Storage device
 
     Args:
         client: DME API client
-        initiator_ids: Initiator ID  list (Required, 1-100) 
-        task_remarks: Task remark(Optional, max 1024  character) 
+        initiator_ids: List of initiator IDs (Required, 1~100)
+        task_remarks: Task remarks (Optional, up to 1024 characters)
 
     Returns:
-        task  ID
+        Task ID
     """
     url = "/rest/hostmgmt/v1/storage-initiators/delete"
 
@@ -1494,24 +1487,24 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
                      vstore_id: str = None, alias: str = None,
                      multi_path: dict = None) -> dict:
     """
-    modify  storage initiatorobject
+    Modify the storage-side initiator object
 
-    modify Initiator, This operation modifies storage specified on the deviceInitiator. 
+    Modify the initiator. This operation will modify the specified initiator on the Storage device.
 
     Args:
         client: DME API client
         initiator_id: Initiator ID (Required)
-        vstore_id: Tenant ID (Optional, 1~64 characters;  effective for OceanStor V300R006C30/V500R007C20/Dorado 6.1.3+ when)
-        alias: Initiator alias (Optional, 0~31 characters, supports alphanumeric._-and Chinese characters)
-        multi_path: ModifyMultiPathRequestParam object (Optional;  effective for OceanStor V300R003C20/V500R007C20/Dorado V300R001C01+above support).  format: {
-                multi_path_type: InitiatorMultipath type (Optional). Options: default (default), third_party (Third-party multipath),
-                path_type: Initiator path type (conditionally required, required when multi_path_type is third_party). Options: optimal_path (Preferred path), non_optimal_path (non-preferred path),
-                failover_mode: Initiator switch mode (conditionally required, required when multi_path_type is third_party). Options: early_version_alua, common_alua, alua_not_used, special_alua,
-                special_mode_type: Special mode type (Optional, effective when failover mode is special). Options: 0 (Special mode0), 1 (Special mode1), 2 (Special mode2), 3 (Special mode3)
+        vstore_id: tenant ID (Optional, 1~64 characters; valid when device is OceanStor V300R006C30/V500R007C20/Dorado 6.1.3 or above)
+        alias: Initiator alias (Optional, 0~31 characters, supports letters, digits, ._- and Chinese characters)
+        multi_path: ModifyMultiPathRequestParam object (Optional; supported when device is OceanStor V300R003C20/V500R007C20/Dorado V300R001C01 or above). attribute format: {
+                multi_path_type: Initiator multipath type (Optional). valid values: default, third_party,
+                path_type: Initiator path type (Conditional required, required when multi_path_type is third_party). valid values: optimal_path, non_optimal_path,
+                failover_mode: Initiator failover mode (Conditional required, required when multi_path_type is third_party). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
+                special_mode_type: Special mode type (Optional, valid when failover mode is special mode). valid values: 0 (special mode 0), 1 (special mode 1), 2 (special mode 2), 3 (special mode 3)
              }
 
     Returns:
-        task  ID
+        Task ID
     """
     url = "/rest/hostmgmt/v1/storage-initiators/{initiator_id}"
 
@@ -1537,28 +1530,28 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
     return response
 
 
-# ============ auth user (account) subtopic functions ============
+# ============ Authentication user (account) subtopic functions ============
 
 
 def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                      name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query storage devicelocal Auth user info
+    Query the info of local authentication users on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: local auth userTenanton device ID(Optional) 
-        name: local Auth user name, supports fuzzy search(Optional) 
-        page_no: Page number, default 1(Optional) 
-        page_size: Page size, default 20(Optional) 
+        storage_id: Storage device ID (Required, 1~36 characters)
+        vstore_raw_id: ID of the tenant on the device that the local authentication user belongs to(Optional)
+        name: Local authentication user name, supports fuzzy query(Optional)
+        page_no: Page number for paginated query, default 1(Optional)
+        page_size: Page size for paginated query, default 20(Optional)
 
     Returns:
         {
-            total: Number of users (int32),
-            local_users: List of local authenticated users (List<LocalUserInfo>). Parameter format: [{
-                id: User ID (string),
-                name: User name (string),
+            total: User count (int32),
+            local_users: Local authentication user list (List<LocalUserInfo>). parameter format: [{
+                id: user ID (string),
+                name: Username (string),
                 type: User type (string),
             }, ...],
         }
@@ -1575,7 +1568,7 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1583,20 +1576,20 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
                       primary_group_raw_id: str, description: str = None,
                       group_names: list = None, vstore_id: str = None) -> dict:
     """
-    Create local auth user
+    Create a local authentication user
 
     Args:
         client: DME API client
-        storage_id: Create local auth userStorage device ID (1~36 characters, Required)
-        name: local Auth user name (1~255 characters, Required)
-        description: local Auth user description (1~255 characters, Optional)
-        password: local Auth user password (1~255 characters, Required)
-        primary_group_raw_id: local auth user group ID on device (1~64 characters, Required)
-        group_names: create  local auth usertemporary user group name list (List<string>, min array members: 0, max array members: 31, Optional)
-        vstore_id: local auth usertenant ID (1~64 characters, Optional. conditionally required, required when creating local auth user belongs to tenant)
+        storage_id: Storage device ID for creating local authentication user (1~36 characters, Required)
+        name: Local authentication user name (1~255 characters, Required)
+        description: Local authentication user description (1~255 characters, Optional)
+        password: Local authentication user password (1~255 characters, Required)
+        primary_group_raw_id: ID of the user group on the device that the local authentication user belongs to (1~64 characters, Required)
+        group_names: List of temporary user group names that the created local authentication user belongs to (List<string>, min array members: 0, max array members: 31, Optional)
+        vstore_id: Tenant ID that the local authentication user belongs to (1~64 characters, Optional. Conditional required, required when the created local authentication user belongs to a tenant)
 
     Returns:
-        creation result
+        create result
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/local-users"
 
@@ -1622,7 +1615,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
     if vstore_id is not None:
         payload['vstore_id'] = vstore_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1631,21 +1624,21 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
                       description: str = None, password: str = None,
                       status_enabled: bool = None, vstore_raw_id: str = None) -> dict:
     """
-    Create storage device UNIX auth user
+    Create a UNIX authentication user on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: create  UNIX auth userStorage device ID (1~36 characters, Required)
-        name: UNIX Auth user name (1~255 characters, Required)
-        raw_id: UNIX Auth user on device ID (int64, 0~4294967295, Optional)
-        description: UNIX Auth user description (1~255 characters, Optional)
-        password: UNIX Auth user password (1~255 characters, Optional)
-        status_enabled: UNIX Auth user status (boolean, Optional). Options: true ( start), false ( lock)
-        primary_group_raw_id: create UNIX auth user group ID on device (1~64 characters, Required)
-        vstore_raw_id: UNIX Auth user tenant on device ID (1~64 characters, Optional. conditionally required, when creating UNIXd when auth user belongs to tenant)
+        storage_id: Storage device ID for creating UNIX authentication user (1~36 characters, Required)
+        name: UNIX authentication user name (1~255 characters, Required)
+        raw_id: ID of the UNIX authentication user on the device (int64, 0~4294967295, Optional)
+        description: UNIX authentication user description (1~255 characters, Optional)
+        password: UNIX authentication user password (1~255 characters, Optional)
+        status_enabled: UNIX authentication user status (boolean, Optional). valid values: true (enabled), false (locked)
+        primary_group_raw_id: ID of the user group on the device that the created UNIX authentication user belongs to (1~64 characters, Required)
+        vstore_raw_id: ID of the tenant on the device that the UNIX authentication user belongs to (1~64 characters, Optional. Conditional required, required when the created UNIX authentication user belongs to a tenant)
 
     Returns:
-        creation result
+        create result
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/unix-users"
 
@@ -1665,7 +1658,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
     if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1674,20 +1667,20 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
                                  status_enabled: bool = None,
                                  vstore_raw_id: str = None) -> dict:
     """
-    Create storage device Windows auth user
+    Create a Windows authentication user on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: create  Windows auth userStorage device ID (1~36 characters, Required)
-        name: Windows Auth user name (1~255 characters, Required)
-        raw_id: Windows Auth user on device ID (int64, 1000~4294967295, Optional)
-        description: Windows Auth user description (1~255 characters, Optional)
-        password: Windows Auth user password (1~255 characters, Required)
-        status_enabled: Windows Auth user status (boolean, Optional). Options: true ( enable), false ( lock)
-        vstore_raw_id: create Windows Auth user tenant on device ID (1~64 characters, Optional. conditionally required, when creating Windowsrequired when auth user belongs to tenant)
+        storage_id: Storage device ID for creating Windows authentication user (1~36 characters, Required)
+        name: Windows authentication user name (1~255 characters, Required)
+        raw_id: ID of the Windows authentication user on the device (int64, 1000~4294967295, Optional)
+        description: Windows authentication user description (1~255 characters, Optional)
+        password: Windows authentication user password (1~255 characters, Required)
+        status_enabled: Windows authentication user status (boolean, Optional). valid values: true (enabled), false (locked)
+        vstore_raw_id: ID of the tenant on the device that the created Windows authentication user belongs to (1~64 characters, Optional. Conditional required, required when the Windows authentication user belongs to a tenant)
 
     Returns:
-        creation result
+        create result
     """
     url = "/rest/fileservice/v1/storages/{storage_id}/windows-users"
 
@@ -1712,22 +1705,22 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
 def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query storage device UNIX Auth user info
+    Query the info of UNIX authentication users on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: UNIX auth userTenanton device ID(Optional) 
-        name: UNIX Auth user name, supports fuzzy search(Optional) 
-        page_no: Page number, default 1(Optional) 
-        page_size: Page size, default 20(Optional) 
+        storage_id: Storage device ID (Required, 1~36 characters)
+        vstore_raw_id: ID of the tenant on the device that the UNIX authentication user belongs to(Optional)
+        name: UNIX authentication user name, supports fuzzy query(Optional)
+        page_no: Page number for paginated query, default 1(Optional)
+        page_size: Page size for paginated query, default 20(Optional)
 
     Returns:
         {
-            total: Number of users (int32),
-            unix_users: List of UNIX authenticated users (List<UnixUserInfo>). Parameter format: [{
-                id: User ID (string),
-                name: User name (string),
+            total: User count (int32),
+            unix_users: UNIX authentication user list (List<UnixUserInfo>). parameter format: [{
+                id: user ID (string),
+                name: Username (string),
                 uid: UID (int32),
             }, ...],
         }
@@ -1744,29 +1737,29 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
 def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                        name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query storage device Windows Auth user info
+    Query the info of Windows authentication users on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: Windows auth userTenanton device ID(Optional) 
-        name: Windows Auth user name, supports fuzzy search(Optional) 
-        page_no: Page number, default 1(Optional) 
-        page_size: Page size, default 20(Optional) 
+        storage_id: Storage device ID (Required, 1~36 characters)
+        vstore_raw_id: ID of the tenant on the device that the Windows authentication user belongs to(Optional)
+        name: Windows authentication user name, supports fuzzy query(Optional)
+        page_no: Page number for paginated query, default 1(Optional)
+        page_size: Page size for paginated query, default 20(Optional)
 
     Returns:
         {
-            total: Number of users (int32),
-            windows_users: List of Windows authenticated users (List<WindowsUserInfo>). Parameter format: [{
-                id: User ID (string),
-                name: User name (string),
+            total: User count (int32),
+            windows_users: Windows authentication user list (List<WindowsUserInfo>). parameter format: [{
+                id: user ID (string),
+                name: Username (string),
             }, ...],
         }
     """
@@ -1782,27 +1775,27 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
 def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                            name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query storage devicelocal Auth user group info
+    Query the info of local authentication user groups on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: local  authUser groupTenanton device ID(Optional) 
-        name: local Auth user group name, supports fuzzy search(Optional) 
-        page_no: Page number, default 1(Optional) 
-        page_size: Page size, default 20(Optional) 
+        storage_id: Storage device ID (Required, 1~36 characters)
+        vstore_raw_id: ID of the tenant on the device that the local authentication user group belongs to(Optional)
+        name: Local authentication user group name, supports fuzzy query(Optional)
+        page_no: Page number for paginated query, default 1(Optional)
+        page_size: Page size for paginated query, default 20(Optional)
 
     Returns:
         {
-            total: Number of user groups (int32),
-            local_user_groups: List of local authenticated user groups (List<LocalUserGroupInfo>). Parameter format: [{
+            total: User group count (int32),
+            local_user_groups: Local authentication user group list (List<LocalUserGroupInfo>). parameter format: [{
                 id: User group ID (string),
                 name: User group name (string),
             }, ...],
@@ -1820,27 +1813,27 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
 def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                           name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query storage device UNIX Auth user group info
+    Query the info of UNIX authentication user groups on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: UNIX  authUser groupTenanton device ID(Optional) 
-        name: UNIX Auth user group name, supports fuzzy search(Optional) 
-        page_no: Page number, default 1(Optional) 
-        page_size: Page size, default 20(Optional) 
+        storage_id: Storage device ID (Required, 1~36 characters)
+        vstore_raw_id: ID of the tenant on the device that the UNIX authentication user group belongs to(Optional)
+        name: UNIX authentication user group name, supports fuzzy query(Optional)
+        page_no: Page number for paginated query, default 1(Optional)
+        page_size: Page size for paginated query, default 20(Optional)
 
     Returns:
         {
-            total: Number of user groups (int32),
-            unix_user_groups: List of UNIX authenticated user groups (List<UnixUserGroupInfo>). Parameter format: [{
+            total: User group count (int32),
+            unix_user_groups: UNIX authentication user group list (List<UnixUserGroupInfo>). parameter format: [{
                 id: User group ID (string),
                 name: User group name (string),
                 gid: GID (int32),
@@ -1859,27 +1852,27 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
 def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
                              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query storage device Windows Auth user group info
+    Query the info of Windows authentication user groups on a specified Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36  characters) 
-        vstore_raw_id: Windows  authUser groupTenanton device ID(Optional) 
-        name: Windows Auth user group name, supports fuzzy search(Optional) 
-        page_no: Page number, default 1(Optional) 
-        page_size: Page size, default 20(Optional) 
+        storage_id: Storage device ID (Required, 1~36 characters)
+        vstore_raw_id: ID of the tenant on the device that the Windows authentication user group belongs to(Optional)
+        name: Windows authentication user group name, supports fuzzy query(Optional)
+        page_no: Page number for paginated query, default 1(Optional)
+        page_size: Page size for paginated query, default 20(Optional)
 
     Returns:
         {
-            total: Number of user groups (int32),
-            windows_user_groups: List of Windows authenticated user groups (List<WindowsUserGroupInfo>). Parameter format: [{
+            total: User group count (int32),
+            windows_user_groups: Windows authentication user group list (List<WindowsUserGroupInfo>). parameter format: [{
                 id: User group ID (string),
                 name: User group name (string),
             }, ...],
@@ -1897,7 +1890,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1913,25 +1906,37 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
              page_size: int = 10, sort_key: str = None,
              sort_dir: str = None) -> dict:
     """
-    Batch query QoS policy
+    Batch query QoS policies
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required) 
-        name: QoS  policyName (Optional,1~256  character) 
-        raw_id: QoS  policydevice side ID(Optional) 
-        enable_status: Active status(Optional, true/false) 
-        running_status: Running status(Optional, running/inactive/waiting) 
-        zone_id:  ZONE ID(Optional) 
-        resource_type_list:  Controlled resource type list(Optional, file_system/vstore/none) 
-        vstore_id: Tenant ID(Optional) 
-        vstore_name: Tenant name(Optional) 
-        alarm_status: Alarm status(Optional, normal/event/alarm/invalid) 
-        io_policy_type: IO Policy type(Optional, total_perf_upper_limit/read_or_write_upper_limit) 
-        page_no: Page number(Optional, default 1) 
-        page_size: per pagecount(Optional, default 10,  max 1000) 
-        sort_key: Sort field(Optional, name/raw_id) 
-        sort_dir: Sort method(Optional, asc/desc) 
+        storage_id: Storage device ID(Required)
+        name: QoS policy name (Optional, 1~256 characters)
+        raw_id: QoS policy device-side ID(Optional)
+        enable_status: Activation status (Optional, true/false)
+        running_status: running status (Optional, running/inactive/waiting)
+        zone_id: Zone ID(Optional)
+        resource_type_list: Controlled resource type list (Optional, file_system/vstore/none)
+        vstore_id: Tenant ID(Optional)
+        vstore_name: Tenant name(Optional)
+        alarm_status: Alarm status (Optional, normal/event/alarm/invalid)
+        io_policy_type: IO policy type (Optional, total_perf_upper_limit/read_or_write_upper_limit)
+        page_no: Page number (Optional, default 1)
+        page_size: items per page (Optional, default 10, max 1000)
+        sort_key: Sort field (Optional, name/raw_id)
+        sort_dir: Sort direction (Optional, asc/desc)
+
+    Returns:
+        {
+            total: QoS policy total (int32),
+            datas: QoS policy list (List<qosDetailResponse>). parameter format: [{
+                id: QoS policy ID (string, 1~32 characters),
+                name: QoS policy name (string, 1~31 characters),
+                description: description (string, 1~255 characters),
+                raw_id: QoS policy device-side ID (string, 1~64 characters),
+                enable_status: Activation status. valid values: true, false,
+            }, ...],
+        }
     """
     url = "/rest/storagepolicy/v1/qos/query"
 
@@ -1972,11 +1977,11 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
 
 def qos_show(client: DMEAPIClient, qos_policy_id: str) -> dict:
     """
-    Query QoS  policy details
+    Query the details of a specified QoS policy
 
     Args:
         client: DME API client
-        qos_policy_id: QoS  policy ID (Required) 
+        qos_policy_id: QoS policy ID(Required)
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}/detail"
     response = client.get(url, params={"qos_policy_id": qos_policy_id})
@@ -2003,46 +2008,46 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
                start_time: str = None, duration: int = None,
                weekly_days: list = None) -> dict:
     """
-    create  QoS  policy
+    Create a QoS policy
 
-    create a new QoS  policy, Can configure performance limits, Alarm parameters and scheduled scheduling. 
+    Create a new QoS policy, can configure performance limits, alarm parameters and scheduled scheduling.
 
     Args:
         client: DME API client
-        name: QoS Policy name (Required, 1~31  character) 
-        storage_id: Storage device ID (Required) 
-        resource_type:  Controlled resource type (Required, file_system/vstore) 
-        resource_ids:  controllerd resource ID  list (Required, array of 1-512 members) 
-        description:  description(Optional, 1~255  character) 
-        zone_id:  ZONE ID(Optional, A series storageRequired) 
-        vstore_id: Tenant ID(Optional, required when resource_type is file_system) 
-        enable_status: Active status(Optional, enable/disable, default enable) 
-        io_policy_type: IO Policy type(Optional, total_perf_upper_limit/read_or_write_upper_limit) 
-        min_bandwidth: Min bandwidth MB/s(Optional) 
-        max_bandwidth: Max bandwidth MB/s(Optional) 
-        burst_bandwidth: Burst bandwidth MB/s(Optional, must be greater than max_bandwidth) 
-        min_iops:  min IOPS(Optional) 
-        max_iops:  max IOPS(Optional) 
-        burst_iops: burst IOPS(Optional, must be greater than max_iops) 
-        burst_time:  maxburstduration seconds(Optional, 1~999999999) 
-        latency: IO  latency metric micro seconds(Optional, 500/1500) 
-        max_read_bandwidth:  maxRead bandwidth MB/s(Optional) 
-        max_write_bandwidth:  maxWrite bandwidth MB/s(Optional) 
-        burst_read_bandwidth: burstRead bandwidth MB/s(Optional) 
-        burst_write_bandwidth: burstWrite bandwidth MB/s(Optional) 
-        max_read_iops:  Max read IOPS(Optional) 
-        max_write_iops:  Max write IOPS(Optional) 
-        burst_read_iops: Burst read IOPS(Optional) 
-        burst_write_iops: Burst write IOPS(Optional) 
-        alarm_switch: alarm switch(Optional, on/off) 
-        alarm_level: Alarm severity(Optional, event/alarm) 
-        alarm_threshold: alarmthreshold%(Optional, 0~100) 
-        resume_threshold:  resumethreshold%(Optional, 0~100) 
-        schedule_policy: Scheduling policy(Optional, once/daily/weekly) 
-        schedule_start_date: Effective start date(Optional, yyyy-MM-dd) 
-        start_time: effectiveStart time(Optional, hh:mm) 
-        duration: effectiveduration seconds(Optional, 1800~86400) 
-        weekly_days: Weekly scheduling policy(Optional, [0-6]  corresponding to Sunday to Saturday) 
+        name: QoS policy name (Required, 1~31 characters)
+        storage_id: Storage device ID(Required)
+        resource_type: Controlled resource type (Required, file_system/vstore)
+        resource_ids: Controlled resource ID list (Required, array of 1~512 members)
+        description: description (Optional, 1~255 characters)
+        zone_id: Zone ID (Optional, required for A series storage)
+        vstore_id: Tenant ID (Optional, required when resource_type is file_system)
+        enable_status: Activation status (Optional, enable/disable, default enable)
+        io_policy_type: IO policy type (Optional, total_perf_upper_limit/read_or_write_upper_limit)
+        min_bandwidth: min bandwidth MB/s(Optional)
+        max_bandwidth: max bandwidth MB/s(Optional)
+        burst_bandwidth: Burst bandwidth MB/s (Optional, must be greater than max_bandwidth)
+        min_iops: Min IOPS(Optional)
+        max_iops: Max IOPS(Optional)
+        burst_iops: Burst IOPS (Optional, must be greater than max_iops)
+        burst_time: Max burst duration in seconds (Optional, 1~999999999)
+        latency: IO latency target in microseconds (Optional, 500/1500)
+        max_read_bandwidth: Max read bandwidth MB/s(Optional)
+        max_write_bandwidth: Max write bandwidth MB/s(Optional)
+        burst_read_bandwidth: Burst read bandwidth MB/s(Optional)
+        burst_write_bandwidth: Burst write bandwidth MB/s(Optional)
+        max_read_iops: Max read IOPS(Optional)
+        max_write_iops: Max write IOPS(Optional)
+        burst_read_iops: Burst read IOPS(Optional)
+        burst_write_iops: Burst write IOPS(Optional)
+        alarm_switch: Alarm switch (Optional, on/off)
+        alarm_level: severity (Optional, event/alarm)
+        alarm_threshold: Alarm threshold % (Optional, 0~100)
+        resume_threshold: Resume threshold % (Optional, 0~100)
+        schedule_policy: Schedule policy (Optional, once/daily/weekly)
+        schedule_start_date: Effective start date (Optional, yyyy-MM-dd)
+        start_time: Effective start time (Optional, hh:mm)
+        duration: Effective duration in seconds (Optional, 1800~86400)
+        weekly_days: Weekly schedule days (Optional, [0-6] for Sunday to Saturday)
     """
     url = "/rest/storagepolicy/v1/qos"
 
@@ -2144,36 +2149,36 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
                alarm_switch: str = None, alarm_level: str = None,
                alarm_threshold: int = None, resume_threshold: int = None) -> dict:
     """
-    modify  QoS  policy
+    Modify a QoS policy
 
-    Modify existing QoS policy configuration. 
+    Modify the configuration of an existing QoS policy.
 
     Args:
         client: DME API client
-        qos_policy_id: QoS  policy ID (Required) 
-        name: QoS Policy name(Optional) 
-        description:  description(Optional) 
-        io_policy_type: IO Policy type(Optional) 
-        min_bandwidth: Min bandwidth MB/s(Optional) 
-        max_bandwidth: Max bandwidth MB/s(Optional) 
-        burst_bandwidth: Burst bandwidth MB/s(Optional) 
-        min_iops:  min IOPS(Optional) 
-        max_iops:  max IOPS(Optional) 
-        burst_iops: burst IOPS(Optional) 
-        burst_time:  maxburstduration seconds(Optional) 
-        latency: IO  latency metric micro seconds(Optional) 
-        max_read_bandwidth:  maxRead bandwidth MB/s(Optional) 
-        max_write_bandwidth:  maxWrite bandwidth MB/s(Optional) 
-        burst_read_bandwidth: burstRead bandwidth MB/s(Optional) 
-        burst_write_bandwidth: burstWrite bandwidth MB/s(Optional) 
-        max_read_iops:  Max read IOPS(Optional) 
-        max_write_iops:  Max write IOPS(Optional) 
-        burst_read_iops: Burst read IOPS(Optional) 
-        burst_write_iops: Burst write IOPS(Optional) 
-        alarm_switch: alarm switch(Optional) 
-        alarm_level: Alarm severity(Optional) 
-        alarm_threshold: alarmthreshold%(Optional) 
-        resume_threshold:  resumethreshold%(Optional) 
+        qos_policy_id: QoS policy ID(Required)
+        name: QoS policy name(Optional)
+        description: description(Optional)
+        io_policy_type: IO policy type(Optional)
+        min_bandwidth: min bandwidth MB/s(Optional)
+        max_bandwidth: max bandwidth MB/s(Optional)
+        burst_bandwidth: Burst bandwidth MB/s(Optional)
+        min_iops: Min IOPS(Optional)
+        max_iops: Max IOPS(Optional)
+        burst_iops: Burst IOPS(Optional)
+        burst_time: Max burst duration in seconds(Optional)
+        latency: IO latency target in microseconds(Optional)
+        max_read_bandwidth: Max read bandwidth MB/s(Optional)
+        max_write_bandwidth: Max write bandwidth MB/s(Optional)
+        burst_read_bandwidth: Burst read bandwidth MB/s(Optional)
+        burst_write_bandwidth: Burst write bandwidth MB/s(Optional)
+        max_read_iops: Max read IOPS(Optional)
+        max_write_iops: Max write IOPS(Optional)
+        burst_read_iops: Burst read IOPS(Optional)
+        burst_write_iops: Burst write IOPS(Optional)
+        alarm_switch: Alarm switch(Optional)
+        alarm_level: severity(Optional)
+        alarm_threshold: Alarm threshold %(Optional)
+        resume_threshold: Resume threshold %(Optional)
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}"
 
@@ -2230,7 +2235,12 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         io_param['burst_write_iops'] = burst_write_iops
 
     if io_param:
-        payload['io_param'] = io_param
+        # DME API requires camelCase naming for fields inside io_param
+        import re
+        def _to_camel(snake):
+            parts = snake.split('_')
+            return parts[0] + ''.join(p.capitalize() for p in parts[1:])
+        payload['io_param'] = {_to_camel(k): v for k, v in io_param.items()}
 
     if alarm_switch is not None:
         payload['alarm_switch'] = alarm_switch
@@ -2247,13 +2257,13 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
 
 def qos_delete(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
-    delete  QoS  policy
+    Delete QoS policies
 
-    Delete one or more QoS  policy. 
+    Delete one or more QoS policies.
 
     Args:
         client: DME API client
-        qos_policy_ids: QoS  policy ID  list (Required, 1-100) 
+        qos_policy_ids: List of QoS policy IDs (Required, 1~100)
     """
     url = "/rest/storagepolicy/v1/qos/delete"
 
@@ -2267,13 +2277,13 @@ def qos_delete(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 
 def qos_activate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
-    batch activate QoS  policy
+    Batch activate QoS policies
 
-    Activate one or more QoS  policy. 
+    Activate one or more QoS policies.
 
     Args:
         client: DME API client
-        qos_policy_ids: QoS  policy ID  list (Required) 
+        qos_policy_ids: List of QoS policy IDs(Required)
     """
     url = "/rest/storagepolicy/v1/qos/active"
 
@@ -2287,13 +2297,13 @@ def qos_activate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 
 def qos_deactivate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
-    Batch deactivate QoS  policy
+    Batch deactivate QoS policies
 
-    Deactivateone or more QoS  policy. 
+    Deactivate one or more QoS policies.
 
     Args:
         client: DME API client
-        qos_policy_ids: QoS  policy ID  list (Required) 
+        qos_policy_ids: List of QoS policy IDs(Required)
     """
     url = "/rest/storagepolicy/v1/qos/inactive"
 
@@ -2308,15 +2318,15 @@ def qos_deactivate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 def qos_associate(client: DMEAPIClient, qos_policy_id: str,
                   resource_ids: list, resource_type: str) -> dict:
     """
-    QoS Associate policy with control resource
+    Associate QoS policy with controlled resources
 
-    One or more resourcesassociated with QoS  policy. 
+    Associate one or more resources with a QoS policy.
 
     Args:
         client: DME API client
-        qos_policy_id: QoS  policy ID (Required) 
-        resource_ids:  resource ID  list (Required) 
-        resource_type: Resource type (Required, file_system/vstore) 
+        qos_policy_id: QoS policy ID(Required)
+        resource_ids: List of resource IDs(Required)
+        resource_type: resource type (Required, file_system/vstore)
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}/resources/associate"
 
@@ -2325,22 +2335,22 @@ def qos_associate(client: DMEAPIClient, qos_policy_id: str,
         'resource_type': resource_type
     }
 
-    response = client.post(url, params={"qos_policy_id": qos_policy_id})
+    response = client.post(url, body=payload, params={"qos_policy_id": qos_policy_id})
     return response
 
 
 def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
                     resource_ids: list, resource_type: str) -> dict:
     """
-    QoS Disassociate policy from control resource
+    Disassociate QoS policy from controlled resources
 
-    Disassociate resource from QoS policy. 
+    Disassociate resources from a QoS policy.
 
     Args:
         client: DME API client
-        qos_policy_id: QoS  policy ID (Required) 
-        resource_ids:  resource ID  list (Required) 
-        resource_type: Resource type (Required) 
+        qos_policy_id: QoS policy ID(Required)
+        resource_ids: List of resource IDs(Required)
+        resource_type: resource type(Required)
     """
     url = "/rest/storagepolicy/v1/qos/{qos_policy_id}/resources/unassociate"
 
@@ -2349,78 +2359,78 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
         'resource_type': resource_type
     }
 
-    response = client.post(url, params={"qos_policy_id": qos_policy_id})
+    response = client.post(url, body=payload, params={"qos_policy_id": qos_policy_id})
     return response
 
 
-# ============  storageLogic port (logic_port) subtopic functions ============
+# ============ Storage Logic port (logic_port) subtopic functions ============
 
 
 def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id: str = None,
                     zone_raw_id: str = None, scope: str = None, page_no: int = 1,
                     page_size: int = 100) -> dict:
     """
-    query storage deviceLogic port list
+    Query the Logic port list of a Storage device
 
     Args:
         client: DME API client
-        storage_id: Storage device ID(Optional, 1~64 characters) 
-        vstore_raw_id: vStoreon the storage deviceid(Optional, 1~64 characters) 
-        zone_raw_id: Zoneon the deviceID(Optional, 1~64 characters) , OceanStor A800 series only
-        scope:  range(Optional). Options: hyperscale, default. OceanStor A800 series only
-        page_no: Page number(Optional, 1~10000, default 1) 
-        page_size: Page size(Optional, 1~1000, default 100) 
+        storage_id: storage device ID (Optional, 1~64 characters)
+        vstore_raw_id: vStore id on the Storage device (Optional, 1~64 characters)
+        zone_raw_id: Zone ID on the device (Optional, 1~64 characters), only supported by OceanStor A800 series storage
+        scope: Scope(Optional). valid values: hyperscale, default. Only supported by OceanStor A800 series storage
+        page_no: Page number for paginated query (Optional, 1~10000, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 100)
 
     Returns:
         {
             total: Logic port count (integer),
             logic_ports: Logic port list (List<StorageLogicPortResp>). parameter format: [{
-                id:  logicalPort ID (1~255 characters),
-                raw_id: Logic porton the storage deviceID (1~255 characters),
-                name:  logicalPort name (1~255 characters),
-                running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (pendingsume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
-                operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
+                id: Logic port ID (1~255 characters),
+                raw_id: Logic port ID on the Storage device (1~255 characters),
+                name: Logic port name (1~255 characters),
+                running_status: running status. valid values: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWN, TO_BE_RECOVERED, INITIALIZING, STANDBY, POWERING_ON, POWERED_OFF, POWER_ON_FAILED,
+                operational_status: Activation status. valid values: ACTIVATED, NOT_ACTIVATED,
                 mgmt_ip: ipv4 address (1~255 characters),
-                ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
-                ipv4_mask: Logic portIPNetmask(IPV4) (1~64 characters),
+                ipv4_gateway: Logic port gateway IP address (IPV4) (1~64 characters),
+                ipv4_mask: Logic port IP address mask (IPV4) (1~64 characters),
                 mgmt_ipv6: ipv6 address (1~255 characters),
-                ipv6_mask: Logic portIPNetmask(IPV6) (1~128 characters),
-                ipv6_gateway: Logic port gatewayIP address(IPV6) (1~128 characters),
-                home_port_raw_id: Parent porton the storage deviceID (1~255 characters),
+                ipv6_mask: Logic port IP address mask (IPV6) (1~128 characters),
+                ipv6_gateway: Logic port gateway IP address (IPV6) (1~128 characters),
+                home_port_raw_id: Parent port ID on the Storage device (1~255 characters),
                 home_port_name: Parent port name (1~255 characters),
-                home_port_type: Parent port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
-                home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
-                current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
-                current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-                role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 (replication), 6 (currently, 6 (currently meaningless), 7 (currently meaningless)), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( inter-cluster),
-                ddns_status: Dynamic DNS status. Options: INVALID, ENABLE, DISABLED,
-                failover_group_raw_id: Failover group ID on storage device (1~255 characters),
-                failover_group_name: Failover group busi failover group name (1~255 characters),
-                support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS, NFS_AND_CIFS (NFS and CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE and TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS and objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
-                logical_type:  logical type. Options: SERVICE, MANAGEMENT, MAINTENANCEaintenance port),
-                listen_dns_query_enabled:  Whether to listen for DNS queries (1~255 characters). Options: NO, YES,
+                home_port_type: Parent port type. valid values: ETHERNET_PORT (Ethernet port and RoCE port), BOND, VLAN, VIP, SIP, IB,
+                home_controller_raw_id: Main Controller ID on the Storage device (1~256 characters),
+                current_port_raw_id: Current physical port ID on the Storage device (1~255 characters),
+                current_port_name: Current physical port name (1~255 characters),
+                role: Port role (1~10 characters). valid values: 0 (unknown), 1 (management), 2 (data), 3 (management+data), 4 (replication), 6 (currently meaningless), 7 (currently meaningless), 8 (client), 9 (VTEP), 10 (health check), 11 (data backup), 12 (system management), 100 (cluster), 101 (inter-cluster),
+                ddns_status: Dynamic DNS true status. valid values: INVALID, ENABLE, DISABLED,
+                failover_group_raw_id: Failover group ID on the Storage device (1~255 characters),
+                failover_group_name: Failover group name (1~255 characters),
+                support_protocol: Data access protocol supported by Logic port. valid values: NONE (no protocol), NFS, CIFS, NFS_AND_CIFS, NFS_OVER_RDMA, iSCSI, FC/FCoE, NVME_OVER_ROCE, BGP, DATA_TURBO, DATA_TURBO_OVER_ROCE, S3, NFS_OVER_IB, DATA_TURBO_OVER_IB, DATA_TURBO_OVER_ROCE_AND_TCP, OBJECT, NAS_AND_OBJECT, KB_OVER_TCP,
+                logical_type: Logical type. valid values: SERVICE (host port/service port), MANAGEMENT, MAINTENANCE,
+                listen_dns_query_enabled: Whether to listen to DNS query requests (1~255 characters). valid values: NO (false), YES (enabled),
                 management_access: Management access method (1~255 characters),
-                vstore_raw_id: Logic port vStore ID on device (1~255 characters),
-                vstore_name: Logic portvStore name (1~255 characters),
-                storage_id: Storage device ID (1~255 characters),
-                storage_name: Storage device name (1~255 characters),
-                zone_raw_id: Zoneon the deviceID (1~255 characters), OceanStor A800 series only,
-                zone_id: Zone ID (1~64 characters), OceanStor A800 series only,
-                zone_name: zone name (1~255 characters), OceanStor A800 series only,
-                zone_ip: zone IP (1~255 characters),
-                dns_zone_name: DNS Zone name (1~255 characters),
-                current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
-                address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
-                can_failover: Enable IP address drift (boolean). Options: true, false,
-                failback_mode: Drift-back mode. Options: not_support, manual, automatic,
-                scope:  range. Options: hyperscale, default. OceanStor A800 series only,
-                logicPortTags: Associated tag set (List<Tag>). parameter format: [{
-                    id:  tag ID (1~32 characters),
-                    tag_type_name: Tag type name (1~64 characters),
-                    name: Tag name (1~128 characters),
+                vstore_raw_id: vStore id assigned on the device (1~255 characters),
+                vstore_name: vStore name (1~255 characters),
+                storage_id: storage device ID (1~255 characters),
+                storage_name: storage device name (1~255 characters),
+                zone_raw_id: Zone ID on the device (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_id: Zone ID (1~64 characters), only supported by OceanStor A800 series storage,
+                zone_name: Zone name (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_ip: Zone IP (1~255 characters),
+                dns_zone_name: DNS zone name (1~255 characters),
+                current_port_type: Physical port type. valid values: ETHERNET_PORT (Ethernet port and RoCE port), BOND, VLAN, VIP, SIP, IB,
+                address_family: IP protocol version. valid values: IPv4, IPv6,
+                can_failover: Whether to enable IP address drift (boolean). valid values: true, false,
+                failback_mode: Failback mode. valid values: not_support, manual, automatic,
+                scope: Scope. valid values: hyperscale, default. Only supported by OceanStor A800 series storage,
+                logicPortTags: Associated tag collection (List<Tag>). parameter format: [{
+                    id: Tag ID (1~32 characters),
+                    tag_type_name: tag type name (1~64 characters),
+                    name: tag name (1~128 characters),
                 }, ...],
-                manufacturer:  vendor (1~32 characters),
-                storage_model:  model (1~64 characters),
+                manufacturer: Manufacturer (1~32 characters),
+                storage_model: model (1~64 characters),
             }, ...]
         }
     """
@@ -2446,60 +2456,60 @@ def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id:
 
 def logic_port_show(client: DMEAPIClient, logic_port_id: str) -> dict:
     """
-    query storage deviceLogic port details
+    Query the Logic port details of a Storage device
 
     Args:
         client: DME API client
-        logic_port_id: Logic port ID (Required, 1~64  characters, UUID format or 32-bit hex) 
+        logic_port_id: Logic port ID (Required, 1~64 characters, UUID format or 32-bit hexadecimal)
 
     Returns:
         {
-            id:  logicalPort ID (1~255 characters),
-            raw_id: Logic porton the storage deviceID (1~255 characters),
-            name:  logicalPort name (1~255 characters),
-            running_status: Running status. Options: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWNconnected), TO_BE_RECOVERED (pendingsume), INITIALIZING (Initializing), STANDBY ( pending), POWERING_ON ( powering on), POWERED_OFF ( powered off), POWER_ON_FAILED ( power on failure),
-            operational_status: Active status. Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive),
+            id: Logic port ID (1~255 characters),
+            raw_id: Logic port ID on the Storage device (1~255 characters),
+            name: Logic port name (1~255 characters),
+            running_status: running status. valid values: UNKNOWN, NORMAL, RUNNING, LINK_UP, LINK_DOWN, TO_BE_RECOVERED, INITIALIZING, STANDBY, POWERING_ON, POWERED_OFF, POWER_ON_FAILED,
+            operational_status: Activation status. valid values: ACTIVATED, NOT_ACTIVATED,
             mgmt_ip: ipv4 address (1~255 characters),
-            ipv4_gateway: Logic port gatewayIP address(IPV4) (1~64 characters),
-            ipv4_mask: Logic portIPNetmask(IPV4) (1~64 characters),
+            ipv4_gateway: Logic port gateway IP address (IPV4) (1~64 characters),
+            ipv4_mask: Logic port IP address mask (IPV4) (1~64 characters),
             mgmt_ipv6: ipv6 address (1~255 characters),
-            ipv6_mask: Logic portIPNetmask(IPV6) (1~128 characters),
-            ipv6_gateway: Logic port gatewayIP address(IPV6) (1~128 characters),
-            home_port_raw_id: Parent porton the storage deviceID (1~255 characters),
+            ipv6_mask: Logic port IP address mask (IPV6) (1~128 characters),
+            ipv6_gateway: Logic port gateway IP address (IPV6) (1~128 characters),
+            home_port_raw_id: Parent port ID on the Storage device (1~255 characters),
             home_port_name: Parent port name (1~255 characters),
-            home_port_type: Parent port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
-            home_controller_raw_id: Storage deviceon primary controllerID (1~256 characters),
-            current_port_raw_id: Logic portCurrent physical porton the storage deviceID (1~255 characters),
-            current_port_name: Logic portcurrent physicalPort name (1~255 characters),
-            role:  port role (1~10 characters). Options: 0 (unknown), 1 (management ), 2 ( data), 3 (management + data), 4 (replication), 6 (currently, 6 (currently meaningless), 7 (currently meaningless)), 7 (currently meaningless), 8 (Client), 9 (VTEP), 10 (Health check), 11 ( data backup), 12 (System management), 100 ( cluster), 101 ( inter-cluster),
-            ddns_status: Dynamic DNS status. Options: INVALID, ENABLE, DISABLED,
-            failover_group_raw_id: Failover group ID on storage device (1~255 characters),
-            failover_group_name: Failover group busi failover group name (1~255 characters),
-            support_protocol: Logic port supported protocols. Options: NONE, NFS (NFS protocol), CIFS, NFS_AND_CIFS (NFS and CIFS protocol), NFS_OVER_RDMA (NFS over RDMA protocol), iSCSI (iSCSI protocol), FC/FCoE (FC/FCoE protocol), NVME_OVER_ROCE (NVME over ROCE protocol), BGP (BGP protocol), DATA_TURBO (DataTurbo protocol), DATA_TURBO_OVER_ROCE (DataTurbo over ROCE protocol), S3 (S3 protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over ROCE and TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS and objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol),
-            logical_type:  logical type. Options: SERVICE, MANAGEMENT, MAINTENANCEaintenance port),
-            listen_dns_query_enabled:  Whether to listen for DNS queries (1~255 characters). Options: NO, YES,
+            home_port_type: Parent port type. valid values: ETHERNET_PORT (Ethernet port and RoCE port), BOND, VLAN, VIP, SIP, IB,
+            home_controller_raw_id: Main Controller ID on the Storage device (1~256 characters),
+            current_port_raw_id: Current physical port ID on the Storage device (1~255 characters),
+            current_port_name: Current physical port name (1~255 characters),
+            role: Port role (1~10 characters). valid values: 0 (unknown), 1 (management), 2 (data), 3 (management+data), 4 (replication), 6 (currently meaningless), 7 (currently meaningless), 8 (client), 9 (VTEP), 10 (health check), 11 (data backup), 12 (system management), 100 (cluster), 101 (inter-cluster),
+            ddns_status: Dynamic DNS true status. valid values: INVALID, ENABLE, DISABLED,
+            failover_group_raw_id: Failover group ID on the Storage device (1~255 characters),
+            failover_group_name: Failover group name (1~255 characters),
+            support_protocol: Data access protocol supported by Logic port. valid values: NONE (no protocol), NFS, CIFS, NFS_AND_CIFS, NFS_OVER_RDMA, iSCSI, FC/FCoE, NVME_OVER_ROCE, BGP, DATA_TURBO, DATA_TURBO_OVER_ROCE, S3, NFS_OVER_IB, DATA_TURBO_OVER_IB, DATA_TURBO_OVER_ROCE_AND_TCP, OBJECT, NAS_AND_OBJECT, KB_OVER_TCP,
+            logical_type: Logical type. valid values: SERVICE (host port/service port), MANAGEMENT, MAINTENANCE,
+            listen_dns_query_enabled: Whether to listen to DNS query requests (1~255 characters). valid values: NO (false), YES (enabled),
             management_access: Management access method (1~255 characters),
-            vstore_raw_id: Logic port vStore ID on device (1~255 characters),
-            vstore_name: Logic portvStore name (1~255 characters),
-            storage_id: Storage device ID (1~255 characters),
-            storage_name: Storage device name (1~255 characters),
-            zone_raw_id: Zoneon the deviceID (1~255 characters), OceanStor A800 series only,
-            zone_id: Zone ID (1~64 characters), OceanStor A800 series only,
-            zone_name: zone name (1~255 characters), OceanStor A800 series only,
-            zone_ip: zone IP (1~255 characters),
-            dns_zone_name: DNS Zone name (1~255 characters),
-            current_port_type: Logic portPhysical port type. Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB),
-            address_family: IPProtocol version. Options: IPv4 (IPv4), IPv6 (IPv6),
-            can_failover: Enable IP address drift (boolean). Options: true, false,
-            failback_mode: Drift-back mode. Options: not_support, manual, automatic,
-            scope:  range. Options: hyperscale, default. OceanStor A800 series only,
-            logicPortTags: Associated tag set (List<Tag>). parameter format: [{
-                id:  tag ID (1~32 characters),
-                tag_type_name: Tag type name (1~64 characters),
-                name: Tag name (1~128 characters),
+            vstore_raw_id: vStore id assigned on the device (1~255 characters),
+            vstore_name: vStore name (1~255 characters),
+            storage_id: storage device ID (1~255 characters),
+            storage_name: storage device name (1~255 characters),
+            zone_raw_id: Zone ID on the device (1~255 characters), only supported by OceanStor A800 series storage,
+            zone_id: Zone ID (1~64 characters), only supported by OceanStor A800 series storage,
+            zone_name: Zone name (1~255 characters), only supported by OceanStor A800 series storage,
+            zone_ip: Zone IP (1~255 characters),
+            dns_zone_name: DNS zone name (1~255 characters),
+            current_port_type: Physical port type. valid values: ETHERNET_PORT (Ethernet port and RoCE port), BOND, VLAN, VIP, SIP, IB,
+            address_family: IP protocol version. valid values: IPv4, IPv6,
+            can_failover: Whether to enable IP address drift (boolean). valid values: true, false,
+            failback_mode: Failback mode. valid values: not_support, manual, automatic,
+            scope: Scope. valid values: hyperscale, default. Only supported by OceanStor A800 series storage,
+            logicPortTags: Associated tag collection (List<Tag>). parameter format: [{
+                id: Tag ID (1~32 characters),
+                tag_type_name: tag type name (1~64 characters),
+                name: tag name (1~128 characters),
             }, ...],
-            manufacturer:  vendor (1~32 characters),
-            storage_model:  model (1~64 characters),
+            manufacturer: Manufacturer (1~32 characters),
+            storage_model: model (1~64 characters),
         }
     """
     url = "/rest/storagemgmt/v1/logic-ports/{logic_port_id}"
@@ -2519,37 +2529,37 @@ def logic_port_create(client: DMEAPIClient, storage_id: str, name: str, address_
                       listen_dns_query_enabled: str = None, can_failover: bool = None,
                       failback_mode: str = None) -> dict:
     """
-    Create logic port (OceanStor A800 only) 
+    Create a Logic port on a Storage device (only supported by OceanStor A800 series storage)
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~64 characters) 
-        name: Port name (Required, 1~255 characters) . Only letters and digits allowed, "_", "-", "."and Chinese characters
-        address_family: IPProtocol version (Required). Options: IPv4 (IPv4), IPv6 (IPv6)
-        home_port_type: Parent port type (Required). Options: ETHERNET_PORT, BOND, VLAN, VIPIP), SIP (SIP), IB (IB)
-        zone_raw_id: Zoneon the deviceID (Required, 1~64 characters) , OceanStor A800 series only
-        scope:  range (Required). Options: hyperscale, default. OceanStor A800 series only. Data access protocol is KB_OVER_TCP when value only supportsfault
-        mgmt_ip: Logic portIP address(IPV4)(Optional, max64 characters, IPv4 format) 
-        ipv4_mask: Logic portIPNetmask(IPV4)(Optional, max64 characters) 
-        ipv4_gateway: Logic port gatewayIP address(IPV4)(Optional, max64 characters) 
-        mgmt_ipv6: Logic portIP address(IPV6)(Optional, max128 characters) 
-        ipv6_mask: Logic portIPNetmask(IPV6)(Optional, max128 characters) 
-        ipv6_gateway: Logic port gatewayIP address(IPV6)(Optional, max128 characters) 
-        home_port_raw_id: Parent porton the storage deviceID(Optional, 1~64 characters) 
-        support_protocol: Logic port supported protocols(Optional). Options: NFS (NFS protocol), DATA_TURBO_OVER_ROCE (DataTurbo over RoCE protocol), NFS_OVER_RDMA (NFS over RDMA protocol), NFS_OVER_IB (NFS over IB protocol), DATA_TURBO_OVER_IB (DataTurbo over IB protocol), DATA_TURBO_OVER_ROCE_AND_TCP (DataTurbo over RoCE and TCP protocol), OBJECT (S3 protocol), NAS_AND_OBJECT (NAS and objectStorage protocol), KB_OVER_TCP (KnowledgeBase over TCP protocol). when role is CLIENT, do not send this field
-        operational_status: Active status(Optional). Options: ACTIVATED ( activate), NOT_ACTIVATED (inactive)
-        home_controller_id: ControllerID(Optional, 1~64 characters) . when role is HEALTH_CHECK, this field is required
-        failover_group_raw_id: Failover group ID on storage device(Optional, max64 characters) . when data access protocol is KB_OVER_TCP, this field is required
-        vstore_raw_id: Logic port vStore ID on device(Optional, max64 characters) . when role is CLIENT, do not send this field
-        role: Logic port role(Optional, default DATA). Options: MANAGEMENT (management ), DATA ( data), VTEP (VTEP), HEALTH_CHECK (Health check), MANAGEMENT_AND_DATA (management + data), CLIENT (Client)
-        dns_zone_name: DNS zone name (Optional, max255 characters) . when role is CLIENT or data access protocol is KB_OVER_TCP, do not send this field
-        listen_dns_query_enabled:  Whether to listen for DNS queries(Optional,  regex: NO|YES). Options: NO, YES. when role is CLIENT or data access protocol is KB_OVER_TCP, do not send this field
-        can_failover: Enable IP address drift(Optional, boolean). Options: true, false. when data access protocol is KB_OVER_TCP, do not send this field
-        failback_mode: Drift-back mode(Optional). Options: not_support, manual, automatic. when data access protocol is KB_OVER_TCP, do not send this field
+        storage_id: storage device ID (Required, 1~64 characters)
+        name: Port name (Required, 1~255 characters). Only allows letters, digits, "_", "-", "." and Chinese characters
+        address_family: IP protocol version(Required). valid values: IPv4, IPv6
+        home_port_type: Parent port type(Required). valid values: ETHERNET_PORT (Ethernet port and RoCE port), BOND, VLAN, VIP, SIP, IB
+        zone_raw_id: Zone ID on the device (Required, 1~64 characters), only supported by OceanStor A800 series storage
+        scope: Scope(Required). valid values: hyperscale, default. Only supported by OceanStor A800 series storage. When data access protocol is KB_OVER_TCP, only default is supported
+        mgmt_ip: Logic port IP address (IPV4) (Optional, up to 64 characters, IPv4 format)
+        ipv4_mask: Logic port IP address mask (IPV4) (Optional, up to 64 characters)
+        ipv4_gateway: Logic port gateway IP address (IPV4) (Optional, up to 64 characters)
+        mgmt_ipv6: Logic port IP address (IPV6) (Optional, up to 128 characters)
+        ipv6_mask: Logic port IP address mask (IPV6) (Optional, up to 128 characters)
+        ipv6_gateway: Logic port gateway IP address (IPV6) (Optional, up to 128 characters)
+        home_port_raw_id: Parent port ID on the Storage device (Optional, 1~64 characters)
+        support_protocol: Data access protocol supported by Logic port(Optional). valid values: NFS, DATA_TURBO_OVER_ROCE, NFS_OVER_RDMA, NFS_OVER_IB, DATA_TURBO_OVER_IB, DATA_TURBO_OVER_ROCE_AND_TCP, OBJECT, NAS_AND_OBJECT, KB_OVER_TCP. When role is CLIENT, this field cannot be provided
+        operational_status: Activation status(Optional). valid values: ACTIVATED, NOT_ACTIVATED
+        home_controller_id: Controller ID (Optional, 1~64 characters). When role is HEALTH_CHECK, this field must be configured
+        failover_group_raw_id: Failover group ID on the Storage device (Optional, up to 64 characters). When data access protocol is KB_OVER_TCP, this field must be configured
+        vstore_raw_id: vStore id assigned on the device (Optional, up to 64 characters). When role is CLIENT, this field cannot be provided
+        role: Logic port role (Optional, default DATA). valid values: MANAGEMENT, DATA, VTEP, HEALTH_CHECK, MANAGEMENT_AND_DATA, CLIENT
+        dns_zone_name: DNS zone name (Optional, up to 255 characters). When role is CLIENT or data access protocol is KB_OVER_TCP, this field cannot be provided
+        listen_dns_query_enabled: Whether to listen for DNS query requests (Optional, pattern NO|YES). valid values: NO (false), YES (enabled). When role is CLIENT or data access protocol is KB_OVER_TCP, this field cannot be provided
+        can_failover: Whether to enable IP address drift (Optional, boolean). valid values: true, false. When data access protocol is KB_OVER_TCP, this field cannot be provided
+        failback_mode: Failback mode(Optional). valid values: not_support, manual, automatic. When data access protocol is KB_OVER_TCP, this field cannot be provided
 
     Returns:
         {
-            task_id: task Id (1~64 characters),
+            task_id: Task Id (1~64 characters),
         }
     """
     url = "/rest/storagemgmt/v1/logic-ports"
@@ -2611,31 +2621,31 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
                       dns_zone_name: str = None, listen_dns_query_enabled: str = None,
                       can_failover: bool = None, failback_mode: str = None) -> dict:
     """
-    Modify logic port (OceanStor A800 only) 
+    Modify a Logic port on a Storage device (only supported by OceanStor A800 series storage)
 
     Args:
         client: DME API client
-        logic_port_id: Logic port ID (Required, 1~128  characters) 
-        name: Port name(Optional) 
-        address_family: IP Protocol version(Optional) 
-        mgmt_ip: Logic port IP  address (IPV4)(Optional) 
-        ipv4_mask: Logic port IP Netmask (IPV4)(Optional) 
-        ipv4_gateway: Logic port gateway IP  address (IPV4)(Optional) 
-        mgmt_ipv6: Logic port IP  address (IPV6)(Optional) 
-        ipv6_mask: Logic port IP Netmask (IPV6)(Optional) 
-        ipv6_gateway: Logic port gateway IP  address (IPV6)(Optional) 
-        home_port_raw_id: Parent porton the storage device ID(Optional) 
-        home_port_type: Parent port type(Optional) 
-        operational_status: Active status(Optional) 
-        failover_group_raw_id: Failover group busi failover groupon the storage device ID(Optional) 
-        dns_zone_name: DNS Zone  name(Optional) 
-        listen_dns_query_enabled:  whether listen DNS Query request(Optional) 
-        can_failover: Enable IP Address drift(Optional) 
-        failback_mode: Drift-back mode(Optional) 
+        logic_port_id: Logic port ID (Required, 1~128 characters)
+        name: Port name(Optional)
+        address_family: IP protocol version(Optional)
+        mgmt_ip: Logic port IP address (IPV4)(Optional)
+        ipv4_mask: Logic port IP address mask (IPV4)(Optional)
+        ipv4_gateway: Logic port gateway IP address (IPV4)(Optional)
+        mgmt_ipv6: Logic port IP address (IPV6)(Optional)
+        ipv6_mask: Logic port IP address mask (IPV6)(Optional)
+        ipv6_gateway: Logic port gateway IP address (IPV6)(Optional)
+        home_port_raw_id: Parent port ID on the Storage device(Optional)
+        home_port_type: Parent port type(Optional)
+        operational_status: Activation status(Optional)
+        failover_group_raw_id: Failover group ID on the Storage device(Optional)
+        dns_zone_name: DNS zone name(Optional)
+        listen_dns_query_enabled: Whether to listen for DNS query requests(Optional)
+        can_failover: Whether to enable IP address drift(Optional)
+        failback_mode: Failback mode(Optional)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/storagemgmt/v1/logic-ports/{logic_port_id}"
@@ -2690,15 +2700,15 @@ def logic_port_update(client: DMEAPIClient, logic_port_id: str,
 
 def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Delete logic port (OceanStor A800 only) 
+    Delete Logic ports from a Storage device (only supported by OceanStor A800 series storage)
 
     Args:
         client: DME API client
-        ids: Logic port ID  list (Required, 1-1000 IDs) 
+        ids: List of Logic port IDs (Required, 1~1000 IDs)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/storagemgmt/v1/logic-ports/delete"
@@ -2713,15 +2723,15 @@ def logic_port_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
     """
-    Failback logic port (OceanStor A800 only) 
+    Failback a Logic port on a Storage device (only supported by OceanStor A800 series storage)
 
     Args:
         client: DME API client
-        id: Logic port ID (Required, 1~64  characters) 
+        id: Logic port ID (Required, 1~64 characters)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/storagemgmt/v1/logic-ports/failback"
@@ -2742,24 +2752,24 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
               port_name: str = None, zone_id: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-     Query storage device port info,  supports ETH, FC, IB, Bond, SAS types
+    Query Storage device port info, supports ETH, FC, IB, Bond, SAS five types
 
     Args:
         client: DME API client
-        storage_id: Storage device ID(Optional, 1~36  characters) 
-        port_type: Port type(Optional, eth/fc/ib/bond/sas, returns all types if not specified) 
-        location: location(Optional, ETH port only, 1~255  characters) 
-        ipv4: IPv4  address(Optional, ETH port only, 1~255  characters) 
-        ipv6: IPv6  address(Optional, ETH port only, 1~255  characters) 
-        port_name: Port name(Optional, ETH port only, 1~255  characters) 
-        zone_id: Storage device zone ID(Optional, Bond port only, 1~36  characters) 
-        page_no: Page number(Optional, FC/SAS port support, 1~10000, default 1) 
-        page_size: per pagecount(Optional, FC/SAS port support, 1~1000, default 20) 
+        storage_id: Storage device ID (Optional, 1~36 characters)
+        port_type: Port type (Optional, eth/fc/ib/bond/sas, returns all types if not specified)
+        location: location (Optional, only supported by ETH ports, 1~255 characters)
+        ipv4: IPv4 address (Optional, only supported by ETH ports, 1~255 characters)
+        ipv6: IPv6 address (Optional, only supported by ETH ports, 1~255 characters)
+        port_name: Port name (Optional, only supported by ETH ports, 1~255 characters)
+        zone_id: storage device zone ID (Optional, only supported by Bond ports, 1~36 characters)
+        page_no: Page number for paginated query (Optional, supported by FC/SAS ports, 1~10000, default 1)
+        page_size: items per page (Optional, supported by FC/SAS ports, 1~1000, default 20)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes port list
+            task_id: task ID (string, 1~64 characters),
+        }
     """
     if port_type is not None and port_type.lower() == 'eth':
         # ETH port query
@@ -2816,14 +2826,14 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         response = client.post(url, body=payload)
         return response
     else:
-        # Returns all port types (ETH + FC + IB + SAS) 
+        # Return all types of ports (ETH + FC + IB + SAS)
         all_eth_ports = []
         all_fc_ports = []
         all_ib_ports = []
         all_sas_ports = []
         total_count = 0
 
-        #  query ETH  port
+        # Query ETH ports
         eth_url = "/rest/storagemgmt/v1/storages/eth-ports/query"
         eth_payload = {}
         if storage_id is not None:
@@ -2837,12 +2847,12 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         if port_name is not None:
             eth_payload['port_name'] = port_name
         eth_response = client.post(eth_url, body=eth_payload)
-        # ETH  port API Return structure: {'total': N, 'eth_ports': [...]}
+        # ETH port API returns structure: {'total': N, 'eth_ports': [...]}
         if 'eth_ports' in eth_response:
             all_eth_ports = eth_response.get('eth_ports', [])
             total_count += len(all_eth_ports)
 
-        #  query FC  port
+        # Query FC port
         fc_url = "/rest/storagemgmt/v1/frontend-ports/fc-ports/query"
         fc_payload = {
             'page_no': page_no,
@@ -2851,23 +2861,23 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         if storage_id is not None:
             fc_payload['storage_id'] = storage_id
         fc_response = client.post(fc_url, body=fc_payload)
-        # FC  port API Return structure: {'total': N, 'ports': [...]}
+        # FC port API returns structure: {'total': N, 'ports': [...]}
         if 'ports' in fc_response:
             all_fc_ports = fc_response.get('ports', [])
             total_count += len(all_fc_ports)
 
-        #  query IB  port
+        # Query IB ports
         ib_url = "/rest/storagemgmt/v1/storages/ib-ports/query"
         ib_payload = {}
         if storage_id is not None:
             ib_payload['storage_id'] = storage_id
         ib_response = client.post(ib_url, body=ib_payload)
-        # IB  port API Return structure: {'ib_ports': [...]}
+        # IB port API returns structure: {'ib_ports': [...]}
         if 'ib_ports' in ib_response:
             all_ib_ports = ib_response.get('ib_ports', [])
             total_count += len(all_ib_ports)
 
-        #  query SAS  port
+        # Query SAS ports
         sas_url = "/rest/storagemgmt/v1/backend-ports/sas-ports/query"
         sas_payload = {
             'page_no': page_no,
@@ -2876,7 +2886,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         if storage_id is not None:
             sas_payload['storage_id'] = storage_id
         sas_response = client.post(sas_url, body=sas_payload)
-        # SAS  port API Return structure: {'total': N, 'ports': [...]}
+        # SAS port API returns structure: {'total': N, 'ports': [...]}
         if 'ports' in sas_response:
             all_sas_ports = sas_response.get('ports', [])
             total_count += len(all_sas_ports)
@@ -2892,16 +2902,16 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
 
 def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     """
-    QueryBound port member list info
+    Query the member list info of a specified bond port
 
     Args:
         client: DME API client
-        bond_port_id:  bind port id (Required, 1~64  characters) 
+        bond_port_id: Bond port id (Required, 1~64 characters)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and eth_ports  field
+            task_id: task ID (string, 1~64 characters),
+        }, includes total and eth_ports fields
     """
     url = "/rest/storagemgmt/v1/bond-ports/{bond_port_id}/eth-ports"
 
@@ -2909,28 +2919,28 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     return response
 
 
-# ============  storagePort group (port_group) subtopic functions ============
+# ============ Storage port group (port_group) subtopic functions ============
 
 
-# ============  storage VLAN subtopic functions ============
+# ============ Storage VLAN subtopic functions ============
 
 
 def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
               page_no: int = 1, page_size: int = 100) -> dict:
     """
-    Batch query VLAN  list
+    Batch query VLAN list
 
     Args:
         client: DME API client
-        name: VLAN  name (supports fuzzy search) 
+        name: VLAN name (supports fuzzy query)
         storage_id: Storage device ID
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 100
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 100
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes  VLAN  list
+            task_id: task ID (string, 1~64 characters),
+        }, includes VLAN list
     """
     url = "/rest/vlanmgmt/v1/vlans/query"
 
@@ -2951,21 +2961,21 @@ def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
 def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
                 storage_id: str, description: str = None) -> dict:
     """
-    create  VLAN
+    Create a VLAN
 
-     note: only supports OceanStor A800, A600 series storage. 
+    Note: Only supported by OceanStor A800, A600 series storage.
 
     Args:
         client: DME API client
-        name: VLAN  name (Required) 
-        vlan_id: VLAN ID (Required, 1~4094) 
-        storage_id: Storage device ID (Required) 
-        description: VLAN  description(Optional) 
+        name: VLAN name(Required)
+        vlan_id: VLAN ID (Required, 1~4094)
+        storage_id: Storage device ID(Required)
+        description: VLAN description(Optional)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes newly created VLAN ID
+            task_id: task ID (string, 1~64 characters),
+        }, includes the newly created VLAN ID
     """
     url = "/rest/vlanmgmt/v1/vlans"
 
@@ -2978,15 +2988,15 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
     if description is not None:
         body_params['description'] = description
 
-    response = client.post(url, data=body_params)
+    response = client.post(url, body=body_params)
     return response
 
 
 def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
     """
-    delete  VLAN
+    Delete a VLAN
 
-     note: only supports OceanStor A800, A600 series storage. 
+    Note: Only supported by OceanStor A800, A600 series storage.
 
     Args:
         client: DME API client
@@ -2994,7 +3004,7 @@ def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/vlanmgmt/v1/vlans/{vlan_id}"
@@ -3006,19 +3016,19 @@ def vlan_delete(client: DMEAPIClient, vlan_id: str) -> dict:
 def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
                 description: str = None) -> dict:
     """
-    modify  VLAN
+    Modify a VLAN
 
-     note: only supports OceanStor A800, A600 series storage. 
+    Note: Only supported by OceanStor A800, A600 series storage.
 
     Args:
         client: DME API client
         vlan_id: VLAN ID
-        name: VLAN  name(Optional) 
-        description: VLAN  description(Optional) 
+        name: VLAN name(Optional)
+        description: VLAN description(Optional)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/vlanmgmt/v1/vlans/{vlan_id}"
@@ -3029,11 +3039,11 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     if description is not None:
         body_params['description'] = description
 
-    response = client.put(url, params={"vlan_id": vlan_id})
+    response = client.put(url, body=body_params, params={"vlan_id": vlan_id})
     return response
 
 
-# ============  storageFailover group busi failover group (failover_group) subtopic functions ============
+# ============ Storage failover group (failover_group) subtopic functions ============
 
 
 def failover_group_list(client: DMEAPIClient, storage_id: str,
@@ -3041,27 +3051,27 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
                         zone_id: str = None,
                         failover_group_service_type: list = None) -> dict:
     """
-     query failover group busi failover group list
+    Query failover group list
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$) 
-        failover_group_type: Failover group busi failover group type(Optional). Options: system, VLAN, customized
-        zone_id: Zone ID(Optional, 1~255 characters) , OceanStor A800 series only
-        failover_group_service_type: Failover group business type list(Optional, List<string>, max array members: 10). Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group)
+        storage_id: storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        failover_group_type: Failover group type(Optional). valid values: system, VLAN, customized
+        zone_id: Zone ID (Optional, 1~255 characters), only supported by OceanStor A800 series storage
+        failover_group_service_type: Failover group service type list (Optional, List<string>, max array members: 10). valid values: NAS (for failover groups associated with NFS, CIFS, NFS and OBJECT protocol type Logic ports), BGP (for failover groups associated with VIP type Logic ports), RDMA (for failover groups associated with NFS over RDMA, NFS, OBJECT protocol Logic ports), IB (for failover groups associated with NAS over IB protocol type Logic ports), KB (for failover groups associated with KnowledgeBase over TCP protocol type Logic ports)
 
     Returns:
         {
-            total: Failover group busi failover groupcount (int32),
-            failover_groups: Failover group busi failover group list (List<Failover group business typeloverGroupResp>). parameter format: [{
-                id: Failover group busi failover groupid (1~64 characters),
-                name: Failover group busi failover group name (1~64 characters),
-                failover_group_type: Failover group busi failover group type (1~255 characters). Options: system, VLAN, customized,
-                raw_id: Failover group ID on storage device (1~255 characters),
-                zone_name: Zone name (1~255 characters), OceanStor A800 series only,
-                zone_raw_id: Zone ID assigned on storage device (1~255 characters), OceanStor A800 series only,
-                zone_id: Storage device zone ID (1~255 characters), OceanStor A800 series only,
-                failover_group_service_type: Failover group business type. Options: NAS, BGP (used toassociate VIP typeLogic port failover group), RDMA (used to associateNFS over RDMA, NFS, OBJECT protocolLogic port failover group), IB (used to associate NAS over IBProtocol typeLogic port failover group), KB (used to associate KnowledgeBase over TCPProtocol typeLogic port failover group),
+            total: Failover group count (int32),
+            failover_groups: Failover group list (List<FailoverGroupResp>). parameter format: [{
+                id: Failover group id (1~64 characters),
+                name: Failover group name (1~64 characters),
+                failover_group_type: Failover group type (1~255 characters). valid values: system, VLAN, customized,
+                raw_id: Failover group ID on the Storage device (1~255 characters),
+                zone_name: Zone name (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_raw_id: Zone ID assigned on the Storage device (1~255 characters), only supported by OceanStor A800 series storage,
+                zone_id: storage device zone ID (1~255 characters), only supported by OceanStor A800 series storage,
+                failover_group_service_type: Failover group service type. valid values: NAS (for failover groups associated with NFS, CIFS, NFS and OBJECT protocol type Logic ports), BGP (for failover groups associated with VIP type Logic ports), RDMA (for failover groups associated with NFS over RDMA, NFS, OBJECT protocol Logic ports), IB (for failover groups associated with NAS over IB protocol type Logic ports), KB (for failover groups associated with KnowledgeBase over TCP protocol type Logic ports),
             }, ...]
         }
     """
@@ -3085,17 +3095,17 @@ def failover_group_list(client: DMEAPIClient, storage_id: str,
 def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
                                port_type: str = None) -> dict:
     """
-     Query failover group under port ( supports bond, eth, ib types) 
+    Query ports under a failover group (supports bond, eth, ib three types)
 
     Args:
         client: DME API client
-        failover_group_id: Failover group busi failover group id (Required, 1~64  characters) 
-        port_type: Port type(Optional, bond/eth/ib, returns all types if not specified) 
+        failover_group_id: Failover group id (Required, 1~64 characters)
+        port_type: Port type (Optional, bond/eth/ib, returns all types if not specified)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        },  consistent structure: {"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
+            task_id: task ID (string, 1~64 characters),
+        }, consistent structure: {"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
     """
     import concurrent.futures
 
@@ -3112,7 +3122,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
         return (ptype, resp)
 
     if port_type is None:
-        # type not specified, Returns all three port types,  flat structure
+        # No type specified, return all three types of ports in a flattened structure
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             futures = [executor.submit(query_port_type, 'bond'),
                       executor.submit(query_port_type, 'eth'),
@@ -3139,16 +3149,16 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
 
 def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> dict:
     """
-     query failover group busi failover group under VLAN
+    Query VLANs under a failover group
 
     Args:
         client: DME API client
-        failover_group_id: Failover group busi failover group id (Required, 1~64  characters) 
+        failover_group_id: Failover group id (Required, 1~64 characters)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes  vlans  field
+            task_id: task ID (string, 1~64 characters),
+        }, includes vlans field
     """
     url = "/rest/storagemgmt/v1/failover-groups/{failover_group_id}/vlans"
 
@@ -3156,49 +3166,49 @@ def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> d
     return response
 
 
-# ============ Zone (OceanStor A800  cluster zone) subtopic functions ============
+# ============ zone (OceanStor A800 cluster zone) subtopic functions ============
 
 
 def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
               status: list = None, sync_status: list = None,
               sn: str = None, storage_ids: list = None) -> dict:
     """
-     Query zone info in OceanStor A800 cluster
+    Query zone info in an OceanStor A800 cluster
 
     Args:
         client: DME API client
-        name: zoneName (Optional,1~256 characters) , exact match
-        ip: zone ip addressName (Optional,1~256 characters) , exact match
-        status: Zone status list(Optional, List<string>, max array members: 6). Options: OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL, UNKNOWN
-        sync_status: Zone sync status list(Optional, List<string>, max array members: 5). Options: UNSYNC, SYNC, NORMAL, FAILED (Sync failure), UNKNOWN
-        sn: ZoneSerial number(Optional, 1~128 characters) , exact match
-        storage_ids: OceanStor A800 clusterid list(Optional, List<string>, max array members: 100,  min membercount: 1) , exact match
+        name: zone name (Optional, 1~256 characters), exact query
+        ip: zone ip address name (Optional, 1~256 characters), exact query
+        status: zone status list (Optional, List<string>, max array members: 6). valid values: OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL, UNKNOWN
+        sync_status: zone sync status list (Optional, List<string>, max array members: 5). valid values: UNSYNC, SYNC, NORMAL, FAILED, UNKNOWN
+        sn: zone serial number (Optional, 1~128 characters), exact query
+        storage_ids: OceanStor A800 cluster id list (Optional, List<string>, max array members: 100, min members: 1), exact query
 
     Returns:
         {
-            total: ZoneTotal count (int32),
-            datas: Zone list (List<OceanStorA800ZoneInfo>). parameter format: [{
-                id: Zone CMDB ID (1~64 characters),
+            total: zone total (int32),
+            datas: zone list (List<OceanStorA800 zone info>). parameter format: [{
+                id: zone ID in CMDB (1~64 characters),
                 native_id: native id (1~64 characters),
-                name: Zone name (1~128 characters),
-                ip: Zone IP address (1~32 characters),
-                status:  status (1~32 characters). Options: OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL,
-                sync_status: Sync status (1~32 characters). Options: UNSYNC, SYNC, NORMAL, FAILED (Sync failure),
-                sn: ZoneDevice serial number (1~64 characters),
-                wwn: Zone device WWN (1~32 characters),
-                vendor: Zone vendor (1~32 characters),
-                model: ZoneProduct model (1~64 characters),
-                owning_ne_type: Storage device NE type. Options: dorado, OceanStor A800,
-                location: Zonelocation info (0~512 characters),
-                version: Version info (0~64 characters),
+                name: zone name (1~128 characters),
+                ip: zone IP address (1~32 characters),
+                status: status (1~32 characters). valid values: OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL,
+                sync_status: Sync status (1~32 characters). valid values: UNSYNC, SYNC, NORMAL, FAILED,
+                sn: zone device serial number (1~64 characters),
+                wwn: zone device WWN (1~32 characters),
+                vendor: zone vendor (1~32 characters),
+                model: zone product model (1~64 characters),
+                owning_ne_type: Storage device network element type. valid values: dorado (dorado series storage), OceanStor A800,
+                location: zone location info (0~512 characters),
+                version: version info (0~64 characters),
                 patch_version: Patch version info (0~64 characters),
-                add_time: Device access time (0~32 characters), UTCTimestamp ( precise to ms seconds) ,
-                last_sync_time:  lastSync time (0~32 characters), UTCTimestamp ( precise to ms seconds) ,
+                add_time: Device access time (0~32 characters), UTC timestamp (milliseconds),
+                last_sync_time: Last sync time (0~32 characters), UTC timestamp (milliseconds),
                 sync_process: Sync progress (int32),
-                alarm_num: alarmcount (number),
-                parent_id:  clusterid,
+                alarm_num: Alarm count (number),
+                parent_id: cluster id,
                 zone_raw_id: zone raw id,
-                is_core_zone: Whether it is the core controller nodezone (boolean). Options: true, false,
+                is_core_zone: Whether it is the zone where the core control node is located (boolean). valid values: true, false,
             }, ...]
         }
     """
@@ -3223,12 +3233,12 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
     return response
 
 
-# Action list for CLI help
-#  format: action_key: {func, description, params, subtopic}
-# subtopic Indicates which subtopic the action belongs to, None = direct action
+# action list, for CLI help
+# format: action_key: {func, description, params, subtopic}
+# subtopic indicates which subtopic the action belongs to, None means direct action
 
 ACTIONS = {
-    # Direct action (Two-level structure: <topic> <action>) 
+    # Direct actions (two-level structure: <topic> <action>)
     'list': {
         'func': list,
         'description': 'Batch query storage devices',
@@ -3237,19 +3247,19 @@ ACTIONS = {
     },
     'show': {
         'func': show,
-        'description': 'Query storage device',
+        'description': 'Query the specified storage device',
         'params': ['storage_id'],
         'subtopic': None
     },
     'add': {
         'func': add,
-        'description': 'Add storage device (offline info entry only) ',
+        'description': 'Add a storage device (only supports recording offline storage device info)',
         'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenance_start', 'maintenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
         'subtopic': None
     },
     'remove': {
         'func': remove,
-        'description': 'batch remove storage device',
+        'description': 'Batch remove storage devices',
         'params': ['storage_ids'],
         'subtopic': None
     },
@@ -3261,51 +3271,51 @@ ACTIONS = {
     },
     'modify': {
         'func': modify,
-        'description': 'Modify storage device (only suppsupports modify recorded offline storage device info) ',
+        'description': 'Modify a storage device (only supports modifying recorded offline storage device info)',
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
         'subtopic': None
     },
-    # subtopic actions (Three-level structure: <topic> <subtopic> <action>) 
+    # subtopic action (three-level structure: <topic> <subtopic> <action>)
     'bbu_list': {
         'func': bbu_list,
-        'description': 'query storage device BBU info list',
+        'description': 'Query the BBU info list of a storage device',
         'params': ['storage_id', 'health_status', 'running_status', 'enclosure_name',
                    'location', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'bbu'
     },
     'get_passphrase': {
         'func': get_passphrase,
-        'description': 'get storage device access token',
+        'description': 'Get the access token for a storage device',
         'params': ['storage_id'],
     },
     'fan_list': {
         'func': fan_list,
-        'description': 'query storage devicefan info',
+        'description': 'Query the fan info of a storage device',
         'params': ['storage_id', 'health_status', 'running_status', 'run_level',
                    'enclosure_name', 'location', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'disk_list': {
         'func': disk_list,
-        'description': 'query storage devicedisk info list',
+        'description': 'Query the disk info list of a storage device',
         'params': ['storage_id'],
         'subtopic': 'disk'
     },
     'pool_list': {
         'func': pool_list,
-        'description': ' query storage devicestorage pool list',
+        'description': 'Query the storage pool list of a storage device',
         'params': ['storage_id', 'raw_id', 'zone_id', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'pool'
     },
     'hyperscale_pool_list': {
         'func': hyperscale_pool_list,
-        'description': ' query HyperScale storage pool list',
+        'description': 'Query the HyperScale storage pool list',
         'params': ['raw_id', 'name', 'local_pool_id', 'health_status', 'running_status', 'storage_id', 'description', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'hyperscale_pool'
     },
     'node_list': {
         'func': node_list,
-        'description': 'query storage devicenode list',
+        'description': 'Query the node list of a storage device',
         'params': ['storage_id', 'raw_id', 'storage_name', 'name', 'ids',
                    'mgmt_ip', 'frame_number', 'slot_number', 'status', 'roles',
                    'page_no', 'page_size', 'sort_key', 'sort_dir'],
@@ -3313,7 +3323,7 @@ ACTIONS = {
     },
     'psu_list': {
         'func': psu_list,
-        'description': 'get storage devicepower supply (PSU) list',
+        'description': 'Get the power supply (PSU) list of a storage device',
         'params': ['storage_id', 'health_status', 'running_status', 'power_type',
                    'power_mode', 'location', 'model', 'sn', 'enclosure_name',
                    'zone_id', 'page_no', 'page_size'],
@@ -3321,36 +3331,36 @@ ACTIONS = {
     },
     'query_power_data': {
         'func': query_power_data,
-        'description': ' Query storage device power data',
+        'description': 'Query storage device power data',
         'params': ['start_time', 'end_time', 'storage_ids', 'time_granularity'],
     },
     'app_type_list': {
         'func': app_type_list,
-        'description': 'Query storage device application type',
+        'description': 'Query the application types of a specified storage device',
         'params': ['storage_id'],
         'subtopic': 'app_type'
     },
     'controller_list': {
         'func': controller_list,
-        'description': 'Query storage devicecontroller info',
+        'description': 'Query the controller info of a specified storage device',
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
     'disk_domain_list': {
         'func': disk_domain_list,
-        'description': 'Batch query disk pools',
+        'description': 'Batch query disk domains',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_domain'
     },
     'disk_pool_list': {
         'func': disk_pool_list,
-        'description': 'Batch query distributed storage device disk pools',
+        'description': 'Batch query disk pools of distributed storage devices',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_pool'
     },
     'enclosure_list': {
         'func': enclosure_list,
-        'description': 'Batch query enclosures info',
+        'description': 'Batch query enclosure info',
         'params': ['page_no', 'page_size', 'storage_id', 'name', 'location',
                    'health_status', 'zone_name', 'zone_id', 'running_status',
                    'power_mode', 'esn', 'mac', 'sort_key', 'sort_dir'],
@@ -3370,25 +3380,25 @@ ACTIONS = {
     },
     'vstore_create': {
         'func': vstore_create,
-        'description': 'Create tenant',
+        'description': 'Create a tenant',
         'params': ['name', 'storage_id', 'san_capacity_quota', 'nas_capacity_quota', 'description', 'nas_capacity_quota_alarm_switch', 'nas_capacity_quota_alarm_threshold', 'associate_pool_ids'],
         'subtopic': 'vstore'
     },
     'vstore_modify': {
         'func': vstore_modify,
-        'description': 'Modify tenant',
+        'description': 'Modify the specified tenant',
         'params': ['vstore_id', 'name', 'san_capacity_quota', 'nas_capacity_quota', 'description', 'nas_capacity_quota_alarm_switch', 'nas_capacity_quota_alarm_threshold'],
         'subtopic': 'vstore'
     },
     'vstore_delete': {
         'func': vstore_delete,
-        'description': 'Batch delete tenant',
+        'description': 'Batch delete tenants',
         'params': ['vstore_ids'],
         'subtopic': 'vstore'
     },
     'initiator_list': {
         'func': initiator_list,
-        'description': 'Batch query storage initiator objects',
+        'description': 'Batch query storage-side initiator objects',
         'params': ['page_size', 'page_no', 'raw_id', 'alias', 'status',
                    'associated_host_name', 'associated_host_id', 'multipath_type',
                    'protocol', 'support_provisioning', 'vstore_raw_id',
@@ -3397,75 +3407,75 @@ ACTIONS = {
     },
     'initiator_delete': {
         'func': initiator_delete,
-        'description': 'Batch delete storage device initiator objects',
+        'description': 'Batch delete initiator objects from a storage device',
         'params': ['initiator_ids', 'task_remarks'],
         'subtopic': 'initiator'
     },
     'initiator_modify': {
         'func': initiator_modify,
-        'description': 'modify  storage initiatorobject',
+        'description': 'Modify the storage-side initiator object',
         'params': ['initiator_id', 'vstore_id', 'alias', 'multi_path'],
         'subtopic': 'initiator'
     },
-    # account subtopic actions (auth user) 
+    # account subtopic action (authentication users)
     'account_show_local_users': {
         'func': account_show_local_users,
-        'description': 'Query storage devicelocal Auth user info',
+        'description': 'Query the info of local authentication users on a specified storage device',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_create_local_user': {
         'func': account_create_local_user,
-        'description': 'Create local auth user',
-        'params': ['storage_id', 'name', 'password', 'primary_group_raw_id', 'description', 'group_names', 'vstore_id'],
+        'description': 'Create a local authentication user',
+        'params': ['storage_id', 'name', 'account_password', 'primary_group_raw_id', 'description', 'group_names', 'vstore_id'],
         'subtopic': 'account'
     },
     'account_create_unix_user': {
         'func': account_create_unix_user,
-        'description': 'Create storage device UNIX auth user',
+        'description': 'Create a UNIX authentication user on a specified storage device',
         'params': ['storage_id', 'name', 'primary_group_raw_id', 'raw_id', 'description', 'password', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_create_windows_user': {
         'func': account_create_windows_user,
-        'description': 'Create storage device Windows auth user',
+        'description': 'Create a Windows authentication user on a specified storage device',
         'params': ['storage_id', 'name', 'password', 'raw_id', 'description', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_show_unix_users': {
         'func': account_show_unix_users,
-        'description': 'Query storage device UNIX Auth user info',
+        'description': 'Query the info of UNIX authentication users on a specified storage device',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_users': {
         'func': account_show_windows_users,
-        'description': 'Query storage device Windows Auth user info',
+        'description': 'Query the info of Windows authentication users on a specified storage device',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_local_user_groups': {
         'func': account_show_local_user_groups,
-        'description': 'Query storage devicelocal Auth user group info',
+        'description': 'Query the info of local authentication user groups on a specified storage device',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_unix_user_groups': {
         'func': account_show_unix_user_groups,
-        'description': 'Query storage device UNIX Auth user group info',
+        'description': 'Query the info of UNIX authentication user groups on a specified storage device',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_user_groups': {
         'func': account_show_windows_user_groups,
-        'description': 'Query storage device Windows Auth user group info',
+        'description': 'Query the info of Windows authentication user groups on a specified storage device',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
-    # qos subtopic actions
+    # qos subtopic action
     'qos_list': {
         'func': qos_list,
-        'description': 'Batch query QoS policy',
+        'description': 'Batch query QoS policies',
         'params': ['storage_id', 'name', 'raw_id', 'enable_status', 'running_status',
                    'zone_id', 'resource_type_list', 'vstore_id', 'vstore_name',
                    'alarm_status', 'io_policy_type', 'page_no', 'page_size',
@@ -3474,13 +3484,13 @@ ACTIONS = {
     },
     'qos_show': {
         'func': qos_show,
-        'description': 'Query QoS  policy details',
+        'description': 'Query the details of a specified QoS policy',
         'params': ['qos_policy_id'],
         'subtopic': 'qos'
     },
     'qos_create': {
         'func': qos_create,
-        'description': 'create  QoS  policy',
+        'description': 'Create a QoS policy',
         'params': ['name', 'storage_id', 'resource_type', 'resource_ids', 'description', 'zone_id', 'vstore_id', 'enable_status', 'io_policy_type',
                    'min_bandwidth', 'max_bandwidth', 'burst_bandwidth', 'min_iops',
                    'max_iops', 'burst_iops', 'burst_time', 'latency',
@@ -3494,7 +3504,7 @@ ACTIONS = {
     },
     'qos_modify': {
         'func': qos_modify,
-        'description': 'modify  QoS  policy',
+        'description': 'Modify a QoS policy',
         'params': ['qos_policy_id', 'name', 'description', 'io_policy_type',
                    'min_bandwidth', 'max_bandwidth', 'burst_bandwidth', 'min_iops',
                    'max_iops', 'burst_iops', 'burst_time', 'latency',
@@ -3507,50 +3517,50 @@ ACTIONS = {
     },
     'qos_delete': {
         'func': qos_delete,
-        'description': 'delete  QoS  policy',
+        'description': 'Delete QoS policies',
         'params': ['qos_policy_ids'],
         'subtopic': 'qos'
     },
     'qos_activate': {
         'func': qos_activate,
-        'description': 'batch activate QoS  policy',
+        'description': 'Batch activate QoS policies',
         'params': ['qos_policy_ids'],
         'subtopic': 'qos'
     },
     'qos_deactivate': {
         'func': qos_deactivate,
-        'description': 'Batch deactivate QoS  policy',
+        'description': 'Batch deactivate QoS policies',
         'params': ['qos_policy_ids'],
         'subtopic': 'qos'
     },
     'qos_associate': {
         'func': qos_associate,
-        'description': 'QoS Associate policy with control resource',
+        'description': 'Associate QoS policy with controlled resources',
         'params': ['qos_policy_id', 'resource_ids', 'resource_type'],
         'subtopic': 'qos'
     },
     'qos_unassociate': {
         'func': qos_unassociate,
-        'description': 'QoS Disassociate policy from control resource',
+        'description': 'Disassociate QoS policy from controlled resources',
         'params': ['qos_policy_id', 'resource_ids', 'resource_type'],
         'subtopic': 'qos'
     },
-    # logic_port subtopic actions ( storageLogic port) 
+    # logic_port subtopic action (Storage Logic port)
     'logic_port_list': {
         'func': logic_port_list,
-        'description': 'query storage deviceLogic port list',
+        'description': 'Query the logic port list of a storage device',
         'params': ['storage_id', 'vstore_raw_id', 'zone_raw_id', 'scope', 'page_no', 'page_size'],
         'subtopic': 'logic_port'
     },
     'logic_port_show': {
         'func': logic_port_show,
-        'description': 'query storage deviceLogic port details',
+        'description': 'Query the logic port details of a storage device',
         'params': ['logic_port_id'],
         'subtopic': 'logic_port'
     },
     'logic_port_create': {
         'func': logic_port_create,
-        'description': 'Create logic port (OceanStor A800 only) ',
+        'description': 'Create a logic port on a storage device (only supported by OceanStor A800 series storage)',
         'params': ['storage_id', 'name', 'address_family', 'home_port_type', 'zone_raw_id', 'scope',
                    'mgmt_ip', 'ipv4_mask', 'ipv4_gateway', 'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway',
                    'home_port_raw_id', 'support_protocol', 'operational_status', 'home_controller_id',
@@ -3560,7 +3570,7 @@ ACTIONS = {
     },
     'logic_port_update': {
         'func': logic_port_update,
-        'description': 'Modify logic port (OceanStor A800 only) ',
+        'description': 'Modify a logic port on a storage device (only supported by OceanStor A800 series storage)',
         'params': ['logic_port_id', 'name', 'address_family', 'mgmt_ip', 'ipv4_mask', 'ipv4_gateway',
                    'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway', 'home_port_raw_id', 'home_port_type',
                    'operational_status', 'failover_group_raw_id', 'dns_zone_name',
@@ -3569,77 +3579,77 @@ ACTIONS = {
     },
     'logic_port_delete': {
         'func': logic_port_delete,
-        'description': 'Delete logic port (OceanStor A800 only) ',
+        'description': 'Delete logic ports from a storage device (only supported by OceanStor A800 series storage)',
         'params': ['ids'],
         'subtopic': 'logic_port'
     },
     'logic_port_failback': {
         'func': logic_port_failback,
-        'description': 'Failback logic port (OceanStor A800 only) ',
+        'description': 'Failback a logic port on a storage device (only supported by OceanStor A800 series storage)',
         'params': ['id'],
         'subtopic': 'logic_port'
     },
-    # port subtopic actions (Storage port) 
+    # port subtopic action (storage port)
     'port_list': {
         'func': port_list,
-        'description': ' Query storage device port info,  support ETH, FC, IB, Bond four types type',
+        'description': 'Query storage device port info, supports ETH, FC, IB, Bond four types',
         'params': ['storage_id', 'port_type', 'location', 'ipv4', 'ipv6', 'port_name', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'port_show_bond_members': {
         'func': port_show_bond_members,
-        'description': 'QueryBound port member list info',
+        'description': 'Query the member list info of a specified bond port',
         'params': ['bond_port_id'],
         'subtopic': 'port'
     },
-    # vlan subtopic actions ( storage VLAN) 
+    # vlan subtopic action (storage VLAN)
     'vlan_list': {
         'func': vlan_list,
-        'description': 'Batch query VLAN  list',
+        'description': 'Batch query VLAN list',
         'params': ['name', 'storage_id', 'page_no', 'page_size'],
         'subtopic': 'vlan'
     },
     'vlan_create': {
         'func': vlan_create,
-        'description': 'create  VLAN (only supports OceanStor A800, A600 series storage) ',
+        'description': 'Create a VLAN (only supported by OceanStor A800, A600 series storage)',
         'params': ['name', 'vlan_id', 'storage_id', 'description'],
         'subtopic': 'vlan'
     },
     'vlan_delete': {
         'func': vlan_delete,
-        'description': 'delete  VLAN (only supports OceanStor A800, A600 series storage) ',
+        'description': 'Delete a VLAN (only supported by OceanStor A800, A600 series storage)',
         'params': ['vlan_id'],
         'subtopic': 'vlan'
     },
     'vlan_modify': {
         'func': vlan_modify,
-        'description': 'modify  VLAN (only supports OceanStor A800, A600 series storage) ',
+        'description': 'Modify a VLAN (only supported by OceanStor A800, A600 series storage)',
         'params': ['vlan_id', 'name', 'description'],
         'subtopic': 'vlan'
     },
-    # failover_group subtopic actions ( storageFailover group busi failover group) 
+    # failover_group subtopic action (storage failover group)
     'failover_group_list': {
         'func': failover_group_list,
-        'description': ' query failover group busi failover group list',
+        'description': 'Query failover group list',
         'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover_group_service_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_ports': {
         'func': failover_group_show_ports,
-        'description': ' Query failover group under port ( supports bond, eth, ib types) ',
+        'description': 'Query ports under a failover group (supports bond, eth, ib three types)',
         'params': ['failover_group_id', 'port_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_vlans': {
         'func': failover_group_show_vlans,
-        'description': ' query failover group busi failover group under VLAN',
+        'description': 'Query VLANs under a failover group',
         'params': ['failover_group_id'],
         'subtopic': 'failover_group'
     },
-    # zone subtopic actions (OceanStor A800  cluster zone) 
+    # zone subtopic action (OceanStor A800 cluster zone)
     'zone_list': {
         'func': zone_list,
-        'description': ' Query zone info in OceanStor A800 cluster',
+        'description': 'Query zone info in an OceanStor A800 cluster',
         'params': ['name', 'ip', 'status', 'sync_status', 'sn', 'storage_ids'],
         'subtopic': 'zone'
     },

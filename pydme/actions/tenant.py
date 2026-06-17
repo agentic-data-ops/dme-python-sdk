@@ -1,7 +1,7 @@
 """
-Tenant self-service (Self Service) operations
+Tenant Self Service related operations
 
-Tenant self-service for managing service level and project group.
+Tenant self service is used to manage service levels and business groups.
 """
 
 import sys
@@ -17,34 +17,34 @@ def lun_create(client: DMEAPIClient, volumes: list,
                project_id: str = None, availability_zone: str = None,
                scheduler_hints: dict = None, mapping: dict = None) -> dict:
     """
-    SService batch create LUN
+    Service-oriented batch create LUN
 
     Args:
         client: DME API client
-        volumes: LUN basic parameter list to create (List<ServiceVolumeBasicParams>, max array members: 1000). parameter format: [{
-                name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
-                capacity:  capacityGB (1~262144),
-                count: create count (1~500),
-                description:  description (0~255 characters),
-                start_suffix: Starting suffix number (0~9999),
-                suffix_length: Suffix length rule (1~4,  name length+ suffix length<=255),
+        volumes: List of basic parameters for LUNs to create (List<ServiceVolumeBasicParams>, max array members: 1000). parameter format: [{
+                name: LUN name (1~255 characters, supports letters, digits, ._- and Chinese characters),
+                capacity: capacityGB (1~262144),
+                count: createcount (1~500),
+                description: description (0~255 characters),
+                start_suffix: start suffix number (0~9999),
+                suffix_length: suffix length rule (1~4, name length+suffix length<=255),
              }, ...]
-        service_level_id: Service level ID (Required, 0~64  characters) 
-        task_remarks: Async task remark (Optional,  max 1024  characters) 
-        project_id: Project group ID (Optional, 0~64  characters) 
-        availability_zone: Availability zone ID (Optional, 0~64  characters) 
-        scheduler_hints: Scheduling policy (Optional, SchedulerHints object).  parameter format: {
-                affinity: Enable affinity. Options: true (enable), false (disable). Default: disabled,
-                affinity_volume: to be associated LUN ID (Optional, 0~64 characters),
+        service_level_id: Service level ID (required, 0~64 characters)
+        task_remarks: Async task remark info (optional, at most 1024 characters)
+        project_id: Business group ID (optional, 0~64 characters)
+        availability_zone: Availability zone ID (optional, 0~64 characters)
+        scheduler_hints: Scheduler hints (optional, SchedulerHints object). parameter format: {
+                affinity: whether to enable affinity. valid values: true (true), false (not true). default not true,
+                affinity_volume: LUN ID to affinity with (optional, 0~64 characters),
              }
-        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN).  parameter format: {
-                host_id: Host ID (Optional, 0~64 characters, one of with hostgroup_id),
-                hostgroup_id: Host group ID (Optional, 0~64 characters, one of with host_id),
+        mapping: Mapping info (optional, ServiceVolumeMapping object, presence indicates creating LUN for host or host group). parameter format: {
+                host_id: host ID (optional, 0~64 characters, mutually exclusive with hostgroup_id),
+                hostgroup_id: host group ID (optional, 0~64 characters, mutually exclusive with host_id),
              }
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes"
@@ -76,14 +76,14 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 
     Args:
         client: DME API client
-        volume_ids: LUN ID  list
+        volume_ids: LUN ID list
         tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter refresh LUN  (Optional, true/false) 
+        attributes_auto_change: Whether to refresh LUN attributes based on service level parameters (optional, true/false)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        } (Async task) 
+            task_id: task ID (string, 1~64 characters),
+        } (async task)
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
@@ -102,18 +102,18 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 def lun_bind_tier(client: DMEAPIClient, volume_id: str,
                        tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    LUN  assoassociated service level
+    LUN associate service level
 
     Args:
         client: DME API client
         volume_id: LUN ID
         tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter refresh LUN  (Optional, true/false) 
+        attributes_auto_change: Whether to refresh LUN attributes based on service level parameters (optional, true/false)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        } (Async task) 
+            task_id: task ID (string, 1~64 characters),
+        } (async task)
     """
     url = "/rest/blockservice/v1/volumes/add-to-service-level"
 
@@ -131,7 +131,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
 
 def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
     """
-     Unbind LUN from service level
+    Remove LUN from service level association
 
     Args:
         client: DME API client
@@ -139,8 +139,8 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        } (Async task) 
+            task_id: task ID (string, 1~64 characters),
+        } (async task)
     """
     url = "/rest/blockservice/v1/volumes/remove-service-level"
 
@@ -155,16 +155,16 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 def lun_bind_project(client: DMEAPIClient, volume_id: str,
                         business_group_id: str) -> dict:
     """
-    LUN  assoassociated project group
+    LUN associate business group
 
     Args:
         client: DME API client
         volume_id: LUN ID
-        business_group_id: Project group ID
+        business_group_id: Business group ID
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/bound"
@@ -180,16 +180,16 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
 def lun_unbind_project(client: DMEAPIClient, volume_id: str,
                           business_group_id: str) -> dict:
     """
-     Unbind LUN from project group
+    Remove LUN from business group association
 
     Args:
         client: DME API client
         volume_id: LUN ID
-        business_group_id: Project group ID
+        business_group_id: Business group ID
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/unbound"
@@ -211,26 +211,26 @@ def tier_list(client: DMEAPIClient, name: str = None,
                         limit: int = 200, sort_key: str = 'name',
                         sort_dir: str = 'asc', type: str = None) -> dict:
     """
-    Batch query service level
+    Batch query service levels
 
-     Query service level list, supports filtering by name, project ID, AZ, storage ID and pagination. 
+    Query service level list, supports filtering by name, project ID, availability zone, storage ID, etc. and pagination.
 
     Args:
         client: DME API client
-        name: Service level name (Optional, supports fuzzy search) 
-        project_id: Project group ID (Optional) 
-        available_zone_id:  availability zone ID (Optional) 
-        storage_array_id: Storage device ID (Optional) 
-        start:  Query start position, default 0
-        limit: per pagecount, 10~1000, default 200
+        name: Service level name (optional, supports fuzzy query)
+        project_id: Business group ID (Optional)
+        available_zone_id: Availability zone ID (Optional)
+        storage_array_id: Storage device ID (Optional)
+        start: Query start position, default 0
+        limit: items per page, 10~1000, default 200
         sort_key: Sort field, name/total_capacity/created_at, default name
         sort_dir: Sort direction, asc/desc, default asc
-        type: Storage class type, FILE, BLOCK, VIRTUAL_DATASTORE (Optional) 
+        type: Storage type, FILE/BLOCK/VIRTUAL_DATASTORE (Optional)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Service level list
+            task_id: task ID (string, 1~64 characters),
+        }, including service level list
     """
     url = "/rest/service-policy/v1/service-levels"
 
@@ -264,20 +264,20 @@ def tier_list(client: DMEAPIClient, name: str = None,
 def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    Batch query project group and service level association
+    Batch query business group and service level associations
 
-     Query project group and service level association list,  supports filtering by service level ID. 
+    Query the list of associations between business groups and service levels, supports filtering by service level ID.
 
     Args:
         client: DME API client
-        tier_id: Service level ID (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 10~1000, default 200
+        tier_id: Service level ID (Optional)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 10~1000, default 200
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Association list
+            task_id: task ID (string, 1~64 characters),
+        }, including association list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -299,20 +299,20 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
 def project_list(client: DMEAPIClient, name: str = None,
                   start: int = 1, limit: int = 20) -> dict:
     """
-    Batch query project group
+    Batch query business groups
 
-     query project group list, supports name filtering and pagination. 
+    Query business group list, supports filtering by name and pagination.
 
     Args:
         client: DME API client
-        name: Project group name (Optional, supports fuzzy search) 
+        name: Business group name (optional, supports fuzzy query)
         start: Page number, starting from 1, default 1
         limit: Page size, 1~512, default 20
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Project group list
+            task_id: task ID (string, 1~64 characters),
+        }, including business group list
     """
     url = "/rest/projectmgmt/v1/projects"
 
@@ -331,20 +331,20 @@ def project_list(client: DMEAPIClient, name: str = None,
 def project_show_tiers(client: DMEAPIClient, project_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    Batch query project group and service level association
+    Batch query business group and service level associations
 
-    Query project group associated service level list. 
+    Query the list of associated service levels for a specified business group.
 
     Args:
         client: DME API client
-        project_id: Project group ID (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 10~1000, default 200
+        project_id: Business group ID (Optional)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 10~1000, default 200
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Association list
+            task_id: task ID (string, 1~64 characters),
+        }, including association list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -360,39 +360,39 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     return response
 
 
-# Action list for CLI help
-# No direct actions for this topic, All actions are under subtopics
+# action list, for CLI help
+# This topic has no direct actions; all actions are under subtopics
 ACTIONS = {
-    # tier Subtopic
+    # tier subtopic
     'tier_list': {
         'func': tier_list,
-        'description': 'Batch query service level',
+        'description': 'Batch query service levels',
         'params': ['name', 'project_id', 'available_zone_id', 'storage_array_id', 'start', 'limit', 'sort_key', 'sort_dir', 'type'],
         'subtopic': 'tier'
     },
     'tier_show_projects': {
         'func': tier_show_projects,
-        'description': 'Batch query project group and service level association',
+        'description': 'Batch query business group and service level associations',
         'params': ['tier_id', 'page_no', 'page_size'],
         'subtopic': 'tier'
     },
-    # project Subtopic
+    # project subtopic
     'project_list': {
         'func': project_list,
-        'description': 'Batch query project group',
+        'description': 'Batch query business groups',
         'params': ['name', 'start', 'limit'],
         'subtopic': 'project'
     },
     'project_show_tiers': {
         'func': project_show_tiers,
-        'description': 'Batch query project group and service level association',
+        'description': 'Batch query business group and service level associations',
         'params': ['project_id', 'page_no', 'page_size'],
         'subtopic': 'project'
     },
-    # lun Subtopic
+    # lun subtopic
     'lun_create': {
         'func': lun_create,
-        'description': 'SService batch create LUN',
+        'description': 'Service-oriented batch create LUN',
         'params': ['volumes', 'service_level_id', 'task_remarks', 'project_id', 'availability_zone', 'scheduler_hints', 'mapping'],
         'subtopic': 'lun'
     },
@@ -404,25 +404,25 @@ ACTIONS = {
     },
     'lun_bind_tier': {
         'func': lun_bind_tier,
-        'description': 'LUN  assoassociated service level',
+        'description': 'LUN associate service level',
         'params': ['volume_id', 'tier_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_tier': {
         'func': lun_unbind_tier,
-        'description': ' Unbind LUN from service level',
+        'description': 'Remove LUN from service level association',
         'params': ['volume_id'],
         'subtopic': 'lun'
     },
     'lun_bind_project': {
         'func': lun_bind_project,
-        'description': 'LUN  assoassociated project group',
+        'description': 'LUN associate business group',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_project': {
         'func': lun_unbind_project,
-        'description': ' Unbind LUN from project group',
+        'description': 'Remove LUN from business group association',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },

@@ -1,5 +1,5 @@
 """
-Protection (snapshot/active-active/replication) operations
+Protection related operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# group Subtopic - Protection groupoperations
+# group subtopic - Protection group related operations
 # ============================================================================
 
 def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
@@ -19,30 +19,50 @@ def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
                sort_key: str = None, sort_dir: str = None,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query protection group
+    Batch query protection groups
 
     Args:
         client: DME API client
-        name: Protection group name, supports fuzzy search
-        project_id: Project group ID, supports conditional filtering
-        storage_name: Storage device name, supports fuzzy search
+        name: protection group name, supports fuzzy search
+        project_id: business group ID, supports conditional filtering
+        storage_name: storage device name, supports fuzzy search
         storage_id: Storage device ID, supports conditional filtering
-        raw_id: Protection group ID on device, supports exact search,  supports sorting
-        lun_group_raw_id: LUN group ID on device, supports conditional filtering
-        vstore_id: Tenant ID, mutually exclusive with vstore_raw_id
-        vstore_raw_id: Tenanton the device ID, this parameter and vstore_id mutually exclusive
-        sort_key: Sort field, Options: sort_id
-        sort_dir: Sort direction. Options: asc, desc (default desc)
-        page_no: Page number, default 1
-        page_size: Items per page, default 20
+        raw_id: protection group ID on the device, supports exact search, supports sorting
+        lun_group_raw_id: LUN group ID on the device, supports conditional filtering
+        vstore_id: tenant ID, mutually exclusive with vstore_raw_id
+        vstore_raw_id: tenant ID on the device, mutually exclusive with vstore_id
+        sort_key: sort field, valid values: sort_id
+        sort_dir: sort direction, valid values: asc, desc (default desc)
+        page_no: pagination page number, default 1
+        page_size: items per page, default 20
 
     Returns:
         {
-            total: Protection groupTotal count (integer),
-            protection_groups: Protection group list (List<ProtectionGroupInfor>). parameter format: [{
-                id: Protection group ID (string),
-                name: Protection group name (string),
-                status:  status (string),
+            total: total protection groups (int32),
+            groups: protection group list (List<ProtectionGroupResponse>). parameter format: [{
+                id: unique protection group ID (string, 1~64 characters),
+                name: protection group name (string, 1~256 characters),
+                description: protection group description (string, 0~255 characters),
+                raw_id: protection group ID on the device (string, 1~64 characters),
+                storage_id: storage device ID (string, 1~64 characters),
+                storage_sn: storage device SN (string, 1~64 characters),
+                storage_name: storage device name (string, 1~255 characters),
+                storage_ip: storage device IP (string, 1~64 characters),
+                local_copy_count: local copy count (int32),
+                remote_copy_count: remote copy count (int32),
+                cloud_copy_count: cloud backup copy count (int32),
+                snapshot_consistency_group_count: snapshot consistency group count (int32),
+                clone_consistency_group_count: clone consistency group count (int32),
+                cdp_consistency_group_count: HyperCDP consistency group count (int32),
+                dring_consistency_group_count: ring 3DC consistency group count (int32),
+                metro_consistency_group_count: hypermetro consistency group count (int32),
+                rep_consistency_group_count: remote replication consistency group count (int32),
+                project_id: business group ID (string),
+                lun_group_raw_id: LUN group ID on the device (int32, -1~16383),
+                lun_group_name: LUN group name (string, 1~255 characters),
+                vstore_id: tenant ID (string),
+                vstore_raw_id: tenant ID on the device (string),
+                vstore_name: tenant name (string),
             }, ...],
         }
     """
@@ -82,20 +102,20 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
                  lun_ids: list = None, lun_group_id: str = None,
                  description: str = None) -> dict:
     """
-    create Protection group
+    create protection group, supports creation based on LUN or LUN group
 
     Args:
         client: DME API client
-        name: Protection group name
+        name: protection group name
         storage_id: Storage device ID
-        lun_ids: LUN ID list,  conditionally required,  required when creating protection group based on LUN
-        lun_group_id: LUN group ID,  conditionally required,  required when creating protection group based on LUN group
-        description: Protection group description
+        lun_ids: LUN ID list, conditionally required, required when creating protection group based on LUN
+        lun_group_id: LUN group ID, conditionally required, required when creating protection group based on LUN group
+        description: protection group description
 
     Returns:
         {
-            id: Protection group ID (string),
-            task_id: Task ID (string, 1~64 characters),
+            id: protection group ID (string),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/protection-groups"
@@ -119,17 +139,17 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
 def group_modify(client: DMEAPIClient, pg_id: str, name: str = None,
                  description: str = None) -> dict:
     """
-    modify Protection group
+    modify protection group
 
     Args:
         client: DME API client
-        pg_id: Protection group ID
-        name: Protection group name
-        description: Protection group description
+        pg_id: protection group ID
+        name: protection group name
+        description: protection group description
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/protection-groups/{pg_id}"
@@ -147,18 +167,18 @@ def group_modify(client: DMEAPIClient, pg_id: str, name: str = None,
 
 def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
     """
-    Batch delete protection group
+    Batch delete protection groups
 
-    >![](public_sys-resources/icon-notice.gif) **: **
-    This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
+    >![](public_sys-resources/icon-notice.gif) **Notice: **
+    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
 
     Args:
         client: DME API client
-        pg_ids: Protection group ID list
+        pg_ids: protection group ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/protection-groups/delete"
@@ -174,43 +194,43 @@ def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
 def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                    hyper_metro: dict = None, rem_reps: list = None) -> dict:
     """
-    Add member LUN to protection group
+    Add member LUNs to protection group
 
-    Add member LUN to the specified protection group. 
+    Add member LUNs to the specified protection group. 
 
     Args:
         client: DME API client
-        pg_id: Protection group ID
-        lun_ids: to add to protection group LUN ID list (Optional) , max array members 100, mutually exclusive with hyper_metro and rem_reps lun_pairs parameter; Protection group does not existactive-active, replication, ring 3DC parameter effective when feature exists
-        hyper_metro: request parameter for adding LUN to active-active protection group (Optional) , mutually exclusive with lun_ids parameter; Protection group has active-active feature exists.  format: {
-                        is_delay: Deferred execution (Required) , true/false. When deferred execution is true, if consistency group or new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false: if consistency group or new pair is syncing,  directly pause consistency groupand new pair, join new pair to consistency group, then sync consistency group
-                        create_mode: Active-active pair creation mode (Required) , Options: auto, manual
-                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Effective when active-active pair creation mode is auto
-                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
-                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
-                        name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs:  manually configured active-active pair infor list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
-                                local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
-                                remote_lun_id: Remote LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$
+        pg_id: protection group ID
+        lun_ids: ID list of LUNs to be added to the protection group (Optional), max array members 100, mutually exclusive with lun_pairs in hyper_metro and rem_reps; valid when the protection group does not have hypermetro, replication, or ring 3DC features
+        hyper_metro: request parameters for adding LUNs to a protection group with hypermetro feature (Optional), mutually exclusive with lun_ids; valid when the protection group has hypermetro feature. parameter format: {
+                        is_delay: whether to delay execution (Required), true: yes; false: no; when delayed execution is true: if the consistency group or new Pair is in "synchronizing" status, wait for synchronization to complete before adding the new Pair to the consistency group; when delayed execution is false: if the consistency group or new Pair is in "synchronizing" status, directly pause the consistency group and new Pair, add the new Pair to the consistency group, then synchronize the consistency group
+                        create_mode: hypermetro Pair creation mode (Required), valid values: auto (automatic), manual (manual)
+                        remote_storage_pool_id: remote storage pool ID (Optional), 1~32 characters, regex ^[a-fA-F0-9]+$; valid when hypermetro Pair creation mode is auto
+                        remote_lun_name_rule: LUN naming strategy (Optional), valid values: same_as_local (same as local resource name), prefix_and_suffix (prefix + local resource name + suffix), prefix_and_num (prefix + auto sequence); valid in auto creation mode
+                        name_prefix: remote LUN name prefix (Optional), 0~251 characters; valid in auto creation mode with name rule prefix_and_suffix or prefix_and_num; prefix_and_suffix prefix max 32 bytes, prefix_and_num prefix max 251 bytes
+                        name_suffix: remote LUN name suffix (Optional), 0~16 characters; valid in auto creation mode with name rule prefix_and_suffix
+                        lun_pairs: manually configured hypermetro Pair info list (Optional), max array members 100; valid when create_mode is manual. parameter format: [{
+                                local_lun_id: local LUN ID (Required), 1~32 characters, regex ^[a-fA-F0-9]+$; the device side where the operation is issued is defined as local, and its peer device is defined as remote
+                                remote_lun_id: remote LUN ID (Required), 1~32 characters, regex ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: request parameter for adding LUN to replication-capable protection group (Optional) , max array members 2, mutually exclusive with lun_ids parameter; Protection group has replication feature exists.  format: [{
-                        is_delay: Deferred execution (Optional) , default true. When deferred execution is true, if new pair is syncing,  will wait for sync to complete before, new pair joins consistency group; when deferred execution is false:  directlySplitConsistency groupand new pair, join new pair to consistency group, then sync consistency group
-                        create_mode: Remote replication pair creation mode (Required) , Options: auto, manual
-                        remote_storage_id: Remote storage device ID (Required) , 1~64  characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
-                        remote_storage_pool_id: Remote storage pool ID (Optional) , 1~32  characters, regex ^[a-fA-F0-9]+$; Replication pair creation mode is auto. Effective when
-                        remote_lun_name_rule: LUN naming policy (Optional) , Options: same_as_local, prefix_and_suffix, prefix_and_num, prefix_and_suffix ( prefix+local Resource name+ suffix) , prefix_and_num ( prefix + auto number) ; effective in auto-create mode
-                        name_prefix: Remote LUN name prefix (Optional) , 0~251  characters; auto-create mode and naming rule is prefix_and_suffix or prefix_and_numefix_and_num effective when; prefix_and_suffix max prefix length: 32 bytes, prefix_and_num max prefix length 251  byte
-                        name_suffix: Remote LUN name suffix (Optional) , 0~16  characters; auto-create mode and naming rule is prefix_and_suffix effective when
-                        lun_pairs:  manually configured remote replication pair infor list (Optional) , max array members 100; effective when create_mode is manual.  format: [{
-                                local_lun_id: Local LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$; Local device, peer device is remote
-                                remote_lun_id: Remote LUN ID (Required) , 1~32  characters, regex ^[a-fA-F0-9]+$
+        rem_reps: request parameters for adding LUNs to a protection group with replication feature (Optional), max array members 2, mutually exclusive with lun_ids; valid when the protection group has replication feature. parameter format: [{
+                        is_delay: whether to delay execution (Optional), default true; true: yes; false: no; when delayed execution is true: if the new Pair is in "synchronizing" status, wait for synchronization to complete before adding the new Pair to the consistency group; when delayed execution is false: directly split the consistency group and new Pair, add the new Pair to the consistency group, then synchronize the consistency group
+                        create_mode: remote replication Pair creation mode (Required), valid values: auto (automatic), manual (manual)
+                        remote_storage_id: remote storage device ID (Required), 1~64 characters, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
+                        remote_storage_pool_id: remote storage pool ID (Optional), 1~32 characters, regex ^[a-fA-F0-9]+$; valid when replication Pair creation mode is auto
+                        remote_lun_name_rule: LUN naming strategy (Optional), valid values: same_as_local (same as local resource name), prefix_and_suffix (prefix + local resource name + suffix), prefix_and_num (prefix + auto sequence); valid in auto creation mode
+                        name_prefix: remote LUN name prefix (Optional), 0~251 characters; valid in auto creation mode with name rule prefix_and_suffix or prefix_and_num; prefix_and_suffix prefix max 32 bytes, prefix_and_num prefix max 251 bytes
+                        name_suffix: remote LUN name suffix (Optional), 0~16 characters; valid in auto creation mode with name rule prefix_and_suffix
+                        lun_pairs: manually configured remote replication Pair info list (Optional), max array members 100; valid when create_mode is manual. parameter format: [{
+                                local_lun_id: local LUN ID (Required), 1~32 characters, regex ^[a-fA-F0-9]+$; the device side where the operation is issued is defined as local, and its peer device is defined as remote
+                                remote_lun_id: remote LUN ID (Required), 1~32 characters, regex ^[a-fA-F0-9]+$
                         },...]
         },...]
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/protection-groups/{pg_id}/add-luns"
@@ -231,19 +251,19 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
 def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
                       is_delay: bool = None) -> dict:
     """
-    Remove LUN members from protection group
+    Remove member LUNs from protection group
 
-    RemoveProtection groupmembers in LUN. 
+    Remove member LUNs from the specified protection group. 
 
     Args:
         client: DME API client
-        pg_id: Protection group ID
-        lun_ids: to be removedProtection group member LUN ID list
-        is_delay: Deferred execution. In remote replication, sync + async ring 3DC case, this parameter is N/A
+        pg_id: protection group ID
+        lun_ids: ID list of protection group member LUNs to be removed
+        is_delay: whether to delay execution. This parameter is invalid in remote replication, synchronous + asynchronous ring 3DC scenarios
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/protection-groups/{pg_id}/remove-luns"
@@ -260,7 +280,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
 
 
 # ============================================================================
-# hypermetro_group Subtopic - Active-active consistency groupoperations
+# hypermetro_group subtopic - HyperMetro consistency group related operations
 # ============================================================================
 
 def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -270,53 +290,53 @@ def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           local_vstore_raw_id: str = None, remote_vstore_id: str = None,
                           remote_vstore_raw_id: str = None) -> dict:
     """
-    Batch query active-active consistency group
+    Batch query hypermetro consistency groups
 
     Args:
         client: DME API client
-        page_no: Page number, default 1
-        page_size: Items per page, default 20
-        name: Active-active consistency group name, supports fuzzy match
-        raw_id: Active-active consistency groupon the device ID
-        protect_group_id: Protection group ID
-        storage_id: Storage device ID, Supports local storage ID  filter
-        storage_name: Storage device name, Supports local storage namefuzzy match
-        local_vstore_id: local tenant ID, this parameter and local_vstore_raw_id mutually exclusive
-        local_vstore_raw_id: local tenanton the device ID, this parameter and local_vstore_id mutually exclusive
-        remote_vstore_id: remote tenant ID, this parameter and remote_vstore_raw_id mutually exclusive
-        remote_vstore_raw_id: remote tenanton the device ID, this parameter and remote_vstore_id mutually exclusive
+        page_no: pagination page number, default 1
+        page_size: items per page, default 20
+        name: hypermetro consistency group name, supports fuzzy match
+        raw_id: hypermetro consistency group ID on the device
+        protect_group_id: protection group ID
+        storage_id: Storage device ID, supports local storage ID filtering
+        storage_name: storage device name, supports local storage name fuzzy match
+        local_vstore_id: local tenant ID, mutually exclusive with local_vstore_raw_id
+        local_vstore_raw_id: local tenant ID on the device, mutually exclusive with local_vstore_id
+        remote_vstore_id: remote tenant ID, mutually exclusive with remote_vstore_raw_id
+        remote_vstore_raw_id: remote tenant ID on the device, mutually exclusive with remote_vstore_id
 
     Returns:
         {
-            total: Number of active-active consistency groups (int32),
-            groups: List of active-active consistency groups (List<HyperMetroGroupResponse>). Parameter format: [{
-                id: Active-active consistency group ID (string, 1-64 characters),
-                raw_id: ID on the device (string, 1-64 characters),
-                name: Name (string, 1-255 characters),
-                local_storage_id: Local storage device ID (string, 1-64 characters),
-                local_storage_name: Local storage device name (string, 1-256 characters),
-                local_vstore_id: Local tenant ID (string),
-                local_vstore_raw_id: Local tenant ID on the device (string),
-                local_vstore_name: Local tenant name (string),
-                remote_storage_id: Remote storage device ID (string, 0-64 characters),
-                remote_storage_name: Remote storage device name (string, 0-256 characters),
-                remote_vstore_id: Remote tenant ID (string),
-                remote_vstore_raw_id: Remote tenant ID on the device (string),
-                remote_vstore_name: Remote tenant name (string),
-                domain_name: Hyper-metro domain name (string, 0-64 characters),
-                domain_raw_id: Domain ID on the device (string, 0-64 characters),
-                health_status: Health status. Valid values: unknown, normal, fault,
-                running_status: Running status. Valid values: normal, synchronizing, invalid, paused, forcibly_started, to_be_synchronized, error, unknown,
-                recovery_policy: Recovery policy. Valid values: automatic, manual,
-                priority_station_type: Priority site type. Valid values: preferred, non_preferred,
-                speed: Sync speed. Valid values: low, medium, high, highest, custom,
-                bandwidth: Custom sync bandwidth (int32, 1-1024 MB/s),
-                sync_direction: Data sync direction. Valid values: no_data_synchronization, local_to_remote, remote_to_local,
-                activation_state: Activation state. Valid values: active, passive,
-                local_protect_group_name: Local protection group name (string, 0-255 characters),
-                remote_protect_group_name: Remote protection group name (string, 0-255 characters),
-                isolation_enabled: Isolation switch. Valid values: true, false,
-                isolation_threshold_time: Isolation threshold (int32, 10-30000ms),
+            total: total hypermetro consistency groups (int32),
+            groups: hypermetro consistency group list (List<HyperMetroGroupResponse>). parameter format: [{
+                id: unique hypermetro consistency group ID (string, 1~64 characters),
+                raw_id: ID on the device (string, 1~64 characters),
+                name: name (string, 1~255 characters),
+                local_storage_id: local storage device ID (string, 1~64 characters),
+                local_storage_name: local storage device name (string, 1~256 characters),
+                local_vstore_id: local tenant ID (string),
+                local_vstore_raw_id: local tenant ID on the device (string),
+                local_vstore_name: local tenant name (string),
+                remote_storage_id: remote storage device ID (string, 0~64 characters),
+                remote_storage_name: remote storage device name (string, 0~256 characters),
+                remote_vstore_id: remote tenant ID (string),
+                remote_vstore_raw_id: remote tenant ID on the device (string),
+                remote_vstore_name: remote tenant name (string),
+                domain_name: hypermetro domain name (string, 0~64 characters),
+                domain_raw_id: hypermetro domain ID on the device (string, 0~64 characters),
+                health_status: health status. valid values: unknown, normal, fault,
+                running_status: running status. valid values: normal, synchronizing, invalid, paused, forcibly_started, to_be_synchronized, error, unknown,
+                recovery_policy: recovery policy. valid values: automatic, manual,
+                priority_station_type: priority station type. valid values: preferred, non_preferred,
+                speed: sync speed. valid values: low, medium, high, highest, custom,
+                bandwidth: custom sync speed (int32, 1~1024 MB/s),
+                sync_direction: data sync direction. valid values: no_data_synchronization, local_to_remote, remote_to_local,
+                activation_state: activation state. valid values: active, passive,
+                local_protect_group_name: local protection group name (string, 0~255 characters),
+                remote_protect_group_name: remote protection group name (string, 0~255 characters),
+                isolation_enabled: isolation switch. valid values: true (on), false,
+                isolation_threshold_time: isolation threshold (int32, 10~30000ms),
             }, ...],
         }
     """
@@ -356,24 +376,24 @@ def hypermetro_group_create(client: DMEAPIClient, domain_id: str, name: str,
                             remote_vstore_id: str = None, remote_storage_pool_id: str = None,
                             lun_ids: list = None, remote_resource_name_rule: str = None) -> dict:
     """
-    create Active-active consistency group
+    create hypermetro consistency group
 
     Args:
         client: DME API client
-        domain_id: Active-active domain ID
-        name: Active-active consistency group name
-        local_storage_id: local  device ID
-        local_pg_id: Local protection group ID,  conditionally required for OceanStor Dorado V6+, required for OceanStor V6
-        description: Description
-        create_mode: Active-active pair creation mode, Options: auto , manual 
-        remote_vstore_id: Remote device tenant ID,  conditionally required when create_mode is auto for OceanStor Dorado 6.1.3 version and above
-        remote_storage_pool_id: Remote storage pool ID,  conditionally required when create_mode is auto
-        lun_ids: LUN ID list,  conditionally optional: when create_mode is auto
-        remote_resource_name_rule: Remote resource naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
+        domain_id: hypermetro domain ID
+        name: hypermetro consistency group name
+        local_storage_id: local device ID
+        local_pg_id: local protection group ID, conditionally required: required when device type is OceanStor Dorado V6, OceanStor V6
+        description: description info
+        create_mode: hypermetro Pair creation mode, valid values: auto, manual
+        remote_vstore_id: remote device tenant ID, conditionally required: when create_mode is auto and device is OceanStor Dorado 6.1.3 or above
+        remote_storage_pool_id: remote storage pool ID, conditionally required: when create_mode is auto
+        lun_ids: LUN ID list, conditionally optional: when create_mode is auto
+        remote_resource_name_rule: remote resource naming strategy, valid values: same_as_local, prefix_and_suffix, prefix_and_num
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups"
@@ -409,22 +429,22 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
                              service_assurance_policy: str = None, speed: str = None,
                              bandwidth: int = None, isolation_threshold_time: int = None) -> dict:
     """
-    modify Active-active consistency group
+    modify hypermetro consistency group
 
     Args:
         client: DME API client
-        group_id: Active-active consistency group ID
-        name: Active-active consistency group name
-        description: Description
-        recovery_policy: Active-active pair recovery policy, Options: automatic , manual 
-        service_assurance_policy: Service assurance policy, Options: data_reliability_preferred (data reliability first)t) , service_continuity_preferred (Business continuity priority) 
-        speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , required when speed is custom
-        isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
+        group_id: hypermetro consistency group ID
+        name: hypermetro consistency group name
+        description: description info
+        recovery_policy: hypermetro Pair recovery policy, valid values: automatic, manual
+        service_assurance_policy: service assurance policy, valid values: data_reliability_preferred, service_continuity_preferred
+        speed: sync speed, valid values: low, medium, high, highest, custom
+        bandwidth: custom sync speed (MB/s), required when speed is custom
+        isolation_threshold_time: isolation threshold (milliseconds), required when service_assurance_policy is service_continuity_preferred
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups/{group_id}"
@@ -453,17 +473,17 @@ def hypermetro_group_modify(client: DMEAPIClient, group_id: str, name: str = Non
 def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
                              is_self_adapt: bool = None) -> dict:
     """
-    Batch delete active-active consistency group
+    Batch delete hypermetro consistency groups
 
     Args:
         client: DME API client
-        ids: Active-active consistency group ID  list
-        delete_mode: Delete mode, Options: preferred_only , non_preferred_only , dual_endse both sites) 
-        is_self_adapt: supportsAdaptive member deletion Pair, default false
+        ids: hypermetro consistency group ID list
+        delete_mode: delete mode, valid values: preferred_only, non_preferred_only, dual_ends
+        is_self_adapt: whether to support adaptive deletion of member Pairs, default false
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups/delete"
@@ -483,17 +503,17 @@ def hypermetro_group_delete(client: DMEAPIClient, ids: list, delete_mode: str,
 def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list,
                                 is_self_adapt: bool = None) -> dict:
     """
-    Active-active consistency group - add member pair
+    Add member Pairs to hypermetro consistency group
 
     Args:
         client: DME API client
-        group_id: Active-active consistency group ID
-        pair_ids: Active-active Pair ID  list
-        is_self_adapt: Adaptive modificationActive-active Pair Running status
+        group_id: hypermetro consistency group ID
+        pair_ids: hypermetro Pair ID list
+        is_self_adapt: whether to adaptively modify hypermetro Pair running status
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups/{group_id}/add-pairs"
@@ -511,16 +531,16 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
 
 def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Active-active consistency group - remove member pair
+    Remove member Pairs from hypermetro consistency group (async task interface)
 
     Args:
         client: DME API client
-        group_id: Active-active consistency group ID
-        pair_ids: Active-active Pair ID  list
+        group_id: hypermetro consistency group ID
+        pair_ids: hypermetro Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups/{group_id}/remove-pairs"
@@ -535,16 +555,16 @@ def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids:
 
 def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-     pause active-active consistency group
+    Pause hypermetro consistency group
 
     Args:
         client: DME API client
-        ids: Active-active consistency group ID  list
-        priority_station_type: Site type, Options: preferred , non_preferred 
+        ids: hypermetro consistency group ID list
+        priority_station_type: station type, valid values: preferred, non_preferred
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups/pause"
@@ -560,16 +580,16 @@ def hypermetro_group_pause(client: DMEAPIClient, ids: list, priority_station_typ
 
 def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    force start active-active consistency group
+    Force start hypermetro consistency group
 
     Args:
         client: DME API client
-        ids: Active-active consistency group ID  list
-        priority_station_type: Site type, Options: preferred , non_preferred 
+        ids: hypermetro consistency group ID list
+        priority_station_type: station type, valid values: preferred, non_preferred
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups/force-startup"
@@ -585,15 +605,15 @@ def hypermetro_group_force_startup(client: DMEAPIClient, ids: list, priority_sta
 
 def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     """
-    Active-active consistency grouppreferred site switch
+    Switch priority site for hypermetro consistency group
 
     Args:
         client: DME API client
-        ids: Active-active consistency group ID  list
+        ids: hypermetro consistency group ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/groups/switch-priority-site"
@@ -606,8 +626,31 @@ def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     return response
 
 
+def hypermetro_group_sync(client: DMEAPIClient, ids: list) -> dict:
+    """
+    Sync hypermetro consistency group
+
+    Args:
+        client: DME API client
+        ids: hypermetro consistency group ID list (Required, List<string>, min array members: 1, max array members: 100)
+
+    Returns:
+        {
+            task_id: task ID (string, 1~64 characters),
+        }
+    """
+    url = "/rest/protection/v1/metro/groups/sync"
+
+    payload = {
+        'ids': ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
 # ============================================================================
-# hypermetro_pair Subtopic - Active-active Pair operations
+# hypermetro_pair subtopic - HyperMetro Pair related operations
 # ============================================================================
 
 def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -619,69 +662,63 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
                          remote_vstore_id: str = None, remote_vstore_raw_id: str = None,
                          remote_volume_name: str = None) -> dict:
     """
-    Batch query LUN Active-active Pair
+    Batch query LUN hypermetro Pairs
 
     Args:
         client: DME API client
-        page_no: Page number, default 1
-        page_size: Items per page, default 20
-        group_id: Active-active consistency group ID
-        group_name: Active-active consistency group name, supports fuzzy match
-        group_raw_id: Active-active consistency groupon the storage device ID
-        pair_raw_id: Active-active Pair on the storage device ID
-        local_storage_id: local Storage device ID
-        local_storage_name: local Storage device name, supports fuzzy match
-        local_vstore_id: local tenant ID, this parameter and local_vstore_raw_id mutually exclusive
-        local_vstore_raw_id: local tenanton the device ID, this parameter and local_vstore_id mutually exclusive
-        local_volume_name: local  LUN  name, supports fuzzy match
-        local_host_access_state: Local resource host access status. Options: access_forbidden, read_only, read_write
-        remote_vstore_id: remote tenant ID, this parameter and remote_vstore_raw_id mutually exclusive
-        remote_vstore_raw_id: remote tenanton the device ID, this parameter and remote_vstore_id mutually exclusive
-        remote_volume_name: remote  LUN  name, supports fuzzy match
+        page_no: pagination page number, default 1
+        page_size: items per page, default 20
+        group_id: hypermetro consistency group ID
+        group_name: hypermetro consistency group name, supports fuzzy match
+        group_raw_id: hypermetro consistency group ID on the storage device
+        pair_raw_id: hypermetro Pair ID on the storage device
+        local_storage_id: local storage device ID
+        local_storage_name: local storage device name, supports fuzzy match
+        local_vstore_id: local tenant ID, mutually exclusive with local_vstore_raw_id
+        local_vstore_raw_id: local tenant ID on the device, mutually exclusive with local_vstore_id
+        local_volume_name: local LUN name, supports fuzzy match
+        local_host_access_state: local resource host access state, valid values: access_forbidden, read_only, read_write
+        remote_vstore_id: remote tenant ID, mutually exclusive with remote_vstore_raw_id
+        remote_vstore_raw_id: remote tenant ID on the device, mutually exclusive with remote_vstore_id
+        remote_volume_name: remote LUN name, supports fuzzy match
 
     Returns:
         {
-            total: Number of LUN active-active pairs (int32),
-            hypermetro_pairs: List of LUN active-active pairs (List<HyperMetroPairResponse>). Parameter format: [{
-                id: Active-active pair ID (string, 1-64 characters),
-                pair_raw_id: ID on the storage device (string, 1-64 characters),
-                local_volume_raw_id: Local LUN ID on the device (string, 1-64 characters),
-                local_volume_name: Local LUN name (string, 1-255 characters),
-                remote_volume_raw_id: Remote LUN ID on the device (string, 1-64 characters),
-                remote_volume_name: Remote LUN name (string, 1-255 characters),
-                domain_raw_id: Domain ID on the device (string, 0-64 characters),
-                domain_name: Domain name (string, 0-64 characters),
-                volume_wwn: Local LUN WWN (string, 1-64 characters),
-                health_status: Health status. Valid values: unknown, normal, fault,
-                running_status: Running status. Valid values: normal, synchronizing, invalid, pause, forced_start, to_be_synchronized, unknown, error,
-                link_status: Link status. Valid values: connected, disconnected, unknown,
-                recovery_policy: Recovery policy. Valid values: automatic, manual,
-                priority_station_type: Priority site type. Valid values: preferred, non_preferred,
-                local_storage_id: Local storage device ID (string, 1-64 characters),
-                local_storage_name: Local storage device name (string, 1-255 characters),
-                local_vstore_id: Local tenant ID (string),
-                local_vstore_raw_id: Local tenant ID on the device (string),
-                local_vstore_name: Local tenant name (string),
-                remote_storage_id: Remote storage device ID (string, 0-64 characters),
-                remote_storage_name: Remote storage device name (string, 0-255 characters),
-                remote_vstore_id: Remote tenant ID (string),
-                remote_vstore_raw_id: Remote tenant ID on the device (string),
-                remote_vstore_name: Remote tenant name (string),
-                is_in_group: Whether in a consistency group. Valid values: true, false,
-                group_id: Active-active consistency group ID (string, 0-64 characters),
-                group_raw_id: Group ID on the device (string, 0-64 characters),
-                group_name: Group name (string, 0-255 characters),
-                speed: Sync speed. Valid values: low, medium, high, highest,
-                sync_start_time: Last sync start time (string),
-                sync_end_time: Last sync end time (string),
-                local_data_state: Local data state. Valid values: consistent, inconsistent,
-                remote_data_state: Remote data state. Valid values: consistent, inconsistent,
-                local_host_access_state: Local host access state. Valid values: access_forbidden, read_only, read_write,
-                remote_host_access_state: Remote host access state. Valid values: access_forbidden, read_only, read_write,
-                sync_left_time: Estimated sync completion time (string),
-                sync_direction: Data sync direction. Valid values: no_data_synchronization, local_to_remote, remote_to_local,
-                progress: Sync progress (int32),
-                activation_state: Activation state. Valid values: active, passive,
+            total: total hypermetro Pairs (int32),
+            pairs: hypermetro Pair list (List<HyperMetroPairResponse>). parameter format: [{
+                id: hypermetro Pair unique ID (string, 1~64 characters),
+                raw_id: ID on the storage device (string, 1~64 characters),
+                local_storage_id: local storage device ID (string, 1~64 characters),
+                local_storage_name: local device name (string, 1~255 characters),
+                local_volume_raw_id: local volume ID on the device (string, 1~64 characters),
+                local_volume_name: local volume name (string, 1~255 characters),
+                local_vstore_raw_id: local tenant ID on the device (string),
+                local_vstore_name: local tenant name (string),
+                remote_storage_id: remote storage device ID (string, 1~64 characters),
+                remote_storage_name: remote storage device name (string, 1~255 characters),
+                remote_volume_raw_id: remote volume ID on the device (string, 1~64 characters),
+                remote_volume_name: remote volume name (string, 1~255 characters),
+                remote_vstore_raw_id: remote tenant ID on the device (string),
+                remote_vstore_name: remote tenant name (string),
+                domain_name: hypermetro domain name (string, 0~64 characters),
+                domain_raw_id: hypermetro domain ID on the device (string, 0~64 characters),
+                health_status: health status. valid values: unknown, normal, fault,
+                running_status: running status. valid values: normal, synchronizing, invalid, paused, forcibly_started, to_be_synchronized, error, unknown,
+                local_host_access_state: local host access state. valid values: access_forbidden, read_only, read_write,
+                remote_host_access_state: remote host access state. valid values: access_forbidden, read_only, read_write,
+                recovery_policy: recovery policy. valid values: automatic, manual,
+                priority_station_type: priority station type. valid values: preferred, non_preferred,
+                speed: sync speed. valid values: low, medium, high, highest, custom,
+                bandwidth: custom sync speed (int32, MB/s),
+                sync_direction: data sync direction. valid values: no_data_synchronization, local_to_remote, remote_to_local,
+                activation_state: activation state. valid values: active, passive,
+                group_id: hypermetro consistency group ID (string, 0~64 characters),
+                group_raw_id: hypermetro consistency group ID on the device (string, 0~64 characters),
+                group_name: hypermetro consistency group name (string, 0~255 characters),
+                local_protect_group_name: local protection group name (string, 0~255 characters),
+                remote_protect_group_name: remote protection group name (string, 0~255 characters),
+                sync_progress: sync progress (string),
+                sync_left_time: remaining sync time (string),
             }, ...],
         }
     """
@@ -723,37 +760,44 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
     return response
 
 
-def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage_id: str,
-                           domain_id: str, lun_ids: list = None, lun_pairs: list = None,
-                           remote_storage_pool_id: str = None, remote_vstore_id: str = None,
-                           remote_resource_name_rule: str = None, name_prefix: str = None,
-                           name_suffix: str = None, speed: str = None, bandwidth: int = None,
-                           service_assurance_policy: str = None, isolation_threshold_time: int = None,
+def hypermetro_pair_create(client: DMEAPIClient, create_mode: str,
+                           local_storage_id: str, domain_id: str,
+                           lun_ids: list = None, lun_pairs: list = None,
+                           remote_storage_pool_id: str = None,
+                           remote_vstore_id: str = None,
+                           remote_resource_name_rule: str = None,
+                           name_prefix: str = None, name_suffix: str = None,
+                           speed: str = None, bandwidth: int = None,
+                           service_assurance_policy: str = None,
+                           isolation_threshold_time: int = None,
                            recovery_policy: str = None) -> dict:
     """
-    create Active-active Pair
+    create hypermetro Pair
 
     Args:
         client: DME API client
-        create_mode: Active-active pair creation mode, Options: auto , manual 
-        local_storage_id: Create active-active pair storage device ID
-        domain_id: Active-active domain ID
-        lun_ids: In auto-create mode, Source LUN ID list
-        lun_pairs: In manual create mode, Active-active pair source and target LUN ID list
-        remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
-        remote_vstore_id: Remote device tenant ID, effective in auto-create mode
-        remote_resource_name_rule: LUN naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
-        name_prefix: Remote LUN name prefix
-        name_suffix: Remote LUN name suffix
-        speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , required when speed is custom
-        service_assurance_policy: Service assurance policy, Options: data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
-        recovery_policy: Recovery policy, Options: automatic, manual
+        create_mode: hypermetro Pair creation mode (Required). valid values: auto, manual
+        lun_pairs: manually configured hypermetro Pair info list (Optional, List<LunPairInstance>, max array members: 100). parameter format: [{
+                local_lun_id: local LUN ID (Required, 1~32 characters, regex ^[a-fA-F0-9]+$),
+                remote_lun_id: remote LUN ID (Required, 1~32 characters, regex ^[a-fA-F0-9]+$),
+            }, ...]
+        lun_ids: LUN ID list (Optional, List<string>, max array members: 100). valid when create_mode is auto
+        remote_storage_pool_id: remote storage pool ID (Optional, 1~32 characters, regex ^[a-fA-F0-9]+$). valid when create_mode is auto
+        remote_vstore_id: remote device tenant ID (Optional, 1~64 characters). conditionally required: when create_mode is auto and device is OceanStor Dorado 6.1.3 or above
+        remote_resource_name_rule: remote resource naming strategy (Optional). valid values: same_as_local, prefix_and_suffix, prefix_and_num. valid in auto creation mode
+        name_prefix: remote resource name prefix (Optional, 0~251 characters). valid in auto creation mode with name rule prefix_and_suffix or prefix_and_num
+        name_suffix: remote resource name suffix (Optional, 0~16 characters). valid in auto creation mode with name rule prefix_and_suffix
+        local_storage_id: local storage device ID (Optional, 1~64 characters). conditionally required: when create_mode is manual
+        domain_id: hypermetro domain ID (Optional, 1~64 characters). conditionally required: when create_mode is manual
+        speed: sync speed (Optional). valid values: low, medium, high, highest, custom
+        bandwidth: custom sync speed (Optional, int32, MB/s). required when speed is custom
+        service_assurance_policy: service assurance policy (Optional). valid values: data_reliability_preferred, service_continuity_preferred
+        isolation_threshold_time: isolation threshold (Optional, int32, 10~30000ms). required when service_assurance_policy is service_continuity_preferred
+        recovery_policy: recovery policy (Optional). valid values: automatic, manual
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs"
@@ -798,20 +842,20 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
                             service_assurance_policy: str = None,
                             isolation_threshold_time: int = None) -> dict:
     """
-    modify Active-active Pair
+    modify hypermetro Pair
 
     Args:
         client: DME API client
-        pair_id: Active-active Pair instance ID
-        speed: Active-active Pair Sync rate. Options: low, medium, high, highest, custom
-        bandwidth:  custom rate (MB/s) , required when speed is custom
-        recovery_policy: Recovery policy, Options: automatic, manual
-        service_assurance_policy: Service assurance policy, Options: data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time:  Isolation threshold (ms) , required when service_assurance_policy is service_continuity_preferred
+        pair_id: hypermetro Pair ID
+        speed: sync speed, valid values: low, medium, high, highest, custom
+        bandwidth: custom sync speed (MB/s), required when speed is custom
+        recovery_policy: recovery policy, valid values: automatic, manual
+        service_assurance_policy: service assurance policy, valid values: data_reliability_preferred, service_continuity_preferred
+        isolation_threshold_time: isolation threshold (milliseconds), required when service_assurance_policy is service_continuity_preferred
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs/{pair_id}"
@@ -833,33 +877,29 @@ def hypermetro_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = None
     return response
 
 
-def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None,
+def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str,
                             is_lun_service_interrupt: bool = None) -> dict:
     """
-    Batch delete active-active Pair
-
-    >![](public_sys-resources/icon-notice.gif) **: **
-    This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
+    Batch delete hypermetro Pairs
 
     Args:
         client: DME API client
-        ids: Active-active Pair instance ID  list
-        delete_mode: Delete mode, Options: preferred_only, non_preferred_only, dual_ends
-        is_lun_service_interrupt:  Whether to interrupt LUN service, effective when delete_mode is preferred_only or non_preferred_only
+        ids: hypermetro Pair ID list
+        delete_mode: delete mode. valid values: preferred_only, non_preferred_only, dual_ends
+        is_lun_service_interrupt: whether to allow LUN service interruption (Optional, boolean). valid values: true (allow), false (not allow)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs/delete"
 
     payload = {
-        'ids': ids
+        'ids': ids,
+        'delete_mode': delete_mode
     }
 
-    if delete_mode is not None:
-        payload['delete_mode'] = delete_mode
     if is_lun_service_interrupt is not None:
         payload['is_lun_service_interrupt'] = is_lun_service_interrupt
 
@@ -869,15 +909,15 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
 
 def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    Sync active-active pair
+    Batch sync hypermetro Pairs
 
     Args:
         client: DME API client
-        ids: Active-active Pair ID  list
+        ids: hypermetro Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs/sync"
@@ -892,16 +932,16 @@ def hypermetro_pair_sync(client: DMEAPIClient, ids: list) -> dict:
 
 def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-     pause active-active pair
+    Pause hypermetro Pair
 
     Args:
         client: DME API client
-        ids: Active-active Pair ID  list
-        priority_station_type: Site type, Options: preferred, non_preferred
+        ids: hypermetro Pair ID list
+        priority_station_type: station type. valid values: preferred, non_preferred
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs/pause"
@@ -917,16 +957,16 @@ def hypermetro_pair_pause(client: DMEAPIClient, ids: list, priority_station_type
 
 def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_station_type: str) -> dict:
     """
-    force start active-active pair
+    Force start hypermetro Pair
 
     Args:
         client: DME API client
-        ids: Active-active Pair ID  list
-        priority_station_type: Site type, Options: preferred, non_preferred
+        ids: hypermetro Pair ID list
+        priority_station_type: station type. valid values: preferred, non_preferred
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs/force-startup"
@@ -942,15 +982,15 @@ def hypermetro_pair_force_startup(client: DMEAPIClient, ids: list, priority_stat
 
 def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     """
-    Active-active Pair preferred site switch
+    Switch priority site for hypermetro Pair
 
     Args:
         client: DME API client
-        ids: Active-active Pair ID  list
+        ids: hypermetro Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs/switch-priority-site"
@@ -964,45 +1004,45 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_domain Subtopic - Active-active domainoperations
+# hypermetro_domain subtopic - HyperMetro domain related operations
 # ============================================================================
 
 def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
                             types: list = None) -> dict:
     """
-    Batch query active-active domain
+    Batch query hypermetro domains
 
     Args:
         client: DME API client
-        storage_id:  device ID
-        types: Active-active domain type list
+        storage_id: device ID
+        types: hypermetro domain type list
 
     Returns:
         {
-            metro_domain_list: List of hyper-metro domains (List<MetroDomain>). Parameter format: [{
-                id: Domain ID (string),
-                storage_id: Device ID (string),
-                storage_name: Device name (string, 1-64 characters),
-                ip_address: Device IP address (string),
-                domain_id: Domain ID on the device (string, 1-32 characters),
-                domain_name: Domain name (string, 1-64 characters),
-                running_status: Running status. Valid values: normal, to_be_recovered, invalid, recovering, faulty, split, force_started,
-                domain_type: Domain mode. Valid values: AA_mode, AP_mode,
-                type: Domain usage type. Valid values: block, file_system, block_file_system,
-                cp_type: Arbitration type. Valid values: quorum_server, quorum_disk, none,
-                cps_name: Arbitration server name (string, 1-64 characters),
-                cps_running_status: Arbitration server running status. Valid values: online, offline,
-                standby_cps_name: Standby arbitration server name (string, 1-64 characters),
-                server_ip_master: Arbitration server IP (string),
-                server_ip_slave: Alternate arbitration server IP (string),
-                iscsi_link_num: Number of iSCSI links (integer),
-                fc_link_num: Number of FC links (integer),
-                ip_link_num: Number of IP links (integer),
-                remote_storage_id: Remote device ID (string),
-                remote_storage_name: Remote device name (string, 1-64 characters),
-                remote_storage_ip: Remote device IP (string),
-                remote_dev_running_status: Remote device running status. Valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
-                config_role: Configuration role. Valid values: active_site, standby_site,
+            metro_domain_list: hypermetro domain list (List<MetroDomain>). parameter format: [{
+                id: hypermetro domain ID (string),
+                storage_id: device ID (string),
+                storage_name: device name (string, 1~64 characters),
+                ip_address: device IP address (string),
+                domain_id: hypermetro domain ID on the device (string, 1~32 characters),
+                domain_name: hypermetro domain name (string, 1~64 characters),
+                running_status: running status. valid values: normal, to_be_recovered, invalid, recovering, faulty, split, force_started,
+                domain_type: hypermetro domain mode. valid values: AA_mode, AP_mode,
+                type: hypermetro domain usage type. valid values: block, file_system, block_file_system,
+                cp_type: arbitration type. valid values: quorum_server, quorum_disk, none,
+                cps_name: arbitration server name (string, 1~64 characters),
+                cps_running_status: arbitration server running status. valid values: online, offline,
+                standby_cps_name: standby arbitration server name (string, 1~64 characters),
+                server_ip_master: arbitration server IP address (string),
+                server_ip_slave: alternate arbitration server IP address (string),
+                iscsi_link_num: ISCSI link count (integer),
+                fc_link_num: FC link count (integer),
+                ip_link_num: IP link count (integer),
+                remote_storage_id: remote device ID (string),
+                remote_storage_name: remote device name (string, 1~64 characters),
+                remote_storage_ip: remote device IP address (string),
+                remote_dev_running_status: remote device running status. valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
+                config_role: configuration role. valid values: active_site, standby_site,
             }, ...],
         }
     """
@@ -1020,7 +1060,7 @@ def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
 
 
 # ============================================================================
-# replication_pair Subtopic -  replication Pair operations
+# replication_pair subtopic - Replication Pair related operations
 # ============================================================================
 
 def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -1031,66 +1071,66 @@ def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int
                           remote_vstore_id: str = None, remote_vstore_raw_id: str = None,
                           remote_volume_name: str = None) -> dict:
     """
-    Batch query replication Pair
+    Batch query replication Pairs
 
     Args:
         client: DME API client
-        page_no: Page number, default 1
-        page_size: Items per page, default 20
-        group_id:  replicationConsistency group ID
-        group_name:  replicationConsistency group name, supports fuzzy match
-        pair_raw_id:  replication Pair on the storage device ID
-        local_storage_id: local Storage device ID
-        local_storage_name: local Storage device name, supports fuzzy match
-        local_vstore_id: local tenant ID, this parameter and local_vstore_raw_id mutually exclusive
-        local_vstore_raw_id: local tenanton the device ID, this parameter and local_vstore_id mutually exclusive
-        local_volume_name: local  LUN  name, supports fuzzy match
-        remote_vstore_id: remote tenant ID, this parameter and remote_vstore_raw_id mutually exclusive
-        remote_vstore_raw_id: remote tenanton the device ID, this parameter and remote_vstore_id mutually exclusive
-        remote_volume_name: remote  LUN  name, supports fuzzy match
+        page_no: pagination page number, default 1
+        page_size: items per page, default 20
+        group_id: replication consistency group ID
+        group_name: replication consistency group name, supports fuzzy match
+        pair_raw_id: replication Pair ID on the storage device
+        local_storage_id: local storage device ID
+        local_storage_name: local storage device name, supports fuzzy match
+        local_vstore_id: local tenant ID, mutually exclusive with local_vstore_raw_id
+        local_vstore_raw_id: local tenant ID on the device, mutually exclusive with local_vstore_id
+        local_volume_name: local LUN name, supports fuzzy match
+        remote_vstore_id: remote tenant ID, mutually exclusive with remote_vstore_raw_id
+        remote_vstore_raw_id: remote tenant ID on the device, mutually exclusive with remote_vstore_id
+        remote_volume_name: remote LUN name, supports fuzzy match
 
     Returns:
         {
-            total: Number of replication pairs (int32),
-            replication_pairs: List of replication pairs (List<ReplicationPairResponse>). Parameter format: [{
-                id: Replication pair ID (string),
-                raw_id: ID on the device (string),
-                local_storage_id: Local storage device ID (string),
-                local_storage_name: Local storage device name (string),
-                local_resource_raw_id: Local resource ID on the device (string),
-                local_resource_name: Local resource name (string),
-                remote_storage_id: Remote storage device ID (string),
-                remote_storage_name: Remote storage device name (string),
-                remote_resource_raw_id: Remote resource ID on the device (string),
-                remote_resource_name: Remote resource name (string),
-                local_resource_type: Local resource type. Valid values: lun, file_system,
-                local_vstore_raw_id: Local tenant ID on the device (string),
-                remote_vstore_raw_id: Remote tenant ID on the device (string),
-                health_status: Health status.
-                running_status: Running status.
-                replication_mode: Replication mode. Valid values: synchronous, asynchronous,
-                speed: Sync speed.
-                bandwidth: Bandwidth (int32),
-                synchronize_type: Synchronization type.
-                interval: Synchronization interval (integer, 0-86400s),
-                sync_left_time: Remaining sync time,
-                recovery_policy: Recovery policy.
-                is_primary: Whether primary,
-                rep_io_timeout: Replication IO timeout (integer, 10-255s),
-                enable_compress: Enable compression,
-                compress_valid: Compression valid,
-                sync_start_time: Sync start time,
-                sync_end_time: Sync end time,
-                is_in_group: Whether in a consistency group,
-                group_id: Group ID (string),
-                group_raw_id: Group ID on the device (string),
-                group_name: Group name (string),
-                data_consistent_status: Data consistent status,
-                primary_resource_data_status: Primary resource data status,
-                secondary_resource_data_status: Secondary resource data status,
-                secondary_resource_protection: Secondary resource protection,
-                dr_ring_id: DR ring ID,
-                progress: Progress (int32, -1~100),
+            total: total replication Pairs (int32),
+            replication_pairs: replication Pair list (List<ReplicationPairResponse>). parameter format: [{
+                id: unique replication Pair ID (string, 1~64 characters),
+                raw_id: ID on the storage device (string, 1~64 characters),
+                local_storage_id: local storage device ID (string, 1~64 characters),
+                local_storage_name: local device name (string, 1~255 characters),
+                local_resource_raw_id: local resource ID on the device (string, 1~64 characters),
+                local_resource_name: local resource name (string, 1~255 characters),
+                remote_storage_id: remote storage device ID (string, 1~64 characters),
+                remote_storage_name: remote storage device name (string, 1~255 characters),
+                remote_resource_raw_id: remote resource ID on the device (string, 1~64 characters),
+                remote_resource_name: remote resource name (string, 1~255 characters),
+                local_resource_type: local resource type. valid values: lun (volume), file_system,
+                local_vstore_raw_id: local resource tenant ID on the device (string, 1~64 characters),
+                remote_vstore_raw_id: remote resource tenant ID on the device (string, 1~64 characters),
+                health_status: health status. valid values: unknown, normal, fault,
+                running_status: running status. valid values: normal, synchronizing, to_be_recoverd, interrupted, splited, invalid, standby, air_gap_link_down,
+                replication_mode: replication mode. valid values: synchronous, asynchronous,
+                speed: speed. valid values: low, medium, high, highest, custom,
+                bandwidth: custom sync speed (int32, MB/s),
+                synchronize_type: sync type. valid values: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy,
+                interval: data sync period (integer, 0~86400 seconds),
+                sync_left_time: remaining sync time (string),
+                recovery_policy: recovery policy. valid values: automatic, manual,
+                is_primary: whether local is primary. valid values: true, false,
+                rep_io_timeout: remote IO timeout (integer, 10~255 seconds),
+                enable_compress: link compression. valid values: true (compressed), false (not compressed),
+                compress_valid: whether compression is effective. valid values: true, false,
+                sync_start_time: last sync start time (string),
+                sync_end_time: last sync end time (string),
+                is_in_group: whether it belongs to a consistency group. valid values: true, false,
+                group_id: remote replication consistency group ID (string, 1~64 characters),
+                group_raw_id: consistency group ID on the device (string, 1~64 characters),
+                group_name: consistency group name (string, 1~255 characters),
+                data_consistent_status: whether primary and secondary data are consistent. valid values: true, false,
+                primary_resource_data_status: primary resource data status. valid values: synchronized, complete, incomplete, unknown,
+                secondary_resource_data_status: secondary resource data status. valid values: synchronized, complete, incomplete, unknown,
+                secondary_resource_protection: secondary resource read/write setting. valid values: access_denied, read_only, read_write,
+                dr_ring_id: ring 3DC object ID on the device (string, 1~64 characters),
+                progress: sync progress (int32, -1~100),
             }, ...],
         }
     """
@@ -1139,33 +1179,33 @@ def replication_pair_create(client: DMEAPIClient, local_storage_id: str,
                             user_snap_retention_num: int = None, switch_to_async: bool = None,
                             enable_compress: bool = None) -> dict:
     """
-    Create remote replication Pair
+    create remote replication Pair
 
     Args:
         client: DME API client
-        local_storage_id: local Storage device ID
-        local_lun_id: local  LUN ID
-        remote_storage_id: Remote storage device ID
-        remote_storage_pool_id: Remote storage pool ID
-        remote_vstore_id: Remote device tenant ID
-        remote_resource_name_rule: Remote resource naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
-        name_prefix: remote Resource name prefix
-        name_suffix: remote Resource name suffix
-        speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , required when speed is custom
-        recovery_policy: Recovery policy, Options: automatic, manual
-        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-        sync_schedule: Timer rule, required when sync_type is specified_time_policy
-        rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: Auto-convert sync to async remote replication switch
-        enable_compress: Link compression, when replication mode isin async modeRequired
+        local_storage_id: local storage device ID
+        local_lun_id: local LUN ID
+        remote_storage_id: remote storage device ID
+        remote_storage_pool_id: remote storage pool ID
+        remote_vstore_id: remote device tenant ID
+        remote_resource_name_rule: remote resource naming strategy, valid values: same_as_local, prefix_and_suffix, prefix_and_num
+        name_prefix: remote resource name prefix
+        name_suffix: remote resource name suffix
+        speed: sync speed, valid values: low, medium, high, highest, custom
+        bandwidth: custom sync speed (MB/s), required when speed is custom
+        recovery_policy: recovery policy, valid values: automatic, manual
+        sync_type: sync type, valid values: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: timing duration (seconds), required when sync_type is wait_after_sync_begins or wait_after_sync_ends
+        sync_schedule: timing schedule, required when sync_type is specified_time_policy
+        rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
+        sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        user_snap_retention_num: secondary user snapshot retention count
+        switch_to_async: switch for automatic conversion from sync to async remote replication
+        enable_compress: link compression, required when replication mode is async
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/pairs"
@@ -1220,26 +1260,26 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
                             rep_io_timeout: int = None, sync_snap_policy: str = None,
                             user_snap_retention_num: int = None, switch_to_async: bool = None) -> dict:
     """
-    modify  replication Pair
+    modify replication Pair
 
     Args:
         client: DME API client
-        pair_id:  replication Pair instance ID
-        speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , required when speed is custom
-        recovery_policy: Recovery policy, Options: automatic, manual
-        enable_compress: Link compression, when replication mode isin async modeRequired
-        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-        sync_schedule: Timer rule, required when sync_type is specified_time_policy
-        rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: Auto-convert sync to async remote replication switch
+        pair_id: replication Pair instance ID
+        speed: sync speed, valid values: low, medium, high, highest, custom
+        bandwidth: custom sync speed (MB/s), required when speed is custom
+        recovery_policy: recovery policy, valid values: automatic, manual
+        enable_compress: link compression, required when replication mode is async
+        sync_type: sync type, valid values: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: timing duration (seconds), required when sync_type is wait_after_sync_begins or wait_after_sync_ends
+        sync_schedule: timing schedule, required when sync_type is specified_time_policy
+        rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
+        sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        user_snap_retention_num: secondary user snapshot retention count
+        switch_to_async: switch for automatic conversion from sync to async remote replication
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/pairs/{pair_id}"
@@ -1275,16 +1315,16 @@ def replication_pair_modify(client: DMEAPIClient, pair_id: str, speed: str = Non
 
 def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = None) -> dict:
     """
-    Batch delete remote replication pair
+    Batch delete remote replication Pairs
 
     Args:
         client: DME API client
-        ids:  replication Pair instance ID  list
-        delete_mode: Delete mode, Options: primary_only, secondary_only, dual_ends (default)
+        ids: replication Pair instance ID list
+        delete_mode: delete mode, valid values: primary_only, secondary_only, dual_ends, default dual_ends
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/pairs/delete"
@@ -1302,15 +1342,15 @@ def replication_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = 
 
 def replication_pair_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch sync remote replication Pair
+    Batch sync remote replication Pairs
 
     Args:
         client: DME API client
-        ids:  replication Pair ID  list
+        ids: replication Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/pairs/sync"
@@ -1325,15 +1365,15 @@ def replication_pair_sync(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_pair_split(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch split remote replication Pair
+    Batch split remote replication Pairs
 
     Args:
         client: DME API client
-        ids:  replication Pair ID  list
+        ids: replication Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/pairs/split"
@@ -1348,15 +1388,15 @@ def replication_pair_split(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
     """
-    Remote replication Pair Batch primary/standby switch
+    Batch primary-secondary switch for remote replication Pairs
 
     Args:
         client: DME API client
-        ids:  replication Pair ID  list
+        ids: replication Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/pairs/switch"
@@ -1371,16 +1411,16 @@ def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, operation_type: str) -> dict:
     """
-    Remote replication Pair Switch from resource protection state
+    Switch write protection state for remote replication Pair secondary resource
 
     Args:
         client: DME API client
-        id:  replication Pair ID
-        operation_type: Operation type, Options: enable, disable 
+        id: replication Pair ID
+        operation_type: operation type, valid values: enable, disable
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/pairs/{id}/switch-write-protection"
@@ -1394,12 +1434,12 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
 
 
 # ============================================================================
-# Device pair and replication link operations
+# device subtopic - Device Pair and replication link related operations
 # ============================================================================
 
 def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
     """
-     query device Pairs
+    Query device Pairs
 
     Args:
         client: DME API client
@@ -1407,27 +1447,27 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
 
     Returns:
         {
-            total: Number of device pairs (int32),
-            device_pairs: List of device pairs (List<DevicePairInfo>). Parameter format: [{
-                id: Device pair ID (string, 1-64 characters),
-                local_storage_sn: Local device SN (string, 0-32 characters),
-                remote_storage_sn: Remote device SN (string, 0-32 characters),
-                local_storage_ip: Local device IP (string, 1-64 characters),
-                local_storage_name: Local device name (string, 0-255 characters),
-                local_storage_model: Local device model (string, 0-32 characters),
-                local_storage_version: Local device version (string, 0-32 characters),
-                remote_storage_identifier: Remote device identifier on local device (string, 0-32 characters),
-                remote_storage_name: Remote device name (string, 0-255 characters),
-                remote_storage_wwn: Remote device WWN (string, 0-64 characters),
-                remote_storage_vendor: Remote device vendor (string, 0-32 characters),
-                remote_storage_ip: Remote device IP (string, 1-64 characters),
-                remote_storage_model: Remote device model (string, 0-32 characters),
-                remote_storage_type: Remote device type. Valid values: replication_device, heterogeneous_device, unknown_device, cloud_replication_device,
-                remote_storage_version: Remote device version (string, 0-32 characters),
-                running_status: Running status. Valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
-                health_status: Health status. Valid values: normal, fault, invalid,
-                compress_alg_valid: Whether compression status is valid. Valid values: true, false,
-                compress_algorithm: Compression algorithm. Valid values: depth_compression, fast_compression, invalid, fault,
+            total: total device Pairs (int32),
+            device_pairs: device Pair list (List<DevicePairInfo>). parameter format: [{
+                id: device Pair ID (string, 1~64 characters),
+                local_storage_sn: local device SN (string, 0~32 characters),
+                remote_storage_sn: remote device SN (string, 0~32 characters),
+                local_storage_ip: local device IP (string, 1~64 characters),
+                local_storage_name: local device name (string, 0~255 characters),
+                local_storage_model: local device model (string, 0~32 characters),
+                local_storage_version: local device version (string, 0~32 characters),
+                remote_storage_identifier: remote device identifier ID on local device (string, 0~32 characters),
+                remote_storage_name: remote device name (string, 0~255 characters),
+                remote_storage_wwn: remote device WWN (string, 0~64 characters),
+                remote_storage_vendor: remote device vendor (string, 0~32 characters),
+                remote_storage_ip: remote device IP (string, 1~64 characters),
+                remote_storage_model: remote device model (string, 0~32 characters),
+                remote_storage_type: remote device type. valid values: replication_device, heterogeneous_device, unknown_device, cloud_replication_device,
+                remote_storage_version: remote device version (string, 0~32 characters),
+                running_status: running status. valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
+                health_status: health status. valid values: normal, fault, invalid,
+                compress_alg_valid: whether compression status is valid. valid values: true, false,
+                compress_algorithm: compression strategy. valid values: depth_compression, fast_compression, invalid, fault,
             }, ...],
         }
     """
@@ -1442,39 +1482,58 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
     return response
 
 
-def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
+def replication_link_list(client: DMEAPIClient, local_storage_id: str = None,
+                          page_no: int = None, page_size: int = None,
+                          health_status: str = None,
+                          running_status: str = None,
+                          link_type: str = None) -> dict:
     """
-    Query replication link
+    Query replication links
 
     Args:
         client: DME API client
-        storage_id: Storage device ID
+        local_storage_id: local storage device ID (Optional, string, 1~64 characters), query as source storage device
+        page_no: pagination page number (Optional, int32, default 1)
+        page_size: items per page (Optional, int32, 1~1000, default 20)
+        health_status: health status (Optional, string). valid values: normal, fault
+        running_status: running status (Optional, string). valid values: link_up, link_down, disabled, connecting, air_gap_link_down
+        link_type: replication link type (Optional, string). valid values: fc_link, ip_link
 
     Returns:
         {
-            total: Number of replication links (int32),
-            replication_links: List of replication links (List<ReplicationLinkInfo>). Parameter format: [{
-                id: Replication link ID (string, 1-64 characters),
-                link_type: Link type. Valid values: fc_link, ip_link,
-                local_storage_id: Local storage device ID (string, 1-64 characters),
-                health_status: Health status. Valid values: normal, fault,
-                running_status: Running status. Valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
+            total: total replication links (int32),
+            replication_links: replication link list (List<ReplicationLinkInfo>). parameter format: [{
+                id: replication link ID (string, 1~64 characters),
+                link_type: link type. valid values: fc_link, ip_link,
+                local_storage_id: local storage device ID (string, 1~64 characters),
+                health_status: health status. valid values: normal, fault,
+                running_status: running status. valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
             }, ...],
         }
     """
-    url = "/rest/protection/v1/replication-links/query"
+    url = "/rest/protection/v1/device-pairs/replication-links/query"
 
     payload = {}
 
-    if storage_id is not None:
-        payload['storage_id'] = storage_id
+    if local_storage_id is not None:
+        payload['local_storage_id'] = local_storage_id
+    if page_no is not None:
+        payload['page_no'] = page_no
+    if page_size is not None:
+        payload['page_size'] = page_size
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if running_status is not None:
+        payload['running_status'] = running_status
+    if link_type is not None:
+        payload['link_type'] = link_type
 
     response = client.post(url, body=payload)
     return response
 
 
 # ============================================================================
-# snapshot Subtopic - LUN  snapshotoperations
+# snapshot subtopic - LUN snapshot related operations
 # ============================================================================
 
 def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: str = None,
@@ -1483,51 +1542,51 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
                   parent_name: str = None, activated_time_from: int = None,
                   activated_time_to: int = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query LUN  snapshot
+    Batch query LUN snapshots
 
     Args:
         client: DME API client
-        snapshot_ids:  snapshot ID  list
+        snapshot_ids: snapshot ID list
         storage_id: Storage device ID
-        raw_id:  snapshoton the storage device ID
-        name: Snapshot name, supports fuzzy search
-        health_status: Health status, Options: normal, fault, write_protected
-        running_status: Running status, Options: activated, rolling_back, unactivated, initializing, deleting, unknown
-        source_lun_name: Source LUN name, supports fuzzy search
-        parent_name: Parent object name, supports fuzzy search
-        activated_time_from: Query activation start time (Unix Timestamp, unit second(s)) 
-        activated_time_to: Query activation end time (Unix Timestamp, unit second(s)) 
-        page_no: Page start, min: 1, default: 1
-        page_size: per pagecount, 1~1000, default 20
+        raw_id: snapshot ID on the storage device
+        name: snapshot name, supports fuzzy query
+        health_status: health status, valid values: normal, fault, write_protected
+        running_status: running status, valid values: activated, rolling_back, unactivated, initializing, deleting, unknown
+        source_lun_name: source LUN name, supports fuzzy query
+        parent_name: parent object name, supports fuzzy query
+        activated_time_from: query activation time start point (Unix timestamp, seconds)
+        activated_time_to: query activation time end point (Unix timestamp, seconds)
+        page_no: pagination start page, min 1, default 1
+        page_size: items per page, 1~1000, default 20
 
     Returns:
         {
-            total: Number of LUN snapshots (int32),
-            snapshots: List of LUN snapshots (List<SnapshotInfo>). Parameter format: [{
-                id: Snapshot ID (string),
-                raw_id: ID on the device (string),
-                name: Snapshot name (string),
-                parent_type: Parent type. Valid values: lun, snapshot,
-                parent_id: Parent ID (string),
-                parent_raw_id: Parent ID on the device (string),
-                parent_name: Parent name (string),
-                health_status: Health status.
-                running_status: Running status.
-                description: Description (string),
-                activated_time: Activation time (int64),
-                rollback_start_time: Rollback start time (int64),
-                rollback_end_time: Rollback end time (int64),
-                rollback_speed: Rollback speed.
-                rollback_rate: Rollback rate (int32, -1~100),
-                is_mapped: Whether mapped,
-                wwn: WWN (string),
-                user_capacity: User capacity (int64, bytes),
-                consumed_capacity: Consumed capacity (int64, bytes),
-                snapshot_cg_id: Snapshot consistency group ID (string),
-                snapshot_cg_name: Snapshot consistency group name (string),
-                source_lun_id: Source LUN ID (string),
-                source_lun_name: Source LUN name (string),
-                storage_id: Storage device ID (string),
+            total: total LUN snapshots (int32),
+            snapshots: LUN snapshot list (List<LunSnapshotInfo>). parameter format: [{
+                id: snapshot ID (string, 1~64 characters),
+                raw_id: snapshot ID on the storage device (string, 1~64 characters),
+                name: snapshot name (string, 1~255 characters),
+                parent_type: parent object type. valid values: lun (LUN), snapshot,
+                parent_id: parent object ID (string, 1~64 characters),
+                parent_raw_id: parent object ID on the storage device (string, 1~64 characters),
+                parent_name: parent object name (string, 1~255 characters),
+                health_status: health status. valid values: normal, fault, write_protected,
+                running_status: running status. valid values: activated, rolling_back, unactivated, initializing, deleting, unknown,
+                description: snapshot description info (string, 0~255 characters),
+                activated_time: snapshot activation time (int64),
+                rollback_start_time: rollback start time (int64),
+                rollback_end_time: rollback end time (int64),
+                rollback_speed: rollback speed. valid values: low, medium, high, highest, unknown,
+                rollback_rate: rollback progress (int32, -1~100),
+                is_mapped: mapping status. valid values: true (mapped), false (not mapped),
+                wwn: WWN (string, 1~64 characters),
+                user_capacity: snapshot user capacity (int64, bytes),
+                consumed_capacity: snapshot actual consumed capacity (int64, bytes),
+                snapshot_cg_id: snapshot consistency group ID (string, 1~64 characters),
+                snapshot_cg_name: snapshot consistency group name (string, 1~255 characters),
+                source_lun_id: source LUN ID (string, 1~64 characters),
+                source_lun_name: source LUN name (string, 1~255 characters),
+                storage_id: storage device ID (string, 1~64 characters),
             }, ...],
         }
     """
@@ -1565,16 +1624,20 @@ def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: s
 
 def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activate: bool = None) -> dict:
     """
-    Batch create LUN  snapshot
+    Batch create LUN snapshots
 
     Args:
         client: DME API client
-        snapshots_info: LUN  snapshotcreate info list, Each item includes name, source_type, source_id
-        is_consist_activate: Consistency activation, default false
+        snapshots_info: LUN snapshot creation info list (List<LunSnapshotCreateInfo>, max array members: 2048). parameter format: [{
+                name: snapshot name (1~255 characters),
+                source_type: source object type. valid values: lun (LUN), snapshot,
+                source_id: source object ID (1~64 characters),
+             }, ...]
+        is_consist_activate: whether to consistently activate, default false
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/lun-snapshots"
@@ -1592,16 +1655,16 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
 
 def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapshots: list) -> dict:
     """
-    batch rollback LUN  snapshot
+    Batch rollback LUN snapshots
 
     Args:
         client: DME API client
-        rollback_speed:  Rollback rate, Options: low, medium, high, highest
-        rollback_snapshots: Snapshot rollback resourceinfor list, Each item includes snapshot_id, target_type, target_id
+        rollback_speed: rollback speed, valid values: low, medium, high, highest
+        rollback_snapshots: snapshot rollback resource info list, each item contains snapshot_id, target_type, target_id
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/lun-snapshots/batch-rollback"
@@ -1618,17 +1681,17 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
 def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_lun: bool = None,
                     is_auto_deactivate: bool = None) -> dict:
     """
-    Batch delete LUN  snapshot
+    Batch delete LUN snapshots
 
     Args:
         client: DME API client
-        snapshot_ids:  snapshot ID  list
-        is_delete_target_lun: Delete target LUN, default true
-        is_auto_deactivate: Auto before deleteDeactivate snapshot, default false
+        snapshot_ids: snapshot ID list
+        is_delete_target_lun: whether to delete target LUN, default true
+        is_auto_deactivate: whether to automatically deactivate snapshot before deletion, default false
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/lun-snapshots/batch-delete"
@@ -1647,24 +1710,24 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
 
 
 # ============================================================================
-# snapshot_group Subtopic - Snapshot consistency groupoperations
+# snapshot_group subtopic - Snapshot consistency group related operations
 # ============================================================================
 
 def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
                           description: str = None, creation_mode: str = None) -> dict:
     """
-    create Snapshot consistency group
+    create snapshot consistency group
 
     Args:
         client: DME API client
-        name: Snapshot consistency group name
-        protect_group_id: Protection group ID
-        description: Description
-        creation_mode: creation mode, Options: new_snapshot
+        name: snapshot consistency group name
+        protect_group_id: protection group ID
+        description: description info
+        creation_mode: creation mode, valid values: new_snapshot
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups"
@@ -1685,16 +1748,16 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
 
 def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete_target_lun: bool = None) -> dict:
     """
-    Batch delete snapshot consistency group
+    Batch delete snapshot consistency groups
 
     Args:
         client: DME API client
-        snapshot_cg_ids: Snapshot consistency group ID  list
-        is_delete_target_lun: Delete target LUN, Dorado 6.1.2+ only, default true
+        snapshot_cg_ids: snapshot consistency group ID list
+        is_delete_target_lun: whether to delete target LUN, only supported in Dorado 6.1.2 and above, default true
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/batch-delete"
@@ -1715,21 +1778,21 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
                             name_prefix: str = None, name_suffix: str = None,
                             target_snapshot_objects: list = None) -> dict:
     """
-     activateSnapshot consistency group
+    Activate snapshot consistency group
 
     Args:
         client: DME API client
-        snapshot_cg_id: Snapshot consistency group ID
-        object_type: Object type, Options: parent_object
-        snapshot_create_mode: Snapshot creation method, Options: auto, manual
-        name_rule: Snapshot naming rule, Options: prefix_and_suffix, prefix_and_num
-        name_prefix: Snapshot name prefix
-        name_suffix: Snapshot name suffix
-        target_snapshot_objects:  target snapshotobject list
+        snapshot_cg_id: snapshot consistency group ID
+        object_type: object type, valid values: parent_object
+        snapshot_create_mode: snapshot creation mode, valid values: auto, manual
+        name_rule: snapshot naming rule, valid values: prefix_and_suffix, prefix_and_num
+        name_prefix: snapshot name prefix
+        name_suffix: snapshot name suffix
+        target_snapshot_objects: target snapshot object list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/{snapshot_cg_id}/activate"
@@ -1755,15 +1818,15 @@ def snapshot_group_activate(client: DMEAPIClient, snapshot_cg_id: str, object_ty
 
 def snapshot_group_deactivate(client: DMEAPIClient, snapshot_cg_ids: list) -> dict:
     """
-    Batch deactivateSnapshot consistency group
+    Batch deactivate snapshot consistency groups
 
     Args:
         client: DME API client
-        snapshot_cg_ids: Snapshot consistency group ID  list
+        snapshot_cg_ids: snapshot consistency group ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/batch-deactivate"
@@ -1781,21 +1844,21 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
                             name_prefix: str = None, name_suffix: str = None,
                             target_snapshot_objects: list = None) -> dict:
     """
-     rollbackSnapshot consistency group
+    Rollback snapshot consistency group
 
     Args:
         client: DME API client
-        snapshot_cg_id: Snapshot consistency group ID
-        rollback_speed:  Rollback rate, Options: low, medium, high, highest
-        snapshot_create_mode: Snapshot creation method, Options: auto, manual
-        name_rule: Snapshot naming rule, Options: prefix_and_suffix, prefix_and_num
-        name_prefix: Snapshot name prefix
-        name_suffix: Snapshot name suffix
-        target_snapshot_objects:  target snapshotobject list
+        snapshot_cg_id: snapshot consistency group ID
+        rollback_speed: rollback speed, valid values: low, medium, high, highest
+        snapshot_create_mode: snapshot creation mode, valid values: auto, manual
+        name_rule: snapshot naming rule, valid values: prefix_and_suffix, prefix_and_num
+        name_prefix: snapshot name prefix
+        name_suffix: snapshot name suffix
+        target_snapshot_objects: target snapshot object list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/snapshot-consistency-groups/{snapshot_cg_id}/rollback"
@@ -1820,7 +1883,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
 
 
 # ============================================================================
-# clone_group Subtopic - cloneConsistency groupoperations
+# clone_group subtopic - Clone consistency group related operations
 # ============================================================================
 
 def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
@@ -1829,24 +1892,27 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
                        copy_rate: str = None, is_sync: bool = None,
                        clone_pairs: list = None) -> dict:
     """
-    create cloneConsistency group
+    create clone consistency group
 
     Args:
         client: DME API client
-        name: cloneConsistency group name
-        protect_group_id: Protection group ID
-        create_mode: creation mode, Options: auto, manual
-        description: Description
-        name_rule:  target LUN Naming rule, Options: prefix_and_suffix, prefix_and_num
-        name_prefix:  target LUN name prefix
-        name_suffix:  target LUN name suffix
-        copy_rate:  copy rate, Options: low, medium, high, highest, default medium
-        is_sync:  Whether to sync immediately, default true
-        clone_pairs: Clone pair list, required when create_mode is manual
+        name: clone consistency group name
+        protect_group_id: protection group ID
+        create_mode: creation mode, valid values: auto, manual
+        description: description info
+        name_rule: target LUN naming rule, valid values: prefix_and_suffix, prefix_and_num
+        name_prefix: target LUN name prefix
+        name_suffix: target LUN name suffix
+        copy_rate: copy rate, valid values: low, medium, high, highest, default medium
+        is_sync: whether to sync immediately, default true
+        clone_pairs: clone Pair list (List<TargetClonePairObject>, max array members: 4096), required when create_mode is manual. parameter format: [{
+                source_lun_id: source LUN ID (1~32 characters),
+                target_lun_id: target LUN ID (1~32 characters),
+             }, ...]
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/clone-consistency-groups"
@@ -1876,27 +1942,30 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
     return response
 
 
-def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str = None,
+def clone_group_sync(client: DMEAPIClient, clone_cg_id: str, create_mode: str = None,
                             name_rule: str = None, name_prefix: str = None,
                             name_suffix: str = None, clone_pairs: list = None) -> dict:
     """
-    SynccloneConsistency group
+    Sync clone consistency group
 
     Args:
         client: DME API client
-        clone_group_id: cloneConsistency group ID
-        create_mode: clone Pair creation mode, Options: auto, manual
-        name_rule:  target LUN Naming rule, Options: prefix_and_suffix, prefix_and_num
-        name_prefix:  target LUN name prefix
-        name_suffix:  target LUN name suffix
-        clone_pairs: Clone pair list, required when create_mode is manual
+        clone_cg_id: clone consistency group ID
+        create_mode: clone Pair creation mode, valid values: auto, manual
+        name_rule: target LUN naming rule, valid values: prefix_and_suffix, prefix_and_num
+        name_prefix: target LUN name prefix
+        name_suffix: target LUN name suffix
+        clone_pairs: clone Pair list (List<TargetClonePairObject>, max array members: 4096), required when create_mode is manual. parameter format: [{
+                source_lun_id: source LUN ID (1~32 characters),
+                target_lun_id: target LUN ID (1~32 characters),
+             }, ...]
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
-    url = "/rest/protection/v1/clone-consistency-groups/{clone_group_id}/synchronize"
+    url = "/rest/protection/v1/clone-consistency-groups/{clone_cg_id}/synchronize"
 
     payload = {}
 
@@ -1911,24 +1980,24 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
     if clone_pairs is not None:
         payload['clone_pairs'] = clone_pairs
 
-    response = client.post(url, body=payload, params={"clone_group_id": clone_group_id})
+    response = client.post(url, body=payload, params={"clone_cg_id": clone_cg_id})
     return response
 
 
 def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool = None,
                        is_recycle_dst_lun_data: bool = None) -> dict:
     """
-    Batch deletecloneConsistency group
+    Batch delete clone consistency groups
 
     Args:
         client: DME API client
-        ids: cloneConsistency group ID  list
-        is_delete_dst_lun: Delete target LUN
-        is_recycle_dst_lun_data: Reclaim target LUN  data
+        ids: clone consistency group ID list
+        is_delete_dst_lun: whether to delete target LUN
+        is_recycle_dst_lun_data: whether to recycle target LUN data
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/clone-consistency-groups/batch-delete"
@@ -1947,7 +2016,7 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
 
 
 # ============================================================================
-# replication_group Subtopic -  replicationConsistency groupoperations
+# replication_group subtopic - Replication consistency group related operations
 # ============================================================================
 
 def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_id: str,
@@ -1959,29 +2028,32 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
                               remote_resource_name_rule: str = None, name_prefix: str = None,
                               name_suffix: str = None) -> dict:
     """
-    Create remote replication consistency group
+    create remote replication consistency group
 
     Args:
         client: DME API client
-        cg_name: Remote replicationConsistency group name
-        remote_storage_id: Remote storage device ID
-        local_pg_id: Local protection group ID, Required for OceanStor V6/Dorado V6
-        description: Description
-        remote_lun_group_id: Remote LUN group ID. Required for OceanStor V6/Dorado V6 when local PG is based on LUN groupred when
-        local_storage_id: local Storage device ID, Required for non-V6/non-Dorado V6
-        create_mode: Replication pair creation mode, Options: auto , manual 
-        existed_pair_ids: Existing replication Pair  ID  list
-        lun_pairs: In manual create mode,  Replication pair creation pair source and target LUN ID list
-        lun_ids: In auto-create mode, Source LUN ID list
-        remote_storage_pool_id: Remote storage pool ID, effective in auto-create mode
-        remote_vstore_id: Remote device tenant ID, effective in auto-create mode
-        remote_resource_name_rule: Remote resource naming policy, Options: same_as_local, prefix_and_suffix, prefix_and_num
-        name_prefix: remote Resource name prefix
-        name_suffix: remote Resource name suffix
+        cg_name: remote replication consistency group name
+        remote_storage_id: remote storage device ID
+        local_pg_id: local protection group ID, required when storage device version is OceanStor V6, OceanStor Dorado V6
+        description: description info
+        remote_lun_group_id: remote LUN group ID, required when storage device version is OceanStor V6, OceanStor Dorado V6 and local protection group is based on LUN group
+        local_storage_id: local storage device ID, required when storage device version is not OceanStor V6, OceanStor Dorado V6
+        create_mode: replication Pair creation mode, valid values: auto, manual
+        existed_pair_ids: existing replication Pair ID list
+        lun_pairs: in manual creation mode, source LUN and target LUN ID list for replication Pairs (List<PairInstance>, max array members: 100). parameter format: [{
+                local_lun_id: local LUN ID (Required, 1~32 characters),
+                remote_lun_id: remote LUN ID (Required, 1~32 characters),
+             }, ...]
+        lun_ids: in auto creation mode, source LUN ID list
+        remote_storage_pool_id: remote storage pool ID, valid in auto creation mode
+        remote_vstore_id: remote device tenant ID, valid in auto creation mode
+        remote_resource_name_rule: remote resource naming strategy, valid values: same_as_local, prefix_and_suffix, prefix_and_num
+        name_prefix: remote resource name prefix
+        name_suffix: remote resource name suffix
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups"
@@ -2034,24 +2106,24 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
 
     Args:
         client: DME API client
-        replication_group_id: Remote replicationConsistency group ID
-        name: Remote replicationConsistency group name
-        description: Description
-        speed: Sync rate. Options: low, medium, high, highest, custom
-        bandwidth: Custom sync rate (MB/s) , required when speed is custom
-        recovery_policy: Recovery policy, Options: automatic, manual
-        enable_compress: Link compression, when replication mode isin async modeRequired
-        sync_type: Sync type, Options: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
-        timing_value_in_sec: Timer duration (second(s)) , required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-        sync_schedule: Timer rule, required when sync_type is specified_time_policy
-        rep_io_timeout: remote  IO timeout (second(s)) , when replication mode isSync modeeffective when
-        sync_snap_policy: User snapshotSync policy, Options: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
-        user_snap_retention_num: Slave user snapshot retentioncount
-        switch_to_async: Auto-convert sync to async remote replication switch
+        replication_group_id: remote replication consistency group ID
+        name: remote replication consistency group name
+        description: description info
+        speed: sync speed, valid values: low, medium, high, highest, custom
+        bandwidth: custom sync speed (MB/s), required when speed is custom
+        recovery_policy: recovery policy, valid values: automatic, manual
+        enable_compress: link compression, required when replication mode is async
+        sync_type: sync type, valid values: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
+        timing_value_in_sec: timing duration (seconds), required when sync_type is wait_after_sync_begins or wait_after_sync_ends
+        sync_schedule: timing schedule, required when sync_type is specified_time_policy
+        rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
+        sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
+        user_snap_retention_num: secondary user snapshot retention count
+        switch_to_async: switch for automatic conversion from sync to async remote replication
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/{replication_group_id}"
@@ -2092,17 +2164,17 @@ def replication_group_modify(client: DMEAPIClient, replication_group_id: str, na
 def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: bool = None,
                               delete_mode: str = None) -> dict:
     """
-    Batch delete remote replication consistency group
+    Batch delete remote replication consistency groups
 
     Args:
         client: DME API client
-        ids: Remote replicationConsistency group ID  list
-        is_self_adapt: supports adaptiveRemove member Pair, default false
-        delete_mode: Delete mode, Options: primary_only, secondary_only, dual_ends (default)
+        ids: remote replication consistency group ID list
+        is_self_adapt: whether to support adaptive removal of member Pairs, default false
+        delete_mode: delete mode, valid values: primary_only, secondary_only, dual_ends, default dual_ends
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/delete"
@@ -2122,16 +2194,16 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
 
 def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Remote replication consistency group - add member pair
+    Add member Pairs to remote replication consistency group (Not supported below OceanStor Dorado V6 6.1.3, requires group health status normal and running status normal or split)
 
     Args:
         client: DME API client
-        group_id: Remote replicationConsistency group ID
-        pair_ids: Remote replication Pair  ID  list
+        group_id: remote replication consistency group ID
+        pair_ids: remote replication Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/{group_id}/add-pairs"
@@ -2146,16 +2218,16 @@ def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: l
 
 def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    Remote replication consistency group - remove member pair
+    Remove member Pairs from remote replication consistency group
 
     Args:
         client: DME API client
-        group_id: Remote replicationConsistency group ID
-        pair_ids: Remote replication Pair  ID  list
+        group_id: remote replication consistency group ID
+        pair_ids: remote replication Pair ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/{group_id}/remove-pairs"
@@ -2170,18 +2242,18 @@ def replication_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids
 
 def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch sync remote replication consistency group
+    Batch sync remote replication consistency groups
 
-    >![](public_sys-resources/icon-notice.gif) **: **
-    This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
+    >![](public_sys-resources/icon-notice.gif) **Notice: **
+    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
 
     Args:
         client: DME API client
-        ids: Consistency group ID  list
+        ids: consistency group ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/sync"
@@ -2196,18 +2268,18 @@ def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch split remote replication consistency group
+    Batch split remote replication consistency groups
 
-    >![](public_sys-resources/icon-notice.gif) **: **
-    This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
+    >![](public_sys-resources/icon-notice.gif) **Notice: **
+    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
 
     Args:
         client: DME API client
-        ids: Consistency group ID  list
+        ids: consistency group ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/split"
@@ -2222,18 +2294,18 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
     """
-    Remote replication consistency group - batch primary/standby switch
+    Batch primary-secondary switch for remote replication consistency groups
 
-    >![](public_sys-resources/icon-notice.gif) **: **
-    This API may directly or indirectly affect production services, causing service interruption or data loss. Proceed with caution.
+    >![](public_sys-resources/icon-notice.gif) **Notice: **
+    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
 
     Args:
         client: DME API client
-        ids: Consistency group ID  list
+        ids: consistency group ID list
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/switch"
@@ -2248,16 +2320,16 @@ def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def replication_group_switch_write_protection(client: DMEAPIClient, id: str, operation_type: str) -> dict:
     """
-    Remote replication consistency group - switch from write-protection state
+    Switch write protection state for remote replication consistency group secondary resource
 
     Args:
         client: DME API client
-        id: Consistency group ID
-        operation_type: Operation type, Options: enable, disable 
+        id: consistency group ID
+        operation_type: operation type, valid values: enable, disable
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/replication/groups/{id}/switch-write-protection"
@@ -2270,8 +2342,74 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
     return response
 
 
+def replication_group_list(client: DMEAPIClient, page_no: int = None, page_size: int = None,
+                           protect_group_id: str = None, name: str = None, raw_id: str = None,
+                           running_status: str = None, health_status: str = None,
+                           storage_name: str = None, storage_id: str = None,
+                           replication_mode: str = None) -> dict:
+    """
+    Batch query replication consistency groups
+
+    Args:
+        client: DME API client
+        page_no: pagination start position (Optional, int32, default 1)
+        page_size: items per page (Optional, int32, 1~1000, default 20)
+        protect_group_id: protection group ID (Optional, string, 1~64 characters)
+        name: replication consistency group name (Optional, string, 1~255 characters), supports fuzzy match
+        raw_id: replication consistency group ID on the device (Optional, string, 1~64 characters)
+        running_status: running status (Optional, string). valid values: normal, synchronizing, splited, to_be_recoverd, interrupted, invalid, standby, air_gap_link_down
+        health_status: health status (Optional, string). valid values: normal, fault, invalid
+        storage_name: storage device name (Optional, string, 1~255 characters), supports fuzzy match
+        storage_id: Storage device ID (Optional, string, 1~64 characters)
+        replication_mode: replication mode (Optional, string). valid values: synchronous, asynchronous
+
+    Returns:
+        {
+            total: total replication consistency groups (int32),
+            groups: replication consistency group list (List<ReplicationGroupDetail>). parameter format: [{
+                id: replication consistency group ID (string, 1~64 characters),
+                raw_id: replication consistency group ID on the device (string, 1~64 characters),
+                name: replication consistency group name (string, 1~255 characters),
+                replication_model: replication mode (string). valid values: synchronous, asynchronous,
+                storage_name: storage device name (string, 0~255 characters),
+                storage_id: Storage device id (string, 1~64 characters),
+                health_status: health status (string). valid values: normal, fault, invalid,
+                running_status: running status (string). valid values: normal, synchronizing, splited, to_be_recoverd, interrupted, invalid, standby, air_gap_link_down,
+                protect_group_id: protection group ID (string, 0~64 characters),
+                protect_group_name: protection group name (string, 0~255 characters),
+            }, ...],
+        }
+    """
+    url = "/rest/protection/v1/replication/groups/query"
+
+    payload = {}
+    if page_no is not None:
+        payload['page_no'] = page_no
+    if page_size is not None:
+        payload['page_size'] = page_size
+    if protect_group_id is not None:
+        payload['protect_group_id'] = protect_group_id
+    if name is not None:
+        payload['name'] = name
+    if raw_id is not None:
+        payload['raw_id'] = raw_id
+    if running_status is not None:
+        payload['running_status'] = running_status
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if storage_name is not None:
+        payload['storage_name'] = storage_name
+    if storage_id is not None:
+        payload['storage_id'] = storage_id
+    if replication_mode is not None:
+        payload['replication_mode'] = replication_mode
+
+    response = client.post(url, body=payload)
+    return response
+
+
 # ============================================================================
-# FilesystemActive-active pair (fs_hypermetro_pair) subtopic functions
+# Filesystem hypermetro Pair (fs_hypermetro_pair) subtopic functions
 # ============================================================================
 
 
@@ -2281,27 +2419,27 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
                             service_assurance_policy: str = None,
                             isolation_threshold_time: int = None) -> dict:
     """
-    Create filesystem active-active pair. This API potentially affects production services, Proceed with caution.
+    create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
         client: DME API client
-        vstore_pair_id: Active-active tenantPair ID (Required, string, 1~32 characters)
-        create_mode: creation mode (Optional, string). Options: manual. Default: manual
-        fs_pairs: FilesystemPair list (Optional, List[FsPairInstance], max array members: 100)
-        speed: Sync rate (Optional, string). Options: low, medium, high, highest, custom
-        bandwidth:  bandwidth (Optional, integer, 1~1024). required when speed is custom
-        service_assurance_policy: Service assurance policy (Optional, string). Options: data_reliability_preferred, service_continuity_preferred
-        isolation_threshold_time:  isolationthreshold (Optional, int32, 10~30000)
+        vstore_pair_id: hypermetro tenant Pair ID (Required, string, 1~32 characters)
+        create_mode: creation mode (Optional, string). valid values: manual. default value: manual
+        fs_pairs: Filesystem Pair list (Optional, List[FsPairInstance], max array members: 100)
+        speed: sync speed (Optional, string). valid values: low, medium, high, highest, custom
+        bandwidth: bandwidth (Optional, integer, 1~1024). required when speed is custom
+        service_assurance_policy: service assurance policy (Optional, string). valid values: data_reliability_preferred, service_continuity_preferred
+        isolation_threshold_time: isolation threshold (Optional, int32, 10~30000)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hypermetro/filesystem-pairs"
 
     if not vstore_pair_id:
-        raise ValueError("vstore_pair_id is required")
+        raise ValueError("vstore_pair_id is a required parameter")
 
     payload = {
         'vstore_pair_id': vstore_pair_id,
@@ -2330,31 +2468,56 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
                           sort_dir: str = None, page_no: int = 1,
                           page_size: int = 20) -> dict:
     """
-     queryFilesystem active-active pair list. 
+    Query Filesystem hypermetro Pair list. 
 
     Args:
         client: DME API client
-        ids: Active-active pairinstanceID list (Optional, List[string])
-        name: Active-active pair name (Optional, string)
-        status: Running status (Optional, string)
-        storage_id: Storage device ID (Optional, string)
-        vstore_pair_id: Active-active tenantPair ID (Optional, string)
+        ids: hypermetro Pair instance ID list (Optional, List[string])
+        name: hypermetro Pair name (Optional, string)
+        status: running status (Optional, string)
+        storage_id: storage device ID (Optional, string)
+        vstore_pair_id: hypermetro tenant Pair ID (Optional, string)
         local_fs_name: local Filesystem name (Optional, string)
         local_fs_id: local Filesystem ID (Optional, string)
-        health_status: Health status (Optional, string)
-        running_status: Running status (Optional, string)
-        sort_key: Sort field (Optional, string)
-        sort_dir: Sort direction (Optional, string)
-        page_no: Page number (Optional, int32)
-        page_size: per pagecount (Optional, int32)
+        health_status: health status (Optional, string)
+        running_status: running status (Optional, string)
+        sort_key: sort field (Optional, string)
+        sort_dir: sort direction (Optional, string)
+        page_no: pagination page number (Optional, int32)
+        page_size: items per page (Optional, int32)
 
     Returns:
         {
-            total: Total count (integer),
-            filesystem_pairs: Filesystem active-active pair list. parameter format: [{
-                id: Pair ID (string),
-                name:  name (string),
-                status:  status (string),
+            total: total Filesystem hypermetro Pairs (int32),
+            file_system_pairs: Filesystem hypermetro Pair list (List<FileSystemHyperMetroPair>). parameter format: [{
+                id: Filesystem hypermetro Pair ID (string),
+                pair_raw_id: ID on the storage device (string),
+                local_filesystem_raw_id: local Filesystem ID on the device (string),
+                local_filesystem_name: local Filesystem name (string),
+                remote_filesystem_raw_id: remote Filesystem ID on the device (string),
+                remote_filesystem_name: remote Filesystem name (string),
+                domain_raw_id: hypermetro domain ID on the storage device (string),
+                domain_name: hypermetro domain name (string),
+                health_status: health status. valid values: unknown, normal, fault,
+                running_status: running status. valid values: normal, synchronizing, invalid, pause, forced_start, to_be_synchronized, unknown, error, creating, deleting,
+                recovery_policy: recovery policy. valid values: automatic, manual, unknown,
+                link_status: link status. valid values: connected, disconnected, unknown,
+                is_primary: whether it is the priority site. valid values: true, false,
+                local_storage_id: local storage device ID (string),
+                remote_storage_id: remote storage device ID (string),
+                speed: sync speed. valid values: low, medium, high, highest, custom,
+                bandwidth: custom sync speed (int32, MB/s),
+                start_time: last sync start time (string),
+                end_time: last sync end time (string),
+                local_data_state: local data state. valid values: consistent, inconsistent,
+                remote_data_state: remote data state. valid values: consistent, inconsistent,
+                local_host_access_state: local host access state. valid values: access_forbidden, read_only, read_write, invalid, blocked, unknown,
+                remote_host_access_state: remote host access state. valid values: access_forbidden, read_only, read_write, invalid, blocked, unknown,
+                sync_lefttime: remaining sync time (string),
+                sync_direction: sync direction. valid values: no_data_synchronization, local_to_remote, remote_to_local,
+                sync_progress: sync progress (string),
+                activation_state: activation state. valid values: active, passive,
+                vstore_pair_id: tenant Pair ID (string),
             }, ...],
         }
     """
@@ -2393,21 +2556,21 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
 def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    Batch pause filesystem active-active pair. This API potentially affects production services, Proceed with caution.
+    Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
         client: DME API client
-        fs_pair_ids: FilesystemActive-active pairID list (Required, List[string], max array members: 100, min array members: 1)
+        fs_pair_ids: Filesystem hypermetro Pair ID list (Required, List[string], max array members: 100, min array members: 1)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/pause"
 
     if not fs_pair_ids or len(fs_pair_ids) == 0:
-        raise ValueError("fs_pair_ids is required")
+        raise ValueError("fs_pair_ids is a required parameter")
 
     payload = {
         'fs_pair_ids': fs_pair_ids
@@ -2419,21 +2582,21 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
 def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    Batch sync filesystem active-active pair. This API potentially affects production services, Proceed with caution.
+    Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
         client: DME API client
-        fs_pair_ids: FilesystemActive-active pairID list (Required, List[string])
+        fs_pair_ids: Filesystem hypermetro Pair ID list (Required, List[string])
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/sync"
 
     if not fs_pair_ids or len(fs_pair_ids) == 0:
-        raise ValueError("fs_pair_ids is required")
+        raise ValueError("fs_pair_ids is a required parameter")
 
     payload = {
         'fs_pair_ids': fs_pair_ids
@@ -2447,23 +2610,23 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
                             is_local_delete: bool = None,
                             is_online_delete: bool = None) -> dict:
     """
-    Batch delete filesystem active-active pair. This API potentially affects production services, Proceed with caution.
+    Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
         client: DME API client
-        ids: Active-active pairinstanceID list (Required, List[string])
-        is_local_delete: Delete localConfiguration infor (Optional, boolean, true,false)
-        is_online_delete: Online deletion (Optional, boolean, true,false)
+        ids: hypermetro Pair instance ID list (Required, List[string])
+        is_local_delete: whether to delete local configuration info (Optional, boolean, true, false)
+        is_online_delete: whether to delete online (Optional, boolean, true, false)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids is required")
+        raise ValueError("ids is a required parameter")
 
     payload = {
         'ids': ids
@@ -2489,18 +2652,18 @@ def fs_snapshot_create(client: DMEAPIClient, vstore_pair_id: str,
 
     Args:
         client: DME API client
-        vstore_pair_id: File systemActive-active tenantPair ID (Required, string)
-        fs_pairs: Snapshot parameter list (Required, List)
+        vstore_pair_id: Filesystem hypermetro tenant Pair ID (Required, string)
+        fs_pairs: snapshot parameter list (Required, List)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/filesystem-snapshots"
 
     if not vstore_pair_id:
-        raise ValueError("vstore_pair_id is required")
+        raise ValueError("vstore_pair_id is a required parameter")
 
     payload = {
         'vstore_pair_id': vstore_pair_id,
@@ -2516,25 +2679,25 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
                       local_fs_name: str = None, local_fs_id: str = None,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch queryFilesystem snapshot. 
+    Batch query Filesystem snapshots. 
 
     Args:
         client: DME API client
-        fs_pair_id: Active-active pair ID (Optional, string)
-        name: Snapshot name (Optional, string, supports fuzzy search)
-        status:  snapshot status (Optional, string)
+        fs_pair_id: hypermetro Pair ID (Optional, string)
+        name: snapshot name (Optional, string, supports fuzzy search)
+        status: snapshot status (Optional, string)
         local_fs_name: local Filesystem name (Optional, string)
         local_fs_id: local Filesystem ID (Optional, string)
-        page_no: Page number (Optional, int32)
-        page_size: per pagecount (Optional, int32)
+        page_no: pagination page number (Optional, int32)
+        page_size: items per page (Optional, int32)
 
     Returns:
         {
-            total: Total count (integer),
-            snapshots: Filesystem snapshot list. parameter format: [{
-                id:  snapshotID (string),
-                name: Snapshot name (string),
-                status:  status (string),
+            total: total Filesystem snapshots (int32),
+            snapshots: Filesystem snapshot list (List<FsSnapshotInfo>). parameter format: [{
+                id: snapshot ID (string),
+                name: snapshot name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -2561,21 +2724,21 @@ def fs_snapshot_list(client: DMEAPIClient, fs_pair_id: str = None,
 
 def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch deleteFilesystem snapshot. 
+    Batch delete Filesystem snapshots. 
 
     Args:
         client: DME API client
-        ids:  snapshotID list (Required, List[string])
+        ids: snapshot ID list (Required, List[string])
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/filesystem-snapshots/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids is required")
+        raise ValueError("ids is a required parameter")
 
     payload = {
         'ids': ids
@@ -2586,27 +2749,27 @@ def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# Active-active tenantPair (vstore_hypermetro_pair) subtopic functions
+# Hypermetro tenant Pair (vstore_hypermetro_pair) subtopic functions
 # ============================================================================
 
 
 def vstore_pair_force_start(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch force startActive-active tenantPair. 
+    Batch force start hypermetro tenant Pairs. 
 
     Args:
         client: DME API client
-        ids: Active-active tenantPairID list (Required, List[string])
+        ids: hypermetro tenant Pair ID list (Required, List[string])
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/vstore-pairs/force-start"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids is required")
+        raise ValueError("ids is a required parameter")
 
     payload = {
         'ids': ids
@@ -2621,25 +2784,25 @@ def vstore_pair_create(client: DMEAPIClient, local_storage_id: str,
                         description: str = None,
                         remote_vstore_id: str = None) -> dict:
     """
-    create Active-active tenantPair. 
+    create hypermetro tenant Pair. 
 
     Args:
         client: DME API client
-        local_storage_id: local Storage device ID (Required, string)
-        remote_storage_id: Remote storage device ID (Required, string)
-        name:  tenantPair name (Optional, string)
-        description:  description (Optional, string)
-        remote_vstore_id: remote Tenant ID (Optional, string)
+        local_storage_id: local storage device ID (Required, string)
+        remote_storage_id: remote storage device ID (Required, string)
+        name: tenant Pair name (Optional, string)
+        description: description (Optional, string)
+        remote_vstore_id: remote tenant ID (Optional, string)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/vstore-pairs"
 
     if not local_storage_id or not remote_storage_id:
-        raise ValueError("local_storage_id and remote_storage_id are required")
+        raise ValueError("local_storage_id and remote_storage_id are required parameters")
 
     payload = {
         'local_storage_id': local_storage_id,
@@ -2662,27 +2825,40 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
                       health_status: str = None, running_status: str = None,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query active-active tenant pair list. 
+    Query hypermetro tenant Pair list. 
 
     Args:
         client: DME API client
-        ids: Active-active tenantPair ID list (Optional, List[string])
-        name:  name (Optional, string)
-        status:  status (Optional, string)
-        local_storage_id: local Storage device ID (Optional, string)
-        remote_storage_id: Remote storage device ID (Optional, string)
-        health_status: Health status (Optional, string)
-        running_status: Running status (Optional, string)
-        page_no: Page number (Optional, int32)
-        page_size: per pagecount (Optional, int32)
+        ids: hypermetro tenant Pair ID list (Optional, List[string])
+        name: name (Optional, string)
+        status: status (Optional, string)
+        local_storage_id: local storage device ID (Optional, string)
+        remote_storage_id: remote storage device ID (Optional, string)
+        health_status: health status (Optional, string)
+        running_status: running status (Optional, string)
+        page_no: pagination page number (Optional, int32)
+        page_size: items per page (Optional, int32)
 
     Returns:
         {
-            total: Total count (integer),
-            vstore_pairs: Active-active tenant pair list. parameter format: [{
-                id: Pair ID (string),
-                name:  name (string),
-                status:  status (string),
+            total: total hypermetro tenant Pairs (int32),
+            vstore_pairs: hypermetro tenant Pair list info (List<VstorePairListItem>). parameter format: [{
+                id: hypermetro tenant Pair ID (string),
+                raw_id: ID on the storage device (string),
+                local_vstore_name: local tenant name (string),
+                local_vstore_raw_id: local tenant ID on the storage device (string),
+                local_storage_id: local storage device ID (string),
+                remote_vstore_name: remote tenant name (string),
+                remote_vstore_raw_id: remote tenant ID on the storage device (string),
+                remote_storage_id: remote storage device ID (string),
+                domain_id: hypermetro domain ID (string),
+                domain_name: hypermetro domain name (string),
+                running_status: running status. valid values: normal, unsynchronized, invalid, force_start, split,
+                config_status: configuration status. valid values: normal, synchronizing, to_be_synchronized,
+                health_status: health status. valid values: unknown, normal, fault,
+                link_status: link status. valid values: connected, disconnected,
+                role: role. valid values: preferred, non_preferred,
+                active_status: activation state. valid values: active, passive,
             }, ...],
         }
     """
@@ -2713,21 +2889,21 @@ def vstore_pair_list(client: DMEAPIClient, ids: list = None, name: str = None,
 
 def vstore_pair_switch(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch primary/standby switchActive-active tenantPair. 
+    Batch primary-secondary switch for hypermetro tenant Pairs. 
 
     Args:
         client: DME API client
-        ids: Active-active tenantPairID list (Required, List[string])
+        ids: hypermetro tenant Pair ID list (Required, List[string])
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/vstore-pairs/switch"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids is required")
+        raise ValueError("ids is a required parameter")
 
     payload = {
         'ids': ids
@@ -2739,21 +2915,21 @@ def vstore_pair_switch(client: DMEAPIClient, ids: list) -> dict:
 
 def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    Batch delete active-active tenantPair. 
+    Batch delete hypermetro tenant Pairs. 
 
     Args:
         client: DME API client
-        ids: Active-active tenantPairID list (Required, List[string])
+        ids: hypermetro tenant Pair ID list (Required, List[string])
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/vstore-pairs/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids is required")
+        raise ValueError("ids is a required parameter")
 
     payload = {
         'ids': ids
@@ -2765,22 +2941,22 @@ def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
 
 def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
     """
-    ModifyActive-active tenantpair. 
+    modify specified hypermetro tenant pair. 
 
     Args:
         client: DME API client
-        id: Active-active tenantPair ID (Required, string)
-        name:  name (Optional, string)
+        id: hypermetro tenant Pair ID (Required, string)
+        name: name (Optional, string)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/metro/vstore-pairs/{id}"
 
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     payload = {}
     if name is not None:
@@ -2791,27 +2967,27 @@ def vstore_pair_modify(client: DMEAPIClient, id: str, name: str = None) -> dict:
 
 
 # ============================================================================
-# Active-active domain (hypermetro_domain) subtopic functions
+# HyperMetro domain (hypermetro_domain) subtopic functions
 # ============================================================================
 
 
 def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
     """
-    force startFilesystemActive-active domain. 
+    Force start Filesystem hypermetro domain. 
 
     Args:
         client: DME API client
-        id: Active-active domainID (Required, string)
+        id: hypermetro domain ID (Required, string)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hyper-metro-domains/{id}/force-start"
 
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2819,21 +2995,21 @@ def hypermetro_domain_force_start(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
     """
-    preferred site switchFilesystemActive-active domain. 
+    Switch priority site for Filesystem hypermetro domain. 
 
     Args:
         client: DME API client
-        id: Active-active domainID (Required, string)
+        id: hypermetro domain ID (Required, string)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hyper-metro-domains/{id}/switch-priority-site"
 
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2841,21 +3017,21 @@ def hypermetro_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
     """
-     resumeFilesystemActive-active domain. 
+    Recover Filesystem hypermetro domain. 
 
     Args:
         client: DME API client
-        id: Active-active domainID (Required, string)
+        id: hypermetro domain ID (Required, string)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hyper-metro-domains/{id}/recover"
 
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2863,21 +3039,21 @@ def hypermetro_domain_recover(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
     """
-    SplitFilesystemActive-active domain. 
+    Split Filesystem hypermetro domain. 
 
     Args:
         client: DME API client
-        id: Active-active domainID (Required, string)
+        id: hypermetro domain ID (Required, string)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hyper-metro-domains/{id}/split"
 
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -2885,267 +3061,279 @@ def hypermetro_domain_split(client: DMEAPIClient, id: str) -> dict:
 
 def hypermetro_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
     """
-    Primary/standby switchFilesystemActive-active domain. 
+    Swap primary-secondary role for Filesystem hypermetro domain. 
 
     Args:
         client: DME API client
-        id: Active-active domainID (Required, string)
+        id: hypermetro domain ID (Required, string)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/protection/v1/hyper-metro-domains/{id}/swap-role"
 
     if not id:
-        raise ValueError("id is required")
+        raise ValueError("id is a required parameter")
 
     response = client.post(url, body={}, params={"id": id})
     return response
 
 
 # ============================================================================
-# Active-active pair (hypermetro_pair) subtopic functions
+# HyperMetro Pair (hypermetro_pair) subtopic functions
 # ============================================================================
 
 
 def hypermetro_pair_query_available_luns(client: DMEAPIClient,
                                           source_lun_id: str) -> dict:
     """
-     Query available target LUNs for active-active pair. 
+    Query target LUNs available for creating hypermetro Pair. 
 
     Args:
         client: DME API client
-        source_lun_id: Source LUN ID (Required, string)
+        source_lun_id: source LUN ID (Required, string)
 
     Returns:
         {
-            optional_target_luns: Optional targetLUN list. parameter format: [{
+            optional_target_luns: optional target LUN list. parameter format: [{
                 lun_id: LUN ID (string),
                 lun_name: LUN name (string),
-                capacity:  capacity (integer),
+                capacity: capacity (integer),
             }, ...],
         }
     """
     url = "/rest/protection/v1/metro/lun-pairs/{source_lun_id}/optional-target-luns"
 
     if not source_lun_id:
-        raise ValueError("source_lun_id is required")
+        raise ValueError("source_lun_id is a required parameter")
 
     response = client.get(url, params={"source_lun_id": source_lun_id})
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    # group subtopic actions
+    # group subtopic action
     'group_list': {
         'func': group_list,
-        'description': 'Batch query protection group',
+        'description': 'Batch query protection groups',
         'params': ['name', 'project_id', 'storage_name', 'storage_id', 'raw_id', 'lun_group_raw_id', 'vstore_id', 'vstore_raw_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'group'
     },
     'group_create': {
         'func': group_create,
-        'description': 'create Protection group',
+        'description': 'Create protection group',
         'params': ['name', 'storage_id', 'lun_ids', 'lun_group_id', 'description'],
         'subtopic': 'group'
     },
     'group_modify': {
         'func': group_modify,
-        'description': 'modify Protection group',
+        'description': 'Modify protection group',
         'params': ['pg_id', 'name', 'description'],
         'subtopic': 'group'
     },
     'group_delete': {
         'func': group_delete,
-        'description': 'Batch delete protection group',
+        'description': 'Batch delete protection groups',
         'params': ['pg_ids'],
         'subtopic': 'group'
     },
     'group_add_luns': {
         'func': group_add_luns,
-        'description': 'Add member LUN to protection group',
+        'description': 'Add member LUNs to protection group',
         'params': ['pg_id', 'lun_ids', 'hyper_metro', 'rem_reps'],
         'subtopic': 'group'
     },
     'group_remove_luns': {
         'func': group_remove_luns,
-        'description': 'Remove LUN members from protection group',
+        'description': 'Remove member LUNs from protection group',
         'params': ['pg_id', 'lun_ids', 'is_delay'],
         'subtopic': 'group'
     },
-    # hypermetro_group subtopic actions
+    # hypermetro_group subtopic action
     'hypermetro_group_list': {
         'func': hypermetro_group_list,
-        'description': 'Batch query active-active consistency group',
+        'description': 'Batch query hypermetro consistency groups',
         'params': ['page_no', 'page_size', 'name', 'raw_id', 'protect_group_id', 'storage_id', 'storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'remote_vstore_id', 'remote_vstore_raw_id'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_create': {
         'func': hypermetro_group_create,
-        'description': 'create Active-active consistency group',
+        'description': 'Create hypermetro consistency group',
         'params': ['domain_id', 'name', 'local_storage_id', 'local_pg_id', 'description', 'create_mode', 'remote_vstore_id', 'remote_storage_pool_id', 'lun_ids', 'remote_resource_name_rule'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_modify': {
         'func': hypermetro_group_modify,
-        'description': 'modify Active-active consistency group',
+        'description': 'Modify hypermetro consistency group',
         'params': ['group_id', 'name', 'description', 'recovery_policy', 'service_assurance_policy', 'speed', 'bandwidth', 'isolation_threshold_time'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_delete': {
         'func': hypermetro_group_delete,
-        'description': 'Batch delete active-active consistency group',
+        'description': 'Batch delete hypermetro consistency groups',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_add_pairs': {
         'func': hypermetro_group_add_pairs,
-        'description': 'Active-active consistency group - add member pair',
+        'description': 'Add member Pairs to hypermetro consistency group',
         'params': ['group_id', 'pair_ids', 'is_self_adapt'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_remove_pairs': {
         'func': hypermetro_group_remove_pairs,
-        'description': 'Active-active consistency group - remove member pair',
+        'description': 'Remove member Pairs from hypermetro consistency group',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_pause': {
         'func': hypermetro_group_pause,
-        'description': ' pause active-active consistency group',
+        'description': 'Pause hypermetro consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_force_startup': {
         'func': hypermetro_group_force_startup,
-        'description': 'force start active-active consistency group',
+        'description': 'Force start hypermetro consistency group',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_switch_priority': {
         'func': hypermetro_group_switch_priority,
-        'description': 'Active-active consistency grouppreferred site switch',
+        'description': 'Switch priority site for hypermetro consistency group',
         'params': ['ids'],
         'subtopic': 'hypermetro_group'
     },
-    # hypermetro_pair subtopic actions
+    'hypermetro_group_sync': {
+        'func': hypermetro_group_sync,
+        'description': 'Sync hypermetro consistency group',
+        'params': ['ids'],
+        'subtopic': 'hypermetro_group'
+    },
+    # hypermetro_pair subtopic action
     'hypermetro_pair_list': {
         'func': hypermetro_pair_list,
-        'description': 'Batch query LUN Active-active Pair',
+        'description': 'Batch query LUN hypermetro Pairs',
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'group_raw_id', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'local_host_access_state', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_create': {
         'func': hypermetro_pair_create,
-        'description': 'create Active-active Pair',
+        'description': 'Create hypermetro Pair',
         'params': ['create_mode', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'local_storage_id', 'domain_id', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time', 'recovery_policy'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_modify': {
         'func': hypermetro_pair_modify,
-        'description': 'modify Active-active Pair',
+        'description': 'Modify hypermetro Pair',
         'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'service_assurance_policy', 'isolation_threshold_time'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_delete': {
         'func': hypermetro_pair_delete,
-        'description': 'Batch delete active-active Pair',
+        'description': 'Batch delete hypermetro Pairs',
         'params': ['ids', 'delete_mode', 'is_lun_service_interrupt'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_sync': {
         'func': hypermetro_pair_sync,
-        'description': 'Sync active-active pair',
+        'description': 'Sync hypermetro Pairs',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_pause': {
         'func': hypermetro_pair_pause,
-        'description': ' pause active-active pair',
+        'description': 'Pause hypermetro Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_force_startup': {
         'func': hypermetro_pair_force_startup,
-        'description': 'force start active-active pair',
+        'description': 'Force start hypermetro Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_switch_priority': {
         'func': hypermetro_pair_switch_priority,
-        'description': 'Active-active Pair preferred site switch',
+        'description': 'Switch priority site for hypermetro Pair',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
-    # hypermetro_domain subtopic actions
+    # hypermetro_domain subtopic action
     'hypermetro_domain_list': {
         'func': hypermetro_domain_list,
-        'description': 'Batch query active-active domain',
+        'description': 'Batch query hypermetro domains',
         'params': ['storage_id', 'types'],
         'subtopic': 'hypermetro_domain'
     },
-    # replication_group subtopic actions
+    # replication_group subtopic action
     'replication_group_create': {
         'func': replication_group_create,
         'description': 'Create remote replication consistency group',
         'params': ['cg_name', 'remote_storage_id', 'local_pg_id', 'description', 'remote_lun_group_id', 'local_storage_id', 'create_mode', 'existed_pair_ids', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix'],
         'subtopic': 'replication_group'
     },
+    'replication_group_list': {
+        'func': replication_group_list,
+        'description': 'Batch query replication consistency groups',
+        'params': ['page_no', 'page_size', 'protect_group_id', 'name', 'raw_id', 'running_status', 'health_status', 'storage_name', 'storage_id', 'replication_mode'],
+        'subtopic': 'replication_group'
+    },
     'replication_group_modify': {
         'func': replication_group_modify,
-        'description': 'modify remote replication consistency group',
+        'description': 'Modify remote replication consistency group',
         'params': ['replication_group_id', 'name', 'description', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async'],
         'subtopic': 'replication_group'
     },
     'replication_group_delete': {
         'func': replication_group_delete,
-        'description': 'Batch delete remote replication consistency group',
+        'description': 'Batch delete remote replication consistency groups',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'replication_group'
     },
     'replication_group_add_pairs': {
         'func': replication_group_add_pairs,
-        'description': 'Remote replication consistency group - add member pair',
+        'description': 'Add member Pairs to remote replication consistency group',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_remove_pairs': {
         'func': replication_group_remove_pairs,
-        'description': 'Remote replication consistency group - remove member pair',
+        'description': 'Remove member Pairs from remote replication consistency group',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_sync': {
         'func': replication_group_sync,
-        'description': 'Batch sync remote replication consistency group',
+        'description': 'Batch sync remote replication consistency groups',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_split': {
         'func': replication_group_split,
-        'description': 'Batch split remote replication consistency group',
+        'description': 'Batch split remote replication consistency groups',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_switch': {
         'func': replication_group_switch,
-        'description': 'Remote replication consistency group - batch primary/standby switch',
+        'description': 'Batch primary-secondary switch for remote replication consistency groups',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_switch_write_protection': {
         'func': replication_group_switch_write_protection,
-        'description': 'Remote replication consistency group - switch from write-protection state',
+        'description': 'Switch write protection state for remote replication consistency group secondary resource',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_group'
     },
-    # replication_pair subtopic actions
+    # replication_pair subtopic action
     'replication_pair_list': {
         'func': replication_pair_list,
-        'description': 'Batch query replication Pair',
+        'description': 'Batch query replication Pairs',
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
         'subtopic': 'replication_pair'
     },
@@ -3157,250 +3345,250 @@ ACTIONS = {
     },
     'replication_pair_modify': {
         'func': replication_pair_modify,
-        'description': 'modify  replication Pair',
+        'description': 'Modify replication Pair',
         'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_delete': {
         'func': replication_pair_delete,
-        'description': 'Batch delete remote replication pair',
+        'description': 'Batch delete remote replication Pairs',
         'params': ['ids', 'delete_mode'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_sync': {
         'func': replication_pair_sync,
-        'description': 'Batch sync remote replication Pair',
+        'description': 'Batch sync remote replication Pairs',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_split': {
         'func': replication_pair_split,
-        'description': 'Batch split remote replication Pair',
+        'description': 'Batch split remote replication Pairs',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_switch': {
         'func': replication_pair_switch,
-        'description': 'Remote replication Pair Batch primary/standby switch',
+        'description': 'Batch primary-secondary switch for remote replication Pairs',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_switch_write_protection': {
         'func': replication_pair_switch_write_protection,
-        'description': 'Remote replication Pair Switch from resource protection state',
+        'description': 'Switch protection state for remote replication Pair secondary resource',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_pair'
     },
-    # device subtopic actions
+    # device subtopic action
     'device_pair_list': {
         'func': device_pair_list,
-        'description': ' query device Pairs',
+        'description': 'Query device Pairs',
         'params': ['storage_id'],
         'subtopic': 'device_pair'
     },
     'replication_link_list': {
         'func': replication_link_list,
-        'description': 'Query replication link',
-        'params': ['storage_id'],
+        'description': 'Query replication links',
+        'params': ['local_storage_id', 'page_no', 'page_size', 'health_status', 'running_status', 'link_type'],
         'subtopic': 'replication_link'
     },
-    # snapshot subtopic actions
+    # snapshot subtopic action
     'snapshot_list': {
         'func': snapshot_list,
-        'description': 'Batch query LUN  snapshot',
+        'description': 'Batch query LUN snapshots',
         'params': ['snapshot_ids', 'storage_id', 'raw_id', 'name', 'health_status', 'running_status', 'source_lun_name', 'parent_name', 'activated_time_from', 'activated_time_to', 'page_no', 'page_size'],
         'subtopic': 'snapshot'
     },
     'snapshot_create': {
         'func': snapshot_create,
-        'description': 'Batch create LUN  snapshot',
+        'description': 'Batch create LUN snapshots',
         'params': ['snapshots_info', 'is_consist_activate'],
         'subtopic': 'snapshot'
     },
     'snapshot_rollback': {
         'func': snapshot_rollback,
-        'description': 'batch rollback LUN  snapshot',
+        'description': 'Batch rollback LUN snapshots',
         'params': ['rollback_speed', 'rollback_snapshots'],
         'subtopic': 'snapshot'
     },
     'snapshot_delete': {
         'func': snapshot_delete,
-        'description': 'Batch delete LUN  snapshot',
+        'description': 'Batch delete LUN snapshots',
         'params': ['snapshot_ids', 'is_delete_target_lun', 'is_auto_deactivate'],
         'subtopic': 'snapshot'
     },
-    # snapshot_group subtopic actions
+    # snapshot_group subtopic action
     'snapshot_group_create': {
         'func': snapshot_group_create,
-        'description': 'create Snapshot consistency group',
+        'description': 'Create snapshot consistency group',
         'params': ['name', 'protect_group_id', 'description', 'creation_mode'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_delete': {
         'func': snapshot_group_delete,
-        'description': 'Batch delete snapshot consistency group',
+        'description': 'Batch delete snapshot consistency groups',
         'params': ['snapshot_cg_ids', 'is_delete_target_lun'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_activate': {
         'func': snapshot_group_activate,
-        'description': ' activateSnapshot consistency group',
+        'description': 'Activate snapshot consistency group',
         'params': ['snapshot_cg_id', 'object_type', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_deactivate': {
         'func': snapshot_group_deactivate,
-        'description': 'Batch deactivateSnapshot consistency group',
+        'description': 'Batch deactivate snapshot consistency groups',
         'params': ['snapshot_cg_ids'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_rollback': {
         'func': snapshot_group_rollback,
-        'description': ' rollbackSnapshot consistency group',
+        'description': 'Rollback snapshot consistency group',
         'params': ['snapshot_cg_id', 'rollback_speed', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },
-    # clone_group subtopic actions
+    # clone_group subtopic action
     'clone_group_create': {
         'func': clone_group_create,
-        'description': 'create cloneConsistency group',
+        'description': 'Create clone consistency group',
         'params': ['name', 'protect_group_id', 'create_mode', 'description', 'name_rule', 'name_prefix', 'name_suffix', 'copy_rate', 'is_sync', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
     'clone_group_sync': {
         'func': clone_group_sync,
-        'description': 'SynccloneConsistency group',
+        'description': 'Sync clone consistency group',
         'params': ['clone_cg_id', 'create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
     'clone_group_delete': {
         'func': clone_group_delete,
-        'description': 'Batch deletecloneConsistency group',
+        'description': 'Batch delete clone consistency groups',
         'params': ['ids', 'is_delete_dst_lun', 'is_recycle_dst_lun_data'],
         'subtopic': 'clone_group'
     },
-    # fs_hypermetro_pair subtopic actions
+    # fs_hypermetro_pair subtopic action
     'filesystem_pair_create': {
         'func': filesystem_pair_create,
-        'description': 'Create filesystem active-active pair',
+        'description': 'Create Filesystem hypermetro Pair',
         'params': ['vstore_pair_id', 'create_mode', 'fs_pairs', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'filesystem_pair_list': {
         'func': filesystem_pair_list,
-        'description': ' queryFilesystem active-active pair list',
+        'description': 'Query Filesystem hypermetro Pair list',
         'params': ['ids', 'name', 'status', 'storage_id', 'vstore_pair_id', 'local_fs_name', 'local_fs_id', 'health_status', 'running_status', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'filesystem_pair_pause': {
         'func': filesystem_pair_pause,
-        'description': 'Batch pause filesystem active-active pair',
+        'description': 'Batch pause Filesystem hypermetro Pairs',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'filesystem_pair_sync': {
         'func': filesystem_pair_sync,
-        'description': 'Batch sync filesystem active-active pair',
+        'description': 'Batch sync Filesystem hypermetro Pairs',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'filesystem_pair_delete': {
         'func': filesystem_pair_delete,
-        'description': 'Batch delete filesystem active-active pair',
+        'description': 'Batch delete Filesystem hypermetro Pairs',
         'params': ['ids', 'is_local_delete', 'is_online_delete'],
         'subtopic': 'fs_hypermetro_pair'
     },
-    # fs_snapshot subtopic actions
+    # fs_snapshot subtopic action
     'fs_snapshot_create': {
         'func': fs_snapshot_create,
-        'description': 'create Filesystem snapshot',
+        'description': 'Create Filesystem snapshot',
         'params': ['vstore_pair_id', 'fs_pairs'],
         'subtopic': 'fs_snapshot'
     },
     'fs_snapshot_list': {
         'func': fs_snapshot_list,
-        'description': 'Batch queryFilesystem snapshot',
+        'description': 'Batch query Filesystem snapshots',
         'params': ['fs_pair_id', 'name', 'status', 'local_fs_name', 'local_fs_id', 'page_no', 'page_size'],
         'subtopic': 'fs_snapshot'
     },
     'fs_snapshot_delete': {
         'func': fs_snapshot_delete,
-        'description': 'Batch deleteFilesystem snapshot',
+        'description': 'Batch delete Filesystem snapshots',
         'params': ['ids'],
         'subtopic': 'fs_snapshot'
     },
-    # vstore_hypermetro_pair subtopic actions
+    # vstore_hypermetro_pair subtopic action
     'vstore_pair_force_start': {
         'func': vstore_pair_force_start,
-        'description': 'Batch force startActive-active tenantPair',
+        'description': 'Batch force start hypermetro tenant Pairs',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_create': {
         'func': vstore_pair_create,
-        'description': 'create Active-active tenantPair',
+        'description': 'Create hypermetro tenant Pair',
         'params': ['local_storage_id', 'remote_storage_id', 'name', 'description', 'remote_vstore_id'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_list': {
         'func': vstore_pair_list,
-        'description': ' query active-active tenant pair list',
+        'description': 'Query hypermetro tenant Pair list',
         'params': ['ids', 'name', 'status', 'local_storage_id', 'remote_storage_id', 'health_status', 'running_status', 'page_no', 'page_size'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_switch': {
         'func': vstore_pair_switch,
-        'description': 'Batch primary/standby switchActive-active tenantPair',
+        'description': 'Batch primary-secondary switch hypermetro tenant Pairs',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_delete': {
         'func': vstore_pair_delete,
-        'description': 'Batch delete active-active tenantPair',
+        'description': 'Batch delete hypermetro tenant Pairs',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_modify': {
         'func': vstore_pair_modify,
-        'description': 'ModifyActive-active tenantpair',
+        'description': 'Modify specified hypermetro tenant pair',
         'params': ['id', 'name'],
         'subtopic': 'vstore_hypermetro_pair'
     },
-    # hypermetro_domain subtopic actions
+    # hypermetro_domain subtopic action
     'hypermetro_domain_force_start': {
         'func': hypermetro_domain_force_start,
-        'description': 'force startFilesystemActive-active domain',
+        'description': 'Force start Filesystem hypermetro domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_switch_site': {
         'func': hypermetro_domain_switch_site,
-        'description': 'preferred site switchFilesystemActive-active domain',
+        'description': 'Switch priority site for Filesystem hypermetro domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_recover': {
         'func': hypermetro_domain_recover,
-        'description': ' resumeFilesystemActive-active domain',
+        'description': 'Recover Filesystem hypermetro domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_split': {
         'func': hypermetro_domain_split,
-        'description': 'SplitFilesystemActive-active domain',
+        'description': 'Split Filesystem hypermetro domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
     'hypermetro_domain_swap_role': {
         'func': hypermetro_domain_swap_role,
-        'description': 'Primary/standby switchFilesystemActive-active domain',
+        'description': 'Swap primary-secondary role for Filesystem hypermetro domain',
         'params': ['id'],
         'subtopic': 'hypermetro_domain'
     },
-    # hypermetro_pair subtopic actions
+    # hypermetro_pair subtopic action
     'query_available_luns': {
         'func': hypermetro_pair_query_available_luns,
-        'description': ' Query available target LUNs for active-active pair',
+        'description': 'Query available target LUNs for creating hypermetro Pair',
         'params': ['source_lun_id'],
         'subtopic': 'hypermetro_pair'
     },

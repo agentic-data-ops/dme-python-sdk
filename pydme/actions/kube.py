@@ -11,21 +11,21 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query container cluster list
+    Query container cluster list
     
     Args:
         client: DME API client
-        name: Container cluster name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: Container cluster name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total:  clusterTotal count (integer),
+            total: total clusters (integer),
             clusters: Container cluster list. parameter format: [{
-                id:  clusterID (string),
-                name: Cluster name (string),
-                status:  status (string),
+                id: Cluster ID (string),
+                name: cluster name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -46,21 +46,21 @@ def cluster_list(client: DMEAPIClient, name: str = None,
 def node_list(client: DMEAPIClient, cluster_id: str = None,
                name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query container node list
+    Query container node list
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        name: Container node name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: Container cluster ID (Optional)
+        name: Container node name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
             nodes: Container node list. parameter format: [{
-                id:  nodeID (string),
+                id: Node ID (string),
                 name: Node name (string),
-                status:  status (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -84,23 +84,23 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query pod list
+    Query container pod list
     
-     Query pod list,  supports filtering by cluster ID, namespace and name. 
+    Query pod list, supports filtering by cluster ID, Namespace and name.
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        namespace: Container namespace (Optional) 
-        name: Pod name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: Container cluster ID (Optional)
+        namespace: Container Namespace (Optional)
+        name: Pod name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
             pods: Pod list. parameter format: [{
                 name: Pod name (string),
-                status:  status (string),
+                status: status (string),
                 node: Node (string),
             }, ...],
         }
@@ -126,14 +126,14 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
 def namespace_list(client: DMEAPIClient, cluster_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query container namespace list
+    Query container Namespace list
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        name: Namespace name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: Container cluster ID (Optional)
+        name: namespace name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
@@ -160,22 +160,22 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query container PVC list
+    Query container persistent volume claim list
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        namespace: Container namespace (Optional) 
-        name: Persistent volume claim name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: Container cluster ID (Optional)
+        namespace: Container Namespace (Optional)
+        name: Persistent volume claim name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            pvcs: PVC list. parameter format: [{
+            pvcs: Persistent volume claim list. parameter format: [{
                 name: PVC name (string),
-                status:  status (string),
-                capacity:  capacity (string),
+                status: status (string),
+                capacity: capacity (string),
             }, ...],
         }
     """
@@ -200,23 +200,23 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
 def pv_list(client: DMEAPIClient, cluster_id: str = None,
              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query container PV list
+    Query container persistent volume list
     
-    Query container PV list,  supports filtering by cluster ID and name. 
+    Query container persistent volume (PV) list, supports filtering by cluster ID and name.
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        name: Persistent volume name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: Container cluster ID (Optional)
+        name: Persistent volume name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            pvs: PV list. parameter format: [{
+            pvs: Persistent volume list. parameter format: [{
                 name: PV name (string),
-                status:  status (string),
-                capacity:  capacity (string),
+                status: status (string),
+                capacity: capacity (string),
             }, ...],
         }
     """
@@ -236,47 +236,47 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    #  clustermanagement 
+    # Cluster management
     'cluster_list': {
         'func': cluster_list,
-        'description': ' query container cluster list',
+        'description': 'Query container cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     # Node management
     'node_list': {
         'func': node_list,
-        'description': ' query container node list',
+        'description': 'Query container node list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'node'
     },
-    # Podmanagement 
+    # Pod management
     'pod_list': {
         'func': pod_list,
-        'description': ' query pod list',
+        'description': 'Query container pod list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },
-    # Namespacemanagement 
+    # Namespace management
     'namespace_list': {
         'func': namespace_list,
         'description': 'Query container namespace list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
-    # Persistent volume claimmanagement 
+    # Persistent volume claim management
     'pvc_list': {
         'func': pvc_list,
-        'description': 'Query container PVC list',
+        'description': 'Query container persistent volume claim list',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pvc'
     },
-    # Persistent volumemanagement 
+    # Persistent volume management
     'pv_list': {
         'func': pv_list,
-        'description': 'Query container PV list',
+        'description': 'Query container persistent volume list',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'pv'
     },

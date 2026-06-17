@@ -13,10 +13,10 @@
 │   ├── client.py           # DME API client
 │   ├── cli.py              # CLI entry point
 │   └── actions/            # Action modules (one file per topic)
-│       ├── aiops.py         # AIOps (alerts/performance/health/topology)
+│       ├── aiops.py         # AIOps intelligent operations
 │       ├── backup.py         # Backup management
 │       ├── fcswitch.py       # FC switch management
-│       ├── gfs.py            # Global file system (GFS)
+│       ├── gfs.py            # Global file system
 │       ├── integrate.py      # Third-party integration (CMDB)
 │       ├── ipswitch.py       # IP switch management
 │       ├── kube.py           # Kubernetes management
@@ -37,7 +37,19 @@
 
 ### Installation
 
-Install from English branch (stable, English comments):
+Install from default branch (stable, Chinese comments):
+
+```bash
+pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git
+```
+
+Install from dev branch (latest features, Chinese comments):
+
+```bash
+pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@dev
+```
+
+Or install from english branch (stable, english comments):
 
 ```bash
 pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@main-en
@@ -48,7 +60,6 @@ Or install in editable mode for development:
 ```bash
 git clone https://github.com/agentic-data-ops/dme-python-sdk.git
 cd dme-python-sdk
-git checkout main-en
 pip install -e .
 ```
 
@@ -99,7 +110,7 @@ Available topics:
 | `nas` | NAS file storage (NFS/CIFS/DPC/filesystems/quotas) |
 | `storage` | Storage device management (tenants/disks/pools/ports/controllers) |
 | `system` | System management (users/tags/tasks/regions/certificates) |
-| `aiops` | AIOps (alerts/performance/health/topology) (alerts/performance/health/topology) |
+| `aiops` | AIOps (alerts/performance/health/topology) |
 | `fcswitch` | FC switch management |
 | `gfs` | Global file system (GFS) |
 | `virt` | Virtualization services (VMs/clusters/datastores) |
@@ -110,7 +121,6 @@ Available topics:
 | `kube` | Kubernetes management |
 | `integrate` | Third-party integration (CMDB) |
 | `backup` | Backup management |
-| `workflow` | Workflow management |
 
 DME connection info can also be passed via CLI arguments:
 
@@ -236,9 +246,9 @@ alarms = alarm_list(client)
 
 All action functions follow the same pattern:
 
-- **First parameter**：An authenticated `DMEAPIClient` instance
-- **Keyword arguments**：Action-specific parameters (see function documentation)
-- **Return value**：A `dict` containing the API response
+- **First parameter**: An authenticated `DMEAPIClient` instance
+- **Keyword arguments**: Action-specific parameters (see function documentation)
+- **Return value**: A `dict` containing the API response
 
 Browse available actions via CLI:
 
