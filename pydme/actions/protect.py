@@ -102,7 +102,7 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
                  lun_ids: list = None, lun_group_id: str = None,
                  description: str = None) -> dict:
     """
-    创建保护组
+    创建保护组，支持基于LUN或者LUN组创建
 
     Args:
         client: DME API 客户端
@@ -531,7 +531,7 @@ def hypermetro_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: li
 
 def hypermetro_group_remove_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    双活一致性组移除成员 Pair
+    双活一致性组移除成员 Pair（异步任务接口）
 
     Args:
         client: DME API 客户端
@@ -2200,7 +2200,7 @@ def replication_group_delete(client: DMEAPIClient, ids: list, is_self_adapt: boo
 
 def replication_group_add_pairs(client: DMEAPIClient, group_id: str, pair_ids: list) -> dict:
     """
-    远程复制一致性组添加成员 Pair
+    远程复制一致性组添加成员 Pair（OceanStor Dorado V6 6.1.3以下不支持，需组健康状态正常且运行状态为正常或分裂）
 
     Args:
         client: DME API 客户端
