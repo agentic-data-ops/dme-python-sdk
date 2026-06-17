@@ -1938,7 +1938,7 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
     return response
 
 
-def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str = None,
+def clone_group_sync(client: DMEAPIClient, clone_cg_id: str, create_mode: str = None,
                             name_rule: str = None, name_prefix: str = None,
                             name_suffix: str = None, clone_pairs: list = None) -> dict:
     """
@@ -1946,7 +1946,7 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
 
     Args:
         client: DME API 客户端
-        clone_group_id: 克隆一致性组 ID
+        clone_cg_id: 克隆一致性组 ID
         create_mode: 克隆 Pair 创建模式，可选值：auto, manual
         name_rule: 目标 LUN 名称命名规则，可选值：prefix_and_suffix, prefix_and_num
         name_prefix: 目标 LUN 名称前缀
@@ -1958,7 +1958,7 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
             task_id: 任务ID (string, 1~64个字符),
         }
     """
-    url = "/rest/protection/v1/clone-consistency-groups/{clone_group_id}/synchronize"
+    url = "/rest/protection/v1/clone-consistency-groups/{clone_cg_id}/synchronize"
 
     payload = {}
 
@@ -1973,7 +1973,7 @@ def clone_group_sync(client: DMEAPIClient, clone_group_id: str, create_mode: str
     if clone_pairs is not None:
         payload['clone_pairs'] = clone_pairs
 
-    response = client.post(url, body=payload, params={"clone_group_id": clone_group_id})
+    response = client.post(url, body=payload, params={"clone_cg_id": clone_cg_id})
     return response
 
 

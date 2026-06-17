@@ -1948,7 +1948,7 @@ def port_group_list(client: DMEAPIClient, storage_id: str = None,
     if storage_id is not None:
         payload['storage_id'] = storage_id
 
-    response = client.post(url, body=payload, params={"port_group_id": port_group_id})
+    response = client.post(url, body=payload)
     return response
 
 

@@ -3482,7 +3482,7 @@ def account_unix_user_group_modify(client: DMEAPIClient, id: str,
     if description is not None:
         payload['description'] = description
 
-    response = client.put(url, params={"id": id})
+    response = client.put(url, body=payload, params={"id": id})
     return response
 
 
@@ -3526,7 +3526,7 @@ def account_unix_user_remove_group(client: DMEAPIClient, user_id: str,
         'secondary_group_name_list': secondary_group_name_list,
     }
 
-    response = client.post(url, params={"user_id": user_id})
+    response = client.post(url, body=payload, params={"user_id": user_id})
     return response
 
 
@@ -3643,7 +3643,7 @@ def account_unix_user_add_group(client: DMEAPIClient, user_id: str,
         'secondary_group_name_list': secondary_group_name_list,
     }
 
-    response = client.post(url, params={"user_id": user_id})
+    response = client.post(url, body=payload, params={"user_id": user_id})
     return response
 
 

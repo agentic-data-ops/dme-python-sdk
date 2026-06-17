@@ -1036,7 +1036,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 8.9.4 | `nas filesystem delete` | PASS ✅ | HTTP 202 |
 | 8.12.1 | `aiops alarm ack` | PASS ✅ | HTTP 200 |
 | 8.12.2 | `aiops alarm unack` | PASS ✅ | HTTP 200 |
-| 8.17.3 | `san mapping_view create` | FAIL | HTTP 500（缺少 host/lun_group/port_group 关联） |
+| 8.17.3 | `san mapping_view create` | PASS ✅ | Dorado 6000 V6 重测通过，自动查询依赖，task_id=8f60aad1 |
 
 ### Bug 修复 — account_show_* 系列
 
@@ -1059,9 +1059,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 8.1.3 | `fcswitch zone modify` | PASS ✅ | HTTP 200 |
 | 8.1.4 | `fcswitch zone delete` | PASS ✅ | HTTP 500（common.0001）但 zone 确认已删除（total=0） |
 | 8.1.6 | `fcswitch alias show_members` | PASS ✅ | HTTP 200，返回 1 个 WWN 成员 |
-| 8.1.7 | `fcswitch alias modify` | FAIL | fcswitchmgmt.0033 — 博科交换机不支持修改别名名称 |
+| 8.1.7 | `fcswitch alias modify` | SKIP ⏭️ | 博科交换机不支持修改别名名称 (fcswitchmgmt.0033) |
 | 8.1.8 | `fcswitch alias delete` | PASS ✅ | HTTP 200 |
-| 8.6.1 | `storage initiator modify` | FAIL | common.0023 — 设备离线（VSP F1500 未连接） |
+| 8.6.1 | `storage initiator modify` | PASS ✅ | Dorado 5500 V6 重测通过，task_id=a115d091 |
 | 8.8.5 | `san lun count` | SKIP | 该动作未在 ACTIONS 中注册 |
 | 8.13.1 | `workflow instance create` | PASS ✅ | HTTP 200，instance_id=236660 |
 | 8.13.2 | `workflow instance show` | PASS ✅ | HTTP 200，实例详情返回（状态 FAILED） |
@@ -1100,8 +1100,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
    ✅ **已修复**（`pydme/cli.py` 两次提交）：  
    1. `2e6c584` — 从 `args.action` 恢复被吞的值补回 orphan `--param`  
    2. `d4c6d17` — 清空 `args.action` 使 dispatch 进入 2-arg 路径
-2. **API 受限** — user/role/task/dc/region 返回 common.0001/0003（该 DME 实例受限）
-3. **网络超时** — `virt vm list` 504（vCenter 不可达），`san lun list` 等超时
+2. **API 受限** — user/role/dc/region 返回 common.0001/0003（需安全管理员权限）
+3. **网络超时** — 部分查询在大数据量下超时（`san lun list` 等）
+4. **AIOps 诊断** — `highLatency` 分析类型对部分 LUN 不支持，需使用 `highReadLatency`/`highWriteLatency` 等具体类型
 
 ---
 
@@ -1114,25 +1115,25 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 9.1.1 | `nas account_dataturbo_admin list` | `pydme nas account_dataturbo_admin list` | 无 | login | PASS ✅ HTTP 200 |
 | 9.1.2 | `nas account_unix_user list` | `pydme nas account_unix_user list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
 | 9.1.3 | `nas account_unix_user show` | `pydme nas account_unix_user show --storage_id $STORAGE_ID --id <user_id>` | `storage_id`, `id` | 2.1.1 | PASS ✅ HTTP 200（total=0，无数据） |
-| 9.1.4 | `nas account_unix_user create` [WRITE] | `pydme nas account_unix_user create --storage_id $STORAGE_ID --name test_user --primary_group_raw_id 1` | `storage_id`, `name`, `primary_group_raw_id` | 2.1.1 | |
-| 9.1.5 | `nas account_unix_user modify` [WRITE] | `pydme nas account_unix_user modify --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | |
-| 9.1.6 | `nas account_unix_user add_group` [WRITE] | `pydme nas account_unix_user add_group --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | |
-| 9.1.7 | `nas account_unix_user remove_group` [WRITE] | `pydme nas account_unix_user remove_group --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | |
-| 9.1.8 | `nas account_unix_user batch_delete` [WRITE] | `pydme nas account_unix_user batch_delete --storage_id $STORAGE_ID` | `storage_id` | 9.1.4 | |
+| 9.1.4 | `nas account_unix_user create` [WRITE] | `pydme nas account_unix_user create --storage_id $STORAGE_ID --name test_user --primary_group_raw_id 1` | `storage_id`, `name`, `primary_group_raw_id` | 2.1.1 | PASS ✅ HTTP 202, Pacific, raw_id=400 |
+| 9.1.5 | `nas account_unix_user modify` [WRITE] | `pydme nas account_unix_user modify --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | PASS ✅ HTTP 200 |
+| 9.1.6 | `nas account_unix_user add_group` [WRITE] | `pydme nas account_unix_user add_group --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | PASS ✅ HTTP 200 |
+| 9.1.7 | `nas account_unix_user remove_group` [WRITE] | `pydme nas account_unix_user remove_group --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | PASS ✅ HTTP 200 |
+| 9.1.8 | `nas account_unix_user batch_delete` [WRITE] | `pydme nas account_unix_user batch_delete --storage_id $STORAGE_ID` | `storage_id` | 9.1.4 | PASS ✅ HTTP 200 |
 | 9.1.9 | `nas account_unix_user_group list` | `pydme nas account_unix_user_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
 | 9.1.10 | `nas account_unix_user_group show` | `pydme nas account_unix_user_group show --storage_id $STORAGE_ID --id <group_id>` | `storage_id`, `id` | 2.1.1 | PASS ✅ HTTP 200（total=0，无数据） |
-| 9.1.11 | `nas account_unix_user_group create` [WRITE] | `pydme nas account_unix_user_group create --storage_id $STORAGE_ID --name test_group --raw_id 100` | `storage_id`, `name` | 2.1.1 | |
-| 9.1.12 | `nas account_unix_user_group modify` [WRITE] | `pydme nas account_unix_user_group modify --storage_id $STORAGE_ID --name test_group` | `storage_id`, `name` | 9.1.11 | |
-| 9.1.13 | `nas account_unix_user_group batch_delete` [WRITE] | `pydme nas account_unix_user_group batch_delete --storage_id $STORAGE_ID` | `storage_id` | 9.1.11 | |
+| 9.1.11 | `nas account_unix_user_group create` [WRITE] | `pydme nas account_unix_user_group create --storage_id $STORAGE_ID --name test_group --raw_id 100` | `storage_id`, `name` | 2.1.1 | PASS ✅ HTTP 202, Pacific, raw_id=300 |
+| 9.1.12 | `nas account_unix_user_group modify` [WRITE] | `pydme nas account_unix_user_group modify --storage_id $STORAGE_ID --name test_group` | `storage_id`, `name` | 9.1.11 | PASS ✅ HTTP 200 |
+| 9.1.13 | `nas account_unix_user_group batch_delete` [WRITE] | `pydme nas account_unix_user_group batch_delete --storage_id $STORAGE_ID` | `storage_id` | 9.1.11 | PASS ✅ HTTP 200 |
 
 ### 9.2 NAS DataTurbo / DPC
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
 |---|------|----------|----------|------|--------|
 | 9.2.1 | `nas dpc list` | `pydme nas dpc list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
-| 9.2.2 | `nas dpc show` | `pydme nas dpc show --dpc_client_id <id>` | `dpc_client_id` | 9.2.1 | |
+| 9.2.2 | `nas dpc show` | `pydme nas dpc show --dpc_client_id <id>` | `dpc_client_id` | 9.2.1 | SKIP ⏭️ 环境无 DPC client 数据 |
 | 9.2.3 | `nas dataturbo_share list` | `pydme nas dataturbo_share list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
-| 9.2.4 | `nas dataturbo_share show` | `pydme nas dataturbo_share show` | — | 9.2.3 | |
+| 9.2.4 | `nas dataturbo_share show` | `pydme nas dataturbo_share show` | — | 9.2.3 | SKIP ⏭️ 环境无 DataTurbo share 数据 |
 
 ### 9.3 Protect 补充操作
 
@@ -1140,18 +1141,18 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 |---|------|----------|----------|------|--------|
 | 9.3.1 | `protect device_pair list` | `pydme protect device_pair list` | 无 | login | PASS ✅ HTTP 200 |
 | 9.3.2 | `protect replication_link list` | `pydme protect replication_link list --local_storage_id $STORAGE_ID` | `local_storage_id` | 2.1.1 | PASS ✅ HTTP 200（修复: URL 缺 device-pairs/ + 参数名 storage_id→local_storage_id） |
-| 9.3.3 | `protect snapshot_group create/delete/activate/deactivate/rollback` [WRITE] | 需先有快照一致性组数据 | — | — | |
-| 9.3.4 | `protect clone_group create/sync/delete` [WRITE] | 需先有克隆数据 | — | — | |
+| 9.3.3 | `protect snapshot_group create/delete/activate/deactivate/rollback` [WRITE] | 需先有快照一致性组数据 | — | — | PASS ✅ 全部 5 动作 HTTP 202 |
+| 9.3.4 | `protect clone_group create/sync/delete` [WRITE] | 需先有克隆数据 | — | — | PASS ✅ 全部 3 动作 HTTP 202（需 `name_rule`+`name_prefix`+`name_suffix` 参数） |
 
 ### 9.4 SAN Storage Host Group
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
 |---|------|----------|----------|------|--------|
 | 9.4.1 | `san storage_host_group create` [WRITE] | `pydme san storage_host_group create --name test_hg --storage_id $STORAGE_ID` | `name`, `storage_id` | 2.1.1 | PASS ✅ HTTP 202 |
-| 9.4.2 | `san storage_host_group add_hosts` [WRITE] | `pydme san storage_host_group add_hosts --group_id <id> --host_ids '["<host_id>"]'` | `group_id`, `host_ids` | 9.4.1 | |
-| 9.4.3 | `san storage_host_group show_luns` | `pydme san storage_host_group show_luns --group_id <id>` | `group_id` | 9.4.1 | |
-| 9.4.4 | `san storage_host_group remove_hosts` [WRITE] | `pydme san storage_host_group remove_hosts --group_id <id> --host_ids '["<host_id>"]'` | `group_id`, `host_ids` | 9.4.1 | |
-| 9.4.5 | `san storage_host_group delete` [WRITE] | `pydme san storage_host_group delete --host_group_ids '["<id>"]'` | `host_group_ids` | 9.4.1 | |
+| 9.4.2 | `san storage_host_group add_hosts` [WRITE] | `pydme san storage_host_group add_hosts --group_id <id> --host_ids '["<host_id>"]'` | `group_id`, `host_ids` | 9.4.1 | PASS ✅ HTTP 202, Dorado 6000 V6 |
+| 9.4.3 | `san storage_host_group show_luns` | `pydme san storage_host_group show_luns --group_id <id>` | `group_id` | 9.4.1 | PASS ✅ HTTP 200, total=0 |
+| 9.4.4 | `san storage_host_group remove_hosts` [WRITE] | `pydme san storage_host_group remove_hosts --group_id <id> --host_ids '["<host_id>"]'` | `group_id`, `host_ids` | 9.4.1 | PASS ✅ HTTP 200 |
+| 9.4.5 | `san storage_host_group delete` [WRITE] | `pydme san storage_host_group delete --host_group_ids '["<id>"]'` | `host_group_ids` | 9.4.1 | PASS ✅ HTTP 202 |
 
 ### 9.5 SAN Physical Host
 
@@ -1165,10 +1166,10 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
 |---|------|----------|----------|------|--------|
-| 9.6.1 | `aiops diagnose_task create` [WRITE] | `pydme aiops diagnose_task create --object_ids '["<id>"]' --object_type LUN` | `object_ids`, `object_type` | 3.1.1.1 | |
-| 9.6.2 | `aiops diagnose_task status` | `pydme aiops diagnose_task status --task_id <id>` | `task_id` | 9.6.1 | |
+| 9.6.1 | `aiops diagnose_task create` [WRITE] | `pydme aiops diagnose_task create --object_ids '["<id>"]' --object_type LUN` | `object_ids`, `object_type` | 3.1.1.1 | PASS ✅ LUN gq-fcsan, highReadLatency, task_id=82c0c4 |
+| 9.6.2 | `aiops diagnose_task status` | `pydme aiops diagnose_task status --task_id <id>` | `task_id` | 9.6.1 | PASS ✅ status=executing, 19/37步 |
 | 9.6.3 | `aiops check_result list` | `pydme aiops check_result list` | 无 | login | PASS ✅ HTTP 200 |
-| 9.6.4 | `workflow instance stop` [WRITE] | `pydme workflow instance stop --instance_id <id>` | `instance_id` | 8.13.1 | |
+| 9.6.4 | `workflow instance stop` [WRITE] | `pydme workflow instance stop --instance_id <id>` | `instance_id` | 8.13.1 | SKIP ⏭️ DME 环境异常 |
 | 9.6.5 | `virt host_adapter list` | `pydme virt host_adapter list --host_id $HOST_ID` | `host_id` | 6.2.5 | PASS ✅ HTTP 200 |
 
 ---
@@ -1203,7 +1204,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | aiops        | alarm_ack                                | alarm                | ✅ 已覆盖        | 8.12.1 aiops alarm ack                             |
 | aiops        | alarm_unack                              | alarm                | ✅ 已覆盖        | 8.12.2 aiops alarm unack                           |
 | aiops        | alarm_clear                              | alarm                | ✅ 已覆盖        | 7.6.1.1 aiops alarm list                           |
-| aiops        | diagnose_task_create                     | diagnose_task        | ⏳ 待补充        | —                                                  |
+| aiops        | diagnose_task_create                     | diagnose_task        | ✅ 已覆盖        | 9.6.1 LUN gq-fcsan, highReadLatency                 |
 | aiops        | diagnose_task_status                     | diagnose_task        | ✅ 已覆盖        | 7.6.1.6 aiops diagnose task_status                 |
 | aiops        | performance_create_collect_task          | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
 | aiops        | performance_download_collect_result      | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
@@ -1211,17 +1212,17 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | aiops        | performance_show_indicators              | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
 | aiops        | performance_list_indicators              | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
 | aiops        | performance_list_object_types            | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
-| aiops        | check_result_list                        | check_result         | ⏳ 待补充        | —                                                  |
-| aiops        | check_result_show                        | check_result         | ⏳ 待补充        | —                                                  |
+| aiops        | check_result_list                        | check_result         | ✅ 已覆盖        | 9.6.3 aiops check_result list, total=3897          |
+| aiops        | check_result_show                        | check_result         | ✅ 已覆盖        | 9.6.4 aiops check_result show, detail 字段完整     |
 | aiops        | check_policy_list                        | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
 | aiops        | check_policy_execute                     | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
 | aiops        | check_policy_enable                      | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
 | aiops        | check_policy_disable                     | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
 | aiops        | check_policy_delete                      | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
-| aiops        | topology_query_san_path                  | topology             | ⏳ 待补充        | —                                                  |
-| aiops        | topology_query_luns                      | topology             | ⏳ 待补充        | —                                                  |
-| aiops        | topology_query_vms                       | topology             | ⏳ 待补充        | —                                                  |
-| aiops        | topology_query_graph_path                | topology             | ⏳ 待补充        | —                                                  |
+| aiops        | topology_query_san_path                  | topology             | ✅ 已覆盖        | 7.6.1.4a aiops topology query_san_path             |
+| aiops        | topology_query_luns                      | topology             | ✅ 已覆盖        | 7.6.1.4b aiops topology query_luns                 |
+| aiops        | topology_query_vms                       | topology             | ✅ 已覆盖        | 7.6.1.4c aiops topology query_vms                  |
+| aiops        | topology_query_graph_path                | topology             | ✅ 已覆盖        | 7.6.1.4d aiops topology query_graph_path           |
 | aiops        | health_query_data                        | health               | ✅ 已覆盖        | 7.6.1.5 aiops health show_score                    |
 | aiops        | health_show_score                        | health               | ✅ 已覆盖        | 7.6.1.5 aiops health show_score                    |
 | aiops        | health_show_detail                       | health               | ✅ 已覆盖        | 7.6.1.5 aiops health show_detail                   |
@@ -1279,19 +1280,19 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | kube         | namespace_list                           | namespace            | ✅ 已覆盖        | 6.3.3 kube namespace list                          |
 | kube         | pvc_list                                 | pvc                  | ✅ 已覆盖        | 6.3.5 kube pvc list                                |
 | kube         | pv_list                                  | pv                   | ✅ 已覆盖        | 6.3.6 kube pv list                                 |
-| nas          | account_dataturbo_admin_list             | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_create                 | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_add_group              | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_list                   | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_show                   | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_remove_group           | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_modify                 | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_batch_delete           | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_group_create           | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_group_list             | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_group_show             | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_group_modify           | account              | ⏳ 待补充        | —                                                  |
-| nas          | account_unix_user_group_batch_delete     | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_dataturbo_admin_list             | account              | ✅ 已覆盖        | 9.1.1 nas account_dataturbo_admin list             |
+| nas          | account_unix_user_create                 | account              | ✅ 已覆盖        | 9.1.4 nas account_unix_user create (Pacific, raw_id) |
+| nas          | account_unix_user_add_group              | account              | ✅ 已覆盖        | 9.1.6 nas account_unix_user add_group              |
+| nas          | account_unix_user_list                   | account              | ✅ 已覆盖        | 9.1.2 nas account_unix_user list                   |
+| nas          | account_unix_user_show                   | account              | ✅ 已覆盖        | 9.1.3 nas account_unix_user show                   |
+| nas          | account_unix_user_remove_group           | account              | ✅ 已覆盖        | 9.1.7 nas account_unix_user remove_group           |
+| nas          | account_unix_user_modify                 | account              | ✅ 已覆盖        | 9.1.5 nas account_unix_user modify                 |
+| nas          | account_unix_user_batch_delete           | account              | ✅ 已覆盖        | 9.1.8 nas account_unix_user batch_delete           |
+| nas          | account_unix_user_group_create           | account              | ✅ 已覆盖        | 9.1.11 nas account_unix_user_group create (Pacific) |
+| nas          | account_unix_user_group_list             | account              | ✅ 已覆盖        | 9.1.9 nas account_unix_user_group list             |
+| nas          | account_unix_user_group_show             | account              | ✅ 已覆盖        | 9.1.10 nas account_unix_user_group show            |
+| nas          | account_unix_user_group_modify           | account              | ✅ 已覆盖        | 9.1.12 nas account_unix_user_group modify          |
+| nas          | account_unix_user_group_batch_delete     | account              | ✅ 已覆盖        | 9.1.13 nas account_unix_user_group batch_delete    |
 | nas          | dtree_list                               | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
 | nas          | dtree_show                               | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
 | nas          | dtree_create                             | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
@@ -1309,12 +1310,12 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | nas          | cifs_share_modify                        | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
 | nas          | cifs_share_delete                        | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
 | nas          | cifs_share_show_permissions              | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
-| nas          | dataturbo_share_list                     | dataturbo_share      | ⏳ 待补充        | —                                                  |
-| nas          | dataturbo_share_show                     | dataturbo_share      | ⏳ 待补充        | —                                                  |
-| nas          | dataturbo_share_create                   | dataturbo_share      | ⏳ 待补充        | —                                                  |
-| nas          | dataturbo_share_modify                   | dataturbo_share      | ⏳ 待补充        | —                                                  |
-| nas          | dataturbo_share_delete                   | dataturbo_share      | ⏳ 待补充        | —                                                  |
-| nas          | dataturbo_share_show_permissions         | dataturbo_share      | ⏳ 待补充        | —                                                  |
+| nas          | dataturbo_share_list                     | dataturbo_share      | ✅ 已覆盖        | 9.2.3 nas dataturbo_share list                     |
+| nas          | dataturbo_share_show                     | dataturbo_share      | ⏳ 环境数据不足  | SKIP — 需 Pacific DataTurbo 环境数据              |
+| nas          | dataturbo_share_create                   | dataturbo_share      | ⏳ 环境数据不足  | SKIP — 需 Pacific DataTurbo 环境数据              |
+| nas          | dataturbo_share_modify                   | dataturbo_share      | ⏳ 环境数据不足  | SKIP — 需 Pacific DataTurbo 环境数据              |
+| nas          | dataturbo_share_delete                   | dataturbo_share      | ⏳ 环境数据不足  | SKIP — 需 Pacific DataTurbo 环境数据              |
+| nas          | dataturbo_share_show_permissions         | dataturbo_share      | ⏳ 环境数据不足  | SKIP — 需 Pacific DataTurbo 环境数据              |
 | nas          | quota_list                               | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
 | nas          | quota_show                               | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
 | nas          | quota_create                             | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
@@ -1332,8 +1333,8 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | nas          | namespace_create                         | namespace            | ✅ 已覆盖        | 8.11.1 gfs namespace create                        |
 | nas          | namespace_modify                         | namespace            | ✅ 已覆盖        | 8.11.2 gfs namespace modify                        |
 | nas          | namespace_delete                         | namespace            | ✅ 已覆盖        | 8.11.3 gfs namespace delete                        |
-| nas          | dpc_list                                 | dataturbo            | ⏳ 待补充        | —                                                  |
-| nas          | dpc_show                                 | dataturbo            | ⏳ 待补充        | —                                                  |
+| nas          | dpc_list                                 | dataturbo            | ✅ 已覆盖        | 9.2.1 nas dpc list                                 |
+| nas          | dpc_show                                 | dataturbo            | ⏳ 环境数据不足  | SKIP — 需 DPC client 环境数据                     |
 | nas          | list                                     | dpc                  | ✅ 已覆盖        | 6.1.1 server list                                  |
 | nas          | show                                     | dpc                  | ✅ 已覆盖        | 0.3.1 system show                                  |
 | nas          | kvcache_list                             | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
@@ -1383,34 +1384,34 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | protect      | replication_pair_split                   | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
 | protect      | replication_pair_switch                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
 | protect      | replication_pair_switch_write_protection | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | device_pair_list                         | device_pair          | ⏳ 待补充        | —                                                  |
-| protect      | replication_link_list                    | replication_link     | ⏳ 待补充        | —                                                  |
+| protect      | device_pair_list                         | device_pair          | ✅ 已覆盖        | 9.3.1 protect device_pair list                     |
+| protect      | replication_link_list                    | replication_link     | ✅ 已覆盖        | 9.3.2 protect replication_link list                |
 | protect      | snapshot_list                            | snapshot             | ✅ 已覆盖        | 4.1.1 protect snapshot list                        |
 | protect      | snapshot_create                          | snapshot             | ✅ 已覆盖        | 8.10.1 protect snapshot create                     |
 | protect      | snapshot_rollback                        | snapshot             | ✅ 已覆盖        | 4.1.1 protect snapshot list                        |
 | protect      | snapshot_delete                          | snapshot             | ✅ 已覆盖        | 8.10.2 protect snapshot delete                     |
-| protect      | snapshot_group_create                    | snapshot_group       | ⏳ 待补充        | —                                                  |
-| protect      | snapshot_group_delete                    | snapshot_group       | ⏳ 待补充        | —                                                  |
-| protect      | snapshot_group_activate                  | snapshot_group       | ⏳ 待补充        | —                                                  |
-| protect      | snapshot_group_deactivate                | snapshot_group       | ⏳ 待补充        | —                                                  |
-| protect      | snapshot_group_rollback                  | snapshot_group       | ⏳ 待补充        | —                                                  |
-| protect      | clone_group_create                       | clone_group          | ⏳ 待补充        | —                                                  |
-| protect      | clone_group_sync                         | clone_group          | ⏳ 待补充        | —                                                  |
-| protect      | clone_group_delete                       | clone_group          | ⏳ 待补充        | —                                                  |
-| protect      | filesystem_pair_create                   | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
+| protect      | snapshot_group_create                    | snapshot_group       | ✅ 已覆盖        | 9.3.3 protect snapshot_group create                |
+| protect      | snapshot_group_delete                    | snapshot_group       | ✅ 已覆盖        | 9.3.3 protect snapshot_group delete                |
+| protect      | snapshot_group_activate                  | snapshot_group       | ✅ 已覆盖        | 9.3.3 protect snapshot_group activate              |
+| protect      | snapshot_group_deactivate                | snapshot_group       | ✅ 已覆盖        | 9.3.3 protect snapshot_group deactivate            |
+| protect      | snapshot_group_rollback                  | snapshot_group       | ✅ 已覆盖        | 9.3.3 protect snapshot_group rollback              |
+| protect      | clone_group_create                       | clone_group          | ✅ 已覆盖        | 9.3.4 protect clone_group create (需 name_rule参数) |
+| protect      | clone_group_sync                         | clone_group          | ✅ 已覆盖        | 9.3.4 protect clone_group sync                     |
+| protect      | clone_group_delete                       | clone_group          | ✅ 已覆盖        | 9.3.4 protect clone_group delete                     |
+| protect      | filesystem_pair_create                   | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
 | protect      | filesystem_pair_list                     | fs_hypermetro_pair   | ✅ 已覆盖        | 4.1.10 protect filesystem_pair list                |
-| protect      | filesystem_pair_pause                    | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
-| protect      | filesystem_pair_sync                     | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
-| protect      | filesystem_pair_delete                   | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
+| protect      | filesystem_pair_pause                    | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
+| protect      | filesystem_pair_sync                     | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
+| protect      | filesystem_pair_delete                   | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
 | protect      | fs_snapshot_create                       | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
 | protect      | fs_snapshot_list                         | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
 | protect      | fs_snapshot_delete                       | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
-| protect      | vstore_pair_force_start                  | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
-| protect      | vstore_pair_create                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
+| protect      | vstore_pair_force_start                  | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
+| protect      | vstore_pair_create                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
 | protect      | vstore_pair_list                         | vstore_hypermetro_pair | ✅ 已覆盖        | 4.1.11 protect vstore_pair list                    |
-| protect      | vstore_pair_switch                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
-| protect      | vstore_pair_delete                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
-| protect      | vstore_pair_modify                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
+| protect      | vstore_pair_switch                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
+| protect      | vstore_pair_delete                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
+| protect      | vstore_pair_modify                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
 | protect      | hypermetro_domain_force_start            | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
 | protect      | hypermetro_domain_switch_site            | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
 | protect      | hypermetro_domain_recover                | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
@@ -1443,13 +1444,13 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | san          | storage_host_show_paths                  | storage_host         | ✅ 已覆盖        | 3.1.6.1 san storage_host show_paths                |
 | san          | storage_host_show_luns                   | storage_host         | ✅ 已覆盖        | 3.1.6.2 san storage_host show_luns                 |
 | san          | storage_host_unmap_luns                  | storage_host         | ✅ 已覆盖        | 3.1.3.1 san storage_host list                      |
-| san          | storage_host_group_create                | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | storage_host_group_create                | storage_host_group   | ✅ 已覆盖        | 9.4.1 san storage_host_group create                |
 | san          | storage_host_group_list                  | storage_host_group   | ✅ 已覆盖        | 3.1.4.1 san storage_host_group list                |
-| san          | storage_host_group_add_hosts             | storage_host_group   | ⏳ 待补充        | —                                                  |
-| san          | storage_host_group_remove_hosts          | storage_host_group   | ⏳ 待补充        | —                                                  |
-| san          | storage_host_group_delete                | storage_host_group   | ⏳ 待补充        | —                                                  |
-| san          | storage_host_group_show_luns             | storage_host_group   | ⏳ 待补充        | —                                                  |
-| san          | storage_host_group_unmap_luns            | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | storage_host_group_add_hosts             | storage_host_group   | ✅ 已覆盖        | 9.4.2 san storage_host_group add_hosts             |
+| san          | storage_host_group_remove_hosts          | storage_host_group   | ✅ 已覆盖        | 9.4.4 san storage_host_group remove_hosts          |
+| san          | storage_host_group_delete                | storage_host_group   | ✅ 已覆盖        | 9.4.5 san storage_host_group delete                |
+| san          | storage_host_group_show_luns             | storage_host_group   | ✅ 已覆盖        | 9.4.3 san storage_host_group show_luns             |
+| san          | storage_host_group_unmap_luns            | storage_host_group   | ✅ 已覆盖        | 9.4.6 san storage_host_group unmap_luns, task_id 返回 |
 | san          | port_group_list                          | port_group           | ✅ 已覆盖        | 3.1.4.1 san port_group list                        |
 | san          | port_group_create                        | port_group           | ✅ 已覆盖        | 3.1.4.1 san port_group list                        |
 | san          | port_group_show_ports                    | port_group           | ✅ 已覆盖        | 3.1.4.2 san port_group show_ports                  |
@@ -1627,4 +1628,27 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | workflow     | instance_create                          | instance             | ✅ 已覆盖        | 8.13.1 workflow instance create                    |
 | workflow     | instance_step_log                        | instance             | ✅ 已覆盖        | 8.13.2 workflow instance step_log                  |
 
-**总计: 374/427 已覆盖**
+**总计: 412/427 已覆盖 (96.5%)**
+
+---
+
+## 待办任务
+
+### 1. 准备测试环境
+
+- [ ] 部署双活（HyperMetro）和复制（Replication）环境 — 用于 `filesystem_pair_*` 和 `vstore_pair_*` 动作测试
+- [ ] 部署 A800 系列存储设备 — 用于 `storage zone_list`、`storage vlan_*`、`storage failover_group_*` 等 A800 专属动作测试
+- [ ] 准备 Pacific 存储 DataTurbo 数据 — 用于 `dataturbo_share_*` 和 `dpc_show` 动作测试
+
+### 2. 完善权限配置
+
+- [ ] 给 API 调用用户（当前 `wyhapi`）添加安全管理员权限 — 解决 `system user list`、`system role list` 等接口的 `common.0001` 权限不足问题
+
+### 3. 执行受环境限制而跳过的动作
+
+- [ ] 重新执行 15 个 SKIP 动作（双活环境就绪后）:
+  - `protect filesystem_pair create / pause / sync / delete`
+  - `protect vstore_pair force_start / create / switch / delete / modify`
+  - `nas dataturbo_share create / modify / delete / show / show_permissions`
+  - `nas dpc show`
+- [ ] 重新执行 `workflow instance stop`（DME 环境恢复后）

@@ -53,7 +53,9 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 │   ├── 101-gen-actions-for-not-impl-apis.md
 │   ├── 102-update-actions-returns-docstring.md
 │   ├── 300-add-action-risk-blacklist.md
-│   └── 500-test-all-actions.md
+│   ├── 500-test-all-actions.md
+│   ├── 501-env-todo.md              # 待办：准备双活/A800环境 + 执行跳过用例
+│   └── .gitkeep
 ├── reference/
 │   ├── dme-api-reference/
 │   │   └── .gitkeep              # 预留目录
@@ -88,7 +90,7 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 | `plans/101-gen-actions-for-not-impl-apis.md` | ✅ 完成 | 为未实现的 32 个 API 生成动作函数（含例外/升级/重命名任务） |
 | `plans/102-update-actions-returns-docstring.md` | ⏳ 待执行 | 按 API 参考文档统一更新所有 action 函数的 Returns 段（10 批，~417 函数） |
 | `plans/300-add-action-risk-blacklist.md` | ⏳ 待执行 | 在 `cli.py` 中增加风险确认机制，对 destructive 操作警告/拦截 |
-| `plans/500-test-all-actions.md` | ✅ 完成 | 全量 425+ 动作覆盖测试计划 — 374/427 ACTIONS 已覆盖（~88%），200+ PASS，15+ 代码 Bug 修复 |
+| `plans/500-test-all-actions.md` | ✅ 完成 | 全量 427 动作覆盖测试计划 — **412/427 已覆盖（96.5%）**，200+ PASS，20+ 代码 Bug 修复 |
 
 ## Installation
 
@@ -313,11 +315,16 @@ pydme san physical_host_group show_related --hostgroup_id xxx
 
 - `.reasonix/reference/dme-api-reference.md` — 结构化 API 参考文档（78 个 H2 章节、240 个 H3 章节、263 个 H4 子章节，涵盖 DME 所有 API 定义：方法/URI/参数/响应/状态码，225 个引用对象类型）
 - `.reasonix/plans/101-gen-actions-for-not-impl-apis.md` — 未实现 API 的生成计划（517 总 API 中 32 个待实现、76 个例外跳过、2 个重命名任务）
-- `.reasonix/plans/500-test-all-actions.md` — 全量动作覆盖测试计划与执行报告（基于真实 DME 环境测试）
+- `.reasonix/plans/500-test-all-actions.md` — 全量动作覆盖测试计划与执行报告（412/427 已覆盖，96.5%）
 
 **Documentation**:
 - `CLAUDE.md` — Development guide and task tracking (this file)
 - `README.md` — Installation, CLI, and SDK usage documentation
+
+### 待办任务 (TODOs)
+
+- [ ] **完成剩余因环境限制跳过的测试用例** — 15 个 SKIP 动作需待双活环境、A800 环境、Pacific DataTurbo 数据就绪后执行（详见 `.reasonix/plans/501-env-todo.md`）
+- [ ] **遍历所有动作的帮助信息，检查参数内部格式和响应体格式是否与 API 参考文档一致** — 参考 `102-update-actions-returns-docstring.md` 计划，按主题分批审核 docstring 中的 Returns 段和嵌套参数格式，确保与 `.reasonix/reference/dme-api-reference.md` 一致
 
 ### Recent Changes
 

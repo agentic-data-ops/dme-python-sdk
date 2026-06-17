@@ -375,14 +375,14 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含:
-        - total: 智能分析任务总数
-        - data: 智能分析任务响应结果列表，每项包含:
-            - id: 任务 ID
-            - analysis_type: 分析类型
-            - error_msg: 错误信息
-            - is_succeed: 是否创建成功
+            total: 智能分析任务总数 (int32, 0~4),
+            data: 智能分析任务响应结果列表 (List<ResponseTaskInfoOpenapi>)。参数格式如下：[{
+                    id: 任务ID (string, 1~32个字符),
+                    analysis_type: 智能分析类型枚举 (string)。可选值：highLatency (高时延), healthAnalysis (健康快检), IOInterrupt (IO中断), highReadLatency (高读时延), highWriteLatency (高写时延), trafficAnalysis (流量分析), cpuUsageAnalysis (cpu消耗分析),
+                    error_msg: 错误信息 (string, 1~1024个字符),
+                    is_succeed: 是否创建成功 (boolean)。可选值：true (创建成功), false (创建失败),
+                 }, ...],
+        }
     """
     url = "/rest/diagnosis/v1/tasks"
 
@@ -983,26 +983,44 @@ def check_result_list(client: DMEAPIClient, object_name: str = None, level: str 
     Args:
         client: DME API 客户端
         object_name: 对象名称（支持模糊查询，1~256 个字符）
-        level: 异常级别（critical-紧急，major-重要，minor-次要，info-提示）
+        level: 异常级别（可选）。可选值：critical (紧急), major (重要), minor (次要), info (提示)
         object_ids: 对象 ID 列表（最多 100 个）
         object_native_id: 对象 nativeId（1~384 个字符）
-        object_type: 对象类型（storage-存储，lun-逻辑单元，host-主机等）
+        object_type: 对象类型（可选）。可选值：bond_port (绑定端口), clone_pair (克隆pair), controller (控制器), datastore (数据存储), device_pair (设备pair), dtree (Dtree), dtree_user_quota (Dtree用户配额), ethernet_port (以太端口), expansion_port (级联端口), fc_link (FC链路), fc_port (FC端口), fc_switch (FC交换机), fcswitch_port (FC交换机端口), filesystem_snapshot (文件系统快照), fs_hyper_metro_pair (文件系统双活), hci (超融合), host (主机), host_initiator (主机启动器), hyper_metro_cg (双活一致性组), hyper_metro_pair (双活), ip_link (IP链路), ip_switch (以太网交换机), ip_switch_board (以太网交换机单板), ip_switch_fan (以太网交换机风扇), ip_switch_port (以太网交换机端口), ip_switch_psu (以太网交换机电源), logic_port (逻辑端口), lun_group (LUN组), lun_snapshot (LUN快照), dataturbo (dataturbo协议), nfsv3 (NFS_v3协议), nfsv4 (NFS_v4协议), nfsv41 (NFS_v4.1协议), phost_nic (主机网口), physical_server (服务器), remote_device (远端设备), replication_cg (复制一致性组), replication_pair (复制Pair), roce_port (RoCE端口), sas_port (SAS端口), server_nic (服务器网卡), smb1 (SMB1协议), smb2_3 (SMB2/3协议), storage (存储), storage_disk (硬盘), storage_file_system (文件系统), storage_host (存储主机), host_link (存储主机), storage_host_group (存储主机组), storage_host_initiator (存储主机启动器), storage_name_space (命名空间), storage_node (存储节点), storage_pool (存储池), storage_port (存储端口), tier (服务等级), virtual_cluster (虚拟化集群), virtual_disk (虚拟硬盘), virtual_host (宿主机), virtual_machine (虚拟机), virtual_machine_snapshot (虚拟机快照), virtual_nic (虚拟网卡), virtual_gpu (GPU), volume (LUN), vstore (vStore), zone (Zone), filesystem_replication_pair (文件系统复制Pair), dpc, gfs (GFS), vbs_client (vbs客户端), dpc_client (dpc客户端), nfs_plus_client_link (NFS+客户端链路), knowledge_base_node (KnowledgeBase节点), object_data_flow (对象数据流动)
         policy_id: 策略 ID（精确查询，1~64 个字符）
         policy_name: 策略名称（支持模糊查询，1~256 个字符）
-        policy_types: 策略类型列表（最多 30 个）
+        policy_types: 策略类型列表（最多 30 个）。可选值：performance (性能阈值), capacity (容量阈值), availability (可用性), configuration (配置), recyclable (可回收资源), lowload (低负载资源), performance_anomaly (性能异常), performance_prediction (性能预警), capacity_prediction (容量预警), history_performance (历史性能), load_imbalance (负载失衡), highload (高负载资源)
         cause: 异常原因（支持模糊查询，1~768 个字符）
-        alarm_type: 告警类型（violation-异常，alarm-告警，event-事件）
+        alarm_type: 告警类型（可选）。可选值：violation (异常), alarm (告警), event (事件)
         first_occur_time: 第一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
         last_occur_time: 最后一次异常时间范围（{beginTime, endTime}，UTC 时间戳，单位 ms）
         page_no: 分页查询的页码，1~10000，默认 1
         page_size: 分页查询的个数，1~2000，默认 20
-        sort_key: 排序字段（violation_count-异常次数）
-        sort_dir: 排序方式（asc-正序，desc-降序）
+        sort_key: 排序字段（可选）。可选值：violation_count (异常次数)
+        sort_dir: 排序方式（可选）。可选值：asc (正序), desc (降序)
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total（总数）和 results（异常检查结果列表）
+            total: 异常检查结果总数 (int32, 0~2147483647),
+            results: 异常检查结果列表 (List<PolicyCheckResult>, 数组最大成员个数: 2000)。参数格式如下：[{
+                    check_result_id: 检查结果ID (string, 1~64个字符),
+                    policy_id: 策略ID (string, 1~64个字符),
+                    policy_name: 策略名称 (string, 1~256个字符),
+                    policy_type: 检查策略类型 (string)。可选值：performance (性能阈值), capacity (容量阈值), availability (可用性), configuration (配置), recyclable (可回收资源), lowload (低负载资源), performance_anomaly (性能异常), performance_prediction (性能预警), capacity_prediction (容量预警), history_performance (历史性能), load_imbalance (负载失衡), highload (高负载资源),
+                    object_name: 对象名称 (string, 0~1000个字符),
+                    object_id: 对象ID (string, 1~64个字符),
+                    object_native_id: 对象nativeId (string, 0~500个字符),
+                    object_type: 对象类型 (string),
+                    level: 异常级别 (string)。可选值：critical (紧急), major (重要), minor (次要), info (提示),
+                    cause: 异常条件 (string, 0~1000个字符),
+                    alarm_type: 告警类型 (string)。可选值：violation (异常), alarm (告警), event (事件),
+                    violation_count: 异常次数 (int32, 0~2147483647),
+                    first_occur_time: 第一次异常时间 (int64, UTC时间戳ms),
+                    last_occur_time: 最后一次异常时间 (int64, UTC时间戳ms),
+                    location_info: 定位信息 (string, 0~3000个字符),
+                    abnormal_reasons: 异常原因列表 (List<string>, 数组最大成员个数: 100),
+                 }, ...],
+        }
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/query"
 
@@ -1056,8 +1074,23 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含检查结果的详细信息
+            check_result_id: 检查结果ID (string, 1~64个字符),
+            policy_id: 策略ID (string, 1~64个字符),
+            policy_name: 策略名称 (string, 1~256个字符),
+            policy_type: 检查策略类型 (string)。可选值：performance (性能阈值), capacity (容量阈值), availability (可用性), configuration (配置), recyclable (可回收资源), lowload (低负载资源), performance_anomaly (性能异常), performance_prediction (性能预警), capacity_prediction (容量预警), history_performance (历史性能), load_imbalance (负载失衡), highload (高负载资源),
+            object_name: 对象名称 (string, 0~1000个字符),
+            object_id: 对象ID (string, 1~64个字符),
+            object_native_id: 对象nativeId (string, 0~500个字符),
+            object_type: 对象类型 (string),
+            level: 异常级别 (string)。可选值：critical (紧急), major (重要), minor (次要), info (提示),
+            cause: 异常条件 (string, 0~1000个字符),
+            alarm_type: 告警类型 (string)。可选值：violation (异常), alarm (告警), event (事件),
+            violation_count: 异常次数 (int32, 0~2147483647),
+            first_occur_time: 第一次异常时间 (int64, UTC时间戳ms),
+            last_occur_time: 最后一次异常时间 (int64, UTC时间戳ms),
+            location_info: 定位信息 (string, 0~3000个字符),
+            abnormal_reasons: 异常原因列表 (List<string>, 数组最大成员个数: 100),
+        }
     """
     url = "/rest/policymgmt/v1/abnormal-check-results/{check_result_id}"
 
