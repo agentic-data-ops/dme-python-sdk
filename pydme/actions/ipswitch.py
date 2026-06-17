@@ -1,5 +1,5 @@
 """
-IP 交换机 (IPSwitch) 管理相关操作
+IP Switch management related operations
 """
 
 import sys
@@ -10,19 +10,19 @@ from pydme.client import DMEAPIClient
 
 def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query以太网交换机listinfo
+    Query Ethernet switch list info
     
     Args:
         client: DME API client
-        name: switch name (可选, supports fuzzy query)
-        page_no: 分页query的页码, default 1
+        name: Switch name (optional, supports fuzzy query)
+        page_no: Pagination query page number, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total: 总count (integer),
-            data_list: 交换机list. parameter format: [{
-                id: 交换机ID (string),
+            total: Total count (integer),
+            data_list: Switch list. parameter format: [{
+                id: Switch ID (string),
                 name: switch name (string),
                 status: status (string),
             }, ...],
@@ -44,18 +44,18 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
 
 def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query IP 交换机机框listinfo
+    Query IP switch chassis list info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID(Required)
-        page_no: 分页query的页码, default 1
+        ipswitch_id: IP switch ID (Required)
+        page_no: Pagination query page number, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 frames 字段
+            task_id: task ID (string, 1~64 characters),
+        }, including total and frames fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query"
     
@@ -71,18 +71,18 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query IP 交换机单板listinfo
+    Query IP switch board list info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID(Required)
-        page_no: 分页query的页码, default 1
+        ipswitch_id: IP switch ID (Required)
+        page_no: Pagination query page number, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 boards 字段
+            task_id: task ID (string, 1~64 characters),
+        }, including total and boards fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query"
     
@@ -98,18 +98,18 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query IP 交换机子卡listinfo
+    Query IP switch subcard list info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID(Required)
-        page_no: 分页query的页码, default 1
+        ipswitch_id: IP switch ID (Required)
+        page_no: Pagination query page number, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 subcards 字段
+            task_id: task ID (string, 1~64 characters),
+        }, including total and subcards fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/subcards/query"
     
@@ -125,18 +125,18 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
 
 def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query IP 交换机电源listinfo
+    Query IP switch power supply list info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID(Required)
-        page_no: 分页query的页码, default 1
+        ipswitch_id: IP switch ID (Required)
+        page_no: Pagination query page number, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 powers 字段
+            task_id: task ID (string, 1~64 characters),
+        }, including total and powers fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/powers/query"
     
@@ -152,18 +152,18 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query IP 交换机风扇listinfo
+    Query IP switch fan list info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID(Required)
-        page_no: 分页query的页码, default 1
+        ipswitch_id: IP switch ID (Required)
+        page_no: Pagination query page number, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 fans 字段
+            task_id: task ID (string, 1~64 characters),
+        }, including total and fans fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/fans/query"
     
@@ -179,18 +179,18 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
 
 def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    query IP 交换机端口listinfo
+    Query IP switch port list info
     
     Args:
         client: DME API client
-        ipswitch_id: IP 交换机 ID(Required)
-        page_no: 分页query的页码, default 1
+        ipswitch_id: IP switch ID (Required)
+        page_no: Pagination query page number, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 ports 字段
+            task_id: task ID (string, 1~64 characters),
+        }, including total and ports fields
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/ports/query"
     
@@ -204,47 +204,47 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     return response
 
 
-# ACTIONS 字典, 定义所有可用动作
+# ACTIONS dictionary, defines all available actions
 ACTIONS = {
     'list': {
         'func': list,
-        'description': '查询以太网交换机列表信息',
+        'description': 'Query Ethernet switch list info',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
     'frame_list': {
         'func': frame_list,
-        'description': '查询 IP 交换机机框列表信息',
+        'description': 'Query IP switch chassis list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'frame'
     },
     'board_list': {
         'func': board_list,
-        'description': '查询 IP 交换机单板列表信息',
+        'description': 'Query IP switch board list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'board'
     },
     'subcard_list': {
         'func': subcard_list,
-        'description': '查询 IP 交换机子卡列表信息',
+        'description': 'Query IP switch subcard list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'subcard'
     },
     'power_list': {
         'func': power_list,
-        'description': '查询 IP 交换机电源列表信息',
+        'description': 'Query IP switch power supply list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'power'
     },
     'fan_list': {
         'func': fan_list,
-        'description': '查询 IP 交换机风扇列表信息',
+        'description': 'Query IP switch fan list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'port_list': {
         'func': port_list,
-        'description': '查询 IP 交换机端口列表信息',
+        'description': 'Query IP switch port list info',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },

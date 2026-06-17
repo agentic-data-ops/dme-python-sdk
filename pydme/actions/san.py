@@ -1,6 +1,6 @@
 """
-SAN (Storage Area Network) 相关操作
-包含LUN、LUN组、mapping view、Storage host、Storage host group、端口组等子主题
+SAN (Storage Area Network) operations
+Covers LUN, LUN group, mapping view, Storage host, Storage host group, port group and other sub-topics
 """
 
 import sys
@@ -9,11 +9,11 @@ import os
 from pydme.client import DMEAPIClient
 
 # ============================================================================
-# LUN 子主题函数
+# LUN sub-topic functions
 # ============================================================================
 
 """
-LUN (Volume) 相关操作
+LUN (Volume) operations
 """
 
 import sys
@@ -36,76 +36,76 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
                  usage_type: str = None,
                  support_provisioning: bool = None) -> dict:
     """
-    批量query LUN
-    
+    Batch query LUNs
+
     Args:
         client: DME API client
-        limit: 分页query的个数 (可选, 0~1000, default1000)
-        offset: 分页query的起始location (可选, 最小值0, default0)
-        sort_dir: 排序方向 (Optional). valid values: asc (升序), desc (降序)
-        sort_key: 排序字段 (Optional). valid values: name, size, alloc_capacity, capacity_usage, protection_capacity
-        name: LUN name (可选, 1~256个字符, supports fuzzy query)
-        vstore_raw_id: Storage device上分配的tenant ID (可选, 1~64个字符)
-        vstore_name: 租户name (可选, 1~256个字符, supports fuzzy query)
-        status: status (可选, 已废弃, 建议使用health_status). valid values: creating (create中), normal (正常), mapping (映射中), unmapping (解除映射中), deleting (delete中), error (错误), expanding (扩容中), faulty (故障), write_protected (写保护)
-        health_status: health status (Optional). valid values: normal (正常), faulty (故障), write_protected (写保护)
-        service_level_id: 服务等级ID (可选, 1~64个字符)
-        volume_wwn: LUN WWN (可选, 1~128个字符)
-        storage_id: storage device ID (可选, 1~36个字符, UUID格式或32位十六进制)
-        pool_raw_id: Storage pool在Storage device上的ID (可选, 1~64个字符; 需同时指定storage_id)
-        host_id: host ID (可选, 1~64个字符, UUID格式或32位十六进制)
-        hostgroup_id: host group ID (可选, 1~64个字符, UUID格式或32位十六进制)
-        unmapped_host_id: 未映射host ID (可选, 1~64个字符)
-        unmapped_hostgroup_id: 未映射host group ID (可选, 1~64个字符)
-        project_id: 业务群组ID (可选, 1~64个字符)
-        allocate_type: allocation type (Optional). valid values: thin, thick
-        attached: 映射status (Optional). valid values: true (已映射), false (未映射)
-        query_mode: LUN发放模式 (Optional). valid values: service (服务化LUN), non-service (非服务LUN), all (所有LUN)
-        protected: LUN保护status (Optional). valid values: true (已被保护), false (未被保护)
-        pg_id: 保护组ID (可选, 1~64个字符, UUID格式或32位十六进制)
-        usage_type: LUN使用type (Optional). valid values: traditional (传统LUN), edev (eDevLUN)
-        support_provisioning: 过滤query可发放变更的LUN (Optional). valid values: true (仅query可发放变更), false (query全量)
-    
+        limit: Number of paginated query results (Optional, 0~1000, default 1000)
+        offset: Start position for paginated query (Optional, min 0, default 0)
+        sort_dir: Sort direction (Optional). valid values: asc, desc
+        sort_key: Sort field (Optional). valid values: name, size, alloc_capacity, capacity_usage, protection_capacity
+        name: LUN name (Optional, 1~256 characters, supports fuzzy query)
+        vstore_raw_id: Tenant ID assigned on the storage device (Optional, 1~64 characters)
+        vstore_name: Tenant name (Optional, 1~256 characters, supports fuzzy query)
+        status: status (Optional, deprecated, use health_status instead). valid values: creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected
+        health_status: health status (Optional). valid values: normal, faulty, write_protected
+        service_level_id: Service level ID (Optional, 1~64 characters)
+        volume_wwn: LUN WWN (Optional, 1~128 characters)
+        storage_id: Storage device ID (Optional, 1~36 characters, UUID format or 32-digit hex)
+        pool_raw_id: Storage pool ID on the storage device (Optional, 1~64 characters; storage_id must be specified together)
+        host_id: Host ID (Optional, 1~64 characters, UUID format or 32-digit hex)
+        hostgroup_id: Host group ID (Optional, 1~64 characters, UUID format or 32-digit hex)
+        unmapped_host_id: Unmapped host ID (Optional, 1~64 characters)
+        unmapped_hostgroup_id: Unmapped host group ID (Optional, 1~64 characters)
+        project_id: Business group ID (Optional, 1~64 characters)
+        allocate_type: Allocation type (Optional). valid values: thin, thick
+        attached: Mapping status (Optional). valid values: true (mapped), false (unmapped)
+        query_mode: LUN provisioning mode (Optional). valid values: service (service LUN), non-service (non-service LUN), all (all LUNs)
+        protected: LUN protection status (Optional). valid values: true (protected), false (not protected)
+        pg_id: Protection group ID (Optional, 1~64 characters, UUID format or 32-digit hex)
+        usage_type: LUN usage type (Optional). valid values: traditional (traditional LUN), edev (eDevLUN)
+        support_provisioning: Filter LUNs available for provisioning changes (Optional). valid values: true (query provisionable only), false (query all)
+
     Returns:
         {
-            count: LUNcount (int32),
-            volumes: LUNlist (List<Volume>). parameter format: [{
-                id: LUN的唯一标识 (string, 1~64个字符),
-                pid: 保护发放业务ID (string, 1~64个字符),
-                name: name (string, 1~255个字符),
-                nguid: Namespace全局唯一标识符 (string, 1~256个字符),
-                vstore_raw_id: tenant ID (string, 1~64个字符),
-                vstore_name: 租户name (string, 1~256个字符),
-                description: descriptioninfo (string, 0~255个字符),
+            count: LUN count (int32),
+            volumes: LUN list (List<Volume>). parameter format: [{
+                id: LUN unique identifier (string, 1~64 characters),
+                pid: Protection provisioning business ID (string, 1~64 characters),
+                name: name (string, 1~255 characters),
+                nguid: Namespace globally unique identifier (string, 1~256 characters),
+                vstore_raw_id: tenant ID (string, 1~64 characters),
+                vstore_name: tenant name (string, 1~256 characters),
+                description: description info (string, 0~255 characters),
                 status: status (string). valid values: creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected,
-                health_status: health status (string). valid values: normal (正常), faulty (故障), write_protected (写保护),
-                attached: 映射status. valid values: true (已映射), false (未映射),
-                project_id: 业务群组id (string, 1~64个字符),
-                alloctype: allocation type. valid values: thin (按需分配), thick (固定分配),
-                usage_type: 使用type. valid values: traditional (传统LUN), edev (eDevLUN),
-                capacity: capacity (int32, GB). 注: 建议使用total_capacity,
-                total_capacity: total capacity (int64, 字节),
-                alloc_capacity: 已分配capacity (int64, 字节),
-                service_level_name: 服务等级name (string, 1~64个字符),
-                attachments: 映射info (List<Attachment>). parameter format: [{
-                    id: 映射关系ID (string),
-                    volume_id: LUN唯一标识 (string),
-                    host_id: 主机id (string),
-                    host_name: 主机name (string),
-                    attached_at: 映射时间 (string),
-                    attached_host_group: 主机组id (string),
-                    host_group_name: 主机组name (string),
+                health_status: health status (string). valid values: normal, faulty, write_protected,
+                attached: mapping status. valid values: true (mapped), false (unmapped),
+                project_id: business group id (string, 1~64 characters),
+                alloctype: allocation type. valid values: thin (thin provisioning), thick (thick provisioning),
+                usage_type: usage type. valid values: traditional (traditional LUN), edev (eDevLUN),
+                capacity: capacity (int32, GB). Note: use total_capacity instead,
+                total_capacity: total capacity (int64, bytes),
+                alloc_capacity: allocated capacity (int64, bytes),
+                service_level_name: service level name (string, 1~64 characters),
+                attachments: mapping info (List<Attachment>). parameter format: [{
+                    id: mapping relation ID (string),
+                    volume_id: LUN unique identifier (string),
+                    host_id: host id (string),
+                    host_name: host name (string),
+                    attached_at: mapping time (string),
+                    attached_host_group: host group id (string),
+                    host_group_name: host group name (string),
                 }, ...],
-                volume_raw_id: LUN在Storage device上的id (string, 1~64个字符),
-                volume_wwn: LUN在Storage device上的wwn (string, 1~64个字符),
-                pool_raw_id: storage池在设备上的id (string, 1~64个字符),
-                capacity_usage: capacity利用率 (string),
-                protected: 保护status. valid values: true (已保护), false (未保护),
+                volume_raw_id: LUN ID on the storage device (string, 1~64 characters),
+                volume_wwn: LUN WWN on the storage device (string, 1~64 characters),
+                pool_raw_id: storage pool ID on the device (string, 1~64 characters),
+                capacity_usage: capacity usage (string),
+                protected: protection status. valid values: true (protected), false (unprotected),
                 updated_at: update time (string),
                 created_at: creation time (string),
-                function_type: LUNtype. valid values: lun (普通LUN), snapshot (快照), clone (克隆),
-                remote_lun_wwn: 外部LUN的WWN (string),
-                take_over_lun_wwn: 接管LUN的WWN (string),
+                function_type: LUN type. valid values: lun (normal LUN), snapshot (snapshot), clone (clone),
+                remote_lun_wwn: external LUN WWN (string),
+                take_over_lun_wwn: takeover LUN WWN (string),
             }, ...],
         }
     """
@@ -169,33 +169,33 @@ def lun_list(client: DMEAPIClient, limit: int = 1000, offset: int = 0,
 
 def lun_show(client: DMEAPIClient, volume_id: str) -> dict:
     """
-    query指定 LUN. 
+    Query a specific LUN
 
     Args:
         client: DME API client
-        volume_id: LUN id (必选, string, 1~64个字符)
+        volume_id: LUN id (Required, string, 1~64 characters)
 
     Returns:
         {
-            volume: LUN详细info (VolumeDetailsobject). attribute format: {
-                id: LUN的唯一标识 (string, 1~64个字符),
-                name: name (string, 1~255个字符),
-                description: descriptioninfo (string, 0~255个字符),
-                status: status (string). valid values: creating (create中), normal (正常), mapping (映射中), unmapping (解除映射中), deleting (delete中), error (错误), expanding (扩容中), faulty (故障), write_protected (写保护),
-                attached: 映射status (boolean, true,false),
-                alloctype: allocation type (string). valid values: thin (按需分配), thick (固定分配),
-                total_capacity: total capacity, 单位GB (double),
-                storage_id: Storage deviceid (string, 1~64个字符),
-                storage_name: storage device name (string, 1~64个字符),
-                pool_id: LUNstorage池的id (string, 1~64个字符),
-                volume_wwn: LUN在Storage device上的wwn (string, 1~64个字符),
+            volume: LUN detailed info (VolumeDetailsobject). attribute format: {
+                id: LUN unique identifier (string, 1~64 characters),
+                name: name (string, 1~255 characters),
+                description: description info (string, 0~255 characters),
+                status: status (string). valid values: creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected,
+                attached: mapping status (boolean, true, false),
+                alloctype: allocation type (string). valid values: thin (thin provisioning), thick (thick provisioning),
+                total_capacity: total capacity, in GB (double),
+                storage_id: Storage device id (string, 1~64 characters),
+                storage_name: storage device name (string, 1~64 characters),
+                pool_id: LUN storage pool id (string, 1~64 characters),
+                volume_wwn: LUN WWN on the storage device (string, 1~64 characters),
             },
         }
     """
     url = "/rest/blockservice/v1/volumes/{volume_id}"
 
     if not volume_id:
-        raise ValueError("volume_id 是必选参数")
+        raise ValueError("volume_id is a required parameter")
 
     response = client.get(url, params={"volume_id": volume_id})
     return response
@@ -208,77 +208,77 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
                   prefetch_value: int = None, tuning: dict = None,
                   mapping: dict = None, task_remarks: str = None) -> dict:
     """
-    自定义create LUN
+    Custom create LUN
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (必填), 1~64 个字符, 通过Storage devicequery接口获取
-        lun_specs: 待create LUN 基本参数 (条件必传), List<LunSpecs> type, max array members 1000, 单次最多可create 10 组; 与 lun_specs_pass_through 互斥; 当Storage device模式不为直通模式时必传. parameter format: [{
-                name: LUN name (1~255个字符, 支持字母数字._-和中文字符; 当count>1时name为1~27个字符),
-                count: 该规格LUNcount (1~500),
-                capacity: 单个LUN capacity (1~262144, 单位GB),
-                suffix_length: 命名后缀规则 (1~4; name长度+后缀长度<=255),
-                start_suffix: 起始后缀编号 (1~9999; count+起始后缀<=9999),
-                start_lun_id: 起始LUN ID (1~65535),
-                usage_type: LUN使用type. valid values: traditional (传统LUN), edev (eDevLUN),
-                write_policy: 回写策略. valid values: back (回写), through (透写),
-                remote_lun_raw_id: 外部LUN ID (0~255个字符; 当usage_type为edev时生效),
-                disguise_status: LUN伪装 (当usage_type为edev时生效). valid values: nodisguise (不伪装), basic (基本伪装), expansion (扩展伪装), inheritance (继承伪装),
+        storage_id: Storage device ID (Required), 1~64 characters, obtained via the storage device query API
+        lun_specs: Basic parameters for LUNs to create (conditionally required), List<LunSpecs> type, max array members 1000, up to 10 groups per request; mutually exclusive with lun_specs_pass_through; required when storage device mode is not pass-through. parameter format: [{
+                name: LUN name (1~255 characters, supports letters, digits, ._- and Chinese characters; when count>1, name is 1~27 characters),
+                count: Number of LUNs for this spec (1~500),
+                capacity: Single LUN capacity (1~262144, in GB),
+                suffix_length: Naming suffix rule (1~4; name length + suffix length <= 255),
+                start_suffix: Starting suffix number (1~9999; count + start suffix <= 9999),
+                start_lun_id: Starting LUN ID (1~65535),
+                usage_type: LUN usage type. valid values: traditional (traditional LUN), edev (eDevLUN),
+                write_policy: Write policy. valid values: back (write-back), through (write-through),
+                remote_lun_raw_id: External LUN ID (0~255 characters; effective when usage_type is edev),
+                disguise_status: LUN disguise (effective when usage_type is edev). valid values: nodisguise (no disguise), basic (basic disguise), expansion (expansion disguise), inheritance (inheritance disguise),
              }, ...]
-        lun_specs_pass_through: 直通模式Storage device待create LUN 基本参数 (条件必传), List<lunSpecsPassThrough> type, max array members 24, 单次最多可create 24 组; 与 lun_specs 互斥; 当Storage device模式为直通模式时必传. parameter format: [{
-                name: LUN name (1~247个字符, 支持字母数字-._和中文字符; 最终name由LUN name+后缀编码+'-'+硬盘location组成),
-                description: LUNdescription (0~255个字符),
-                disk_location: createLUN的硬盘location (1~255个字符),
-                count: 每个硬盘create的LUNcount (1~8),
-                suffix_length: 后缀编码位数 (1~4, default4; 当count大于1时有效),
-                start_suffix: 后缀起始编码 (0~9999, default0; 当count大于1时有效),
+        lun_specs_pass_through: Basic parameters for LUNs to create on pass-through mode storage device (conditionally required), List<lunSpecsPassThrough> type, max array members 24, up to 24 groups per request; mutually exclusive with lun_specs; required when storage device mode is pass-through. parameter format: [{
+                name: LUN name (1~247 characters, supports letters, digits, -._ and Chinese characters; final name consists of LUN name + suffix encoding + '-' + disk location),
+                description: LUN description (0~255 characters),
+                disk_location: Disk location for creating LUN (1~255 characters),
+                count: Number of LUNs to create per disk (1~8),
+                suffix_length: Suffix encoding length (1~4, default 4; effective when count > 1),
+                start_suffix: Suffix start encoding (0~9999, default 0; effective when count > 1),
              }, ...]
-        pool_id: Storage pool ID (条件必传), 1~64 个字符; 当Storage device模式不为直通模式时必传; 通过query指定resource type的所有实例接口获取, Storage pool的resource typename为 SYS_StoragePool
-        vstore_id: 租户 ID(Optional), 1~64 个字符; 当设备为 OceanStor V300R006C00、OceanStor V500R007C00、OceanStor Dorado 6.1.3、OceanStor 6.1.3 及其以上version时有效
-        owner_controller: 归属Controller(Optional), 1~64 个字符, 通过query指定存储上的Controller获取
-        initial_distribute_policy: capacity初始分配策略(Optional), 仅支持华为 V3/V5 设备, Dorado 系列不支持; 
-                                  valid values: automatic (自动)、highest_performance (高性能层)、performance (性能层)、capacity (capacity层); default automatic
-        prefetch_policy: 预取策略(Optional), 影响磁盘读取; 
-                        valid values: no_prefetch (不预取)、constant_prefetch (固定预取)、variable_prefetch (可变预取)、intelligent_prefetch (智能预取); default intelligent_prefetch
-        prefetch_value: 预取策略值(Optional), 0~1024; 下发了 prefetch_policy 且其值为固定或可变预取时需要下发; 固定预取取值范围 0~1024KB, 可变预取取值范围 0~1024 倍
-        tuning: 调优属性 (Optional), CustomizeLunTuning object. parameter format: {
-                smart_tier: data migration policy. valid values: no_migration (不迁移), automatic_migration (automatic migration), migration_to_higher (migration to higher tier), migration_to_lower (migration to lower tier). defaultno_migration,
-                deduplication_enabled: deduplication (仅Thin LUN支持). valid values: true (true), false (false),
-                compression_enabled: compression (仅Thin LUN支持). valid values: true (true), false (false),
-                alloction_type: LUNallocation type. valid values: thin, thick,
-                smart_qos: Smart QoSobject. attribute format: {
-                        max_bandwidth: max bandwidth (1~999999999Mbit/s; 与min_bandwidth/min_iops互斥),
-                        max_iops: max IOPS (1~999999999; 与min_bandwidth/min_iops互斥),
-                        min_bandwidth: min bandwidth (1~999999999Mbit/s; 与max_bandwidth/max_iops互斥),
-                        min_iops: min IOPS (1~999999999; 与max_bandwidth/max_iops互斥),
-                        latency: latency (1~999999999ms; Dorado V6系列单位为us, 可选值为500/1500; 与max_bandwidth/max_iops互斥),
+        pool_id: Storage pool ID (conditionally required), 1~64 characters; required when storage device mode is not pass-through; obtained via the query all instances of specified resource type API, Storage pool resource type name is SYS_StoragePool
+        vstore_id: Tenant ID (Optional), 1~64 characters; valid when device is OceanStor V300R006C00, OceanStor V500R007C00, OceanStor Dorado 6.1.3, OceanStor 6.1.3 or above
+        owner_controller: Owner controller (Optional), 1~64 characters, obtained by querying controllers on the storage
+        initial_distribute_policy: Initial capacity distribution policy (Optional), only supported on Huawei V3/V5 devices, not supported on Dorado series;
+                                  valid values: automatic, highest_performance (highest performance tier), performance (performance tier), capacity (capacity tier); default automatic
+        prefetch_policy: Prefetch policy (Optional), affects disk reads;
+                        valid values: no_prefetch, constant_prefetch (constant prefetch), variable_prefetch (variable prefetch), intelligent_prefetch (intelligent prefetch); default intelligent_prefetch
+        prefetch_value: Prefetch policy value (Optional), 0~1024; required when prefetch_policy is constant or variable prefetch; constant prefetch range 0~1024KB, variable prefetch range 0~1024 times
+        tuning: Tuning attributes (Optional), CustomizeLunTuning object. parameter format: {
+                smart_tier: data migration policy. valid values: no_migration, automatic_migration, migration_to_higher, migration_to_lower. default no_migration,
+                deduplication_enabled: deduplication (Thin LUN only). valid values: true, false,
+                compression_enabled: compression (Thin LUN only). valid values: true, false,
+                alloction_type: LUN allocation type. valid values: thin, thick,
+                smart_qos: Smart QoS object. attribute format: {
+                        max_bandwidth: max bandwidth (1~999999999 Mbit/s; mutually exclusive with min_bandwidth/min_iops),
+                        max_iops: max IOPS (1~999999999; mutually exclusive with min_bandwidth/min_iops),
+                        min_bandwidth: min bandwidth (1~999999999 Mbit/s; mutually exclusive with max_bandwidth/max_iops),
+                        min_iops: min IOPS (1~999999999; mutually exclusive with max_bandwidth/max_iops),
+                        latency: latency (1~999999999 ms; unit is us for Dorado V6 series, valid values 500/1500; mutually exclusive with max_bandwidth/max_iops),
                 },
-                workload_type_raw_id: workload type ID (0~4294967295; 通过query指定Storage device上应用type接口获取),
+                workload_type_raw_id: workload type ID (0~4294967295; obtained by querying application types on the storage device),
              }
-        mapping: 映射info (Optional), LunMapping object, 存在即表示为主机或主机组create LUN. parameter format: {
-                host_id: host ID (1~64个字符; 与hostgroup_id二选其一, 不可同时存在),
-                hostgroup_id: host group ID (1~64个字符; 与host_id二选其一, 不可同时存在),
-                host_type: 映射主机type. valid values: storage_host (Storage host), host (主机). defaulthost,
-                start_host_lun_id: 起始主机LUN ID (1~4096),
-                mapping_view: mapping view请求info (LunMappingRequestobject). attribute format: {
-                        mapping_view_raw_id: mapping view在Storage device上的ID (1~31个字符),
-                        mapping_view_name: mapping view在Storage device上的name (1~31个字符),
-                        lun_group_raw_id: LUN组在Storage device上的ID (1~31个字符),
-                        lun_group_name: LUN组在Storage device上的name (1~255个字符),
-                        port_group_raw_id: 端口组在Storage device上的ID (1~31个字符; 主机或主机组不存在映射关系时可指定, 存在映射关系时不可指定),
+        mapping: Mapping info (Optional), LunMapping object, if present indicates creating LUN for host or host group. parameter format: {
+                host_id: host ID (1~64 characters; choose one with hostgroup_id, cannot coexist),
+                hostgroup_id: host group ID (1~64 characters; choose one with host_id, cannot coexist),
+                host_type: Mapping host type. valid values: storage_host (Storage host), host (host). default host,
+                start_host_lun_id: Starting host LUN ID (1~4096),
+                mapping_view: Mapping view request info (LunMappingRequest object). attribute format: {
+                        mapping_view_raw_id: Mapping view ID on the storage device (1~31 characters),
+                        mapping_view_name: Mapping view name on the storage device (1~31 characters),
+                        lun_group_raw_id: LUN group ID on the storage device (1~31 characters),
+                        lun_group_name: LUN group name on the storage device (1~255 characters),
+                        port_group_raw_id: Port group ID on the storage device (1~31 characters; can be specified when host or host group has no mapping relation, cannot be specified when mapping relation exists),
                 },
              }
-        task_remarks: 异步任务备注info(Optional), 最多 1024 个字符
+        task_remarks: Async task remarks info (Optional), up to 1024 characters
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/customize"
 
     if not storage_id:
-        raise ValueError("storage_id 是必选参数")
+        raise ValueError("storage_id is a required parameter")
 
     payload = {
         'storage_id': storage_id
@@ -298,6 +298,8 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
         payload['initial_distribute_policy'] = initial_distribute_policy
     if prefetch_policy is not None:
         payload['prefetch_policy'] = prefetch_policy
+
+
     if prefetch_value is not None:
         payload['prefetch_value'] = prefetch_value
     if tuning is not None:
@@ -313,22 +315,22 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
 
 def lun_delete(client: DMEAPIClient, volume_ids: list, task_remarks: str = None) -> dict:
     """
-    批量delete LUN. 
+    Batch delete LUNs
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, List[string], max array members: 1000)
-        task_remarks: 异步任务备注info (可选, string, 最多1024个字符)
+        volume_ids: LUN ID list (Required, List[string], max array members: 1000)
+        task_remarks: Async task remarks info (Optional, string, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/delete"
 
     if not volume_ids or len(volume_ids) == 0:
-        raise ValueError("volume_ids 是必选参数")
+        raise ValueError("volume_ids is a required parameter")
 
     payload = {
         'volume_ids': volume_ids
@@ -346,40 +348,40 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
                   prefetch_policy: str = None, prefetch_value: int = None,
                   tuning: dict = None, task_remarks: str = None) -> dict:
     """
-    modify指定 LUN
+    Modify a specific LUN
 
     Args:
         client: DME API client
         volume_id: LUN ID
-        name: 新name (可选, 1~255 个字符)
-        description: modify LUN descriptioninfo (可选, 0~255 个字符)
-        owner_controller: 归属Controller (可选, 仅非服务化 LUN 支持modify)
-        prefetch_policy: 预取策略 (可选, 仅非服务化 LUN 支持modify)
-                        valid values: 0 (不预取), 1 (固定预取), 2 (可变预取), 3 (智能预取)
-        prefetch_value: 预取策略值 (可选, 仅非服务化 LUN 支持modify)
-        tuning: LUN 调优属性 (可选, 仅非服务化LUN支持modify). parameter format: {
-                smarttier: data migration policy (可选, default0). valid values: 0 (不迁移), 1 (automatic migration), 2 (migration to higher tier), 3 (migration to lower tier),
-                smartqos: SmartQos4Updateobject (Optional). attribute format: {
-                        maxbandwidth: max bandwidth (可选, 0~2147483647; 支持所有设备; 用于V3/V5系列时与minbandwidth/miniops互斥),
-                        maxiops: 最大iops (可选, 0~2147483647; 支持所有设备; 用于V3/V5系列时与minbandwidth/miniops互斥),
-                        minbandwidth: min bandwidth (可选, 0~2147483647; 支持Dorado V6/V3/V5; 用于V3/V5系列时与maxbandwidth/maxiops互斥),
-                        miniops: 最小iops (可选, 0~2147483647; 支持Dorado V6/V3/V5; 用于V3/V5系列时与maxbandwidth/maxiops互斥),
-                        control_policy: 控制策略 (Optional). valid values: 0 (保护IO下限), 1 (控制IO上限),
-                        latency: latencyms或us (可选, 0~2147483647; 需根据不同Storage device指定; 仅保护下限支持),
-                        enabled: 是否启用smartqos (Optional). valid values: true, false,
+        name: New name (Optional, 1~255 characters)
+        description: Modify LUN description info (Optional, 0~255 characters)
+        owner_controller: Owner controller (Optional, only non-service LUN supports modify)
+        prefetch_policy: Prefetch policy (Optional, only non-service LUN supports modify)
+                        valid values: 0 (no prefetch), 1 (constant prefetch), 2 (variable prefetch), 3 (intelligent prefetch)
+        prefetch_value: Prefetch policy value (Optional, only non-service LUN supports modify)
+        tuning: LUN tuning attributes (Optional, only non-service LUN supports modify). parameter format: {
+                smarttier: data migration policy (Optional, default 0). valid values: 0 (no migration), 1 (automatic migration), 2 (migration to higher tier), 3 (migration to lower tier),
+                smartqos: SmartQos4Update object (Optional). attribute format: {
+                        maxbandwidth: max bandwidth (Optional, 0~2147483647; supported on all devices; mutually exclusive with minbandwidth/miniops on V3/V5 series),
+                        maxiops: max iops (Optional, 0~2147483647; supported on all devices; mutually exclusive with minbandwidth/miniops on V3/V5 series),
+                        minbandwidth: min bandwidth (Optional, 0~2147483647; supported on Dorado V6/V3/V5; mutually exclusive with maxbandwidth/maxiops on V3/V5 series),
+                        miniops: min iops (Optional, 0~2147483647; supported on Dorado V6/V3/V5; mutually exclusive with maxbandwidth/maxiops on V3/V5 series),
+                        control_policy: Control policy (Optional). valid values: 0 (protect IO lower limit), 1 (control IO upper limit),
+                        latency: latency ms or us (Optional, 0~2147483647; must be specified according to different storage devices; only supported for lower limit protection),
+                        enabled: Whether to enable smartqos (Optional). valid values: true, false,
                 }
              }
-        task_remarks: 异步任务备注info (可选, 最多 1024 个字符)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/{volume_id}"
 
     if not volume_id:
-        raise ValueError("volume_id 是必选参数")
+        raise ValueError("volume_id is a required parameter")
 
     volume = {}
     if name is not None:
@@ -408,24 +410,24 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
 
 def lun_modify_name(client: DMEAPIClient, volumes: list) -> dict:
     """
-    批量modify LUN name
+    Batch modify LUN names
 
     Args:
         client: DME API client
-        volumes: 待modify的 LUN infolist (max array members: 1000). parameter format: [{
-                volume_id: LUN唯一标识 (1~64个字符),
-                name: LUN新name (1~255个字符, 支持字母数字._-和中文字符),
+        volumes: List of LUN info to modify (max array members: 1000). parameter format: [{
+                volume_id: LUN unique identifier (1~64 characters),
+                name: New LUN name (1~255 characters, supports letters, digits, ._- and Chinese characters),
              }, ...]
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes"
 
     if not volumes or len(volumes) == 0:
-        raise ValueError("volumes 是必选参数")
+        raise ValueError("volumes is a required parameter")
 
     payload = {
         'volumes': volumes
@@ -437,25 +439,25 @@ def lun_modify_name(client: DMEAPIClient, volumes: list) -> dict:
 
 def lun_expand(client: DMEAPIClient, volumes: list, task_remarks: str = None) -> dict:
     """
-    批量扩容 LUN
+    Batch expand LUN capacity
 
     Args:
         client: DME API client
-        volumes: 需要扩容的 LUN infolist (max array members: 1000). parameter format: [{
-                volume_id: LUN唯一标识 (必选, 1~64个字符),
-                added_capacity: 扩容capacityGB (必选, 1~262144),
+        volumes: List of LUN info to expand (max array members: 1000). parameter format: [{
+                volume_id: LUN unique identifier (Required, 1~64 characters),
+                added_capacity: Capacity to add in GB (Required, 1~262144),
              }, ...]
-        task_remarks: 异步任务备注info (可选, 最多 1024 个字符)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/expand"
 
     if not volumes or len(volumes) == 0:
-        raise ValueError("volumes 是必选参数")
+        raise ValueError("volumes is a required parameter")
 
     payload = {
         'volumes': volumes
@@ -471,24 +473,24 @@ def lun_expand(client: DMEAPIClient, volumes: list, task_remarks: str = None) ->
 
 def lun_connection(client: DMEAPIClient, volume_ids: list) -> dict:
     """
-    query指定 LUN ID 的连接info. 
+    Query connection info for specified LUN IDs
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, List[string], max array members: 1000)
+        volume_ids: LUN ID list (Required, List[string], max array members: 1000)
 
     Returns:
         {
             lun_id: LUN ID (string),
             lun_wwn: LUN WWN (string),
-            iscsi_targets: iSCSI 目标list (List),
-            fc_targets: FC 目标list (List),
+            iscsi_targets: iSCSI target list (List),
+            fc_targets: FC target list (List),
         }
     """
     url = "/rest/blockservice/v1/volumes/connection-infos-query"
 
     if not volume_ids or len(volume_ids) == 0:
-        raise ValueError("volume_ids 是必选参数")
+        raise ValueError("volume_ids is a required parameter")
 
     payload = {
         'lun_ids': volume_ids
@@ -509,37 +511,37 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
                     avaiable_mapping_for_host_group_id: str = None,
                     support_provisioning: bool = None) -> dict:
     """
-    批量query LUN group
+    Batch query LUN groups
 
-    query LUN grouplist, 支持分页和多种过滤条件. 
+    Query LUN group list, supports pagination and multiple filter criteria
 
     Args:
         client: DME API client
-        page_size: 分页query的个数 (可选, 0~1000, default20)
-        page_no: pagination start page (可选, 1~10000000, default1)
-        sort_dir: 排序方向 (Optional). valid values: asc (升序), desc (降序)
-        sort_key: 排序字段 (Optional). valid values: lun_count (LUNcount), total_capcity (total capacity), capacity_usage (used capacity), name, raw_id (设备侧ID)
-        name: LUN组name (可选, 1~256个字符, supports fuzzy query)
-        vstore_raw_id: Storage device上分配的tenant ID (可选, 1~64个字符)
-        vstore_name: 租户name (可选, 1~256个字符, supports fuzzy query)
-        storage_id: storage device ID (可选, 1~64个字符)
-        storage_name: 存储name (可选, 1~256个字符, supports fuzzy query)
-        raw_id: LUN组在Storage device上的ID (可选, 1~256个字符)
-        attached: 映射status (Optional). valid values: true (已映射), false (未映射)
-        protection_group_raw_id: 保护组在Storage device上的ID (可选, 0~64个字符; 非空则query保护组下的LUN组, 空串则query未加入保护组的LUN组)
-        avaiable_mapping_for_host_id: 可映射的host ID (可选, 1~64个字符; 与avaiable_mapping_for_host_group_id互斥)
-        avaiable_mapping_for_host_group_id: 可映射的host group ID (可选, 1~64个字符; 与avaiable_mapping_for_host_id互斥)
-        support_provisioning: 是否支持发放 (Optional). valid values: true (支持), false (不支持)
+        page_size: Number of paginated query results (Optional, 0~1000, default 20)
+        page_no: Pagination start page (Optional, 1~10000000, default 1)
+        sort_dir: Sort direction (Optional). valid values: asc, desc
+        sort_key: Sort field (Optional). valid values: lun_count (LUN count), total_capcity (total capacity), capacity_usage (used capacity), name, raw_id (device-side ID)
+        name: LUN group name (Optional, 1~256 characters, supports fuzzy query)
+        vstore_raw_id: Tenant ID assigned on the storage device (Optional, 1~64 characters)
+        vstore_name: Tenant name (Optional, 1~256 characters, supports fuzzy query)
+        storage_id: storage device ID (Optional, 1~64 characters)
+        storage_name: Storage name (Optional, 1~256 characters, supports fuzzy query)
+        raw_id: LUN group ID on the storage device (Optional, 1~256 characters)
+        attached: Mapping status (Optional). valid values: true (mapped), false (unmapped)
+        protection_group_raw_id: Protection group ID on the storage device (Optional, 0~64 characters; if non-empty, query LUN groups under protection group, if empty string query LUN groups not in any protection group)
+        avaiable_mapping_for_host_id: Mappable host ID (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_host_group_id)
+        avaiable_mapping_for_host_group_id: Mappable host group ID (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_host_id)
+        support_provisioning: Whether provisioning is supported (Optional). valid values: true (supported), false (not supported)
 
     Returns:
         {
-            total: LUN组total (integer),
-            lun_groups: LUN组list (List<LunGroupInfo>). parameter format: [{
-                id: LUN组ID (string),
-                name: LUN组name (string),
+            total: Total LUN groups (integer),
+            lun_groups: LUN group list (List<LunGroupInfo>). parameter format: [{
+                id: LUN group ID (string),
+                name: LUN group name (string),
                 storage_id: storage device ID (string),
-                lun_count: LUNcount (integer),
-                attached: 映射status (boolean),
+                lun_count: LUN count (integer),
+                attached: Mapping status (boolean),
             }, ...],
         }
     """
@@ -583,21 +585,22 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
 
 def lun_group_show(client: DMEAPIClient, group_id: str, storage_id: str = None) -> dict:
     """
-    query指定 LUN groupdetails. 
+    Query details of a specific LUN group
 
     Args:
         client: DME API client
-        group_id: LUN group ID (必选, string)
-        storage_id: Storage device ID (可选, string)
+        group_id: LUN group ID (Required, string)
+        storage_id: Storage device ID (Optional, string)
 
     Returns:
         {
-            id: LUN组ID (string),
-            name: LUN组name (string),
+            id: LUN group ID (string),
+            name: LUN group name (string),
             storage_id: storage device ID (string),
-            lun_count: LUNcount (integer),
+            lun_count: LUN count (integer),
             description: description (string),
         }
+    
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}"
 
@@ -611,78 +614,78 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
                      vstore_id: str = None, zoning_info: dict = None,
                      mapping_view: dict = None) -> dict:
     """
-    create LUN group
+    Create LUN group
 
-    create新的 LUN group. 
+    Create a new LUN group
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (必选, 1~64个字符)
-        name: LUN groupname (必选, 1~255个字符, 支持字母数字._-和中文字符)
-        description: LUN groupdescription (可选, 0~255个字符)
-        existing_lun_ids: LUN ID list (可选, 与customize_volumes互斥, max array members: 1000)
-        customize_volumes: CustomizeVolumesParamobject (可选, 与existing_lun_ids互斥). parameter format: {
-                volume_specs: VolumeSpecsParamlist (可选, 与lun_specs_pass_through互斥, max array members: 1000). parameter format: [{
-                        name: LUN name (必选, 1~255个字符, 支持字母数字._-和中文字符; count>1时name长度1~27字符),
-                        description: LUNdescription (可选, 0~255个字符),
-                        count: 该规格LUNcount (必选, 1~500),
-                        capacity: 该规格LUN capacityGB (必选, 1~262144),
-                        suffix_length: LUN命名后缀规则 (可选, 0~4; name长度+后缀长度<=255),
-                        start_suffix: 该规格LUN起始后缀编号 (可选, 0~9999),
-                        start_lun_id: 该规格起始LUN ID (可选, 0~65535),
+        storage_id: Storage device ID (Required, 1~64 characters)
+        name: LUN group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters)
+        description: LUN group description (Optional, 0~255 characters)
+        existing_lun_ids: LUN ID list (Optional, mutually exclusive with customize_volumes, max array members: 1000)
+        customize_volumes: CustomizeVolumesParam object (Optional, mutually exclusive with existing_lun_ids). parameter format: {
+                volume_specs: VolumeSpecsParam list (Optional, mutually exclusive with lun_specs_pass_through, max array members: 1000). parameter format: [{
+                        name: LUN name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters; when count>1, name length 1~27 characters),
+                        description: LUN description (Optional, 0~255 characters),
+                        count: Number of LUNs for this spec (Required, 1~500),
+                        capacity: LUN capacity in GB for this spec (Required, 1~262144),
+                        suffix_length: LUN naming suffix rule (Optional, 0~4; name length + suffix length <= 255),
+                        start_suffix: Starting suffix number for this spec (Optional, 0~9999),
+                        start_lun_id: Starting LUN ID for this spec (Optional, 0~65535),
                      }, ...],
-                lun_specs_pass_through: lunSpecsPassThroughlist (可选, 与volume_specs互斥, max array members: 24; 当Storage device模式为直通模式时必传). parameter format: [{
-                        name: LUN name (必选, 1~247个字符, 支持字母数字-._和中文字符; 最终name由LUN name+后缀编码+硬盘location组成),
-                        description: LUNdescription (可选, 0~255个字符),
-                        disk_location: createLUN的硬盘location (必选, 1~255个字符),
-                        count: 每个硬盘create的LUNcount (必选, 1~8),
-                        suffix_length: 后缀编码位数 (可选, 1~4, default4; count>1时有效),
-                        start_suffix: 后缀起始编码 (可选, 0~9999, default0; count>1时有效),
+                lun_specs_pass_through: lunSpecsPassThrough list (Optional, mutually exclusive with volume_specs, max array members: 24; required when storage device mode is pass-through). parameter format: [{
+                        name: LUN name (Required, 1~247 characters, supports letters, digits, -._ and Chinese characters; final name consists of LUN name + suffix encoding + disk location),
+                        description: LUN description (Optional, 0~255 characters),
+                        disk_location: Disk location for creating LUN (Required, 1~255 characters),
+                        count: Number of LUNs to create per disk (Required, 1~8),
+                        suffix_length: Suffix encoding length (Optional, 1~4, default 4; effective when count>1),
+                        start_suffix: Suffix start encoding (Optional, 0~9999, default 0; effective when count>1),
                      }, ...],
-                pool_raw_id: Storage pool在Storage device上的id (可选, 1~64个字符; 设备模式不为直通模式时必传),
-                availability_zone: 可用分区id (可选, 0~64个字符),
-                owner_controller: 归属Controller (可选, 0~64个字符),
-                initial_distribute_policy: capacity初始分配策略 (可选, 仅V3/V5设备, 全闪存不支持). valid values: 0 (自动), 1 (高性能层), 2 (性能层), 3 (capacity层). default0,
-                prefetch_policy: 预取策略 (Optional). valid values: 0 (不预取), 1 (固定预取), 2 (可变预取), 3 (智能预取). default3,
-                prefetch_value: 预取策略值 (可选, 0~1024; 固定预取0~1024KB, 可变预取0~1024倍),
-                tuning: CustomizeVolumeTuningobject (Optional). attribute format: {
-                        smartqos: SmartQosobject (Optional). attribute format: {
-                                name: Smart QoSname (可选, 1~255个字符),
+                pool_raw_id: Storage pool ID on the storage device (Optional, 1~64 characters; required when device mode is not pass-through),
+                availability_zone: Availability zone id (Optional, 0~64 characters),
+                owner_controller: Owner controller (Optional, 0~64 characters),
+                initial_distribute_policy: Initial capacity distribution policy (Optional, only V3/V5 devices, not supported on all-flash). valid values: 0 (automatic), 1 (highest performance tier), 2 (performance tier), 3 (capacity tier). default 0,
+                prefetch_policy: Prefetch policy (Optional). valid values: 0 (no prefetch), 1 (constant prefetch), 2 (variable prefetch), 3 (intelligent prefetch). default 3,
+                prefetch_value: Prefetch policy value (Optional, 0~1024; constant prefetch 0~1024KB, variable prefetch 0~1024 times),
+                tuning: CustomizeVolumeTuning object (Optional). attribute format: {
+                        smartqos: SmartQos object (Optional). attribute format: {
+                                name: Smart QoS name (Optional, 1~255 characters),
                         },
-                        alloctype: LUNallocation type (Optional). valid values: thin, thick,
-                        workload_type_id: 应用typeid (可选, 从Storage device上获取),
+                        alloctype: LUN allocation type (Optional). valid values: thin, thick,
+                        workload_type_id: Application type id (Optional, obtained from the storage device),
                 }
              }
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
-        vstore_id: tenant ID (可选, 1~64个字符; 当设备为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3/6.1.3及以上version时有效)
-        zoning_info: ZoningParamobject (Optional). parameter format: {
-                zone_policy_id: zone策略id (可选, 0~64个字符; 指定则自动划zone),
-                target_fcports: 端口wwnlist (可选, 与target_fcportgroups二选其一, max array members: 1000; 当mapping_view中port_group_id为空时生效),
-                target_fcportgroups: 端口组idlist (可选, 与target_fcports二选其一, max array members: 1000; 当mapping_view中port_group_id为空时生效),
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
+        vstore_id: Tenant ID (Optional, 1~64 characters; valid when device is OceanStor V300R006C30/V500R007C20/Dorado 6.1.3/6.1.3 or above)
+        zoning_info: ZoningParam object (Optional). parameter format: {
+                zone_policy_id: Zone policy id (Optional, 0~64 characters; if specified, auto-zoning is performed),
+                target_fcports: Port wwn list (Optional, choose one with target_fcportgroups, max array members: 1000; effective when port_group_id in mapping_view is empty),
+                target_fcportgroups: Port group id list (Optional, choose one with target_fcports, max array members: 1000; effective when port_group_id in mapping_view is empty),
              }
-        mapping_view: MappingViewRequestParamobject (Optional). parameter format: {
-                mapping_view_name: mapping view在设备上的名字 (可选, 最多31个字符),
-                mapping_host_info: MappingHostInfoobject (可选, 与mapping_host_group_info二选其一). attribute format: {
-                        todo_host_name: todo任务中的host name (可选, 1~255个字符, 支持字母数字._-和中文字符),
-                        id: host ID (可选, 1~64个字符),
+        mapping_view: MappingViewRequestParam object (Optional). parameter format: {
+                mapping_view_name: Mapping view name on the device (Optional, up to 31 characters),
+                mapping_host_info: MappingHostInfo object (Optional, choose one with mapping_host_group_info). attribute format: {
+                        todo_host_name: Host name from todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters),
+                        id: host ID (Optional, 1~64 characters),
                 },
-                mapping_host_group_info: MappingHostGroupInfoobject (可选, 与mapping_host_info二选其一). attribute format: {
-                        todo_host_group_name: todo任务中的host group name (可选, 1~255个字符, 支持字母数字._-和中文字符),
-                        id: host group ID (可选, 1~64个字符),
+                mapping_host_group_info: MappingHostGroupInfo object (Optional, choose one with mapping_host_info). attribute format: {
+                        todo_host_group_name: Host group name from todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters),
+                        id: host group ID (Optional, 1~64 characters),
                 },
-                port_group_id: 端口组在设备上的ID (可选, 1~31个字符),
-                start_host_lun_id: 起始HostLunID (可选, 0~2147483647),
+                port_group_id: Port group ID on the device (Optional, 1~31 characters),
+                start_host_lun_id: Starting Host Lun ID (Optional, 0~2147483647),
              }
 
     Returns:
         {
-            id: LUN组ID (string, 1~64个字符),
+            id: LUN group ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/lun-groups"
 
     if not storage_id or not name:
-        raise ValueError("storage_id 和 name 是必选参数")
+        raise ValueError("storage_id and name are required parameters")
 
     body_params = {
         'storage_id': storage_id,
@@ -711,22 +714,22 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
 def lun_group_delete(client: DMEAPIClient, lun_group_ids: list,
                      task_remarks: str = None) -> dict:
     """
-    批量delete LUN group
+    Batch delete LUN groups
 
     Args:
         client: DME API client
-        lun_group_ids: LUN组IDlist (必选, max array members: 500)
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        lun_group_ids: LUN group ID list (Required, max array members: 500)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/lun-groups/delete"
 
     if not lun_group_ids or len(lun_group_ids) == 0:
-        raise ValueError("lun_group_ids 是必选参数")
+        raise ValueError("lun_group_ids is a required parameter")
 
     body_params = {
         'lun_group_ids': lun_group_ids
@@ -746,56 +749,56 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
                        host_lun_id_verify: bool = False,
                        task_remarks: str = None) -> dict:
     """
-    向 LUN group添加 LUN
+    Add LUNs to a LUN group
 
     Args:
         client: DME API client
         group_id: LUN group ID
-        existing_lun_ids: 已有LUN集合 (可选, 与customize_volumes互斥, max array members: 1000). parameter format: [{
-                lun_id: 已有LUN ID (必选, 1~64个字符),
+        existing_lun_ids: Existing LUN collection (Optional, mutually exclusive with customize_volumes, max array members: 1000). parameter format: [{
+                lun_id: Existing LUN ID (Required, 1~64 characters),
              }, ...]
-        customize_volumes: CustomizeVolumesParamobject (可选, 与existing_lun_ids互斥). parameter format: {
-                volume_specs: VolumeSpecsParamlist (可选, 与lun_specs_pass_through互斥, max array members: 1000). parameter format: [{
-                        name: LUN name (必选, 1~255个字符, 支持字母数字._-和中文字符; count>1时name长度1~27字符),
-                        description: LUNdescription (可选, 0~255个字符),
-                        count: 该规格LUNcount (必选, 1~500),
-                        capacity: 该规格LUN capacityGB (必选, 1~262144),
-                        suffix_length: LUN命名后缀规则 (可选, 0~4; name长度+后缀长度<=255),
-                        start_suffix: 该规格LUN起始后缀编号 (可选, 0~9999),
-                        start_lun_id: 该规格起始LUN ID (可选, 0~65535),
+        customize_volumes: CustomizeVolumesParam object (Optional, mutually exclusive with existing_lun_ids). parameter format: {
+                volume_specs: VolumeSpecsParam list (Optional, mutually exclusive with lun_specs_pass_through, max array members: 1000). parameter format: [{
+                        name: LUN name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters; when count>1, name length 1~27 characters),
+                        description: LUN description (Optional, 0~255 characters),
+                        count: Number of LUNs for this spec (Required, 1~500),
+                        capacity: LUN capacity in GB for this spec (Required, 1~262144),
+                        suffix_length: LUN naming suffix rule (Optional, 0~4; name length + suffix length <= 255),
+                        start_suffix: Starting suffix number for this spec (Optional, 0~9999),
+                        start_lun_id: Starting LUN ID for this spec (Optional, 0~65535),
                      }, ...],
-                lun_specs_pass_through: lunSpecsPassThroughlist (可选, 与volume_specs互斥, max array members: 24; 直通模式时必传). parameter format: [{
-                        name: LUN name (必选, 1~247个字符, 支持字母数字-._和中文字符; 最终name由LUN name+后缀编码+硬盘location组成),
-                        description: LUNdescription (可选, 0~255个字符),
-                        disk_location: createLUN的硬盘location (必选, 1~255个字符),
-                        count: 每个硬盘create的LUNcount (必选, 1~8),
-                        suffix_length: 后缀编码位数 (可选, 1~4, default4; count>1时有效),
-                        start_suffix: 后缀起始编码 (可选, 0~9999, default0; count>1时有效),
+                lun_specs_pass_through: lunSpecsPassThrough list (Optional, mutually exclusive with volume_specs, max array members: 24; required in pass-through mode). parameter format: [{
+                        name: LUN name (Required, 1~247 characters, supports letters, digits, -._ and Chinese characters; final name consists of LUN name + suffix encoding + disk location),
+                        description: LUN description (Optional, 0~255 characters),
+                        disk_location: Disk location for creating LUN (Required, 1~255 characters),
+                        count: Number of LUNs to create per disk (Required, 1~8),
+                        suffix_length: Suffix encoding length (Optional, 1~4, default 4; effective when count>1),
+                        start_suffix: Suffix start encoding (Optional, 0~9999, default 0; effective when count>1),
                      }, ...],
-                pool_raw_id: Storage pool在Storage device上的id (可选, 1~64个字符; 设备模式不为直通模式时必传),
-                availability_zone: 可用分区id (可选, 0~64个字符),
-                owner_controller: 归属Controller (可选, 0~64个字符),
-                initial_distribute_policy: capacity初始分配策略 (可选, 仅V3/V5, 全闪存不支持). valid values: 0 (自动), 1 (高性能层), 2 (性能层), 3 (capacity层). default0,
-                prefetch_policy: 预取策略 (Optional). valid values: 0 (不预取), 1 (固定预取), 2 (可变预取), 3 (智能预取). default3,
-                prefetch_value: 预取策略值 (可选, 0~1024; 固定预取0~1024KB, 可变预取0~1024倍),
-                tuning: CustomizeVolumeTuningobject (Optional). attribute format: {
-                        smartqos: SmartQosobject (Optional). attribute format: {
-                                name: Smart QoSname (可选, 1~255个字符),
+                pool_raw_id: Storage pool ID on the storage device (Optional, 1~64 characters; required when device mode is not pass-through),
+                availability_zone: Availability zone id (Optional, 0~64 characters),
+                owner_controller: Owner controller (Optional, 0~64 characters),
+                initial_distribute_policy: Initial capacity distribution policy (Optional, only V3/V5, not supported on all-flash). valid values: 0 (automatic), 1 (highest performance tier), 2 (performance tier), 3 (capacity tier). default 0,
+                prefetch_policy: Prefetch policy (Optional). valid values: 0 (no prefetch), 1 (constant prefetch), 2 (variable prefetch), 3 (intelligent prefetch). default 3,
+                prefetch_value: Prefetch policy value (Optional, 0~1024; constant prefetch 0~1024KB, variable prefetch 0~1024 times),
+                tuning: CustomizeVolumeTuning object (Optional). attribute format: {
+                        smartqos: SmartQos object (Optional). attribute format: {
+                                name: Smart QoS name (Optional, 1~255 characters),
                         },
-                        alloctype: LUNallocation type (Optional). valid values: thin, thick,
-                        workload_type_id: 应用typeid (Optional),
+                        alloctype: LUN allocation type (Optional). valid values: thin, thick,
+                        workload_type_id: Application type id (Optional),
                 }
              }
-        host_lun_id_infos: HostLunIdInfolist (可选, max array members: 1000; 仅Dorado V6/V7和OceanStor V6/V7设备支持). parameter format: [{
-                host_lun_id: LUN指定的主机LUN ID (必选, 0~4095),
-                lun_id: 加入LUN组的LUN ID (必选, 1~64个字符),
+        host_lun_id_infos: HostLunIdInfo list (Optional, max array members: 1000; only supported on Dorado V6/V7 and OceanStor V6/V7 devices). parameter format: [{
+                host_lun_id: Host LUN ID assigned to the LUN (Required, 0~4095),
+                lun_id: LUN ID to add to the LUN group (Required, 1~64 characters),
              }, ...]
-        host_lun_id_verify: 是否进行双活主机LUN ID一致性校验 (可选, defaultfalse). valid values: true (不校验), false (校验)
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        host_lun_id_verify: Whether to perform consistency check for hyper metro host LUN IDs (Optional, default false). valid values: true (do not verify), false (verify)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}/add-luns"
@@ -829,17 +832,17 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
 def lun_group_remove_luns(client: DMEAPIClient, group_id: str,
                            lun_ids: list, task_remarks: str = None) -> dict:
     """
-    从 LUN group移除 LUN
+    Remove LUNs from a LUN group
 
     Args:
         client: DME API client
         group_id: LUN group ID
-        lun_ids: LUN ID list (必选, 数组最小成员个数: 1, max array members: 10000)
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        lun_ids: LUN ID list (Required, min array members: 1, max array members: 10000)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}/remove-luns"
@@ -859,19 +862,19 @@ def lun_group_show_luns(client: DMEAPIClient, group_id: str,
                          page_size: int = 100, page_no: int = 1,
                          health_status: str = None) -> dict:
     """
-    query LUN group中的 LUN
+    Query LUNs in a LUN group
 
     Args:
         client: DME API client
         group_id: LUN group ID
-        page_size: 分页query的个数 (可选, 1~1000, default100)
-        page_no: 分页query的页码 (可选, 1~10000000, default1)
-        health_status: health status (Optional). valid values: normal (正常), faulty (故障), write_protected (写保护)
+        page_size: Number of paginated query results (Optional, 1~1000, default 100)
+        page_no: Page number for paginated query (Optional, 1~10000000, default 1)
+        health_status: health status (Optional). valid values: normal, faulty, write_protected
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 LUN list
+            task_id: task ID (string, 1~64 characters),
+        }, includes LUN list
     """
     url = "/rest/blockservice/v1/lun-groups/{group_id}/luns/query"
 
@@ -899,7 +902,7 @@ def lun_group_show_luns(client: DMEAPIClient, group_id: str,
 # action list, for CLI help
 
 # ============================================================================
-# mapping view (mapping_view) 子主题函数
+# Mapping view (mapping_view) sub-topic functions
 # ============================================================================
 
 
@@ -922,37 +925,37 @@ def mapping_view_create(
     task_remarks: str = None
 ) -> dict:
     """
-    createmapping view
+    Create mapping view
 
     Args:
         client: DME API client
-        storage_id: Storage device ID (必选, 1~64个字符)
-        name: mapping viewname (可选, 1~31个字符; 设备type为OceanStor V3/V5时有效)
-        port_group_id: 端口组 ID (可选, 1~64个字符)
-        start_host_lun_id: 主机LUN SCSI ID起始值 (可选, 0~2147483647)
-        host: Storage host (可选, 与vbs/host_group互斥). attribute format: {
-                todo_host_name: todo任务中的host name (可选, 1~255个字符, 支持字母数字._-和中文字符),
-                id: host ID (可选, 1~64个字符),
+        storage_id: Storage device ID (Required, 1~64 characters)
+        name: Mapping view name (Optional, 1~31 characters; valid when device type is OceanStor V3/V5)
+        port_group_id: Port group ID (Optional, 1~64 characters)
+        start_host_lun_id: Starting host LUN SCSI ID (Optional, 0~2147483647)
+        host: Storage host (Optional, mutually exclusive with vbs/host_group). attribute format: {
+                todo_host_name: Host name from todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters),
+                id: host ID (Optional, 1~64 characters),
              }
-        vbs: VBS客户端 (可选, 与host/host_group互斥; 仅OceanStor Pacific和FusionStorage支持). attribute format: {
-                id: VBS ID (可选, 1~64个字符),
+        vbs: VBS client (Optional, mutually exclusive with host/host_group; only supported on OceanStor Pacific and FusionStorage). attribute format: {
+                id: VBS ID (Optional, 1~64 characters),
              }
-        host_group: Storage host group (可选, 与host/vbs互斥). attribute format: {
-                todo_host_group_name: todo任务中的host group name (可选, 1~255个字符, 支持字母数字._-和中文字符),
-                id: host group ID (可选, 1~64个字符),
+        host_group: Storage host group (Optional, mutually exclusive with host/vbs). attribute format: {
+                todo_host_group_name: Host group name from todo task (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters),
+                id: host group ID (Optional, 1~64 characters),
              }
-        lun_group: 待映射的LUN组 (可选, 与luns互斥). attribute format: {
-                id: LUN组ID (可选, 1~64个字符),
+        lun_group: LUN group to be mapped (Optional, mutually exclusive with luns). attribute format: {
+                id: LUN group ID (Optional, 1~64 characters),
              }
-        luns: 待映射的LUNinfo (可选, 与lun_group互斥). attribute format: {
-                ids: 待映射的LUN IDlist (可选, max array members: 1000),
-                lungroup_name: LUN组name (可选, 1~255个字符; lun映射时需create指定namelun组时下发),
+        luns: LUN info to be mapped (Optional, mutually exclusive with lun_group). attribute format: {
+                ids: List of LUN IDs to map (Optional, max array members: 1000),
+                lungroup_name: LUN group name (Optional, 1~255 characters; required when creating a named LUN group during LUN mapping),
              }
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/mapping-views"
@@ -986,21 +989,21 @@ def mapping_view_create(
 
 def mapping_view_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量deletemapping view. 
+    Batch delete mapping views
 
     Args:
         client: DME API client
-        ids: mapping view ID list (必选, List[string])
+        ids: Mapping view ID list (Required, List[string])
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/mapping-views/batch-delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数")
+        raise ValueError("ids is a required parameter")
 
     body_params = {
         'ids': ids
@@ -1034,39 +1037,39 @@ def mapping_view_list(
     sort_dir: str = None
 ) -> dict:
     """
-    批量querymapping viewlist
+    Batch query mapping view list
 
-    批量queryStorage device上的mapping viewinfo, 支持多种过滤条件. 
+    Batch query mapping view info on storage devices, supports multiple filter criteria
 
     Args:
         client: DME API client
-        page_size: 分页query的个数 (可选, 0~1000, default100)
-        page_no: 分页query的起始location (可选, 1~10000000, default1)
-        name: mapping viewname (可选, 0~256个字符, 支持模糊搜索)
-        raw_id: mapping view在Storage device上的ID (可选, 1~256个字符)
-        storage_id: Storage device的唯一标识 (可选, 0~64个字符)
-        lun_id: LUN的唯一标识 (可选, 0~64个字符; 与lun_name参数不支持同时下发)
-        lun_name: LUN name (可选, 1~256个字符, 支持模糊搜索; 与lun_id参数不支持同时下发)
-        lun_group_id: LUN组的唯一标识 (可选, 0~64个字符; 与lun_group_raw_id/lun_group_name不支持同时下发)
-        lun_group_raw_id: 设备侧分配的LUN组ID (可选, 1~64个字符; 与lun_group_id/lun_group_name不支持同时下发)
-        lun_group_name: LUN组name (可选, 1~256个字符, supports fuzzy query; 与lun_group_id/lun_group_raw_id不支持同时下发)
-        storage_host_id: Storage host的唯一标识 (可选, 0~64个字符; 与storage_host_name不支持同时下发)
-        storage_host_name: 存储host name (可选, 0~256个字符, 支持模糊搜索; 仅OceanStor Dorado v6和OceanProtect X支持; 与storage_host_id不支持同时下发)
-        storage_host_group_id: Storage host group的唯一标识 (可选, 0~64个字符; 与storage_host_group_name/storage_host_group_raw_id不支持同时下发)
-        storage_host_group_name: 存储host group name (可选, 0~256个字符, 支持模糊搜索; 与storage_host_group_id/storage_host_group_raw_id不支持同时下发)
-        storage_host_group_raw_id: 设备侧分配的存储host group ID (可选, 1~64个字符; 与storage_host_group_id/storage_host_group_name不支持同时下发)
-        port_group_id: 端口组的唯一标识 (可选, 0~64个字符; 与port_group_raw_id/port_group_name不支持同时下发)
-        port_group_raw_id: 设备侧分配的port group ID (可选, 1~64个字符; 与port_group_id/port_group_name不支持同时下发)
-        port_group_name: port group name (可选, 0~256个字符, 支持模糊搜索; 与port_group_id/port_group_raw_id不支持同时下发)
-        sort_key: 排序字段 (Optional). valid values: raw_id, storage_host_group_raw_id, lun_group_raw_id, port_group_raw_id
-        sort_dir: 排序方向 (Optional). valid values: asc (升序), desc (降序)
+        page_size: Number of paginated query results (Optional, 0~1000, default 100)
+        page_no: Start position for paginated query (Optional, 1~10000000, default 1)
+        name: Mapping view name (Optional, 0~256 characters, supports fuzzy search)
+        raw_id: Mapping view ID on the storage device (Optional, 1~256 characters)
+        storage_id: Storage device unique identifier (Optional, 0~64 characters)
+        lun_id: LUN unique identifier (Optional, 0~64 characters; cannot be sent together with lun_name parameter)
+        lun_name: LUN name (Optional, 1~256 characters, supports fuzzy search; cannot be sent together with lun_id parameter)
+        lun_group_id: LUN group unique identifier (Optional, 0~64 characters; cannot be sent together with lun_group_raw_id/lun_group_name)
+        lun_group_raw_id: LUN group ID assigned on the device (Optional, 1~64 characters; cannot be sent together with lun_group_id/lun_group_name)
+        lun_group_name: LUN group name (Optional, 1~256 characters, supports fuzzy query; cannot be sent together with lun_group_id/lun_group_raw_id)
+        storage_host_id: Storage host unique identifier (Optional, 0~64 characters; cannot be sent together with storage_host_name)
+        storage_host_name: Storage host name (Optional, 0~256 characters, supports fuzzy search; only OceanStor Dorado v6 and OceanProtect X; cannot be sent together with storage_host_id)
+        storage_host_group_id: Storage host group unique identifier (Optional, 0~64 characters; cannot be sent together with storage_host_group_name/storage_host_group_raw_id)
+        storage_host_group_name: Storage host group name (Optional, 0~256 characters, supports fuzzy search; cannot be sent together with storage_host_group_id/storage_host_group_raw_id)
+        storage_host_group_raw_id: Storage host group ID assigned on the device (Optional, 1~64 characters; cannot be sent together with storage_host_group_id/storage_host_group_name)
+        port_group_id: Port group unique identifier (Optional, 0~64 characters; cannot be sent together with port_group_raw_id/port_group_name)
+        port_group_raw_id: Port group ID assigned on the device (Optional, 1~64 characters; cannot be sent together with port_group_id/port_group_name)
+        port_group_name: Port group name (Optional, 0~256 characters, supports fuzzy search; cannot be sent together with port_group_id/port_group_raw_id)
+        sort_key: Sort field (Optional). valid values: raw_id, storage_host_group_raw_id, lun_group_raw_id, port_group_raw_id
+        sort_dir: Sort direction (Optional). valid values: asc, desc
 
     Returns:
         {
-            total: mapping viewtotal (integer),
-            mapping_views: mapping viewlist (List<MappingViewInfo>). parameter format: [{
-                id: mapping viewID (string),
-                name: mapping viewname (string),
+            total: Total mapping views (integer),
+            mapping_views: Mapping view list (List<MappingViewInfo>). parameter format: [{
+                id: Mapping view ID (string),
+                name: Mapping view name (string),
                 storage_id: storage device ID (string),
             }, ...],
         }
@@ -1145,20 +1148,20 @@ def mapping_view_query(
     storage_id: str
 ) -> dict:
     """
-    query物理主机 (组)关联的映射关系
+    Query mapping relations associated with physical host (group)
 
-    根据物理主机/主机组 ID 过滤query指定Storage device上的mapping view. 
+    Filter and query mapping views on a specified storage device based on physical host/host group ID
 
     Args:
         client: DME API client
-        type: query类别 (Required). valid values: host (物理主机), host_group (主机组)
-        request_id: 物理主机/主机组 ID (必选, 1~64个字符)
-        storage_id: Storage device ID (必选, 1~64个字符)
+        type: Query type (Required). valid values: host (physical host), host_group (host group)
+        request_id: Physical host/host group ID (Required, 1~64 characters)
+        storage_id: Storage device ID (Required, 1~64 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含mapping viewlist
+            task_id: task ID (string, 1~64 characters),
+        }, includes mapping view list
     """
     url = "/rest/blockservice/v1/volumes/mapping-view/query"
 
@@ -1175,17 +1178,17 @@ def mapping_view_query(
 def physical_host_show_mapping_views(client: DMEAPIClient, host_id: str,
                                       storage_id: str) -> dict:
     """
-    query物理主机关联的映射关系
+    Query mapping relations associated with a physical host
 
     Args:
         client: DME API client
-        host_id: 物理主机 ID (必选, 1~64个字符)
-        storage_id: Storage device ID (必选, 1~64个字符)
+        host_id: Physical host ID (Required, 1~64 characters)
+        storage_id: Storage device ID (Required, 1~64 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含mapping viewlist
+            task_id: task ID (string, 1~64 characters),
+        }, includes mapping view list
     """
     return mapping_view_query(
         client=client, type="host",
@@ -1196,17 +1199,18 @@ def physical_host_show_mapping_views(client: DMEAPIClient, host_id: str,
 def physical_host_group_show_mapping_views(client: DMEAPIClient, host_group_id: str,
                                             storage_id: str) -> dict:
     """
-    query物理主机组关联的映射关系
+    Query mapping relations associated with a physical host group
+    
 
     Args:
         client: DME API client
-        host_group_id: 物理主机组 ID (必选, 1~64个字符)
-        storage_id: Storage device ID (必选, 1~64个字符)
+        host_group_id: Physical host group ID (Required, 1~64 characters)
+        storage_id: Storage device ID (Required, 1~64 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含mapping viewlist
+            task_id: task ID (string, 1~64 characters),
+        }, includes mapping view list
     """
     return mapping_view_query(
         client=client, type="host_group",
@@ -1215,43 +1219,43 @@ def physical_host_group_show_mapping_views(client: DMEAPIClient, host_group_id: 
 
 
 # ============================================================================
-# Storage host (storage_host) 子主题函数
+# Storage host (storage_host) sub-topic functions
 # ============================================================================
 
 def storage_host_create(client: DMEAPIClient, storage_id: str,
                 host_info: dict, task_remarks: str = None,
                 vstore_id: str = None) -> dict:
     """
-    createStorage host
+    Create Storage host
 
-    在指定Storage device上createStorage host. 
+    Create a Storage host on the specified storage device
 
     Args:
         client: DME API client
-        storage_id: storage device ID (必选, 1~64个字符)
-        host_info: CreateStorageHostInfoobject (Required). attribute format: {
-                name: host name (必选, 1~255个字符, 支持字母数字._-和中文字符),
-                os_type: 主机type (Required). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip: 主机ip地址 (可选, 最多127个字符),
-                description: 主机description (可选, 最多63个字符),
-                initiators: StorageInitiatorParamlist (可选, max array members: 1000). parameter format: [{
-                        protocol: 启动器type (Required). valid values: fc, iscsi, nvme_over_roce,
-                        raw_id: 主机启动器wwpn或iqn或nqn (必选, 1~223个字符),
-                        alias: 启动器别名 (可选, 最多31个字符),
+        storage_id: storage device ID (Required, 1~64 characters)
+        host_info: CreateStorageHostInfo object (Required). attribute format: {
+                name: host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters),
+                os_type: Host type (Required). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
+                ip: host ip address (Optional, up to 127 characters),
+                description: host description (Optional, up to 63 characters),
+                initiators: StorageInitiatorParam list (Optional, max array members: 1000). parameter format: [{
+                        protocol: Initiator type (Required). valid values: fc, iscsi, nvme_over_roce,
+                        raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
+                        alias: Initiator alias (Optional, up to 31 characters),
                      }, ...],
-                multipath: MultiPathForCreateRequestParamobject (Optional). attribute format: {
-                        multipath_type: 第三方多路径策略 (Required). valid values: default (default), third_party (第三方多路径),
-                        path_type: 启动器路径type (可选, true第三方多路径时有效). valid values: optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: 启动器切换模式 (可选, true第三方多路径时有效). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: 特殊模式type (可选, 切换模式为特殊模式时有效). valid values: mode_zero, mode_one, mode_two, mode_three,
+                multipath: MultiPathForCreateRequestParam object (Optional). attribute format: {
+                        multipath_type: Third-party multipath policy (Required). valid values: default, third_party (third-party multipath),
+                        path_type: Initiator path type (Optional, effective when third_party multipath). valid values: optimal_path, non_optimal_path (non-optimal path),
+                        failover_mode: Initiator failover mode (Optional, effective when third_party multipath). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
+                        special_mode_type: Special mode type (Optional, effective when failover mode is special mode). valid values: mode_zero, mode_one, mode_two, mode_three,
                 }
              }
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
-        vstore_id: tenant ID (可选, 1~64个字符; 设备为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上时有效)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
+        vstore_id: Tenant ID (Optional, 1~64 characters; valid when device is OceanStor V300R006C30/V500R007C20/Dorado 6.1.3 or above)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/hostmgmt/v1/storage-hosts"
@@ -1272,44 +1276,44 @@ def storage_host_create(client: DMEAPIClient, storage_id: str,
 
 def storage_host_batch_query(client: DMEAPIClient, ids: list) -> dict:
     """
-    根据Storage host ID list批量queryStorage host
+    Batch query storage hosts by storage host ID list
 
     Args:
         client: DME API client
-        ids: ID list (必选, 1~1000 个)
+        ids: ID list (Required, 1~1000 items)
 
     Returns:
         {
-            total: Storage hostcount (int32),
-            hosts: Storage hostinfolist (List<QueryStorageHostResponse>). parameter format: [{
-                id: 存储host ID (string, 1~64个字符),
-                raw_id: 在Storage device上的ID (string, 1~64个字符),
-                name: 存储host name (string, 1~255个字符),
-                ip: Storage host的IP (string, 1~255个字符),
+            total: Storage host count (int32),
+            hosts: Storage host info list (List<QueryStorageHostResponse>). parameter format: [{
+                id: Storage host ID (string, 1~64 characters),
+                raw_id: ID on the storage device (string, 1~64 characters),
+                name: Storage host name (string, 1~255 characters),
+                ip: Storage host IP (string, 1~255 characters),
                 health_status: health status. valid values: normal, no_redundant_link, offline, fault, degraded,
-                os_type: Storage hosttype. valid values: LINUX, WINDOWS, SOLARIS, HPUX, AIX, VMWAREESX 等,
-                initiator_count: 启动器个数 (int32),
-                lun_count: 映射LUN个数 (int32),
-                lun_group_count: 映射LUN组个数 (int32),
-                description: descriptioninfo (string, 1~255个字符),
-                capacity_in_byte: 已映射LUN capacity (int64, 字节),
-                allocated_capacity_in_byte: 已映射LUN已分配capacity (int64, 字节),
-                access_mode: 访问模式. valid values: unknown, balanced, asymmetric,
-                vstore_raw_id: tenant ID (string, 1~64个字符),
-                vstore_name: 租户name (string, 1~256个字符),
-                storage: Storage deviceinfo (SimpleStorage). attribute format: {
-                    storage_id: storage device ID (string, 1~64个字符),
-                    storage_name: storage device name (string, 1~255个字符),
-                    storage_ip: Storage deviceIP (string, 1~255个字符),
+                os_type: Storage host type. valid values: LINUX, WINDOWS, SOLARIS, HPUX, AIX, VMWAREESX etc,
+                initiator_count: Number of initiators (int32),
+                lun_count: Number of mapped LUNs (int32),
+                lun_group_count: Number of mapped LUN groups (int32),
+                description: description info (string, 1~255 characters),
+                capacity_in_byte: Mapped LUN capacity (int64, bytes),
+                allocated_capacity_in_byte: Allocated capacity of mapped LUNs (int64, bytes),
+                access_mode: Access mode. valid values: unknown, balanced, asymmetric,
+                vstore_raw_id: tenant ID (string, 1~64 characters),
+                vstore_name: Tenant name (string, 1~256 characters),
+                storage: Storage device info (SimpleStorage). attribute format: {
+                    storage_id: storage device ID (string, 1~64 characters),
+                    storage_name: storage device name (string, 1~255 characters),
+                    storage_ip: Storage device IP (string, 1~255 characters),
                 },
-                host_group: 所属Storage host groupinfo (List<HostGroupName>). parameter format: [{
+                host_group: Belonging storage host group info (List<HostGroupName>). parameter format: [{
                     id: host group ID (string),
                     name: host group name (string),
                 }, ...],
-                physical_host_info: 物理主机info (PhysicalHostInfo). attribute format: {
-                    id: 物理host ID (string, 1~64个字符),
-                    name: 物理host name (string, 1~255个字符),
-                    ip: 物理主机的IP (string, 1~255个字符),
+                physical_host_info: Physical host info (PhysicalHostInfo). attribute format: {
+                    id: Physical host ID (string, 1~64 characters),
+                    name: Physical host name (string, 1~255 characters),
+                    ip: Physical host IP (string, 1~255 characters),
                 },
             }, ...],
         }
@@ -1334,62 +1338,62 @@ def storage_host_list(client: DMEAPIClient, page_size: int = None, page_no: int 
               manufacturer: str = None, vstore_raw_id: str = None,
               vstore_name: str = None) -> dict:
     """
-    批量queryStorage host
+    Batch query storage hosts
 
     Args:
         client: DME API client
-        page_size: 分页query的个数 (可选, 1~1000, default20)
-        page_no: 分页query的起始location (可选, 最小值1, default1)
-        sort_key: 排序关键字 (可选, sort_key不填时sort_dir不生效). valid values: ip, name, initiator_count, lun_count, lun_group_count, capacity, allocated_capacity, raw_id
-        sort_dir: 排序方向 (Optional). valid values: desc (降序), asc (升序)
-        name: host name (可选, 1~256个字符, supports fuzzy match)
-        raw_id: 主机在设备侧的ID (可选, 0~256个字符)
-        host_group_id: 归属host group ID (可选, 最多64个字符)
-        avaliable_add_to_host_group_id: 待添加host group ID (可选, 与host_group_id互斥, 最多64个字符)
-        host_group_name: 归属host group name (可选, 最多256个字符, supports fuzzy match; 空串query未归属主机组的主机)
-        ip: 主机IP (可选, 最多256个字符, supports fuzzy match; 空串query未配置IP的主机)
-        health_status: health status (Optional). valid values: normal (正常), no_redundant_link (无冗余路径), offline (离线), fault (故障), degraded (已降级)
-        os_type: Storage hosttype (Optional). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC, UNKNOWN
-        storage_id: storage device ID (可选, 1~64个字符)
-        avaiable_mapping_for_lun_group_id: 可映射的LUN组ID (可选, 1~64个字符; 与avaiable_mapping_for_lun_id互斥)
-        avaiable_mapping_for_lun_id: 可映射的LUN ID (可选, 1~64个字符; 与avaiable_mapping_for_lun_group_id互斥)
-        support_provisioning: 是否支持发放 (Optional). valid values: true, false
-        manufacturer: Storage device厂商 (可选, 1~64个字符). valid values: huawei, dell_emc, fujitsu, hitachi, hpe, ibm, netapp, pure, third_part
+        page_size: Number of paginated query results (Optional, 1~1000, default 20)
+        page_no: Start position for paginated query (Optional, min 1, default 1)
+        sort_key: Sort key (Optional, sort_dir is ineffective when sort_key is not set). valid values: ip, name, initiator_count, lun_count, lun_group_count, capacity, allocated_capacity, raw_id
+        sort_dir: Sort direction (Optional). valid values: desc, asc
+        name: host name (Optional, 1~256 characters, supports fuzzy match)
+        raw_id: Host ID on the device side (Optional, 0~256 characters)
+        host_group_id: Belonging host group ID (Optional, up to 64 characters)
+        avaliable_add_to_host_group_id: Host group ID to add to (Optional, mutually exclusive with host_group_id, up to 64 characters)
+        host_group_name: Belonging host group name (Optional, up to 256 characters, supports fuzzy match; empty string queries hosts not belonging to any host group)
+        ip: Host IP (Optional, up to 256 characters, supports fuzzy match; empty string queries hosts without IP configured)
+        health_status: health status (Optional). valid values: normal, no_redundant_link, offline, fault, degraded
+        os_type: Storage host type (Optional). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC, UNKNOWN
+        storage_id: storage device ID (Optional, 1~64 characters)
+        avaiable_mapping_for_lun_group_id: Mappable LUN group ID (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_lun_id)
+        avaiable_mapping_for_lun_id: Mappable LUN ID (Optional, 1~64 characters; mutually exclusive with avaiable_mapping_for_lun_group_id)
+        support_provisioning: Whether provisioning is supported (Optional). valid values: true, false
+        manufacturer: Storage device vendor (Optional, 1~64 characters). valid values: huawei, dell_emc, fujitsu, hitachi, hpe, ibm, netapp, pure, third_part
         vstore_raw_id: tenant ID (Optional)
-        vstore_name: 租户name (Optional)
+        vstore_name: Tenant name (Optional)
 
     Returns:
         {
-            total: Storage hostcount (int32),
-            hosts: Storage hostinfolist (List<QueryStorageHostResponse>). parameter format: [{
-                id: 存储host ID (string, 1~64个字符),
-                raw_id: 在Storage device上的ID (string, 1~64个字符),
-                name: 存储host name (string, 1~255个字符),
-                ip: Storage host的IP (string, 1~255个字符),
+            total: Storage host count (int32),
+            hosts: Storage host info list (List<QueryStorageHostResponse>). parameter format: [{
+                id: Storage host ID (string, 1~64 characters),
+                raw_id: ID on the storage device (string, 1~64 characters),
+                name: Storage host name (string, 1~255 characters),
+                ip: Storage host IP (string, 1~255 characters),
                 health_status: health status. valid values: normal, no_redundant_link, offline, fault, degraded,
-                os_type: Storage hosttype. valid values: LINUX, WINDOWS, SOLARIS 等,
-                initiator_count: 启动器个数 (int32),
-                lun_count: 映射LUN个数 (int32),
-                lun_group_count: 映射LUN组个数 (int32),
-                description: descriptioninfo (string, 1~255个字符),
-                capacity_in_byte: 已映射LUN capacity (int64, 字节),
-                allocated_capacity_in_byte: 已映射LUN已分配capacity (int64, 字节),
-                access_mode: 访问模式. valid values: unknown, balanced, asymmetric,
-                vstore_raw_id: tenant ID (string, 1~64个字符),
-                vstore_name: 租户name (string, 1~256个字符),
-                storage: Storage deviceinfo (SimpleStorage). attribute format: {
+                os_type: Storage host type. valid values: LINUX, WINDOWS, SOLARIS etc,
+                initiator_count: Number of initiators (int32),
+                lun_count: Number of mapped LUNs (int32),
+                lun_group_count: Number of mapped LUN groups (int32),
+                description: description info (string, 1~255 characters),
+                capacity_in_byte: Mapped LUN capacity (int64, bytes),
+                allocated_capacity_in_byte: Allocated capacity of mapped LUNs (int64, bytes),
+                access_mode: Access mode. valid values: unknown, balanced, asymmetric,
+                vstore_raw_id: tenant ID (string, 1~64 characters),
+                vstore_name: Tenant name (string, 1~256 characters),
+                storage: Storage device info (SimpleStorage). attribute format: {
                     storage_id: storage device ID (string),
                     storage_name: storage device name (string),
-                    storage_ip: Storage deviceIP (string),
+                    storage_ip: Storage device IP (string),
                 },
-                host_group: 所属Storage host groupinfo (List<HostGroupName>). parameter format: [{
+                host_group: Belonging storage host group info (List<HostGroupName>). parameter format: [{
                     id: host group ID (string),
                     name: host group name (string),
                 }, ...],
-                physical_host_info: 物理主机info (PhysicalHostInfo). attribute format: {
-                    id: 物理host ID (string),
-                    name: 物理host name (string),
-                    ip: 物理主机的IP (string),
+                physical_host_info: Physical host info (PhysicalHostInfo). attribute format: {
+                    id: Physical host ID (string),
+                    name: Physical host name (string),
+                    ip: Physical host IP (string),
                 },
             }, ...],
         }
@@ -1448,33 +1452,33 @@ def storage_host_modify(client: DMEAPIClient, storage_host_id: str,
                 multipath: dict = None, access_mode: str = None,
                 hyper_metro_path_optimized: bool = None, task_remarks: str = None) -> dict:
     """
-    modifyStorage host
+    Modify Storage host
 
     Args:
         client: DME API client
         storage_host_id: Storage host ID (Required)
-        storage_host_name: 存储host name (可选, 1~255个字符, 支持字母数字._-和中文字符)
-        storage_host_description: Storage hostdescriptioninfo (可选, 0~63个字符)
-        storage_host_ip: 主机IP (可选, 最多127个字符)
-        storage_host_os_type: 主机type (Optional). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
-        add_initiators: StorageInitiatorParamlist (可选, max array members: 1000). parameter format: [{
-                protocol: 启动器type (Required). valid values: fc, iscsi, nvme_over_roce,
-                raw_id: 主机启动器wwpn或iqn或nqn (必选, 1~223个字符),
-                alias: 启动器别名 (可选, 最多31个字符),
+        storage_host_name: Storage host name (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters)
+        storage_host_description: Storage host description info (Optional, 0~63 characters)
+        storage_host_ip: Host IP (Optional, up to 127 characters)
+        storage_host_os_type: Host type (Optional). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
+        add_initiators: StorageInitiatorParam list (Optional, max array members: 1000). parameter format: [{
+                protocol: Initiator type (Required). valid values: fc, iscsi, nvme_over_roce,
+                raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
+                alias: Initiator alias (Optional, up to 31 characters),
              }, ...]
-        remove_initiators: 移除的启动器idlist (可选, max array members: 1000)
-        multipath: MultiPathForCreateRequestParamobject (Optional). attribute format: {
-                multipath_type: 第三方多路径策略 (Required). valid values: default (default), third_party (第三方多路径),
-                path_type: 启动器路径type (可选, true第三方多路径时有效). valid values: optimal_path (优选路径), non_optimal_path (非优选路径),
-                failover_mode: 启动器切换模式 (可选, true第三方多路径时有效). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
-                special_mode_type: 特殊模式type (可选, 切换模式为特殊模式时有效). valid values: mode_zero, mode_one, mode_two, mode_three,
+        remove_initiators: List of initiator ids to remove (Optional, max array members: 1000)
+        multipath: MultiPathForCreateRequestParam object (Optional). attribute format: {
+                multipath_type: Third-party multipath policy (Required). valid values: default, third_party (third-party multipath),
+                path_type: Initiator path type (Optional, effective when third_party multipath). valid values: optimal_path, non_optimal_path (non-optimal path),
+                failover_mode: Initiator failover mode (Optional, effective when third_party multipath). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
+                special_mode_type: Special mode type (Optional, effective when failover mode is special mode). valid values: mode_zero, mode_one, mode_two, mode_three,
              }
-        access_mode: 主机访问模式 (可选, 仅Dorado V6及以后产品). valid values: balanced (均衡模式), asymmetric (非对称模式)
-        hyper_metro_path_optimized: 双活优选路径 (可选, 仅Dorado V6及以后产品). valid values: true, false
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        access_mode: Host access mode (Optional, Dorado V6 and later only). valid values: balanced, asymmetric
+        hyper_metro_path_optimized: Hyper metro preferred path (Optional, Dorado V6 and later only). valid values: true, false
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
-        modifyresult
+        modify result
     """
     url = "/rest/hostmgmt/v1/storage-hosts/{storage_host_id}"
 
@@ -1516,16 +1520,16 @@ def storage_host_modify(client: DMEAPIClient, storage_host_id: str,
 
 def storage_host_delete(client: DMEAPIClient, host_ids: list) -> dict:
     """
-    批量deleteStorage host
+    Batch delete storage hosts
 
-    批量delete指定的Storage host. 
+    Batch delete specified storage hosts
 
     Args:
         client: DME API client
-        host_ids: Storage host ID list (必选, 最多 1000 个)
+        host_ids: Storage host ID list (Required, up to 1000)
 
     Returns:
-        deleteresult
+        delete result
     """
     url = "/rest/hostmgmt/v1/storage-hosts/delete"
 
@@ -1542,34 +1546,34 @@ def storage_host_show_paths(client: DMEAPIClient, page_no: int = None, page_size
                     storage_host_raw_ids: list = None, health_status: str = None,
                     running_status: str = None, initiator_type: str = None) -> dict:
     """
-    批量queryStorage host的路径info
+    Batch query storage host path info
 
     Args:
         client: DME API client
-        page_no: 分页query的页码 (可选, 1~2147483647, default1)
-        page_size: 分页query的每页大小 (可选, 1~1000, default20)
-        storage_id: 所属storage device ID (可选, 1~64个字符)
-        storage_host_ids: storage主机的IDlist (可选, 与storage_host_raw_ids二选一, max array members: 20; 单个ID长度1~64个字符)
-        storage_host_raw_ids: storage主机在设备上的IDlist (可选, 与storage_host_ids二选一, max array members: 20; 单个ID长度1~64个字符)
-        health_status: health status (Optional). valid values: normal (正常), fault (故障), no_redundant_link (无冗余路径), offline (离线)
-        running_status: 链路status (Optional). valid values: link_up (已连接), link_down (未连接), online (在线), disabled (已禁用), connecting (正在连接)
-        initiator_type: 启动器type (Optional). valid values: iSCSI, FC, NVMe_over_RoCE, IB, vHBA
+        page_no: Page number for paginated query (Optional, 1~2147483647, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
+        storage_id: Belonging storage device ID (Optional, 1~64 characters)
+        storage_host_ids: Storage host ID list (Optional, choose one with storage_host_raw_ids, max array members: 20; single ID length 1~64 characters)
+        storage_host_raw_ids: Storage host ID list on the device (Optional, choose one with storage_host_ids, max array members: 20; single ID length 1~64 characters)
+        health_status: health status (Optional). valid values: normal, fault, no_redundant_link, offline
+        running_status: Link status (Optional). valid values: link_up, link_down, online, disabled, connecting
+        initiator_type: Initiator type (Optional). valid values: iSCSI, FC, NVMe_over_RoCE, IB, vHBA
 
     Returns:
         {
-            total: 主机链路count (integer),
-            host_links: 主机链路list (List<HostLinkInfo>). parameter format: [{
-                id: 链路ID (string),
-                host_id: 存储host ID (string),
-                initiator_type: 启动器type. valid values: iSCSI, FC, NVMe,
-                initiator_id: 启动器ID (string),
-                initiator_port_name: 启动器端口name (string),
+            total: Total host links (integer),
+            host_links: Host link list (List<HostLinkInfo>). parameter format: [{
+                id: Link ID (string),
+                host_id: Storage host ID (string),
+                initiator_type: Initiator type. valid values: iSCSI, FC, NVMe,
+                initiator_id: Initiator ID (string),
+                initiator_port_name: Initiator port name (string),
                 storage_id: storage device ID (string),
-                target_id: 目标器ID (string),
-                target_port_name: 目标器端口name (string),
+                target_id: Target ID (string),
+                target_port_name: Target port name (string),
                 status: status (string),
-                link_mode: 链路模式. valid values: single, multipath,
-                vstore_raw_id: 租户在设备上的ID (string),
+                link_mode: Link mode. valid values: single, multipath,
+                vstore_raw_id: Tenant ID on the device (string),
             }, ...],
         }
     """
@@ -1597,7 +1601,7 @@ def storage_host_show_paths(client: DMEAPIClient, page_no: int = None, page_size
     response = client.post(url, body=payload)
     return response
 # ============================================================================
-# Storage host group (storage_host_group) 子主题函数
+# Storage host group (storage_host_group) sub-topic functions
 # ============================================================================
 
 def storage_host_group_create(client: DMEAPIClient, storage_id: str, name: str,
@@ -1605,37 +1609,37 @@ def storage_host_group_create(client: DMEAPIClient, storage_id: str, name: str,
                       create_storage_host_params: dict = None,
                       task_remarks: str = None, vstore_id: str = None) -> dict:
     """
-    createStorage host group
+    Create Storage host group
 
     Args:
         client: DME API client
-        storage_id: storage device ID (必选, 1~64个字符)
-        name: host group name (必选, 1~255个字符, 支持字母数字._-和中文字符; V3/V5设备最长31字节, V6设备最长255字节)
-        description: descriptioninfo (可选, 0~63个字符)
-        exist_host_ids: 待添加至主机组的host IDlist (可选, 与create_storage_host_params互斥, max array members: 1000)
-        create_storage_host_params: create新的Storage hostlist (可选, 与exist_host_ids互斥, max array members: 1000). parameter format: [{
-                name: host name (必选, 1~255个字符, 支持字母数字._-和中文字符),
-                os_type: 主机type (Required). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip: 主机ip地址 (可选, 最多127个字符),
-                description: 主机description (可选, 最多63个字符),
-                initiators: 启动器list (可选, max array members: 1000). parameter format: [{
-                        protocol: 启动器type (Required). valid values: fc, iscsi, nvme_over_roce,
-                        raw_id: 主机启动器wwpn或iqn或nqn (必选, 1~223个字符),
-                        alias: 启动器别名 (可选, 最多31个字符),
+        storage_id: storage device ID (Required, 1~64 characters)
+        name: host group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters; V3/V5 devices max 31 bytes, V6 devices max 255 bytes)
+        description: description info (Optional, 0~63 characters)
+        exist_host_ids: Host ID list to add to the host group (Optional, mutually exclusive with create_storage_host_params, max array members: 1000)
+        create_storage_host_params: Create new Storage host list (Optional, mutually exclusive with exist_host_ids, max array members: 1000). parameter format: [{
+                name: host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters),
+                os_type: Host type (Required). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
+                ip: host ip address (Optional, up to 127 characters),
+                description: host description (Optional, up to 63 characters),
+                initiators: Initiator list (Optional, max array members: 1000). parameter format: [{
+                        protocol: Initiator type (Required). valid values: fc, iscsi, nvme_over_roce,
+                        raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
+                        alias: Initiator alias (Optional, up to 31 characters),
                      }, ...],
-                multipath: 多路径配置 (Optional). attribute format: {
-                        multipath_type: 第三方多路径策略 (Required). valid values: default (default), third_party (第三方多路径),
-                        path_type: 启动器路径type (可选, true第三方多路径时有效). valid values: optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: 启动器切换模式 (可选, true第三方多路径时有效). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: 特殊模式type (可选, 切换模式为特殊模式时有效). valid values: mode_zero, mode_one, mode_two, mode_three,
+                multipath: Multipath configuration (Optional). attribute format: {
+                        multipath_type: Third-party multipath policy (Required). valid values: default, third_party (third-party multipath),
+                        path_type: Initiator path type (Optional, effective when third_party multipath). valid values: optimal_path, non_optimal_path (non-optimal path),
+                        failover_mode: Initiator failover mode (Optional, effective when third_party multipath). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
+                        special_mode_type: Special mode type (Optional, effective when failover mode is special mode). valid values: mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
-        vstore_id: tenant ID (可选, 1~64个字符; 设备为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上时有效)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
+        vstore_id: Tenant ID (Optional, 1~64 characters; valid when device is OceanStor V300R006C30/V500R007C20/Dorado 6.1.3 or above)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups"
@@ -1668,27 +1672,27 @@ def storage_host_group_list(client: DMEAPIClient, storage_id: str = None, name: 
                     avaiable_mapping_for_lun_id: str = None,
                     support_provisioning: bool = None) -> dict:
     """
-    批量queryStorage host group
+    Batch query storage host groups
 
     Args:
         client: DME API client
-        raw_id: 主机组在设备侧的ID (可选, 0~256个字符)
-        storage_id: 设备ID (可选, 0~64个字符)
-        page_size: 分页query的个数 (可选, 1~1000, default100)
-        page_no: 分页query的页码 (可选, 1~10000000, default1)
-        sort_dir: 排序方向 (可选, sort_key不填时不生效). valid values: desc (降序), asc (升序)
-        sort_key: 排序关键字 (Optional). valid values: name, host_count, lun_group_count, lun_count, raw_id
-        name: host group name (可选, 0~256个字符, supports fuzzy match)
+        raw_id: Host group ID on the device side (Optional, 0~256 characters)
+        storage_id: Device ID (Optional, 0~64 characters)
+        page_size: Number of paginated query results (Optional, 1~1000, default 100)
+        page_no: Page number for paginated query (Optional, 1~10000000, default 1)
+        sort_dir: Sort direction (Optional, ineffective when sort_key is not set). valid values: desc, asc
+        sort_key: Sort key (Optional). valid values: name, host_count, lun_group_count, lun_count, raw_id
+        name: host group name (Optional, 0~256 characters, supports fuzzy match)
         vstore_id: tenant ID (Optional)
-        vstore_name: 租户name (Optional)
-        avaiable_mapping_for_lun_group_id: 待映射的LUN组ID (可选, 0~64个字符; query可映射给指定LUN组的主机组时必传)
-        avaiable_mapping_for_lun_id: 待映射的LUN ID (可选, 0~64个字符; query可映射给指定LUN的主机组时必传)
-        support_provisioning: 是否支持发放 (Optional). valid values: true, false
+        vstore_name: Tenant name (Optional)
+        avaiable_mapping_for_lun_group_id: LUN group ID to be mapped (Optional, 0~64 characters; required when querying host groups mappable to a specified LUN group)
+        avaiable_mapping_for_lun_id: LUN ID to be mapped (Optional, 0~64 characters; required when querying host groups mappable to a specified LUN)
+        support_provisioning: Whether provisioning is supported (Optional). valid values: true, false
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含Storage host grouplist和total
+            task_id: task ID (string, 1~64 characters),
+        }, includes Storage host group list and total
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/query"
 
@@ -1728,36 +1732,36 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
                          create_storage_host_params: dict = None,
                          task_remarks: str = None) -> dict:
     """
-    添加Storage host到Storage host group
+    Add Storage hosts to a Storage host group
 
-    将现有主机添加到Storage host group, 或在主机组中create新主机. 
+    Add existing hosts to a Storage host group, or create new hosts within the host group
 
     Args:
         client: DME API client
         storage_host_group_id: Storage host group ID (Required)
-        storage_host_id_ids: 存储host IDlist (可选, 与create_storage_host_params互斥, max array members: 1000)
-        create_storage_host_params: create新的Storage hostlist (可选, 与storage_host_id_ids互斥, max array members: 1000). parameter format: [{
-                name: host name (必选, 1~255个字符, 支持字母数字._-和中文字符),
-                os_type: 主机type (Required). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
-                ip: 主机ip地址 (可选, 最多127个字符),
-                description: 主机description (可选, 最多63个字符),
-                initiators: 启动器list (可选, max array members: 1000). parameter format: [{
-                        protocol: 启动器type (Required). valid values: fc, iscsi, nvme_over_roce,
-                        raw_id: 主机启动器wwpn或iqn或nqn (必选, 1~223个字符),
-                        alias: 启动器别名 (可选, 最多31个字符),
+        storage_host_id_ids: Storage host ID list (Optional, mutually exclusive with create_storage_host_params, max array members: 1000)
+        create_storage_host_params: Create new Storage host list (Optional, mutually exclusive with storage_host_id_ids, max array members: 1000). parameter format: [{
+                name: host name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters),
+                os_type: Host type (Required). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC,
+                ip: host ip address (Optional, up to 127 characters),
+                description: host description (Optional, up to 63 characters),
+                initiators: Initiator list (Optional, max array members: 1000). parameter format: [{
+                        protocol: Initiator type (Required). valid values: fc, iscsi, nvme_over_roce,
+                        raw_id: Host initiator wwpn or iqn or nqn (Required, 1~223 characters),
+                        alias: Initiator alias (Optional, up to 31 characters),
                      }, ...],
-                multipath: 多路径配置 (Optional). attribute format: {
-                        multipath_type: 第三方多路径策略 (Required). valid values: default (default), third_party (第三方多路径),
-                        path_type: 启动器路径type (可选, true第三方多路径时有效). valid values: optimal_path (优选路径), non_optimal_path (非优选路径),
-                        failover_mode: 启动器切换模式 (可选, true第三方多路径时有效). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
-                        special_mode_type: 特殊模式type (可选, 切换模式为特殊模式时有效). valid values: mode_zero, mode_one, mode_two, mode_three,
+                multipath: Multipath configuration (Optional). attribute format: {
+                        multipath_type: Third-party multipath policy (Required). valid values: default, third_party (third-party multipath),
+                        path_type: Initiator path type (Optional, effective when third_party multipath). valid values: optimal_path, non_optimal_path (non-optimal path),
+                        failover_mode: Initiator failover mode (Optional, effective when third_party multipath). valid values: early_version_alua, common_alua, alua_not_used, special_alua,
+                        special_mode_type: Special mode type (Optional, effective when failover mode is special mode). valid values: mode_zero, mode_one, mode_two, mode_three,
                 }
              }, ...]
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/{storage_host_group_id}/hosts/add"
@@ -1788,19 +1792,19 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
                             storage_host_ids: list,
                             task_remarks: str = None) -> dict:
     """
-    从Storage host group中移除主机
+    Remove hosts from a Storage host group
 
-    从指定的Storage host group中移除一个或多个主机. 
+    Remove one or more hosts from the specified Storage host group
 
     Args:
         client: DME API client
-        storage_host_group_id: Storage host group ID (必选, 1~64 字符)
-        storage_host_ids: 要移除的主机 ID list (必选, 最多 1000 个)
-        task_remarks: 任务备注 (可选, 最多 1024 字符)
+        storage_host_group_id: Storage host group ID (Required, 1~64 characters)
+        storage_host_ids: Host ID list to remove (Required, up to 1000)
+        task_remarks: Task remarks (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/{storage_host_group_id}/hosts/remove"
@@ -1819,17 +1823,17 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
 def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
                       task_remarks: str = None) -> dict:
     """
-    批量deleteStorage host group
+    Batch delete storage host groups
 
-    批量delete指定的Storage host group. 
+    Batch delete specified storage host groups
 
     Args:
         client: DME API client
-        host_group_ids: Storage host group ID list (必选, 1~100 个)
-        task_remarks: 任务备注 (可选, 最多 1024 字符)
+        host_group_ids: Storage host group ID list (Required, 1~100)
+        task_remarks: Task remarks (Optional, up to 1024 characters)
 
     Returns:
-        deleteresult
+        delete result
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/delete"
 
@@ -1849,23 +1853,23 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
                    page_no: int = 1, sort_key: str = None,
                    sort_dir: str = None) -> dict:
     """
-    queryStorage host映射的 LUN infolist
+    Query LUN info list mapped to a Storage host
 
-    指定Storage hostquery映射 LUN infolist, 包含 LUN info和主机 LUN ID info. 
+    Query the mapped LUN info list for a specified Storage host, including LUN info and host LUN ID info
 
     Args:
         client: DME API client
-        storage_host_id: Storage host ID (必选, 1~64 字符)
-        name: LUN name (可选, 1~256 字符, 支持模糊搜索)
-        page_size: 分页query的个数 (可选, 1~1000, default 20)
-        page_no: 分页query的起始location (可选, 1~10000000, default 1)
-        sort_key: 排序字段 (可选, host_lun_id/mapping_view_raw_id/lun_raw_id)
-        sort_dir: 排序方向 (可选, asc/desc, default desc)
+        storage_host_id: Storage host ID (Required, 1~64 characters)
+        name: LUN name (Optional, 1~256 characters, supports fuzzy search)
+        page_size: Number of paginated query results (Optional, 1~1000, default 20)
+        page_no: Start position for paginated query (Optional, 1~10000000, default 1)
+        sort_key: Sort field (Optional, host_lun_id/mapping_view_raw_id/lun_raw_id)
+        sort_dir: Sort direction (Optional, asc/desc, default desc)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 lun_mapping_list
+            task_id: task ID (string, 1~64 characters),
+        }, includes total and lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 
@@ -1891,23 +1895,23 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
                          page_no: int = 1, sort_key: str = None,
                          sort_dir: str = None) -> dict:
     """
-    queryStorage host group映射的 LUN infolist
+    Query LUN info list mapped to a Storage host group
 
-    指定Storage host groupquery映射 LUN infolist, 包含 LUN info和主机 LUN ID info. 
+    Query the mapped LUN info list for a specified Storage host group, including LUN info and host LUN ID info
 
     Args:
         client: DME API client
-        storage_host_group_id: Storage host group ID (必选, 1~64 字符)
-        name: LUN name (可选, 1~256 字符, 支持模糊搜索)
-        page_size: 分页query的个数 (可选, 1~1000, default 20)
-        page_no: 分页query的起始location (可选, 1~10000000, default 1)
-        sort_key: 排序字段 (可选, host_lun_id/mapping_view_raw_id/lun_raw_id)
-        sort_dir: 排序方向 (可选, asc/desc, default desc)
+        storage_host_group_id: Storage host group ID (Required, 1~64 characters)
+        name: LUN name (Optional, 1~256 characters, supports fuzzy search)
+        page_size: Number of paginated query results (Optional, 1~1000, default 20)
+        page_no: Start position for paginated query (Optional, 1~10000000, default 1)
+        sort_key: Sort field (Optional, host_lun_id/mapping_view_raw_id/lun_raw_id)
+        sort_dir: Sort direction (Optional, asc/desc, default desc)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含 total 和 lun_mapping_list
+            task_id: task ID (string, 1~64 characters),
+        }, includes total and lun_mapping_list
     """
     url = "/rest/blockservice/v1/lun-mapping/query"
 
@@ -1927,24 +1931,24 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     response = client.post(url, body=payload)
     return response
 # ============================================================================
-# 端口组 (port_group) 子主题函数
+# Port group (port_group) sub-topic functions
 # ============================================================================
 
 def port_group_list(client: DMEAPIClient, storage_id: str = None,
                     page_no: int = 1, page_size: int = 20) -> dict:
     """
-    批量query端口组
+    Batch query port groups
 
     Args:
         client: DME API client
-        storage_id: storage device ID (可选, 1~64个字符, 支持过滤)
-        page_no: 分页query的页码 (可选, 1~10000, default1)
-        page_size: 分页query的每页大小 (可选, 1~1000, default20)
+        storage_id: storage device ID (Optional, 1~64 characters, supports filtering)
+        page_no: Page number for paginated query (Optional, 1~10000, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含端口组list
+            task_id: task ID (string, 1~64 characters),
+        }, includes port group list
     """
     url = "/rest/storagemgmt/v1/port-groups/query"
 
@@ -1963,20 +1967,20 @@ def port_group_list(client: DMEAPIClient, storage_id: str = None,
 def port_group_create(client: DMEAPIClient, storage_id: str, name: str,
                       description: str = None, port_ids: list = None) -> dict:
     """
-    create端口组
+    Create port group
 
-    注意: 仅支持 OceanStor 1800 系列存储. 
+    Note: Only supports OceanStor 1800 series storage
 
     Args:
         client: DME API client
-        storage_id: storage device ID (必选, 1~64个字符)
-        name: port group name (必选, 1~255个字符, 支持字母数字._-和中文字符)
-        description: 端口组description (可选, 0~63个字符)
-        port_ids: 关联到端口组的端口IDlist (可选, max array members: 10; 只支持关联ROCE端口和Logic port, 只能关联其中一种)
+        storage_id: storage device ID (Required, 1~64 characters)
+        name: port group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters)
+        description: Port group description (Optional, 0~63 characters)
+        port_ids: Port ID list to associate with the port group (Optional, max array members: 10; only ROCE ports and Logic ports supported, only one type can be associated)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/storagemgmt/v1/port-groups"
@@ -1999,19 +2003,19 @@ def port_group_show_ports(client: DMEAPIClient, port_group_id: str,
                           type: str = None, page_no: int = 1,
                           page_size: int = 20) -> dict:
     """
-    批量query指定端口组的端口
+    Batch query ports of a specified port group
 
     Args:
         client: DME API client
-        port_group_id: 端口组 ID (Required)
-        type: 端口type (Optional). valid values: fc (FC端口), fcoe (FCoE端口), eth (以太网口), roce (RoCE端口)
-        page_no: 分页query的页码 (可选, 1~10000, default1)
-        page_size: 分页query的每页大小 (可选, 1~1000, default20)
+        port_group_id: Port group ID (Required)
+        type: Port type (Optional). valid values: fc (FC port), fcoe (FCoE port), eth (Ethernet port), roce (RoCE port)
+        page_no: Page number for paginated query (Optional, 1~10000, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含端口list
+            task_id: task ID (string, 1~64 characters),
+        }, includes port list
     """
     url = "/rest/storagemgmt/v1/port-groups/{port_group_id}/ports/query"
 
@@ -2040,17 +2044,17 @@ def port_group_show_ports(client: DMEAPIClient, port_group_id: str,
 def port_group_show_relations(client: DMEAPIClient, page_no: int = 1,
                               page_size: int = 20) -> dict:
     """
-    批量query端口组与端口关联关系
+    Batch query port group and port association relations
 
     Args:
         client: DME API client
-        page_no: 分页query的页码 (可选, 1~10000, default1)
-        page_size: 分页query的每页大小 (可选, 1~1000, default20)
+        page_no: Page number for paginated query (Optional, 1~10000, default 1)
+        page_size: Page size for paginated query (Optional, 1~1000, default 20)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含关联关系list
+            task_id: task ID (string, 1~64 characters),
+        }, includes association relation list
     """
     url = "/rest/storagemgmt/v1/port-groups/ports/relations/query"
 
@@ -2071,7 +2075,7 @@ def port_group_show_relations(client: DMEAPIClient, page_no: int = 1,
 
 
 # ============================================================================
-# 物理主机 (physical_host) 子主题函数
+# Physical host (physical_host) sub-topic functions
 # ============================================================================
 
 def physical_host_list(client: DMEAPIClient, limit: int = None, start: int = None,
@@ -2082,29 +2086,30 @@ def physical_host_list(client: DMEAPIClient, limit: int = None, start: int = Non
                az_id: str = None, az_ids: list = None,
                project_id: str = None) -> dict:
     """
-    批量query物理主机
+    Batch query physical hosts
 
     Args:
         client: DME API client
-        limit: 分页query的个数 (可选, 1~1000)
-        start: 分页query的起始location (可选, 0~10000000)
-        sort_key: 排序关键字 (Optional). valid values: initiator_count, ip, name
-        sort_dir: 排序方向 (可选, sort_key不填时不生效). valid values: desc (降序), asc (升序)
-        name: 物理host name (可选, 1~256个字符, supports fuzzy match)
-        host_group_name: 物理host group name (可选, 1~256个字符, supports fuzzy match)
-        ip: 物理主机IP (可选, 1~256个字符, supports fuzzy match)
-        display_status: 展示status (可选, 1~32个字符). valid values: OFFLINE (断开), NOT_RESPONDING (未响应), GRAY (未知), NORMAL (正常), RED (存在问题), YELLOW (可能存在问题), REBOOTING (重启中), INITIAL (初始化), BOOTING (重启), SHUTDOWNING (下电中)
-        managed_status: 物理主机纳管statuslist (可选, max array members: 1000). valid values: UNKNOWN (未知), NORMAL (正常), TAKE_OVERING (纳管中), TAKE_ERROR (错误), TAKE_OVER_ALARM (纳管告警)
-        os_type: 主机type (Optional). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
-        access_mode: 物理主机接入方式 (Optional). valid values: ACCOUNT (账号密码), NONE (手动接入), VCENTER (vCenter纳管), FUSIONSPHERE (FusionSphere纳管), HCS (HCS纳管), TPOPS (TPOPS纳管)
-        az_id: 可用分区ID (可选, 1~64个字符; 当提供az_ids时此参数无效)
-        az_ids: 可用分区IDlist (可选, max array members: 40)
-        project_id: 业务群组ID (可选, 1~64个字符)
+        limit: Number of paginated query results (Optional, 1~1000)
+        start: Start position for paginated query (Optional, 0~10000000)
+        sort_key: Sort key (Optional). valid values: initiator_count, ip, name
+        sort_dir: Sort direction (Optional, ineffective when sort_key is not set). valid values: desc, asc
+        name: Physical host name (Optional, 1~256 characters, supports fuzzy match)
+        host_group_name: Physical host group name (Optional, 1~256 characters, supports fuzzy match)
+        ip: Physical host IP (Optional, 1~256 characters, supports fuzzy match)
+        display_status: Display status (Optional, 1~32 characters). valid values: OFFLINE, NOT_RESPONDING, GRAY, NORMAL, RED, YELLOW, REBOOTING, INITIAL, BOOTING, SHUTDOWNING
+        managed_status: Physical host management status list (Optional, max array members: 1000). valid values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
+        os_type: Host type (Optional). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
+        access_mode: Physical host access mode (Optional). valid values: ACCOUNT, NONE (manual access), VCENTER, FUSIONSPHERE, HCS, TPOPS
+        az_id: Availability zone ID (Optional, 1~64 characters; ineffective when az_ids is provided)
+        az_ids: Availability zone ID list (Optional, max array members: 40)
+        project_id: Business group ID (Optional, 1~64 characters)
+
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含物理主机list和total
+            task_id: task ID (string, 1~64 characters),
+        }, includes physical host list and total
     """
     url = "/rest/hostmgmt/v1/hosts/summary"
 
@@ -2145,41 +2150,41 @@ def physical_host_list(client: DMEAPIClient, limit: int = None, start: int = Non
 
 def physical_host_show(client: DMEAPIClient, host_id: str) -> dict:
     """
-    query指定物理主机
+    Query a specific physical host
 
     Args:
         client: DME API client
-        host_id: 物理主机 ID(Required)
+        host_id: Physical host ID (Required)
 
     Returns:
         {
-            id: 物理host ID (string),
-            name: 物理host name (string),
-            description: descriptioninfo (string),
-            ip: 物理主机IP (string),
-            port: 端口 (int32),
-            username: 用户名 (string),
-            display_status: 显示status (string),
-            managed_status: 管理status (string),
-            os_status: 操作系统status (string),
-            os_type: 操作系统type (string),
-            os_version: 操作系统version (string),
-            initiator_count: 启动器count (int32),
-            access_mode: 访问模式 (string),
-            multipathing_software: 多路径软件 (string),
-            project_id: 项目ID (string),
-            sync_to_storage: 同步到存储 (string),
-            multipath_type: 多路径type (string),
-            path_type: 路径type (string),
-            failover_mode: 故障切换模式 (string),
-            special_mode_type: 特殊模式type (string),
-            capacity_in_byte: capacity (int64, 字节),
-            allocated_capacity_in_byte: 已分配capacity (int64, 字节),
-            hostGroups: 主机组info (List<HostGroupName>). parameter format: [{
+            id: Physical host ID (string),
+            name: Physical host name (string),
+            description: description info (string),
+            ip: Physical host IP (string),
+            port: Port (int32),
+            username: Username (string),
+            display_status: Display status (string),
+            managed_status: Management status (string),
+            os_status: Operating system status (string),
+            os_type: Operating system type (string),
+            os_version: Operating system version (string),
+            initiator_count: Initiator count (int32),
+            access_mode: Access mode (string),
+            multipathing_software: Multipathing software (string),
+            project_id: Project ID (string),
+            sync_to_storage: Sync to storage (string),
+            multipath_type: Multipath type (string),
+            path_type: Path type (string),
+            failover_mode: Failover mode (string),
+            special_mode_type: Special mode type (string),
+            capacity_in_byte: capacity (int64, bytes),
+            allocated_capacity_in_byte: Allocated capacity (int64, bytes),
+            hostGroups: Host group info (List<HostGroupName>). parameter format: [{
                 id: host group ID (string),
                 name: host group name (string),
             }, ...],
-            azs: 可用区list (List<string>),
+            azs: Availability zone list (List<string>),
         }
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/summary"
@@ -2197,34 +2202,34 @@ def physical_host_create(client: DMEAPIClient, access_mode: str, type: str,
                 path_type: str = None, failover_mode: str = None,
                 special_mode_type: str = None, save_public_key: bool = False) -> dict:
     """
-    接入物理主机
+    Onboard a physical host
 
     Args:
         client: DME API client
-        access_mode: 物理主机接入方式 (Required). valid values: ACCOUNT (指定账号密码), NONE (手动录入)
-        type: 主机type (Required). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC. ACCOUNT模式仅支持LINUX
-        host_name: 物理host name (NONE模式必填, 1~255个字符, 支持字母数字._-和中文字符)
-        ip: 物理主机IP address (ACCOUNT模式有效, 支持IPv4和IPv6, 最多127个字符)
-        port: 物理主机接入端口 (ACCOUNT模式必填, 1~65535)
-        username: 物理主机接入用户名 (ACCOUNT模式必填, 1~255个字符)
-        password: 物理主机接入密码 (ACCOUNT模式必填, 1~1024个字符)
-        description: 物理主机descriptioninfo (可选, 0~63个字符)
-        initiator: 物理主机启动器list (NONE模式必填). parameter format: [{
-                protocol: 启动器type (Required). valid values: FC, ISCSI, NVME_OVER_ROCE,
-                port_name: 主机启动器wwn或iqn (必选, 1~223个字符),
+        access_mode: Physical host access mode (Required). valid values: ACCOUNT (specify account password), NONE (manual entry)
+        type: Host type (Required). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC. ACCOUNT mode only supports LINUX
+        host_name: Physical host name (Required for NONE mode, 1~255 characters, supports letters, digits, ._- and Chinese characters)
+        ip: Physical host IP address (effective for ACCOUNT mode, supports IPv4 and IPv6, up to 127 characters)
+        port: Physical host access port (Required for ACCOUNT mode, 1~65535)
+        username: Physical host access username (Required for ACCOUNT mode, 1~255 characters)
+        password: Physical host access password (Required for ACCOUNT mode, 1~1024 characters)
+        description: Physical host description info (Optional, 0~63 characters)
+        initiator: Physical host initiator list (Required for NONE mode). parameter format: [{
+                protocol: Initiator type (Required). valid values: FC, ISCSI, NVME_OVER_ROCE,
+                port_name: Host initiator wwn or iqn (Required, 1~223 characters),
              }, ...]
-        azs: 可用分区IDlist (可选, max array members: 40)
-        project_id: 业务群组ID (可选, 1~64个字符)
-        sync_to_storage: 自动同步已接入主机info到存储 (可选, defaultfalse). valid values: true, false
-        multipath_type: 多路径type (Optional). valid values: default, third_party
-        path_type: 启动器路径type (可选, true第三方多路径时有效). valid values: optimal_path (优选路径), non_optimal_path (非优选路径)
-        failover_mode: 启动器切换模式 (可选, true第三方多路径时有效). valid values: early_version_alua, common_alua, alua_not_used, special_alua
-        special_mode_type: 特殊模式type (可选, 切换模式为特殊模式时有效). valid values: mode_zero, mode_one, mode_two, mode_three
-        save_public_key: 是否自动保存物理主机公钥 (可选, defaultfalse). valid values: true, false
+        azs: Availability zone ID list (Optional, max array members: 40)
+        project_id: Business group ID (Optional, 1~64 characters)
+        sync_to_storage: Automatically sync onboarded host info to storage (Optional, default false). valid values: true, false
+        multipath_type: Multipath type (Optional). valid values: default, third_party
+        path_type: Initiator path type (Optional, effective when third_party multipath). valid values: optimal_path, non_optimal_path
+        failover_mode: Initiator failover mode (Optional, effective when third_party multipath). valid values: early_version_alua, common_alua, alua_not_used, special_alua
+        special_mode_type: Special mode type (Optional, effective when failover mode is special mode). valid values: mode_zero, mode_one, mode_two, mode_three
+        save_public_key: Whether to automatically save the physical host public key (Optional, default false). valid values: true, false
 
     Returns:
         {
-            id: 物理host ID (string, 1~64个字符),
+            id: Physical host ID (string, 1~64 characters),
         }
     """
     url = "/rest/hostmgmt/v1/hosts"
@@ -2274,19 +2279,19 @@ def physical_host_modify(client: DMEAPIClient, host_id: str,
                 os_type: str = None, azs: list = None,
                 project_id: str = None) -> dict:
     """
-    modify物理主机基本info
+    Modify physical host basic info
 
     Args:
         client: DME API client
-        host_id: 物理主机 ID (Required)
-        ip: 物理主机IP address (可选, 最多127个字符, 支持IPv4和IPv6; 不填表示不变)
-        host_name: 物理host name (可选, 1~255个字符, 支持字母数字._-; 为空表示保持不变)
-        os_type: 主机type (Optional). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
-        azs: 可用分区IDlist (可选, max array members: 40; 空值或空list表示解除az关联)
-        project_id: 业务群组ID (可选, 0~64个字符; 不填表示不做modify; 空字符串表示解除project关联; 非空且与原值不一致表示关联至新project)
+        host_id: Physical host ID (Required)
+        ip: Physical host IP address (Optional, up to 127 characters, supports IPv4 and IPv6; leave empty to keep unchanged)
+        host_name: Physical host name (Optional, 1~255 characters, supports letters, digits, ._-; leave empty to keep unchanged)
+        os_type: Host type (Optional). valid values: LINUX, WINDOWS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, LINUX_VIS, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC
+        azs: Availability zone ID list (Optional, max array members: 40; empty value or empty list means disassociate az)
+        project_id: Business group ID (Optional, 0~64 characters; leave empty to not modify; empty string means disassociate project; non-empty and different from original means associate to new project)
 
     Returns:
-        modifyresult
+        modify result
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/general"
 
@@ -2324,26 +2329,26 @@ def physical_host_modify_access_info(client: DMEAPIClient, host_id: str,
                 path_type: str = None, failover_mode: str = None,
                 special_mode_type: str = None) -> dict:
     """
-    modify物理主机接入info
+    Modify physical host access info
 
     Args:
         client: DME API client
-        host_id: 物理host ID (必选, 1~64个字符)
-        ip: 物理主机接入IP address (可选, 最多127个字符, 支持IPv4和IPv6; NONE转ACCOUNT场景必填)
-        port: 物理主机接入端口 (可选, 1~65535; NONE转ACCOUNT场景必填)
-        username: 物理主机接入用户名 (可选, 1~255个字符; NONE转ACCOUNT场景必填)
-        password: 物理主机接入用户密码 (可选, 1~1024个字符; NONE转ACCOUNT场景必填)
-        project_id: 业务群组ID (可选, 0~64个字符; 不填表示不做modify; 空字符串表示解除关联; 非空且与原值不一致表示关联至新project)
-        azs: 可用分区IDlist (可选, max array members: 40; 空值或空list表示解除az关联)
-        sync_to_storage: 是否同步modifyStorage hostinfo (可选, defaultfalse). valid values: true (同步modify), false (不同步)
-        description: 物理主机descriptioninfo (可选, 0~63个字符)
-        multipath_type: 多路径type (Optional). valid values: default, third_party
-        path_type: 启动器路径type (可选, true第三方多路径时有效). valid values: optimal_path (优选路径), non_optimal_path (非优选路径)
-        failover_mode: 启动器切换模式 (可选, true第三方多路径时有效). valid values: early_version_alua, common_alua, alua_not_used, special_alua
-        special_mode_type: 特殊模式type (可选, 切换模式为特殊模式时有效). valid values: mode_zero, mode_one, mode_two, mode_three
+        host_id: Physical host ID (Required, 1~64 characters)
+        ip: Physical host access IP address (Optional, up to 127 characters, supports IPv4 and IPv6; Required for NONE to ACCOUNT transition)
+        port: Physical host access port (Optional, 1~65535; Required for NONE to ACCOUNT transition)
+        username: Physical host access username (Optional, 1~255 characters; Required for NONE to ACCOUNT transition)
+        password: Physical host access user password (Optional, 1~1024 characters; Required for NONE to ACCOUNT transition)
+        project_id: Business group ID (Optional, 0~64 characters; leave empty to not modify; empty string means disassociate; non-empty and different from original means associate to new project)
+        azs: Availability zone ID list (Optional, max array members: 40; empty value or empty list means disassociate az)
+        sync_to_storage: Whether to sync modify storage host info (Optional, default false). valid values: true (sync modify), false (no sync)
+        description: Physical host description info (Optional, 0~63 characters)
+        multipath_type: Multipath type (Optional). valid values: default, third_party
+        path_type: Initiator path type (Optional, effective when third_party multipath). valid values: optimal_path, non_optimal_path
+        failover_mode: Initiator failover mode (Optional, effective when third_party multipath). valid values: early_version_alua, common_alua, alua_not_used, special_alua
+        special_mode_type: Special mode type (Optional, effective when failover mode is special mode). valid values: mode_zero, mode_one, mode_two, mode_three
 
     Returns:
-        modifyresult
+        modify result
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/accessinfo"
 
@@ -2390,17 +2395,18 @@ def physical_host_modify_access_info(client: DMEAPIClient, host_id: str,
 def physical_host_delete(client: DMEAPIClient, host_id: str,
                 sync_to_storage: bool = False) -> dict:
     """
-    移除物理主机
+    Remove a physical host
 
-    移除指定的物理主机. 
+    Remove the specified physical host
 
     Args:
         client: DME API client
-        host_id: 物理主机 ID(Required)
-        sync_to_storage: 是否同步从存储delete (可选, default false)
+        host_id: Physical host ID (Required)
+        sync_to_storage: Whether to sync delete from storage (Optional, default false)
+
 
     Returns:
-        deleteresult
+        delete result
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}"
 
@@ -2411,18 +2417,18 @@ def physical_host_delete(client: DMEAPIClient, host_id: str,
 def physical_host_add_initiators(client: DMEAPIClient, host_id: str,
                   initiators: list) -> dict:
     """
-    为物理主机添加启动器
+    Add initiators to a physical host
 
     Args:
         client: DME API client
-        host_id: 物理主机 ID (Required)
-        initiators: 启动器list (必选, max array members: 100). parameter format: [{
-                protocol: 启动器type (Required). valid values: FC (WWPN格式, 16字符十六进制), ISCSI, NVME_OVER_ROCE,
-                port_name: 主机启动器wwn或iqn (必选, 1~223个字符),
+        host_id: Physical host ID (Required)
+        initiators: Initiator list (Required, max array members: 100). parameter format: [{
+                protocol: Initiator type (Required). valid values: FC (WWPN format, 16 hex chars), ISCSI, NVME_OVER_ROCE,
+                port_name: Host initiator wwn or iqn (Required, 1~223 characters),
              }, ...]
 
     Returns:
-        添加result
+        add result
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/initiators/add"
 
@@ -2437,15 +2443,15 @@ def physical_host_add_initiators(client: DMEAPIClient, host_id: str,
 def physical_host_remove_initiators(client: DMEAPIClient, host_id: str,
                      initiators: list) -> dict:
     """
-    从物理主机移除启动器
+    Remove initiators from a physical host
 
     Args:
         client: DME API client
-        host_id: 物理主机 ID(Required)
-        initiators: 启动器 ID list (必选, 最多 1000 个)
+        host_id: Physical host ID (Required)
+        initiators: Initiator ID list (Required, up to 1000)
 
     Returns:
-        移除result
+        remove result
     """
     url = "/rest/hostmgmt/v1/hosts/{host_id}/initiators/remove"
 
@@ -2461,25 +2467,25 @@ def physical_host_show_initiators(client: DMEAPIClient, host_id: str,
                    port_name: str = None, protocol: str = None,
                    status: str = None) -> dict:
     """
-    query指定物理主机的启动器
+    Query initiators of a specified physical host
 
     Args:
         client: DME API client
-        host_id: 物理主机 ID (Required)
-        port_name: 物理主机启动器wwn或iqn (可选, 1~223个字符)
-        protocol: 启动器type (可选, 1~64个字符). valid values: UNKNOWN, FC, ISCSI, NVME_OVER_ROCE, SAS, NVME_OVER_FABRIC
-        status: 启动器status (可选, 1~32个字符). valid values: UNKNOWN, ONLINE, OFFLINE, UNBOUND
+        host_id: Physical host ID (Required)
+        port_name: Physical host initiator wwn or iqn (Optional, 1~223 characters)
+        protocol: Initiator type (Optional, 1~64 characters). valid values: UNKNOWN, FC, ISCSI, NVME_OVER_ROCE, SAS, NVME_OVER_FABRIC
+        status: Initiator status (Optional, 1~32 characters). valid values: UNKNOWN, ONLINE, OFFLINE, UNBOUND
 
     Returns:
         {
-            total: 启动器count (int32),
-            initiators: 启动器list (List<InitiatorInHostResponse>). parameter format: [{
-                id: 启动器ID (string),
-                port_name: 端口name (string),
+            total: Initiator count (int32),
+            initiators: Initiator list (List<InitiatorInHostResponse>). parameter format: [{
+                id: Initiator ID (string),
+                port_name: Port name (string),
                 status: status (string),
-                protocol: 协议. valid values: iSCSI, FC, NVMe,
-                switch: 交换机info. attribute format: {
-                    switch_id: 交换机ID (string),
+                protocol: Protocol. valid values: iSCSI, FC, NVMe,
+                switch: Switch info. attribute format: {
+                    switch_id: Switch ID (string),
                     switch_name: switch name (string),
                 },
             }, ...],
@@ -2514,19 +2520,19 @@ def physical_host_test(client: DMEAPIClient, storage_id: str,
          target_fcports: list = None,
          target_fcportgroups: list = None) -> dict:
     """
-    检测Storage device和物理主机连通性
+    Test connectivity between storage device and physical host
 
     Args:
         client: DME API client
-        storage_id: Storage device ID(Required)
-        host_ids: 物理主机 ID list (可选, 与 hostgroup_id 二选一)
-        hostgroup_id: 物理主机组 ID (可选, 与 host_ids 二选一)
-        auto_zoning: 自动划 zone 策略 (可选, default false)
-        target_fcports: 端口 wwn list (可选, auto_zoning 为 true 时生效)
-        target_fcportgroups: 端口组 id list (可选, auto_zoning 为 true 时生效)
+        storage_id: Storage device ID (Required)
+        host_ids: Physical host ID list (Optional, choose one with hostgroup_id)
+        hostgroup_id: Physical host group ID (Optional, choose one with host_ids)
+        auto_zoning: Auto zoning policy (Optional, default false)
+        target_fcports: Port wwn list (Optional, effective when auto_zoning is true)
+        target_fcportgroups: Port group id list (Optional, effective when auto_zoning is true)
 
     Returns:
-        连通性检测result
+        Connectivity test result
     """
     url = "/rest/hostmgmt/v1/connectivity/host-and-storage"
 
@@ -2552,18 +2558,18 @@ def physical_host_test(client: DMEAPIClient, storage_id: str,
 def physical_host_save_sshkey(client: DMEAPIClient, ip: str, key: str,
                 port: int = None) -> dict:
     """
-    保存指定物理主机 SSH 公钥
+    Save the SSH public key of a specified physical host
 
-    保存物理主机的 SSH 公钥, 用于后续通信中检测通信物理主机的身份是否合法. 
+    Save the SSH public key of a physical host, used for verifying the identity of the communication physical host in subsequent communications
 
     Args:
         client: DME API client
-        ip: 物理主机 IP 地址(Required)
-        key: 物理主机 SSH 公钥(Required)
-        port: SSH 端口 (可选, default 22)
+        ip: Physical host IP address (Required)
+        key: Physical host SSH public key (Required)
+        port: SSH port (Optional, default 22)
 
     Returns:
-        保存result
+        save result
     """
     url = "/rest/hostmgmt/v1/host-keys"
 
@@ -2582,15 +2588,15 @@ def physical_host_save_sshkey(client: DMEAPIClient, ip: str, key: str,
 def physical_host_query_sshkey(client: DMEAPIClient, ip: str,
                  port: int = None) -> dict:
     """
-    query指定物理主机 SSH 公钥
+    Query the SSH public key of a specified physical host
 
     Args:
         client: DME API client
-        ip: 物理主机 IP 地址(Required)
-        port: SSH 端口 (可选, default 22)
+        ip: Physical host IP address (Required)
+        port: SSH port (Optional, default 22)
 
     Returns:
-        SSH 公钥info
+        SSH public key info
     """
     url = "/rest/hostmgmt/v1/host-keys"
 
@@ -2608,40 +2614,40 @@ def physical_host_query_sshkey(client: DMEAPIClient, ip: str,
 def physical_host_query_by_initiator(client: DMEAPIClient, initiator_id: str = None,
                          raw_id: str = None, protocol: str = None) -> dict:
     """
-    根据启动器query关联的物理主机
+    Query associated physical host by initiator
 
-    根据启动器 ID 或启动器 WWPN/IQN/NQN query关联的物理主机. 
+    Query the associated physical host by initiator ID or initiator WWPN/IQN/NQN
 
     Args:
         client: DME API client
-        initiator_id: 启动器 ID (可选, 与 raw_id 互斥)
-        raw_id: 启动器 WWPN/IQN/NQN (可选, 与 initiator_id 互斥)
-        protocol: 启动器type (可选, FC/ISCSI/NVME_OVER_ROCE)
+        initiator_id: Initiator ID (Optional, mutually exclusive with raw_id)
+        raw_id: Initiator WWPN/IQN/NQN (Optional, mutually exclusive with initiator_id)
+        protocol: Initiator type (Optional, FC/ISCSI/NVME_OVER_ROCE)
 
     Returns:
         {
-            id: 物理host ID (string),
-            name: 物理host name (string),
-            ip: 物理主机IP (string),
-            description: descriptioninfo (string),
-            display_status: 显示status (string),
-            managed_status: 管理status (string),
-            os_type: 操作系统type (string),
-            initiator_info: 启动器infolist (List<InitiatorInfo>). parameter format: [{
-                id: 启动器ID (string),
-                port_name: 端口name (string),
+            id: Physical host ID (string),
+            name: Physical host name (string),
+            ip: Physical host IP (string),
+            description: description info (string),
+            display_status: Display status (string),
+            managed_status: Management status (string),
+            os_type: Operating system type (string),
+            initiator_info: Initiator info list (List<InitiatorInfo>). parameter format: [{
+                id: Initiator ID (string),
+                port_name: Port name (string),
                 status: status (string),
-                protocol: 协议 (string),
+                protocol: Protocol (string),
             }, ...],
-            lun_count: LUNcount (int32),
-            storage_info: 存储infolist (List<StorageInfo>). parameter format: [{
+            lun_count: LUN count (int32),
+            storage_info: Storage info list (List<StorageInfo>). parameter format: [{
                 storage_id: storage device ID (string),
                 storage_name: storage device name (string),
             }, ...],
-            multipath_type: 多路径type (string),
-            path_type: 路径type (string),
-            failover_mode: 故障切换模式 (string),
-            special_mode_type: 特殊模式type (string),
+            multipath_type: Multipath type (string),
+            path_type: Path type (string),
+            failover_mode: Failover mode (string),
+            special_mode_type: Special mode type (string),
         }
     """
     url = "/rest/hostmgmt/v1/hosts/query-by-initiator"
@@ -2662,34 +2668,34 @@ def physical_host_query_by_initiator(client: DMEAPIClient, initiator_id: str = N
 def physical_host_map_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
             mapping_policy: list = None, task_remarks: str = None) -> dict:
     """
-    LUN 映射给物理主机
+    Map LUNs to a physical host
 
-    将 LUN 映射给指定的物理主机. 
+    Map LUNs to the specified physical host
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, max array members: 1000)
-        host_id: 物理主机 ID (必选, 1~64个字符)
-        mapping_policy: MappingPolicylist (可选, max array members: 64; 服务化LUN不需要配置). parameter format: [{
-                storage_id: storage device ID (可选, 0~64个字符),
-                start_host_lun_id: 起始主机LUN ID (可选, 0~4095),
-                auto_zoning: 自动划zone (Optional). valid values: true (划zone), false (不划zone),
-                zone_policy_id: zone策略ID (可选, 0~64个字符; auto_zoning为true时生效),
-                target_fcports: 端口wwnlist (可选, 与target_fcportgroups互斥, max array members: 1000; auto_zoning为true时生效),
-                target_fcportgroups: port group IDlist (可选, 与target_fcports互斥, max array members: 1000; auto_zoning为true时生效),
-                mapping_view: MappingRequestobject (Optional). attribute format: {
-                        mapping_view_id: mapping view在设备上的ID (可选, 最多31个字符),
-                        mapping_view_name: mapping view在设备上的名字 (可选, 最多31个字符),
-                        lun_group_id: LUN组在设备上的ID (可选, 最多31个字符),
-                        lun_group_name: LUN组在设备上的name (可选, 最多255个字符),
-                        port_group_id: 端口组在设备上的ID (可选, 最多31个字符),
+        volume_ids: LUN ID list (Required, max array members: 1000)
+        host_id: Physical host ID (Required, 1~64 characters)
+        mapping_policy: MappingPolicy list (Optional, max array members: 64; service LUNs do not need configuration). parameter format: [{
+                storage_id: storage device ID (Optional, 0~64 characters),
+                start_host_lun_id: Starting host LUN ID (Optional, 0~4095),
+                auto_zoning: Auto zoning (Optional). valid values: true (zone), false (no zone),
+                zone_policy_id: Zone policy ID (Optional, 0~64 characters; effective when auto_zoning is true),
+                target_fcports: Port wwn list (Optional, mutually exclusive with target_fcportgroups, max array members: 1000; effective when auto_zoning is true),
+                target_fcportgroups: Port group ID list (Optional, mutually exclusive with target_fcports, max array members: 1000; effective when auto_zoning is true),
+                mapping_view: MappingRequest object (Optional). attribute format: {
+                        mapping_view_id: Mapping view ID on the device (Optional, up to 31 characters),
+                        mapping_view_name: Mapping view name on the device (Optional, up to 31 characters),
+                        lun_group_id: LUN group ID on the device (Optional, up to 31 characters),
+                        lun_group_name: LUN group name on the device (Optional, up to 255 characters),
+                        port_group_id: Port group ID on the device (Optional, up to 31 characters),
                 }
              }, ...]
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/host-mapping"
@@ -2698,6 +2704,7 @@ def physical_host_map_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
         'volume_ids': volume_ids,
         'host_id': host_id
     }
+
 
     if mapping_policy is not None:
         payload['mapping_policy'] = mapping_policy
@@ -2712,19 +2719,19 @@ def physical_host_map_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
 def physical_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
               task_remarks: str = None) -> dict:
     """
-    解除主机映射
+    Unmap LUNs from host
 
-    LUN 解除主机映射. 
+    Unmap LUNs from host
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, max array members: 1000)
-        host_id: 主机 ID (必选, 1~64个字符)
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        volume_ids: LUN ID list (Required, max array members: 1000)
+        host_id: Host ID (Required, 1~64 characters)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/host-unmapping"
@@ -2745,19 +2752,19 @@ def physical_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: st
 def storage_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
               task_remarks: str = None) -> dict:
     """
-    解除Storage host映射
+    Unmap LUNs from storage host
 
-    解除 LUN 与Storage host的映射关系. 
+    Unmap the mapping relation between LUNs and storage host
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, max array members: 1000)
-        host_id: 主机 ID (必选, 1~64个字符)
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        volume_ids: LUN ID list (Required, max array members: 1000)
+        host_id: Host ID (Required, 1~64 characters)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/host-unmapping"
@@ -2776,7 +2783,7 @@ def storage_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: str
 
 
 # ============================================================================
-# 物理主机组 (physical_host_group) 子主题函数
+# Physical host group (physical_host_group) sub-topic functions
 # ============================================================================
 
 def physical_host_group_list(client: DMEAPIClient, limit: int = None, start: int = None,
@@ -2784,23 +2791,23 @@ def physical_host_group_list(client: DMEAPIClient, limit: int = None, start: int
          project_id: str = None, az_ids: list = None,
          managed_status: list = None) -> dict:
     """
-    批量query物理主机组
+    Batch query physical host groups
 
     Args:
         client: DME API client
-        limit: 分页query的个数 (可选, 1~1000)
-        start: 分页query的起始location (可选, 0~10000000)
-        sort_dir: 排序方向 (可选, sort_key不填时不生效). valid values: desc (降序), asc (升序)
-        sort_key: 排序关键字 (可选, 1~255个字符). valid values: host_count (主机组主机个数)
-        name: 物理host group name (可选, 1~256个字符, supports fuzzy match)
-        project_id: 所属业务群组ID (可选, 1~64个字符)
-        az_ids: 所属可用分区IDlist (可选, max array members: 1000; 单个ID长度1~64个字符)
-        managed_status: 纳管statuslist (可选, max array members: 1000). valid values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
+        limit: Number of paginated query results (Optional, 1~1000)
+        start: Start position for paginated query (Optional, 0~10000000)
+        sort_dir: Sort direction (Optional, ineffective when sort_key is not set). valid values: desc, asc
+        sort_key: Sort key (Optional, 1~255 characters). valid values: host_count (number of hosts in the host group)
+        name: Physical host group name (Optional, 1~256 characters, supports fuzzy match)
+        project_id: Belonging business group ID (Optional, 1~64 characters)
+        az_ids: Belonging availability zone ID list (Optional, max array members: 1000; single ID length 1~64 characters)
+        managed_status: Management status list (Optional, max array members: 1000). valid values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
-        }, 包含物理主机组list和total
+            task_id: task ID (string, 1~64 characters),
+        }, includes physical host group list and total
     """
     url = "/rest/hostmgmt/v1/hostgroups/summary"
 
@@ -2834,37 +2841,37 @@ def physical_host_group_show_hosts(client: DMEAPIClient, hostgroup_id: str,
                 sort_dir: str = None, page_size: int = 1024,
                 page_no: int = 1) -> dict:
     """
-    query物理主机组中的物理主机
+    Query physical hosts in a physical host group
 
-    query指定物理主机组的物理主机list. 
+    Query the list of physical hosts in a specified physical host group
 
     Args:
         client: DME API client
-        hostgroup_id: 物理host group ID (必选, 1~64个字符)
-        name: 物理host name (可选, 1~256个字符, supports fuzzy match)
-        ip: 物理主机IP (可选, 1~256个字符, supports fuzzy match)
-        display_status: 展示statuslist (可选, max array members: 1000). valid values: OFFLINE (断开), NOT_RESPONDING (未响应), GRAY (未知), NORMAL (正常), RED (存在问题), YELLOW (可能存在问题), REBOOTING (重启中), INITIAL (初始化), BOOTING (重启), SHUTDOWNING (下电中)
-        managed_status: 纳管statuslist (可选, max array members: 1000). valid values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
-        os_type: 操作系统typelist (可选, max array members: 1000). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS
-        sort_key: 排序关键字 (Optional). valid values: ip, name
-        sort_dir: 排序方向 (可选, sort_key不填时不生效). valid values: desc (降序), asc (升序)
-        page_size: 分页query的个数 (可选, 1~1024, default1024)
-        page_no: 分页query的页码 (可选, 1~10000000, default1)
+        hostgroup_id: Physical host group ID (Required, 1~64 characters)
+        name: Physical host name (Optional, 1~256 characters, supports fuzzy match)
+        ip: Physical host IP (Optional, 1~256 characters, supports fuzzy match)
+        display_status: Display status list (Optional, max array members: 1000). valid values: OFFLINE, NOT_RESPONDING, GRAY, NORMAL, RED, YELLOW, REBOOTING, INITIAL, BOOTING, SHUTDOWNING
+        managed_status: Management status list (Optional, max array members: 1000). valid values: UNKNOWN, NORMAL, TAKE_OVERING, TAKE_ERROR, TAKE_OVER_ALARM
+        os_type: Operating system type list (Optional, max array members: 1000). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS
+        sort_key: Sort key (Optional). valid values: ip, name
+        sort_dir: Sort direction (Optional, ineffective when sort_key is not set). valid values: desc, asc
+        page_size: Number of paginated query results (Optional, 1~1024, default 1024)
+        page_no: Page number for paginated query (Optional, 1~10000000, default 1)
 
     Returns:
         {
-            total: 主机count (int32),
-            hosts: 主机list (List<HostInHostGroupResponse>). parameter format: [{
-                id: 物理host ID (string),
-                name: 物理host name (string),
-                ip: 物理主机IP (string),
-                port: 端口 (int32),
-                display_status: 显示status (string),
-                managed_status: 管理status (string),
-                os_status: 操作系统status (string),
-                os_type: 操作系统type (string),
-                os_version: 操作系统version (string),
-                manufacturer: 厂商 (string),
+            total: Host count (int32),
+            hosts: Host list (List<HostInHostGroupResponse>). parameter format: [{
+                id: Physical host ID (string),
+                name: Physical host name (string),
+                ip: Physical host IP (string),
+                port: Port (int32),
+                display_status: Display status (string),
+                managed_status: Management status (string),
+                os_status: Operating system status (string),
+                os_type: Operating system type (string),
+                os_version: Operating system version (string),
+                manufacturer: Manufacturer (string),
                 model: model (string),
             }, ...],
         }
@@ -2907,14 +2914,14 @@ def physical_host_group_show_hosts(client: DMEAPIClient, hostgroup_id: str,
 
 def physical_host_group_show(client: DMEAPIClient, hostgroup_id: str) -> dict:
     """
-    query指定物理主机组
+    Query a specific physical host group
 
     Args:
         client: DME API client
-        hostgroup_id: 物理主机组 ID(Required)
+        hostgroup_id: Physical host group ID (Required)
 
     Returns:
-        物理主机组详细info
+        Physical host group detailed info
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/summary"
 
@@ -2926,20 +2933,20 @@ def physical_host_group_create(client: DMEAPIClient, name: str, host_ids: list,
            azs: list = None, project_id: str = None,
            description: str = None) -> dict:
     """
-    create物理主机组
+    Create a physical host group
 
-    指定物理主机create物理主机组. 
+    Create a physical host group with specified physical hosts
 
     Args:
         client: DME API client
-        name: 物理host group name (必选, 1~255个字符, 支持字母数字._-和中文字符)
-        host_ids: 物理host IDlist (必选, max array members: 100)
-        azs: 可用分区IDlist (可选, max array members: 40)
-        project_id: 业务群组ID (可选, 1~64个字符)
-        description: 物理主机组descriptioninfo (可选, 0~63个字符)
+        name: Physical host group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters)
+        host_ids: Physical host ID list (Required, max array members: 100)
+        azs: Availability zone ID list (Optional, max array members: 40)
+        project_id: Business group ID (Optional, 1~64 characters)
+        description: Physical host group description info (Optional, 0~63 characters)
 
     Returns:
-        create的物理主机组info
+        Created physical host group info
     """
     url = "/rest/hostmgmt/v1/hostgroups"
 
@@ -2963,18 +2970,18 @@ def physical_host_group_modify(client: DMEAPIClient, hostgroup_id: str,
            name: str = None, description: str = None,
            azs: list = None, project_id: str = None) -> dict:
     """
-    modify物理主机组基本info
+    Modify physical host group basic info
 
     Args:
         client: DME API client
-        hostgroup_id: 物理主机组 ID (Required)
-        name: 物理host group name (可选, 1~255个字符, 支持字母数字._-和中文字符; 不填或空串表示不modify)
-        description: 物理主机组descriptioninfo (可选, 0~63个字符)
-        azs: 可用分区IDlist (可选, max array members: 40; 空值或空list表示解除az关联)
-        project_id: 业务群组ID (可选, 0~64个字符; 不填表示不做modify; 空字符串表示解除关联; 非空且与原值不一致表示关联至新project)
+        hostgroup_id: Physical host group ID (Required)
+        name: Physical host group name (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters; leave empty or empty string to not modify)
+        description: Physical host group description info (Optional, 0~63 characters)
+        azs: Availability zone ID list (Optional, max array members: 40; empty value or empty list means disassociate az)
+        project_id: Business group ID (Optional, 0~64 characters; leave empty to not modify; empty string means disassociate; non-empty and different from original means associate to new project)
 
     Returns:
-        modifyresult
+        modify result
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/general"
 
@@ -3005,15 +3012,15 @@ def physical_host_group_modify(client: DMEAPIClient, hostgroup_id: str,
 def physical_host_group_delete(client: DMEAPIClient, hostgroup_id: str,
            sync_to_storage: bool = False) -> dict:
     """
-    delete指定物理主机组
+    Delete a specific physical host group
 
     Args:
         client: DME API client
-        hostgroup_id: 物理主机组 ID(Required)
-        sync_to_storage: 是否同步从存储delete (可选, default false)
+        hostgroup_id: Physical host group ID (Required)
+        sync_to_storage: Whether to sync delete from storage (Optional, default false)
 
     Returns:
-        deleteresult
+        delete result
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}"
 
@@ -3024,16 +3031,16 @@ def physical_host_group_delete(client: DMEAPIClient, hostgroup_id: str,
 def physical_host_group_add_hosts(client: DMEAPIClient, hostgroup_id: str,
              host_ids: list, sync_to_storage: bool = False) -> dict:
     """
-    向物理主机组中增加物理主机
+    Add physical hosts to a physical host group
 
     Args:
         client: DME API client
-        hostgroup_id: 物理主机组 ID(Required)
-        host_ids: 物理主机 ID list (必选, 最多 100 个)
-        sync_to_storage: 是否同步添加到存储 (可选, default false)
+        hostgroup_id: Physical host group ID (Required)
+        host_ids: Physical host ID list (Required, up to 100)
+        sync_to_storage: Whether to sync add to storage (Optional, default false)
 
     Returns:
-        添加result
+        add result
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/hosts/add"
 
@@ -3048,18 +3055,18 @@ def physical_host_group_add_hosts(client: DMEAPIClient, hostgroup_id: str,
 def physical_host_group_remove_hosts(client: DMEAPIClient, hostgroup_id: str,
                 host_ids: list, sync_to_storage: bool = False) -> dict:
     """
-    物理主机组移除物理主机
+    Remove physical hosts from a physical host group
 
-    从物理主机组中移除物理主机. 
+    Remove physical hosts from a physical host group
 
     Args:
         client: DME API client
-        hostgroup_id: 物理主机组 ID(Required)
-        host_ids: 物理主机 ID list (必选, 最多 1000 个)
-        sync_to_storage: 是否同步从存储移除 (可选, default false)
+        hostgroup_id: Physical host group ID (Required)
+        host_ids: Physical host ID list (Required, up to 1000)
+        sync_to_storage: Whether to sync remove from storage (Optional, default false)
 
     Returns:
-        移除result
+        remove result
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/hosts/remove"
 
@@ -3074,34 +3081,34 @@ def physical_host_group_remove_hosts(client: DMEAPIClient, hostgroup_id: str,
 def physical_host_group_map_luns(client: DMEAPIClient, volume_ids: list, hostgroup_id: str,
             mapping_policy: list = None, task_remarks: str = None) -> dict:
     """
-    LUN 映射给物理主机组
+    Map LUNs to a physical host group
 
-    将 LUN 映射给指定的物理主机组. 
+    Map LUNs to the specified physical host group
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, max array members: 1000)
-        hostgroup_id: 物理主机组 ID (必选, 0~64个字符)
-        mapping_policy: MappingPolicylist (Optional). parameter format: [{
-                storage_id: storage device ID (可选, 0~64个字符),
-                start_host_lun_id: 起始主机LUN ID (可选, 0~4095),
-                auto_zoning: 自动划zone (Optional). valid values: true (划zone), false (不划zone),
-                zone_policy_id: zone策略ID (可选, 0~64个字符; auto_zoning为true时生效),
-                target_fcports: 端口wwnlist (可选, 与target_fcportgroups互斥, max array members: 1000; auto_zoning为true时生效),
-                target_fcportgroups: port group IDlist (可选, 与target_fcports互斥, max array members: 1000; auto_zoning为true时生效),
-                mapping_view: MappingRequestobject (Optional). attribute format: {
-                        mapping_view_id: mapping view在设备上的ID (可选, 最多31个字符),
-                        mapping_view_name: mapping view在设备上的名字 (可选, 最多31个字符),
-                        lun_group_id: LUN组在设备上的ID (可选, 最多31个字符),
-                        lun_group_name: LUN组在设备上的name (可选, 最多255个字符),
-                        port_group_id: 端口组在设备上的ID (可选, 最多31个字符),
+        volume_ids: LUN ID list (Required, max array members: 1000)
+        hostgroup_id: Physical host group ID (Required, 0~64 characters)
+        mapping_policy: MappingPolicy list (Optional). parameter format: [{
+                storage_id: storage device ID (Optional, 0~64 characters),
+                start_host_lun_id: Starting host LUN ID (Optional, 0~4095),
+                auto_zoning: Auto zoning (Optional). valid values: true (zone), false (no zone),
+                zone_policy_id: Zone policy ID (Optional, 0~64 characters; effective when auto_zoning is true),
+                target_fcports: Port wwn list (Optional, mutually exclusive with target_fcportgroups, max array members: 1000; effective when auto_zoning is true),
+                target_fcportgroups: Port group ID list (Optional, mutually exclusive with target_fcports, max array members: 1000; effective when auto_zoning is true),
+                mapping_view: MappingRequest object (Optional). attribute format: {
+                        mapping_view_id: Mapping view ID on the device (Optional, up to 31 characters),
+                        mapping_view_name: Mapping view name on the device (Optional, up to 31 characters),
+                        lun_group_id: LUN group ID on the device (Optional, up to 31 characters),
+                        lun_group_name: LUN group name on the device (Optional, up to 255 characters),
+                        port_group_id: Port group ID on the device (Optional, up to 31 characters),
                 }
              }, ...]
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/hostgroup-mapping"
@@ -3124,19 +3131,19 @@ def physical_host_group_map_luns(client: DMEAPIClient, volume_ids: list, hostgro
 def physical_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostgroup_id: str,
               task_remarks: str = None) -> dict:
     """
-    解除主机组映射
+    Unmap LUNs from host group
 
-    解除 LUN 与主机组的映射关系. 
+    Unmap the mapping relation between LUNs and host group
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, max array members: 1000)
-        hostgroup_id: 主机组 ID (必选, 1~64个字符)
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        volume_ids: LUN ID list (Required, max array members: 1000)
+        hostgroup_id: Host group ID (Required, 1~64 characters)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/hostgroup-unmapping"
@@ -3157,19 +3164,19 @@ def physical_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostg
 def storage_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostgroup_id: str,
               task_remarks: str = None) -> dict:
     """
-    解除Storage host group映射
+    Unmap LUNs from storage host group
 
-    解除 LUN 与Storage host group的映射关系. 
+    Unmap the mapping relation between LUNs and storage host group
 
     Args:
         client: DME API client
-        volume_ids: LUN ID list (必选, max array members: 1000)
-        hostgroup_id: 主机组 ID (必选, 1~64个字符)
-        task_remarks: 异步任务备注info (可选, 最多1024个字符)
+        volume_ids: LUN ID list (Required, max array members: 1000)
+        hostgroup_id: Host group ID (Required, 1~64 characters)
+        task_remarks: Async task remarks info (Optional, up to 1024 characters)
 
     Returns:
         {
-            task_id: task ID (string, 1~64个字符),
+            task_id: task ID (string, 1~64 characters),
         }
     """
     url = "/rest/blockservice/v1/volumes/hostgroup-unmapping"
@@ -3194,26 +3201,26 @@ def physical_host_group_show_related(client: DMEAPIClient, hostgroup_id: str,
                                        storage_ip: str = None,
                                        storage_name: str = None) -> dict:
     """
-    query物理主机组关联的Storage host grouplist. 
+    Query the Storage host group list associated with a physical host group
 
     Args:
         client: DME API client
-        hostgroup_id: 物理host group ID (必选, string, 1~64个字符)
-        storage_ip: Storage deviceIP (可选, string, 1~127个字符)
-        storage_name: storage device name, 支持模糊搜索 (可选, string, 1~256个字符)
+        hostgroup_id: Physical host group ID (Required, string, 1~64 characters)
+        storage_ip: Storage device IP (Optional, string, 1~127 characters)
+        storage_name: storage device name, supports fuzzy search (Optional, string, 1~256 characters)
 
     Returns:
         {
-            total: query的Storage host数 (integer),
-            strorage_host_group_list: Storage host grouplist (List<StorageHostGroupResponse>). parameter format: [{
-                host_group_id: 存储host group ID (string),
+            total: Number of storage hosts queried (integer),
+            strorage_host_group_list: Storage host group list (List<StorageHostGroupResponse>). parameter format: [{
+                host_group_id: Storage host group ID (string),
             }, ...],
         }
     """
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/related-storage-hostgroups"
 
     if not hostgroup_id:
-        raise ValueError("hostgroup_id 是必选参数")
+        raise ValueError("hostgroup_id is a required parameter")
 
     params = {
         'hostgroup_id': hostgroup_id
@@ -3233,35 +3240,35 @@ def mapping_view_query_host_to_lun(client: DMEAPIClient, storage_id: str,
                                      sort_key: str = None, sort_dir: str = None,
                                      page_size: int = 100, page_no: int = 1) -> dict:
     """
-    queryStorage host和LUN映射关系. 
+    Query Storage host and LUN mapping relations
 
     Args:
         client: DME API client
-        storage_id: storage device ID (必选, string, 1~64个字符)
-        name: mapping viewname, 支持模糊搜索 (可选, string, 0~256个字符)
-        mapping_type: query主机映射type (可选, string). valid values: all (和LUN存在映射关系的Storage host, 包括直接映射和间接映射), match_mapping_view (与LUN直接映射的Storage host)
-        host_info: Storage hostinfo (可选, LunToHostQueryParamobject)
-        lun_info: LUNinfo (可选, HostToLunQueryParamobject)
-        sort_key: 排序字段 (可选, string). valid values: host_name (存储host name), lun_name (LUN name), capacity_usage (capacity使用率), lun_raw_id, host_raw_id
-        sort_dir: 排序方向 (可选, string). valid values: asc (升序), desc (降序)
-        page_size: 分页querymapping view的个数 (可选, int32, 0~1000). default值: 100
-        page_no: 分页querymapping view的起始location (可选, int32). default值: 1
+        storage_id: storage device ID (Required, string, 1~64 characters)
+        name: Mapping view name, supports fuzzy search (Optional, string, 0~256 characters)
+        mapping_type: Host mapping query type (Optional, string). valid values: all (Storage hosts with mapping relation to LUNs, including direct and indirect mapping), match_mapping_view (Storage hosts directly mapped to LUNs)
+        host_info: Storage host info (Optional, LunToHostQueryParam object)
+        lun_info: LUN info (Optional, HostToLunQueryParam object)
+        sort_key: Sort field (Optional, string). valid values: host_name (storage host name), lun_name (LUN name), capacity_usage, lun_raw_id, host_raw_id
+        sort_dir: Sort direction (Optional, string). valid values: asc, desc
+        page_size: Number of paginated mapping view query results (Optional, int32, 0~1000). default: 100
+        page_no: Start position for paginated mapping view query (Optional, int32). default: 1
 
     Returns:
         {
-            total: mapping viewcount (int32),
-            mapping_views: mapping viewlist (List<HostToLunMappingView>). parameter format: [{
-                id: mapping viewID (string),
-                name: mapping viewname (string),
-                host_info: Storage hostinfo (HostInfoRespParamobject),
-                lun_info: LUNinfo (LunInfoRespParamobject),
+            total: Mapping view count (int32),
+            mapping_views: Mapping view list (List<HostToLunMappingView>). parameter format: [{
+                id: Mapping view ID (string),
+                name: Mapping view name (string),
+                host_info: Storage host info (HostInfoRespParam object),
+                lun_info: LUN info (LunInfoRespParam object),
             }, ...],
         }
     """
     url = "/rest/blockservice/v1/mapping-views/query_for_host_to_lun"
 
     if not storage_id:
-        raise ValueError("storage_id 是必选参数")
+        raise ValueError("storage_id is a required parameter")
 
     payload = {
         'storage_id': storage_id,
@@ -3290,103 +3297,103 @@ def mapping_view_query_host_to_lun(client: DMEAPIClient, storage_id: str,
 # ============================================================================
 
 ACTIONS = {
-    # LUN subtopic action (san lun xxx)
+    # LUN sub-topic action (san lun xxx)
     'lun_list': {
         'func': lun_list,
-        'description': '批量查询 LUN',
+        'description': 'Batch query LUNs',
         'params': ['limit', 'offset', 'sort_dir', 'sort_key', 'name', 'vstore_raw_id', 'vstore_name', 'status', 'health_status', 'service_level_id', 'volume_wwn', 'storage_id', 'pool_raw_id', 'host_id', 'hostgroup_id', 'unmapped_host_id', 'unmapped_hostgroup_id', 'project_id', 'allocate_type', 'attached', 'query_mode', 'protected', 'pg_id', 'usage_type', 'support_provisioning'],
         'subtopic': 'lun'
     },
     'lun_show': {
         'func': lun_show,
-        'description': '查询指定 LUN',
+        'description': 'Query a specific LUN',
         'params': ['volume_id'],
         'subtopic': 'lun'
     },
     'lun_create': {
         'func': lun_create,
-        'description': '自定义创建 LUN',
+        'description': 'Custom create LUN',
         'params': ['storage_id', 'lun_specs', 'lun_specs_pass_through', 'pool_id', 'vstore_id', 'owner_controller', 'initial_distribute_policy', 'prefetch_policy', 'prefetch_value', 'tuning', 'mapping', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_delete': {
         'func': lun_delete,
-        'description': '批量删除 LUN',
+        'description': 'Batch delete LUNs',
         'params': ['volume_ids', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_modify': {
         'func': lun_modify,
-        'description': '修改指定 LUN',
+        'description': 'Modify a specific LUN',
         'params': ['volume_id', 'name', 'description', 'owner_controller', 'prefetch_policy', 'prefetch_value', 'tuning', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_modify_name': {
         'func': lun_modify_name,
-        'description': '批量修改 LUN 名称',
+        'description': 'Batch modify LUN names',
         'params': ['volumes'],
         'subtopic': 'lun'
     },
     'lun_expand': {
         'func': lun_expand,
-        'description': '批量扩容 LUN',
+        'description': 'Batch expand LUN capacity',
         'params': ['volumes', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_connection': {
         'func': lun_connection,
-        'description': '查询指定 LUN ID 的连接信息',
+        'description': 'Query connection info for specific LUN IDs',
         'params': ['volume_ids'],
         'subtopic': 'lun'
     },
 
-    # LUN groupsubtopic action (san lun_group xxx)
+    # LUN group sub-topic action (san lun_group xxx)
     'lun_group_list': {
         'func': lun_group_list,
-        'description': '批量查询 LUN 组',
+        'description': 'Batch query LUN groups',
         'params': ['page_size', 'page_no', 'sort_dir', 'sort_key', 'name', 'vstore_raw_id', 'vstore_name', 'storage_id', 'storage_name', 'raw_id', 'attached', 'protection_group_raw_id', 'avaiable_mapping_for_host_id', 'avaiable_mapping_for_host_group_id', 'support_provisioning'],
         'subtopic': 'lun_group'
     },
     'lun_group_show': {
         'func': lun_group_show,
-        'description': '查询指定 LUN 组详情',
+        'description': 'Query details of a specific LUN group',
         'params': ['group_id', 'storage_id'],
         'subtopic': 'lun_group'
     },
     'lun_group_create': {
         'func': lun_group_create,
-        'description': '创建 LUN 组',
+        'description': 'Create LUN group',
         'params': ['storage_id', 'name', 'description', 'existing_lun_ids', 'customize_volumes', 'task_remarks', 'vstore_id', 'zoning_info', 'mapping_view'],
         'subtopic': 'lun_group'
     },
     'lun_group_delete': {
         'func': lun_group_delete,
-        'description': '批量删除 LUN 组',
+        'description': 'Batch delete LUN groups',
         'params': ['lun_group_ids', 'task_remarks'],
         'subtopic': 'lun_group'
     },
     'lun_group_add_luns': {
         'func': lun_group_add_luns,
-        'description': '向 LUN 组添加 LUN',
+        'description': 'Add LUNs to a LUN group',
         'params': ['group_id', 'existing_lun_ids', 'customize_volumes', 'host_lun_id_infos', 'host_lun_id_verify', 'task_remarks'],
         'subtopic': 'lun_group'
     },
     'lun_group_remove_luns': {
         'func': lun_group_remove_luns,
-        'description': '从 LUN 组移除 LUN',
+        'description': 'Remove LUNs from a LUN group',
         'params': ['group_id', 'lun_ids', 'task_remarks'],
         'subtopic': 'lun_group'
     },
     'lun_group_show_luns': {
         'func': lun_group_show_luns,
-        'description': '查询 LUN 组中的 LUN',
+        'description': 'Query LUNs in a LUN group',
         'params': ['group_id', 'page_size', 'page_no', 'health_status'],
         'subtopic': 'lun_group'
     },
-    # mapping viewsubtopic action (san mapping_view xxx)
+    # Mapping view sub-topic action (san mapping_view xxx)
     'mapping_view_create': {
         'func': mapping_view_create,
-        'description': '创建映射视图',
+        'description': 'Create mapping view',
         'params': ['storage_id', 'name', 'port_group_id', 'start_host_lun_id',
                    'host', 'vbs', 'host_group', 'lun_group', 'luns',
                    'task_remarks'],
@@ -3394,13 +3401,13 @@ ACTIONS = {
     },
     'mapping_view_delete': {
         'func': mapping_view_delete,
-        'description': '批量删除映射视图',
+        'description': 'Batch delete mapping views',
         'params': ['mapping_view_ids'],
         'subtopic': 'mapping_view'
     },
     'mapping_view_list': {
         'func': mapping_view_list,
-        'description': '批量查询映射视图列表',
+        'description': 'Batch query mapping view list',
         'params': ['page_size', 'page_no', 'name', 'raw_id', 'storage_id',
                    'lun_id', 'lun_name', 'lun_group_id', 'lun_group_raw_id',
                    'lun_group_name', 'storage_host_id', 'storage_host_name',
@@ -3410,22 +3417,22 @@ ACTIONS = {
         'subtopic': 'mapping_view'
     },
 
-    # Storage hostsubtopic action (san storage_host xxx)
+    # Storage host sub-topic action (san storage_host xxx)
     'storage_host_create': {
         'func': storage_host_create,
-        'description': '创建存储主机',
+        'description': 'Create storage host',
         'params': ['storage_id', 'host_info', 'task_remarks', 'vstore_id'],
         'subtopic': 'storage_host'
     },
     'storage_host_batch_query': {
         'func': storage_host_batch_query,
-        'description': '根据存储主机 ID 列表批量查询存储主机',
+        'description': 'Batch query storage hosts by storage host ID list',
         'params': ['ids'],
         'subtopic': 'storage_host'
     },
     'storage_host_list': {
         'func': storage_host_list,
-        'description': '批量查询存储主机',
+        'description': 'Batch query storage hosts',
         'params': ['page_size', 'page_no', 'sort_key', 'sort_dir', 'name', 'raw_id', 'host_group_id',
                    'avaliable_add_to_host_group_id', 'host_group_name', 'ip', 'health_status', 'os_type',
                    'storage_id', 'avaiable_mapping_for_lun_group_id', 'avaiable_mapping_for_lun_id',
@@ -3434,7 +3441,7 @@ ACTIONS = {
     },
     'storage_host_modify': {
         'func': storage_host_modify,
-        'description': '修改存储主机',
+        'description': 'Modify storage host',
         'params': ['storage_host_id', 'storage_host_name', 'storage_host_description', 'storage_host_ip',
                    'storage_host_os_type', 'add_initiators', 'remove_initiators', 'multipath', 'access_mode',
                    'hyper_metro_path_optimized', 'task_remarks'],
@@ -3442,39 +3449,39 @@ ACTIONS = {
     },
     'storage_host_delete': {
         'func': storage_host_delete,
-        'description': '批量删除存储主机',
+        'description': 'Batch delete storage hosts',
         'params': ['host_ids'],
         'subtopic': 'storage_host'
     },
     'storage_host_show_paths': {
         'func': storage_host_show_paths,
-        'description': '批量查询存储主机的路径信息',
+        'description': 'Batch query storage host path info',
         'params': ['page_no', 'page_size', 'storage_id', 'storage_host_ids', 'storage_host_raw_ids',
                    'health_status', 'running_status', 'initiator_type'],
         'subtopic': 'storage_host'
     },
     'storage_host_show_luns': {
         'func': storage_host_show_luns,
-        'description': '查询存储主机映射的 LUN 信息列表',
+        'description': 'Query LUN info list mapped to a storage host',
         'params': ['storage_host_id', 'name', 'page_size', 'page_no', 'sort_key', 'sort_dir'],
         'subtopic': 'storage_host'
     },
     'storage_host_unmap_luns': {
         'func': storage_host_unmap_luns,
-        'description': '解除存储主机映射',
+        'description': 'Unmap LUNs from storage host',
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'storage_host'
     },
-    # Storage host groupsubtopic action (san storage_host_group xxx)
+    # Storage host group sub-topic action (san storage_host_group xxx)
     'storage_host_group_create': {
         'func': storage_host_group_create,
-        'description': '创建存储主机组',
+        'description': 'Create storage host group',
         'params': ['storage_id', 'name', 'description', 'exist_host_ids', 'create_storage_host_params', 'task_remarks', 'vstore_id'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_list': {
         'func': storage_host_group_list,
-        'description': '批量查询存储主机组',
+        'description': 'Batch query storage host groups',
         'params': ['storage_id', 'name', 'raw_id', 'vstore_id', 'vstore_name', 'page_no', 'page_size',
                    'sort_key', 'sort_dir', 'avaiable_mapping_for_lun_group_id', 'avaiable_mapping_for_lun_id',
                    'support_provisioning'],
@@ -3482,63 +3489,63 @@ ACTIONS = {
     },
     'storage_host_group_add_hosts': {
         'func': storage_host_group_add_hosts,
-        'description': '添加存储主机到存储主机组',
+        'description': 'Add storage hosts to storage host group',
         'params': ['storage_host_group_id', 'storage_host_id_ids', 'create_storage_host_params', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_remove_hosts': {
         'func': storage_host_group_remove_hosts,
-        'description': '从存储主机组中移除主机',
+        'description': 'Remove hosts from storage host group',
         'params': ['storage_host_group_id', 'storage_host_ids', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_delete': {
         'func': storage_host_group_delete,
-        'description': '批量删除存储主机组',
+        'description': 'Batch delete storage host groups',
         'params': ['host_group_ids', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_show_luns': {
         'func': storage_host_group_show_luns,
-        'description': '查询存储主机组映射的 LUN 信息列表',
+        'description': 'Query LUN info list mapped to a storage host group',
         'params': ['storage_host_group_id', 'name', 'page_size', 'page_no', 'sort_key', 'sort_dir'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_unmap_luns': {
         'func': storage_host_group_unmap_luns,
-        'description': '解除存储主机组映射',
+        'description': 'Unmap LUNs from storage host group',
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
-    # 端口组subtopic action (san port_group xxx)
+    # Port group sub-topic action (san port_group xxx)
     'port_group_list': {
         'func': port_group_list,
-        'description': '批量查询端口组',
+        'description': 'Batch query port groups',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'port_group'
     },
     'port_group_create': {
         'func': port_group_create,
-        'description': '创建端口组',
+        'description': 'Create port group',
         'params': ['storage_id', 'name', 'description', 'port_ids'],
         'subtopic': 'port_group'
     },
     'port_group_show_ports': {
         'func': port_group_show_ports,
-        'description': '批量查询指定端口组的端口',
+        'description': 'Batch query ports of a specified port group',
         'params': ['port_group_id', 'type', 'page_no', 'page_size'],
         'subtopic': 'port_group'
     },
     'port_group_show_relations': {
         'func': port_group_show_relations,
-        'description': '批量查询端口组与端口关联关系',
+        'description': 'Batch query port group and port association relations',
         'params': ['page_no', 'page_size'],
         'subtopic': 'port_group'
     },
-    # 物理主机subtopic action (san physical_host xxx)
+    # Physical host sub-topic action (san physical_host xxx)
     'physical_host_list': {
         'func': physical_host_list,
-        'description': '批量查询物理主机',
+        'description': 'Batch query physical hosts',
         'params': ['limit', 'start', 'sort_key', 'sort_dir', 'name',
                    'host_group_name', 'ip', 'display_status', 'managed_status',
                    'os_type', 'access_mode', 'az_id', 'az_ids', 'project_id'],
@@ -3546,13 +3553,13 @@ ACTIONS = {
     },
     'physical_host_show': {
         'func': physical_host_show,
-        'description': '查询指定物理主机',
+        'description': 'Query a specific physical host',
         'params': ['host_id'],
         'subtopic': 'physical_host'
     },
     'physical_host_create': {
         'func': physical_host_create,
-        'description': '接入物理主机',
+        'description': 'Onboard a physical host',
         'params': ['access_mode', 'type', 'host_name', 'ip', 'port',
                    'username', 'password', 'description', 'initiator',
                    'azs', 'project_id', 'sync_to_storage', 'multipath_type',
@@ -3561,158 +3568,158 @@ ACTIONS = {
     },
     'physical_host_modify': {
         'func': physical_host_modify,
-        'description': '修改物理主机基本信息',
+        'description': 'Modify physical host basic info',
         'params': ['host_id', 'ip', 'host_name', 'os_type', 'azs', 'project_id'],
         'subtopic': 'physical_host'
     },
     'physical_host_modify_access_info': {
         'func': physical_host_modify_access_info,
-        'description': '修改物理主机接入信息',
+        'description': 'Modify physical host access info',
         'params': ['host_id', 'ip', 'port', 'username', 'password', 'project_id', 'azs', 'sync_to_storage', 'description', 'multipath_type', 'path_type', 'failover_mode', 'special_mode_type'],
         'subtopic': 'physical_host'
     },
     'physical_host_delete': {
         'func': physical_host_delete,
-        'description': '移除物理主机',
+        'description': 'Remove a physical host',
         'params': ['host_id', 'sync_to_storage'],
         'subtopic': 'physical_host'
     },
     'physical_host_add_initiators': {
         'func': physical_host_add_initiators,
-        'description': '为物理主机添加启动器',
+        'description': 'Add initiators to a physical host',
         'params': ['host_id', 'initiators'],
         'subtopic': 'physical_host'
     },
     'physical_host_remove_initiators': {
         'func': physical_host_remove_initiators,
-        'description': '从物理主机移除启动器',
+        'description': 'Remove initiators from a physical host',
         'params': ['host_id', 'initiators'],
         'subtopic': 'physical_host'
     },
     'physical_host_show_initiators': {
         'func': physical_host_show_initiators,
-        'description': '查询指定物理主机的启动器',
+        'description': 'Query initiators of a specified physical host',
         'params': ['host_id', 'port_name', 'protocol', 'status'],
         'subtopic': 'physical_host'
     },
     'physical_host_test': {
         'func': physical_host_test,
-        'description': '检测存储设备和物理主机连通性',
+        'description': 'Test connectivity between storage device and physical host',
         'params': ['storage_id', 'host_ids', 'hostgroup_id', 'auto_zoning', 'target_fcports', 'target_fcportgroups'],
         'subtopic': 'physical_host'
     },
     'physical_host_query_sshkey': {
         'func': physical_host_query_sshkey,
-        'description': '查询指定物理主机SSH公钥',
+        'description': 'Query SSH public key of a specified physical host',
         'params': ['ip', 'port'],
         'subtopic': 'physical_host'
     },
     'physical_host_save_sshkey': {
         'func': physical_host_save_sshkey,
-        'description': '保存指定物理主机SSH公钥',
+        'description': 'Save SSH public key of a specified physical host',
         'params': ['ip', 'key', 'port'],
         'subtopic': 'physical_host'
     },
     'physical_host_query_by_initiator': {
         'func': physical_host_query_by_initiator,
-        'description': '根据启动器查询关联的物理主机',
+        'description': 'Query associated physical host by initiator',
         'params': ['initiator_id', 'raw_id', 'protocol'],
         'subtopic': 'physical_host'
     },
     'physical_host_map_luns': {
         'func': physical_host_map_luns,
-        'description': 'LUN映射给物理主机',
+        'description': 'Map LUNs to physical host',
         'params': ['volume_ids', 'host_id', 'mapping_policy', 'task_remarks'],
         'subtopic': 'physical_host'
     },
     'physical_host_unmap_luns': {
         'func': physical_host_unmap_luns,
-        'description': '解除主机映射',
+        'description': 'Unmap LUNs from host',
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'physical_host'
     },
     'physical_host_show_mapping_views': {
         'func': physical_host_show_mapping_views,
-        'description': '查询物理主机关联的映射关系',
+        'description': 'Query mapping relations associated with a physical host',
         'params': ['host_id', 'storage_id'],
         'subtopic': 'physical_host'
     },
-    # 物理主机组subtopic action (san physical_host_group xxx)
+    # Physical host group sub-topic action (san physical_host_group xxx)
     'physical_host_group_list': {
         'func': physical_host_group_list,
-        'description': '批量查询物理主机组',
+        'description': 'Batch query physical host groups',
         'params': ['limit', 'start', 'sort_dir', 'sort_key', 'name', 'project_id', 'az_ids', 'managed_status'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_show_hosts': {
         'func': physical_host_group_show_hosts,
-        'description': '查询物理主机组中的物理主机',
+        'description': 'Query physical hosts in a physical host group',
         'params': ['hostgroup_id', 'name', 'ip', 'display_status', 'managed_status', 'os_type', 'sort_key', 'sort_dir', 'page_size', 'page_no'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_show': {
         'func': physical_host_group_show,
-        'description': '查询指定物理主机组',
+        'description': 'Query a specific physical host group',
         'params': ['hostgroup_id'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_create': {
         'func': physical_host_group_create,
-        'description': '创建物理主机组',
+        'description': 'Create a physical host group',
         'params': ['name', 'host_ids', 'azs', 'project_id', 'description'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_modify': {
         'func': physical_host_group_modify,
-        'description': '修改物理主机组基本信息',
+        'description': 'Modify physical host group basic info',
         'params': ['hostgroup_id', 'name', 'description', 'azs', 'project_id'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_delete': {
         'func': physical_host_group_delete,
-        'description': '删除指定物理主机组',
+        'description': 'Delete a specific physical host group',
         'params': ['hostgroup_id', 'sync_to_storage'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_add_hosts': {
         'func': physical_host_group_add_hosts,
-        'description': '向物理主机组中增加物理主机',
+        'description': 'Add physical hosts to a physical host group',
         'params': ['hostgroup_id', 'host_ids', 'sync_to_storage'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_remove_hosts': {
         'func': physical_host_group_remove_hosts,
-        'description': '物理主机组移除物理主机',
+        'description': 'Remove physical hosts from a physical host group',
         'params': ['hostgroup_id', 'host_ids', 'sync_to_storage'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_map_luns': {
         'func': physical_host_group_map_luns,
-        'description': 'LUN映射给物理主机组',
+        'description': 'Map LUNs to physical host group',
         'params': ['volume_ids', 'hostgroup_id', 'mapping_policy', 'task_remarks'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_unmap_luns': {
         'func': physical_host_group_unmap_luns,
-        'description': '解除物理主机组映射',
+        'description': 'Unmap LUNs from physical host group',
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_show_mapping_views': {
         'func': physical_host_group_show_mapping_views,
-        'description': '查询物理主机组关联的映射关系',
+        'description': 'Query mapping relations associated with a physical host group',
         'params': ['host_group_id', 'storage_id'],
         'subtopic': 'physical_host_group'
     },
     'show_related': {
         'func': physical_host_group_show_related,
-        'description': '查询物理主机组关联的存储主机组列表',
+        'description': 'Query the storage host group list associated with a physical host group',
         'params': ['hostgroup_id', 'storage_ip', 'storage_name'],
         'subtopic': 'physical_host_group'
     },
     'query_host_to_lun': {
         'func': mapping_view_query_host_to_lun,
-        'description': '查询存储主机和LUN映射关系',
+        'description': 'Query storage host and LUN mapping relations',
         'params': ['storage_id', 'name', 'mapping_type', 'host_info', 'lun_info', 'sort_key', 'sort_dir', 'page_size', 'page_no'],
         'subtopic': 'mapping_view'
     }

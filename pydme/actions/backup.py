@@ -13,19 +13,19 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    querybackup clusterlist
+    Query backup cluster list
     
     Args:
         client: DME API client
-        name: backup cluster name (可选, supports fuzzy query)
-        page_no: pagination start page, default 1
+        name: Backup cluster name (optional, supports fuzzy query)
+        page_no: Pagination start page, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
             total: total clusters (integer),
-            clusters: backup clusterlist. parameter format: [{
-                id: clusterID (string),
+            clusters: Backup cluster list. parameter format: [{
+                id: Cluster ID (string),
                 name: cluster name (string),
                 status: status (string),
             }, ...],
@@ -49,11 +49,11 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
     Query backup cluster capacity
     
-    Query specified backup cluster capacity info. 
+    Query specified backup cluster capacity info.
     
     Args:
         client: DME API client
-        cluster_id: backup cluster ID(Required)
+        cluster_id: Backup cluster ID (Required)
     
     Returns:
         {
@@ -72,21 +72,21 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
                         quota_type: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
-    querybackup clustertenant quotalist
+    Query backup cluster tenant quota list
     
-    query指定backup cluster下的tenant quotalist. 
+    Query the tenant quota list under a specified backup cluster.
     
     Args:
         client: DME API client
-        cluster_id: backup cluster ID(Required)
-        quota_type: quota type(Optional)
-        page_no: pagination start page, default 1
+        cluster_id: Backup cluster ID (Required)
+        quota_type: Quota type (Optional)
+        page_no: Pagination start page, default 1
         page_size: items per page, 1~1000, default 20
     
     Returns:
         {
             total: total quotas (integer),
-            quotas: tenant quotalist. parameter format: [{
+            quotas: Tenant quota list. parameter format: [{
                 tenant_id: tenant ID (string),
                 quota: quota size (integer),
                 used: used quota (integer),
@@ -112,19 +112,19 @@ ACTIONS = {
     # subtopic action - cluster (three-level structure: backup cluster list/capacity/quota)
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询备份集群列表',
+        'description': 'Query backup cluster list',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     'cluster_capacity': {
         'func': cluster_capacity,
-        'description': '查询备份集群容量',
+        'description': 'Query backup cluster capacity',
         'params': ['cluster_id'],
         'subtopic': 'cluster'
     },
     'cluster_quota': {
         'func': cluster_quota,
-        'description': '查询备份集群租户配额列表',
+        'description': 'Query backup cluster tenant quota list',
         'params': ['cluster_id', 'quota_type', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
