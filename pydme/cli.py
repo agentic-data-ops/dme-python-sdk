@@ -215,7 +215,7 @@ class DMECLI:
 
         lines = doc.strip().split('\n')
         
-        # 提取函数描述（Args 之前的部分）
+        # 提取函数描述（Args 之前的部分），保留缩进和换行
         description_lines = []
         in_params = False
         in_returns = False
@@ -228,9 +228,18 @@ class DMECLI:
                 in_returns = True
                 break
             if stripped:
-                description_lines.append(stripped)
+                description_lines.append(line)  # 保留原始缩进
         
-        result['description'] = ' '.join(description_lines)
+        if description_lines:
+            # 计算基准缩进（第一行的缩进量）
+            base_indent = len(description_lines[0]) - len(description_lines[0].lstrip())
+            # 去除基准缩进，保留相对缩进（最小为 0）
+            formatted = []
+            for line in description_lines:
+                indent = len(line) - len(line.lstrip())
+                relative_indent = max(0, indent - base_indent)
+                formatted.append(' ' * relative_indent + line.strip())
+            result['description'] = '\n'.join(formatted)
 
         # 提取参数信息
         if in_params:
@@ -604,7 +613,8 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
 
     if info['parsed']['description']:
         print(f"\n详细说明:")
-        print(f"  {info['parsed']['description']}")
+        for line in info['parsed']['description'].split('\n'):
+            print(f"  {line}")
 
     print(f"\n参数说明:")
     print(f"{'-'*60}")
@@ -739,10 +749,35 @@ def main():
                 action_params[param_name] = unknown[i + 1]
                 i += 2
             else:
+                # 参数值可能被 argparse 吞为 action position 参数
+                # 如 pydme storage show --storage_id XXX
+                #   → argparse 把 XXX 吃进 args.action
+                #   → unknown = ['--storage_id']（值丢失）
+                # 此时 args.action 中有被误吞的原始值，用它补位
                 action_params[param_name] = True
                 i += 1
         else:
             i += 1
+
+    # 修正：orphan --param 的值被 argparse 吃掉后，用被吞的值补位
+    # 值可能被吞入 args.action（2 级命令）或 args.action_args（3 级命令）
+    # 例如: pydme storage show --storage_id X  → args.action = "X"
+    # 例如: pydme system task list --limit 10  → action_args = ["10"]
+    if args.action or args.action_args:
+        orphan_params = [p for p, v in action_params.items() if v is True]
+        if orphan_params:
+            # 优先用 action_args 补位（3 级命令场景）
+            stolen_value = None
+            if args.action_args:
+                stolen_value = args.action_args[0]
+                args.action_args = args.action_args[1:]
+            elif args.action:
+                stolen_value = args.action
+                args.action = None
+            if stolen_value is not None:
+                for pname in orphan_params:
+                    action_params[pname] = stolen_value
+                    break
 
     # 处理位置参数（如 host_id 等）
     if hasattr(args, 'action_args') and args.action_args:
@@ -857,6 +892,14 @@ def main():
     if not actions_info:
         print(f"错误：未找到主题 '{args.topic}'")
         return
+
+    # 修正：argparse 将直接动作的参数值误吞为 action position 参数
+    # 值已在未知参数解析阶段（745-749 行）通过 orphan 检测补回到 action_params，
+    # 此处只需清空 args.action，确保 dispatch 进入 2-arg 路径
+    if args.action and args.subtopic in actions_info:
+        _direct_info = actions_info.get(args.subtopic, {})
+        if _direct_info.get('subtopic') is None:
+            args.action = None
 
     # 2. 只指定了 <topic>，显示主题帮助
     if not args.subtopic and not args.action:
@@ -1082,6 +1125,15 @@ def main():
                 'zone_ids': 'zone_ids',
                 'switch_id': 'switch_id',
                 'storageId': 'storageId',
+                'vstore_ids': 'ids',
+                'initiator_ids': 'initiator_ids',
+                'qos_policy_ids': 'qos_policy_ids',
+                'tag_ids': 'tag_ids',
+                'storage_ids': 'storage_ids',
+                'account_password': 'password',
+                'volume_ids': 'volume_ids',
+                'lun_ids': 'lun_ids',
+                'zone_ids': 'zone_ids',
             }
 
             for param_name, param_value in action_params.items():

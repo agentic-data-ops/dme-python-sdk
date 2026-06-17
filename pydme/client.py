@@ -94,8 +94,10 @@ class BaseClient:
         except:
             data = resp.text
 
+        formatted_path = path.format(**path_params)
+        request_url = f"{self.base_url}{formatted_path}"
         if self.enable_log:
-            LOG.info(f"{method} {self.base_url}{path}, code: {code}")
+            LOG.info(f"{method} {request_url}, code: {code}")
 
         return data
 

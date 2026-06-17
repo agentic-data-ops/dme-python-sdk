@@ -1185,16 +1185,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
     """
     url = "/rest/storagemgmt/v1/storages/{storage_id}/workloads"
     
-    query_params = {}
-    if create_type is not None:
-        query_params['create_type'] = create_type
-    if template_type is not None:
-        query_params['template_type'] = template_type
-    if pool_id is not None:
-        query_params['pool_id'] = pool_id
-    
-    
-    query_params = {}
+    query_params = {"storage_id": storage_id}
     if create_type is not None:
         query_params['create_type'] = create_type
     if template_type is not None:
@@ -1575,7 +1566,7 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1622,7 +1613,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
     if vstore_id is not None:
         payload['vstore_id'] = vstore_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1665,7 +1656,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
     if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1744,7 +1735,7 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1782,7 +1773,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1820,7 +1811,7 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1859,7 +1850,7 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1897,7 +1888,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1932,6 +1923,18 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         page_size: 每页数量（可选，默认 10，最大 1000）
         sort_key: 排序字段（可选，name/raw_id）
         sort_dir: 排序方式（可选，asc/desc）
+
+    Returns:
+        {
+            total: QoS策略总数 (int32),
+            datas: QoS策略列表 (List<qosDetailResponse>)。参数格式如下：[{
+                id: QoS策略ID (string, 1~32个字符),
+                name: QoS策略名称 (string, 1~31个字符),
+                description: 描述 (string, 1~255个字符),
+                raw_id: QoS策略在设备侧的ID (string, 1~64个字符),
+                enable_status: 激活状态。可选值：true, false,
+            }, ...],
+        }
     """
     url = "/rest/storagepolicy/v1/qos/query"
 
@@ -2230,7 +2233,12 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         io_param['burst_write_iops'] = burst_write_iops
 
     if io_param:
-        payload['io_param'] = io_param
+        # DME API 要求 io_param 内的字段使用驼峰命名
+        import re
+        def _to_camel(snake):
+            parts = snake.split('_')
+            return parts[0] + ''.join(p.capitalize() for p in parts[1:])
+        payload['io_param'] = {_to_camel(k): v for k, v in io_param.items()}
 
     if alarm_switch is not None:
         payload['alarm_switch'] = alarm_switch
@@ -2325,7 +2333,7 @@ def qos_associate(client: DMEAPIClient, qos_policy_id: str,
         'resource_type': resource_type
     }
 
-    response = client.post(url, params={"qos_policy_id": qos_policy_id})
+    response = client.post(url, body=payload, params={"qos_policy_id": qos_policy_id})
     return response
 
 
@@ -2349,7 +2357,7 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
         'resource_type': resource_type
     }
 
-    response = client.post(url, params={"qos_policy_id": qos_policy_id})
+    response = client.post(url, body=payload, params={"qos_policy_id": qos_policy_id})
     return response
 
 
@@ -2759,7 +2767,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
     Returns:
         {
             task_id: 任务ID (string, 1~64个字符),
-        }，包含端口列表
+        }
     """
     if port_type is not None and port_type.lower() == 'eth':
         # ETH 端口查询
@@ -2978,7 +2986,7 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
     if description is not None:
         body_params['description'] = description
 
-    response = client.post(url, data=body_params)
+    response = client.post(url, body=body_params)
     return response
 
 
@@ -3029,7 +3037,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     if description is not None:
         body_params['description'] = description
 
-    response = client.put(url, params={"vlan_id": vlan_id})
+    response = client.put(url, body=body_params, params={"vlan_id": vlan_id})
     return response
 
 
@@ -3417,7 +3425,7 @@ ACTIONS = {
     'account_create_local_user': {
         'func': account_create_local_user,
         'description': '创建本地认证用户',
-        'params': ['storage_id', 'name', 'password', 'primary_group_raw_id', 'description', 'group_names', 'vstore_id'],
+        'params': ['storage_id', 'name', 'account_password', 'primary_group_raw_id', 'description', 'group_names', 'vstore_id'],
         'subtopic': 'account'
     },
     'account_create_unix_user': {
