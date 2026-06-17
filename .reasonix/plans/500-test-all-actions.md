@@ -2,7 +2,12 @@
 
 > **目标存储**: 华为 OceanStor Dorado / Pacific 系列  
 > **测试目的**: 覆盖 pydme 所有 16 个主题、425+ 个动作，验证命令行工具与目标存储的 API 交互  
-> **前置条件**: 可用的 Dorado/Pacific 存储设备已接入 DME，提供 `--endpoint` / `--user` / `--password`
+> **前置条件**: 可用的 Dorado/Pacific 存储设备已接入 DME，提供 `--endpoint` / `--user` / `--password`  
+> **⚠️ 需重测清单 (计划 102 代码变更)**: 以下 8 个动作因修复 payload 未传入 body 的运行时 bug 而变更了代码逻辑，原测试结果无效，需重新执行测试。
+>
+> **san 主题 (4个)**: `lun_group_remove_luns`, `physical_host_add_initiators`, `physical_host_remove_initiators`, `storage_host_group_remove_hosts`
+>
+> **storage 主题 (4个)**: `qos_associate`, `qos_unassociate`, `vlan_modify`, `vlan_create`
 
 ---
 
@@ -1431,7 +1436,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | san          | lun_group_create                         | lun_group            | ✅ 已覆盖        | 8.17.2 san lun_group create                        |
 | san          | lun_group_delete                         | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
 | san          | lun_group_add_luns                       | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
-| san          | lun_group_remove_luns                    | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
+| san          | lun_group_remove_luns                    | lun_group            | ⚠️ 需重测        | 3.1.2.1 san lun_group list                         |
 | san          | lun_group_show_luns                      | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
 | san          | mapping_view_create                      | mapping_view         | ✅ 已覆盖        | 8.17.3 san mapping_view create                     |
 | san          | mapping_view_delete                      | mapping_view         | ✅ 已覆盖        | 8.17.4 san mapping_view delete                     |
@@ -1447,7 +1452,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | san          | storage_host_group_create                | storage_host_group   | ✅ 已覆盖        | 9.4.1 san storage_host_group create                |
 | san          | storage_host_group_list                  | storage_host_group   | ✅ 已覆盖        | 3.1.4.1 san storage_host_group list                |
 | san          | storage_host_group_add_hosts             | storage_host_group   | ✅ 已覆盖        | 9.4.2 san storage_host_group add_hosts             |
-| san          | storage_host_group_remove_hosts          | storage_host_group   | ✅ 已覆盖        | 9.4.4 san storage_host_group remove_hosts          |
+| san          | storage_host_group_remove_hosts          | storage_host_group   | ⚠️ 需重测        | 9.4.4 san storage_host_group remove_hosts          |
 | san          | storage_host_group_delete                | storage_host_group   | ✅ 已覆盖        | 9.4.5 san storage_host_group delete                |
 | san          | storage_host_group_show_luns             | storage_host_group   | ✅ 已覆盖        | 9.4.3 san storage_host_group show_luns             |
 | san          | storage_host_group_unmap_luns            | storage_host_group   | ✅ 已覆盖        | 9.4.6 san storage_host_group unmap_luns, task_id 返回 |
@@ -1461,8 +1466,8 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | san          | physical_host_modify                     | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_modify_access_info         | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_delete                     | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
-| san          | physical_host_add_initiators             | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
-| san          | physical_host_remove_initiators          | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_add_initiators             | physical_host        | ⚠️ 需重测        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_remove_initiators          | physical_host        | ⚠️ 需重测        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_show_initiators            | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_test                       | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_query_sshkey               | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
@@ -1538,8 +1543,8 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | storage      | qos_delete                               | qos                  | ✅ 已覆盖        | 8.4.5 storage qos delete                           |
 | storage      | qos_activate                             | qos                  | ✅ 已覆盖        | 8.4.2 storage qos activate                         |
 | storage      | qos_deactivate                           | qos                  | ✅ 已覆盖        | 8.4.3 storage qos deactivate                       |
-| storage      | qos_associate                            | qos                  | ✅ 已覆盖        | 2.22.1 storage qos list                            |
-| storage      | qos_unassociate                          | qos                  | ✅ 已覆盖        | 2.22.1 storage qos list                            |
+| storage      | qos_associate                            | qos                  | ⚠️ 需重测        | 2.22.1 storage qos list                            |
+| storage      | qos_unassociate                          | qos                  | ⚠️ 需重测        | 2.22.1 storage qos list                            |
 | storage      | logic_port_list                          | logic_port           | ✅ 已覆盖        | 2.21.1 storage logic_port list                     |
 | storage      | logic_port_show                          | logic_port           | ✅ 已覆盖        | 2.21.2 storage logic_port show                     |
 | storage      | logic_port_create                        | logic_port           | ✅ 已覆盖        | 2.21.1 storage logic_port list                     |
@@ -1549,9 +1554,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | storage      | port_list                                | port                 | ✅ 已覆盖        | 2.8.1 storage port list                            |
 | storage      | port_show_bond_members                   | port                 | ✅ 已覆盖        | 2.8.1 storage port list                            |
 | storage      | vlan_list                                | vlan                 | ✅ 已覆盖        | 2.20.1 storage vlan list                           |
-| storage      | vlan_create                              | vlan                 | ✅ 已覆盖        | 8.3.1 storage vlan create 【A800 only】              |
+| storage      | vlan_create                              | vlan                 | ⚠️ 需重测        | 8.3.1 storage vlan create 【A800 only】              |
 | storage      | vlan_delete                              | vlan                 | ✅ 已覆盖        | 8.3.3 storage vlan delete 【A800 only】              |
-| storage      | vlan_modify                              | vlan                 | ✅ 已覆盖        | 8.3.2 storage vlan modify 【A800 only】              |
+| storage      | vlan_modify                              | vlan                 | ⚠️ 需重测        | 8.3.2 storage vlan modify 【A800 only】              |
 | storage      | failover_group_list                      | failover_group       | ✅ 已覆盖        | 2.19.1 storage failover_group list                 |
 | storage      | failover_group_show_ports                | failover_group       | ✅ 已覆盖        | 2.19.2 storage failover_group show_ports           |
 | storage      | failover_group_show_vlans                | failover_group       | ✅ 已覆盖        | 2.19.3 storage failover_group show_vlans           |
