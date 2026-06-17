@@ -1,0 +1,51 @@
+
+============================================================
+动作：protect replication_link list
+============================================================
+
+描述:
+  查询复制链路
+
+详细说明:
+  查询复制链路
+
+参数说明:
+------------------------------------------------------------
+
+  --local_storage_id
+      本端存储设备 ID（可选，string，1~64 个字符），作为源端存储设备进行查询
+
+  --page_no
+      分页查询的页码（可选，int32，默认 1）
+
+  --page_size
+      每页显示的数量（可选，int32，1~1000，默认 20）
+
+  --health_status
+      健康状态（可选，string）。可选值：normal（正常），fault（故障）
+
+  --running_status
+      运行状态（可选，string）。可选值：link_up（已连接），link_down（未连接），disabled（已禁用），connecting（正在连接），air_gap_link_down（Air Gap断开）
+
+  --link_type
+      复制链路类型（可选，string）。可选值：fc_link（FC链路），ip_link（IP链路）
+
+输出说明:
+------------------------------------------------------------
+    {
+        total: 复制链路数量 (int32),
+        replication_links: 复制链路列表 (List<ReplicationLinkInfo>)。参数格式如下：[{
+            id: 复制链路的ID (string, 1~64个字符),
+            link_type: 链路类型。可选值：fc_link (FC链路), ip_link (IP链路),
+            local_storage_id: 本端存储设备ID (string, 1~64个字符),
+            health_status: 健康状态。可选值：normal (正常), fault (故障),
+            running_status: 运行状态。可选值：link_up (已连接), link_down (未连接), disabled (已禁用), connecting (正在连接), air_gap_link_down (Air Gap断开),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme protect replication_link list
+  pydme protect replication_link list --local_storage_id <value> --page_no <value> --page_size <value> --health_status <value> --running_status <value> --link_type <value>
+============================================================
+

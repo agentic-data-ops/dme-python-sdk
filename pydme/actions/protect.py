@@ -202,19 +202,19 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
         client: DME API 客户端
         pg_id: 保护组 ID
         lun_ids: 待添加到保护组的 LUN 的 ID 列表（可选），数组最大成员个数 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs 互斥；保护组不存在双活、复制、环形 3DC 特性时此参数有效
-        hyper_metro: 添加 LUN 到有双活特性保护组的请求参数（可选），与 lun_ids 参数互斥；保护组存在双活特性时此参数有效。格式：{
+        hyper_metro: 添加 LUN 到有双活特性保护组的请求参数（可选），与 lun_ids 参数互斥；保护组存在双活特性时此参数有效。参数格式如下：{
                         is_delay: 是否延迟执行（必填），true：是；false：否；当延迟执行为 true 时：若一致性组或新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入一致性组；当延迟执行为 false 时：若一致性组或新 Pair 处于"正在同步"状态，将直接暂停一致性组和新 Pair，将新 Pair 加入一致性组，再同步一致性组
                         create_mode: 双活 Pair 的创建模式（必填），可选值：auto（自动）、manual（手动）
                         remote_storage_pool_id: 远端存储池 ID（可选），1~32 个字符，正则 ^[a-fA-F0-9]+$；双活 Pair 创建模式为 auto 时有效
                         remote_lun_name_rule: LUN 的名称策略（可选），可选值：same_as_local（与本端资源名称保持一致）、prefix_and_suffix（前缀+本端资源名称+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（可选），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（可选），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
-                        lun_pairs: 手动配置的双活 Pair 信息列表（可选），数组最大成员个数 100；当 create_mode 为 manual 时有效。格式：[{
+                        lun_pairs: 手动配置的双活 Pair 信息列表（可选），数组最大成员个数 100；当 create_mode 为 manual 时有效。参数格式如下：[{
                                 local_lun_id: 本端 LUN 的 ID（必填），1~32 个字符，正则 ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
                                 remote_lun_id: 远端 LUN 的 ID（必填），1~32 个字符，正则 ^[a-fA-F0-9]+$
                         },...]
         }
-        rem_reps: 添加 LUN 到有复制特性保护组的请求参数（可选），数组最大成员个数 2，与 lun_ids 参数互斥；保护组存在复制特性时此参数有效。格式：[{
+        rem_reps: 添加 LUN 到有复制特性保护组的请求参数（可选），数组最大成员个数 2，与 lun_ids 参数互斥；保护组存在复制特性时此参数有效。参数格式如下：[{
                         is_delay: 是否延迟执行（可选），默认 true；true：是；false：否；当延迟执行为 true 时：若新 Pair 处于"正在同步"状态，将等待同步完成后再将新 Pair 加入一致性组；当延迟执行为 false 时：将直接分裂一致性组和新 Pair，将新 Pair 加入一致性组，再同步一致性组
                         create_mode: 远程复制 Pair 的创建模式（必填），可选值：auto（自动）、manual（手动）
                         remote_storage_id: 远端存储设备 ID（必填），1~64 个字符，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$
@@ -222,7 +222,7 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
                         remote_lun_name_rule: LUN 的名称策略（可选），可选值：same_as_local（与本端资源名称保持一致）、prefix_and_suffix（前缀+本端资源名称+后缀）、prefix_and_num（前缀+自动序号）；自动创建模式下有效
                         name_prefix: 远端 LUN 名称前缀（可选），0~251 个字符；自动创建模式且名称规则为 prefix_and_suffix 或 prefix_and_num 时有效；prefix_and_suffix 前缀最长 32 字节，prefix_and_num 前缀最长 251 字节
                         name_suffix: 远端 LUN 名称后缀（可选），0~16 个字符；自动创建模式且名称规则为 prefix_and_suffix 时有效
-                        lun_pairs: 手动配置的远程复制 Pair 信息列表（可选），数组最大成员个数 100；当 create_mode 为 manual 时有效。格式：[{
+                        lun_pairs: 手动配置的远程复制 Pair 信息列表（可选），数组最大成员个数 100；当 create_mode 为 manual 时有效。参数格式如下：[{
                                 local_lun_id: 本端 LUN 的 ID（必填），1~32 个字符，正则 ^[a-fA-F0-9]+$；下发操作的设备端定义为本端，其对端设备定义为远端
                                 remote_lun_id: 远端 LUN 的 ID（必填），1~32 个字符，正则 ^[a-fA-F0-9]+$
                         },...]
@@ -782,7 +782,10 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str, local_storage
         local_storage_id: 创建双活 Pair 的存储设备 ID
         domain_id: 双活域 ID
         lun_ids: 自动创建模式下，源 LUN 的 ID 列表
-        lun_pairs: 手动创建模式下，双活 Pair 的源 LUN、目标 LUN 的 ID 列表
+        lun_pairs: 手动创建模式下，双活 Pair 的源 LUN、目标 LUN 的 ID 列表 (List<PairInstance>, 数组最大成员个数: 100)。参数格式如下：[{
+                local_lun_id: 本端 LUN 的 ID (必填, 1~32个字符),
+                remote_lun_id: 远端 LUN 的 ID (必填, 1~32个字符),
+             }, ...]
         remote_storage_pool_id: 远端存储池 ID，自动创建模式下有效
         remote_vstore_id: 远端设备的租户 ID，自动创建模式下有效
         remote_resource_name_rule: LUN 的名称策略，可选值：same_as_local, prefix_and_suffix, prefix_and_num
@@ -1631,7 +1634,11 @@ def snapshot_create(client: DMEAPIClient, snapshots_info: list, is_consist_activ
 
     Args:
         client: DME API 客户端
-        snapshots_info: LUN 快照创建信息列表，每项包含 name, source_type, source_id
+        snapshots_info: LUN 快照创建信息列表 (List<LunSnapshotCreateInfo>, 数组最大成员个数: 2048)。参数格式如下：[{
+                name: 快照名称 (1~255个字符),
+                source_type: 源对象类型。可选值：lun (LUN), snapshot (快照),
+                source_id: 源对象ID (1~64个字符),
+             }, ...]
         is_consist_activate: 是否一致性激活，默认 false
 
     Returns:
@@ -1904,7 +1911,10 @@ def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
         name_suffix: 目标 LUN 名称后缀
         copy_rate: 拷贝速率，可选值：low, medium, high, highest，默认 medium
         is_sync: 是否立即同步，默认 true
-        clone_pairs: 克隆 Pair 列表，create_mode 为 manual 时必选
+        clone_pairs: 克隆 Pair 列表 (List<TargetClonePairObject>, 数组最大成员个数: 4096)，create_mode 为 manual 时必选。参数格式如下：[{
+                source_lun_id: 源LUN ID (1~32个字符),
+                target_lun_id: 目标LUN ID (1~32个字符),
+             }, ...]
 
     Returns:
         {
@@ -1951,7 +1961,10 @@ def clone_group_sync(client: DMEAPIClient, clone_cg_id: str, create_mode: str = 
         name_rule: 目标 LUN 名称命名规则，可选值：prefix_and_suffix, prefix_and_num
         name_prefix: 目标 LUN 名称前缀
         name_suffix: 目标 LUN 名称后缀
-        clone_pairs: 克隆 Pair 列表，create_mode 为 manual 时必选
+        clone_pairs: 克隆 Pair 列表 (List<TargetClonePairObject>, 数组最大成员个数: 4096)，create_mode 为 manual 时必选。参数格式如下：[{
+                source_lun_id: 源LUN ID (1~32个字符),
+                target_lun_id: 目标LUN ID (1~32个字符),
+             }, ...]
 
     Returns:
         {
@@ -2033,7 +2046,10 @@ def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_
         local_storage_id: 本端存储设备 ID，当存储设备版本不是 OceanStor V6、OceanStor Dorado V6 时必传
         create_mode: 复制 Pair 的创建模式，可选值：auto（自动）, manual（手动）
         existed_pair_ids: 已存在的复制 Pair 的 ID 列表
-        lun_pairs: 手动创建模式下，复制 Pair 的源 LUN、目标 LUN 的 ID 列表
+        lun_pairs: 手动创建模式下，复制 Pair 的源 LUN、目标 LUN 的 ID 列表 (List<PairInstance>, 数组最大成员个数: 100)。参数格式如下：[{
+                local_lun_id: 本端 LUN 的 ID (必填, 1~32个字符),
+                remote_lun_id: 远端 LUN 的 ID (必填, 1~32个字符),
+             }, ...]
         lun_ids: 自动创建模式下，源 LUN 的 ID 列表
         remote_storage_pool_id: 远端存储池 ID，自动创建模式下有效
         remote_vstore_id: 远端设备的租户 ID，自动创建模式下有效

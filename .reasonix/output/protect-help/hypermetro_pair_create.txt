@@ -1,0 +1,71 @@
+
+============================================================
+动作：protect hypermetro_pair create
+============================================================
+
+描述:
+  创建双活 Pair
+
+详细说明:
+  创建双活 Pair
+
+参数说明:
+------------------------------------------------------------
+
+  --create_mode
+      双活 Pair 的创建模式，可选值：auto（自动创建）, manual（手动创建）
+
+  --local_storage_id
+      创建双活 Pair 的存储设备 ID
+
+  --domain_id
+      双活域 ID
+
+  --lun_ids
+      自动创建模式下，源 LUN 的 ID 列表
+
+  --lun_pairs
+      手动创建模式下，双活 Pair 的源 LUN、目标 LUN 的 ID 列表
+
+  --remote_storage_pool_id
+      远端存储池 ID，自动创建模式下有效
+
+  --remote_vstore_id
+      远端设备的租户 ID，自动创建模式下有效
+
+  --remote_resource_name_rule
+      LUN 的名称策略，可选值：same_as_local, prefix_and_suffix, prefix_and_num
+
+  --name_prefix
+      远端 LUN 名称前缀
+
+  --name_suffix
+      远端 LUN 名称后缀
+
+  --speed
+      同步速率，可选值：low, medium, high, highest, custom
+
+  --bandwidth
+      自定义同步速率（MB/s），当 speed 为 custom 时必传
+
+  --service_assurance_policy
+      业务保障策略，可选值：data_reliability_preferred, service_continuity_preferred
+
+  --isolation_threshold_time
+      隔离阈值（毫秒），当 service_assurance_policy 为 service_continuity_preferred 时必传
+
+  --recovery_policy
+      恢复策略，可选值：automatic, manual
+
+输出说明:
+------------------------------------------------------------
+    {
+        task_id: 任务ID (string, 1~64个字符),
+    }
+
+============================================================
+使用示例:
+  pydme protect hypermetro_pair create
+  pydme protect hypermetro_pair create --create_mode <value> --local_storage_id <value> --domain_id <value> --lun_ids <value> --lun_pairs <value> --remote_storage_pool_id <value> --remote_vstore_id <value> --remote_resource_name_rule <value> --name_prefix <value> --name_suffix <value> --speed <value> --bandwidth <value> --service_assurance_policy <value> --isolation_threshold_time <value> --recovery_policy <value>
+============================================================
+

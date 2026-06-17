@@ -1,0 +1,88 @@
+
+============================================================
+动作：protect snapshot list
+============================================================
+
+描述:
+  批量查询 LUN 快照
+
+详细说明:
+  批量查询 LUN 快照
+
+参数说明:
+------------------------------------------------------------
+
+  --snapshot_ids
+      快照 ID 列表
+
+  --storage_id
+      存储设备 ID
+
+  --raw_id
+      快照在存储设备上的 ID
+
+  --name
+      快照名称，支持模糊查询
+
+  --health_status
+      健康状态，可选值：normal, fault, write_protected
+
+  --running_status
+      运行状态，可选值：activated, rolling_back, unactivated, initializing, deleting, unknown
+
+  --source_lun_name
+      源 LUN 名称，支持模糊查询
+
+  --parent_name
+      父对象名称，支持模糊查询
+
+  --activated_time_from
+      查询激活时间的起始点（Unix 时间戳，单位秒）
+
+  --activated_time_to
+      查询激活时间的结束点（Unix 时间戳，单位秒）
+
+  --page_no
+      分页查询的开始页，最小值为 1，默认值为 1
+
+  --page_size
+      每页数量，1~1000，默认 20
+
+输出说明:
+------------------------------------------------------------
+    {
+        total: LUN快照数量 (int32),
+        snapshots: LUN快照列表 (List<LunSnapshotInfo>)。参数格式如下：[{
+            id: 快照ID (string, 1~64个字符),
+            raw_id: 快照在存储设备上的ID (string, 1~64个字符),
+            name: 快照名称 (string, 1~255个字符),
+            parent_type: 父对象类型。可选值：lun (LUN), snapshot (快照),
+            parent_id: 父对象ID (string, 1~64个字符),
+            parent_raw_id: 父对象在存储设备上的ID (string, 1~64个字符),
+            parent_name: 父对象名称 (string, 1~255个字符),
+            health_status: 健康状态。可选值：normal (正常), fault (故障), write_protected (写保护),
+            running_status: 运行状态。可选值：activated (已激活), rolling_back (正在回滚), unactivated (未激活), initializing (初始化中), deleting (删除中), unknown (未知),
+            description: 快照描述信息 (string, 0~255个字符),
+            activated_time: 快照激活时间 (int64),
+            rollback_start_time: 回滚开始时间 (int64),
+            rollback_end_time: 回滚结束时间 (int64),
+            rollback_speed: 回滚速率。可选值：low, medium, high, highest, unknown,
+            rollback_rate: 回滚进度 (int32, -1~100),
+            is_mapped: 映射状态。可选值：true (映射), false (未映射),
+            wwn: WWN (string, 1~64个字符),
+            user_capacity: 快照的用户容量 (int64, 字节),
+            consumed_capacity: 快照实际消耗的容量 (int64, 字节),
+            snapshot_cg_id: 快照一致性组ID (string, 1~64个字符),
+            snapshot_cg_name: 快照一致性组名称 (string, 1~255个字符),
+            source_lun_id: 源LUN ID (string, 1~64个字符),
+            source_lun_name: 源LUN名称 (string, 1~255个字符),
+            storage_id: 存储设备ID (string, 1~64个字符),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme protect snapshot list
+  pydme protect snapshot list --snapshot_ids <value> --storage_id <value> --raw_id <value> --name <value> --health_status <value> --running_status <value> --source_lun_name <value> --parent_name <value> --activated_time_from <value> --activated_time_to <value> --page_no <value> --page_size <value>
+============================================================
+

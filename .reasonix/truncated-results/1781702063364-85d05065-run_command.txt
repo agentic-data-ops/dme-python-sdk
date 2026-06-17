@@ -1,0 +1,594 @@
+$ python -m pydme.cli --list-topics
+[exit 0]
+
+可用的动作主题（树形结构）:
+======================================================================
+
+📁 aiops - AIOps 智能运维相关操作
+  ├── 📂 alarm
+  │       ├─── ack - 确认告警
+  │       ├─── clear - 清除告警
+  │       ├─── list - 查询告警信息(当前告警,可选择是否包含历史告警)
+  │       ├─── unack - 取消确认告警
+  ├── 📂 check_policy
+  │       ├─── delete - 删除检查策略
+  │       ├─── disable - 禁用检查策略
+  │       ├─── enable - 启用检查策略
+  │       ├─── execute - 执行检查策略
+  │       ├─── list - 查询检查策略列表
+  ├── 📂 check_result
+  │       ├─── list - 查询检查策略异常检查结果列表
+  │       ├─── show - 查询检查策略异常检查结果详情
+  ├── 📂 diagnose_task
+  │       ├─── create - 创建智能分析任务
+  │       ├─── status - 查询性能诊断任务状态
+  ├── 📂 health
+  │       ├─── query_data - 查询健康度相关数据（容量预测/性能预测/性能异常）
+  │       ├─── show_detail - 查询健康维度的扣分详情
+  │       ├─── show_score - 查询对象健康度
+  ├── 📂 performance
+  │       ├─── create_collect_task - 创建性能文件收集任务
+  │       ├─── download_collect_result - 下载性能文件
+  │       ├─── list_indicators - 列出监控对象类型支持的监控指标
+  │       ├─── list_object_types - 获取所有监控对象类型
+  │       ├─── query - 查询历史性能数据
+  │       ├─── show_indicators - 显示监控指标详细信息
+  ├── 📂 topology
+  │       ├─── query_graph_path - 查询拓扑图库信息（支持 NAS、K8s、DB 等业务类型）
+  │       ├─── query_luns - 查询拓扑图 LUN 列表
+  │       ├─── query_san_path - 查询 SAN 路径拓扑结构（支持 IP_SAN 和 FC_SAN）
+  │       ├─── query_vms - 查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表
+
+📁 backup - 数据备份管理 (Backup) 相关操作
+  ├── 📂 cluster
+  │       ├─── capacity - 查询备份集群容量
+  │       ├─── list - 查询备份集群列表
+  │       ├─── quota - 查询备份集群租户配额列表
+
+📁 fcswitch - FC Switch (光纤交换机) 相关操作
+  ├── 直接动作:
+  │     ├── list - 批量查询光纤交换机
+  │     ├── sync - 同步交换机配置
+  ├── 📂 alias
+  │       ├─── create - 创建别名
+  │       ├─── delete - 删除别名
+  │       ├─── list - 批量查询别名
+  │       ├─── modify - 修改别名
+  │       ├─── show_members - 查询别名的成员
+  ├── 📂 controller
+  │       ├─── list - 查询交换机控制器列表
+  ├── 📂 fabric
+  │       ├─── backup - 备份 fabric 配置
+  │       ├─── list - 批量查询 fabric
+  │       ├─── show_ports - 查询 fabric 的端口列表
+  ├── 📂 port
+  │       ├─── list - 查询交换机端口列表
+  ├── 📂 vsan
+  │       ├─── list - 批量查询 vsan
+  ├── 📂 zone
+  │       ├─── batch_create - 批量创建 zone
+  │       ├─── create - 创建 zone
+  │       ├─── delete - 删除 zone
+  │       ├─── list - 批量查询 zone
+  │       ├─── modify - 修改 zone
+  │       ├─── show_members - 查询 zone 的成员
+
+📁 gfs - GFS (Global File System) 相关操作
+  ├── 📂 dataspace
+  │       ├─── list - 批量查询 Omni-Dataverse
+  │       ├─── show - 查询指定 Omni-Dataverse 的容量统计信息
+  │       ├─── site_list - 查询 Omni-Dataverse 数据服务站点
+  ├── 📂 migration_task
+  │       ├─── create - 创建 Omni-Dataverse 数据迁移任务
+  │       ├─── delete - 批量删除 Omni-Dataverse 数据迁移任务
+  │       ├─── list - 批量查询 Omni-Dataverse 数据迁移任务
+  │       ├─── modify - 修改 Omni-Dataverse 数据迁移任务
+  │       ├─── operate - 批量暂停或者启动 Omni-Dataverse 数据迁移任务
+  │       ├─── show - 查询 Omni-Dataverse 数据迁移任务详情
+  ├── 📂 namespace
+  │       ├─── create - 创建全局命名空间
+  │       ├─── delete - 删除指定的全局命名空间
+  │       ├─── list - 批量查询全局命名空间
+  │       ├─── modify - 修改指定全局命名空间
+  │       ├─── show - 查询全局命名空间详情
+
+📁 integrate - 三方系统集成 (Integrate) 相关操作
+  ├── 📂 cmdb
+  │       ├─── app_list - 查询CMDB系统中的应用列表
+  │       ├─── host_list - 查询CMDB系统中的主机列表
+  │       ├─── host_query_by_initiators - 根据启动器列表查询CMDB主机列表
+  │       ├─── host_show - 查询指定CMDB主机详情
+  │       ├─── system_list - 查询CMDB系统列表
+
+📁 ipswitch - IP 交换机 (IPSwitch) 管理相关操作
+  ├── 直接动作:
+  │     ├── list - 查询以太网交换机列表信息
+  ├── 📂 board
+  │       ├─── list - 查询 IP 交换机单板列表信息
+  ├── 📂 fan
+  │       ├─── list - 查询 IP 交换机风扇列表信息
+  ├── 📂 frame
+  │       ├─── list - 查询 IP 交换机机框列表信息
+  ├── 📂 port
+  │       ├─── list - 查询 IP 交换机端口列表信息
+  ├── 📂 power
+  │       ├─── list - 查询 IP 交换机电源列表信息
+  ├── 📂 subcard
+  │       ├─── list - 查询 IP 交换机子卡列表信息
+
+📁 kube - Kubernetes 相关操作
+  ├── 📂 cluster
+  │       ├─── list - 查询容器集群列表
+  ├── 📂 namespace
+  │       ├─── list - 查询容器命名空间列表
+  ├── 📂 node
+  │       ├─── list - 查询容器节点列表
+  ├── 📂 pod
+  │       ├─── list - 查询容器组列表
+  ├── 📂 pv
+  │       ├─── list - 查询容器持久卷列表
+  ├── 📂 pvc
+  │       ├─── list - 查询容器持久卷声明列表
+
+📁 nas - NAS 相关操作
+  ├── 📂 account
+  │       ├─── dataturbo_admin_list - 批量查询 DataTurbo 管理员
+  │       ├─── unix_user_add_group - 添加 UNIX 用户附属组
+  │       ├─── unix_user_batch_delete - 删除 UNIX 用户
+  │       ├─── unix_user_create - 创建 UNIX 用户
+  │       ├─── unix_user_group_batch_delete - 删除 UNIX 用户组
+  │       ├─── unix_user_group_create - 创建 UNIX 用户组
+  │       ├─── unix_user_group_list - 查询 UNIX 认证用户组列表
+  │       ├─── unix_user_group_modify - 修改 UNIX 用户组
+  │       ├─── unix_user_group_show - 查询 UNIX 用户组详情
+  │       ├─── unix_user_list - 查询 UNIX 认证用户列表
+  │       ├─── unix_user_modify - 修改 UNIX 用户
+  │       ├─── unix_user_remove_group - 移除 UNIX 用户附属组
+  │       ├─── unix_user_show - 查询 UNIX 认证用户详情
+  ├── 📂 cifs_share
+  │       ├─── create - 创建单个 CIFS 共享
+  │       ├─── delete - 批量删除 CIFS 共享
+  │       ├─── list - 批量查询 CIFS 共享
+  │       ├─── modify - 修改指定 CIFS 共享
+  │       ├─── show - 查询指定 CIFS 共享详情
+  │       ├─── show_permissions - 查询单个 CIFS 共享的权限列表（用户/IP/文件过滤）
+  ├── 📂 dataturbo
+  │       ├─── dpc_list
+  │       ├─── dpc_show
+  ├── 📂 dataturbo_share
+  │       ├─── create - 创建 DataTurbo 共享
+  │       ├─── delete - 批量删除 DataTurbo 共享
+  │       ├─── list - 查询 DataTurbo 共享列表
+  │       ├─── modify - 修改指定 DataTurbo 共享
+  │       ├─── show - 查询指定 DataTurbo 共享详情
+  │       ├─── show_permissions - 查询 DataTurbo 共享管理员权限列表
+  ├── 📂 dpc
+  │       ├─── list - 批量查询并行客户端列表
+  │       ├─── show - 查询并行客户端详情
+  ├── 📂 dtree
+  │       ├─── create - 创建并共享 Dtree
+  │       ├─── delete - 批量删除 Dtree
+  │       ├─── list - 查询 Dtree 列表
+  │       ├─── modify - 修改指定 Dtree
+  │       ├─── show - 查询指定 Dtree 详情
+  ├── 📂 filesystem
+  │       ├─── batch_modify - 批量修改文件系统（支持批量修改名称）
+  │       ├─── create - 自定义创建文件系统
+  │       ├─── delete - 批量删除文件系统
+  │       ├─── list - 批量查询文件系统
+  │       ├─── modify - 修改指定文件系统（完整参数）
+  │       ├─── query_available - 查询可用的文件系统（支持远程复制）
+  │       ├─── show - 查询指定文件系统详情
+  ├── 📂 kvcache
+  │       ├─── batch_create - 批量创建 KV Cache 库
+  │       ├─── batch_delete - 批量删除 KV Cache 库
+  │       ├─── list - 查询 KV Cache 库
+  │       ├─── modify - 修改 KV Cache 库
+  ├── 📂 namespace
+  │       ├─── create - 批量创建命名空间
+  │       ├─── delete - 批量删除命名空间
+  │       ├─── list - 批量查询命名空间
+  │       ├─── modify - 修改指定命名空间
+  │       ├─── show - 查询指定命名空间详情
+  ├── 📂 nfs_share
+  │       ├─── create - 创建 NFS 共享
+  │       ├─── delete - 批量删除 NFS 共享
+  │       ├─── list - 查询 NFS 共享列表
+  │       ├─── modify - 修改指定 NFS 共享
+  │       ├─── show - 查询指定 NFS 共享详情
+  │       ├─── show_clients - 查询 NFS 共享下的客户端访问列表
+  ├── 📂 quota
+  │       ├─── create - 创建配额
+  │       ├─── delete - 批量删除配额
+  │       ├─── list - 查询配额列表
+  │       ├─── modify - 更新指定配额
+  │       ├─── show - 查询指定配额详情
+
+📁 protect - 保护 (Protection) 相关操作
+  ├── 📂 clone_group
+  │       ├─── create - 创建克隆一致性组
+  │       ├─── delete - 批量删除克隆一致性组
+  │       ├─── sync - 同步克隆一致性组
+  ├── 📂 device_pair
+  │       ├─── list - 查询设备 Pairs
+  ├── 📂 fs_hypermetro_pair
+  │       ├─── filesystem_pair_create
+  │       ├─── filesystem_pair_delete
+  │       ├─── filesystem_pair_list
+  │       ├─── filesystem_pair_pause
+  │       ├─── filesystem_pair_sync
+  ├── 📂 fs_snapshot
+  │       ├─── create - 创建文件系统快照
+  │       ├─── delete - 批量删除文件系统快照
+  │       ├─── list - 批量查询文件系统快照
+  ├── 📂 group
+  │       ├─── add_luns - 保护组中添加成员 LUN
+  │       ├─── create - 创建保护组
+  │       ├─── delete - 批量删除保护组
+  │       ├─── list - 批量查询保护组
+  │       ├─── modify - 修改保护组
+  │       ├─── remove_luns - 移除保护组中的成员 LUN
+  ├── 📂 hypermetro_domain
+  │       ├─── force_start - 强制启动文件系统双活域
+  │       ├─── list - 批量查询双活域
+  │       ├─── recover - 恢复文件系统双活域
+  │       ├─── split - 分裂文件系统双活域
+  │       ├─── swap_role - 主从切换文件系统双活域
+  │       ├─── switch_site - 优先站点切换文件系统双活域
+  ├── 📂 hypermetro_group
+  │       ├─── add_pairs - 双活一致性组添加成员 Pair
+  │       ├─── create - 创建双活一致性组
+  │       ├─── delete - 批量删除双活一致性组
+  │       ├─── force_startup - 强制启动双活一致性组
+  │       ├─── list - 批量查询双活一致性组
+  │       ├─── modify - 修改双活一致性组
+  │       ├─── pause - 暂停双活一致性组
+  │       ├─── remove_pairs - 双活一致性组移除成员 Pair
+  │       ├─── switch_priority - 双活一致性组优先站点切换
+  │       ├─── sync - 同步双活一致性组
+  ├── 📂 hypermetro_pair
+  │       ├─── create - 创建双活 Pair
+  │       ├─── delete - 批量删除双活 Pair
+  │       ├─── force_startup - 强制启动双活 Pair
+  │       ├─── list - 批量查询 LUN 双活 Pair
+  │       ├─── modify - 修改双活 Pair
+  │       ├─── pause - 暂停双活 Pair
+  │       ├─── query_available_luns
+  │       ├─── switch_priority - 双活 Pair 优先站点切换
+  │       ├─── sync - 同步双活 Pair
+  ├── 📂 replication_group
+  │       ├─── add_pairs - 远程复制一致性组添加成员 Pair
+  │       ├─── create - 创建远程复制一致性组
+  │       ├─── delete - 批量删除远程复制一致性组
+  │       ├─── list - 批量查询复制一致性组
+  │       ├─── modify - 修改远程复制一致性组
+  │       ├─── remove_pairs - 远程复制一致性组移除成员 Pair
+  │       ├─── split - 批量分裂远程复制一致性组
+  │       ├─── switch - 远程复制一致性组批量主从切换
+  │       ├─── switch_write_protection - 远程复制一致性组从资源写保护状态切换
+  │       ├─── sync - 批量同步远程复制一致性组
+  ├── 📂 replication_link
+  │       ├─── list - 查询复制链路
+  ├── 📂 replication_pair
+  │       ├─── create - 创建远程复制 Pair
+  │       ├─── delete - 批量删除远程复制 Pair
+  │       ├─── list - 批量查询复制 Pair
+  │       ├─── modify - 修改复制 Pair
+  │       ├─── split - 批量分裂远程复制 Pair
+  │       ├─── switch - 远程复制 Pair 批量主从切换
+  │       ├─── switch_write_protection - 远程复制 Pair 从资源保护状态切换
+  │       ├─── sync - 批量同步远程复制 Pair
+  ├── 📂 snapshot
+  │       ├─── create - 批量创建 LUN 快照
+  │       ├─── delete - 批量删除 LUN 快照
+  │       ├─── list - 批量查询 LUN 快照
+  │       ├─── rollback - 批量回滚 LUN 快照
+  ├── 📂 snapshot_group
+  │       ├─── activate - 激活快照一致性组
+  │       ├─── create - 创建快照一致性组
+  │       ├─── deactivate - 批量取消激活快照一致性组
+  │       ├─── delete - 批量删除快照一致性组
+  │       ├─── rollback - 回滚快照一致性组
+  ├── 📂 vstore_hypermetro_pair
+  │       ├─── vstore_pair_create
+  │       ├─── vstore_pair_delete
+  │       ├─── vstore_pair_force_start
+  │       ├─── vstore_pair_list
+  │       ├─── vstore_pair_modify
+  │       ├─── vstore_pair_switch
+
+📁 san - SAN (Storage Area Network) 相关操作
+  ├── 📂 lun
+  │       ├─── connection - 查询指定 LUN ID 的连接信息
+  │       ├─── create - 自定义创建 LUN
+  │       ├─── delete - 批量删除 LUN
+  │       ├─── expand - 批量扩容 LUN
+  │       ├─── list - 批量查询 LUN
+  │       ├─── modify - 修改指定 LUN
+  │       ├─── modify_name - 批量修改 LUN 名称
+  │       ├─── show - 查询指定 LUN
+  ├── 📂 lun_group
+  │       ├─── add_luns - 向 LUN 组添加 LUN
+  │       ├─── create - 创建 LUN 组
+  │       ├─── delete - 批量删除 LUN 组
+  │       ├─── list - 批量查询 LUN 组
+  │       ├─── remove_luns - 从 LUN 组移除 LUN
+  │       ├─── show - 查询指定 LUN 组详情
+  │       ├─── show_luns - 查询 LUN 组中的 LUN
+  ├── 📂 mapping_view
+  │       ├─── create - 创建映射视图
+  │       ├─── delete - 批量删除映射视图
+  │       ├─── list - 批量查询映射视图列表
+  │       ├─── query_host_to_lun
+  ├── 📂 physical_host
+  │       ├─── add_initiators - 为物理主机添加启动器
+  │       ├─── create - 接入物理主机
+  │       ├─── delete - 移除物理主机
+  │       ├─── list - 批量查询物理主机
+  │       ├─── map_luns - LUN映射给物理主机
+  │       ├─── modify - 修改物理主机基本信息
+  │       ├─── modify_access_info - 修改物理主机接入信息
+  │       ├─── query_by_initiator - 根据启动器查询关联的物理主机
+  │       ├─── query_sshkey - 查询指定物理主机SSH公钥
+  │       ├─── remove_initiators - 从物理主机移除启动器
+  │       ├─── save_sshkey - 保存指定物理主机SSH公钥
+  │       ├─── show - 查询指定物理主机
+  │       ├─── show_initiators - 查询指定物理主机的启动器
+  │       ├─── show_mapping_views - 查询物理主机关联的映射关系
+  │       ├─── test - 检测存储设备和物理主机连通性
+  │       ├─── unmap_luns - 解除主机映射
+  ├── 📂 physical_host_group
+  │       ├─── add_hosts - 向物理主机组中增加物理主机
+  │       ├─── create - 创建物理主机组
+  │       ├─── delete - 删除指定物理主机组
+  │       ├─── list - 批量查询物理主机组
+  │       ├─── map_luns - LUN映射给物理主机组
+  │       ├─── modify - 修改物理主机组基本信息
+  │       ├─── remove_hosts - 物理主机组移除物理主机
+  │       ├─── show - 查询指定物理主机组
+  │       ├─── show_hosts - 查询物理主机组中的物理主机
+  │       ├─── show_mapping_views - 查询物理主机组关联的映射关系
+  │       ├─── show_related
+  │       ├─── unmap_luns - 解除物理主机组映射
+  ├── 📂 port_group
+  │       ├─── create - 创建端口组
+  │       ├─── list - 批量查询端口组
+  │       ├─── show_ports - 批量查询指定端口组的端口
+  │       ├─── show_relations - 批量查询端口组与端口关联关系
+  ├── 📂 storage_host
+  │       ├─── batch_query - 根据存储主机 ID 列表批量查询存储主机
+  │       ├─── create - 创建存储主机
+  │       ├─── delete - 批量删除存储主机
+  │       ├─── list - 批量查询存储主机
+  │       ├─── modify - 修改存储主机
+  │       ├─── show_luns - 查询存储主机映射的 LUN 信息列表
+  │       ├─── show_paths - 批量查询存储主机的路径信息
+  │       ├─── unmap_luns - 解除存储主机映射
+  ├── 📂 storage_host_group
+  │       ├─── add_hosts - 添加存储主机到存储主机组
+  │       ├─── create - 创建存储主机组
+  │       ├─── delete - 批量删除存储主机组
+  │       ├─── list - 批量查询存储主机组
+  │       ├─── remove_hosts - 从存储主机组中移除主机
+  │       ├─── show_luns - 查询存储主机组映射的 LUN 信息列表
+  │       ├─── unmap_luns - 解除存储主机组映射
+
+📁 server - 服务器管理 (Server) 相关操作
+  ├── 直接动作:
+  │     ├── list - 查询服务器列表
+  │     ├── show - 查询指定服务器的概览信息
+  ├── 📂 cpu
+  │       ├─── list - 查询服务器上的所有 CPU 列表
+  ├── 📂 disk
+  │       ├─── list - 查询服务器上的硬盘集合
+  ├── 📂 fan
+  │       ├─── list - 查询服务器上的风扇
+  ├── 📂 memory
+  │       ├─── list - 查询服务器上的内存
+  ├── 📂 nic
+  │       ├─── list - 查询服务器上的网卡集合
+  ├── 📂 pcie_card
+  │       ├─── list - 查询服务器上的 PCIe 卡信息
+  ├── 📂 power
+  │       ├─── list - 查询服务器上的电源
+  ├── 📂 raid_card
+  │       ├─── list - 查询服务器上的 RAID 卡详情
+
+📁 storage - 存储设备 (Storage) 相关操作
+  ├── 直接动作:
+  │     ├── add - 添加存储设备（仅支持录入离线存储设备信息）
+  │     ├── get_passphrase - 获取存储设备访问的令牌
+  │     ├── list - 批量查询存储设备
+  │     ├── modify - 修改存储设备（仅支持修改录入的离线存储设备信息）
+  │     ├── query_power_data - 查询存储设备功率数据
+  │     ├── remove - 批量移除存储设备
+  │     ├── show - 查询指定存储设备
+  │     ├── sync - 同步存储设备信息
+  ├── 📂 account
+  │       ├─── create_local_user - 创建本地认证用户
+  │       ├─── create_unix_user - 创建指定存储设备 UNIX 认证用户
+  │       ├─── create_windows_user - 创建指定存储设备 Windows 认证用户
+  │       ├─── show_local_user_groups - 查询指定存储设备本地认证用户组的信息
+  │       ├─── show_local_users - 查询指定存储设备本地认证用户的信息
+  │       ├─── show_unix_user_groups - 查询指定存储设备 UNIX 认证用户组的信息
+  │       ├─── show_unix_users - 查询指定存储设备 UNIX 认证用户的信息
+  │       ├─── show_windows_user_groups - 查询指定存储设备 Windows 认证用户组的信息
+  │       ├─── show_windows_users - 查询指定存储设备 Windows 认证用户的信息
+  ├── 📂 app_type
+  │       ├─── list - 查询指定存储设备的应用类型
+  ├── 📂 bbu
+  │       ├─── list - 查询存储设备的 BBU 信息列表
+  ├── 📂 controller
+  │       ├─── list - 查询指定存储设备的控制器信息
+  ├── 📂 disk
+  │       ├─── list - 查询存储设备的硬盘信息列表
+  ├── 📂 disk_domain
+  │       ├─── list - 批量查询硬盘域
+  ├── 📂 disk_pool
+  │       ├─── list - 批量查询分布式存储设备的硬盘池
+  ├── 📂 enclosure
+  │       ├─── list - 批量查询机框信息
+  ├── 📂 failover_group
+  │       ├─── list - 查询漂移组列表
+  │       ├─── show_ports - 查询漂移组下的端口（支持 bond、eth、ib 三种类型）
+  │       ├─── show_vlans - 查询漂移组下的 VLAN
+  ├── 📂 fan
+  │       ├─── list - 查询存储设备的风扇信息
+  ├── 📂 hyperscale_pool
+  │       ├─── list - 查询 HyperScale 存储池列表
+  ├── 📂 initiator
+  │       ├─── delete - 批量删除存储设备的启动器对象
+  │       ├─── list - 批量查询存储侧启动器对象
+  │       ├─── modify - 修改存储侧启动器对象
+  ├── 📂 logic_port
+  │       ├─── create - 创建存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
+  │       ├─── delete - 删除存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
+  │       ├─── failback - 回切存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
+  │       ├─── list - 查询存储设备的逻辑端口列表
+  │       ├─── show - 查询存储设备的逻辑端口详情
+  │       ├─── update - 修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
+  ├── 📂 node
+  │       ├─── list - 查询存储设备的节点列表
+  ├── 📂 pool
+  │       ├─── list - 查询存储设备存储池列表
+  ├── 📂 port
+  │       ├─── list - 查询存储设备端口信息，支持 ETH、FC、IB、Bond 四种类型
+  │       ├─── show_bond_members - 查询指定绑定端口的成员列表信息
+  ├── 📂 psu
+  │       ├─── list - 获取存储设备电源（PSU）列表
+  ├── 📂 qos
+  │       ├─── activate - 批量激活 QoS 策略
+  │       ├─── associate - QoS 策略关联控制资源
+  │       ├─── create - 创建 QoS 策略
+  │       ├─── deactivate - 批量取消激活 QoS 策略
+  │       ├─── delete - 删除 QoS 策略
+  │       ├─── list - 批量查询 QoS 策略
+  │       ├─── modify - 修改 QoS 策略
+  │       ├─── show - 查询指定 QoS 策略详情
+  │       ├─── unassociate - QoS 策略解关联控制资源
+  ├── 📂 vlan
+  │       ├─── create - 创建 VLAN（仅支持 OceanStor A800、A600 系列存储）
+  │       ├─── delete - 删除 VLAN（仅支持 OceanStor A800、A600 系列存储）
+  │       ├─── list - 批量查询 VLAN 列表
+  │       ├─── modify - 修改 VLAN（仅支持 OceanStor A800、A600 系列存储）
+  ├── 📂 vstore
+  │       ├─── create - 创建租户
+  │       ├─── delete - 批量删除租户
+  │       ├─── list - 批量查询存储设备租户信息
+  │       ├─── modify - 修改指定租户
+  │       ├─── show - 查询租户详情
+  ├── 📂 zone
+  │       ├─── list - 查询OceanStor A800集群中zone信息
+
+📁 system - 系统管理 (System) 相关操作
+  ├── 直接动作:
+  │     ├── certificate - 获取 DME 证书
+  │     ├── login - 认证用户登录
+  │     ├── logout - 注销会话
+  │     ├── reset_password - 重置密码
+  │     ├── show - 查询产品系统信息
+  ├── 📂 az
+  │       ├─── list - 批量查询可用分区
+  ├── 📂 backup_server
+  │       ├─── list - 批量查询备份服务器
+  ├── 📂 dc
+  │       ├─── list - 获取数据中心列表
+  │       ├─── show - 获取数据中心详情
+  │       ├─── show_devices - 查询指定数据中心的设备列表信息
+  ├── 📂 region
+  │       ├─── list - 批量查询Region
+  │       ├─── query - 查询下级Region资源信息
+  ├── 📂 role
+  │       ├─── list - 批量查询角色信息
+  ├── 📂 tag
+  │       ├─── bind - 标签关联资源
+  │       ├─── create - 创建标签
+  │       ├─── delete - 批量删除标签
+  │       ├─── list - 批量查询标签
+  │       ├─── modify - 修改标签
+  │       ├─── unbind - 标签取消关联资源
+  ├── 📂 tag_type
+  │       ├─── create - 创建标签类型
+  │       ├─── delete - 批量删除标签类型
+  │       ├─── list - 批量查询标签类型
+  │       ├─── modify - 修改标签类型
+  ├── 📂 task
+  │       ├─── list - 批量查询任务
+  │       ├─── retry - 重试任务
+  │       ├─── show - 查询指定任务详情
+  │       ├─── wait - 等待任务完成
+  ├── 📂 todo_task
+  │       ├─── audit - 审核待办任务
+  │       ├─── close - 关闭待办任务
+  │       ├─── execute - 执行待办任务
+  │       ├─── list - 查询待办任务列表
+  │       ├─── revoke - 撤销审核待办项
+  │       ├─── show - 查询待办任务详情
+  ├── 📂 todo_task_group
+  │       ├─── confirm - 确认执行定时待办任务组
+  │       ├─── execute - 执行待办任务组
+  │       ├─── list - 查询待办任务组列表
+  ├── 📂 user
+  │       ├─── create - 创建用户
+  │       ├─── delete - 删除用户
+  │       ├─── list - 批量查询用户信息
+  │       ├─── show - 查询指定用户信息
+
+📁 tenant - 租户自助服务 (Self Service) 相关操作
+  ├── 📂 lun
+  │       ├─── bind_project - LUN 关联业务群组
+  │       ├─── bind_tier - LUN 关联服务等级
+  │       ├─── change_tier - 批量更新 LUN 的服务等级
+  │       ├─── create - 服务化批量创建 LUN
+  │       ├─── unbind_project - 解除 LUN 与业务群组间关联
+  │       ├─── unbind_tier - 解除 LUN 与服务等级关联
+  ├── 📂 project
+  │       ├─── list - 批量查询业务群组
+  │       ├─── show_tiers - 批量查询业务群组与服务等级关联关系
+  ├── 📂 tier
+  │       ├─── list - 批量查询服务等级
+  │       ├─── show_projects - 批量查询业务群组与服务等级关联关系
+
+📁 virt - 虚拟化服务 (Virtualization) 相关操作
+  ├── 📂 cluster
+  │       ├─── list - 查询集群列表
+  │       ├─── show - 查询指定集群详情
+  ├── 📂 datastore
+  │       ├─── list - 查询数据存储列表
+  │       ├─── show - 查询指定数据存储详情
+  ├── 📂 disk
+  │       ├─── list - 查询物理盘信息
+  ├── 📂 host
+  │       ├─── adapter_list - 查询指定主机存储适配器列表
+  │       ├─── list - 查询主机列表
+  │       ├─── show - 查询指定主机详情
+  ├── 📂 site
+  │       ├─── list - 查询站点列表
+  │       ├─── show - 查询指定站点详情
+  ├── 📂 vdisk
+  │       ├─── list - 查询虚拟磁盘信息列表
+  │       ├─── show - 查询指定虚拟磁盘信息
+  ├── 📂 vm
+  │       ├─── list - 查询虚拟机列表
+  │       ├─── show - 查询指定虚拟机详情
+
+📁 workflow - 工作流 (Workflow) 相关操作
+  ├── 📂 instance
+  │       ├─── create - 创建并执行实例
+  │       ├─── show - 查询实例详情
+  │       ├─── step_log - 查询步骤日志
+  │       ├─── stop - 停止实例
+  ├── 📂 template
+  │       ├─── groups - 查询所有模板分组
+  │       ├─── list - 分页查询模板列表
+  │       ├─── show - 查询模板详细信息
+
+======================================================================
+
+说明:
+  📁 主题 - 主题描述
+  │     ├── 直接动作 - 动作描述
+  ├── 📂 子主题
+  │       ├── 动作 - 动作描述
+======================================================================
+

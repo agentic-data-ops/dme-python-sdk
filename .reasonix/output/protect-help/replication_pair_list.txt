@@ -1,0 +1,105 @@
+
+============================================================
+动作：protect replication_pair list
+============================================================
+
+描述:
+  批量查询复制 Pair
+
+详细说明:
+  批量查询复制 Pair
+
+参数说明:
+------------------------------------------------------------
+
+  --page_no
+      分页查询的页码，默认 1
+
+  --page_size
+      每页显示的数量，默认 20
+
+  --group_id
+      所属复制一致性组 ID
+
+  --group_name
+      所属复制一致性组名称，支持模糊匹配
+
+  --pair_raw_id
+      复制 Pair 在存储设备上的 ID
+
+  --local_storage_id
+      本端存储设备 ID
+
+  --local_storage_name
+      本端存储设备名称，支持模糊匹配
+
+  --local_vstore_id
+      所属本端租户的 ID，该参数和 local_vstore_raw_id 互斥
+
+  --local_vstore_raw_id
+      所属本端租户在设备上的 ID，该参数和 local_vstore_id 互斥
+
+  --local_volume_name
+      本端 LUN 名称，支持模糊匹配
+
+  --remote_vstore_id
+      所属远端租户的 ID，该参数和 remote_vstore_raw_id 互斥
+
+  --remote_vstore_raw_id
+      所属远端租户在设备上的 ID，该参数和 remote_vstore_id 互斥
+
+  --remote_volume_name
+      远端 LUN 名称，支持模糊匹配
+
+输出说明:
+------------------------------------------------------------
+    {
+        total: 复制Pair数量 (int32),
+        replication_pairs: 复制Pair列表 (List<ReplicationPairResponse>)。参数格式如下：[{
+            id: 复制Pair唯一标识 (string, 1~64个字符),
+            raw_id: 在存储设备上的ID (string, 1~64个字符),
+            local_storage_id: 本端存储设备ID (string, 1~64个字符),
+            local_storage_name: 本端设备名称 (string, 1~255个字符),
+            local_resource_raw_id: 本端资源在设备上的ID (string, 1~64个字符),
+            local_resource_name: 本端资源名称 (string, 1~255个字符),
+            remote_storage_id: 远端存储设备ID (string, 1~64个字符),
+            remote_storage_name: 远端存储设备名称 (string, 1~255个字符),
+            remote_resource_raw_id: 远端资源在设备上的ID (string, 1~64个字符),
+            remote_resource_name: 远端资源名称 (string, 1~255个字符),
+            local_resource_type: 本端资源类型。可选值：lun (卷), file_system (文件系统),
+            local_vstore_raw_id: 本端资源所属租户在设备上的ID (string, 1~64个字符),
+            remote_vstore_raw_id: 远端资源所属租户在设备上的ID (string, 1~64个字符),
+            health_status: 健康状态。可选值：unknown (未知), normal (正常), fault (故障),
+            running_status: 运行状态。可选值：normal, synchronizing, to_be_recoverd, interrupted, splited, invalid, standby, air_gap_link_down,
+            replication_mode: 复制模式。可选值：synchronous (同步复制), asynchronous (异步复制),
+            speed: 速率。可选值：low, medium, high, highest, custom,
+            bandwidth: 自定义同步速率 (int32, MB/s),
+            synchronize_type: 同步类型。可选值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy,
+            interval: 数据同步周期 (integer, 0~86400秒),
+            sync_left_time: 同步完成剩余时间 (string),
+            recovery_policy: 恢复策略。可选值：automatic (自动恢复), manual (手动恢复),
+            is_primary: 本端是否是主端。可选值：true, false,
+            rep_io_timeout: 远端IO超时时间 (integer, 10~255秒),
+            enable_compress: 链路压缩。可选值：true (压缩), false (不压缩),
+            compress_valid: 压缩是否有效。可选值：true, false,
+            sync_start_time: 最后一次同步启动时间 (string),
+            sync_end_time: 最后一次同步结束时间 (string),
+            is_in_group: 是否属于一致性组。可选值：true, false,
+            group_id: 所属远程复制一致性组ID (string, 1~64个字符),
+            group_raw_id: 所属一致性组在设备上的ID (string, 1~64个字符),
+            group_name: 所属一致性组名称 (string, 1~255个字符),
+            data_consistent_status: 主从数据是否一致。可选值：true, false,
+            primary_resource_data_status: 主端资源数据状态。可选值：synchronized, complete, incomplete, unknown,
+            secondary_resource_data_status: 从端资源数据状态。可选值：synchronized, complete, incomplete, unknown,
+            secondary_resource_protection: 从端资源读写设置。可选值：access_denied, read_only, read_write,
+            dr_ring_id: 环形3DC对象在设备上的ID (string, 1~64个字符),
+            progress: 同步进度 (int32, -1~100),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme protect replication_pair list
+  pydme protect replication_pair list --page_no <value> --page_size <value> --group_id <value> --group_name <value> --pair_raw_id <value> --local_storage_id <value> --local_storage_name <value> --local_vstore_id <value> --local_vstore_raw_id <value> --local_volume_name <value> --remote_vstore_id <value> --remote_vstore_raw_id <value> --remote_volume_name <value>
+============================================================
+
