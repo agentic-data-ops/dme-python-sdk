@@ -1566,7 +1566,7 @@ def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_i
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1613,7 +1613,7 @@ def account_create_local_user(client: DMEAPIClient, storage_id: str, name: str, 
     if vstore_id is not None:
         payload['vstore_id'] = vstore_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1656,7 +1656,7 @@ def account_create_unix_user(client: DMEAPIClient, storage_id: str, name: str,
     if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1735,7 +1735,7 @@ def account_show_unix_users(client: DMEAPIClient, storage_id: str, vstore_raw_id
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1773,7 +1773,7 @@ def account_show_windows_users(client: DMEAPIClient, storage_id: str, vstore_raw
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1811,7 +1811,7 @@ def account_show_local_user_groups(client: DMEAPIClient, storage_id: str, vstore
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1850,7 +1850,7 @@ def account_show_unix_user_groups(client: DMEAPIClient, storage_id: str, vstore_
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -1888,7 +1888,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
     if name is not None:
         payload['name'] = name
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
@@ -2221,7 +2221,12 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         io_param['burst_write_iops'] = burst_write_iops
 
     if io_param:
-        payload['io_param'] = io_param
+        # DME API 要求 io_param 内的字段使用驼峰命名
+        import re
+        def _to_camel(snake):
+            parts = snake.split('_')
+            return parts[0] + ''.join(p.capitalize() for p in parts[1:])
+        payload['io_param'] = {_to_camel(k): v for k, v in io_param.items()}
 
     if alarm_switch is not None:
         payload['alarm_switch'] = alarm_switch
@@ -3408,7 +3413,7 @@ ACTIONS = {
     'account_create_local_user': {
         'func': account_create_local_user,
         'description': '创建本地认证用户',
-        'params': ['storage_id', 'name', 'password', 'primary_group_raw_id', 'description', 'group_names', 'vstore_id'],
+        'params': ['storage_id', 'name', 'account_password', 'primary_group_raw_id', 'description', 'group_names', 'vstore_id'],
         'subtopic': 'account'
     },
     'account_create_unix_user': {

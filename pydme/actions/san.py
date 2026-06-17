@@ -1948,7 +1948,7 @@ def port_group_list(client: DMEAPIClient, storage_id: str = None,
     if storage_id is not None:
         payload['storage_id'] = storage_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"port_group_id": port_group_id})
     return response
 
 
@@ -2025,7 +2025,7 @@ def port_group_show_ports(client: DMEAPIClient, port_group_id: str,
     if page_size is not None:
         payload['page_size'] = page_size
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"port_group_id": port_group_id})
     return response
 
 
@@ -2891,7 +2891,7 @@ def physical_host_group_show_hosts(client: DMEAPIClient, hostgroup_id: str,
     if page_no is not None:
         payload['page_no'] = page_no
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"hostgroup_id": hostgroup_id})
     return response
 
 

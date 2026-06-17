@@ -215,7 +215,7 @@ class DMECLI:
 
         lines = doc.strip().split('\n')
         
-        # 提取函数描述（Args 之前的部分）
+        # 提取函数描述（Args 之前的部分），保留缩进和换行
         description_lines = []
         in_params = False
         in_returns = False
@@ -228,9 +228,18 @@ class DMECLI:
                 in_returns = True
                 break
             if stripped:
-                description_lines.append(stripped)
+                description_lines.append(line)  # 保留原始缩进
         
-        result['description'] = ' '.join(description_lines)
+        if description_lines:
+            # 计算基准缩进（第一行的缩进量）
+            base_indent = len(description_lines[0]) - len(description_lines[0].lstrip())
+            # 去除基准缩进，保留相对缩进（最小为 0）
+            formatted = []
+            for line in description_lines:
+                indent = len(line) - len(line.lstrip())
+                relative_indent = max(0, indent - base_indent)
+                formatted.append(' ' * relative_indent + line.strip())
+            result['description'] = '\n'.join(formatted)
 
         # 提取参数信息
         if in_params:
@@ -604,7 +613,8 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
 
     if info['parsed']['description']:
         print(f"\n详细说明:")
-        print(f"  {info['parsed']['description']}")
+        for line in info['parsed']['description'].split('\n'):
+            print(f"  {line}")
 
     print(f"\n参数说明:")
     print(f"{'-'*60}")
@@ -1116,11 +1126,11 @@ def main():
                 'switch_id': 'switch_id',
                 'storageId': 'storageId',
                 'vstore_ids': 'ids',
-                'initiator_ids': 'ids',
-                'qos_policy_ids': 'ids',
-                'tag_type_ids': 'ids',
-                'tag_ids': 'ids',
+                'initiator_ids': 'initiator_ids',
+                'qos_policy_ids': 'qos_policy_ids',
+                'tag_ids': 'tag_ids',
                 'storage_ids': 'storage_ids',
+                'account_password': 'password',
                 'volume_ids': 'volume_ids',
                 'lun_ids': 'lun_ids',
                 'zone_ids': 'zone_ids',

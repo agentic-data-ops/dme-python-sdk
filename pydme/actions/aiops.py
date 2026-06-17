@@ -1073,32 +1073,41 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
 def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_id: str,
                lun_name: str = None, san_type: str = None, page_size: int = 20, page_no: int = 1) -> dict:
     r"""
-    查询拓扑图 Lun 列表
+    查询拓扑图 LUN 列表
 
-    根据指定入口对象查询拓扑图中的 LUN 列表。
+    根据指定入口对象和存储池查询 LUN 列表。
 
     Args:
         client: DME API 客户端
-        entry_objects: 入口对象列表（必选），格式：[{"id":"<入口对象ID>","type":"<入口对象类型>"},...]，支持类型：
-            - host: 主机
-            - storage: 存储设备
-            - host_group: 主机组
-            - lun: LUN
-            - vm: 虚拟机
-            - datastore: 数据存储
-            - application: 应用
-            - switch_port: 交换机端口
-            - storage_pool: 存储池
-        storage_pool_id: 存储池 ID（必选）
-        lun_name: LUN 名称，支持模糊匹配
-        san_type: SAN 类型，可选值：ip_san, fc_san
-        page_size: 分页查询的个数，1~20，默认 20
-        page_no: 分页查询的起始位置，默认 1
+        entry_objects: 入口对象列表（List<LunTopoQueryEntryObject>，必选，数组最大成员个数: 5）。参数格式如下：[{
+                id: 入口对象 id（必选，string，1~128 个字符）,
+                type: 入口对象类型（必选，string）。可选值：host（物理主机），storage（闪存存储/分布式存储），host_group（主机组），lun（LUN），vm（虚拟机），datastore（数据存储），application（应用），switch_port（光纤交换机端口），storage_pool（存储池）。注意：ip_san 时不支持 datastore/application/switch_port；入口对象为 vm/storage_pool 时最多支持 5 个，其余类型只支持 1 个,
+            }, ...]
+        storage_pool_id: 所属存储池 ID（必选，string，1~128 个字符）。格式为 {storageId}STORAGE_POOL{poolId}，如 "b9326bbf-...STORAGE_POOL163BECEA..."，从 storage pool list 返回的 id 字段获取
+        san_type: 存储区域网络类型（可选，string）。可选值：ip_san，fc_san
+        lun_name: LUN 名称（可选，string，1~256 个字符），支持模糊查询
+        page_size: 分页查询的个数（可选，int32，1~20），默认 20
+        page_no: 分页查询的起始位置（可选，int32，1~2147483647），默认 1
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 LUN 拓扑列表
+            total: LUN 查询结果总数 (int32),
+            luns: LUN 查询结果列表 (List<LunObject>)。参数格式如下：[{
+                id: LUN id (string, 1~128个字符),
+                name: LUN 名称 (string, 1~256个字符),
+                datastore: LUN 对应数据存储列表 (List<LunsQueryDataStoreItem>)。属性格式如下：[{
+                    id: 数据存储 id (string, 1~128个字符),
+                    name: 数据存储名称 (string, 1~256个字符),
+                    storage_type: 存储类型 (string)。可选值：vmfs（虚拟机文件系统）,
+                    vr_type: 虚拟化类型 (string)。可选值：vmware, hcs,
+                }, ...],
+                is_replication_member: 是否是复制卷 (boolean, true/false),
+                is_replication_primary: 是否是复制卷本端 (boolean, true/false),
+                is_hyper_metro_member: 是否是保护卷 (boolean, true/false),
+                is_hyper_metro_primary: 是否是保护卷本端 (boolean, true/false),
+                storage_pool_id: 存储池 ID (string, 1~140个字符)。格式为 {storageId}STORAGE_POOL{poolId},
+            }, ...],
+        }
     """
     url = "/rest/topomgmt/v1/topo-data/luns/query"
 
@@ -1135,35 +1144,75 @@ def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type:
 
     Args:
         client: DME API 客户端
-        entry_objects: 入口对象列表（必选），格式：[{"id":"<入口对象ID>","type":"<入口对象类型>"},...]，支持类型：
-            - host: 主机
-            - storage: 存储设备
-            - lun: LUN
-            - host_group: 主机组
-            - vm: 虚拟机
-            - datastore: 数据存储（仅 FC_SAN）
-            - application: 应用（仅 FC_SAN）
-            - switch_port: 交换机端口（仅 FC_SAN）
-            - storage_pool: 存储池
-        san_type: SAN 类型（可选），可选值：ip_san, fc_san
+        entry_objects: 入口对象列表（必选，数组最大成员个数: 1）。FC_SAN 参数格式如下：[{
+                id: 入口对象 id（必选，string，1~128 个字符）,
+                type: 入口对象类型（必选，string）。可选值：host（主机），storage（闪存存储设备），lun（LUN），host_group（主机组），vm（虚拟机），datastore（数据存储），application（应用），switch_port（光纤交换机端口），storage_pool（存储池）,
+            }, ...]。IP_SAN 参数格式如下：[{
+                id: 入口对象 id（必选，string，1~128 个字符）,
+                type: 入口对象类型（必选，string）。可选值：host（主机），storage（闪存存储或分布式存储），lun（LUN），host_group（主机组），vm（虚拟机），storage_pool（存储池）。注：IP_SAN 不支持 datastore/application/switch_port 类型，最多支持 5 个对象,
+            }, ...]
+        san_type: SAN 类型（可选，string）。可选值：ip_san, fc_san
                   - 不指定时，同时调用 IP_SAN 和 FC_SAN 两个 API，组合返回数据
                   - 指定为 ip_san 时，仅调用 IP_SAN API
                   - 指定为 fc_san 时，仅调用 FC_SAN API
 
     Returns:
+        当 san_type=fc_san 或不指定时（FC_SAN 部分）：
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含主机到存储池的拓扑结构：
-        - ip_san 数据：
-          - switches: 交换机列表
-          - hosts: 主机列表
-          - storages: 存储列表
-          - switch_links: 交换机连接关系列表
-          - port_links: 端口连接关系列表
-        - fc_san 数据：
-          - fabrics: fabric 列表
-          - hosts: 主机列表
-          - storages: 存储列表
+            fabrics: Fabric 列表 (List<HostToStoragePoolFabric>)。参数格式如下：[{
+                id: Fabric id (string, 1~64个字符),
+                name: Fabric 名称 (string, 1~128个字符),
+                switches: 交换机列表 (List<SwitchItem>)。属性格式如下：[{
+                    id: 交换机节点 id (string, 1~64个字符),
+                    name: 交换机节点名称 (string, 1~128个字符),
+                    ports: 交换机端口列表 (List<SwitchPortItem>)。属性格式如下：[{
+                        id: 交换机端口节点 id (string, 1~64个字符),
+                        name: 交换机端口节点名称 (string, 1~128个字符),
+                        status: 交换机端口状态 (string)。可选值：normal（正常），abnormal（故障），unknown（未知）,
+                    }, ...],
+                }, ...],
+                port_links: 交换机端口链路列表 (List<PortLinkItem>)。属性格式如下：[{
+                    left_port: 左端口 (PortNodeItem)。属性格式如下：{
+                        id: 端口 Id (string, 1~64个字符),
+                        type: 端口类型 (string)。可选值：host_port, switch_port, storage_port,
+                    },
+                    right_port: 右端口 (PortNodeItem),
+                }, ...],
+                switch_links: 交换机连接关系列表 (List<SwitchLinkItem>)。属性格式如下：[{
+                    host_to_switch_id: 主机连接的交换机 ID (string, 1~64个字符),
+                    storage_to_switch_id: 存储连接的交换机 ID (string, 1~64个字符),
+                }, ...],
+            }, ...],
+            hosts: 主机列表 (List<HostToStoragePoolHost>)。属性格式如下：[{
+                id: 主机 id (string, 1~64个字符),
+                name: 主机名称 (string, 1~256个字符),
+                access_mode: 接入模式 (string)。可选值：vcenter, none,
+                host_groups: 主机组列表 (List<HostToStoragePoolHostGroup>),
+                ports: 主机端口列表 (List<HostToStoragePoolPort>),
+                deployment_type: 部署类型 (string)。可选值：BMS（裸金属服务器），ECS（ECS主机）,
+                direct_storage_ids: 主机直连的存储设备 ID 列表 (List<string>),
+            }, ...],
+            storages: 存储列表 (List<HostToStoragePoolStorage>)。属性格式如下：[{
+                id: 存储 id (string, 1~64个字符),
+                name: 存储名称 (string, 1~128个字符),
+                product_model: 存储设备类型 (string),
+                controllers: 控制器列表 (List<HostToStoragePoolController>),
+                pools: 存储池列表 (List<HostToStoragePoolPool>),
+                disks: 存储磁盘列表 (List<HostToStorageDiskDisks>),
+            }, ...],
+        }
+        当 san_type=ip_san 时（IP_SAN）：
+        {
+            switches: 交换机列表 (List<SwitchItem>),
+            hosts: 主机列表 (List<HostToStoragePoolHost>),
+            storages: 存储列表 (List<HostToStoragePoolStorage>),
+            switch_links: 交换机连接关系列表 (List<SwitchLinkItem>),
+        }
+        当 san_type=None 时：
+        {
+            ip_san: { IP_SAN 返回数据 },
+            fc_san: { FC_SAN 返回数据 },
+        }
     """
     result = {}
 
@@ -1215,32 +1264,39 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     r"""
     查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表
 
-    根据指定入口对象查询虚拟化资源，包括虚拟机和虚拟磁盘列表，
-    或者查询 BMS（裸金属服务器）下的物理磁盘列表。
+    根据指定入口对象查询虚拟化资源。
 
     Args:
         client: DME API 客户端
-        entry_objects: 入口对象列表（必选），格式：[{"id":"<入口对象ID>","type":"<入口对象类型>"},...]，支持类型：
-            - vm: 虚拟机
-            - host_group: 主机组
-            - host: 主机
-            - storage: 存储设备
-            - lun: LUN
-            - datastore: 数据存储
-            - switch_port: 交换机端口
-            - storage_pool: 存储池
-        host_id: 主机 ID（必选）
-        vm_name: 虚拟机名称搜索参数，支持模糊匹配
-        page_size: 分页查询的个数，1~20，默认 20
-        page_no: 分页查询的起始位置，默认 1
+        entry_objects: 入口对象列表（List<VmTopoQueryEntryObject>，必选，数组最大成员个数: 5）。参数格式如下：[{
+                id: 入口对象 id（必选，string，1~128 个字符）,
+                type: 入口对象类型（必选，string）。可选值：vm（虚拟机），host_group（主机组），host（主机），storage（闪存存储或分布式存储），lun（LUN），datastore（数据存储），switch_port（光纤交换机端口），storage_pool（存储池）,
+            }, ...]
+        host_id: 主机 ID（必选，string，0~128 个字符）
+        vm_name: 虚拟机名称搜索参数（可选，string，0~256 个字符），支持模糊匹配
+        page_size: 分页查询的个数（可选，int32，1~20），默认 20
+        page_no: 分页查询的起始位置（可选，int32，1~2147483647），默认 1
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含：
-        - total: 查询结果总数
-        - vms: 虚拟机列表
-        - disks: 物理主机关联的物理磁盘列表
+            total: vms 查询结果总数 (int32),
+            vms: vm 查询结果列表 (List<VirtualMachine>)。参数格式如下：[{
+                id: id (string, 1~64个字符),
+                name: vm 名称 (string, 1~128个字符),
+                ip: vm ip (string, 1~3072个字符),
+                host_id: 物理主机 ID (string, 1~64个字符),
+                vr_type: 虚拟化类型 (string)。可选值：vmware, hcs,
+                vdisks: 虚拟盘列表 (List<VirtualDisk>)。属性格式如下：[{
+                    id: vdisk id (string, 1~64个字符),
+                    name: vdisk 名称 (string, 1~128个字符),
+                }, ...],
+            }, ...],
+            disks: 物理主机关联的物理磁盘列表 (List<PhysicalDisk>)。参数格式如下：[{
+                id: disk id (string, 1~64个字符),
+                native_id: disk native id (string, 1~768个字符),
+                name: disk 名称 (string, 1~768个字符),
+            }, ...],
+        }
     """
     url = "/rest/topomgmt/v1/topo-data/vms/query"
 
@@ -1270,48 +1326,34 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     r"""
     查询拓扑图库信息
 
-    根据指定入口资源查询拓扑图库信息，支持 NAS、K8s、DB 等业务类型。
+    查询拓扑图库信息，支持 NAS、K8s、DB 等业务类型。
 
     Args:
         client: DME API 客户端
-        entry_res_type: 入口资源类型（必选），支持类型：
-            - storage_device: 存储设备
-            - disk: 磁盘
-            - storage_pool: 存储池
-            - hyper_scale_pool: 超大规模池
-            - file_system: 文件系统
-            - controller: 控制器
-            - eth_port: 以太网端口
-            - ib_port: InfiniBand 端口
-            - logic_port: 逻辑端口
-            - ip_client: IP 客户端
-            - dtree: Dtree
-            - lun: LUN
-            - k8s_application: K8s 应用
-            - k8s_workload: K8s 工作负载
-            - k8s_pod: K8s Pod
-            - k8s_pvc: K8s PVC
-            - k8s_pv: K8s PV
-            - k8s_cluster: K8s 集群
-            - k8s_node: K8s 节点
-            - k8s_vc_job: K8s VC 任务
-            - dturbo_client: DataTurbo 客户端
-            - enclosures: 机柜
-            - eth_switch: 以太网交换机
-            - storage_zone: 存储区域
-            - service_network: 服务网络
-            - db_instance: 数据库实例
-            - db_node: 数据库节点
-        entry_res_id: 入口资源 ID（必选）
-        type: 业务类型，可选值：nas, k8s, db
-        filter: 过滤条件列表，最多 10 个
+        entry_res_type: 入口资源类型（必选，string）。可选值：storage_device（存储设备），disk（硬盘），storage_pool（存储池），hyper_scale_pool（全局池），file_system（文件系统），controller（控制器），eth_port（以太/RoCE端口），ib_port（IB端口），logic_port（逻辑端口），ip_client（IP客户端），dtree（Dtree），lun（LUN），k8s_application（容器应用），k8s_workload（工作负载），k8s_pod（容器组），k8s_pvc（持久卷申领），k8s_pv（持久卷），k8s_cluster（容器集群），k8s_node（容器节点），k8s_vc_job（Volcano Job），data_turbo_client（DataTurbo客户端），enclosures（机框），eth_switch（交换机），storage_zone（存储zone），service_network（业务网络），db_instance（高斯数据库实例），db_node（高斯数据库节点）
+        entry_res_id: 入口资源 ID（必选，string，1~256 个字符）
+        type: 业务类型（可选，string）。可选值：nas, k8s, db
+        filter: 条件过滤列表（可选，List<TopoFilter>，数组最大成员个数: 10）。参数格式如下：[{
+                type: 拓扑查询返回资源类型 (可选, string)。可选值与 entry_res_type 相同,
+                key: 字段名称 (可选, string, 1~256个字符)。如 id, name, ip,
+                value: 字段值 (可选, string, 0~256个字符),
+                operator: 比较方式 (可选, string)。可选值：lt（小于），le（小于等于），eq（等于），gt（大于），ge（大于等于），ne（不等于），contains（包含）,
+            }, ...]
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含：
-        - nodes: 节点列表，每个节点包含 id, type, label, sub_type
-        - edges: 边列表，每条边包含 source, target, edge_type
+            nodes: 节点列表 (List<NodeItem>)。参数格式如下：[{
+                id: 节点对象 ID (string, 1~256个字符),
+                type: 拓扑查询返回资源类型 (string)。可选值：storage_device, disk, storage_pool, hyper_scale_pool, file_system, controller, eth_port, ib_port, logic_port, ip_client, dtree, lun, k8s_application, k8s_workload, k8s_pod, k8s_pvc, k8s_pv, k8s_cluster, k8s_node, k8s_vc_job, k8s_pod_group, data_turbo_client, enclosures, eth_switch, storage_zone, service_network, db_instance, db_node, host, host_port, storage_port,
+                label: 节点对象名称 (string, 1~256个字符),
+                sub_type: 工作负载类型 (string, 仅 k8s_workload 时)。可选值：deployment, replica_set, stateful_set, daemon_set, job, cron_job,
+            }, ...],
+            edges: 边列表 (List<EdgeItem>)。参数格式如下：[{
+                source: 起始节点 ID (string, 1~256个字符),
+                target: 目标节点 ID (string, 1~256个字符),
+                edge_type: 边类型 (string)。可选值：edge_k8s_node_to_k8s_pod, edge_storage_pool_to_storage_disk, edge_filesystem_to_storage_pool, edge_storage_disk_to_storage_device, edge_k8s_pvc_to_k8s_pv, edge_k8s_pod_to_k8s_pvc, edge_dtree_to_filesystem, edge_lun_storage_pool, edge_k8s_cluster_to_k8s_node, edge_k8s_pv_to_lun, edge_k8s_pv_to_dtree, edge_nas_client_to_logic_port, edge_logic_port_to_ethernet_port, edge_ethernet_port_to_controller, edge_controller_to_filesystem, edge_data_turbo_client_to_logic_port, edge_controller_to_ethernet_port, edge_data_turbo_client_to_service_network, edge_ethernet_port_to_eth_switch_port, edge_service_network_to_logic_port, edge_a800_enclosures_to_storage_zone, edge_controller_to_enclosures, edge_storage_zone_to_filesystem, edge_eth_switch_port_to_eth_switch_port, edge_enclosures_to_controller, edge_controller_to_storage_port, edge_eth_switch_to_eth_switch_port, edge_storage_port_to_eth_switch_port, edge_filesystem_to_hyper_scale_pool, edge_hyper_scale_pool_to_storage_pool, edge_eth_switch_port_to_eth_switch, edge_k8s_pod_to_k8s_node, edge_k8s_podgroup_to_k8s_pod, edge_k8s_vcjob_to_k8s_podgroup, edge_lun_to_controller, edge_host_to_service_network, edge_host_to_host_port, edge_host_port_to_service_network, edge_service_network_to_lun, edge_service_network_to_storage_port, edge_db_instance_to_db_node, edge_db_node_to_host,
+            }, ...],
+        }
     """
     url = "/rest/dmegraphanalysis/v1/topo-data/query"
 

@@ -249,25 +249,36 @@ def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
     """
     批量查询 zone
 
-    查询光纤 Zone 列表。
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        fabric_wwn: 光纤网络 WWN（可选），1~1024 个字符
-        name: Zone 名称（可选），支持模糊查询，1~1024 个字符
-        cfg_name: 所属 CFG 名称（可选），支持模糊查询，0~1024 个字符
-        zone_set: 所属 Zone 集合（可选），支持模糊查询，0~1024 个字符
-        active_status: Zone 状态列表（可选），数组最大成员个数：2
-        member_count: 成员数量（可选），0~2147483647
-        sort_key: 排序字段（可选），支持 member_count
-        sort_dir: 排序方向（可选），asc：升序；desc：降序
-        page_no: 分页查询的页码（可选），1~65535
-        page_size: 每页数量（可选），1~1000
+        fabric_wwn: 光纤网络 WWN（可选，string，1~1024 个字符）
+        name: Zone 名称（可选，string，1~1024 个字符），支持模糊查询
+        cfg_name: 所属 CFG 名称（可选，string，0~1024 个字符），支持模糊查询
+        zone_set: 所属 Zone 集合（可选，string，0~1024 个字符），支持模糊查询
+        active_status: Zone 状态列表（可选，List<string>，数组最大成员个数: 2）。可选值：ACTIVATED（已激活），INATIVATED（未激活）
+        member_count: 成员数量（可选，int32，0~2147483647）
+        sort_key: 排序字段（可选，string），可选值：member_count
+        sort_dir: 排序方向（可选，string），可选值：asc（升序），desc（降序），默认升序
+        page_no: 分页查询的页码（可选，int32，1~65535）
+        page_size: 每页数量（可选，int32，1~1000）
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 zones 字段
+            total: Zone 数量 (int32),
+            zones: Zone 列表 (List<ZoneBaseInfoResponse>)。参数格式如下：[{
+                id: Zone id (string, 1~128个字符),
+                fabric_id: 光纤网络 id (string, 0~128个字符),
+                name: Zone 名称 (string, 1~64个字符),
+                active_status: Zone 状态 (string, 1~16个字符)。可选值：ACTIVATED（已激活），INATIVATED（未激活）,
+                member_count: 成员数量 (integer),
+                cfg_name: 所属 CFG 名称 (string, 0~256个字符),
+                zone_set: 所属 Zone 集合 (string, 0~256个字符),
+                modifiable: 当前 Zone 是否可以操作 (boolean, true/false),
+                zone_type: Zone 类型 (string)。可选值：regular（常规 Zone），user_specified_peer_zone（用户创建的对等 Zone），target_driven_peer_zone（目标驱动的对等 Zone）,
+            }, ...],
+        }
     """
     url = "/rest/fcswitchmgmt/v1/zones/list"
 
@@ -305,25 +316,32 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                 device_alias_members: list = None) -> dict:
     """
     创建 zone
+    在光纤网络中创建一个 zone 实例，必须包含 WWN 成员、端口成员、别名成员中的一种。
 
-    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        name: Zone 名称（必选）
-        fabric_wwn: 光纤网络 WWN（条件必选，fabric 创建 zone 时需要）
-        vsan_wwn: VSAN WWN（条件必选，vsan 创建 zone 时需要）
-        wwn_members: WWN 成员列表（可选），格式：["<wwn>",...]
-        port_members: 端口成员列表（可选），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
-        fwwn_members: FWWN 成员列表（可选），格式：["<fwwn>",...]
-        fcid_members: FCID 成员列表（可选），格式：["<fcid>",...]
-        alias_members: 别名成员列表（可选），格式：["<alias>",...]
-        device_alias_members: 设备别名成员列表（可选），格式：["<deviceAlias>",...]
+        name: Zone 名称（必选，string，1~64 个字符，正则 ^[A-Za-z][A-Za-z0-9_^$\\-]*$）
+        fabric_wwn: 光纤网络 WWN（必选，string，1~128 个字符，正则 ^[A-Za-z0-9:]+$）
+        vsan_wwn: VSAN WWN（可选，string，1~32 个字符）。条件必选：VSAN 创建 ZONE 时需要传递
+        wwn_members: WWN 成员列表（可选，List<string>，数组最大成员个数: 100）
+        port_members: 端口成员列表（可选，List<PortMemberRequest>，数组最大成员个数: 100）。参数格式如下：[{
+                domain_id: 域 ID (可选, int32, 0~65535),
+                port_index: 端口号 (条件必选, int32, 0~65535)，博科交换机时设置,
+                port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机时设置,
+                switch_wwn: 交换机 WWN (可选, string, 1~32个字符)，思科交换机需指定远端交换机时设置,
+            }, ...]
+        fwwn_members: FWWN 成员列表（可选，List<string>，数组最大成员个数: 100）
+        fcid_members: FCID 成员列表（可选，List<string>，数组最大成员个数: 100）
+        alias_members: 别名成员列表（可选，List<string>，数组最大成员个数: 100）
+        device_alias_members: 设备别名成员列表（可选，List<string>，数组最大成员个数: 100）
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含新创建的 Zone ID
+            id: Zone id (string, 1~64个字符),
+            zone_name: Zone name (string, 1~64个字符),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/zones"
 
@@ -361,24 +379,46 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
                 fcid_members: dict = None, device_alias_members: dict = None) -> dict:
     """
     修改 zone
+    修改 zone 名称或变更成员。该操作会修改指定交换机上的 zone 名称或变更成员。
 
-    修改光纤 Zone 的配置信息。
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        zone_id: Zone ID（必选）
-        zone_name: Zone 名称（可选）
-        wwn_members: WWN 成员修改（可选），格式：{"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
-        alias_members: 别名成员修改（可选），格式：{"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
-        fwwn_members: FWWN 成员修改（可选），格式：{"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: 端口成员修改（可选），格式：{"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}，其中博科交换机指定port_index，思科交换机指定port_name
-        fcid_members: FCID 成员修改（可选），格式：{"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
-        device_alias_members: 设备别名成员修改（可选），格式：{"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
+        zone_id: Zone ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）
+        zone_name: Zone 名称（可选，string，1~64 个字符，正则 ^[A-Za-z][A-Za-z0-9_^$\\-]*$）
+        wwn_members: WWN 成员修改（可选，ModifyWwnMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的 WWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的 WWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+        port_members: 端口成员修改（可选，ModifyPortMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100)。属性格式如下：{
+                    domain_id: 域 ID (可选, int32, 0~65535),
+                    port_index: 端口号 (条件必选, int32, 0~65535)，博科交换机时设置,
+                    port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机时设置,
+                    switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
+                },
+                removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100),
+            }
+        alias_members: 别名成员修改（可选，ModifyAliasMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的别名成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的别名成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+        fwwn_members: FWWN 成员修改（可选，ModifyFwwnMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的 FWWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的 FWWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+        fcid_members: FCID 成员修改（可选，ModifyFcidMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的 FCID 成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的 FCID 成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+        device_alias_members: 设备别名成员修改（可选，ModifyDeviceAliasMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的设备别名成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的设备别名成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
 
     Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
+        无。
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
 
@@ -405,16 +445,16 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
     删除 zone
-    注：根据 DME API 文档，使用 DELETE 方法到 /zones/{zone_id}
-    
+    该操作会删除指定交换机上的 zone。
+
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
+
     Args:
         client: DME API 客户端
-        zone_id: Zone ID（必选）
-    
+        zone_id: Zone ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）
+
     Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
+        无。
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
     
@@ -426,25 +466,30 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
     """
     批量创建 zone
 
-    注：根据 DME API 文档，需要 is_active_zone 和 zone_list 参数。
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        is_active_zone: 是否激活 Zone（必选，字符串 "true" 或 "false"）
-        zones: Zone 配置列表，每个元素应包含:
-            - fabric_wwn: 光纤网络 WWN（必选）
-            - name: Zone 名称（必选）
-            - wwn_members: WWN 成员列表（可选），格式：["<wwn>",...]
-            - port_members: 端口成员列表（可选），格式：[{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]，其中博科交换机指定port_index，思科交换机指定port_name
-            - fwwn_members: FWWN 成员列表（可选），格式：["<fwwn>",...]
-            - fcid_members: FCID 成员列表（可选），格式：["<fcid>",...]
-            - alias_members: 别名成员列表（可选），格式：["<alias>",...]
-            - device_alias_members: 设备别名成员列表（可选），格式：["<deviceAlias>",...]
+        is_active_zone: 是否激活 zones（必选，boolean），可选值：true（激活），false（不激活）
+        zones: 创建 zone 的请求列表（List<ZoneCreateRequest>，必选，数组最小成员个数: 1，数组最大成员个数: 20）。参数格式如下：[{
+                fabric_wwn: 光纤网络 WWN（必选，string，1~128 个字符，正则 ^[A-Za-z0-9:]+$）,
+                name: Zone 名称（必选，string，1~64 个字符，正则 ^[A-Za-z][A-Za-z0-9_^$\\-]*$）,
+                vsan_wwn: VSAN WWN（可选，string，1~32 个字符）。条件必选：VSAN 创建 ZONE 时需要传递,
+                wwn_members: WWN 成员列表（可选，List<string>，数组最大成员个数: 100）,
+                port_members: 端口成员列表（可选，List<PortMemberRequest>，数组最大成员个数: 100）。属性格式如下：[{
+                    domain_id: 域 ID (可选, int32, 0~65535),
+                    port_index: 端口号 (条件必选, int32, 0~65535)，博科交换机时设置,
+                    port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机时设置,
+                    switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
+                }, ...],
+                alias_members: 别名成员列表（可选，List<string>，数组最大成员个数: 100）,
+                device_alias_members: 设备别名成员列表（可选，List<string>，数组最大成员个数: 100）,
+                fwwn_members: FWWN 成员列表（可选，List<string>，数组最大成员个数: 100）,
+                fcid_members: FCID 成员列表（可选，List<string>，数组最大成员个数: 100）,
+            }, ...]
 
     Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
+        无。
     """
     url = "/rest/fcswitchmgmt/v1/zones/batch-create"
 
@@ -460,19 +505,42 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> dict:
     """
     查询 zone 的成员
-
     查询 Zone 中包含的成员，支持端口成员、WWN 成员和别名成员。
+
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        zone_id: Zone ID（必选）
-        type: 成员类型，可选值：port（端口成员）,wwn（WWN 成员）,alias（别名成员）。
-             不指定时返回所有类型的成员
+        zone_id: Zone ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）
+        type: 成员类型（可选，string）。可选值：port（端口成员），wwn（WWN 成员），alias（别名成员）。不指定时返回所有类型的成员
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含成员列表
+            total: WWN 成员数量 (int32, type=wwn 时),
+            wwn_members: WWN 成员列表 (List<GetWwnMembersResponse>, type=wwn 时)。参数格式如下：[{
+                member_wwn: 成员 WWN (string, 1~128个字符),
+            }, ...],
+            total: 端口成员数量 (int32, type=port 时),
+            port_members: 端口成员列表 (List<ZonePortMemberResponse>, type=port 时)。参数格式如下：[{
+                domain_id: 域 id (int32, 0~65535),
+                port_index: 交换机端口索引 (int32, 0~65535),
+                port_name: 端口名称 (string, 1~256个字符),
+                switch_ip: 端口所属交换机 IP (string, 1~32个字符),
+                switch_name: 端口所属交换机名称 (string, 1~2048个字符),
+            }, ...],
+            total: 别名成员数量 (int32, type=alias 时),
+            alias_members: 别名成员列表 (List<AliasBaseInfo>, type=alias 时)。参数格式如下：[{
+                id: 别名 id (string, 1~64个字符),
+                role: 成员类型 (string)。可选值：regular（常规），principal（主要成员），non_principal（非主要成员）,
+                type: 别名成员类型 (string)。可选值：wwn, port, fwwn, fcid, ip-address, device-alias, domain-id, symbolic-node-name, empty, mixed,
+                fabric_id: 光纤网络 id (string, 0~64个字符),
+                fabric_wwn: 光纤网络 WWN (string, 1~32个字符),
+                name: 别名名称 (string, 1~128个字符),
+                member_count: 别名的成员数量 (int32, 0~65535),
+                modifiable: 当前别名是否可以操作 (boolean, true/false),
+            }, ...],
+            members: 所有成员列表 (List, 不指定 type 时),
+        }
     """
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
 
@@ -516,19 +584,31 @@ def alias_list(client: DMEAPIClient, fabric_wwn: str,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
     批量查询别名
-    
-    查询光纤 Alias 列表。
-    
+
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
+
     Args:
         client: DME API 客户端
-        fabric_wwn: 光纤网络 WWN（必选）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
+        fabric_wwn: 光纤网络 WWN（必选，string，1~1024 个字符），从查询光纤网络接口获取
+        name: 别名名称（可选，string，1~1024 个字符），支持模糊查询
+        member_count: 成员数量（可选，int32，0~65535）
+        page_no: 分页查询的页码（可选，int32，1~2147483647），默认 1
+        page_size: 每页数量（可选，int32，1~1000），默认 20
+        sort_key: 排序字段（可选，string），可选值：member_count（按成员数量排序）
+        sort_dir: 排序方向（可选，string），可选值：asc（升序），desc（降序），默认升序
+
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 aliases 字段
+            total: 别名总数 (int32),
+            aliases: 别名列表 (List<AliasBaseInfoResponse>)。参数格式如下：[{
+                id: 别名 id (string, 1~64个字符),
+                fabric_id: 光纤网络 id (string, 1~64个字符),
+                fabric_wwn: 光纤网络 WWN (string, 1~32个字符),
+                name: 别名名称 (string, 1~128个字符),
+                member_count: 成员数量 (int32, 0~65535),
+                modifiable: 当前别名是否可以操作 (boolean, true/false),
+            }, ...],
+        }
     """
     url = "/rest/fcswitchmgmt/v1/aliases/list"
     
@@ -548,24 +628,30 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                  fcid_members: list = None, device_alias_members: list = None) -> dict:
     """
     创建别名
+    该操作会在指定交换机上创建别名。
 
-    注：根据 DME API 文档，需要提供 fabric_wwn 或 vsan_wwn，以及至少一种成员类型。
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        name: Alias 名称（必选）
-        fabric_wwn: 光纤网络 WWN（条件必选，fabric 创建别名时需要）
-        vsan_wwn: VSAN WWN（条件必选，vsan 创建别名时需要）
-        wwn_members: WWN 成员列表（可选，思科交换机 PWWN 成员）
-        port_members: 端口成员列表（可选）
-        fwwn_members: FWWN 成员列表（可选）
-        fcid_members: FCID 成员列表（可选）
-        device_alias_members: 设备别名成员列表（可选）
-    
+        name: 别名名称（必选，string，1~64 个字符，正则 ^[A-Za-z0-9][A-Za-z0-9_^$\\-]*$）
+        fabric_wwn: 光纤网络 WWN（条件必选，string，1~32 个字符），光纤网络创建别名时需要传递
+        vsan_wwn: VSAN WWN（条件必选，string，1~32 个字符），VSAN 创建别名时需要传递
+        wwn_members: WWN 成员列表（可选，List<string>，数组最大成员个数: 100）。思科交换机的 PWWN 成员使用此参数传递。华为/博科交换机：WWN 成员与端口成员至少二选一；思科交换机：PWWN、FWWN、端口、FCID、设备别名至少五选一
+        fwwn_members: FWWN 成员列表（可选，List<string>，数组最大成员个数: 100）。思科交换机：PWWN、FWWN、端口、FCID、设备别名至少五选一
+        port_members: 端口成员列表（可选，List<PortMemberRequest>，数组最大成员个数: 100）。参数格式如下：[{
+                domain_id: 域 ID (可选, int32, 0~65535),
+                port_index: 端口号 (条件必选, int32, 0~65535)，博科交换机配置端口成员时设置,
+                port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机配置端口成员时设置,
+                switch_wwn: 交换机 WWN (可选, string, 1~32个字符)，思科交换机需指定远端交换机时设置,
+            }, ...]
+        fcid_members: FCID 成员列表（可选，List<string>，数组最大成员个数: 100）。思科交换机：PWWN、FWWN、端口、FCID、设备别名至少五选一
+        device_alias_members: 设备别名成员列表（可选，List<string>，数组最大成员个数: 100）。思科交换机：PWWN、FWWN、端口、FCID、设备别名至少五选一
+
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含新创建的 Alias ID
+            id: 别名 id (string, 1~64个字符),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/aliases"
     
@@ -601,23 +687,42 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
                  device_alias_members: dict = None) -> dict:
     """
     修改别名
+    变更别名成员。博科交换机支持 WWN 成员、端口成员修改；思科交换机支持 PWWN、FWWN、端口、FCID、设备别名成员修改。
 
-    注：根据 DME API 文档，成员修改需要使用 {type}.added_members 和 {type}.removed_members 格式。
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        alias_id: Alias ID（必选）
-        name: Alias 名称（可选）
-        wwn_members: WWN 成员修改（可选，格式：{'added_members': [...], 'removed_members': [...]}）
-        fwwn_members: FWWN 成员修改（可选）
-        port_members: 端口成员修改（可选）
-        fcid_members: FCID 成员修改（可选）
-        device_alias_members: 设备别名成员修改（可选）
-    
+        alias_id: 别名 ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）
+        name: 别名名称（可选，string，1~64 个字符，正则 ^[A-Za-z0-9][A-Za-z0-9_^$\\-]*$）。条件可选：思科交换机支持修改别名名称，博科交换机不支持
+        wwn_members: WWN 成员修改（可选，WwnMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的 WWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的 WWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+        fwwn_members: FWWN 成员修改（可选，FwwnMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的 FWWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的 FWWN 成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+        port_members: 端口成员修改（可选，PortMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100)。属性格式如下：{
+                    domain_id: 域 ID (可选, int32, 0~65535),
+                    port_index: 端口号 (条件必选, int32, 0~65535)，博科交换机时设置,
+                    port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机时设置,
+                    switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
+                },
+                removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100),
+            }
+        fcid_members: FCID 成员修改（可选，FcidMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的 FCID 成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的 FCID 成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+        device_alias_members: 设备别名成员修改（可选，DeviceAliasMembersRequest 对象）。参数格式如下：{
+                added_members: 增加的设备别名成员 (可选, List<string>, 数组最大成员个数: 100),
+                removed_members: 移除的设备别名成员 (可选, List<string>, 数组最大成员个数: 100),
+            }
+
     Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
+        无。
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
     
@@ -642,17 +747,16 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
 def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
     删除别名
+    该操作会删除指定交换机上的别名。
 
-    注：根据 DME API 文档，使用 DELETE 方法到 /aliases/{alias_id}
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        alias_id: Alias ID（必选）
-    
+        alias_id: 别名 ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）
+
     Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
+        无。
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
     
@@ -663,19 +767,31 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
 def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) -> dict:
     """
     查询别名的成员
-
     查询 Alias 中包含的成员，支持查询端口成员和 WWN 成员。
+
+    ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
 
     Args:
         client: DME API 客户端
-        alias_id: Alias ID（必选）
-        type: 成员类型，可选值：port（端口成员）,wwn（WWN 成员）。
-             不指定时返回所有类型的成员
+        alias_id: 别名 ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）
+        type: 成员类型（可选，string）。可选值：port（端口成员），wwn（WWN 成员）。不指定时返回所有类型的成员
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含成员列表
+            total: WWN 成员总数 (int32, type=wwn 时),
+            wwn_member: WWN 成员列表 (List<GetWwnMembersResponse>, type=wwn 时)。参数格式如下：[{
+                member_wwn: 成员 WWN (string, 1~128个字符),
+            }, ...],
+            total: 端口成员总数 (int32, type=port 时),
+            port_members: 端口成员列表 (List<PortMemberInfoResponse>, type=port 时)。参数格式如下：[{
+                domain_id: 域 id (int32, 0~65535),
+                port_index: 交换机端口索引 (int32, 0~65535),
+                port_name: 交换机端口名称 (string, 1~128个字符),
+                switch_ip: 端口所属交换机 IP (string, 1~32个字符),
+                switch_name: 端口所属交换机名称 (string, 1~2048个字符),
+            }, ...],
+            members: 所有成员列表 (List, 不指定 type 时),
+        }
     """
     result = {'port_members': [], 'wwn_members': []}
 

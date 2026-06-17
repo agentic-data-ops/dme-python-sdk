@@ -626,6 +626,29 @@ def hypermetro_group_switch_priority(client: DMEAPIClient, ids: list) -> dict:
     return response
 
 
+def hypermetro_group_sync(client: DMEAPIClient, ids: list) -> dict:
+    """
+    同步双活一致性组
+
+    Args:
+        client: DME API 客户端
+        ids: 双活一致性组 ID 列表（必选，List<string>，数组最小成员个数: 1，数组最大成员个数: 100）
+
+    Returns:
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
+    """
+    url = "/rest/protection/v1/metro/groups/sync"
+
+    payload = {
+        'ids': ids
+    }
+
+    response = client.post(url, body=payload)
+    return response
+
+
 # ============================================================================
 # hypermetro_pair 子主题 - 双活 Pair 相关操作
 # ============================================================================
@@ -1462,13 +1485,22 @@ def device_pair_list(client: DMEAPIClient, storage_id: str = None) -> dict:
     return response
 
 
-def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
+def replication_link_list(client: DMEAPIClient, local_storage_id: str = None,
+                          page_no: int = None, page_size: int = None,
+                          health_status: str = None,
+                          running_status: str = None,
+                          link_type: str = None) -> dict:
     """
     查询复制链路
 
     Args:
         client: DME API 客户端
-        storage_id: 存储设备 ID
+        local_storage_id: 本端存储设备 ID（可选，string，1~64 个字符），作为源端存储设备进行查询
+        page_no: 分页查询的页码（可选，int32，默认 1）
+        page_size: 每页显示的数量（可选，int32，1~1000，默认 20）
+        health_status: 健康状态（可选，string）。可选值：normal（正常），fault（故障）
+        running_status: 运行状态（可选，string）。可选值：link_up（已连接），link_down（未连接），disabled（已禁用），connecting（正在连接），air_gap_link_down（Air Gap断开）
+        link_type: 复制链路类型（可选，string）。可选值：fc_link（FC链路），ip_link（IP链路）
 
     Returns:
         {
@@ -1482,12 +1514,22 @@ def replication_link_list(client: DMEAPIClient, storage_id: str = None) -> dict:
             }, ...],
         }
     """
-    url = "/rest/protection/v1/replication-links/query"
+    url = "/rest/protection/v1/device-pairs/replication-links/query"
 
     payload = {}
 
-    if storage_id is not None:
-        payload['storage_id'] = storage_id
+    if local_storage_id is not None:
+        payload['local_storage_id'] = local_storage_id
+    if page_no is not None:
+        payload['page_no'] = page_no
+    if page_size is not None:
+        payload['page_size'] = page_size
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if running_status is not None:
+        payload['running_status'] = running_status
+    if link_type is not None:
+        payload['link_type'] = link_type
 
     response = client.post(url, body=payload)
     return response
@@ -2290,6 +2332,72 @@ def replication_group_switch_write_protection(client: DMEAPIClient, id: str, ope
     return response
 
 
+def replication_group_list(client: DMEAPIClient, page_no: int = None, page_size: int = None,
+                           protect_group_id: str = None, name: str = None, raw_id: str = None,
+                           running_status: str = None, health_status: str = None,
+                           storage_name: str = None, storage_id: str = None,
+                           replication_mode: str = None) -> dict:
+    """
+    批量查询复制一致性组
+
+    Args:
+        client: DME API 客户端
+        page_no: 分页查询的起始位置（可选，int32，默认 1）
+        page_size: 每页显示的数量（可选，int32，1~1000，默认 20）
+        protect_group_id: 保护组 ID（可选，string，1~64 个字符）
+        name: 复制一致性组名称（可选，string，1~255 个字符），支持模糊匹配
+        raw_id: 复制一致性组在设备上的 ID（可选，string，1~64 个字符）
+        running_status: 运行状态（可选，string）。可选值：normal（正常），synchronizing（同步中），splited（已分裂），to_be_recoverd（待恢复），interrupted（异常断开），invalid（失效），standby（备用），air_gap_link_down（Air Gap断开）
+        health_status: 健康状态（可选，string）。可选值：normal（正常），fault（故障），invalid（失效）
+        storage_name: 存储设备名称（可选，string，1~255 个字符），支持模糊匹配
+        storage_id: 存储设备 ID（可选，string，1~64 个字符）
+        replication_mode: 复制模式（可选，string）。可选值：synchronous（同步复制），asynchronous（异步复制）
+
+    Returns:
+        {
+            total: 复制一致性组数量 (int32),
+            groups: 复制一致性组列表 (List<ReplicationGroupDetail>)。参数格式如下：[{
+                id: 复制一致性组 ID (string, 1~64个字符),
+                raw_id: 复制一致性组在设备上的 ID (string, 1~64个字符),
+                name: 复制一致性组名称 (string, 1~255个字符),
+                replication_model: 复制模式 (string)。可选值：synchronous, asynchronous,
+                storage_name: 存储设备名称 (string, 0~255个字符),
+                storage_id: 存储设备 id (string, 1~64个字符),
+                health_status: 健康状态 (string)。可选值：normal, fault, invalid,
+                running_status: 运行状态 (string)。可选值：normal, synchronizing, splited, to_be_recoverd, interrupted, invalid, standby, air_gap_link_down,
+                protect_group_id: 保护组 ID (string, 0~64个字符),
+                protect_group_name: 保护组名称 (string, 0~255个字符),
+            }, ...],
+        }
+    """
+    url = "/rest/protection/v1/replication/groups/query"
+
+    payload = {}
+    if page_no is not None:
+        payload['page_no'] = page_no
+    if page_size is not None:
+        payload['page_size'] = page_size
+    if protect_group_id is not None:
+        payload['protect_group_id'] = protect_group_id
+    if name is not None:
+        payload['name'] = name
+    if raw_id is not None:
+        payload['raw_id'] = raw_id
+    if running_status is not None:
+        payload['running_status'] = running_status
+    if health_status is not None:
+        payload['health_status'] = health_status
+    if storage_name is not None:
+        payload['storage_name'] = storage_name
+    if storage_id is not None:
+        payload['storage_id'] = storage_id
+    if replication_mode is not None:
+        payload['replication_mode'] = replication_mode
+
+    response = client.post(url, body=payload)
+    return response
+
+
 # ============================================================================
 # 文件系统双活Pair (fs_hypermetro_pair) 子主题函数
 # ============================================================================
@@ -3089,6 +3197,12 @@ ACTIONS = {
         'params': ['ids'],
         'subtopic': 'hypermetro_group'
     },
+    'hypermetro_group_sync': {
+        'func': hypermetro_group_sync,
+        'description': '同步双活一致性组',
+        'params': ['ids'],
+        'subtopic': 'hypermetro_group'
+    },
     # hypermetro_pair 子主题动作
     'hypermetro_pair_list': {
         'func': hypermetro_pair_list,
@@ -3150,6 +3264,12 @@ ACTIONS = {
         'func': replication_group_create,
         'description': '创建远程复制一致性组',
         'params': ['cg_name', 'remote_storage_id', 'local_pg_id', 'description', 'remote_lun_group_id', 'local_storage_id', 'create_mode', 'existed_pair_ids', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix'],
+        'subtopic': 'replication_group'
+    },
+    'replication_group_list': {
+        'func': replication_group_list,
+        'description': '批量查询复制一致性组',
+        'params': ['page_no', 'page_size', 'protect_group_id', 'name', 'raw_id', 'running_status', 'health_status', 'storage_name', 'storage_id', 'replication_mode'],
         'subtopic': 'replication_group'
     },
     'replication_group_modify': {
@@ -3259,7 +3379,7 @@ ACTIONS = {
     'replication_link_list': {
         'func': replication_link_list,
         'description': '查询复制链路',
-        'params': ['storage_id'],
+        'params': ['local_storage_id', 'page_no', 'page_size', 'health_status', 'running_status', 'link_type'],
         'subtopic': 'replication_link'
     },
     # snapshot 子主题动作

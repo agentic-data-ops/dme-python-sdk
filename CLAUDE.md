@@ -47,17 +47,26 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 
 ```
 .reasonix/
-├── CLAUDE.md                    # 开发指南 + 任务跟踪（本文件）
 ├── plans/                       # 计划文档
 │   ├── 001-generate-traverse-api-script.md
 │   ├── 100.rewrite-action-funcs-to-follow-api-ref.md
-│   └── 101-gen-actions-for-not-impl-apis.md
-├── scripts/                     # 生成/处理脚本（遗留工具）
-│   ├── read_api_reference.py    # 读取原始 API 文档，提取结构化信息
+│   ├── 101-gen-actions-for-not-impl-apis.md
+│   ├── 102-update-actions-returns-docstring.md
+│   ├── 300-add-action-risk-blacklist.md
+│   └── 500-test-all-actions.md
+├── reference/
+│   ├── dme-api-reference/
+│   │   └── .gitkeep              # 预留目录
+│   └── dme-api-reference.md      # 结构化 API 参考文档（1.7MB，517+ API，225 引用对象）
+├── scripts/                      # 辅助脚本
+│   ├── 00-env.sh                 # 测试环境变量模板
+│   ├── 00-lib.sh                 # 测试执行与记录库（exec_test 等函数）
+│   ├── 02-storage-ids.sh         # storage 主题测试资源 ID
+│   ├── 06-fcswitch-ids.sh        # fcswitch 主题测试资源 ID
+│   ├── check_prose.py            # 检查 docstring 中的中文标点/错别字
+│   ├── read_api_reference.py     # 读取原始 API 文档，提取结构化信息
 │   └── traverse_api_reference.py # 遍历 dme-api-reference 目录生成汇总文档
-└── output/                      # 生成的输出文件
-    ├── dme-api-reference.md     # 结构化 API 参考文档（1.7MB，517+ API）
-    └── dme-api-reference/       # 预留目录（空，.gitkeep）
+└── output/                       # 中间产物（空，.gitkeep，运行时生成测试产物）
 ```
 
 ### 工具脚本说明
@@ -65,15 +74,21 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 | 脚本 | 用途 |
 |------|------|
 | `scripts/read_api_reference.py` | 读取原始 HTML/Markdown API 文档，提取方法、URI、参数表格、响应字段、状态码等结构化信息，以 Markdown 格式输出 |
-| `scripts/traverse_api_reference.py` | 遍历 `reference/dme-api-reference/` 目录（已移除），读取 `目录.md` 中的层级结构，调用 `read_api_reference.py` 处理每个叶节点 API 文件，生成汇总文档 |
+| `scripts/traverse_api_reference.py` | 遍历 `reference/dme-api-reference/` 目录，读取 `目录.md` 中的层级结构，调用 `read_api_reference.py` 处理每个叶节点 API 文件，生成汇总文档 |
+| `scripts/00-lib.sh` | 测试执行与记录库 — `exec_test` 函数封装了 CLI 执行、输出解析、结果记录到报告的全流程 |
+| `scripts/00-env.sh` | 测试环境变量模板 — endpoint, user, password 等全局配置 |
+| `scripts/check_prose.py` | docstring 语言检查 — 自动扫描中文标点、错别字、格式一致性 |
 
 ### 计划文档索引
 
-| 文件 | 内容 |
-|------|------|
-| `plans/001-generate-traverse-api-script.md` | 生成 `traverse_api_reference.py` 脚本遍历 API 文档 |
-| `plans/100.rewrite-action-funcs-to-follow-api-ref.md` | 按 API 参考文档重写所有 action 函数的 docstring、参数校验和响应描述 |
-| `plans/101-gen-actions-for-not-impl-apis.md` | 为未实现的 32 个 API 生成动作函数（含例外/升级/重命名任务） |
+| 文件 | 状态 | 内容 |
+|------|------|------|
+| `plans/001-generate-traverse-api-script.md` | ✅ 完成 | 生成 `traverse_api_reference.py` 脚本遍历 API 文档 |
+| `plans/100.rewrite-action-funcs-to-follow-api-ref.md` | ✅ 完成 | 按 API 参考文档重写所有 action 函数的 docstring、参数校验和响应描述 |
+| `plans/101-gen-actions-for-not-impl-apis.md` | ✅ 完成 | 为未实现的 32 个 API 生成动作函数（含例外/升级/重命名任务） |
+| `plans/102-update-actions-returns-docstring.md` | ⏳ 待执行 | 按 API 参考文档统一更新所有 action 函数的 Returns 段（10 批，~417 函数） |
+| `plans/300-add-action-risk-blacklist.md` | ⏳ 待执行 | 在 `cli.py` 中增加风险确认机制，对 destructive 操作警告/拦截 |
+| `plans/500-test-all-actions.md` | ✅ 完成 | 全量 425+ 动作覆盖测试计划 — 374/427 ACTIONS 已覆盖（~88%），200+ PASS，15+ 代码 Bug 修复 |
 
 ## Installation
 
@@ -286,10 +301,19 @@ pydme nas dataturbo list
 pydme san physical_host_group show_related --hostgroup_id xxx
 ```
 
+## Config
+
+`pydme/config/` 中存放运行时可配置的数据文件：
+
+| 文件 | 用途 |
+|------|------|
+| `blacklist.json` | 风险操作黑名单 — 定义了 122 个 destructive/risky 动作，按 topic 组织。配合 `--accept-risk` 标志或 `DME_ACCEPT_RISK` 环境变量使用 |
+
 ### Reference Documents
 
-- `.reasonix/output/dme-api-reference.md` — 结构化 API 参考文档（78 个 H2 章节、240 个 H3 章节、263 个 H4 子章节，涵盖 DME 所有 API 定义：方法/URI/参数/响应/状态码）
+- `.reasonix/reference/dme-api-reference.md` — 结构化 API 参考文档（78 个 H2 章节、240 个 H3 章节、263 个 H4 子章节，涵盖 DME 所有 API 定义：方法/URI/参数/响应/状态码，225 个引用对象类型）
 - `.reasonix/plans/101-gen-actions-for-not-impl-apis.md` — 未实现 API 的生成计划（517 总 API 中 32 个待实现、76 个例外跳过、2 个重命名任务）
+- `.reasonix/plans/500-test-all-actions.md` — 全量动作覆盖测试计划与执行报告（基于真实 DME 环境测试）
 
 **Documentation**:
 - `CLAUDE.md` — Development guide and task tracking (this file)
@@ -309,9 +333,19 @@ pydme san physical_host_group show_related --hostgroup_id xxx
 - **Docstring format unification**: All Returns sections converted to JSON-style format
 - **Obsolete function cleanup**: Removed 3 unused functions not registered in ACTIONS
 - **`.reasonix/` directory setup**: Plans, scripts, and output files organized under `.reasonix/` (gitignored)
-- **API reference migration**: Raw `reference/dme-api-stormgmt.md` cleaned and consolidated into `.reasonix/output/dme-api-reference.md`
-- **`reference/` directory removed**: Contents migrated to `.reasonix/output/`
+- **API reference migration**: Raw `reference/dme-api-stormgmt.md` cleaned and consolidated into `.reasonix/reference/dme-api-reference.md`
+- **`reference/` directory removed**: Contents migrated to `.reasonix/reference/`
 - **storage topic update**: Increased from 60→62 actions, 63 functions (account actions + cleanup)
+- **Config system**: Added `pydme/config/blacklist.json` with 122 risky action keys for destructive operation safety
+- **New plan — 102**: `update-actions-returns-docstring` — 待执行：按 API 参考统一更新 417 个函数的 Returns 段
+- **New plan — 300**: `add-action-risk-blacklist` — 待执行：增加 `--accept-risk` 标志 + 风险拦截门
+- **New plan — 500**: `test-all-actions` — 已完成：全量 427 ACTIONS 覆盖测试，374 已覆盖（88%）
+- **Test infrastructure**: Added `.reasonix/scripts/00-lib.sh` (exec_test 库), `00-env.sh`, `02-storage-ids.sh`, `06-fcswitch-ids.sh` 等测试辅助脚本
+- **Docstring quality**: Added `.reasonix/scripts/check_prose.py` for automated docstring language/style check
+- **`install.sh`**: Added root-level install script (`git pull → pip uninstall → pip install -e .`)
+- **Bug fixes**: 修复 `pydme/cli.py` 中 5 处 param_mapping 错误；修复 `pydme/actions/storage.py` 中 7 处 `{storage_id}` 路径参数缺失；修复 `pydme/actions/san.py` 中 3 处路径参数缺失（port_group、physical_host_group）；修复 `pydme/actions/protect.py` 中 `replication_link_list` URL 路径错误 + 参数名错误；新增 `replication_group_list` 和 `hypermetro_group_sync` 函数
+- **新增 Phase 9**: 补充 53 个覆盖测试用例（NAS account/DPC、protect device_pair/replication_link、SAN storage_host_group、physical_host_group 等），实测 14+ PASS
+- **测试结果**: 374/427 ACTIONS 覆盖（88%），200+ 用例 PASS，新增附录 C 全量动作覆盖清单
 
 ## Generated Files Convention
 

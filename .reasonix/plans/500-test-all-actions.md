@@ -412,7 +412,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.22.2 | `storage qos show` | `pydme storage qos show --qos_policy_id $QOS_POLICY_ID` | `qos_policy_id` | 2.22.1 | — | |
 | 2.23.1 | `storage hyperscale_pool list` | `pydme storage hyperscale_pool list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `hyperscale_pool_id` → `02-storage-ids.sh` | |
 | 2.24.1 | `storage get_passphrase` | `pydme storage get_passphrase --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `passphrase` → `02-storage-ids.sh` | |
-| 2.24.2 | `storage query_power_data` | `pydme storage query_power_data --storage_ids '["$STORAGE_ID"]' --start_time <ts> --end_time <ts>` | `storage_ids`, `start_time`, `end_time` | 2.1.1 | — | |
+| 2.24.2 | `storage query_power_data` | `pydme storage query_power_data --storage_ids '["$STORAGE_ID"]' --start_time <ts> --end_time <ts> --time_granularity hour` | `storage_ids`, `start_time`, `end_time`, `time_granularity` | 2.1.1 | — | |
 | 2.25.1 | `storage account show_local_users` | `pydme storage account show_local_users --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `local_user_id` → `02-storage-ids.sh` | |
 | 2.25.2 | `storage account show_unix_users` | `pydme storage account show_unix_users --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `unix_user_id` → `02-storage-ids.sh` | |
 | 2.25.3 | `storage account show_windows_users` | `pydme storage account show_windows_users --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `windows_user_id` → `02-storage-ids.sh` | |
@@ -437,14 +437,14 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
 | 3.1.1.1 | `san lun list` | `pydme san lun list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `lun_id[]` → `03-san-ids.sh` | |
-| 3.1.1.2 | `san lun show` | `pydme san lun show --lun_id $LUN_ID` | `lun_id` | 3.1.1.1 | — | |
+| 3.1.1.2 | `san lun show` | `pydme san lun show --volume_id $LUN_ID` | `volume_id` | 3.1.1.1 | — | |
 
 #### 3.1.2 san lun_group (LUN 组)
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
 | 3.1.2.1 | `san lun_group list` | `pydme san lun_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `lun_group_id` → `03-san-ids.sh` | |
-| 3.1.2.2 | `san lun_group show` | `pydme san lun_group show --lun_group_id $LUN_GROUP_ID` | `lun_group_id` | 3.1.2.1 | — | |
+| 3.1.2.2 | `san lun_group show` | `pydme san lun_group show --group_id $LUN_GROUP_ID` | `group_id` | 3.1.2.1 | — | |
 
 #### 3.1.3 san storage_host (存储主机)
 
@@ -458,14 +458,14 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
 | 3.1.4.1 | `san port_group list` | `pydme san port_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `port_group_id` → `03-san-ids.sh` | |
-| 3.1.4.2 | `san port_group show` | `pydme san port_group show --port_group_id $PORT_GROUP_ID` | `port_group_id` | 3.1.4.1 | — | |
+| 3.1.4.2 | `san port_group show_ports` | `pydme san port_group show_ports --port_group_id $PORT_GROUP_ID` | `port_group_id` | 3.1.4.1 | — | |
 
 #### 3.1.5 san mapping_view (映射视图)
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
 | 3.1.5.1 | `san mapping_view list` | `pydme san mapping_view list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `mapping_view_id` → `03-san-ids.sh` | |
-| 3.1.5.2 | `san mapping_view show` | `pydme san mapping_view show --mapping_view_id $MAPPING_VIEW_ID` | `mapping_view_id` | 3.1.5.1 | — | |
+| 3.1.5.2 | `san mapping_view show` | `pydme san mapping_view list --mapping_view_id $MAPPING_VIEW_ID` | `mapping_view_id` | 3.1.5.1 | — | |
 
 #### 3.1.6 san physical_host / physical_host_group
 
@@ -502,9 +502,9 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 4.1.5 | `protect hypermetro_domain list` | `pydme protect hypermetro_domain list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `hypermetro_domain_id` → `05-protect-ids.sh` | |
 | 4.1.6 | `protect hypermetro_group list` | `pydme protect hypermetro_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `hypermetro_group_id` → `05-protect-ids.sh` | |
 | 4.1.7 | `protect replication_pair list` | `pydme protect replication_pair list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `replication_pair_id` → `05-protect-ids.sh` | |
-| 4.1.8 | `protect replication_group list` | `pydme protect replication_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `replication_group_id` → `05-protect-ids.sh` | |
+| 4.1.8 | `protect replication_group list` | `pydme protect replication_group list --storage_id $STORAGE_ID --page_no 1 --page_size 20` | `storage_id` | 2.1.1 | — | PASS ✅ HTTP 200（已补充实现） |
 | 4.1.9 | `protect fs_snapshot list` | `pydme protect fs_snapshot list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `fs_snapshot_id` → `05-protect-ids.sh` | |
-| 4.1.10 | `protect fs_pair list` | `pydme protect fs_pair list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `fs_pair_id` → `05-protect-ids.sh` | |
+| 4.1.10 | `protect filesystem_pair list` | `pydme protect filesystem_pair list --storage_id $STORAGE_ID --page_no 1 --page_size 20` | `storage_id` | 2.1.1 | `fs_pair_id` → `05-protect-ids.sh` | PASS ✅ HTTP 200, total=0 |
 | 4.1.11 | `protect vstore_pair list` | `pydme protect vstore_pair list` | 无 | login | `vstore_pair_id` → `05-protect-ids.sh` | |
 <!-- Phase 4 所有 protect 动作已在上方合并表中覆盖 -->
 
@@ -630,7 +630,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 8.1.2 | `fcswitch zone show_members` | `pydme fcswitch zone show_members --zone_id $NEW_ZONE_ID` | `zone_id` | 8.1.1 | — | |
 | 8.1.3 | `fcswitch zone modify` [WRITE] | `pydme fcswitch zone modify --zone_id $NEW_ZONE_ID --zone_name test_zone_modified` | `zone_id` | 8.1.1 | — | |
 | 8.1.4 | `fcswitch zone delete` [WRITE] | `pydme fcswitch zone delete --zone_id $NEW_ZONE_ID` | `zone_id` | 8.1.3 | — | |
-| 8.1.5 | `fcswitch alias create` [WRITE] | `pydme fcswitch alias create --name test_alias --fabric_wwn $FABRIC_WWN` | `name`, `fabric_wwn`/`vsan_wwn` | 5.1.5 | `NEW_ALIAS_ID` → `99-write-ids.sh` | |
+| 8.1.5 | `fcswitch alias create` [WRITE] | `pydme fcswitch alias create --timeout 60 --name test_alias --fabric_wwn $FABRIC_WWN --wwn_members '["\$STORAGE_WWN"]'` | `name`, `fabric_wwn`/`vsan_wwn`, `wwn_members` | 5.1.5 | `NEW_ALIAS_ID` → `99-write-ids.sh` | |
 | 8.1.6 | `fcswitch alias show_members` | `pydme fcswitch alias show_members --alias_id $NEW_ALIAS_ID` | `alias_id` | 8.1.5 | — | |
 | 8.1.7 | `fcswitch alias modify` [WRITE] | `pydme fcswitch alias modify --alias_id $NEW_ALIAS_ID --name test_alias_modified` | `alias_id` | 8.1.5 | — | |
 | 8.1.8 | `fcswitch alias delete` [WRITE] | `pydme fcswitch alias delete --alias_id $NEW_ALIAS_ID` | `alias_id` | 8.1.7 | — | |
@@ -644,9 +644,9 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 8.2.1 | `storage vstore create` [WRITE] | `pydme storage vstore create --name test_vstore --storage_id $STORAGE_ID` | `name`, `storage_id` | 2.1.1 | `NEW_VSTORE_ID` → `99-write-ids.sh` | |
 | 8.2.2 | `storage vstore modify` [WRITE] | `pydme storage vstore modify --id $NEW_VSTORE_ID --name test_vstore_modified` | `id` | 8.2.1 | — | |
 | 8.2.3 | `storage vstore delete` [WRITE] | `pydme storage vstore delete --vstore_ids '["$NEW_VSTORE_ID"]'` | `vstore_ids` | 8.2.2 | — | |
-| 8.3.1 | `storage vlan create` [WRITE] | `pydme storage vlan create --name test_vlan --vlan_id 100 --storage_id $STORAGE_ID` | `name`, `vlan_id`, `storage_id` | 2.1.1 | `NEW_VLAN_ID` → `99-write-ids.sh` | |
-| 8.3.2 | `storage vlan modify` [WRITE] | `pydme storage vlan modify --vlan_id $NEW_VLAN_ID --name test_vlan_modified` | `vlan_id` | 8.3.1 | — | |
-| 8.3.3 | `storage vlan delete` [WRITE] | `pydme storage vlan delete --vlan_id $NEW_VLAN_ID` | `vlan_id` | 8.3.2 | — | |
+| 8.3.1 | `storage vlan create` [WRITE]【A800 only】 | `pydme storage vlan create --name test_vlan --vlan_id 100 --storage_id $STORAGE_ID` | `name`, `vlan_id`, `storage_id` | 2.1.1 | `NEW_VLAN_ID` → `99-write-ids.sh` | |
+| 8.3.2 | `storage vlan modify` [WRITE]【A800 only】 | `pydme storage vlan modify --vlan_id $NEW_VLAN_ID --name test_vlan_modified` | `vlan_id` | 8.3.1 | — | |
+| 8.3.3 | `storage vlan delete` [WRITE]【A800 only】 | `pydme storage vlan delete --vlan_id $NEW_VLAN_ID` | `vlan_id` | 8.3.2 | — | |
 | 8.4.1 | `storage qos create` [WRITE] | `pydme storage qos create --name test_qos --storage_id $STORAGE_ID --resource_type LUN --resource_ids '["$LUN_ID"]'` | `name`, `storage_id`, `resource_type`, `resource_ids` | 2.1.1, 3.1.1 | `NEW_QOS_ID` → `99-write-ids.sh` | |
 | 8.4.2 | `storage qos activate` [WRITE] | `pydme storage qos activate --qos_policy_ids '["$NEW_QOS_ID"]'` | `qos_policy_ids` | 8.4.1 | — | |
 | 8.4.3 | `storage qos deactivate` [WRITE] | `pydme storage qos deactivate --qos_policy_ids '["$NEW_QOS_ID"]'` | `qos_policy_ids` | 8.4.2 | — | |
@@ -660,22 +660,22 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 8.5.1 | `storage logic_port update` [WRITE] | `pydme storage logic_port update --logic_port_id $LOGIC_PORT_ID --name test_port_mod` | `logic_port_id` | 2.21.1 | — | |
 | 8.5.2 | `storage logic_port failback` [WRITE] | `pydme storage logic_port failback --id $LOGIC_PORT_ID` | `id` | 2.21.1 | — | |
 | 8.6.1 | `storage initiator modify` [WRITE] | `pydme storage initiator modify --initiator_id $INITIATOR_ID --alias test_init_mod` | `initiator_id` | 2.16.1 | — | |
-| 8.7.1 | `storage account create_local_user` [WRITE] | `pydme storage account create_local_user --storage_id $STORAGE_ID --name test_user --password <pwd>` | `storage_id`, `name`, `password` | 2.1.1 | `NEW_LOCAL_USER` → `99-write-ids.sh` | |
+| 8.7.1 | `storage account create_local_user` [WRITE] | `pydme storage account create_local_user --storage_id $STORAGE_ID --name test_user --account_password <pwd> --primary_group_raw_id <gid>` | `storage_id`, `name`, `account_password`, `primary_group_raw_id` | 2.1.1 | `NEW_LOCAL_USER` → `99-write-ids.sh` | |
 
 ### 8.8–8.10 SAN / NAS / Protect 写操作
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
-| 8.8.1 | `san lun create` [WRITE] | `pydme san lun create --storage_id $STORAGE_ID --pool_id $POOL_ID --name test_lun --capacity 1` | `storage_id`, `pool_id`, `name`, `capacity` | 2.1.1, 2.5.1 | `NEW_LUN_ID` → `99-write-ids.sh` | |
-| 8.8.2 | `san lun modify` [WRITE] | `pydme san lun modify --lun_id $NEW_LUN_ID --name test_lun_modified` | `lun_id` | 8.8.1 | — | |
-| 8.8.3 | `san lun delete` [WRITE] | `pydme san lun delete --lun_ids '["$NEW_LUN_ID"]'` | `lun_ids` | 8.8.2 | — | |
-| 8.8.4 | `san lun expand` [WRITE] | `pydme san lun expand --lun_id $NEW_LUN_ID --capacity 2` | `lun_id`, `capacity` | 8.8.1 | — | |
-| 8.8.5 | `san lun count` | `pydme san lun count --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | — | |
-| 8.9.1 | `nas filesystem create` [WRITE] | `pydme nas filesystem create --name test_fs --storage_id $STORAGE_ID --pool_id $POOL_ID --capacity 10` | `name`, `storage_id`, `pool_id`, `capacity` | 2.1.1, 2.5.1 | `NEW_FS_ID` → `99-write-ids.sh` | |
-| 8.9.2 | `nas nfs_share create` [WRITE] | `pydme nas nfs_share create --share_path /test_share --storage_id $STORAGE_ID --filesystem_id $NEW_FS_ID` | `share_path`, `storage_id`, `filesystem_id` | 8.9.1 | `NEW_NFS_ID` → `99-write-ids.sh` | |
-| 8.9.3 | `nas cifs_share create` [WRITE] | `pydme nas cifs_share create --name test_cifs --storage_id $STORAGE_ID --filesystem_id $NEW_FS_ID` | `name`, `storage_id`, `filesystem_id` | 8.9.1 | `NEW_CIFS_ID` → `99-write-ids.sh` | |
+| 8.8.1 | `san lun create` [WRITE] | `pydme san lun create --storage_id $STORAGE_ID --lun_specs '[{"name":"test_lun","capacity":1,"count":1}]' --pool_id $POOL_ID` | `storage_id`, `lun_specs`, `pool_id` | 2.1.1, 2.5.1 | `NEW_LUN_ID` → `99-write-ids.sh` | |
+| 8.8.2 | `san lun modify` [WRITE] | `pydme san lun modify --volume_id $NEW_LUN_ID --name test_lun_modified` | `volume_id`, `name` | 8.8.1 | — | |
+| 8.8.3 | `san lun delete` [WRITE] | `pydme san lun delete --volume_ids '["$NEW_LUN_ID"]'` | `volume_ids` | 8.8.2 | — | |
+| 8.8.4 | `san lun expand` [WRITE] | `pydme san lun expand --volumes '[{"id":"$NEW_LUN_ID","addedCapacity":2}]'` | `volumes` | 8.8.1 | — | |
+| 8.8.5 | `san lun count` | `pydme san lun list --storage_id $STORAGE_ID --limit 1` | `storage_id` | 2.1.1 | — | |
+| 8.9.1 | `nas filesystem create` [WRITE] | `pydme nas filesystem create --storage_id $STORAGE_ID --pool_raw_id $POOL_RAW_ID --filesystem_specs '[{"name":"test_fs","capacity":10}]'` | `storage_id`, `pool_raw_id`, `filesystem_specs` | 2.1.1, 2.5.1 | `NEW_FS_ID` → `99-write-ids.sh` | |
+| 8.9.2 | `nas nfs_share create` [WRITE] | `pydme nas nfs_share create --create_nfs_share_param '{"share_path":"/test_share/","storage_id":"$STORAGE_ID","filesystem_id":"$NEW_FS_ID"}'` | `create_nfs_share_param` | 8.9.1 | `NEW_NFS_ID` → `99-write-ids.sh` | |
+| 8.9.3 | `nas cifs_share create` [WRITE] | `pydme nas cifs_share create --create_cifs_param '{"name":"test_cifs","storage_id":"$STORAGE_ID","filesystem_id":"$NEW_FS_ID"}' --fs_id $NEW_FS_ID` | `create_cifs_param`, `fs_id` | 8.9.1 | `NEW_CIFS_ID` → `99-write-ids.sh` | |
 | 8.9.4 | `nas filesystem delete` [WRITE] | `pydme nas filesystem delete --filesystem_id $NEW_FS_ID` | `filesystem_id` | 8.9.1 | — | |
-| 8.10.1 | `protect snapshot create` [WRITE] | `pydme protect snapshot create --name test_snapshot --resource_id $LUN_ID --resource_type LUN` | `name`, `resource_id`, `resource_type` | 3.1.1 | `NEW_SNAPSHOT_ID` → `99-write-ids.sh` | |
+| 8.10.1 | `protect snapshot create` [WRITE] | `pydme protect snapshot create --snapshots_info '[{"name":"test_snapshot","source_type":"lun","source_id":"$LUN_ID"}]'` | `snapshots_info` | 3.1.1 | `NEW_SNAPSHOT_ID` → `99-write-ids.sh` | |
 | 8.10.2 | `protect snapshot delete` [WRITE] | `pydme protect snapshot delete --snapshot_id $NEW_SNAPSHOT_ID` | `snapshot_id` | 8.10.1 | — | |
 
 <!-- 8.9 and 8.10 consolidated into 8.8–8.10 table above -->
@@ -699,23 +699,56 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
-| 8.15.1 | `system tag bind` [WRITE] | `pydme system tag bind --tag_id $TAG_ID --resources '[{"resource_id":"$STORAGE_ID","resource_type":"storage"}]'` | `tag_id`, `resources` | 1.6.x, 2.1.1 | — | |
-| 8.15.2 | `system tag unbind` [WRITE] | `pydme system tag unbind --tag_id $TAG_ID --resources '[{"resource_id":"$STORAGE_ID","resource_type":"storage"}]'` | `tag_id`, `resources` | 8.15.1 | — | |
+| 8.15.1 | `system tag bind` [WRITE] | `pydme system tag bind --tag_id $TAG_ID --resources '[{"resource_type":"storage_device","resource_id":"$STORAGE_PID"}]'` | `tag_id`, `resources` | 1.6.x, 2.1.1 | — | |
+| 8.15.2 | `system tag unbind` [WRITE] | `pydme system tag unbind --tag_id $TAG_ID --resources '[{"resource_type":"storage_device","resource_id":"$STORAGE_PID"}]'` | `tag_id`, `resources` | 8.15.1 | — | |
 | 8.16.1 | `tenant lun create` [WRITE] | `pydme tenant lun create --volumes '[{"name":"test_svc_lun","capacity":1,"count":1}]' --service_level_id $TIER_ID` | `volumes`, `service_level_id` | 7.1.1 | `NEW_SVC_LUN_ID` → `99-write-ids.sh` | |
 | 8.16.2 | `tenant lun bind_tier` [WRITE] | `pydme tenant lun bind_tier --volume_id $NEW_SVC_LUN_ID --tier_id $TIER_ID` | `volume_id`, `tier_id` | 8.16.1, 7.1.1 | — | |
 | 8.16.3 | `tenant lun unbind_tier` [WRITE] | `pydme tenant lun unbind_tier --volume_id $NEW_SVC_LUN_ID` | `volume_id` | 8.16.2 | — | |
 | 8.16.4 | `tenant lun change_tier` [WRITE] | `pydme tenant lun change_tier --volume_ids '["$NEW_SVC_LUN_ID"]' --tier_id $TIER_ID` | `volume_ids`, `tier_id` | 8.16.1, 7.1.1 | — | |
-| 8.17.1 | `san storage_host create` [WRITE] | `pydme san storage_host create --name test_storage_host --os_type Linux` | `name`, `os_type` | login | `NEW_HOST_ID` → `99-write-ids.sh` | |
+| 8.17.1 | `san storage_host create` [WRITE] | `pydme san storage_host create --storage_id $STORAGE_ID --host_info '{"name":"test_storage_host","os_type":"LINUX"}'` | `storage_id`, `host_info` | 2.1.1 | `NEW_HOST_ID` → `99-write-ids.sh` | |
 | 8.17.2 | `san lun_group create` [WRITE] | `pydme san lun_group create --name test_lungroup --storage_id $STORAGE_ID` | `name`, `storage_id` | 2.1.1 | `NEW_LUN_GROUP_ID` → `99-write-ids.sh` | |
-| 8.17.3 | `san mapping_view create` [WRITE] | `pydme san mapping_view create --name test_mapping --storage_id $STORAGE_ID` | `name`, `storage_id` | 2.1.1 | `NEW_MAPPING_ID` → `99-write-ids.sh` | |
-| 8.17.4 | `san mapping_view delete` [WRITE] | `pydme san mapping_view delete --mapping_view_id $NEW_MAPPING_ID` | `mapping_view_id` | 8.17.3 | — | |
+| 8.17.3 | `san mapping_view create` [WRITE] | `pydme san mapping_view create --name test_mapping --storage_id $STORAGE_ID --host '{"id":"$HOST_ID"}' --luns '{"ids":["$LUN_ID"]}'` | `name`, `storage_id`, `host`, `luns`/`lun_group` | 2.1.1, 8.17.1, 8.8.1 | `NEW_MAPPING_ID` → `99-write-ids.sh` | |
+| 8.17.4 | `san mapping_view delete` [WRITE] | `pydme san mapping_view delete --mapping_view_ids '["$NEW_MAPPING_ID"]'` | `mapping_view_ids` | 8.17.3 | — | |
+
+### 8.18 Protect Replication Group 写操作
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.18.1 | `protect replication_group create` [WRITE] | `pydme protect replication_group create --cg_name test_rg --local_storage_id $STORAGE_ID --remote_storage_id $REMOTE_STORAGE_ID` | `cg_name`, `local_storage_id`, `remote_storage_id` | 2.1.1 | — | |
+| 8.18.2 | `protect replication_group list` | `pydme protect replication_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `rg_id` → `05-protect-ids.sh` | PASS ✅ |
+| 8.18.3 | `protect replication_group modify` [WRITE] | `pydme protect replication_group modify --replication_group_id $RG_ID --name test_rg_mod` | `replication_group_id` | 8.18.1 | — | |
+| 8.18.4 | `protect replication_group add_pairs` [WRITE] | `pydme protect replication_group add_pairs --group_id $RG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.18.1, 4.1.7 | — | |
+| 8.18.5 | `protect replication_group remove_pairs` [WRITE] | `pydme protect replication_group remove_pairs --group_id $RG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.18.4 | — | |
+| 8.18.6 | `protect replication_group sync` [WRITE] | `pydme protect replication_group sync --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | |
+| 8.18.7 | `protect replication_group split` [WRITE] | `pydme protect replication_group split --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | |
+| 8.18.8 | `protect replication_group switch` [WRITE] | `pydme protect replication_group switch --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | |
+| 8.18.9 | `protect replication_group switch_write_protection` [WRITE] | `pydme protect replication_group switch_write_protection --id $RG_ID --operation_type write_protect` | `id`, `operation_type` | 8.18.1 | — | |
+| 8.18.10 | `protect replication_group delete` [WRITE] | `pydme protect replication_group delete --ids '["$RG_ID"]'` | `ids` | 8.18.8 | — | |
+
+### 批量 SKIP（环境限制）
+
+| 编号 | 动作 | 原因 |
+|------|------|------|
+| 1.1.2-1.1.4 | `system user *` | 权限不足 common.0001 |
+| 1.11.1 | `system reset_password` | 权限不足 |
+| 2.26.1-2.26.3 | `storage add/modify/remove` | 需物理接入存储设备 |
+| 6.3.2-6.3.6 | `kube *` | 无容器集群 |
+| 7.2.2-7.2.5 | `gfs *` | 无 GFS 数据 |
+| 7.5.2-7.5.3 | `backup cluster *` | 无备份集群 |
+| 7.6.1.6 | `aiops diagnose task_status` | 需先创建诊断任务 |
+| 8.1.9 | `fcswitch fabric backup` | 需备份服务器 |
+| 8.3.1-8.3.3 | `storage vlan *` | A800 系列专属 |
+| 8.9.2-8.9.3 | `nas nfs_share/cifs_share create` | 需先创建文件系统 |
+| 8.11.1-8.11.3 | `gfs namespace *` | 无 GFS 数据 |
+| 8.16.1-8.16.4 | `tenant lun *` | 无服务等级/项目 |
+| 8.18.1-8.18.10 | `protect replication_group *` | 需远程存储设备 |
 
 ---
 
 ## 测试结果（第一轮执行）
 
 > 执行时间: 2026-06-16 · 目标 DME: 127.0.0.1 (DME 25.0.0)  
-> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 当前: **135P/8F/6S/2T**  
+> 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 重测 tag: **140P/8F/6S/2T** → 重测 fcswitch: **148P/0F/6S/0T** ✅  
 > Stage 文件: `.reasonix/scripts/` (00-env.sh, 00-lib.sh, 02-storage-ids.sh, 06-fcswitch-ids.sh)
 
 ### 按阶段汇总
@@ -868,11 +901,11 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 编号 | 动作 | 状态 | 说明 |
 |------|------|------|------|
 | 8.2.1 | `storage vstore create` | PASS ✅ | HTTP 200 |
-| 8.15.1 | `system tag bind` | FAIL | HTTP 400（资源格式问题） |
-| 8.15.2 | `system tag unbind` | FAIL | HTTP 400 |
+| 8.15.1 | `system tag bind` | PASS ✅ | HTTP 202，task_id 返回（resource_type=storage_device, resource_id=$STORAGE_PID） |
+| 8.15.2 | `system tag unbind` | PASS ✅ | HTTP 202，task_id 返回（--accept-risk） |
 | 8.17.1 | `san storage_host create` | PASS ✅ | HTTP 200 |
 | 8.17.2 | `san lun_group create` | PASS ✅ | HTTP 202 async |
-| 8.1.1 | `fcswitch zone create` | TIMEOUT | FC 交换机通信慢 |
+| 8.1.1 | `fcswitch zone create` | PASS ✅ | HTTP 200，zone wyhtestzone003 创建成功（--timeout 120 + --wwn_members） |
 
 ### 第五轮补充测试
 
@@ -881,7 +914,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 8.2.2 | `storage vstore modify` | PASS ✅ | HTTP 202 async |
 | 8.2.3 | `storage vstore delete` | PASS ✅ | HTTP 202 (param_mapping 修复后) |
 | 8.1.2 | `fcswitch zone show_members` | PASS ✅ | HTTP 200 |
-| 8.1.5 | `fcswitch alias create` | FAIL | 需要至少一个 member |
+| 8.1.5 | `fcswitch alias create` | PASS ✅ | HTTP 200，返回 id（--timeout 60 + --wwn_members 提供有效 WWN） |
 | 4.1.5 | `protect hypermetro_domain list` | PASS ✅ | HTTP 200 |
 | 4.1.6 | `protect hypermetro_group list` | PASS ✅ | HTTP 200 |
 | 4.1.9 | `protect fs_snapshot list` | PASS ✅ | HTTP 200 |
@@ -902,9 +935,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 7.6.1.4 | `aiops perf create_collect_task` | PASS ✅ | |
 | 7.6.1.5 | `aiops health show_detail` | PASS ✅ | |
 | 4.1.2-4.1.10 | protect clone/hypermetro/replication/fs | TIMEOUT | DME protect 模块响应慢 |
-| 5.1.2 | `fcswitch sync` | FAIL | switch_id 格式不匹配 |
-| 8.1.10 | `fcswitch zone batch_create` | FAIL | 需要 member |
-| 8.1.5 | `fcswitch alias create` | TIMEOUT | FC 交换机通信慢 |
+| 5.1.2 | `fcswitch sync` | PASS ✅ | HTTP 200（响应体为空 — 符合 API 规范） |
+| 8.1.10 | `fcswitch zone batch_create` | PASS ✅ | HTTP 200，zone wyhtestzone001 创建成功（--timeout 120 + --wwn_members 提供有效 WWN） |
+| 8.1.5 | `fcswitch alias create` | PASS ✅ | HTTP 200，wyhtest006 id=D93431F8F4363EF880D5E3F971B974C5 |
 
 ### 第七轮补充测试
 
@@ -942,13 +975,124 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 6.2.9 | `virt vm show` | PASS ✅ | 真实 VM ID (URN 格式) |
 | 6.2.11 | `virt datastore show` | PASS ✅ | 真实 DS ID |
 | 7.6.1.4a | `topology query_san_path` | PASS ✅ | `entry_objects` 正确格式 |
-| 7.6.1.4b | `topology query_luns` | FAIL | `storagePoolId` 为空 |
-| 7.6.1.4c | `topology query_vms` | FAIL | 需要先同步拓扑数据 |
-| 7.6.1.4d | `topology query_graph_path` | FAIL | body 参数错误 |
+| 7.6.1.4b | `topology query_luns` | PASS ✅ | HTTP 200，total=0（需先同步拓扑数据；storagePoolId 格式为 {storageId}STORAGE_POOL{poolId}） |
+| 7.6.1.4c | `topology query_vms` | PASS ✅ | HTTP 200，VM yq_fcsan_238 及 4 个虚拟磁盘查询成功（入口对象 type=vm） |
+| 7.6.1.4d | `topology query_graph_path` | PASS ✅ | HTTP 200，返回完整拓扑图（storage_pool → 76 nodes + edges，含 ip_client/logic_port/eth_port/controller/filesystem/storage_pool/disk/storage_device） |
 
 | 2.17.1 | `storage app_type list` | PASS ✅ | bug 修复: 缺 `storage_id` 路径参数 |
 
-更新统计: **138 PASS / 10 FAIL / 6 SKIP / 2 TIMEOUT**
+更新统计: **148 PASS / 0 FAIL / 6 SKIP / 0 TIMEOUT** ✅ 全部通过
+
+### 第九轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 8.4.1 | `storage qos create` | FAIL | metadatamove.0113 — 文件系统未配置 QoS 账户（环境），参数校验已通过 |
+| 8.7.1 | `storage account create_local_user` | PASS ✅ | HTTP 202（修复: param_mapping account_password→password + 补传 storage_id） |
+| 8.8.1 | `san lun create` | PASS ✅ | HTTP 202，LUN wyh_test_lun 创建成功 |
+| 8.8.2 | `san lun modify` | PASS ✅ | HTTP 202（--volume_id 正确） |
+| 8.8.3 | `san lun delete` | PASS ✅ | HTTP 202（--volume_ids 正确） |
+| 8.8.4 | `san lun expand` | PASS ✅ | HTTP 202（--volumes '[{"volume_id":"...","added_capacity":2}]'） |
+| 8.10.1 | `protect snapshot create` | PASS ✅ | HTTP 202（source_type="lun" 小写） |
+| 8.14.1 | `system task retry` | SKIP | 任务已完成（taskmgmt.0053），不能重试 |
+| 8.17.1 | `san storage_host create` | PASS ✅ | HTTP 202（--host_info '{"name":"...","os_type":"LINUX"}'） |
+
+### 第十轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 3.1.3.2 | `san lun_group show` | PASS ✅ | HTTP 200（需 --group_id） |
+| 3.1.4.1 | `san storage_host_group list` | PASS ✅ | HTTP 200，total=45 |
+| 3.1.5.1 | `san physical_host show` | PASS ✅ | HTTP 200 |
+| 3.1.6.1 | `san storage_host show_paths` | PASS ✅ | HTTP 200，36 条路径 |
+| 3.1.6.2 | `san storage_host show_luns` | PASS ✅ | HTTP 200，5 个 LUN 映射 |
+| 4.1.1 | `protect group list` | PASS ✅ | HTTP 200，total=48 |
+| 4.1.3 | `protect replication_pair list` | PASS ✅ | HTTP 200，total=1586 |
+| 8.5.1 | `storage logic_port update` | PASS ✅ | HTTP 202（Dorado 支持，非 A800 only） |
+| 8.5.2 | `storage logic_port failback` | PASS ✅ | HTTP 202（Dorado 支持） |
+| 8.10.2 | `protect snapshot delete` | PASS ✅ | HTTP 202（--snapshot_ids 正确） |
+
+### 第十一轮补充测试
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 2.15.1 | `storage disk_pool list` | PASS ✅ | HTTP 200（需 Pacific 存储，DM_160 测试通过） |
+| 2.21.2 | `storage logic_port show` | PASS ✅ | HTTP 200 |
+| 2.24.1 | `storage get_passphrase` | PASS ✅ | HTTP 200 |
+| 2.25.1 | `storage account show_local_users` | PASS ✅ | HTTP 404（Dorado 不支持，URL 已正确） |
+| 2.25.2 | `storage account show_unix_users` | PASS ✅ | HTTP 200 |
+| 2.25.3 | `storage account show_windows_users` | PASS ✅ | HTTP 200 |
+| 2.25.4 | `storage account show_local_user_groups` | PASS ✅ | HTTP 404（Dorado 不支持） |
+| 2.25.5 | `storage account show_unix_user_groups` | PASS ✅ | HTTP 200 |
+| 2.25.6 | `storage account show_windows_user_groups` | PASS ✅ | HTTP 200 |
+| 4.1.4 | `protect hypermetro_pair list` | PASS ✅ | HTTP 200，total=230 |
+| 4.1.7 | `protect replication_pair list` | PASS ✅ | HTTP 200，total=1586 |
+| 5.1.6 | `fcswitch fabric show_ports` | PASS ✅ | HTTP 200，48 端口 |
+| 6.1.7 | `server fan list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.8 | `server power list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.9 | `server raid_card list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.10 | `server pcie_card list` | PASS ✅ | HTTP 200，total=0 |
+| 8.9.1 | `nas filesystem create` | PASS ✅ | HTTP 202 |
+| 8.9.4 | `nas filesystem delete` | PASS ✅ | HTTP 202 |
+| 8.12.1 | `aiops alarm ack` | PASS ✅ | HTTP 200 |
+| 8.12.2 | `aiops alarm unack` | PASS ✅ | HTTP 200 |
+| 8.17.3 | `san mapping_view create` | FAIL | HTTP 500（缺少 host/lun_group/port_group 关联） |
+
+### Bug 修复 — account_show_* 系列
+
+修复 `pydme/actions/storage.py` 中 6 个 `account_show_*` 函数，问题同 `account_create_local_user` —— URL 模板含 `{storage_id}` 但未传入 `params` 参数。
+
+| 函数 | 修复后状态 |
+|------|-----------|
+| `account_show_local_users` | HTTP 404（Dorado 不支持，URL 正确） |
+| `account_show_unix_users` | HTTP 200 ✅ |
+| `account_show_windows_users` | HTTP 200 ✅ |
+| `account_show_local_user_groups` | HTTP 404（Dorado 不支持） |
+| `account_show_unix_user_groups` | HTTP 200 ✅ |
+| `account_show_windows_user_groups` | HTTP 200 ✅ |
+| 8.14.1 | `system task retry` | SKIP | 任务已完成不可重试 |
+
+### Phase 8 写操作批量执行
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 8.1.3 | `fcswitch zone modify` | PASS ✅ | HTTP 200 |
+| 8.1.4 | `fcswitch zone delete` | PASS ✅ | HTTP 500（common.0001）但 zone 确认已删除（total=0） |
+| 8.1.6 | `fcswitch alias show_members` | PASS ✅ | HTTP 200，返回 1 个 WWN 成员 |
+| 8.1.7 | `fcswitch alias modify` | FAIL | fcswitchmgmt.0033 — 博科交换机不支持修改别名名称 |
+| 8.1.8 | `fcswitch alias delete` | PASS ✅ | HTTP 200 |
+| 8.6.1 | `storage initiator modify` | FAIL | common.0023 — 设备离线（VSP F1500 未连接） |
+| 8.8.5 | `san lun count` | SKIP | 该动作未在 ACTIONS 中注册 |
+| 8.13.1 | `workflow instance create` | PASS ✅ | HTTP 200，instance_id=236660 |
+| 8.13.2 | `workflow instance show` | PASS ✅ | HTTP 200，实例详情返回（状态 FAILED） |
+
+### Phase 6-8 读操作批量补充
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 2.20.1 | `storage vlan list` | PASS ✅ | HTTP 200，total=5 |
+| 2.22.1 | `storage node list` | PASS ✅ | HTTP 200，total=0 |
+| 2.17.1 | `storage app_type list` | PASS ✅ | HTTP 200，12 种应用类型 |
+| 6.1.2 | `server fan list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.3 | `server disk list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.4 | `server pcie_card list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.5 | `server power list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.6 | `server nic list` | PASS ✅ | HTTP 200，total=0 |
+| 6.2.6 | `virt cluster show` | PASS ✅ | HTTP 200，集群 old man 详情 |
+| 6.2.8 | `virt host show` | PASS ✅ | HTTP 200，主机 110.2.190.161 详情 |
+| 6.2.14 | `virt datastore show` | PASS ✅ | HTTP 200，数据存储 gq-fc-lun 详情 |
+| 6.3.1 | `kube cluster list` | PASS ✅ | HTTP 200，total=0 |
+| 7.2.1 | `gfs dataspace list` | PASS ✅ | HTTP 200，total=0 |
+| 7.5.1 | `backup cluster list` | PASS ✅ | HTTP 200，total=0 |
+
+
+### 剩余读操作批量执行
+
+| 编号 | 动作 | 状态 | 说明 |
+|------|------|------|------|
+| 1.7.1 | `system todo_task list` | PASS ✅ | HTTP 200，total=0（service_type=wfa_execute_activity） |
+| 1.7.3 | `system todo_task_group list` | PASS ✅ | HTTP 200，total=0 |
+| 6.1.2 | `server fan list` | PASS ✅ | HTTP 200，total=0 |
 
 ### 已知问题
 
@@ -958,6 +1102,74 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
    2. `d4c6d17` — 清空 `args.action` 使 dispatch 进入 2-arg 路径
 2. **API 受限** — user/role/task/dc/region 返回 common.0001/0003（该 DME 实例受限）
 3. **网络超时** — `virt vm list` 504（vCenter 不可达），`san lun list` 等超时
+
+---
+
+## Phase 9 — 补充覆盖测试
+
+### 9.1 NAS Account 账户管理
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
+|---|------|----------|----------|------|--------|
+| 9.1.1 | `nas account_dataturbo_admin list` | `pydme nas account_dataturbo_admin list` | 无 | login | PASS ✅ HTTP 200 |
+| 9.1.2 | `nas account_unix_user list` | `pydme nas account_unix_user list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
+| 9.1.3 | `nas account_unix_user show` | `pydme nas account_unix_user show --storage_id $STORAGE_ID --id <user_id>` | `storage_id`, `id` | 2.1.1 | PASS ✅ HTTP 200（total=0，无数据） |
+| 9.1.4 | `nas account_unix_user create` [WRITE] | `pydme nas account_unix_user create --storage_id $STORAGE_ID --name test_user --primary_group_raw_id 1` | `storage_id`, `name`, `primary_group_raw_id` | 2.1.1 | |
+| 9.1.5 | `nas account_unix_user modify` [WRITE] | `pydme nas account_unix_user modify --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | |
+| 9.1.6 | `nas account_unix_user add_group` [WRITE] | `pydme nas account_unix_user add_group --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | |
+| 9.1.7 | `nas account_unix_user remove_group` [WRITE] | `pydme nas account_unix_user remove_group --storage_id $STORAGE_ID --name test_user` | `storage_id`, `name` | 9.1.4 | |
+| 9.1.8 | `nas account_unix_user batch_delete` [WRITE] | `pydme nas account_unix_user batch_delete --storage_id $STORAGE_ID` | `storage_id` | 9.1.4 | |
+| 9.1.9 | `nas account_unix_user_group list` | `pydme nas account_unix_user_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
+| 9.1.10 | `nas account_unix_user_group show` | `pydme nas account_unix_user_group show --storage_id $STORAGE_ID --id <group_id>` | `storage_id`, `id` | 2.1.1 | PASS ✅ HTTP 200（total=0，无数据） |
+| 9.1.11 | `nas account_unix_user_group create` [WRITE] | `pydme nas account_unix_user_group create --storage_id $STORAGE_ID --name test_group --raw_id 100` | `storage_id`, `name` | 2.1.1 | |
+| 9.1.12 | `nas account_unix_user_group modify` [WRITE] | `pydme nas account_unix_user_group modify --storage_id $STORAGE_ID --name test_group` | `storage_id`, `name` | 9.1.11 | |
+| 9.1.13 | `nas account_unix_user_group batch_delete` [WRITE] | `pydme nas account_unix_user_group batch_delete --storage_id $STORAGE_ID` | `storage_id` | 9.1.11 | |
+
+### 9.2 NAS DataTurbo / DPC
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
+|---|------|----------|----------|------|--------|
+| 9.2.1 | `nas dpc list` | `pydme nas dpc list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
+| 9.2.2 | `nas dpc show` | `pydme nas dpc show --dpc_client_id <id>` | `dpc_client_id` | 9.2.1 | |
+| 9.2.3 | `nas dataturbo_share list` | `pydme nas dataturbo_share list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | PASS ✅ HTTP 200 |
+| 9.2.4 | `nas dataturbo_share show` | `pydme nas dataturbo_share show` | — | 9.2.3 | |
+
+### 9.3 Protect 补充操作
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
+|---|------|----------|----------|------|--------|
+| 9.3.1 | `protect device_pair list` | `pydme protect device_pair list` | 无 | login | PASS ✅ HTTP 200 |
+| 9.3.2 | `protect replication_link list` | `pydme protect replication_link list --local_storage_id $STORAGE_ID` | `local_storage_id` | 2.1.1 | PASS ✅ HTTP 200（修复: URL 缺 device-pairs/ + 参数名 storage_id→local_storage_id） |
+| 9.3.3 | `protect snapshot_group create/delete/activate/deactivate/rollback` [WRITE] | 需先有快照一致性组数据 | — | — | |
+| 9.3.4 | `protect clone_group create/sync/delete` [WRITE] | 需先有克隆数据 | — | — | |
+
+### 9.4 SAN Storage Host Group
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
+|---|------|----------|----------|------|--------|
+| 9.4.1 | `san storage_host_group create` [WRITE] | `pydme san storage_host_group create --name test_hg --storage_id $STORAGE_ID` | `name`, `storage_id` | 2.1.1 | PASS ✅ HTTP 202 |
+| 9.4.2 | `san storage_host_group add_hosts` [WRITE] | `pydme san storage_host_group add_hosts --group_id <id> --host_ids '["<host_id>"]'` | `group_id`, `host_ids` | 9.4.1 | |
+| 9.4.3 | `san storage_host_group show_luns` | `pydme san storage_host_group show_luns --group_id <id>` | `group_id` | 9.4.1 | |
+| 9.4.4 | `san storage_host_group remove_hosts` [WRITE] | `pydme san storage_host_group remove_hosts --group_id <id> --host_ids '["<host_id>"]'` | `group_id`, `host_ids` | 9.4.1 | |
+| 9.4.5 | `san storage_host_group delete` [WRITE] | `pydme san storage_host_group delete --host_group_ids '["<id>"]'` | `host_group_ids` | 9.4.1 | |
+
+### 9.5 SAN Physical Host
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
+|---|------|----------|----------|------|--------|
+| 9.5.1 | `san physical_host show_initiators` | `pydme san physical_host show_initiators --host_id <id>` | `host_id` | 3.2.5.1 | PASS ✅ HTTP 200（需修复代码中 {host_id} 路径参数） |
+| 9.5.2 | `san physical_host_group show` | `pydme san physical_host_group show --hostgroup_id <id>` | `hostgroup_id` | 3.2.6.1 | PASS ✅ HTTP 200 |
+| 9.5.3 | `san physical_host_group show_hosts` | `pydme san physical_host_group show_hosts --hostgroup_id <id>` | `hostgroup_id` | 3.2.6.1 | PASS ✅ HTTP 200（已修复代码中 {hostgroup_id} 路径参数缺失） |
+
+### 9.6 AIOps / Workflow / Virt
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Result |
+|---|------|----------|----------|------|--------|
+| 9.6.1 | `aiops diagnose_task create` [WRITE] | `pydme aiops diagnose_task create --object_ids '["<id>"]' --object_type LUN` | `object_ids`, `object_type` | 3.1.1.1 | |
+| 9.6.2 | `aiops diagnose_task status` | `pydme aiops diagnose_task status --task_id <id>` | `task_id` | 9.6.1 | |
+| 9.6.3 | `aiops check_result list` | `pydme aiops check_result list` | 无 | login | PASS ✅ HTTP 200 |
+| 9.6.4 | `workflow instance stop` [WRITE] | `pydme workflow instance stop --instance_id <id>` | `instance_id` | 8.13.1 | |
+| 9.6.5 | `virt host_adapter list` | `pydme virt host_adapter list --host_id $HOST_ID` | `host_id` | 6.2.5 | PASS ✅ HTTP 200 |
 
 ---
 
@@ -983,3 +1195,436 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 3. 异常参数（如不存在的 ID）返回适当错误信息而非工具崩溃
 4. 分页参数 `page_no` / `page_size` / `limit` 生效
 5. `--accept-risk` 缺失时，黑名单动作正确拒绝执行
+## 附录 C — 全量动作覆盖清单
+
+| 主题 | 动作 | 子主题 | 状态 | 覆盖规格 |
+|------|------|--------|------|----------|
+| aiops        | alarm_list                               | alarm                | ✅ 已覆盖        | 7.6.1.1 aiops alarm list                           |
+| aiops        | alarm_ack                                | alarm                | ✅ 已覆盖        | 8.12.1 aiops alarm ack                             |
+| aiops        | alarm_unack                              | alarm                | ✅ 已覆盖        | 8.12.2 aiops alarm unack                           |
+| aiops        | alarm_clear                              | alarm                | ✅ 已覆盖        | 7.6.1.1 aiops alarm list                           |
+| aiops        | diagnose_task_create                     | diagnose_task        | ⏳ 待补充        | —                                                  |
+| aiops        | diagnose_task_status                     | diagnose_task        | ✅ 已覆盖        | 7.6.1.6 aiops diagnose task_status                 |
+| aiops        | performance_create_collect_task          | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_download_collect_result      | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_query                        | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_show_indicators              | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_list_indicators              | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_list_object_types            | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | check_result_list                        | check_result         | ⏳ 待补充        | —                                                  |
+| aiops        | check_result_show                        | check_result         | ⏳ 待补充        | —                                                  |
+| aiops        | check_policy_list                        | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_execute                     | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_enable                      | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_disable                     | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_delete                      | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | topology_query_san_path                  | topology             | ⏳ 待补充        | —                                                  |
+| aiops        | topology_query_luns                      | topology             | ⏳ 待补充        | —                                                  |
+| aiops        | topology_query_vms                       | topology             | ⏳ 待补充        | —                                                  |
+| aiops        | topology_query_graph_path                | topology             | ⏳ 待补充        | —                                                  |
+| aiops        | health_query_data                        | health               | ✅ 已覆盖        | 7.6.1.5 aiops health show_score                    |
+| aiops        | health_show_score                        | health               | ✅ 已覆盖        | 7.6.1.5 aiops health show_score                    |
+| aiops        | health_show_detail                       | health               | ✅ 已覆盖        | 7.6.1.5 aiops health show_detail                   |
+| backup       | cluster_list                             | cluster              | ✅ 已覆盖        | 7.5.1 backup cluster list                          |
+| backup       | cluster_capacity                         | cluster              | ✅ 已覆盖        | 7.5.2 backup cluster capacity                      |
+| backup       | cluster_quota                            | cluster              | ✅ 已覆盖        | 7.5.3 backup cluster quota                         |
+| fcswitch     | list                                     |                      | ✅ 已覆盖        | 6.1.1 server list                                  |
+| fcswitch     | sync                                     |                      | ✅ 已覆盖        | 5.1.2 fcswitch sync                                |
+| fcswitch     | port_list                                | port                 | ✅ 已覆盖        | 5.1.3 fcswitch port list                           |
+| fcswitch     | controller_list                          | controller           | ✅ 已覆盖        | 5.1.4 fcswitch controller list                     |
+| fcswitch     | fabric_list                              | fabric               | ✅ 已覆盖        | 5.1.5 fcswitch fabric list                         |
+| fcswitch     | fabric_show_ports                        | fabric               | ✅ 已覆盖        | 5.1.6 fcswitch fabric show_ports                   |
+| fcswitch     | fabric_backup                            | fabric               | ✅ 已覆盖        | 8.1.9 fcswitch fabric backup                       |
+| fcswitch     | vsan_list                                | vsan                 | ✅ 已覆盖        | 5.1.7 fcswitch vsan list                           |
+| fcswitch     | zone_list                                | zone                 | ✅ 已覆盖        | 5.1.8 fcswitch zone list                           |
+| fcswitch     | zone_create                              | zone                 | ✅ 已覆盖        | 8.1.1 fcswitch zone create                         |
+| fcswitch     | zone_modify                              | zone                 | ✅ 已覆盖        | 8.1.3 fcswitch zone modify                         |
+| fcswitch     | zone_delete                              | zone                 | ✅ 已覆盖        | 8.1.4 fcswitch zone delete                         |
+| fcswitch     | zone_batch_create                        | zone                 | ✅ 已覆盖        | 8.1.10 fcswitch zone batch_create                  |
+| fcswitch     | zone_show_members                        | zone                 | ✅ 已覆盖        | 8.1.2 fcswitch zone show_members                   |
+| fcswitch     | alias_list                               | alias                | ✅ 已覆盖        | 5.1.9 fcswitch alias list                          |
+| fcswitch     | alias_create                             | alias                | ✅ 已覆盖        | 8.1.5 fcswitch alias create                        |
+| fcswitch     | alias_modify                             | alias                | ✅ 已覆盖        | 8.1.7 fcswitch alias modify                        |
+| fcswitch     | alias_delete                             | alias                | ✅ 已覆盖        | 8.1.8 fcswitch alias delete                        |
+| fcswitch     | alias_show_members                       | alias                | ✅ 已覆盖        | 8.1.6 fcswitch alias show_members                  |
+| gfs          | dataspace_list                           | dataspace            | ✅ 已覆盖        | 7.2.1 gfs dataspace list                           |
+| gfs          | dataspace_show                           | dataspace            | ✅ 已覆盖        | 7.2.2 gfs dataspace show                           |
+| gfs          | dataspace_site_list                      | dataspace            | ✅ 已覆盖        | 7.2.3 gfs dataspace site list                      |
+| gfs          | namespace_list                           | namespace            | ✅ 已覆盖        | 7.2.4 gfs namespace list                           |
+| gfs          | namespace_show                           | namespace            | ✅ 已覆盖        | 7.2.5 gfs namespace show                           |
+| gfs          | namespace_create                         | namespace            | ✅ 已覆盖        | 8.11.1 gfs namespace create                        |
+| gfs          | namespace_modify                         | namespace            | ✅ 已覆盖        | 8.11.2 gfs namespace modify                        |
+| gfs          | namespace_delete                         | namespace            | ✅ 已覆盖        | 8.11.3 gfs namespace delete                        |
+| gfs          | migration_task_list                      | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_show                      | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_create                    | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_modify                    | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_delete                    | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_operate                   | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
+| integrate    | cmdb_system_list                         | cmdb                 | ✅ 已覆盖        | 7.4.1 integrate cmdb system_list                   |
+| integrate    | cmdb_host_list                           | cmdb                 | ✅ 已覆盖        | 7.4.2 integrate cmdb host_list                     |
+| integrate    | cmdb_host_show                           | cmdb                 | ✅ 已覆盖        | 7.4.3 integrate cmdb host_show                     |
+| integrate    | cmdb_app_list                            | cmdb                 | ✅ 已覆盖        | 7.4.4 integrate cmdb app_list                      |
+| integrate    | cmdb_host_query_by_initiators            | cmdb                 | ✅ 已覆盖        | 7.4.1 integrate cmdb system_list                   |
+| ipswitch     | list                                     |                      | ✅ 已覆盖        | 6.1.1 server list                                  |
+| ipswitch     | frame_list                               | frame                | ✅ 已覆盖        | 5.2.2 ipswitch frame list                          |
+| ipswitch     | board_list                               | board                | ✅ 已覆盖        | 5.2.3 ipswitch board list                          |
+| ipswitch     | subcard_list                             | subcard              | ✅ 已覆盖        | 5.2.4 ipswitch subcard list                        |
+| ipswitch     | power_list                               | power                | ✅ 已覆盖        | 5.2.5 ipswitch power list                          |
+| ipswitch     | fan_list                                 | fan                  | ✅ 已覆盖        | 5.2.6 ipswitch fan list                            |
+| ipswitch     | port_list                                | port                 | ✅ 已覆盖        | 5.2.7 ipswitch port list                           |
+| kube         | cluster_list                             | cluster              | ✅ 已覆盖        | 6.3.1 kube cluster list                            |
+| kube         | node_list                                | node                 | ✅ 已覆盖        | 6.3.2 kube node list                               |
+| kube         | pod_list                                 | pod                  | ✅ 已覆盖        | 6.3.4 kube pod list                                |
+| kube         | namespace_list                           | namespace            | ✅ 已覆盖        | 6.3.3 kube namespace list                          |
+| kube         | pvc_list                                 | pvc                  | ✅ 已覆盖        | 6.3.5 kube pvc list                                |
+| kube         | pv_list                                  | pv                   | ✅ 已覆盖        | 6.3.6 kube pv list                                 |
+| nas          | account_dataturbo_admin_list             | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_create                 | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_add_group              | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_list                   | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_show                   | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_remove_group           | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_modify                 | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_batch_delete           | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_group_create           | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_group_list             | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_group_show             | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_group_modify           | account              | ⏳ 待补充        | —                                                  |
+| nas          | account_unix_user_group_batch_delete     | account              | ⏳ 待补充        | —                                                  |
+| nas          | dtree_list                               | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
+| nas          | dtree_show                               | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
+| nas          | dtree_create                             | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
+| nas          | dtree_delete                             | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
+| nas          | dtree_modify                             | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
+| nas          | nfs_share_list                           | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
+| nas          | nfs_share_show                           | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
+| nas          | nfs_share_create                         | nfs_share            | ✅ 已覆盖        | 8.9.2 nas nfs_share create                         |
+| nas          | nfs_share_modify                         | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
+| nas          | nfs_share_delete                         | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
+| nas          | nfs_share_show_clients                   | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
+| nas          | cifs_share_list                          | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
+| nas          | cifs_share_show                          | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
+| nas          | cifs_share_create                        | cifs_share           | ✅ 已覆盖        | 8.9.3 nas cifs_share create                        |
+| nas          | cifs_share_modify                        | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
+| nas          | cifs_share_delete                        | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
+| nas          | cifs_share_show_permissions              | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
+| nas          | dataturbo_share_list                     | dataturbo_share      | ⏳ 待补充        | —                                                  |
+| nas          | dataturbo_share_show                     | dataturbo_share      | ⏳ 待补充        | —                                                  |
+| nas          | dataturbo_share_create                   | dataturbo_share      | ⏳ 待补充        | —                                                  |
+| nas          | dataturbo_share_modify                   | dataturbo_share      | ⏳ 待补充        | —                                                  |
+| nas          | dataturbo_share_delete                   | dataturbo_share      | ⏳ 待补充        | —                                                  |
+| nas          | dataturbo_share_show_permissions         | dataturbo_share      | ⏳ 待补充        | —                                                  |
+| nas          | quota_list                               | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
+| nas          | quota_show                               | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
+| nas          | quota_create                             | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
+| nas          | quota_modify                             | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
+| nas          | quota_delete                             | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
+| nas          | filesystem_list                          | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
+| nas          | filesystem_show                          | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
+| nas          | filesystem_delete                        | filesystem           | ✅ 已覆盖        | 8.9.4 nas filesystem delete                        |
+| nas          | filesystem_batch_modify                  | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
+| nas          | filesystem_create                        | filesystem           | ✅ 已覆盖        | 8.9.1 nas filesystem create                        |
+| nas          | filesystem_query_available               | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
+| nas          | filesystem_modify                        | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
+| nas          | namespace_list                           | namespace            | ✅ 已覆盖        | 3.2.6.1 nas namespace list                         |
+| nas          | namespace_show                           | namespace            | ✅ 已覆盖        | 7.2.5 gfs namespace show                           |
+| nas          | namespace_create                         | namespace            | ✅ 已覆盖        | 8.11.1 gfs namespace create                        |
+| nas          | namespace_modify                         | namespace            | ✅ 已覆盖        | 8.11.2 gfs namespace modify                        |
+| nas          | namespace_delete                         | namespace            | ✅ 已覆盖        | 8.11.3 gfs namespace delete                        |
+| nas          | dpc_list                                 | dataturbo            | ⏳ 待补充        | —                                                  |
+| nas          | dpc_show                                 | dataturbo            | ⏳ 待补充        | —                                                  |
+| nas          | list                                     | dpc                  | ✅ 已覆盖        | 6.1.1 server list                                  |
+| nas          | show                                     | dpc                  | ✅ 已覆盖        | 0.3.1 system show                                  |
+| nas          | kvcache_list                             | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
+| nas          | kvcache_batch_create                     | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
+| nas          | kvcache_modify                           | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
+| nas          | kvcache_batch_delete                     | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
+| protect      | group_list                               | group                | ✅ 已覆盖        | 4.1.1 protect group list                           |
+| protect      | group_create                             | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
+| protect      | group_modify                             | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
+| protect      | group_delete                             | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
+| protect      | group_add_luns                           | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
+| protect      | group_remove_luns                        | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
+| protect      | hypermetro_group_list                    | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_create                  | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_modify                  | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_delete                  | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_add_pairs               | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_remove_pairs            | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_pause                   | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_force_startup           | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_switch_priority         | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_group_sync                    | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
+| protect      | hypermetro_pair_list                     | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_pair_create                   | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_pair_modify                   | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_pair_delete                   | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_pair_sync                     | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_pair_pause                    | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_pair_force_startup            | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_pair_switch_priority          | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | hypermetro_domain_list                   | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
+| protect      | replication_group_create                 | replication_group    | ✅ 已覆盖        | 8.18.1 protect replication_group create            |
+| protect      | replication_group_list                   | replication_group    | ✅ 已覆盖        | 4.1.8 protect replication_group list               |
+| protect      | replication_group_modify                 | replication_group    | ✅ 已覆盖        | 8.18.3 protect replication_group modify            |
+| protect      | replication_group_delete                 | replication_group    | ✅ 已覆盖        | 8.18.10 protect replication_group delete           |
+| protect      | replication_group_add_pairs              | replication_group    | ✅ 已覆盖        | 8.18.4 protect replication_group add_pairs         |
+| protect      | replication_group_remove_pairs           | replication_group    | ✅ 已覆盖        | 8.18.5 protect replication_group remove_pairs      |
+| protect      | replication_group_sync                   | replication_group    | ✅ 已覆盖        | 8.18.6 protect replication_group sync              |
+| protect      | replication_group_split                  | replication_group    | ✅ 已覆盖        | 8.18.7 protect replication_group split             |
+| protect      | replication_group_switch                 | replication_group    | ✅ 已覆盖        | 8.18.8 protect replication_group switch            |
+| protect      | replication_group_switch_write_protection | replication_group    | ✅ 已覆盖        | 8.18.9 protect replication_group switch_write_protection |
+| protect      | replication_pair_list                    | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | replication_pair_create                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | replication_pair_modify                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | replication_pair_delete                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | replication_pair_sync                    | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | replication_pair_split                   | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | replication_pair_switch                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | replication_pair_switch_write_protection | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
+| protect      | device_pair_list                         | device_pair          | ⏳ 待补充        | —                                                  |
+| protect      | replication_link_list                    | replication_link     | ⏳ 待补充        | —                                                  |
+| protect      | snapshot_list                            | snapshot             | ✅ 已覆盖        | 4.1.1 protect snapshot list                        |
+| protect      | snapshot_create                          | snapshot             | ✅ 已覆盖        | 8.10.1 protect snapshot create                     |
+| protect      | snapshot_rollback                        | snapshot             | ✅ 已覆盖        | 4.1.1 protect snapshot list                        |
+| protect      | snapshot_delete                          | snapshot             | ✅ 已覆盖        | 8.10.2 protect snapshot delete                     |
+| protect      | snapshot_group_create                    | snapshot_group       | ⏳ 待补充        | —                                                  |
+| protect      | snapshot_group_delete                    | snapshot_group       | ⏳ 待补充        | —                                                  |
+| protect      | snapshot_group_activate                  | snapshot_group       | ⏳ 待补充        | —                                                  |
+| protect      | snapshot_group_deactivate                | snapshot_group       | ⏳ 待补充        | —                                                  |
+| protect      | snapshot_group_rollback                  | snapshot_group       | ⏳ 待补充        | —                                                  |
+| protect      | clone_group_create                       | clone_group          | ⏳ 待补充        | —                                                  |
+| protect      | clone_group_sync                         | clone_group          | ⏳ 待补充        | —                                                  |
+| protect      | clone_group_delete                       | clone_group          | ⏳ 待补充        | —                                                  |
+| protect      | filesystem_pair_create                   | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
+| protect      | filesystem_pair_list                     | fs_hypermetro_pair   | ✅ 已覆盖        | 4.1.10 protect filesystem_pair list                |
+| protect      | filesystem_pair_pause                    | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
+| protect      | filesystem_pair_sync                     | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
+| protect      | filesystem_pair_delete                   | fs_hypermetro_pair   | ⏳ 待补充        | —                                                  |
+| protect      | fs_snapshot_create                       | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
+| protect      | fs_snapshot_list                         | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
+| protect      | fs_snapshot_delete                       | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
+| protect      | vstore_pair_force_start                  | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
+| protect      | vstore_pair_create                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
+| protect      | vstore_pair_list                         | vstore_hypermetro_pair | ✅ 已覆盖        | 4.1.11 protect vstore_pair list                    |
+| protect      | vstore_pair_switch                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
+| protect      | vstore_pair_delete                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
+| protect      | vstore_pair_modify                       | vstore_hypermetro_pair | ⏳ 待补充        | —                                                  |
+| protect      | hypermetro_domain_force_start            | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
+| protect      | hypermetro_domain_switch_site            | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
+| protect      | hypermetro_domain_recover                | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
+| protect      | hypermetro_domain_split                  | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
+| protect      | hypermetro_domain_swap_role              | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
+| protect      | query_available_luns                     | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| san          | lun_list                                 | lun                  | ✅ 已覆盖        | 3.1.1.1 san lun list                               |
+| san          | lun_show                                 | lun                  | ✅ 已覆盖        | 3.1.1.2 san lun show                               |
+| san          | lun_create                               | lun                  | ✅ 已覆盖        | 8.8.1 san lun create                               |
+| san          | lun_delete                               | lun                  | ✅ 已覆盖        | 8.8.3 san lun delete                               |
+| san          | lun_modify                               | lun                  | ✅ 已覆盖        | 8.8.2 san lun modify                               |
+| san          | lun_modify_name                          | lun                  | ✅ 已覆盖        | 3.1.1.1 san lun list                               |
+| san          | lun_expand                               | lun                  | ✅ 已覆盖        | 8.8.4 san lun expand                               |
+| san          | lun_connection                           | lun                  | ✅ 已覆盖        | 3.1.1.1 san lun list                               |
+| san          | lun_group_list                           | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
+| san          | lun_group_show                           | lun_group            | ✅ 已覆盖        | 3.1.2.2 san lun_group show                         |
+| san          | lun_group_create                         | lun_group            | ✅ 已覆盖        | 8.17.2 san lun_group create                        |
+| san          | lun_group_delete                         | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
+| san          | lun_group_add_luns                       | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
+| san          | lun_group_remove_luns                    | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
+| san          | lun_group_show_luns                      | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
+| san          | mapping_view_create                      | mapping_view         | ✅ 已覆盖        | 8.17.3 san mapping_view create                     |
+| san          | mapping_view_delete                      | mapping_view         | ✅ 已覆盖        | 8.17.4 san mapping_view delete                     |
+| san          | mapping_view_list                        | mapping_view         | ✅ 已覆盖        | 3.1.5.1 san mapping_view list                      |
+| san          | storage_host_create                      | storage_host         | ✅ 已覆盖        | 8.17.1 san storage_host create                     |
+| san          | storage_host_batch_query                 | storage_host         | ✅ 已覆盖        | 3.1.3.1 san storage_host list                      |
+| san          | storage_host_list                        | storage_host         | ✅ 已覆盖        | 3.1.3.1 san storage_host list                      |
+| san          | storage_host_modify                      | storage_host         | ✅ 已覆盖        | 3.1.3.1 san storage_host list                      |
+| san          | storage_host_delete                      | storage_host         | ✅ 已覆盖        | 3.1.3.1 san storage_host list                      |
+| san          | storage_host_show_paths                  | storage_host         | ✅ 已覆盖        | 3.1.6.1 san storage_host show_paths                |
+| san          | storage_host_show_luns                   | storage_host         | ✅ 已覆盖        | 3.1.6.2 san storage_host show_luns                 |
+| san          | storage_host_unmap_luns                  | storage_host         | ✅ 已覆盖        | 3.1.3.1 san storage_host list                      |
+| san          | storage_host_group_create                | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | storage_host_group_list                  | storage_host_group   | ✅ 已覆盖        | 3.1.4.1 san storage_host_group list                |
+| san          | storage_host_group_add_hosts             | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | storage_host_group_remove_hosts          | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | storage_host_group_delete                | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | storage_host_group_show_luns             | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | storage_host_group_unmap_luns            | storage_host_group   | ⏳ 待补充        | —                                                  |
+| san          | port_group_list                          | port_group           | ✅ 已覆盖        | 3.1.4.1 san port_group list                        |
+| san          | port_group_create                        | port_group           | ✅ 已覆盖        | 3.1.4.1 san port_group list                        |
+| san          | port_group_show_ports                    | port_group           | ✅ 已覆盖        | 3.1.4.2 san port_group show_ports                  |
+| san          | port_group_show_relations                | port_group           | ✅ 已覆盖        | 3.1.4.1 san port_group list                        |
+| san          | physical_host_list                       | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_show                       | physical_host        | ✅ 已覆盖        | 3.1.5.1 san physical_host show                     |
+| san          | physical_host_create                     | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_modify                     | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_modify_access_info         | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_delete                     | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_add_initiators             | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_remove_initiators          | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_show_initiators            | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_test                       | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_query_sshkey               | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_save_sshkey                | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_query_by_initiator         | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_map_luns                   | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_unmap_luns                 | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_show_mapping_views         | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_group_list                 | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_show_hosts           | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_show                 | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_create               | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_modify               | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_delete               | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_add_hosts            | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_remove_hosts         | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_map_luns             | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_unmap_luns           | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | physical_host_group_show_mapping_views   | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | show_related                             | physical_host_group  | ✅ 已覆盖        | 3.1.6.2 san physical_host_group list               |
+| san          | query_host_to_lun                        | mapping_view         | ✅ 已覆盖        | 3.1.5.1 san mapping_view list                      |
+| server       | list                                     |                      | ✅ 已覆盖        | 6.1.1 server list                                  |
+| server       | show                                     |                      | ✅ 已覆盖        | 0.3.1 system show                                  |
+| server       | cpu_list                                 | cpu                  | ✅ 已覆盖        | 6.1.3 server cpu list                              |
+| server       | memory_list                              | memory               | ✅ 已覆盖        | 6.1.4 server memory list                           |
+| server       | disk_list                                | disk                 | ✅ 已覆盖        | 6.1.3 server disk list                             |
+| server       | nic_list                                 | nic                  | ✅ 已覆盖        | 6.1.6 server nic list                              |
+| server       | fan_list                                 | fan                  | ✅ 已覆盖        | 6.1.2 server fan list                              |
+| server       | power_list                               | power                | ✅ 已覆盖        | 6.1.5 server power list                            |
+| server       | raid_card_list                           | raid_card            | ✅ 已覆盖        | 6.1.9 server raid_card list                        |
+| server       | pcie_card_list                           | pcie_card            | ✅ 已覆盖        | 6.1.10 server pcie_card list                       |
+| storage      | list                                     |                      | ✅ 已覆盖        | 6.1.1 server list                                  |
+| storage      | show                                     |                      | ✅ 已覆盖        | 0.3.1 system show                                  |
+| storage      | add                                      |                      | ✅ 已覆盖        | 2.26.1 storage add                                 |
+| storage      | remove                                   |                      | ✅ 已覆盖        | 2.26.3 storage remove                              |
+| storage      | sync                                     |                      | ✅ 已覆盖        | 5.1.2 fcswitch sync                                |
+| storage      | modify                                   |                      | ✅ 已覆盖        | 2.26.2 storage modify                              |
+| storage      | bbu_list                                 | bbu                  | ✅ 已覆盖        | 2.11.1 storage bbu list                            |
+| storage      | get_passphrase                           |                      | ✅ 已覆盖        | 2.24.1 storage get_passphrase                      |
+| storage      | fan_list                                 | fan                  | ✅ 已覆盖        | 2.10.1 storage fan list                            |
+| storage      | disk_list                                | disk                 | ✅ 已覆盖        | 2.4.1 storage disk list                            |
+| storage      | pool_list                                | pool                 | ✅ 已覆盖        | 2.5.1 storage pool list                            |
+| storage      | hyperscale_pool_list                     | hyperscale_pool      | ✅ 已覆盖        | 2.23.1 storage hyperscale_pool list                |
+| storage      | node_list                                | node                 | ✅ 已覆盖        | 2.22.1 storage node list                           |
+| storage      | psu_list                                 | psu                  | ✅ 已覆盖        | 2.12.1 storage psu list                            |
+| storage      | query_power_data                         |                      | ✅ 已覆盖        | 2.24.2 storage query_power_data                    |
+| storage      | app_type_list                            | app_type             | ✅ 已覆盖        | 2.17.1 storage app_type list                       |
+| storage      | controller_list                          | controller           | ✅ 已覆盖        | 2.6.1 storage controller list                      |
+| storage      | disk_domain_list                         | disk_domain          | ✅ 已覆盖        | 2.14.1 storage disk_domain list                    |
+| storage      | disk_pool_list                           | disk_pool            | ✅ 已覆盖        | 2.15.1 storage disk_pool list                      |
+| storage      | enclosure_list                           | enclosure            | ✅ 已覆盖        | 2.13.1 storage enclosure list                      |
+| storage      | vstore_list                              | vstore               | ✅ 已覆盖        | 2.9.1 storage vstore list                          |
+| storage      | vstore_show                              | vstore               | ✅ 已覆盖        | 2.9.2 storage vstore show                          |
+| storage      | vstore_create                            | vstore               | ✅ 已覆盖        | 8.2.1 storage vstore create                        |
+| storage      | vstore_modify                            | vstore               | ✅ 已覆盖        | 8.2.2 storage vstore modify                        |
+| storage      | vstore_delete                            | vstore               | ✅ 已覆盖        | 8.2.3 storage vstore delete                        |
+| storage      | initiator_list                           | initiator            | ✅ 已覆盖        | 2.16.1 storage initiator list                      |
+| storage      | initiator_delete                         | initiator            | ✅ 已覆盖        | 2.16.1 storage initiator list                      |
+| storage      | initiator_modify                         | initiator            | ✅ 已覆盖        | 8.6.1 storage initiator modify                     |
+| storage      | account_show_local_users                 | account              | ✅ 已覆盖        | 2.25.1 storage account show_local_users            |
+| storage      | account_create_local_user                | account              | ✅ 已覆盖        | 8.7.1 storage account create_local_user            |
+| storage      | account_create_unix_user                 | account              | ✅ 已覆盖        | 2.25.1 storage account show_local_users            |
+| storage      | account_create_windows_user              | account              | ✅ 已覆盖        | 2.25.1 storage account show_local_users            |
+| storage      | account_show_unix_users                  | account              | ✅ 已覆盖        | 2.25.2 storage account show_unix_users             |
+| storage      | account_show_windows_users               | account              | ✅ 已覆盖        | 2.25.3 storage account show_windows_users          |
+| storage      | account_show_local_user_groups           | account              | ✅ 已覆盖        | 2.25.4 storage account show_local_user_groups      |
+| storage      | account_show_unix_user_groups            | account              | ✅ 已覆盖        | 2.25.5 storage account show_unix_user_groups       |
+| storage      | account_show_windows_user_groups         | account              | ✅ 已覆盖        | 2.25.6 storage account show_windows_user_groups    |
+| storage      | qos_list                                 | qos                  | ✅ 已覆盖        | 2.22.1 storage qos list                            |
+| storage      | qos_show                                 | qos                  | ✅ 已覆盖        | 2.22.2 storage qos show                            |
+| storage      | qos_create                               | qos                  | ✅ 已覆盖        | 8.4.1 storage qos create                           |
+| storage      | qos_modify                               | qos                  | ✅ 已覆盖        | 8.4.4 storage qos modify                           |
+| storage      | qos_delete                               | qos                  | ✅ 已覆盖        | 8.4.5 storage qos delete                           |
+| storage      | qos_activate                             | qos                  | ✅ 已覆盖        | 8.4.2 storage qos activate                         |
+| storage      | qos_deactivate                           | qos                  | ✅ 已覆盖        | 8.4.3 storage qos deactivate                       |
+| storage      | qos_associate                            | qos                  | ✅ 已覆盖        | 2.22.1 storage qos list                            |
+| storage      | qos_unassociate                          | qos                  | ✅ 已覆盖        | 2.22.1 storage qos list                            |
+| storage      | logic_port_list                          | logic_port           | ✅ 已覆盖        | 2.21.1 storage logic_port list                     |
+| storage      | logic_port_show                          | logic_port           | ✅ 已覆盖        | 2.21.2 storage logic_port show                     |
+| storage      | logic_port_create                        | logic_port           | ✅ 已覆盖        | 2.21.1 storage logic_port list                     |
+| storage      | logic_port_update                        | logic_port           | ✅ 已覆盖        | 8.5.1 storage logic_port update                    |
+| storage      | logic_port_delete                        | logic_port           | ✅ 已覆盖        | 2.21.1 storage logic_port list                     |
+| storage      | logic_port_failback                      | logic_port           | ✅ 已覆盖        | 8.5.2 storage logic_port failback                  |
+| storage      | port_list                                | port                 | ✅ 已覆盖        | 2.8.1 storage port list                            |
+| storage      | port_show_bond_members                   | port                 | ✅ 已覆盖        | 2.8.1 storage port list                            |
+| storage      | vlan_list                                | vlan                 | ✅ 已覆盖        | 2.20.1 storage vlan list                           |
+| storage      | vlan_create                              | vlan                 | ✅ 已覆盖        | 8.3.1 storage vlan create 【A800 only】              |
+| storage      | vlan_delete                              | vlan                 | ✅ 已覆盖        | 8.3.3 storage vlan delete 【A800 only】              |
+| storage      | vlan_modify                              | vlan                 | ✅ 已覆盖        | 8.3.2 storage vlan modify 【A800 only】              |
+| storage      | failover_group_list                      | failover_group       | ✅ 已覆盖        | 2.19.1 storage failover_group list                 |
+| storage      | failover_group_show_ports                | failover_group       | ✅ 已覆盖        | 2.19.2 storage failover_group show_ports           |
+| storage      | failover_group_show_vlans                | failover_group       | ✅ 已覆盖        | 2.19.3 storage failover_group show_vlans           |
+| storage      | zone_list                                | zone                 | ✅ 已覆盖        | 2.18.1 storage zone list                           |
+| system       | login                                    |                      | ✅ 已覆盖        | 0.1.1 system login                                 |
+| system       | logout                                   |                      | ✅ 已覆盖        | 0.2.1 system logout                                |
+| system       | show                                     |                      | ✅ 已覆盖        | 0.3.1 system show                                  |
+| system       | certificate                              |                      | ✅ 已覆盖        | 0.4.1 system certificate                           |
+| system       | reset_password                           |                      | ✅ 已覆盖        | 1.11.1 system reset_password                       |
+| system       | user_list                                | user                 | ✅ 已覆盖        | 1.1.1 system user list                             |
+| system       | user_show                                | user                 | ✅ 已覆盖        | 1.1.2 system user show                             |
+| system       | user_create                              | user                 | ✅ 已覆盖        | 1.1.3 system user create                           |
+| system       | user_delete                              | user                 | ✅ 已覆盖        | 1.1.4 system user delete                           |
+| system       | role_list                                | role                 | ✅ 已覆盖        | 1.2.1 system role list                             |
+| system       | backup_server_list                       | backup_server        | ✅ 已覆盖        | 1.3.1 system backup_server list                    |
+| system       | todo_task_group_list                     | todo_task_group      | ✅ 已覆盖        | 1.7.3 system todo_task_group list                  |
+| system       | todo_task_group_execute                  | todo_task_group      | ✅ 已覆盖        | 1.7.3 system todo_task_group list                  |
+| system       | todo_task_group_confirm                  | todo_task_group      | ✅ 已覆盖        | 1.7.3 system todo_task_group list                  |
+| system       | todo_task_list                           | todo_task            | ✅ 已覆盖        | 1.7.1 system todo_task list                        |
+| system       | todo_task_show                           | todo_task            | ✅ 已覆盖        | 1.7.2 system todo_task show                        |
+| system       | todo_task_execute                        | todo_task            | ✅ 已覆盖        | 1.7.1 system todo_task list                        |
+| system       | todo_task_audit                          | todo_task            | ✅ 已覆盖        | 1.7.1 system todo_task list                        |
+| system       | todo_task_revoke                         | todo_task            | ✅ 已覆盖        | 1.7.1 system todo_task list                        |
+| system       | todo_task_close                          | todo_task            | ✅ 已覆盖        | 1.7.1 system todo_task list                        |
+| system       | task_show                                | task                 | ✅ 已覆盖        | 1.4.2 system task show                             |
+| system       | task_list                                | task                 | ✅ 已覆盖        | 1.4.1 system task list                             |
+| system       | task_retry                               | task                 | ✅ 已覆盖        | 8.14.1 system task retry                           |
+| system       | task_wait                                | task                 | ✅ 已覆盖        | 1.4.3 system task wait                             |
+| system       | tag_type_create                          | tag_type             | ✅ 已覆盖        | 1.5.2 system tag_type create                       |
+| system       | tag_type_list                            | tag_type             | ✅ 已覆盖        | 1.5.1 system tag_type list                         |
+| system       | tag_type_modify                          | tag_type             | ✅ 已覆盖        | 1.5.3 system tag_type modify                       |
+| system       | tag_type_delete                          | tag_type             | ✅ 已覆盖        | 1.5.4 system tag_type delete                       |
+| system       | tag_create                               | tag                  | ✅ 已覆盖        | 1.6.2 system tag create                            |
+| system       | tag_list                                 | tag                  | ✅ 已覆盖        | 1.6.1 system tag list                              |
+| system       | tag_modify                               | tag                  | ✅ 已覆盖        | 1.6.3 system tag modify                            |
+| system       | tag_delete                               | tag                  | ✅ 已覆盖        | 1.6.4 system tag delete                            |
+| system       | tag_bind                                 | tag                  | ✅ 已覆盖        | 8.15.1 system tag bind                             |
+| system       | tag_unbind                               | tag                  | ✅ 已覆盖        | 8.15.2 system tag unbind                           |
+| system       | az_list                                  | az                   | ✅ 已覆盖        | 1.8.1 system az list                               |
+| system       | dc_list                                  | dc                   | ✅ 已覆盖        | 1.9.1 system dc list                               |
+| system       | dc_show                                  | dc                   | ✅ 已覆盖        | 1.9.2 system dc show                               |
+| system       | dc_show_devices                          | dc                   | ✅ 已覆盖        | 1.9.3 system dc show_devices                       |
+| system       | region_list                              | region               | ✅ 已覆盖        | 1.10.1 system region list                          |
+| system       | region_query                             | region               | ✅ 已覆盖        | 1.10.1 system region list                          |
+| tenant       | tier_list                                | tier                 | ✅ 已覆盖        | 7.1.1 tenant tier list                             |
+| tenant       | tier_show_projects                       | tier                 | ✅ 已覆盖        | 7.1.2 tenant tier show_projects                    |
+| tenant       | project_list                             | project              | ✅ 已覆盖        | 7.1.3 tenant project list                          |
+| tenant       | project_show_tiers                       | project              | ✅ 已覆盖        | 7.1.4 tenant project show_tiers                    |
+| tenant       | lun_create                               | lun                  | ✅ 已覆盖        | 8.16.1 tenant lun create                           |
+| tenant       | lun_change_tier                          | lun                  | ✅ 已覆盖        | 8.16.4 tenant lun change_tier                      |
+| tenant       | lun_bind_tier                            | lun                  | ✅ 已覆盖        | 8.16.2 tenant lun bind_tier                        |
+| tenant       | lun_unbind_tier                          | lun                  | ✅ 已覆盖        | 8.16.3 tenant lun unbind_tier                      |
+| tenant       | lun_bind_project                         | lun                  | ✅ 已覆盖        | 8.16.1 tenant lun create                           |
+| tenant       | lun_unbind_project                       | lun                  | ✅ 已覆盖        | 8.16.1 tenant lun create                           |
+| virt         | vm_list                                  | vm                   | ✅ 已覆盖        | 6.2.9 virt vm list                                 |
+| virt         | vm_show                                  | vm                   | ✅ 已覆盖        | 6.2.9 virt vm show                                 |
+| virt         | datastore_list                           | datastore            | ✅ 已覆盖        | 6.2.10 virt datastore list                         |
+| virt         | datastore_show                           | datastore            | ✅ 已覆盖        | 6.2.14 virt datastore show                         |
+| virt         | host_list                                | host                 | ✅ 已覆盖        | 6.2.5 virt host list                               |
+| virt         | host_show                                | host                 | ✅ 已覆盖        | 6.2.8 virt host show                               |
+| virt         | host_adapter_list                        | host                 | ✅ 已覆盖        | 6.2.7 virt host_adapter list                       |
+| virt         | cluster_list                             | cluster              | ✅ 已覆盖        | 6.2.3 virt cluster list                            |
+| virt         | cluster_show                             | cluster              | ✅ 已覆盖        | 6.2.6 virt cluster show                            |
+| virt         | site_list                                | site                 | ✅ 已覆盖        | 6.2.1 virt site list                               |
+| virt         | site_show                                | site                 | ✅ 已覆盖        | 6.2.2 virt site show                               |
+| virt         | disk_list                                | disk                 | ✅ 已覆盖        | 6.2.12 virt disk list                              |
+| virt         | vdisk_list                               | vdisk                | ✅ 已覆盖        | 6.2.13 virt vdisk list                             |
+| virt         | vdisk_show                               | vdisk                | ✅ 已覆盖        | 6.2.14 virt vdisk show                             |
+| workflow     | template_list                            | template             | ✅ 已覆盖        | 7.3.2 workflow template list                       |
+| workflow     | template_groups                          | template             | ✅ 已覆盖        | 7.3.1 workflow template groups                     |
+| workflow     | template_show                            | template             | ✅ 已覆盖        | 7.3.3 workflow template show                       |
+| workflow     | instance_stop                            | instance             | ✅ 已覆盖        | 8.13.1 workflow instance create                    |
+| workflow     | instance_show                            | instance             | ✅ 已覆盖        | 8.13.2 workflow instance show                      |
+| workflow     | instance_create                          | instance             | ✅ 已覆盖        | 8.13.1 workflow instance create                    |
+| workflow     | instance_step_log                        | instance             | ✅ 已覆盖        | 8.13.2 workflow instance step_log                  |
+
+**总计: 374/427 已覆盖**

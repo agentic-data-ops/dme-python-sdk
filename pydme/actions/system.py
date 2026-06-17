@@ -996,11 +996,14 @@ def tag_bind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     
     Args:
         client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（必选）
+        tag_id: 标签 ID（必选，32 位十六进制字符，正则 ^[a-fA-F0-9]{32}$）
+        resources: 资源列表（List<TagResource>，必选，数组最小成员个数: 1，数组最大成员个数: 100）。参数格式如下：[{
+            resource_type: 资源类型（必选，string，1~128 个字符）。可选值：storage_device（存储设备），backup_medium（备份存储），fc_switch（光纤交换机），protect_appliance（A8000备份一体机），security_appliance（数据安全一体机），ethernet_switch（以太网交换机），physical_server（服务器），virtual_machine（虚拟机），logic_port（逻辑端口），file_system（文件系统）,
+            resource_id: 资源 ID（必选，string，UUID 格式或 32 位十六进制字符，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）,
+        }, ...]
     
     Returns:
-        关联结果
+        创建异步任务成功，返回任务 ID。
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}/associate-resources"
     
@@ -1018,11 +1021,14 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     
     Args:
         client: DME API 客户端
-        tag_id: 标签 ID（必选）
-        resources: 资源列表，格式为 [{"resource_id": "xxx", "resource_type": "xxx"}]（必选）
+        tag_id: 标签 ID（必选，32 位十六进制字符，正则 ^[a-fA-F0-9]{32}$）
+        resources: 资源列表（List<TagResource>，必选，数组最小成员个数: 1，数组最大成员个数: 100）。参数格式如下：[{
+            resource_type: 资源类型（必选，string，1~128 个字符）。可选值：storage_device（存储设备），backup_medium（备份存储），fc_switch（光纤交换机），protect_appliance（A8000备份一体机），security_appliance（数据安全一体机），ethernet_switch（以太网交换机），physical_server（服务器），virtual_machine（虚拟机），logic_port（逻辑端口），file_system（文件系统）,
+            resource_id: 资源 ID（必选，string，UUID 格式或 32 位十六进制字符，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）,
+        }, ...]
     
     Returns:
-        取消关联结果
+        创建异步任务成功，返回任务 ID。
     """
     url = "/rest/tagmgmt/v1/tags/{tag_id}/disassociate-resources"
     
