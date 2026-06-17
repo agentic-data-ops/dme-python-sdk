@@ -1,0 +1,139 @@
+
+============================================================
+动作：san lun list
+============================================================
+
+描述:
+  批量查询 LUN
+
+详细说明:
+  批量查询 LUN
+
+参数说明:
+------------------------------------------------------------
+
+  --limit
+      分页查询的个数 (可选, 0~1000, 默认1000)
+
+  --offset
+      分页查询的起始位置 (可选, 最小值0, 默认0)
+
+  --sort_dir
+      排序方向 (可选)。可选值：asc (升序), desc (降序)
+
+  --sort_key
+      排序字段 (可选)。可选值：name, size, alloc_capacity, capacity_usage, protection_capacity
+
+  --name
+      LUN名称 (可选, 1~256个字符, 支持模糊查询)
+
+  --vstore_raw_id
+      存储设备上分配的租户ID (可选, 1~64个字符)
+
+  --vstore_name
+      租户名称 (可选, 1~256个字符, 支持模糊查询)
+
+  --status
+      状态 (可选, 已废弃, 建议使用health_status)。可选值：creating (创建中), normal (正常), mapping (映射中), unmapping (解除映射中), deleting (删除中), error (错误), expanding (扩容中), faulty (故障), write_protected (写保护)
+
+  --health_status
+      健康状态 (可选)。可选值：normal (正常), faulty (故障), write_protected (写保护)
+
+  --service_level_id
+      服务等级ID (可选, 1~64个字符)
+
+  --volume_wwn
+      LUN WWN (可选, 1~128个字符)
+
+  --storage_id
+      存储设备ID (可选, 1~36个字符, UUID格式或32位十六进制)
+
+  --pool_raw_id
+      存储池在存储设备上的ID (可选, 1~64个字符; 需同时指定storage_id)
+
+  --host_id
+      主机ID (可选, 1~64个字符, UUID格式或32位十六进制)
+
+  --hostgroup_id
+      主机组ID (可选, 1~64个字符, UUID格式或32位十六进制)
+
+  --unmapped_host_id
+      未映射主机ID (可选, 1~64个字符)
+
+  --unmapped_hostgroup_id
+      未映射主机组ID (可选, 1~64个字符)
+
+  --project_id
+      业务群组ID (可选, 1~64个字符)
+
+  --allocate_type
+      分配类型 (可选)。可选值：thin, thick
+
+  --attached
+      映射状态 (可选)。可选值：true (已映射), false (未映射)
+
+  --query_mode
+      LUN发放模式 (可选)。可选值：service (服务化LUN), non-service (非服务LUN), all (所有LUN)
+
+  --protected
+      LUN保护状态 (可选)。可选值：true (已被保护), false (未被保护)
+
+  --pg_id
+      保护组ID (可选, 1~64个字符, UUID格式或32位十六进制)
+
+  --usage_type
+      LUN使用类型 (可选)。可选值：traditional (传统LUN), edev (eDevLUN)
+
+  --support_provisioning
+      过滤查询可发放变更的LUN (可选)。可选值：true (仅查询可发放变更), false (查询全量)
+
+输出说明:
+------------------------------------------------------------
+    {
+        count: LUN数量 (int32),
+        volumes: LUN列表 (List<Volume>)。参数格式如下：[{
+            id: LUN的唯一标识 (string, 1~64个字符),
+            pid: 保护发放业务ID (string, 1~64个字符),
+            name: 名称 (string, 1~255个字符),
+            nguid: 命名空间全局唯一标识符 (string, 1~256个字符),
+            vstore_raw_id: 租户ID (string, 1~64个字符),
+            vstore_name: 租户名称 (string, 1~256个字符),
+            description: 描述信息 (string, 0~255个字符),
+            status: 状态 (string)。可选值：creating, normal, mapping, unmapping, deleting, error, expanding, faulty, write_protected,
+            health_status: 健康状态 (string)。可选值：normal (正常), faulty (故障), write_protected (写保护),
+            attached: 映射状态。可选值：true (已映射), false (未映射),
+            project_id: 业务群组id (string, 1~64个字符),
+            alloctype: 分配类型。可选值：thin (按需分配), thick (固定分配),
+            usage_type: 使用类型。可选值：traditional (传统LUN), edev (eDevLUN),
+            capacity: 容量 (int32, GB)。注：建议使用total_capacity,
+            total_capacity: 总容量 (int64, 字节),
+            alloc_capacity: 已分配容量 (int64, 字节),
+            service_level_name: 服务等级名称 (string, 1~64个字符),
+            attachments: 映射信息 (List<Attachment>)。参数格式如下：[{
+                id: 映射关系ID (string),
+                volume_id: LUN唯一标识 (string),
+                host_id: 主机id (string),
+                host_name: 主机name (string),
+                attached_at: 映射时间 (string),
+                attached_host_group: 主机组id (string),
+                host_group_name: 主机组name (string),
+            }, ...],
+            volume_raw_id: LUN在存储设备上的id (string, 1~64个字符),
+            volume_wwn: LUN在存储设备上的wwn (string, 1~64个字符),
+            pool_raw_id: 所属存储池在设备上的id (string, 1~64个字符),
+            capacity_usage: 容量利用率 (string),
+            protected: 保护状态。可选值：true (已保护), false (未保护),
+            updated_at: 更新时间 (string),
+            created_at: 创建时间 (string),
+            function_type: LUN类型。可选值：lun (普通LUN), snapshot (快照), clone (克隆),
+            remote_lun_wwn: 外部LUN的WWN (string),
+            take_over_lun_wwn: 接管LUN的WWN (string),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme san lun list
+  pydme san lun list --limit <value> --offset <value> --sort_dir <value> --sort_key <value> --name <value> --vstore_raw_id <value> --vstore_name <value> --status <value> --health_status <value> --service_level_id <value> --volume_wwn <value> --storage_id <value> --pool_raw_id <value> --host_id <value> --hostgroup_id <value> --unmapped_host_id <value> --unmapped_hostgroup_id <value> --project_id <value> --allocate_type <value> --attached <value> --query_mode <value> --protected <value> --pg_id <value> --usage_type <value> --support_provisioning <value>
+============================================================
+

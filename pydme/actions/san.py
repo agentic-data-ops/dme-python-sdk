@@ -1250,7 +1250,9 @@ def storage_host_create(client: DMEAPIClient, storage_id: str,
         vstore_id: 租户ID (可选, 1~64个字符; 设备为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上时有效)
 
     Returns:
-        任务 ID
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/hostmgmt/v1/storage-hosts"
 
@@ -1632,7 +1634,9 @@ def storage_host_group_create(client: DMEAPIClient, storage_id: str, name: str,
         vstore_id: 租户ID (可选, 1~64个字符; 设备为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上时有效)
 
     Returns:
-        任务 ID
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups"
 
@@ -1752,7 +1756,9 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
         task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
-        任务 ID
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/{storage_host_group_id}/hosts/add"
 
@@ -1793,7 +1799,9 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
         task_remarks: 任务备注（可选，最多 1024 字符）
 
     Returns:
-        任务 ID
+        {
+            task_id: 任务ID (string, 1~64个字符),
+        }
     """
     url = "/rest/hostmgmt/v1/storage-hostgroups/{storage_host_group_id}/hosts/remove"
 
@@ -1969,7 +1977,7 @@ def port_group_create(client: DMEAPIClient, storage_id: str, name: str,
     Returns:
         {
             task_id: 任务ID (string, 1~64个字符),
-        }，包含新创建的端口组 ID
+        }
     """
     url = "/rest/storagemgmt/v1/port-groups"
 
@@ -2215,7 +2223,9 @@ def physical_host_create(client: DMEAPIClient, access_mode: str, type: str,
         save_public_key: 是否自动保存物理主机公钥 (可选, 默认false)。可选值：true, false
 
     Returns:
-        创建的物理主机信息
+        {
+            id: 物理主机ID (string, 1~64个字符),
+        }
     """
     url = "/rest/hostmgmt/v1/hosts"
 
