@@ -51,7 +51,7 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 │   ├── 001-generate-traverse-api-script.md
 │   ├── 100.rewrite-action-funcs-to-follow-api-ref.md
 │   ├── 101-gen-actions-for-not-impl-apis.md
-│   ├── 102-update-actions-returns-docstring.md
+│   ├── 102-update-actions-docstring.md
 │   ├── 300-add-action-risk-blacklist.md
 │   ├── 500-test-all-actions.md
 │   ├── 501-env-todo.md              # 待办：准备双活/A800环境 + 执行跳过用例
@@ -88,7 +88,7 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 | `plans/001-generate-traverse-api-script.md` | ✅ 完成 | 生成 `traverse_api_reference.py` 脚本遍历 API 文档 |
 | `plans/100.rewrite-action-funcs-to-follow-api-ref.md` | ✅ 完成 | 按 API 参考文档重写所有 action 函数的 docstring、参数校验和响应描述 |
 | `plans/101-gen-actions-for-not-impl-apis.md` | ✅ 完成 | 为未实现的 32 个 API 生成动作函数（含例外/升级/重命名任务） |
-| `plans/102-update-actions-returns-docstring.md` | ⏳ 待执行 | 按 API 参考文档统一更新所有 action 函数的 Returns 段（10 批，~417 函数） |
+| `plans/102-update-actions-docstring.md` | ✅ 完成 | 遍历所有动作 help 校验参数格式/Returns/描述，修复 24 处问题 + 9 个运行时 bug |
 | `plans/300-add-action-risk-blacklist.md` | ⏳ 待执行 | 在 `cli.py` 中增加风险确认机制，对 destructive 操作警告/拦截 |
 | `plans/500-test-all-actions.md` | ✅ 完成 | 全量 427 动作覆盖测试计划 — **412/427 已覆盖（96.5%）**，200+ PASS，20+ 代码 Bug 修复 |
 
@@ -324,9 +324,11 @@ pydme san physical_host_group show_related --hostgroup_id xxx
 ### 待办任务 (TODOs)
 
 - [ ] **完成剩余因环境限制跳过的测试用例** — 15 个 SKIP 动作需待双活环境、A800 环境、Pacific DataTurbo 数据就绪后执行（详见 `.reasonix/plans/501-env-todo.md`）
-- [ ] **遍历所有动作的帮助信息，检查参数内部格式和响应体格式是否与 API 参考文档一致** — 参考 `102-update-actions-returns-docstring.md` 计划，按主题分批审核 docstring 中的 Returns 段和嵌套参数格式，确保与 `.reasonix/reference/dme-api-reference.md` 一致
+- [x] **遍历所有动作的帮助信息，检查参数内部格式、响应体格式和动作描述是否与 API 参考文档一致** — 已按 10 批完成 425 个动作的全面检查，修复入口标记错误、缺失 Returns、字段错误等 24 处问题，发现并修复 9 个 payload 未传入 body 的运行时 bug
 
 ### Recent Changes
+
+- **Plan 102 completed — Full docstring audit**: 遍历 16 个 action 文件 425 个动作，逐动作运行 `--help` 对照 API 参考文档校验；修复 24 处 docstring 问题（含 4 处 `格式：{` 入口标记错误、2 处缺失 Returns 段、6 处纯文本 Returns、3 处动作描述过简、8 处尾部多余中文/字段错误等）；**发现并修复 9 个 payload 未传入 body 的运行时 bug**（san.py 4 处、storage.py 5 处，修复后 8 个动作需在测试环境中重新验证）
 
 - **Topic module renaming** (6 files): `virtualization→virt`, `kubernetes→kube`, `fc_switch→fcswitch`, `ip_switch→ipswitch`, `protection→protect`, `self_service→tenant`
 - **New `integrate` topic**: Created `integrate.py` with 5 CMDB actions for third-party system integration
