@@ -1,5 +1,5 @@
 """
-Servermanagement  (Server) operations
+服务器管理 (Server) 相关操作
 """
 
 import sys
@@ -11,23 +11,23 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
          name: str = None, server_type: str = None) -> dict:
     """
-     query server list
+    query服务器list
     
     Args:
         client: DME API client
-        start: paginationStart position, default 1
-        limit: Page size, default 100
-        name: Server name filter (Optional) 
-        server_type: Server type filter (Optional) 
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
+        name: 服务器name过滤(Optional)
+        server_type: 服务器type过滤(Optional)
     
     Returns:
         {
-            total: ServerTotal count (integer),
-            servers: Server list (List<ServerInfo>). parameter format: [{
-                id: ServerID (string),
-                name: Server name (string),
-                type: Server type (string),
-                status:  status (string),
+            total: 服务器total (integer),
+            servers: 服务器list (List<ServerInfo>). parameter format: [{
+                id: 服务器ID (string),
+                name: 服务器name (string),
+                type: 服务器type (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -49,18 +49,18 @@ def list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 
 def show(client: DMEAPIClient, server_id: str) -> dict:
     """
-    Query server overview info
+    query指定服务器的概览info
     
     Args:
         client: DME API client
-        server_id: Server ID (use device_id field, UUID format with hyphens, e.g. 507cb27f-3eda-44c8-a491-5a81ca035da5) 
+        server_id: 服务器 ID (注意: 需要使用 device_id 字段, 即带连字符的 UUID 格式, 如 507cb27f-3eda-44c8-a491-5a81ca035da5)
     
     Returns:
         {
-            id: ServerID (string),
-            name: Server name (string),
-            status:  status (string),
-            type: Server type (string),
+            id: 服务器ID (string),
+            name: 服务器name (string),
+            status: status (string),
+            type: 服务器type (string),
         }
     """
     url = "/rest/servermgmt/v1/servers/{server_id}/summary"
@@ -72,22 +72,22 @@ def show(client: DMEAPIClient, server_id: str) -> dict:
 def cpu_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query all CPU list on server
+    query服务器上的所有 CPU list
 
     Args:
         client: DME API client
-        server_id: Server ID
-        start: paginationStart position, default 1
-        limit: Page size, default 100
+        server_id: 服务器 ID
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
 
     Returns:
         {
-            total: Number of CPUs (int32),
-            cpus: List of CPUs (List<CpuInfo>). Parameter format: [{
+            total: CPUcount (int32),
+            cpus: CPUlist (List<CpuInfo>). parameter format: [{
                 id: CPU ID (string),
-                name: Name (string),
-                cores: Number of cores (int32),
-                frequency: Frequency (string),
+                name: name (string),
+                cores: 核数 (int32),
+                frequency: 频率 (string),
             }, ...],
         }
     """
@@ -106,21 +106,21 @@ def cpu_list(client: DMEAPIClient, server_id: str,
 def memory_list(client: DMEAPIClient, server_id: str,
                  start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server memory
+    query服务器上的内存
     
     Args:
         client: DME API client
-        server_id: Server ID
-        start: paginationStart position, default 1
-        limit: Page size, default 100
+        server_id: 服务器 ID
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
     
     Returns:
         {
-            total: Number of memory modules (int32),
-            memories: List of memory modules (List<MemoryInfo>). Parameter format: [{
-                id: Memory ID (string),
-                name: Name (string),
-                capacity: Capacity (string),
+            total: 内存条count (int32),
+            memories: 内存list (List<MemoryInfo>). parameter format: [{
+                id: 内存ID (string),
+                name: name (string),
+                capacity: capacity (string),
             }, ...],
         }
     """
@@ -139,22 +139,22 @@ def memory_list(client: DMEAPIClient, server_id: str,
 def disk_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query disk collection on server
+    query服务器上的硬盘集合
     
     Args:
         client: DME API client
-        server_id: Server ID
-        start: paginationStart position, default 1
-        limit: Page size, default 100
+        server_id: 服务器 ID
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
     
     Returns:
         {
-            total: Number of disks (int32),
-            disks: List of disks (List<DiskInfo>). Parameter format: [{
-                id: Disk ID (string),
-                name: Name (string),
-                capacity: Capacity (string),
-                health_status: Health status (string),
+            total: 硬盘count (int32),
+            disks: 硬盘list (List<DiskInfo>). parameter format: [{
+                id: 硬盘ID (string),
+                name: name (string),
+                capacity: capacity (string),
+                health_status: health status (string),
             }, ...],
         }
     """
@@ -173,22 +173,22 @@ def disk_list(client: DMEAPIClient, server_id: str,
 def nic_list(client: DMEAPIClient, server_id: str = None,
                    page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query on serverNIC collection
+    query服务器上的网卡集合
 
     Args:
         client: DME API client
-        server_id: Server ID (Optional) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 5~1000, default 20
+        server_id: 服务器 ID(Optional)
+        page_no: 分页query的页码, default 1
+        page_size: items per page, 5~1000, default 20
 
     Returns:
         {
-            total: Number of NICs (int32),
-            nics: List of NICs (List<NicInfo>). Parameter format: [{
-                id: NIC ID (string),
-                name: Name (string),
-                mac: MAC address (string),
-                speed: Speed (string),
+            total: 网卡count (int32),
+            nics: 网卡list (List<NicInfo>). parameter format: [{
+                id: 网卡ID (string),
+                name: name (string),
+                mac: MAC地址 (string),
+                speed: 速率 (string),
             }, ...],
         }
     """
@@ -209,22 +209,22 @@ def nic_list(client: DMEAPIClient, server_id: str = None,
 def fan_list(client: DMEAPIClient, server_id: str,
                    start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server fan
+    query服务器上的风扇
     
     Args:
         client: DME API client
-        server_id: Server ID
-        start: paginationStart position, default 1
-        limit: Page size, default 100
+        server_id: 服务器 ID
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
     
     Returns:
         {
-            total: Number of fans (int32),
-            fans: List of fans (List<FanInfo>). Parameter format: [{
-                id: Fan ID (string),
-                name: Name (string),
-                speed: Speed (string),
-                health_status: Health status (string),
+            total: 风扇count (int32),
+            fans: 风扇list (List<FanInfo>). parameter format: [{
+                id: 风扇ID (string),
+                name: name (string),
+                speed: 转速 (string),
+                health_status: health status (string),
             }, ...],
         }
     """
@@ -243,22 +243,22 @@ def fan_list(client: DMEAPIClient, server_id: str,
 def power_list(client: DMEAPIClient, server_id: str,
                      start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server power supply
+    query服务器上的电源
     
     Args:
         client: DME API client
-        server_id: Server ID
-        start: paginationStart position, default 1
-        limit: Page size, default 100
+        server_id: 服务器 ID
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
     
     Returns:
         {
-            total: Number of power supplies (int32),
-            powers: List of power supplies (List<PowerInfo>). Parameter format: [{
-                id: Power supply ID (string),
-                name: Name (string),
-                status: Status (string),
-                health_status: Health status (string),
+            total: 电源count (int32),
+            powers: 电源list (List<PowerInfo>). parameter format: [{
+                id: 电源ID (string),
+                name: name (string),
+                status: status (string),
+                health_status: health status (string),
             }, ...],
         }
     """
@@ -277,21 +277,21 @@ def power_list(client: DMEAPIClient, server_id: str,
 def raid_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query RAID card details on server
+    query服务器上的 RAID 卡details
     
     Args:
         client: DME API client
-        server_id: Server ID
-        start: paginationStart position, default 1
-        limit: Page size, default 100
+        server_id: 服务器 ID
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
     
     Returns:
         {
-            total: Number of RAID cards (int32),
-            raid_cards: List of RAID cards (List<RaidCardInfo>). Parameter format: [{
-                id: RAID card ID (string),
-                name: Name (string),
-                model: Model (string),
+            total: RAID卡count (int32),
+            raid_cards: RAID卡list (List<RaidCardInfo>). parameter format: [{
+                id: RAID卡ID (string),
+                name: name (string),
+                model: model (string),
             }, ...],
         }
     """
@@ -310,21 +310,21 @@ def raid_card_list(client: DMEAPIClient, server_id: str,
 def pcie_card_list(client: DMEAPIClient, server_id: str,
                     start: int = 1, limit: int = 100) -> dict:
     """
-    Query on server PCIe card info
+    query服务器上的 PCIe 卡info
     
     Args:
         client: DME API client
-        server_id: Server ID
-        start: paginationStart position, default 1
-        limit: Page size, default 100
+        server_id: 服务器 ID
+        start: 分页起始location, default 1
+        limit: 分页count, default 100
     
     Returns:
         {
-            total: Number of PCIe cards (int32),
-            pcie_cards: List of PCIe cards (List<PcieCardInfo>). Parameter format: [{
-                id: PCIe card ID (string),
-                name: Name (string),
-                type: Type (string),
+            total: PCIe卡count (int32),
+            pcie_cards: PCIe卡list (List<PcieCardInfo>). parameter format: [{
+                id: PCIe卡ID (string),
+                name: name (string),
+                type: type (string),
             }, ...],
         }
     """
@@ -340,74 +340,74 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    # Direct action (Two-level structure) 
+    # 直接动作 (两级结构)
     'list': {
         'func': list,
-        'description': ' query server list',
+        'description': '查询服务器列表',
         'params': ['start', 'limit', 'name', 'server_type'],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': 'Query server overview info',
+        'description': '查询指定服务器的概览信息',
         'params': ['server_id'],
         'subtopic': None
     },
-    # subtopic actions - cpu (three-level structure)
+    # subtopic action - cpu (three-level structure)
     'cpu_list': {
         'func': cpu_list,
-        'description': 'Query all CPU list on server',
+        'description': '查询服务器上的所有 CPU 列表',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
-    # subtopic actions - memory (three-level structure)
+    # subtopic action - memory (three-level structure)
     'memory_list': {
         'func': memory_list,
-        'description': 'Query on server memory',
+        'description': '查询服务器上的内存',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'memory'
     },
-    # subtopic actions - disk (three-level structure)
+    # subtopic action - disk (three-level structure)
     'disk_list': {
         'func': disk_list,
-        'description': 'Query disk collection on server',
+        'description': '查询服务器上的硬盘集合',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },
-    # subtopic actions - nic (three-level structure)
+    # subtopic action - nic (three-level structure)
     'nic_list': {
         'func': nic_list,
-        'description': 'Query on serverNIC collection',
+        'description': '查询服务器上的网卡集合',
         'params': ['server_id', 'page_no', 'page_size'],
         'subtopic': 'nic'
     },
-    # subtopic actions - fan (three-level structure)
+    # subtopic action - fan (three-level structure)
     'fan_list': {
         'func': fan_list,
-        'description': 'Query on server fan',
+        'description': '查询服务器上的风扇',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
-    # subtopic actions - power (three-level structure)
+    # subtopic action - power (three-level structure)
     'power_list': {
         'func': power_list,
-        'description': 'Query on server power supply',
+        'description': '查询服务器上的电源',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },
-    # subtopic actions - raid_card (three-level structure)
+    # subtopic action - raid_card (three-level structure)
     'raid_card_list': {
         'func': raid_card_list,
-        'description': 'Query RAID card details on server',
+        'description': '查询服务器上的 RAID 卡详情',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },
-    # subtopic actions - pcie_card (three-level structure)
+    # subtopic action - pcie_card (three-level structure)
     'pcie_card_list': {
         'func': pcie_card_list,
-        'description': 'Query on server PCIe card info',
+        'description': '查询服务器上的 PCIe 卡信息',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'pcie_card'
     },

@@ -1,4 +1,4 @@
-# DME Actions module
+# DME Actions 模块
 
 import importlib
 import pkgutil

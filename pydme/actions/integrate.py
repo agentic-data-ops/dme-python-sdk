@@ -1,6 +1,6 @@
 """
-Third-party system integration (Integrate) operations
-includes CMDB system,  host, Application resource query
+三方系统集成 (Integrate) 相关操作
+包含CMDB系统、主机、应用等资源query
 """
 
 import sys
@@ -12,20 +12,20 @@ from pydme.client import DMEAPIClient
 def cmdb_system_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query CMDB system list. 
+    queryCMDB系统list. 
 
     Args:
         client: DME API client
-        name: CMDBSystem name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: CMDB系统name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
 
     Returns:
         {
-            total: Total count (integer),
-            systems: CMDB system list. parameter format: [{
-                id:  systemID (string),
-                name: System name (string),
+            total: total (integer),
+            systems: CMDB系统list. parameter format: [{
+                id: 系统ID (string),
+                name: 系统name (string),
                 ip: IP address (string),
             }, ...],
         }
@@ -46,22 +46,22 @@ def cmdb_system_list(client: DMEAPIClient, name: str = None,
 def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                    ip: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query CMDBHost list in system. 
+    queryCMDB系统中的主机list. 
 
     Args:
         client: DME API client
-        system_id: CMDB systemID (Optional) 
-        name: Host name (Optional, supports fuzzy search) 
-        ip: Host IP (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        system_id: CMDB系统ID(Optional)
+        name: host name (可选, supports fuzzy query)
+        ip: 主机IP(Optional)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
 
     Returns:
         {
-            total: Total count (integer),
-            hosts: CMDB host list. parameter format: [{
-                id: Host ID (string),
-                name: Host name (string),
+            total: total (integer),
+            hosts: CMDB主机list. parameter format: [{
+                id: host ID (string),
+                name: host name (string),
                 ip: IP address (string),
             }, ...],
         }
@@ -85,23 +85,23 @@ def cmdb_host_list(client: DMEAPIClient, system_id: str = None, name: str = None
 
 def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     """
-    Query CMDBHost details. 
+    query指定CMDB主机details. 
 
     Args:
         client: DME API client
-        cmdb_host_id: CMDBHost ID (Required) 
+        cmdb_host_id: CMDBhost ID(Required)
 
     Returns:
         {
-            id: Host ID (string),
-            name: Host name (string),
+            id: host ID (string),
+            name: host name (string),
             ip: IP address (string),
         }
     """
     url = "/rest/appmgmt/v1/cmdb-hosts/{cmdb_host_id}"
 
     if not cmdb_host_id:
-        raise ValueError("cmdb_host_id  is required")
+        raise ValueError("cmdb_host_id 是必选参数")
 
     response = client.get(url, params={"cmdb_host_id": cmdb_host_id})
     return response
@@ -110,21 +110,21 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
 def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query CMDB system application list. 
+    queryCMDB系统中的应用list. 
 
     Args:
         client: DME API client
-        system_id: CMDB systemID (Optional) 
-        name: Application name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        system_id: CMDB系统ID(Optional)
+        name: 应用name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
 
     Returns:
         {
-            total: Total count (integer),
-            applications: Application list. parameter format: [{
-                id:  appID (string),
-                name: Application name (string),
+            total: total (integer),
+            applications: 应用list. parameter format: [{
+                id: 应用ID (string),
+                name: 应用name (string),
             }, ...],
         }
     """
@@ -145,24 +145,24 @@ def cmdb_app_list(client: DMEAPIClient, system_id: str = None, name: str = None,
 
 def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dict:
     """
-     based on initiator list query CMDB host list. 
+    根据启动器listqueryCMDB主机list. 
 
     Args:
         client: DME API client
-        initiators: Initiator list (Required) 
+        initiators: 启动器list(Required)
 
     Returns:
         {
-            hosts: CMDB host list. parameter format: [{
-                id: Host ID (string),
-                name: Host name (string),
+            hosts: CMDB主机list. parameter format: [{
+                id: host ID (string),
+                name: host name (string),
             }, ...],
         }
     """
     url = "/rest/appmgmt/v1/cmdb-hosts/query-by-initiators"
 
     if not initiators or len(initiators) == 0:
-        raise ValueError("initiators  is required")
+        raise ValueError("initiators 是必选参数")
 
     payload = {
         'initiators': initiators
@@ -173,34 +173,34 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
 
 ACTIONS = {
-    # cmdb subtopic actions
+    # cmdb subtopic action
     'cmdb_system_list': {
         'func': cmdb_system_list,
-        'description': ' query CMDB system list',
+        'description': '查询CMDB系统列表',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_list': {
         'func': cmdb_host_list,
-        'description': ' query CMDBHost list in system',
+        'description': '查询CMDB系统中的主机列表',
         'params': ['system_id', 'name', 'ip', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_show': {
         'func': cmdb_host_show,
-        'description': 'Query CMDBHost details',
+        'description': '查询指定CMDB主机详情',
         'params': ['cmdb_host_id'],
         'subtopic': 'cmdb'
     },
     'cmdb_app_list': {
         'func': cmdb_app_list,
-        'description': ' query CMDB system application list',
+        'description': '查询CMDB系统中的应用列表',
         'params': ['system_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_query_by_initiators': {
         'func': cmdb_host_query_by_initiators,
-        'description': ' based on initiator list query CMDB host list',
+        'description': '根据启动器列表查询CMDB主机列表',
         'params': ['initiators'],
         'subtopic': 'cmdb'
     },

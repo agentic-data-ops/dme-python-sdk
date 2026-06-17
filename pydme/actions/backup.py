@@ -1,5 +1,5 @@
 """
-Backup management (Backup) operations
+Backup management operations
 """
 
 import sys
@@ -13,21 +13,21 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query backup cluster list
+    querybackup clusterlist
     
     Args:
         client: DME API client
-        name: Backup cluster name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: backup cluster name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total:  clusterTotal count (integer),
-            clusters: Backup cluster list. parameter format: [{
-                id:  clusterID (string),
-                name: Cluster name (string),
-                status:  status (string),
+            total: total clusters (integer),
+            clusters: backup clusterlist. parameter format: [{
+                id: clusterID (string),
+                name: cluster name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -49,17 +49,17 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
     Query backup cluster capacity
     
-    Query backup cluster capacity info. 
+    Query specified backup cluster capacity info. 
     
     Args:
         client: DME API client
-        cluster_id:  backup cluster ID (Required) 
+        cluster_id: backup cluster ID(Required)
     
     Returns:
         {
-            total_capacity: Total capacity (integer),
-            used_capacity: Used capacity (integer),
-            free_capacity: Free capacity (integer),
+            total_capacity: total capacity (integer),
+            used_capacity: used capacity (integer),
+            free_capacity: free capacity (integer),
         }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/{cluster_id}/capacity"
@@ -72,24 +72,24 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
                         quota_type: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query backup cluster tenant quota list
+    querybackup clustertenant quotalist
     
-    Query backup cluster tenant quota list. 
+    query指定backup cluster下的tenant quotalist. 
     
     Args:
         client: DME API client
-        cluster_id:  backup cluster ID (Required) 
-        quota_type:  quota type (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: backup cluster ID(Required)
+        quota_type: quota type(Optional)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total:  quotaTotal count (integer),
-            quotas: Tenant quota list. parameter format: [{
-                tenant_id: Tenant ID (string),
-                quota:  quota size (integer),
-                used: Used quota (integer),
+            total: total quotas (integer),
+            quotas: tenant quotalist. parameter format: [{
+                tenant_id: tenant ID (string),
+                quota: quota size (integer),
+                used: used quota (integer),
             }, ...],
         }
     """
@@ -107,24 +107,24 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    # subtopic actions - cluster (Three-level structure: backup cluster list/capacity/quota) 
+    # subtopic action - cluster (three-level structure: backup cluster list/capacity/quota)
     'cluster_list': {
         'func': cluster_list,
-        'description': ' query backup cluster list',
+        'description': '查询备份集群列表',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     'cluster_capacity': {
         'func': cluster_capacity,
-        'description': 'Query backup cluster capacity',
+        'description': '查询备份集群容量',
         'params': ['cluster_id'],
         'subtopic': 'cluster'
     },
     'cluster_quota': {
         'func': cluster_quota,
-        'description': 'Query backup cluster tenant quota list',
+        'description': '查询备份集群租户配额列表',
         'params': ['cluster_id', 'quota_type', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },

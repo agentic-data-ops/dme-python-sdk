@@ -11,21 +11,21 @@ from pydme.client import DMEAPIClient
 def cluster_list(client: DMEAPIClient, name: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query container cluster list
+    query容器clusterlist
     
     Args:
         client: DME API client
-        name: Container cluster name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: 容器cluster name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total:  clusterTotal count (integer),
-            clusters: Container cluster list. parameter format: [{
-                id:  clusterID (string),
-                name: Cluster name (string),
-                status:  status (string),
+            total: total clusters (integer),
+            clusters: 容器clusterlist. parameter format: [{
+                id: clusterID (string),
+                name: cluster name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -46,21 +46,21 @@ def cluster_list(client: DMEAPIClient, name: str = None,
 def node_list(client: DMEAPIClient, cluster_id: str = None,
                name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query container node list
+    query容器节点list
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        name: Container node name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: 容器cluster ID(Optional)
+        name: 容器节点name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            nodes: Container node list. parameter format: [{
-                id:  nodeID (string),
-                name: Node name (string),
-                status:  status (string),
+            nodes: 容器节点list. parameter format: [{
+                id: 节点ID (string),
+                name: 节点name (string),
+                status: status (string),
             }, ...],
         }
     """
@@ -84,24 +84,24 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query pod list
+    query容器组list
     
-     Query pod list,  supports filtering by cluster ID, namespace and name. 
+    query容器组 (Pod)list, 支持按cluster ID、Namespace和name过滤. 
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        namespace: Container namespace (Optional) 
-        name: Pod name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: 容器cluster ID(Optional)
+        namespace: 容器Namespace(Optional)
+        name: 容器组name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            pods: Pod list. parameter format: [{
-                name: Pod name (string),
-                status:  status (string),
-                node: Node (string),
+            pods: 容器组list. parameter format: [{
+                name: 容器组name (string),
+                status: status (string),
+                node: 所在节点 (string),
             }, ...],
         }
     """
@@ -126,18 +126,18 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
 def namespace_list(client: DMEAPIClient, cluster_id: str = None,
                     name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query container namespace list
+    query容器Namespacelist
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        name: Namespace name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: 容器cluster ID(Optional)
+        name: namespace name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            namespaces: Namespace list (List<string>),
+            namespaces: Namespacelist (List<string>),
         }
     """
     url = "/rest/dmecaasmgmt/v1/namespaces/query-list"
@@ -160,22 +160,22 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
               namespace: str = None, name: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query container PVC list
+    query容器持久卷声明list
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        namespace: Container namespace (Optional) 
-        name: Persistent volume claim name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: 容器cluster ID(Optional)
+        namespace: 容器Namespace(Optional)
+        name: 持久卷声明name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            pvcs: PVC list. parameter format: [{
-                name: PVC name (string),
-                status:  status (string),
-                capacity:  capacity (string),
+            pvcs: 持久卷声明list. parameter format: [{
+                name: PVCname (string),
+                status: status (string),
+                capacity: capacity (string),
             }, ...],
         }
     """
@@ -200,23 +200,23 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
 def pv_list(client: DMEAPIClient, cluster_id: str = None,
              name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Query container PV list
+    query容器持久卷list
     
-    Query container PV list,  supports filtering by cluster ID and name. 
+    query容器持久卷 (PV)list, 支持按cluster ID 和name过滤. 
     
     Args:
         client: DME API client
-        cluster_id: Container cluster ID (Optional) 
-        name: Persistent volume name (Optional, supports fuzzy search) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 1~1000, default 20
+        cluster_id: 容器cluster ID(Optional)
+        name: 持久卷name (可选, supports fuzzy query)
+        page_no: pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            pvs: PV list. parameter format: [{
-                name: PV name (string),
-                status:  status (string),
-                capacity:  capacity (string),
+            pvs: 持久卷list. parameter format: [{
+                name: PVname (string),
+                status: status (string),
+                capacity: capacity (string),
             }, ...],
         }
     """
@@ -236,47 +236,47 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     return response
 
 
-# Action list for CLI help
+# action list, for CLI help
 ACTIONS = {
-    #  clustermanagement 
+    # cluster管理
     'cluster_list': {
         'func': cluster_list,
-        'description': ' query container cluster list',
+        'description': '查询容器集群列表',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
-    # Node management
+    # 节点管理
     'node_list': {
         'func': node_list,
-        'description': ' query container node list',
+        'description': '查询容器节点列表',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'node'
     },
-    # Podmanagement 
+    # 容器组管理
     'pod_list': {
         'func': pod_list,
-        'description': ' query pod list',
+        'description': '查询容器组列表',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },
-    # Namespacemanagement 
+    # Namespace管理
     'namespace_list': {
         'func': namespace_list,
-        'description': 'Query container namespace list',
+        'description': '查询容器命名空间列表',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
-    # Persistent volume claimmanagement 
+    # 持久卷声明管理
     'pvc_list': {
         'func': pvc_list,
-        'description': 'Query container PVC list',
+        'description': '查询容器持久卷声明列表',
         'params': ['cluster_id', 'namespace', 'name', 'page_no', 'page_size'],
         'subtopic': 'pvc'
     },
-    # Persistent volumemanagement 
+    # 持久卷管理
     'pv_list': {
         'func': pv_list,
-        'description': 'Query container PV list',
+        'description': '查询容器持久卷列表',
         'params': ['cluster_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'pv'
     },

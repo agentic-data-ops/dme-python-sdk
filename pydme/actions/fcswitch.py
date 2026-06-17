@@ -1,5 +1,5 @@
 """
-FC Switch (Fibre Channel switch) operations
+FC Switch (光纤交换机) 相关操作
 """
 
 import sys
@@ -11,21 +11,21 @@ from pydme.client import DMEAPIClient
 def list(client: DMEAPIClient, name: str = None, 
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query switch
+    批量query交换机
     
     Args:
         client: DME API client
-        name: Switch name (Optional, supports fuzzy search) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: switch name (可选, supports fuzzy query)
+        page_no: 分页query的页码, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            total: Total count (integer),
-            fcswitches: Switch list (List<FcSwitchInfo>). parameter format: [{
-                id: SwitchID (string),
-                name: Switch name (string),
-                status: Running status (string),
+            total: 总count (integer),
+            fcswitches: 交换机list (List<FcSwitchInfo>). parameter format: [{
+                id: 交换机ID (string),
+                name: switch name (string),
+                status: running status (string),
             }, ...],
         }
     """
@@ -45,15 +45,15 @@ def list(client: DMEAPIClient, name: str = None,
 
 def sync(client: DMEAPIClient, switch_id: str) -> dict:
     """
-    Sync specifiedSwitch
+    同步指定交换机
     
     Args:
         client: DME API client
-        switch_id: Switch ID (Required) 
+        switch_id: 交换机 ID(Required)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/{switch_id}/sync"
@@ -66,19 +66,19 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
                        port_name: str = None, page_no: int = 1, 
                        page_size: int = 20) -> dict:
     """
-    Batch query switch port
+    批量query交换机端口
     
     Args:
         client: DME API client
-        switch_id: Switch ID (Optional) 
-        port_name: Port name (Optional) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        switch_id: 交换机 ID(Optional)
+        port_name: 端口name(Optional)
+        page_no: 分页query的页码, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and ports fields
+            task_id: task ID (string, 1~64个字符),
+        }, 包含 total 和 ports 字段
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/ports/query"
     
@@ -100,18 +100,18 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
 def controller_list(client: DMEAPIClient, switch_id: str = None,
                              page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query switch control processor
+    批量query交换机控制处理器
     
     Args:
         client: DME API client
-        switch_id: Switch ID (Optional) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        switch_id: 交换机 ID(Optional)
+        page_no: 分页query的页码, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and controllers fields
+            task_id: task ID (string, 1~64个字符),
+        }, 包含 total 和 controllers 字段
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/controllers/query"
     
@@ -130,18 +130,18 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
 def fabric_list(client: DMEAPIClient, name: str = None, 
                 page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query fibre Channel network
+    批量query光纤网络
     
     Args:
         client: DME API client
-        name: FC network name (Optional, supports fuzzy search) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        name: 光纤网络name (可选, supports fuzzy query)
+        page_no: 分页query的页码, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and fabrics fields
+            task_id: task ID (string, 1~64个字符),
+        }, 包含 total 和 fabrics 字段
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/list"
     
@@ -160,18 +160,18 @@ def fabric_list(client: DMEAPIClient, name: str = None,
 def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
                       page_no: int = 1, page_size: int = 20) -> dict:
     """
-    QueryFC network port list
+    query指定光纤网络的端口list
 
     Args:
         client: DME API client
-        fabric_id: Fibre Channel network ID (Required) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        fabric_id: 光纤网络 ID(Required)
+        page_no: 分页query的页码, default 1
+        page_size: items per page, 1~1000, default 20
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and ports fields
+            task_id: task ID (string, 1~64个字符),
+        }, 包含 total 和 ports 字段
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/ports/list"
     
@@ -187,17 +187,17 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
                   backup_type: str = "full") -> dict:
     """
-     executeFibre Channel networkConfig file backup
+    执行光纤网络配置文件备份
     
     Args:
         client: DME API client
-        fabric_id: Fibre Channel network ID (Required) 
-        backup_server_id: Backup server ID (Required) 
-        backup_type:  backup type, default full (full/incremental) 
+        fabric_id: 光纤网络 ID(Required)
+        backup_server_id: 备份服务器 ID(Required)
+        backup_type: 备份type, default full (full/incremental)
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64个字符),
         }
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/backup"
@@ -213,21 +213,21 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
     return response
 
 
-# ==================== VSAN operations ====================
+# ==================== VSAN 相关操作 ====================
 
 def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> dict:
     """
-     query VSAN  list
+    query VSAN list
     
     Args:
         client: DME API client
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
+        page_no: 分页query的页码, default 1
+        page_size: items per page, 1~1000, default 20
     
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and vsans fields
+            task_id: task ID (string, 1~64个字符),
+        }, 包含 total 和 vsans 字段
     """
     url = "/rest/fcswitchmgmt/v1/vsans/query"
     
@@ -240,34 +240,45 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     return response
 
 
-# ==================== Zone operations ====================
+# ==================== zone 相关操作 ====================
 
 def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
               cfg_name: str = None, zone_set: str = None, active_status: list = None,
               member_count: int = None, sort_key: str = None, sort_dir: str = None,
               page_no: int = None, page_size: int = None) -> dict:
     """
-    Batch query zone
+    批量query zone
 
-    Query Fibre Channel Zone  list. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        fabric_wwn: Fibre Channel network WWN (Optional) , 1~1024  characters
-        name: Zone  name (Optional) , supports fuzzy search, 1~1024  characters
-        cfg_name:  CFG  name (Optional) , supports fuzzy search, 0~1024  characters
-        zone_set:  Zone set (Optional) , supports fuzzy search, 0~1024  characters
-        active_status: Zone status list (Optional) , max array members: 2
-        member_count:  membercount (Optional) , 0~2147483647
-        sort_key: Sort field (Optional) ,  support member_count
-        sort_dir: Sort direction (Optional) , asc: ascending; desc: descending
-        page_no: Page number (Optional) , 1~65535
-        page_size: per pagecount (Optional) , 1~1000
+        fabric_wwn: 光纤网络 WWN (可选, string, 1~1024 个字符)
+        name: zone name (可选, string, 1~1024 个字符), supports fuzzy query
+        cfg_name: 所属 CFG name (可选, string, 0~1024 个字符), supports fuzzy query
+        zone_set: 所属 zone 集合 (可选, string, 0~1024 个字符), supports fuzzy query
+        active_status: zone statuslist (可选, List<string>, max array members: 2). valid values: ACTIVATED (已激活), INATIVATED (未激活)
+        member_count: 成员count (可选, int32, 0~2147483647)
+        sort_key: 排序字段 (可选, string), valid values: member_count
+        sort_dir: 排序方向 (可选, string), valid values: asc (升序), desc (降序), default升序
+        page_no: 分页query的页码 (可选, int32, 1~65535)
+        page_size: items per page (可选, int32, 1~1000)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and zones fields
+            total: zone count (int32),
+            zones: zone list (List<zoneBaseInfoResponse>). parameter format: [{
+                id: zone id (string, 1~128个字符),
+                fabric_id: 光纤网络 id (string, 0~128个字符),
+                name: zone name (string, 1~64个字符),
+                active_status: zone status (string, 1~16个字符). valid values: ACTIVATED (已激活), INATIVATED (未激活),
+                member_count: 成员count (integer),
+                cfg_name: 所属 CFG name (string, 0~256个字符),
+                zone_set: 所属 zone 集合 (string, 0~256个字符),
+                modifiable: 当前 zone 是否可以操作 (boolean, true/false),
+                zone_type: zone type (string). valid values: regular (常规 zone), user_specified_peer_zone (用户create的对等 zone), target_driven_peer_zone (目标驱动的对等 zone),
+            }, ...],
+        }
     """
     url = "/rest/fcswitchmgmt/v1/zones/list"
 
@@ -304,26 +315,33 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                 fcid_members: list = None, alias_members: list = None,
                 device_alias_members: list = None) -> dict:
     """
-    create  zone
+    create zone
+    在光纤网络中create一个 zone 实例, 必须包含 WWN 成员、端口成员、别名成员中的一种. 
 
-    Note:  Based on DME API documentation, must provide fabric_wwn or vsan_wwn, and at least one member type. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        name: Zone  name (Required) 
-        fabric_wwn: Fibre Channel network WWN ( conditionRequired, required when creating zone in fabric) 
-        vsan_wwn: VSAN WWN ( conditionRequired, required when creating zone in VSAN) 
-        wwn_members: WWN Member list (Optional) ,  format: ["<wwn>",...]
-        port_members: Port member list (Optional) ,  format: [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
-        fwwn_members: FWWN Member list (Optional) ,  format: ["<fwwn>",...]
-        fcid_members: FCID Member list (Optional) ,  format: ["<fcid>",...]
-        alias_members: Alias member list (Optional) ,  format: ["<alias>",...]
-        device_alias_members: Device alias member list (Optional) ,  format: ["<deviceAlias>",...]
+        name: zone name (必选, string, 1~64 个字符, 正则 ^[A-Za-z][A-Za-z0-9_^$\\-]*$)
+        fabric_wwn: 光纤网络 WWN (必选, string, 1~128 个字符, 正则 ^[A-Za-z0-9:]+$)
+        vsan_wwn: VSAN WWN (可选, string, 1~32 个字符). 条件必选: VSAN create ZONE 时需要传递
+        wwn_members: WWN 成员list (可选, List<string>, max array members: 100)
+        port_members: 端口成员list (可选, List<PortMemberRequest>, max array members: 100). parameter format: [{
+                domain_id: 域 ID (可选, int32, 0~65535),
+                port_index: 端口号 (条件必选, int32, 0~65535), 博科交换机时设置,
+                port_name: 交换机端口 (条件必选, string, 1~32个字符, 正则 ^[a-fA-F0-9/]+$), 思科交换机时设置,
+                switch_wwn: 交换机 WWN (可选, string, 1~32个字符), 思科交换机需指定远端交换机时设置,
+            }, ...]
+        fwwn_members: FWWN 成员list (可选, List<string>, max array members: 100)
+        fcid_members: FCID 成员list (可选, List<string>, max array members: 100)
+        alias_members: 别名成员list (可选, List<string>, max array members: 100)
+        device_alias_members: 设备别名成员list (可选, List<string>, max array members: 100)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes newly created Zone ID
+            id: zone id (string, 1~64个字符),
+            zone_name: zone name (string, 1~64个字符),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/zones"
 
@@ -331,13 +349,13 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
 
-    # Provide at least fabric_wwn or vsan_wwn
+    # fabric_wwn 或 vsan_wwn 至少提供一个
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
 
-    # Member list
+    # 成员list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -360,25 +378,47 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
                 fwwn_members: dict = None, port_members: dict = None,
                 fcid_members: dict = None, device_alias_members: dict = None) -> dict:
     """
-    modify  zone
+    modify zone
+    modify zone name或变更成员. 该操作会modify指定交换机上的 zone name或变更成员. 
 
-    Modify fibre channel zone configuration. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        zone_id: Zone ID (Required) 
-        zone_name: Zone  name (Optional) 
-        wwn_members: WWN member modification (Optional) ,  format: {"added_members": ["<wwn>",...], "removed_members": ["<wwn>",...]}
-        alias_members: Alias member modification (Optional) ,  format: {"added_members": ["<alias>",...], "removed_members": ["<alias>",...]}
-        fwwn_members: FWWN member modification (Optional) ,  format: {"added_members": ["<fwwn>",...], "removed_members": ["<fwwn>",...]}
-        port_members: Port member modification (Optional) ,  format: {"added_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], "removed_members": [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...]}, Brocade switch: specifyport_index, Cisco switch: specifyport_name
-        fcid_members: FCID member modification (Optional) ,  format: {"added_members": ["<fcid>",...], "removed_members": ["<fcid>",...]}
-        device_alias_members: Device alias member modification (Optional) ,  format: {"added_members": ["<deviceAlias>",...], "removed_members": ["<deviceAlias>",...]}
+        zone_id: zone ID (必选, string, 正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        zone_name: zone name (可选, string, 1~64 个字符, 正则 ^[A-Za-z][A-Za-z0-9_^$\\-]*$)
+        wwn_members: WWN 成员modify (可选, ModifyWwnMembersRequest object). parameter format: {
+                added_members: 增加的 WWN 成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的 WWN 成员 (可选, List<string>, max array members: 100),
+            }
+        port_members: 端口成员modify (可选, ModifyPortMembersRequest object). parameter format: {
+                added_members: 增加的端口成员 (可选, List<PortMemberRequest>, max array members: 100). attribute format: {
+                    domain_id: 域 ID (可选, int32, 0~65535),
+                    port_index: 端口号 (条件必选, int32, 0~65535), 博科交换机时设置,
+                    port_name: 交换机端口 (条件必选, string, 1~32个字符, 正则 ^[a-fA-F0-9/]+$), 思科交换机时设置,
+                    switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
+                },
+                removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, max array members: 100),
+            }
+        alias_members: 别名成员modify (可选, ModifyAliasMembersRequest object). parameter format: {
+                added_members: 增加的别名成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的别名成员 (可选, List<string>, max array members: 100),
+            }
+        fwwn_members: FWWN 成员modify (可选, ModifyFwwnMembersRequest object). parameter format: {
+                added_members: 增加的 FWWN 成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的 FWWN 成员 (可选, List<string>, max array members: 100),
+            }
+        fcid_members: FCID 成员modify (可选, ModifyFcidMembersRequest object). parameter format: {
+                added_members: 增加的 FCID 成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的 FCID 成员 (可选, List<string>, max array members: 100),
+            }
+        device_alias_members: 设备别名成员modify (可选, ModifyDeviceAliasMembersRequest object). parameter format: {
+                added_members: 增加的设备别名成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的设备别名成员 (可选, List<string>, max array members: 100),
+            }
 
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        无. 
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
 
@@ -404,17 +444,17 @@ def zone_modify(client: DMEAPIClient, zone_id: str, zone_name: str = None,
 
 def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
     """
-    delete  zone
-    Note:  Based on DME API documentation,  Use DELETE method to /zones/{zone_id}
-    
+    delete zone
+    该操作会delete指定交换机上的 zone. 
+
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
+
     Args:
         client: DME API client
-        zone_id: Zone ID (Required) 
-    
+        zone_id: zone ID (必选, string, 正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        无. 
     """
     url = "/rest/fcswitchmgmt/v1/zones/{zone_id}"
     
@@ -424,27 +464,32 @@ def zone_delete(client: DMEAPIClient, zone_id: str) -> dict:
 
 def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) -> dict:
     """
-    Batch create zone
+    批量create zone
 
-    Note:  Based on DME API documentation,  requires is_active_zone and zone_list parameters. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        is_active_zone:  Whether to activate zone (Required, string "true" or "false") 
-        zones: Zone  config list, each element should contain:
-            - fabric_wwn: Fibre Channel network WWN (Required) 
-            - name: Zone  name (Required) 
-            - wwn_members: WWN Member list (Optional) ,  format: ["<wwn>",...]
-            - port_members: Port member list (Optional) ,  format: [{"domain_id":"<domainId>","port_index":"<portIndex>","port_name":"portName"},...], Brocade switch: specifyport_index, Cisco switch: specifyport_name
-            - fwwn_members: FWWN Member list (Optional) ,  format: ["<fwwn>",...]
-            - fcid_members: FCID Member list (Optional) ,  format: ["<fcid>",...]
-            - alias_members: Alias member list (Optional) ,  format: ["<alias>",...]
-            - device_alias_members: Device alias member list (Optional) ,  format: ["<deviceAlias>",...]
+        is_active_zone: 是否激活 zones (必选, boolean), valid values: true (激活), false (不激活)
+        zones: create zone 的请求list (List<zoneCreateRequest>, 必选, 数组最小成员个数: 1, max array members: 20). parameter format: [{
+                fabric_wwn: 光纤网络 WWN (必选, string, 1~128 个字符, 正则 ^[A-Za-z0-9:]+$),
+                name: zone name (必选, string, 1~64 个字符, 正则 ^[A-Za-z][A-Za-z0-9_^$\\-]*$),
+                vsan_wwn: VSAN WWN (可选, string, 1~32 个字符). 条件必选: VSAN create ZONE 时需要传递,
+                wwn_members: WWN 成员list (可选, List<string>, max array members: 100),
+                port_members: 端口成员list (可选, List<PortMemberRequest>, max array members: 100). attribute format: [{
+                    domain_id: 域 ID (可选, int32, 0~65535),
+                    port_index: 端口号 (条件必选, int32, 0~65535), 博科交换机时设置,
+                    port_name: 交换机端口 (条件必选, string, 1~32个字符, 正则 ^[a-fA-F0-9/]+$), 思科交换机时设置,
+                    switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
+                }, ...],
+                alias_members: 别名成员list (可选, List<string>, max array members: 100),
+                device_alias_members: 设备别名成员list (可选, List<string>, max array members: 100),
+                fwwn_members: FWWN 成员list (可选, List<string>, max array members: 100),
+                fcid_members: FCID 成员list (可选, List<string>, max array members: 100),
+            }, ...]
 
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        无. 
     """
     url = "/rest/fcswitchmgmt/v1/zones/batch-create"
 
@@ -459,24 +504,47 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 
 def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> dict:
     """
-     Query zone members
+    query zone 的成员
+    query zone 中包含的成员, 支持端口成员、WWN 成员和别名成员. 
 
-     query Zone members contained in,  supportPort member, WWN members and alias members. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        zone_id: Zone ID (Required) 
-        type: Member type, Options: port, wwn, alias . 
-             returns all member types if not specified
+        zone_id: zone ID (必选, string, 正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        type: 成员type (可选, string). valid values: port (端口成员), wwn (WWN 成员), alias (别名成员). 不指定时返回所有type的成员
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, Includes member list
+            total: WWN 成员count (int32, type=wwn 时),
+            wwn_members: WWN 成员list (List<GetWwnMembersResponse>, type=wwn 时). parameter format: [{
+                member_wwn: 成员 WWN (string, 1~128个字符),
+            }, ...],
+            total: 端口成员count (int32, type=port 时),
+            port_members: 端口成员list (List<zonePortMemberResponse>, type=port 时). parameter format: [{
+                domain_id: 域 id (int32, 0~65535),
+                port_index: 交换机端口索引 (int32, 0~65535),
+                port_name: 端口name (string, 1~256个字符),
+                switch_ip: 端口所属交换机 IP (string, 1~32个字符),
+                switch_name: 端口所属switch name (string, 1~2048个字符),
+            }, ...],
+            total: 别名成员count (int32, type=alias 时),
+            alias_members: 别名成员list (List<AliasBaseInfo>, type=alias 时). parameter format: [{
+                id: 别名 id (string, 1~64个字符),
+                role: 成员type (string). valid values: regular (常规), principal (主要成员), non_principal (非主要成员),
+                type: 别名成员type (string). valid values: wwn, port, fwwn, fcid, ip-address, device-alias, domain-id, symbolic-node-name, empty, mixed,
+                fabric_id: 光纤网络 id (string, 0~64个字符),
+                fabric_wwn: 光纤网络 WWN (string, 1~32个字符),
+                name: 别名name (string, 1~128个字符),
+                member_count: 别名的成员count (int32, 0~65535),
+                modifiable: 当前别名是否可以操作 (boolean, true/false),
+            }, ...],
+            members: 所有成员list (List, 不指定 type 时),
+        }
     """
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
 
-    #  based on type parameter to query matching member type
+    # 根据 type 参数query对应type的成员
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/zones/{zone_id}/port-members/list"
         payload = {}
@@ -497,7 +565,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
         if response.get('alias_members'):
             result['alias_members'] = response.get('alias_members')
 
-    # if specified type, returns only matching member type
+    # 如果指定了 type, 只返回对应type的成员
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
@@ -505,30 +573,42 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     elif type == 'alias':
         return {'alias_members': result['alias_members']}
     else:
-        # returns all members
+        # 返回所有成员
         all_members = result['port_members'] + result['wwn_members'] + result['alias_members']
         return {'members': all_members}
 
 
-# ==================== Alias operations ====================
+# ==================== Alias 相关操作 ====================
 
 def alias_list(client: DMEAPIClient, fabric_wwn: str,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
-    Batch query alias
-    
-    Query Fibre Channel Alias  list. 
-    
+    批量query别名
+
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
+
     Args:
         client: DME API client
-        fabric_wwn: Fibre Channel network WWN (Required) 
-        page_no: Page number, default 1
-        page_size: per pagecount, 1~1000, default 20
-    
+        fabric_wwn: 光纤网络 WWN (必选, string, 1~1024 个字符), 从query光纤网络接口获取
+        name: 别名name (可选, string, 1~1024 个字符), supports fuzzy query
+        member_count: 成员count (可选, int32, 0~65535)
+        page_no: 分页query的页码 (可选, int32, 1~2147483647), default 1
+        page_size: items per page (可选, int32, 1~1000), default 20
+        sort_key: 排序字段 (可选, string), valid values: member_count (按成员count排序)
+        sort_dir: 排序方向 (可选, string), valid values: asc (升序), desc (降序), default升序
+
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes total and aliases fields
+            total: 别名total (int32),
+            aliases: 别名list (List<AliasBaseInfoResponse>). parameter format: [{
+                id: 别名 id (string, 1~64个字符),
+                fabric_id: 光纤网络 id (string, 1~64个字符),
+                fabric_wwn: 光纤网络 WWN (string, 1~32个字符),
+                name: 别名name (string, 1~128个字符),
+                member_count: 成员count (int32, 0~65535),
+                modifiable: 当前别名是否可以操作 (boolean, true/false),
+            }, ...],
+        }
     """
     url = "/rest/fcswitchmgmt/v1/aliases/list"
     
@@ -547,25 +627,31 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
                  port_members: list = None, fwwn_members: list = None,
                  fcid_members: list = None, device_alias_members: list = None) -> dict:
     """
-    Create alias
+    create别名
+    该操作会在指定交换机上create别名. 
 
-    Note:  Based on DME API documentation, must provide fabric_wwn or vsan_wwn, and at least one member type. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        name: Alias  name (Required) 
-        fabric_wwn: Fibre Channel network WWN ( conditionRequired, fabric Alias creation requires) 
-        vsan_wwn: VSAN WWN ( conditionRequired, vsan Alias creation requires) 
-        wwn_members: WWN Member list (Optional, Cisco switch PWWN member) 
-        port_members: Port member list (Optional) 
-        fwwn_members: FWWN Member list (Optional) 
-        fcid_members: FCID Member list (Optional) 
-        device_alias_members: Device alias member list (Optional) 
-    
+        name: 别名name (必选, string, 1~64 个字符, 正则 ^[A-Za-z0-9][A-Za-z0-9_^$\\-]*$)
+        fabric_wwn: 光纤网络 WWN (条件必选, string, 1~32 个字符), 光纤网络create别名时需要传递
+        vsan_wwn: VSAN WWN (条件必选, string, 1~32 个字符), VSAN create别名时需要传递
+        wwn_members: WWN 成员list (可选, List<string>, max array members: 100). 思科交换机的 PWWN 成员使用此参数传递. 华为/博科交换机: WWN 成员与端口成员至少二选一; 思科交换机: PWWN、FWWN、端口、FCID、设备别名至少五选一
+        fwwn_members: FWWN 成员list (可选, List<string>, max array members: 100). 思科交换机: PWWN、FWWN、端口、FCID、设备别名至少五选一
+        port_members: 端口成员list (可选, List<PortMemberRequest>, max array members: 100). parameter format: [{
+                domain_id: 域 ID (可选, int32, 0~65535),
+                port_index: 端口号 (条件必选, int32, 0~65535), 博科交换机配置端口成员时设置,
+                port_name: 交换机端口 (条件必选, string, 1~32个字符, 正则 ^[a-fA-F0-9/]+$), 思科交换机配置端口成员时设置,
+                switch_wwn: 交换机 WWN (可选, string, 1~32个字符), 思科交换机需指定远端交换机时设置,
+            }, ...]
+        fcid_members: FCID 成员list (可选, List<string>, max array members: 100). 思科交换机: PWWN、FWWN、端口、FCID、设备别名至少五选一
+        device_alias_members: 设备别名成员list (可选, List<string>, max array members: 100). 思科交换机: PWWN、FWWN、端口、FCID、设备别名至少五选一
+
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes newly created Alias ID
+            id: 别名 id (string, 1~64个字符),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/aliases"
     
@@ -573,13 +659,13 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
     
-    # Provide at least fabric_wwn or vsan_wwn
+    # fabric_wwn 或 vsan_wwn 至少提供一个
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
     
-    # Member list
+    # 成员list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -600,24 +686,43 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
                  port_members: dict = None, fcid_members: dict = None,
                  device_alias_members: dict = None) -> dict:
     """
-    Modify alias
+    modify别名
+    变更别名成员. 博科交换机支持 WWN 成员、端口成员modify; 思科交换机支持 PWWN、FWWN、端口、FCID、设备别名成员modify. 
 
-    Note:  Based on DME API documentation, member modification requires {type}.added_members and {type}.removed_members format. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        alias_id: Alias ID (Required) 
-        name: Alias  name (Optional) 
-        wwn_members: WWN member modification (Optional,  format: {'added_members': [...], 'removed_members': [...]}) 
-        fwwn_members: FWWN member modification (Optional) 
-        port_members: Port member modification (Optional) 
-        fcid_members: FCID member modification (Optional) 
-        device_alias_members: Device alias member modification (Optional) 
-    
+        alias_id: 别名 ID (必选, string, 正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        name: 别名name (可选, string, 1~64 个字符, 正则 ^[A-Za-z0-9][A-Za-z0-9_^$\\-]*$). 条件可选: 思科交换机支持modify别名name, 博科交换机不支持
+        wwn_members: WWN 成员modify (可选, WwnMembersRequest object). parameter format: {
+                added_members: 增加的 WWN 成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的 WWN 成员 (可选, List<string>, max array members: 100),
+            }
+        fwwn_members: FWWN 成员modify (可选, FwwnMembersRequest object). parameter format: {
+                added_members: 增加的 FWWN 成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的 FWWN 成员 (可选, List<string>, max array members: 100),
+            }
+        port_members: 端口成员modify (可选, PortMembersRequest object). parameter format: {
+                added_members: 增加的端口成员 (可选, List<PortMemberRequest>, max array members: 100). attribute format: {
+                    domain_id: 域 ID (可选, int32, 0~65535),
+                    port_index: 端口号 (条件必选, int32, 0~65535), 博科交换机时设置,
+                    port_name: 交换机端口 (条件必选, string, 1~32个字符, 正则 ^[a-fA-F0-9/]+$), 思科交换机时设置,
+                    switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
+                },
+                removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, max array members: 100),
+            }
+        fcid_members: FCID 成员modify (可选, FcidMembersRequest object). parameter format: {
+                added_members: 增加的 FCID 成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的 FCID 成员 (可选, List<string>, max array members: 100),
+            }
+        device_alias_members: 设备别名成员modify (可选, DeviceAliasMembersRequest object). parameter format: {
+                added_members: 增加的设备别名成员 (可选, List<string>, max array members: 100),
+                removed_members: 移除的设备别名成员 (可选, List<string>, max array members: 100),
+            }
+
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        无. 
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
     
@@ -641,18 +746,17 @@ def alias_modify(client: DMEAPIClient, alias_id: str, name: str = None,
 
 def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
     """
-    Delete alias
+    delete别名
+    该操作会delete指定交换机上的别名. 
 
-    Note:  Based on DME API documentation,  Use DELETE method to /aliases/{alias_id}
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        alias_id: Alias ID (Required) 
-    
+        alias_id: 别名 ID (必选, string, 正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+
     Returns:
-        {
-            task_id: Task ID (string, 1~64 characters),
-        }
+        无. 
     """
     url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}"
     
@@ -662,24 +766,36 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
 
 def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) -> dict:
     """
-    Query alias members
+    query别名的成员
+    query Alias 中包含的成员, 支持query端口成员和 WWN 成员. 
 
-     Query alias members,  supports port member and WWN member. 
+    ⚠️  注意: FC 交换机配置操作为同步执行, 建议设置请求超时时间为 90 秒以上 (--timeout 90). 
 
     Args:
         client: DME API client
-        alias_id: Alias ID (Required) 
-        type: Member type, Options: port, wwn . 
-             returns all member types if not specified
+        alias_id: 别名 ID (必选, string, 正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)
+        type: 成员type (可选, string). valid values: port (端口成员), wwn (WWN 成员). 不指定时返回所有type的成员
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, Includes member list
+            total: WWN 成员total (int32, type=wwn 时),
+            wwn_member: WWN 成员list (List<GetWwnMembersResponse>, type=wwn 时). parameter format: [{
+                member_wwn: 成员 WWN (string, 1~128个字符),
+            }, ...],
+            total: 端口成员total (int32, type=port 时),
+            port_members: 端口成员list (List<PortMemberInfoResponse>, type=port 时). parameter format: [{
+                domain_id: 域 id (int32, 0~65535),
+                port_index: 交换机端口索引 (int32, 0~65535),
+                port_name: 交换机端口name (string, 1~128个字符),
+                switch_ip: 端口所属交换机 IP (string, 1~32个字符),
+                switch_name: 端口所属switch name (string, 1~2048个字符),
+            }, ...],
+            members: 所有成员list (List, 不指定 type 时),
+        }
     """
     result = {'port_members': [], 'wwn_members': []}
 
-    # if type is not specified or is None, Query matching member type
+    # 如果指定了 type 或default为 None 时, query对应type的成员
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/port-members/list"
         payload = {}
@@ -690,134 +806,134 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     if type is None or type == 'wwn':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/wwn-members/list"
         response = client.get(url, params={"alias_id": alias_id})
-        # API returns field wwn_member ( singular) 
+        # API 返回字段为 wwn_member (单数)
         if response.get('wwn_member'):
             result['wwn_members'] = response.get('wwn_member')
 
-    # if specified type, returns only matching member type
+    # 如果指定了 type, 只返回对应type的成员
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
         return {'wwn_members': result['wwn_members']}
     else:
-        # returns all members
+        # 返回所有成员
         all_members = result['port_members'] + result['wwn_members']
         return {'members': all_members}
 
 
-# Actions, Define all available actions
+# ACTIONS 字典, 定义所有可用动作
 ACTIONS = {
     'list': {
         'func': list,
-        'description': 'Batch query fibre Channel switch',
+        'description': '批量查询光纤交换机',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
     'sync': {
         'func': sync,
-        'description': 'Sync switch config',
+        'description': '同步交换机配置',
         'params': ['switch_id'],
         'subtopic': None
     },
     'port_list': {
         'func': port_list,
-        'description': ' query switch port list',
+        'description': '查询交换机端口列表',
         'params': ['switch_id', 'port_name', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'controller_list': {
         'func': controller_list,
-        'description': ' query switch controller list',
+        'description': '查询交换机控制器列表',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },
     'fabric_list': {
         'func': fabric_list,
-        'description': 'Batch query fabric',
+        'description': '批量查询 fabric',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },
     'fabric_show_ports': {
         'func': fabric_show_ports,
-        'description': 'Query fabric port list',
+        'description': '查询 fabric 的端口列表',
         'params': ['fabric_id', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },
     'fabric_backup': {
         'func': fabric_backup,
-        'description': ' backup fabric  config',
+        'description': '备份 fabric 配置',
         'params': ['fabric_id', 'backup_server_id', 'backup_type'],
         'subtopic': 'fabric'
     },
     'vsan_list': {
         'func': vsan_list,
-        'description': 'Batch query vsan',
+        'description': '批量查询 vsan',
         'params': ['page_no', 'page_size'],
         'subtopic': 'vsan'
     },
     'zone_list': {
         'func': zone_list,
-        'description': 'Batch query zone',
+        'description': '批量查询 zone',
         'params': ['zone_name', 'page_no', 'page_size'],
         'subtopic': 'zone'
     },
     'zone_create': {
         'func': zone_create,
-        'description': 'create  zone',
+        'description': '创建 zone',
         'params': ['name', 'fabric_wwn', 'vsan_wwn', 'wwn_members', 'port_members', 'fwwn_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_modify': {
         'func': zone_modify,
-        'description': 'modify  zone',
+        'description': '修改 zone',
         'params': ['zone_id', 'zone_name', 'wwn_members', 'fwwn_members', 'port_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_delete': {
         'func': zone_delete,
-        'description': 'delete  zone',
+        'description': '删除 zone',
         'params': ['zone_id'],
         'subtopic': 'zone'
     },
     'zone_batch_create': {
         'func': zone_batch_create,
-        'description': 'Batch create zone',
+        'description': '批量创建 zone',
         'params': ['is_active_zone', 'zones'],
         'subtopic': 'zone'
     },
     'zone_show_members': {
         'func': zone_show_members,
-        'description': ' Query zone members',
+        'description': '查询 zone 的成员',
         'params': ['zone_id', 'type'],
         'subtopic': 'zone'
     },
     'alias_list': {
         'func': alias_list,
-        'description': 'Batch query alias',
+        'description': '批量查询别名',
         'params': ['fabric_wwn', 'page_no', 'page_size'],
         'subtopic': 'alias'
     },
     'alias_create': {
         'func': alias_create,
-        'description': 'Create alias',
+        'description': '创建别名',
         'params': ['name', 'fabric_wwn', 'vsan_wwn', 'wwn_members', 'port_members', 'fwwn_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'alias'
     },
     'alias_modify': {
         'func': alias_modify,
-        'description': 'Modify alias',
+        'description': '修改别名',
         'params': ['alias_id', 'name', 'wwn_members', 'fwwn_members', 'port_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'alias'
     },
     'alias_delete': {
         'func': alias_delete,
-        'description': 'Delete alias',
+        'description': '删除别名',
         'params': ['alias_id'],
         'subtopic': 'alias'
     },
     'alias_show_members': {
         'func': alias_show_members,
-        'description': 'Query alias members',
+        'description': '查询别名的成员',
         'params': ['alias_id', 'type'],
         'subtopic': 'alias'
     },

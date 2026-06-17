@@ -1,7 +1,7 @@
 """
-Tenant self-service (Self Service) operations
+租户自助服务 (Self Service) 相关操作
 
-Tenant self-service for managing service level and project group.
+租户自助服务用于管理服务等级和业务群组. 
 """
 
 import sys
@@ -9,7 +9,7 @@ import os
 
 from pydme.client import DMEAPIClient
 
-# ============ lun subtopic functions ============
+# ============ lun 子主题函数 ============
 
 
 def lun_create(client: DMEAPIClient, volumes: list,
@@ -17,34 +17,34 @@ def lun_create(client: DMEAPIClient, volumes: list,
                project_id: str = None, availability_zone: str = None,
                scheduler_hints: dict = None, mapping: dict = None) -> dict:
     """
-    SService batch create LUN
+    服务化批量create LUN
 
     Args:
         client: DME API client
-        volumes: LUN basic parameter list to create (List<ServiceVolumeBasicParams>, max array members: 1000). parameter format: [{
-                name: LUN name (1~255 characters, supports alphanumeric._-and Chinese characters),
-                capacity:  capacityGB (1~262144),
-                count: create count (1~500),
-                description:  description (0~255 characters),
-                start_suffix: Starting suffix number (0~9999),
-                suffix_length: Suffix length rule (1~4,  name length+ suffix length<=255),
+        volumes: 待create LUN 基本参数list (List<ServiceVolumeBasicParams>, max array members: 1000). parameter format: [{
+                name: LUN name (1~255个字符, 支持字母数字._-和中文字符),
+                capacity: capacityGB (1~262144),
+                count: createcount (1~500),
+                description: description (0~255个字符),
+                start_suffix: 起始后缀编号 (0~9999),
+                suffix_length: 后缀长度规则 (1~4, name长度+后缀长度<=255),
              }, ...]
-        service_level_id: Service level ID (Required, 0~64  characters) 
-        task_remarks: Async task remark (Optional,  max 1024  characters) 
-        project_id: Project group ID (Optional, 0~64  characters) 
-        availability_zone: Availability zone ID (Optional, 0~64  characters) 
-        scheduler_hints: Scheduling policy (Optional, SchedulerHints object).  parameter format: {
-                affinity: Enable affinity. Options: true (enable), false (disable). Default: disabled,
-                affinity_volume: to be associated LUN ID (Optional, 0~64 characters),
+        service_level_id: 服务等级 ID (必填, 0~64 个字符)
+        task_remarks: 异步任务备注info (可选, 最多 1024 个字符)
+        project_id: 业务群组 ID (可选, 0~64 个字符)
+        availability_zone: 可用分区 ID (可选, 0~64 个字符)
+        scheduler_hints: 调度策略 (可选, SchedulerHints object). parameter format: {
+                affinity: 是否true亲和性. valid values: true (true), false (不true). default不true,
+                affinity_volume: 待亲和的 LUN ID (可选, 0~64个字符),
              }
-        mapping: Mapping info (Optional, ServiceVolumeMapping object, If present, creates for host or host group LUN).  parameter format: {
-                host_id: Host ID (Optional, 0~64 characters, one of with hostgroup_id),
-                hostgroup_id: Host group ID (Optional, 0~64 characters, one of with host_id),
+        mapping: 映射info (可选, ServiceVolumeMapping object, 存在即表示为主机或主机组create LUN). parameter format: {
+                host_id: host ID (可选, 0~64个字符, 与hostgroup_id二选其一),
+                hostgroup_id: host group ID (可选, 0~64个字符, 与host_id二选其一),
              }
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64个字符),
         }
     """
     url = "/rest/blockservice/v1/volumes"
@@ -72,18 +72,18 @@ def lun_create(client: DMEAPIClient, volumes: list,
 def lun_change_tier(client: DMEAPIClient, volume_ids: list,
                                 tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    Batch update LUN service level
+    批量更新 LUN 的服务等级
 
     Args:
         client: DME API client
-        volume_ids: LUN ID  list
-        tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter refresh LUN  (Optional, true/false) 
+        volume_ids: LUN ID list
+        tier_id: 服务等级 ID
+        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性 (可选, true/false)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        } (Async task) 
+            task_id: task ID (string, 1~64个字符),
+        } (异步任务)
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
@@ -102,18 +102,18 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 def lun_bind_tier(client: DMEAPIClient, volume_id: str,
                        tier_id: str, attributes_auto_change: bool = None) -> dict:
     """
-    LUN  assoassociated service level
+    LUN 关联服务等级
 
     Args:
         client: DME API client
         volume_id: LUN ID
-        tier_id: Service level ID
-        attributes_auto_change:  whether based onService level parameter refresh LUN  (Optional, true/false) 
+        tier_id: 服务等级 ID
+        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性 (可选, true/false)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        } (Async task) 
+            task_id: task ID (string, 1~64个字符),
+        } (异步任务)
     """
     url = "/rest/blockservice/v1/volumes/add-to-service-level"
 
@@ -131,7 +131,7 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
 
 def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
     """
-     Unbind LUN from service level
+    解除 LUN 与服务等级关联
 
     Args:
         client: DME API client
@@ -139,8 +139,8 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        } (Async task) 
+            task_id: task ID (string, 1~64个字符),
+        } (异步任务)
     """
     url = "/rest/blockservice/v1/volumes/remove-service-level"
 
@@ -155,16 +155,16 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 def lun_bind_project(client: DMEAPIClient, volume_id: str,
                         business_group_id: str) -> dict:
     """
-    LUN  assoassociated project group
+    LUN 关联业务群组
 
     Args:
         client: DME API client
         volume_id: LUN ID
-        business_group_id: Project group ID
+        business_group_id: 业务群组 ID
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64个字符),
         }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/bound"
@@ -180,16 +180,16 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
 def lun_unbind_project(client: DMEAPIClient, volume_id: str,
                           business_group_id: str) -> dict:
     """
-     Unbind LUN from project group
+    解除 LUN 与业务群组间关联
 
     Args:
         client: DME API client
         volume_id: LUN ID
-        business_group_id: Project group ID
+        business_group_id: 业务群组 ID
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
+            task_id: task ID (string, 1~64个字符),
         }
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/unbound"
@@ -202,7 +202,7 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
     return response
 
 
-# ============ tier subtopic functions ============
+# ============ tier 子主题函数 ============
 
 
 def tier_list(client: DMEAPIClient, name: str = None,
@@ -211,26 +211,26 @@ def tier_list(client: DMEAPIClient, name: str = None,
                         limit: int = 200, sort_key: str = 'name',
                         sort_dir: str = 'asc', type: str = None) -> dict:
     """
-    Batch query service level
+    批量query服务等级
 
-     Query service level list, supports filtering by name, project ID, AZ, storage ID and pagination. 
+    query服务等级list, 支持按name、项目 ID、可用区、存储 ID 等过滤和分页. 
 
     Args:
         client: DME API client
-        name: Service level name (Optional, supports fuzzy search) 
-        project_id: Project group ID (Optional) 
-        available_zone_id:  availability zone ID (Optional) 
-        storage_array_id: Storage device ID (Optional) 
-        start:  Query start position, default 0
-        limit: per pagecount, 10~1000, default 200
-        sort_key: Sort field, name/total_capacity/created_at, default name
-        sort_dir: Sort direction, asc/desc, default asc
-        type: Storage class type, FILE, BLOCK, VIRTUAL_DATASTORE (Optional) 
+        name: 服务等级name (可选, supports fuzzy query)
+        project_id: 业务群组 ID(Optional)
+        available_zone_id: 可用区 ID(Optional)
+        storage_array_id: Storage device ID(Optional)
+        start: query的起始location, default 0
+        limit: items per page, 10~1000, default 200
+        sort_key: 排序字段, name/total_capacity/created_at, default name
+        sort_dir: 排序方向, asc/desc, default asc
+        type: 存储type, FILE/BLOCK/VIRTUAL_DATASTORE(Optional)
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Service level list
+            task_id: task ID (string, 1~64个字符),
+        }, 包含服务等级list
     """
     url = "/rest/service-policy/v1/service-levels"
 
@@ -264,20 +264,20 @@ def tier_list(client: DMEAPIClient, name: str = None,
 def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    Batch query project group and service level association
+    批量query业务群组与服务等级关联关系
 
-     Query project group and service level association list,  supports filtering by service level ID. 
+    query业务群组与服务等级的关联关系list, 支持按服务等级 ID 过滤. 
 
     Args:
         client: DME API client
-        tier_id: Service level ID (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 10~1000, default 200
+        tier_id: 服务等级 ID(Optional)
+        page_no: pagination start page, default 1
+        page_size: items per page, 10~1000, default 200
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Association list
+            task_id: task ID (string, 1~64个字符),
+        }, 包含关联关系list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -293,26 +293,26 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     return response
 
 
-# ============ project subtopic functions ============
+# ============ project 子主题函数 ============
 
 
 def project_list(client: DMEAPIClient, name: str = None,
                   start: int = 1, limit: int = 20) -> dict:
     """
-    Batch query project group
+    批量query业务群组
 
-     query project group list, supports name filtering and pagination. 
+    query业务群组list, 支持按name过滤和分页. 
 
     Args:
         client: DME API client
-        name: Project group name (Optional, supports fuzzy search) 
-        start: Page number, starting from 1, default 1
-        limit: Page size, 1~512, default 20
+        name: 业务群组name (可选, supports fuzzy query)
+        start: 分页的页号, 从 1 开始, default 1
+        limit: 分页的大小, 1~512, default 20
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Project group list
+            task_id: task ID (string, 1~64个字符),
+        }, 包含业务群组list
     """
     url = "/rest/projectmgmt/v1/projects"
 
@@ -331,20 +331,20 @@ def project_list(client: DMEAPIClient, name: str = None,
 def project_show_tiers(client: DMEAPIClient, project_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
     """
-    Batch query project group and service level association
+    批量query业务群组与服务等级关联关系
 
-    Query project group associated service level list. 
+    query指定业务群组的关联服务等级list. 
 
     Args:
         client: DME API client
-        project_id: Project group ID (Optional) 
-        page_no: Page queryStart page, default 1
-        page_size: per pagecount, 10~1000, default 200
+        project_id: 业务群组 ID(Optional)
+        page_no: pagination start page, default 1
+        page_size: items per page, 10~1000, default 200
 
     Returns:
         {
-            task_id: Task ID (string, 1~64 characters),
-        }, includes Association list
+            task_id: task ID (string, 1~64个字符),
+        }, 包含关联关系list
     """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
@@ -360,69 +360,69 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     return response
 
 
-# Action list for CLI help
-# No direct actions for this topic, All actions are under subtopics
+# action list, for CLI help
+# 本主题无直接动作, 所有动作均在子主题下
 ACTIONS = {
-    # tier Subtopic
+    # tier 子主题
     'tier_list': {
         'func': tier_list,
-        'description': 'Batch query service level',
+        'description': '批量查询服务等级',
         'params': ['name', 'project_id', 'available_zone_id', 'storage_array_id', 'start', 'limit', 'sort_key', 'sort_dir', 'type'],
         'subtopic': 'tier'
     },
     'tier_show_projects': {
         'func': tier_show_projects,
-        'description': 'Batch query project group and service level association',
+        'description': '批量查询业务群组与服务等级关联关系',
         'params': ['tier_id', 'page_no', 'page_size'],
         'subtopic': 'tier'
     },
-    # project Subtopic
+    # project 子主题
     'project_list': {
         'func': project_list,
-        'description': 'Batch query project group',
+        'description': '批量查询业务群组',
         'params': ['name', 'start', 'limit'],
         'subtopic': 'project'
     },
     'project_show_tiers': {
         'func': project_show_tiers,
-        'description': 'Batch query project group and service level association',
+        'description': '批量查询业务群组与服务等级关联关系',
         'params': ['project_id', 'page_no', 'page_size'],
         'subtopic': 'project'
     },
-    # lun Subtopic
+    # lun 子主题
     'lun_create': {
         'func': lun_create,
-        'description': 'SService batch create LUN',
+        'description': '服务化批量创建 LUN',
         'params': ['volumes', 'service_level_id', 'task_remarks', 'project_id', 'availability_zone', 'scheduler_hints', 'mapping'],
         'subtopic': 'lun'
     },
     'lun_change_tier': {
         'func': lun_change_tier,
-        'description': 'Batch update LUN service level',
+        'description': '批量更新 LUN 的服务等级',
         'params': ['volume_ids', 'tier_id'],
         'subtopic': 'lun'
     },
     'lun_bind_tier': {
         'func': lun_bind_tier,
-        'description': 'LUN  assoassociated service level',
+        'description': 'LUN 关联服务等级',
         'params': ['volume_id', 'tier_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_tier': {
         'func': lun_unbind_tier,
-        'description': ' Unbind LUN from service level',
+        'description': '解除 LUN 与服务等级关联',
         'params': ['volume_id'],
         'subtopic': 'lun'
     },
     'lun_bind_project': {
         'func': lun_bind_project,
-        'description': 'LUN  assoassociated project group',
+        'description': 'LUN 关联业务群组',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_project': {
         'func': lun_unbind_project,
-        'description': ' Unbind LUN from project group',
+        'description': '解除 LUN 与业务群组间关联',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },
