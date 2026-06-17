@@ -761,12 +761,12 @@ def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int 
 
 
 def hypermetro_pair_create(client: DMEAPIClient, create_mode: str,
-                           lun_pairs: list = None, lun_ids: list = None,
+                           local_storage_id: str, domain_id: str,
+                           lun_ids: list = None, lun_pairs: list = None,
                            remote_storage_pool_id: str = None,
                            remote_vstore_id: str = None,
                            remote_resource_name_rule: str = None,
                            name_prefix: str = None, name_suffix: str = None,
-                           local_storage_id: str = None, domain_id: str = None,
                            speed: str = None, bandwidth: int = None,
                            service_assurance_policy: str = None,
                            isolation_threshold_time: int = None,
@@ -803,13 +803,15 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str,
     url = "/rest/protection/v1/metro/lun-pairs"
 
     payload = {
-        'create_mode': create_mode
+        'create_mode': create_mode,
+        'local_storage_id': local_storage_id,
+        'domain_id': domain_id
     }
 
-    if lun_pairs is not None:
-        payload['lun_pairs'] = lun_pairs
     if lun_ids is not None:
         payload['lun_ids'] = lun_ids
+    if lun_pairs is not None:
+        payload['lun_pairs'] = lun_pairs
     if remote_storage_pool_id is not None:
         payload['remote_storage_pool_id'] = remote_storage_pool_id
     if remote_vstore_id is not None:
@@ -820,10 +822,6 @@ def hypermetro_pair_create(client: DMEAPIClient, create_mode: str,
         payload['name_prefix'] = name_prefix
     if name_suffix is not None:
         payload['name_suffix'] = name_suffix
-    if local_storage_id is not None:
-        payload['local_storage_id'] = local_storage_id
-    if domain_id is not None:
-        payload['domain_id'] = domain_id
     if speed is not None:
         payload['speed'] = speed
     if bandwidth is not None:
