@@ -1,0 +1,45 @@
+
+============================================================
+动作：system dc show
+============================================================
+
+描述:
+  获取数据中心详情
+
+详细说明:
+  获取数据中心详情
+  查询指定数据中心的详细信息。
+
+参数说明:
+------------------------------------------------------------
+
+  --dc_id
+      数据中心 ID（必选）
+
+输出说明:
+------------------------------------------------------------
+    {
+        id: 数据中心ID (string),
+        name: 名称 (string),
+        description: 描述 (string),
+        longitude: 经度 (number),
+        latitude: 纬度 (number),
+        device_num: 设备数量 (int32),
+        critical_num: 紧急告警数 (int32),
+        major_num: 重要告警数 (int32),
+        minor_num: 次要告警数 (int32),
+        info_num: 提示告警数 (int32),
+        total_cpu: CPU总量 (int32),
+        allocated_cpu: 已分配CPU (int32),
+        total_memory: 内存总量 (int32),
+        allocated_memory: 已分配内存 (int32),
+        storage_total_usable_capacity: 存储总可用容量 (int64),
+        storage_total_used_capacity: 存储已用容量 (int64),
+    }
+
+============================================================
+使用示例:
+  pydme system dc show
+  pydme system dc show --dc_id <value>
+============================================================
+

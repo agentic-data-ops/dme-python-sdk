@@ -20,9 +20,8 @@ def login(client: DMEAPIClient) -> dict:
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 accessSession
-        - accessSession: 会话 token，用于后续请求的 X-Auth-Token header
+            accessSession: 会话 token (string)，用于后续请求的 X-Auth-Token header,
+        }
     """
     client.login()
 
@@ -442,8 +441,13 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含待办项列表和总数
+            total: 待办任务数量 (integer),
+            todo_items: 待办任务列表 (List<ItemDetail>)。参数格式如下：[{
+                id: 待办项ID (string, 1~64个字符),
+                name: 待办任务名称 (string, 1~128个字符),
+                context: 待办任务上下文体 (string, 1~2097152个字符),
+            }, ...],
+        }
     """
     url = "/rest/taskmgmt/v1/todo-items/query"
 
