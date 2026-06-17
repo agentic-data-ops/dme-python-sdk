@@ -1,0 +1,80 @@
+
+============================================================
+动作：nas quota list
+============================================================
+
+描述:
+  查询配额列表
+
+详细说明:
+  查询配额列表
+
+参数说明:
+------------------------------------------------------------
+
+  --page_no
+      分页查询页码（可选），最小值 1，默认 1
+
+  --page_size
+      每页数据条数（可选），1~1000，默认 20
+
+  --ids
+      配额的 ID 列表（可选），List<string> 类型，数组最大成员个数 100
+
+  --raw_ids
+      配额在存储设备上的 ID 列表（可选），List<string> 类型，0~1024 个字符，数组最大成员个数 100
+
+  --quota_type
+      配额类型（可选），可选值：directory_quota（目录配额）、user_quota（用户配额）、user_group_quota（用户组配额）
+
+  --parent_type
+      配额所属父对象类型（可选），0~32 个字符；可选值：filesystem（文件系统或者命名空间，OceanStor Pacific 设备称为命名空间，其余设备称为文件系统）、qtree（Quota Tree 或者 Dtree，OceanStor V3/V5 设备称为 Quota Tree，其余设备称为 Dtree）
+
+  --parent_raw_id
+      配额所属父对象在存储设备上的 ID（可选），0~256 个字符，支持精确匹配；当 parent_type 为 filesystem 时是文件系统或命名空间在存储设备上的 ID，当 parent_type 为 qtree 时是 Quota Tree 或 Dtree 在存储设备上的 ID
+
+  --owner_name
+      配额关联的用户或者用户组名称（可选），0~256 个字符，支持模糊查询
+
+  --vstore_id
+      配额所属租户的 ID（可选），0~64 个字符
+
+  --vstore_raw_id
+      配额所属租户存储设备上的 ID（可选），0~256 个字符，支持精确匹配
+
+  --storage_id
+      配额所属存储设备的 ID（可选），0~64 个字符
+
+  --sort_key
+      查询的排序字段（可选），可选值：id、space_hard_used_rate（空间使用率）、file_hard_used_rate（文件使用率），默认 id
+
+  --sort_dir
+      排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
+
+  --zone_id
+      Zone id（可选），0~64 个字符，仅 OceanStor A800 存储支持
+
+输出说明:
+------------------------------------------------------------
+    {
+        total: 配额数量 (int32),
+        datas: 配额列表 (List<QuotaListItem>)。参数格式如下：[{
+            id: 配额ID (string),
+            raw_id: 在设备上的ID (string),
+            quota_type: 配额类型 (string),
+            parent_type: 父对象类型 (string),
+            owner_name: 属主名称 (string),
+            space_soft_quota: 空间软配额 (string),
+            space_hard_quota: 空间硬配额 (string),
+            space_hard_used_rate: 空间硬配额使用率 (string),
+            file_hard_quota: 文件数硬配额 (string),
+            file_hard_used: 文件数已使用 (string),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme nas quota list
+  pydme nas quota list --page_no <value> --page_size <value> --ids <value> --raw_ids <value> --quota_type <value> --parent_type <value> --parent_raw_id <value> --owner_name <value> --vstore_id <value> --vstore_raw_id <value> --storage_id <value> --sort_key <value> --sort_dir <value> --zone_id <value>
+============================================================
+

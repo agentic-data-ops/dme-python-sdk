@@ -1,0 +1,62 @@
+
+============================================================
+动作：nas nfs_share create
+============================================================
+
+描述:
+  创建 NFS 共享
+
+详细说明:
+  创建 NFS 共享
+
+参数说明:
+------------------------------------------------------------
+
+  --create_nfs_share_param
+      创建 NFS 共享参数。参数格式如下：{
+          name: NFS共享别名 (可选),
+          description: 描述信息 (可选),
+          share_path: 共享路径 (必选),
+          character_encoding: 字符编码 (可选),
+          audit_items: 支持审计的事件列表 (可选)。参数格式如下：[{
+              audititem: 审计事件类型。可选值：none (无操作), all (所有操作), open (打开), create (创建), read (读), write (写), close (关闭), delete (删除), rename (重命名), get_security (获取安全属性), set_security (设置安全属性), get_attr (获取属性), set_attr (设置属性),
+          }, ...],
+          show_snapshot_enable: 是否开启显示Snapshot (可选)。可选值：true, false,
+          nfs_share_client_addition: NFS共享客户端权限列表 (可选)。参数格式如下：[{
+              name: 客户端IP或主机名或网络组名 (必选, 1~255字符; 网络组名称以@开头),
+              permission: 权限 (必选)。可选值：read (读), read_and_write (读写), no_permission (无权限), read_and_write_not_del_rename (读写不能删除重命名),
+              accesskrb5: krb5权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
+              accesskrb5i: krb5i权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
+              accesskrb5p: krb5p权限 (可选)。可选值：read, read_and_write, no_permission, read_and_write_not_del_rename,
+              write_mode: 写入模式 (可选)。可选值：synchronization (同步), asynchronization (异步),
+              permission_constraint: 权限限制 (必选)。可选值：all_squash, no_all_squash,
+              root_permission_constraint: root权限限制 (必选)。可选值：root_squash, no_root_squash,
+              source_port_verification: 源端口校验限制 (可选)。可选值：secure (安全), insecure (不安全),
+              anonymous_user_id: 匿名用户ID (可选),
+              access_protocol: 访问协议 (可选)。可选值：nfsv3_and_nfsv4 (NFSv3和NFSv4), nfsv3 (仅NFSv3), nfsv4 (仅NFSv4),
+          }, ...],
+          file_name_extension_filters: 文件扩展名过滤规则列表 (可选)。参数格式如下：[{
+              file_name_ex_id_in_storage: 规则在存储上的ID (可选, 1~64字符, 变更已添加规则时必填),
+              file_name_extension: 文件扩展名 (必选, 1~127字符, 支持通配符?和*, *只能位于最后一个字符),
+              rule_type: 规则允许/拒绝 (可选, 默认reject)。可选值：reject, permit,
+              fileoperations: 操作类型列表 (可选)。可选值：close, create, create_dir, delete, delete_dir, getattr, link, lookup, open, read, write, rename, rename_dir, setattr, symlink,
+          }, ...],
+          fs_id: 文件系统的id (与namespace_id互斥),
+          namespace_id: 命名空间的id (与fs_id互斥),
+      }
+
+  --task_remarks
+      异步任务备注信息
+
+输出说明:
+------------------------------------------------------------
+    {
+        task_id: 任务ID (string, 1~64个字符),
+    }
+
+============================================================
+使用示例:
+  pydme nas nfs_share create
+  pydme nas nfs_share create --create_nfs_share_param <value> --task_remarks <value>
+============================================================
+

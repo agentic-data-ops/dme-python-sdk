@@ -1,0 +1,73 @@
+
+============================================================
+动作：nas cifs_share show_permissions
+============================================================
+
+描述:
+  查询单个 CIFS 共享的权限列表（用户/IP/文件过滤）
+
+详细说明:
+  查询单个 CIFS 共享的权限列表
+  查询 CIFS 共享的用户/用户组、IP 地址/IP 地址段、文件扩展名过滤规则等权限信息。
+
+参数说明:
+------------------------------------------------------------
+
+  --cifs_share_id
+      CIFS 共享 ID
+
+  --type
+      权限类型（可选），可选值：user（用户/用户组）、ip（IP 地址/IP 地址段）、file（文件扩展名过滤规则）；
+      不指定时返回所有类型的权限
+
+  --user_filter
+      用户权限过滤参数（可选，dict 类型，type=user 时有效）。参数格式如下：{
+          user_or_user_group_name: 用户/用户组名称（可选），1~256 个字符，用于过滤用户/用户组列表,
+          domain_type: 域类型（可选）。可选值：ad_domain（AD域用户/组）、ldap_domain（LDAP域用户/组）、local（本地用户/组）、nis_domain（NIS域用户/组）,
+          permissions: 权限过滤列表（可选），List<Permission> 类型，数组最大成员个数 4。参数格式如下：[{
+              permission: 权限（可选）。可选值：read（读）、full_control（完全控制）、forbidden（禁止）、read_and_write（读写）、read_and_write_not_del_rename（读写，不能删除、重命名）。默认 read,
+          },...],
+          user_or_user_group_raw_id: 用户/用户组在存储设备上的 ID（可选），1~256 个字符,
+      }
+
+  --ip_filter
+      IP 权限过滤参数（可选，dict 类型，type=ip 时有效）。参数格式如下：{
+          ip_addresses_or_segments: IP 地址/IP 地址段（可选），1~256 个字符,
+          ip_or_segments_raw_id: IP 地址/IP 地址段在存储设备上的 ID（可选），1~256 个字符,
+      }
+
+  --file_filter
+      文件扩展名过滤参数（可选，dict 类型，type=file 时有效）。参数格式如下：{
+          rule_type: 文件扩展名类型过滤（可选）。可选值：reject（只拒绝）、permit（只允许）,
+          file_name_extension: 文件扩展名名称过滤（可选），1~256 个字符,
+          file_extension_name_raw_id: 文件扩展名过滤规则在存储上的 ID（可选），1~256 个字符,
+      }
+      # 通用分页排序参数
+
+  --sort_key
+      排序字段（可选），可选值：raw_id、name
+
+  --sort_dir
+      排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
+
+  --page_no
+      分页页码（可选），1~10000000，默认 1
+
+  --page_size
+      每页数据条数（可选），1~1000，默认 10
+
+输出说明:
+------------------------------------------------------------
+    {
+        permission_list: 权限列表。参数格式如下：[{
+            type: 权限类型 (string),
+            rules: 规则列表 (List),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme nas cifs_share show_permissions
+  pydme nas cifs_share show_permissions --cifs_share_id <value> --type <value> --user_filter <value> --ip_filter <value> --file_filter <value> --sort_key <value> --sort_dir <value> --page_no <value> --page_size <value>
+============================================================
+

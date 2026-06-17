@@ -1,0 +1,77 @@
+
+============================================================
+动作：nas kvcache list
+============================================================
+
+描述:
+  查询 KV Cache 库
+
+详细说明:
+  查询 KV Cache 库
+
+参数说明:
+------------------------------------------------------------
+
+  --storage_id
+      存储设备 ID (长度为36个字符, 可选)
+
+  --id
+      KV Cache 库 ID (长度为32个字符, 可选)
+
+  --raw_id
+      KV Cache 库在 Zone 上的 ID (1~256个字符, 可选)
+
+  --name
+      KV Cache 库名称 (1~256个字符, 可选)
+
+  --zone_id
+      所属 Zone 的 ID (长度为36个字符, 可选)
+
+  --pool_raw_id
+      存储池在所属 Zone 上的 ID (1~64个字符, 可选)
+
+  --vstore_id
+      租户 ID (长度为32个字符, 可选)
+
+  --vstore_name
+      租户名称 (1~256个字符, 可选)
+
+  --fs_id
+      文件系统 ID (长度为32个字符, 可选)
+
+  --fs_name
+      文件系统名称 (1~256个字符, 可选)
+
+  --data_cleanup_switch
+      清理开关 (可选)。可选值：on (打开), off (关闭)
+
+  --page_no
+      分页页码 (int32, 1~10000, 默认值: 1, 可选)
+
+  --page_size
+      每页数据条数 (int32, 1~100, 默认值: 20, 可选)
+
+  --sort_dir
+      指定排序方向 (可选)。可选值：asc (升序), desc (降序)。默认值：asc
+
+  --sort_key
+      排序参数 (可选)。可选值：capacity (总容量), used_capacity (已用容量), used_tokens (已使用的 token 数量), hit_ratio (命中率)
+
+输出说明:
+------------------------------------------------------------
+    {
+        total: KV Cache库数量 (int32),
+        kv_cache_stores: KV Cache库列表 (List<KVCacheStore>)。参数格式如下：[{
+            id: 库ID (string),
+            name: 库名称 (string),
+            status: 状态 (string),
+            capacity: 容量 (string),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme nas kvcache list
+  pydme nas kvcache list --storage_id <value> --id <value> --raw_id <value> --name <value> --zone_id <value> --pool_raw_id <value> --vstore_id <value> --vstore_name <value> --fs_id <value> --fs_name <value> --data_cleanup_switch <value> --page_no <value> --page_size <value> --sort_dir <value> --sort_key <value>
+============================================================
+

@@ -1,0 +1,93 @@
+
+============================================================
+动作：nas dataturbo_share list
+============================================================
+
+描述:
+  查询 DataTurbo 共享列表
+
+详细说明:
+  查询 DataTurbo 共享列表
+
+参数说明:
+------------------------------------------------------------
+
+  --page_no
+      分页页码（可选），1~10000000，默认 1
+
+  --page_size
+      每页数据条数（可选），1~1000，默认 10
+
+  --raw_id
+      DataTurbo 共享在设备上 ID（可选），1~1024 个字符，精确查询
+
+  --share_path
+      共享路径（可选），1~1024 个字符，支持模糊搜索
+
+  --fs_id
+      DataTurbo 共享所属文件系统 ID（可选），1~64 个字符，精确查询
+
+  --fs_name
+      DataTurbo 共享所属文件系统名称（可选），1~256 个字符，支持模糊搜索
+
+  --dtree_id
+      DataTurbo 共享所属 Dtree 的 ID（可选），32 个字符，正则 ^[A-F0-9]{32}$，精确查询
+
+  --dtree_name
+      DataTurbo 共享所属 Dtree 名称（可选），1~256 个字符，支持模糊查询
+
+  --vstore_id
+      DataTurbo 共享所属租户 ID（可选），1~64 个字符，精确查询
+
+  --vstore_raw_id
+      DataTurbo 共享所属租户 RAW ID（可选），1~64 个字符，精确查询
+
+  --vstore_name
+      DataTurbo 共享所属租户名称（可选），1~256 个字符，支持模糊搜索
+
+  --storage_id
+      DataTurbo 共享所属存储设备 ID（可选），1~64 个字符，精确查询
+
+  --storage_name
+      DataTurbo 共享所属存储设备名称（可选），1~256 个字符，支持模糊搜索
+
+  --zone_id
+      DataTurbo 共享所属 zone ID（可选），1~64 个字符，精确查询
+
+  --zone_name
+      DataTurbo 共享所属 zone 名称（可选），1~256 个字符，支持模糊搜索
+
+  --scope
+      资源所属范围（可选），可选值：local_scale（本地）、global_scale（全局）
+
+  --sort_key
+      排序字段（可选），可选值：raw_id（在设备上 ID）
+
+  --sort_dir
+      排序方向（可选），可选值：asc（升序）、desc（降序），默认 asc
+
+输出说明:
+------------------------------------------------------------
+    {
+        total: DataTurbo共享数量 (int32),
+        data: DataTurbo共享列表 (List<DpcShare>)。参数格式如下：[{
+            id: 共享ID (string),
+            raw_id: 在设备上的ID (string),
+            share_path: 共享路径 (string),
+            fs_id: 文件系统ID (string),
+            fs_name: 文件系统名称 (string),
+            storage_id: 存储设备ID (string),
+            storage_name: 存储设备名称 (string),
+            vstore_id: 租户ID (string),
+            vstore_raw_id: 租户在设备上的ID (string),
+            vstore_name: 租户名称 (string),
+            charset: 字符集 (string),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme nas dataturbo_share list
+  pydme nas dataturbo_share list --page_no <value> --page_size <value> --raw_id <value> --share_path <value> --fs_id <value> --fs_name <value> --dtree_id <value> --dtree_name <value> --vstore_id <value> --vstore_raw_id <value> --vstore_name <value> --storage_id <value> --storage_name <value> --zone_id <value> --zone_name <value> --scope <value> --sort_key <value> --sort_dir <value>
+============================================================
+
