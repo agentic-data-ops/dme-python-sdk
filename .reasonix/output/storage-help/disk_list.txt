@@ -1,0 +1,115 @@
+
+============================================================
+动作：storage disk list
+============================================================
+
+描述:
+  查询存储设备的硬盘信息列表
+
+详细说明:
+  查询存储设备的硬盘信息列表
+
+参数说明:
+------------------------------------------------------------
+
+  --storage_id
+      存储设备ID (1~36个字符, 满足uuid格式)。
+
+  --ids
+      端口ID列表 (可选, List<string>, 数组最大成员个数: 100, 数组最小成员个数: 0)。
+
+  --name
+      硬盘名称 (可选, 1~256个字符)。
+
+  --slot_number
+      槽位号，位置 (可选, 1~256个字符)。支持模糊搜索。
+
+  --bom_id
+      BOM ID (可选, 1~256个字符)。
+
+  --health_status
+      健康状态 (可选)。可选值：unknown (未知), normal (正常), fault (故障), pre_fail (即将故障), degraded (降级), single_link (单链路), no_redundant_link (无冗余链路), subhealthy (亚健康), offline (离线)。
+
+  --physical_type
+      硬盘类型 (可选)。可选值：unknown (未知), sata (SATA), sas (SAS), nl_sas (NL-SAS), ssd (SSD), ssd_card (SSD卡), scm (SCM), nl_ssd (NL-SSD), fc (FC), lun (LUN), ata (ATA), flash (FLASH), vmdisk (VMDISK), sas_flash_vp (SAS-FLASH-VP), hdd (HDD)。
+
+  --new_physical_type
+      真实的硬盘类型 (可选)。可选值：SAS, SATA, SSD, NL_SAS, SLC_SSD, MLC_SSD, FC_SED, SAS_SED, SATA_SED, SSD_SED, SCM_SED, NL_SAS_SED, SLC_SSD_SED, MLC_SSD_SED, NVMe_SSD, NVMe_SSD_SED, SCM, CAPACITY_OPTIMIZED_SSD, CAPACITY_OPTIMIZED_SSD_SED, unknown, sas_disk, sata_disk, ssd_card, ssd_card_virtual, ssd_disk, m2_disk, FC, ATA, FLASH, VMDISK, SAS_FLASH_VP, HDD。
+
+  --capacity
+      总容量 (可选, 最大值: 9223372036854775807, 单位: GB)。
+
+  --role
+      硬盘角色 (可选)。可选值：unknown (未知), free (空闲), member (成员), hotSpare (热备), cache (缓存), aggregate (聚合), broken (断开), foreign (外部), labelmaint (标签维护), maintenance (维护), shared (共享), spare (备用), unassigned (未分配), unsupported (不支持), remote (远程), mediator (中介)。
+
+  --disk_pool_name
+      所属硬盘域名称 (可选, 1~256个字符)。支持模糊搜索。
+
+  --disk_pool_id
+      硬盘池或硬盘域ID (可选, 1~64个字符)。仅华为存储设备，第三方设备支持该字段。
+
+  --storage_pool_id
+      存储池ID (可选, 1~64个字符)。
+
+  --bar_code
+      硬盘条码 (可选, 1~256个字符)。
+
+  --sn
+      硬盘序列号 (可选, 1~256个字符)。仅华为存储设备，第三方设备支持该字段。
+
+  --speed
+      转速 (可选, 最大值: 2147483647, 单位: RPM)。
+
+  --storage_ip
+      所属设备ip地址 (可选, 1~255个字符)。
+
+  --management_ip
+      管理设备ip地址 (可选, 1~256个字符)。
+
+  --node_name
+      所属节点名称 (可选, 1~256个字符)。
+
+  --virtual_disk
+      虚拟盘 (可选)。可选值：true, false。
+
+  --status
+      运行状态 (可选)。可选值：unknown (未知), normal (正常), abnormal (故障), online (在线), offline (离线)。
+
+  --enclosure_name
+      风扇所属存储设备的机框名称 (可选, 1~255个字符)。支持模糊搜索。
+
+  --zone_id
+      所属存储设备的Zone id (可选, 1~255个字符)。仅OceanStor A800存储支持。
+
+  --sort_key
+      排序字段 (可选)。可选值：capacity (总容量), speed (转速), remainLife (剩余寿命), name (硬盘名称), management_ip (管理设备ip地址), slot_number (位置)。
+
+  --sort_dir
+      排序方向 (可选)。可选值：asc (升序), desc (降序)。
+
+  --page_no
+      分页查询的页码 (可选, 1~2147483647, 默认值: 1)。
+
+  --page_size
+      分页查询的每页大小 (可选, 1~1000, 默认值: 20)。
+
+输出说明:
+------------------------------------------------------------
+    {
+        total: 硬盘的数量 (integer),
+        disks: 硬盘列表 (List<DiskInfo>)。参数格式如下：[{
+            id: 硬盘ID (string),
+            name: 硬盘名称 (string),
+            health_status: 健康状态 (string),
+            physical_type: 硬盘类型 (string),
+            capacity: 总容量 (integer),
+            sn: 硬盘序列号 (string),
+        }, ...],
+    }
+
+============================================================
+使用示例:
+  pydme storage disk list
+  pydme storage disk list --storage_id <value> --ids <value> --name <value> --slot_number <value> --bom_id <value> --health_status <value> --physical_type <value> --new_physical_type <value> --capacity <value> --role <value> --disk_pool_name <value> --disk_pool_id <value> --storage_pool_id <value> --bar_code <value> --sn <value> --speed <value> --storage_ip <value> --management_ip <value> --node_name <value> --virtual_disk <value> --status <value> --enclosure_name <value> --zone_id <value> --sort_key <value> --sort_dir <value> --page_no <value> --page_size <value>
+============================================================
+

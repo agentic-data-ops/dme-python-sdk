@@ -1923,6 +1923,18 @@ def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
         page_size: 每页数量（可选，默认 10，最大 1000）
         sort_key: 排序字段（可选，name/raw_id）
         sort_dir: 排序方式（可选，asc/desc）
+
+    Returns:
+        {
+            total: QoS策略总数 (int32),
+            datas: QoS策略列表 (List<qosDetailResponse>)。参数格式如下：[{
+                id: QoS策略ID (string, 1~32个字符),
+                name: QoS策略名称 (string, 1~31个字符),
+                description: 描述 (string, 1~255个字符),
+                raw_id: QoS策略在设备侧的ID (string, 1~64个字符),
+                enable_status: 激活状态。可选值：true, false,
+            }, ...],
+        }
     """
     url = "/rest/storagepolicy/v1/qos/query"
 
@@ -2755,7 +2767,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
     Returns:
         {
             task_id: 任务ID (string, 1~64个字符),
-        }，包含端口列表
+        }
     """
     if port_type is not None and port_type.lower() == 'eth':
         # ETH 端口查询
