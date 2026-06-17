@@ -851,7 +851,7 @@ def lun_group_remove_luns(client: DMEAPIClient, group_id: str,
     if task_remarks is not None:
         body_params['task_remarks'] = task_remarks
 
-    response = client.post(url, params={"group_id": group_id})
+    response = client.post(url, body=body_params, params={"group_id": group_id})
     return response
 
 

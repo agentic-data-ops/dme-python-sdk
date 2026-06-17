@@ -2333,7 +2333,7 @@ def qos_associate(client: DMEAPIClient, qos_policy_id: str,
         'resource_type': resource_type
     }
 
-    response = client.post(url, params={"qos_policy_id": qos_policy_id})
+    response = client.post(url, body=payload, params={"qos_policy_id": qos_policy_id})
     return response
 
 
@@ -2357,7 +2357,7 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
         'resource_type': resource_type
     }
 
-    response = client.post(url, params={"qos_policy_id": qos_policy_id})
+    response = client.post(url, body=payload, params={"qos_policy_id": qos_policy_id})
     return response
 
 
@@ -2986,7 +2986,7 @@ def vlan_create(client: DMEAPIClient, name: str, vlan_id: int,
     if description is not None:
         body_params['description'] = description
 
-    response = client.post(url, data=body_params)
+    response = client.post(url, body=body_params)
     return response
 
 
@@ -3037,7 +3037,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     if description is not None:
         body_params['description'] = description
 
-    response = client.put(url, params={"vlan_id": vlan_id})
+    response = client.put(url, body=body_params, params={"vlan_id": vlan_id})
     return response
 
 
