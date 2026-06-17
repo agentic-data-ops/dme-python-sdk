@@ -1812,7 +1812,7 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     if task_remarks is not None:
         payload['task_remarks'] = task_remarks
 
-    response = client.put(url, params={"storage_host_group_id": storage_host_group_id})
+    response = client.put(url, body=payload, params={"storage_host_group_id": storage_host_group_id})
     return response
 
 
@@ -2430,7 +2430,7 @@ def physical_host_add_initiators(client: DMEAPIClient, host_id: str,
         'initiators': initiators
     }
 
-    response = client.put(url, params={"host_id": host_id})
+    response = client.put(url, body=payload, params={"host_id": host_id})
     return response
 
 
@@ -2453,7 +2453,7 @@ def physical_host_remove_initiators(client: DMEAPIClient, host_id: str,
         'initiators': initiators
     }
 
-    response = client.put(url, params={"host_id": host_id})
+    response = client.put(url, body=payload, params={"host_id": host_id})
     return response
 
 
