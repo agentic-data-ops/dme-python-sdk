@@ -2,32 +2,28 @@
 数据备份管理 (Backup) 相关操作
 """
 
-import sys
-import os
-
 from pydme.client import DMEAPIClient
 
 
 # ==================== 备份集群管理 ====================
 
-def cluster_list(client: DMEAPIClient, name: str = None,
+def cluster_list(client: DMEAPIClient,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询备份集群列表
     
     Args:
         client: DME API 客户端
-        name: 备份集群名称（可选，支持模糊查询）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        page_no: 分页查询的起始页码，1~10000，默认 1
+        page_size: 每页数量，1~200，默认 20
     
     Returns:
         {
             total: 集群总数 (integer),
-            clusters: 备份集群列表。参数格式如下：[{
-                id: 集群ID (string),
-                name: 集群名称 (string),
-                status: 状态 (string),
+            datas: 备份集群列表。参数格式如下：[{
+                cluster_id: 备份集群ID (string),
+                cluster_name: 备份集群名称 (string),
+                cluster_ip: IP地址 (string),
             }, ...],
         }
     """
@@ -37,9 +33,6 @@ def cluster_list(client: DMEAPIClient, name: str = None,
         'page_no': page_no,
         'page_size': page_size
     }
-    
-    if name is not None:
-        payload['name'] = name
     
     response = client.post(url, body=payload)
     return response
@@ -53,13 +46,13 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     
     Args:
         client: DME API 客户端
-        cluster_id: 备份集群 ID（必选）
+        cluster_id: 备份集群 ID（必选，1~64个字符）
     
     Returns:
         {
-            total_capacity: 总容量 (integer),
-            used_capacity: 已用容量 (integer),
-            free_capacity: 空闲容量 (integer),
+            cluster_ip: 集群IP (string),
+            total_capacity: 总容量 (double, GB),
+            used_capacity: 已用容量 (double, GB),
         }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/{cluster_id}/capacity"
@@ -69,7 +62,6 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
 
 
 def cluster_quota(client: DMEAPIClient, cluster_id: str,
-                        quota_type: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询备份集群租户配额列表
@@ -78,18 +70,18 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     
     Args:
         client: DME API 客户端
-        cluster_id: 备份集群 ID（必选）
-        quota_type: 配额类型（可选）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
+        cluster_id: 备份集群 ID（必选，1~64个字符）
+        page_no: 分页查询的起始页码，1~10000，默认 1
+        page_size: 每页数量，1~200，默认 20
     
     Returns:
         {
-            total: 配额总数 (integer),
-            quotas: 租户配额列表。参数格式如下：[{
-                tenant_id: 租户ID (string),
-                quota: 配额大小 (integer),
-                used: 已用配额 (integer),
+            total: 租户总数 (integer),
+            quotas: 租户配额详情列表。参数格式如下：[{
+                tenant_raw_id: 租户在设备上的ID (string),
+                tenant_name: 租户名称 (string),
+                tenant_total_capacity: 租户总备份配额容量 (double, GB),
+                tenant_used_capacity: 租户已使用备份配额容量 (double, GB),
             }, ...],
         }
     """
@@ -99,9 +91,6 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
         'page_no': page_no,
         'page_size': page_size
     }
-    
-    if quota_type is not None:
-        payload['quota_type'] = quota_type
     
     response = client.post(url, body=payload, params={"cluster_id": cluster_id})
     return response
@@ -113,7 +102,7 @@ ACTIONS = {
     'cluster_list': {
         'func': cluster_list,
         'description': '查询备份集群列表',
-        'params': ['name', 'page_no', 'page_size'],
+        'params': ['page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     'cluster_capacity': {
@@ -125,7 +114,7 @@ ACTIONS = {
     'cluster_quota': {
         'func': cluster_quota,
         'description': '查询备份集群租户配额列表',
-        'params': ['cluster_id', 'quota_type', 'page_no', 'page_size'],
+        'params': ['cluster_id', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
 }

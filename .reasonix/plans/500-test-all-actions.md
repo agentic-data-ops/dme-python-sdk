@@ -321,7 +321,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
-| 1.11.1 | `system reset_password` [WRITE] | `pydme system reset_password --user_name <user> --new_value <new_pwd> --is_initial_password true` | `user_name`, `new_value`, `is_initial_password` | login | — | |
+| 1.11.1 | `system reset_password` [WRITE] | `pydme system reset_password --user_name <user> --new_value <new_pwd> --is_initial_password true` | `user_name`, `new_value`, `is_initial_password` | login | — | PASS ✅ HTTP 200 — 新建测试用户执行重置 |
 
 ---
 
@@ -426,9 +426,9 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 2.25.4 | `storage account show_local_user_groups` | `pydme storage account show_local_user_groups --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | — | |
 | 2.25.5 | `storage account show_unix_user_groups` | `pydme storage account show_unix_user_groups --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | — | |
 | 2.25.6 | `storage account show_windows_user_groups` | `pydme storage account show_windows_user_groups --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | — | |
-| 2.26.1 | `storage add` [WRITE] | `pydme storage add --name test_offline --sn SNA0001 --vendor Huawei --model Dorado` | `name` | login | `new_storage_id` → `99-write-ids.sh` | |
-| 2.26.2 | `storage modify` [WRITE] | `pydme storage modify --storage_id $NEW_STORAGE_ID --name test_offline_modified` | `storage_id` | 2.26.1 | — | |
-| 2.26.3 | `storage remove` [WRITE] | `pydme storage remove --storage_ids '["$NEW_STORAGE_ID"]'` | `storage_ids` | 2.26.2 | — | |
+| 2.26.1 | `storage add` [WRITE] | `pydme storage add --name test_offline --sn SNA0001 --vendor Huawei --model Dorado` | `name` | login | `new_storage_id` → `99-write-ids.sh` | PASS ✅ HTTP 200, id=5de21409 |
+| 2.26.2 | `storage modify` [WRITE] | `pydme storage modify --storage_id $NEW_STORAGE_ID --name test_offline_modified` | `storage_id` | 2.26.1 | — | PASS ✅ HTTP 200 |
+| 2.26.3 | `storage remove` [WRITE] | `pydme storage remove --storage_ids '["$NEW_STORAGE_ID"]'` | `storage_ids` | 2.26.2 | — | PASS ✅ HTTP 202, task_id=65336f8b |
 
 ---
 
@@ -618,7 +618,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 7.6.1.4c | `aiops topology query_vms` | `pydme aiops topology query_vms --entry_objects '[{"id":"$STORAGE_ID","type":"storage"}]' --host_id <host_id>` | `entry_objects`, `host_id` | 2.1.1 | — | |
 | 7.6.1.4d | `aiops topology query_graph_path` | `pydme aiops topology query_graph_path --entry_res_type storage --entry_res_id $STORAGE_ID` | `entry_res_type`, `entry_res_id` | 2.1.1 | — | |
 | 7.6.1.5 | `aiops health show_score` | `pydme aiops health show_score --object_type storage` | `object_type` | login | — | |
-| 7.6.1.6 | `aiops diagnose task_status` | `pydme aiops diagnose task_status --task_id <from earlier>` | `task_id` | 2.3.1 | — | |
+| 7.6.1.6 | `aiops diagnose_task_status` | `pydme aiops diagnose_task_status --task_id <from earlier>` | `task_id` | 2.3.1 | — | PASS ✅ HTTP 200, task_status=success |
 
 <!-- AIOps subtopics consolidated into Phase 7 table above -->
 
@@ -677,7 +677,6 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 8.8.2 | `san lun modify` [WRITE] | `pydme san lun modify --volume_id $NEW_LUN_ID --name test_lun_modified` | `volume_id`, `name` | 8.8.1 | — | |
 | 8.8.3 | `san lun delete` [WRITE] | `pydme san lun delete --volume_ids '["$NEW_LUN_ID"]'` | `volume_ids` | 8.8.2 | — | |
 | 8.8.4 | `san lun expand` [WRITE] | `pydme san lun expand --volumes '[{"id":"$NEW_LUN_ID","addedCapacity":2}]'` | `volumes` | 8.8.1 | — | |
-| 8.8.5 | `san lun count` | `pydme san lun list --storage_id $STORAGE_ID --limit 1` | `storage_id` | 2.1.1 | — | |
 | 8.9.1 | `nas filesystem create` [WRITE] | `pydme nas filesystem create --storage_id $STORAGE_ID --pool_raw_id $POOL_RAW_ID --filesystem_specs '[{"name":"test_fs","capacity":10}]'` | `storage_id`, `pool_raw_id`, `filesystem_specs` | 2.1.1, 2.5.1 | `NEW_FS_ID` → `99-write-ids.sh` | |
 | 8.9.2 | `nas nfs_share create` [WRITE] | `pydme nas nfs_share create --create_nfs_share_param '{"share_path":"/test_share/","storage_id":"$STORAGE_ID","filesystem_id":"$NEW_FS_ID"}'` | `create_nfs_share_param` | 8.9.1 | `NEW_NFS_ID` → `99-write-ids.sh` | |
 | 8.9.3 | `nas cifs_share create` [WRITE] | `pydme nas cifs_share create --create_cifs_param '{"name":"test_cifs","storage_id":"$STORAGE_ID","filesystem_id":"$NEW_FS_ID"}' --fs_id $NEW_FS_ID` | `create_cifs_param`, `fs_id` | 8.9.1 | `NEW_CIFS_ID` → `99-write-ids.sh` | |
@@ -753,12 +752,12 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 编号 | 动作 | 原因 |
 |------|------|------|
 | 1.1.2-1.1.4 | `system user *` | 已通过：list/show/create/delete 全部 ✅ PASS（之前 common.0001 问题已解决） |
-| 1.11.1 | `system reset_password` | 权限不足 |
-| 2.26.1-2.26.3 | `storage add/modify/remove` | 需物理接入存储设备 |
+| 1.11.1 | `system reset_password` | 已通过 ✅ — 新建测试用户后执行重置，HTTP 200 PASS（附带 bug 修复：CLI bool 类型转换 + 多 orphan 参数补位）|
+| 2.26.1-2.26.3 | `storage add/modify/remove` | 已通过 ✅ — add HTTP 200 / modify HTTP 200 / remove HTTP 202（离线设备录入，自动生成参数）|
 | 6.3.2-6.3.6 | `kube *` | 无容器集群 |
 | 7.2.2-7.2.5 | `gfs *` | 无 GFS 数据 |
 | 7.5.2-7.5.3 | `backup cluster *` | 无备份集群 |
-| 7.6.1.6 | `aiops diagnose task_status` | 需先创建诊断任务 |
+| 7.6.1.6 | `aiops diagnose_task_status` | 已通过 ✅ — task_id=3b84f040..., HTTP 200, task_status=success |
 | 8.1.9 | `fcswitch fabric backup` | 需备份服务器 |
 | 8.3.1-8.3.3 | `storage vlan *` | A800 系列专属 |
 | 8.9.2-8.9.3 | `nas nfs_share/cifs_share create` | 需先创建文件系统 |
@@ -910,7 +909,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 0.3.1 | `system show` | PASS | version=DME 25.0.0, sn=2bffdc76-c901-435d-a516-ca27ee1c17a1 |
 | 0.4.1 | `system certificate` | PASS | returned DME certificate chain |
 | 1.1.1 | `system user list` | PASS ✅ | HTTP 200, 返回用户列表 |
-| 1.2.1 | `system role list` | SKIP | 权限不足 common.0001（非 bug）|
+| 1.2.1 | `system role list` | PASS ✅ | HTTP 200, 返回 10 个角色（权限修复后）|
 | 1.3.1 | `system backup_server list` | PASS | total=0 (empty) |
 | 1.4.1 | `system task list` | PASS ✅ | total=86, HTTP 200 — 参数 `--limit 10` 路由已修复 |
 | 1.5.1 | `system tag_type list` | PASS | total=2 |
@@ -1029,7 +1028,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 7.6.1.1 | `aiops alarm list` | PASS ✅ | HTTP 200 |
 | 7.6.1.3 | `aiops performance list_object_types` | PASS ✅ | HTTP 200 |
 | 7.6.1.5 | `aiops health show_score` | PASS ✅ | HTTP 200 |
-| 7.6.1.4 | `aiops topology query_*` | SKIP | 动作名与计划不一致（应为 `query_san_path` 等）|
+| 7.6.1.4 | `aiops topology query_san_path / query_luns / query_vms / query_graph_path` | PASS ✅ | 4 个子动作全部通过（见第 9 轮补测 7.6.1.4a-d）|
 
 Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow template_show` — 路径参数未传入 client.get()
 
@@ -1199,7 +1198,6 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | 8.1.7 | `fcswitch alias modify` | SKIP ⏭️ | 博科交换机不支持修改别名名称 (fcswitchmgmt.0033) |
 | 8.1.8 | `fcswitch alias delete` | PASS ✅ | HTTP 200 |
 | 8.6.1 | `storage initiator modify` | PASS ✅ | Dorado 5500 V6 重测通过，task_id=a115d091 |
-| 8.8.5 | `san lun count` | SKIP | 该动作未在 ACTIONS 中注册 |
 | 8.13.1 | `workflow instance create` | PASS ✅ | HTTP 200，instance_id=236660 |
 | 8.13.2 | `workflow instance show` | PASS ✅ | HTTP 200，实例详情返回（状态 FAILED） |
 
@@ -1773,7 +1771,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 
 ### 1. 准备测试环境
 
-- [ ] 部署双活（HyperMetro）和复制（Replication）环境 — 用于 `filesystem_pair_*` 和 `vstore_pair_*` 动作测试
+- [x] 部署双活（HyperMetro）和复制（Replication）环境 ✅
+  - `protect fs_hypermetro_pair list/create/pause/sync/delete` — **5/5 全部 PASS ✅**（8.26）
+  - `protect vstore_hypermetro_pair list/create/modify/switch/force_start/delete` — **6/6 全部 PASS ✅**（8.27）
 - [ ] 部署 A800 系列存储设备 — 用于 `storage zone_list`、`storage vlan_*`、`storage failover_group_*` 等 A800 专属动作测试
 - [ ] 准备 Pacific 存储 DataTurbo 数据 — 用于 `dataturbo_share_*` 和 `dpc_show` 动作测试
 
@@ -1783,9 +1783,10 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 
 ### 3. 执行受环境限制而跳过的动作
 
-- [ ] 重新执行 15 个 SKIP 动作（双活环境就绪后）:
-  - `protect filesystem_pair create / pause / sync / delete`
-  - `protect vstore_pair force_start / create / switch / delete / modify`
+- [x] ~~双活环境依赖（protect filesystem_pair / vstore_pair）~~ — **11/11 全部 PASS ✅**
+- [ ] 补测 NAS DataTurbo 动作（待 Pacific 数据就绪）:
   - `nas dataturbo_share create / modify / delete / show / show_permissions`
   - `nas dpc show`
+- [ ] 补测 A800 专属动作（待 A800 设备就绪）:
+  - `storage vlan create` / `storage vlan modify`
 - [ ] 重新执行 `workflow instance stop`（DME 环境恢复后）

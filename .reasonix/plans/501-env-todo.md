@@ -2,8 +2,9 @@
 
 ## 环境准备
 
-- [ ] 部署双活（HyperMetro）和复制（Replication）环境
-  - 用于：`filesystem_pair_*`、`vstore_pair_*` 共 9 个动作
+- [x] 部署双活（HyperMetro）和复制（Replication）环境 ✅
+  - `protect fs_hypermetro_pair list/create/pause/sync/delete` — **5/5 全部 PASS ✅**（见 8.26）
+  - `protect vstore_hypermetro_pair list/create/modify/switch/force_start/delete` — **6/6 全部 PASS ✅**（见 8.27）
 - [ ] 部署 A800 系列存储设备
   - 用于：`storage zone_list`、`storage vlan_*`、`storage failover_group_*` 等 A800 专属动作
 - [ ] 准备 Pacific 存储 DataTurbo 数据
@@ -11,10 +12,12 @@
 
 ## 权限配置
 
-- [ ] 给 API 调用用户（`wyhapi`）添加**安全管理员**权限
-  - 解决：`system user list`、`system role list` 等 common.0001 权限不足问题
-  - 预计可恢复：~5 个 SKIP 动作
+- [x] 给 API 调用用户（`wyhapi`）添加**安全管理员**权限 ✅
+  - `system user list/show/create/delete` 已通过
+  - 约 5 个 SKIP 动作已恢复
 
 ## 执行顺序
 
-1. 环境准备 → 2. 补测双活相关动作 → 3. 补测 DataTurbo 动作 → 4. 补测 A800 动作
+1. ✅ 双活环境部署 + 补测（已完成）
+2. 补测 DataTurbo 动作（待 Pacific 数据就绪）
+3. 补测 A800 动作（待 A800 设备就绪）
