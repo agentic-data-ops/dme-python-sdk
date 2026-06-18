@@ -171,8 +171,9 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including total and datastores fields
+            total: total count (int),
+            datastores: datastore list (List),
+        }
     """
     url = "/rest/vmmgmt/v1/datastores/query"
     
@@ -262,8 +263,9 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including host list
+            total: total count (int),
+            hosts: host list (List),
+        }
     """
     url = "/rest/vmmgmt/v1/hosts/query"
     
@@ -340,8 +342,9 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including cluster list
+            total: total count (int),
+            clusters: cluster list (List),
+        }
     """
     url = "/rest/vmmgmt/v1/clusters/query"
     
@@ -404,8 +407,9 @@ def site_list(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including site list
+            total: total count (int),
+            sites: site list (List),
+        }
     """
     url = "/rest/vmmgmt/v1/sites/query"
     

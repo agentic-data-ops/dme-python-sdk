@@ -763,21 +763,20 @@ def main():
     # Value may be swallowed into args.action (2-level command) or args.action_args (3-level command)
     # e.g. pydme storage show --storage_id X  -> args.action = "X"
     # e.g. pydme system task list --limit 10  -> action_args = ["10"]
-    if args.action or args.action_args:
-        orphan_params = [p for p, v in action_params.items() if v is True]
-        if orphan_params:
-            # Prefer action_args for filling (3-level command scenario)
-            stolen_value = None
-            if args.action_args:
-                stolen_value = args.action_args[0]
-                args.action_args = args.action_args[1:]
-            elif args.action:
-                stolen_value = args.action
-                args.action = None
-            if stolen_value is not None:
-                for pname in orphan_params:
-                    action_params[pname] = stolen_value
-                    break
+    # Note: when multiple orphan params exist, take from args.action_args and args.action one by one
+    orphan_params = [p for p, v in action_params.items() if v is True]
+    if orphan_params:
+        # args.action is eaten first by argparse, action_args are appended after
+        stolen_values = []
+        if args.action:
+            stolen_values.append(args.action)
+            args.action = None
+        if args.action_args:
+            stolen_values.extend(args.action_args)
+        args.action_args = []
+        for i, pname in enumerate(orphan_params):
+            if i < len(stolen_values):
+                action_params[pname] = stolen_values[i]
 
     # Handle positional arguments (e.g. host_id)
     if hasattr(args, 'action_args') and args.action_args:
@@ -1008,6 +1007,9 @@ def main():
                                     param_value = json.loads(param_value)
                                 except (ValueError, json.JSONDecodeError):
                                     print(f"Warning: parameter {param_name} requires JSON format")
+                            elif param_type in (bool, builtins.bool):
+                                if isinstance(param_value, str):
+                                    param_value = param_value.lower() in ('true', '1', 'yes')
 
                         typed_params[func_param_name] = param_value
 

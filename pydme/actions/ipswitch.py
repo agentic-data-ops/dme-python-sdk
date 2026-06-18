@@ -54,8 +54,9 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including total and frames fields
+            total: total count (int),
+            frames: frame list (List),
+        }
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query"
     
@@ -81,8 +82,9 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including total and boards fields
+            total: total count (int),
+            boards: board list (List),
+        }
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query"
     
@@ -108,8 +110,9 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including total and subcards fields
+            total: total count (int),
+            subcards: subcard list (List),
+        }
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/subcards/query"
     
@@ -135,8 +138,9 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including total and powers fields
+            total: total count (int),
+            powers: power supply list (List),
+        }
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/powers/query"
     
@@ -162,8 +166,9 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including total and fans fields
+            total: total count (int),
+            fans: fan list (List),
+        }
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/fans/query"
     
@@ -189,8 +194,9 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including total and ports fields
+            total: total count (int),
+            ports: port list (List),
+        }
     """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/ports/query"
     

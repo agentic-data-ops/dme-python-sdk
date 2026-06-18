@@ -70,20 +70,25 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
 
 def lun_change_tier(client: DMEAPIClient, volume_ids: list,
-                                tier_id: str, attributes_auto_change: bool = None) -> dict:
+                                tier_id: str, attributes_auto_change: bool = None,
+                                task_remarks: str = None) -> dict:
     """
     Batch update LUN service level
 
+    This operation updates LUN capabilities and attributes based on service level attributes. Supported updates include: QoS policy, I/O priority, SmartTier policy.
+
     Args:
         client: DME API client
-        volume_ids: LUN ID list
-        tier_id: Service level ID
-        attributes_auto_change: Whether to refresh LUN attributes based on service level parameters (optional, true/false)
+        volume_ids: LUN list (List<string>, max array members: 1000)
+        tier_id: service level ID (string, 1~64 characters)
+        attributes_auto_change: whether to refresh LUN attributes based on service level parameters (boolean). valid values: true (auto update), false (no auto update)
+        task_remarks: async task remarks (string, max 1024 characters)
 
     Returns:
+        Request submitted successfully, async operation started:
         {
-            task_id: task ID (string, 1~64 characters),
-        } (async task)
+            task_id: task ID (string, 0~64 characters),
+        }
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
@@ -94,6 +99,9 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 
     if attributes_auto_change is not None:
         payload['attributes_auto_change'] = attributes_auto_change
+
+    if task_remarks is not None:
+        payload['task_remarks'] = task_remarks
 
     response = client.post(url, body=payload)
     return response
@@ -157,15 +165,15 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
     """
     LUN associate business group
 
+    Associate a LUN to a specified business group.
+
     Args:
         client: DME API client
-        volume_id: LUN ID
-        business_group_id: Business group ID
+        volume_id: LUN ID (string, 1~64 characters)
+        business_group_id: business group ID (string, 1~64 characters)
 
     Returns:
-        {
-            task_id: task ID (string, 1~64 characters),
-        }
+        No return data. HTTP 200 indicates association succeeded.
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/bound"
 
@@ -182,15 +190,15 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
     """
     Remove LUN from business group association
 
+    Remove the association between a LUN and a business group.
+
     Args:
         client: DME API client
-        volume_id: LUN ID
-        business_group_id: Business group ID
+        volume_id: LUN ID (string, 1~64 characters)
+        business_group_id: business group ID (string, 1~64 characters)
 
     Returns:
-        {
-            task_id: task ID (string, 1~64 characters),
-        }
+        No return data. HTTP 200 indicates unbind succeeded.
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/unbound"
 

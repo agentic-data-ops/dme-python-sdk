@@ -106,15 +106,14 @@ def group_create(client: DMEAPIClient, name: str, storage_id: str,
 
     Args:
         client: DME API client
-        name: protection group name
-        storage_id: Storage device ID
-        lun_ids: LUN ID list, conditionally required, required when creating protection group based on LUN
-        lun_group_id: LUN group ID, conditionally required, required when creating protection group based on LUN group
-        description: protection group description
+        name: protection group name (Required, string, 1~255 characters)
+        storage_id: storage device ID (Required, string, UUID or 32 hex chars)
+        description: protection group description (string, 0~255 characters)
+        lun_ids: LUN ID list (List<string>, max 100). conditionally required: required when creating based on LUN, mutually exclusive with lun_group_id
+        lun_group_id: LUN group ID (string, 1~64 characters, ^[a-fA-F0-9]+$). conditionally required: required when creating based on LUN group, mutually exclusive with lun_ids
 
     Returns:
         {
-            id: protection group ID (string),
             task_id: task ID (string, 1~64 characters),
         }
     """
@@ -149,7 +148,7 @@ def group_modify(client: DMEAPIClient, pg_id: str, name: str = None,
 
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
+            No return data. HTTP 200 indicates success.
         }
     """
     url = "/rest/protection/v1/protection-groups/{pg_id}"

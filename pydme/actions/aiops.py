@@ -643,8 +643,8 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
 
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, containing query results
+            data: query result data (dict), contains history/forecast etc.,
+        }
     """
     if type == 'capacity_prediction':
         url = "/rest/pmmgmt/v1/prediction/query-capacity-predict"
@@ -694,8 +694,9 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
 
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, containing object health score list
+            total: total count (int),
+            objects: health object list (List),
+        }
     """
     url = "/rest/healthmgmt/v1/health-result/query"
 
@@ -741,8 +742,8 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, containing indicator deduction list
+            indicators: indicator deduction list (List),
+        }
     """
     url = "/rest/healthmgmt/v1/health-result/dimension-score/query"
 
@@ -838,10 +839,12 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
 
     Returns:
         {
-            total: total policies (int32),
-            policies: policy list (List<CheckPolicy>). parameter format: [{
+            total: total count (int),
+            policies: policy list (List),
                 id: policy ID (string, 1~64 characters),
                 name: policy name (string, 1~256 characters),
+                policy_type: policy type (string),
+                status: policy status (string). valid values: enabled, disabled,
                 policy_type: policy type (string),
                 status: policy status (string). valid values: enabled, disabled,
                 policy_source: policy source (string). valid values: system, custom,
