@@ -70,20 +70,25 @@ def lun_create(client: DMEAPIClient, volumes: list,
 
 
 def lun_change_tier(client: DMEAPIClient, volume_ids: list,
-                                tier_id: str, attributes_auto_change: bool = None) -> dict:
+                                tier_id: str, attributes_auto_change: bool = None,
+                                task_remarks: str = None) -> dict:
     """
     批量更新 LUN 的服务等级
 
+    该操作将根据服务等级属性更新 LUN 的能力与属性。支持更新的属性与能力包括：QoS 策略、I/O 优先级、SmartTier 策略。
+
     Args:
         client: DME API 客户端
-        volume_ids: LUN ID 列表
-        tier_id: 服务等级 ID
-        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（可选，true/false）
+        volume_ids: LUN 列表 (List<string>, 数组最大成员个数: 1000)。
+        tier_id: 服务等级 ID (string, 1~64个字符)。
+        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性 (boolean)。可选值：true (自动更新), false (不自动更新)。
+        task_remarks: 异步任务备注信息 (string, 最多1024个字符)。
 
     Returns:
+        请求下发成功，开始异步操作：
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }（异步任务）
+            task_id: 任务ID (string, 0~64个字符),
+        }
     """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
@@ -94,6 +99,9 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 
     if attributes_auto_change is not None:
         payload['attributes_auto_change'] = attributes_auto_change
+
+    if task_remarks is not None:
+        payload['task_remarks'] = task_remarks
 
     response = client.post(url, body=payload)
     return response
@@ -157,15 +165,15 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
     """
     LUN 关联业务群组
 
+    关联 LUN 至指定业务群组。
+
     Args:
         client: DME API 客户端
-        volume_id: LUN ID
-        business_group_id: 业务群组 ID
+        volume_id: LUN ID (string, 1~64个字符)。
+        business_group_id: 业务群组 ID (string, 1~64个字符)。
 
     Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
+        无返回数据。HTTP 200 表示关联成功。
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/bound"
 
@@ -182,15 +190,15 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
     """
     解除 LUN 与业务群组间关联
 
+    解除 LUN 与业务群组关联关系。
+
     Args:
         client: DME API 客户端
-        volume_id: LUN ID
-        business_group_id: 业务群组 ID
+        volume_id: LUN ID (string, 1~64个字符)。
+        business_group_id: 业务群组 ID (string, 1~64个字符)。
 
     Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
+        无返回数据。HTTP 200 表示解除关联成功。
     """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/unbound"
 

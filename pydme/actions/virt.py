@@ -171,8 +171,9 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 datastores 字段
+            total: 总数量 (int),
+            datastores: 数据存储列表 (List),
+        }
     """
     url = "/rest/vmmgmt/v1/datastores/query"
     
@@ -262,8 +263,9 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含主机列表
+            total: 总数量 (int),
+            hosts: 主机列表 (List),
+        }
     """
     url = "/rest/vmmgmt/v1/hosts/query"
     
@@ -340,8 +342,9 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含集群列表
+            total: 总数量 (int),
+            clusters: 集群列表 (List),
+        }
     """
     url = "/rest/vmmgmt/v1/clusters/query"
     
@@ -404,8 +407,9 @@ def site_list(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含站点列表
+            total: 总数量 (int),
+            sites: 站点列表 (List),
+        }
     """
     url = "/rest/vmmgmt/v1/sites/query"
     

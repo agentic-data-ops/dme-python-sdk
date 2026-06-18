@@ -642,8 +642,8 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含查询结果
+            data: 查询结果数据 (dict)，包含 history/forecast 等字段,
+        }
     """
     if type == 'capacity_prediction':
         url = "/rest/pmmgmt/v1/prediction/query-capacity-predict"
@@ -693,8 +693,9 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含对象健康度列表
+            total: 总数量 (int),
+            objects: 健康度对象列表 (List),
+        }
     """
     url = "/rest/healthmgmt/v1/health-result/query"
 
@@ -740,8 +741,8 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含指标扣分列表
+            indicators: 指标扣分列表 (List),
+        }
     """
     url = "/rest/healthmgmt/v1/health-result/dimension-score/query"
 
@@ -840,8 +841,9 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total（总数）和 policies（策略列表）
+            total: 总数量 (int),
+            policies: 策略列表 (List),
+        }
     """
     url = "/rest/policymgmt/v2/policies/query"
 

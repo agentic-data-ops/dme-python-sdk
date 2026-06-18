@@ -77,8 +77,9 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 ports 字段
+            total: 总数量 (int),
+            ports: 交换机端口列表 (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/ports/query"
     
@@ -110,8 +111,9 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 controllers 字段
+            total: 总数量 (int),
+            controllers: 控制处理器列表 (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/controllers/query"
     
@@ -140,8 +142,9 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 fabrics 字段
+            total: 总数量 (int),
+            fabrics: 光纤网络列表 (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/list"
     
@@ -170,8 +173,9 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 ports 字段
+            total: 总数量 (int),
+            ports: 端口列表 (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/ports/list"
     
@@ -226,8 +230,9 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含 total 和 vsans 字段
+            total: 总数量 (int),
+            vsans: VSAN 列表 (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/vsans/query"
     

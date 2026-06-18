@@ -763,21 +763,20 @@ def main():
     # 值可能被吞入 args.action（2 级命令）或 args.action_args（3 级命令）
     # 例如: pydme storage show --storage_id X  → args.action = "X"
     # 例如: pydme system task list --limit 10  → action_args = ["10"]
-    if args.action or args.action_args:
-        orphan_params = [p for p, v in action_params.items() if v is True]
-        if orphan_params:
-            # 优先用 action_args 补位（3 级命令场景）
-            stolen_value = None
-            if args.action_args:
-                stolen_value = args.action_args[0]
-                args.action_args = args.action_args[1:]
-            elif args.action:
-                stolen_value = args.action
-                args.action = None
-            if stolen_value is not None:
-                for pname in orphan_params:
-                    action_params[pname] = stolen_value
-                    break
+    # 注意：当有多个 orphan param 时，从 args.action_args 和 args.action 中逐个取补位
+    orphan_params = [p for p, v in action_params.items() if v is True]
+    if orphan_params:
+        # args.action 先被 argparse 吃掉（更靠前），后吃的 action_args 追加在其后
+        stolen_values = []
+        if args.action:
+            stolen_values.append(args.action)
+            args.action = None
+        if args.action_args:
+            stolen_values.extend(args.action_args)
+        args.action_args = []
+        for i, pname in enumerate(orphan_params):
+            if i < len(stolen_values):
+                action_params[pname] = stolen_values[i]
 
     # 处理位置参数（如 host_id 等）
     if hasattr(args, 'action_args') and args.action_args:
@@ -1008,8 +1007,13 @@ def main():
                                     param_value = json.loads(param_value)
                                 except (ValueError, json.JSONDecodeError):
                                     print(f"警告：参数 {param_name} 需要 JSON 格式")
+                            elif param_type in (bool, builtins.bool):
+                                if isinstance(param_value, str):
+                                    param_value = param_value.lower() in ('true', '1', 'yes')
 
                         typed_params[func_param_name] = param_value
+
+
 
                 # 检查函数是否需要 client 参数
                 sig_params = sig.parameters
@@ -1164,6 +1168,9 @@ def main():
                                 param_value = json.loads(param_value)
                             except (ValueError, json.JSONDecodeError):
                                 print(f"警告：参数 {param_name} 需要 JSON 格式")
+                        elif param_type in (bool, builtins.bool):
+                            if isinstance(param_value, str):
+                                param_value = param_value.lower() in ('true', '1', 'yes')
 
                     typed_params[func_param_name] = param_value
 
