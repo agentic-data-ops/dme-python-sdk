@@ -43,7 +43,7 @@ pydme/
 
 ## `.reasonix/` Directory — Development Support Files
 
-Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore` 排除，不会提交到版本库中。
+Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，随项目一起提交。
 
 ```
 .reasonix/
