@@ -3,6 +3,8 @@ import requests
 import time
 import logging
 import sys
+import zlib
+import gzip
 from abc import abstractmethod
 import os
 
@@ -86,13 +88,27 @@ class BaseClient:
             json=body,
             verify=self.verify,
             timeout=self.timeout,
+            stream=True,
         )
 
         code = resp.status_code
+        # Read raw bytes — bypass auto-decompression to handle
+        # DME sending Content-Encoding: gzip on non-gzip data
+        raw = resp.raw.read()
+        content_encoding = resp.headers.get("Content-Encoding", "")
+        if "gzip" in content_encoding:
+            try:
+                raw = gzip.decompress(raw)
+            except (zlib.error, OSError):
+                LOG.warning(
+                    "DME returned malformed gzip for %s %s — using raw bytes",
+                    method,
+                    f"{self.base_url}{path.format(**path_params)}",
+                )
         try:
-            data = json.loads(resp.text)
-        except:
-            data = resp.text
+            data = json.loads(raw)
+        except (json.JSONDecodeError, TypeError, UnicodeDecodeError):
+            data = raw.decode("utf-8", errors="replace")
 
         formatted_path = path.format(**path_params)
         request_url = f"{self.base_url}{formatted_path}"

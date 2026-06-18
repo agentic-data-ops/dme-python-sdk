@@ -77,8 +77,9 @@ def port_list(client: DMEAPIClient, switch_id: str = None,
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, includes total and ports fields
+            total: total count (int),
+            ports: switch port list (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/ports/query"
     
@@ -110,8 +111,9 @@ def controller_list(client: DMEAPIClient, switch_id: str = None,
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, includes total and controllers fields
+            total: total count (int),
+            controllers: controller list (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fcswitches/controllers/query"
     
@@ -140,8 +142,9 @@ def fabric_list(client: DMEAPIClient, name: str = None,
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, includes total and fabrics fields
+            total: total count (int),
+            fabrics: fabric list (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/list"
     
@@ -170,8 +173,9 @@ def fabric_show_ports(client: DMEAPIClient, fabric_id: str,
 
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, includes total and ports fields
+            total: total count (int),
+            ports: port list (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/fabrics/{fabric_id}/ports/list"
     
@@ -226,8 +230,9 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, includes total and vsans fields
+            total: total count (int),
+            vsans: VSAN list (List),
+        }
     """
     url = "/rest/fcswitchmgmt/v1/vsans/query"
     

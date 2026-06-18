@@ -2,32 +2,28 @@
 Backup management operations
 """
 
-import sys
-import os
-
 from pydme.client import DMEAPIClient
 
 
 # ==================== Backup cluster management ====================
 
-def cluster_list(client: DMEAPIClient, name: str = None,
+def cluster_list(client: DMEAPIClient,
                   page_no: int = 1, page_size: int = 20) -> dict:
     """
     Query backup cluster list
     
     Args:
         client: DME API client
-        name: Backup cluster name (optional, supports fuzzy query)
-        page_no: Pagination start page, default 1
-        page_size: items per page, 1~1000, default 20
+        page_no: pagination start page, 1~10000, default 1
+        page_size: items per page, 1~200, default 20
     
     Returns:
         {
             total: total clusters (integer),
-            clusters: Backup cluster list. parameter format: [{
-                id: Cluster ID (string),
-                name: cluster name (string),
-                status: status (string),
+            datas: backup cluster list. parameter format: [{
+                cluster_id: backup cluster ID (string),
+                cluster_name: backup cluster name (string),
+                cluster_ip: IP address (string),
             }, ...],
         }
     """
@@ -37,9 +33,6 @@ def cluster_list(client: DMEAPIClient, name: str = None,
         'page_no': page_no,
         'page_size': page_size
     }
-    
-    if name is not None:
-        payload['name'] = name
     
     response = client.post(url, body=payload)
     return response
@@ -53,13 +46,13 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     
     Args:
         client: DME API client
-        cluster_id: Backup cluster ID (Required)
+        cluster_id: backup cluster ID (Required, 1~64 characters)
     
     Returns:
         {
-            total_capacity: total capacity (integer),
-            used_capacity: used capacity (integer),
-            free_capacity: free capacity (integer),
+            cluster_ip: cluster IP (string),
+            total_capacity: total capacity (double, GB),
+            used_capacity: used capacity (double, GB),
         }
     """
     url = "/rest/dmebackupsoftmgmtservice/v1/clusters/{cluster_id}/capacity"
@@ -69,7 +62,6 @@ def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
 
 
 def cluster_quota(client: DMEAPIClient, cluster_id: str,
-                        quota_type: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
     Query backup cluster tenant quota list
@@ -78,18 +70,18 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     
     Args:
         client: DME API client
-        cluster_id: Backup cluster ID (Required)
-        quota_type: Quota type (Optional)
-        page_no: Pagination start page, default 1
-        page_size: items per page, 1~1000, default 20
+        cluster_id: backup cluster ID (Required, 1~64 characters)
+        page_no: pagination start page, 1~10000, default 1
+        page_size: items per page, 1~200, default 20
     
     Returns:
         {
-            total: total quotas (integer),
-            quotas: Tenant quota list. parameter format: [{
-                tenant_id: tenant ID (string),
-                quota: quota size (integer),
-                used: used quota (integer),
+            total: total tenants (integer),
+            quotas: tenant quota detail list. parameter format: [{
+                tenant_raw_id: tenant ID on device (string),
+                tenant_name: tenant name (string),
+                tenant_total_capacity: total backup quota capacity (double, GB),
+                tenant_used_capacity: used backup quota capacity (double, GB),
             }, ...],
         }
     """
@@ -99,9 +91,6 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
         'page_no': page_no,
         'page_size': page_size
     }
-    
-    if quota_type is not None:
-        payload['quota_type'] = quota_type
     
     response = client.post(url, body=payload, params={"cluster_id": cluster_id})
     return response
@@ -113,7 +102,7 @@ ACTIONS = {
     'cluster_list': {
         'func': cluster_list,
         'description': 'Query backup cluster list',
-        'params': ['name', 'page_no', 'page_size'],
+        'params': ['page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     'cluster_capacity': {
@@ -125,7 +114,7 @@ ACTIONS = {
     'cluster_quota': {
         'func': cluster_quota,
         'description': 'Query backup cluster tenant quota list',
-        'params': ['cluster_id', 'quota_type', 'page_no', 'page_size'],
+        'params': ['cluster_id', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
 }

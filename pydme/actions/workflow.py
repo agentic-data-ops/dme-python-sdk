@@ -65,9 +65,8 @@ def template_groups(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including:
-        - groups: Template group list, containing name (template group name)
+            groups: template group list (List), containing name (template group name),
+        }
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
     
@@ -139,7 +138,6 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
             task_id: task ID (string, 1~64 characters),
         }, including:
         - instance_id: Instance id
-        - template_id: Template id of the instance
         - template_name: Template name of the instance
         - state: Execution status (EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED)
         - stage: Execution stage (PRECHECK/MAIN/NORMAL_END/ABNORMAL_END)
@@ -177,9 +175,8 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including:
-        - instance_id: Instance id
+            instance_id: instance ID (string),
+        }
     """
     url = "/rest/wfamgmt/v1/workflow/instances"
     
@@ -211,9 +208,8 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     
     Returns:
         {
-            task_id: task ID (string, 1~64 characters),
-        }, including:
-        - logs: Step log list (at most 6000 entries)
+            logs: step log list (List, at most 6000 entries),
+        }
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"
     
