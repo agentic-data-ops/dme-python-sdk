@@ -23,6 +23,19 @@ Python package (`pydme`) for Huawei DME storage O&M — modular CLI + SDK over t
 - **Reinstall:** `install.sh`
 - **No test runner or linter** configured in pyproject.toml — no test files found in repo
 
+## Sync (dev → main)
+
+To sync dev changes to main (no merge commit, just checkout changed files):
+
+1. `git checkout main && git pull origin main`
+2. `git diff origin/main..origin/dev --stat -- pydme/` — check pending changes
+3. `git checkout origin/dev -- pydme/` — overlay dev files
+4. `git commit -m "sync: merge pydme/ updates from dev"`
+5. `git push origin main`
+6. Verify: `git diff origin/main..origin/dev -- pydme/` returns empty
+
+Ignore `.reasonix/` and `REASONIX.md` — they are main-only files.
+
 ## Conventions
 - **Action functions** take `client: DMEAPIClient` as first arg; optional params default to `None`
 - **ACTIONS dict** at module bottom: `{action_name: {func, description, params[, subtopic]}}` — `subtopic` groups actions under a sub-command (e.g. `pydme storage vlan list`)
