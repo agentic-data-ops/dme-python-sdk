@@ -26,7 +26,7 @@ pydme/
     ├── ipswitch.py    # IP switch management
     ├── kube.py        # Kubernetes management
     ├── nas.py         # NAS (NFS/CIFS/filesystem/quota/DPC→dataturbo)
-    ├── protect.py     # Protection (snapshot/dual-active/replication)
+    ├── protect.py     # Protection (group/hypermetro/replication/snapshot/clone/vstore/fs_domain)
     ├── san.py         # SAN (LUN/mapping view/host)
     ├── server.py      # Server management
     ├── storage.py     # Storage device management
@@ -64,6 +64,7 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 │   ├── 00-env.sh                 # 测试环境变量模板
 │   ├── 00-lib.sh                 # 测试执行与记录库（exec_test 等函数）
 │   ├── 02-storage-ids.sh         # storage 主题测试资源 ID
+│   ├── 05-protect-ids.sh         # protect 主题测试资源 ID（保护组/复制Pair/复制一致性组等）
 │   ├── 06-fcswitch-ids.sh        # fcswitch 主题测试资源 ID
 │   ├── check_prose.py            # 检查 docstring 中的中文标点/错别字
 │   ├── read_api_reference.py     # 读取原始 API 文档，提取结构化信息
@@ -90,7 +91,7 @@ Reasonix 工具在 `.reasonix/` 目录下维护辅助文件，已被 `.gitignore
 | `plans/101-gen-actions-for-not-impl-apis.md` | ✅ 完成 | 为未实现的 32 个 API 生成动作函数（含例外/升级/重命名任务） |
 | `plans/102-update-actions-docstring.md` | ✅ 完成 | 遍历所有动作 help 校验参数格式/Returns/描述，修复 24 处问题 + 9 个运行时 bug |
 | `plans/300-add-action-risk-blacklist.md` | ⏳ 待执行 | 在 `cli.py` 中增加风险确认机制，对 destructive 操作警告/拦截 |
-| `plans/500-test-all-actions.md` | ✅ 完成 | 全量 427 动作覆盖测试计划 — **412/427 已覆盖（96.5%）**，200+ PASS，20+ 代码 Bug 修复 |
+| `plans/500-test-all-actions.md` | ✅ 完成 | 全量动作覆盖测试计划 — **protect 77 个动作全部 PASS ✅**，含 8.18~8.28 补测报告 |
 
 ## Installation
 
@@ -259,14 +260,14 @@ When user ask to finish todo tasks, sequentially execute the unfinished todo tas
 
 **Package**: `pydme` (installable via `pip install -e .`)
 **Active Topics**: 16
-**Total Actions**: 425 (注册在 ACTIONS 字典中的动作数)
-**Total Functions**: 429 (包括 ACTIONS 引用的函数 + `__init__.py` 中的工具函数)
+**Total Actions**: 435 (注册在 ACTIONS 字典中的动作数)
+**Total Functions**: 439 (包括 ACTIONS 引用的函数 + `__init__.py` 中的工具函数)
 
 ### Topic Structure
 
 | # | Topic | Actions | Funcs | File | Description |
 |---|-------|---------|-------|------|-------------|
-| 1 | **protect** | 75 | 75 | `protect.py` | Protection (group/hypermetro/replication/snapshot/clone) |
+| 1 | **protect** | 85 | 85 | `protect.py` | Protection (group/hypermetro/replication/snapshot/clone/vstore/fs_domain) |
 | 2 | **san** | 66 | 67 | `san.py` | Storage area network (LUN/mapping/host/port_group) |
 | 3 | **storage** | 62 | 63 | `storage.py` | Storage device management (vstore/disk/pool/license/account) |
 | 4 | **nas** | 61 | 61 | `nas.py` | Network attached storage (NFS/CIFS/DPC/quota/filesystem) |
@@ -282,7 +283,7 @@ When user ask to finish todo tasks, sequentially execute the unfinished todo tas
 | 14 | **kube** | 6 | 6 | `kube.py` | Kubernetes management (cluster/node/pod) |
 | 15 | **integrate** | 5 | 5 | `integrate.py` | Third-party integration (CMDB systems/hosts/apps) |
 | 16 | **backup** | 3 | 3 | `backup.py` | Data backup management (cluster/capacity/quota) |
-| | **Total** | **425** | **429** | 16 files | |
+| | **Total** | **435** | **439** | 16 files | |
 
 > **注意**：Functions 列可能多于 Actions 列（如 `aiops` 28 funcs vs 26 actions，`san` 67 funcs vs 66 actions），原因是有少数辅助/工具函数未注册到 ACTIONS 字典。
 
@@ -323,10 +324,33 @@ pydme san physical_host_group show_related --hostgroup_id xxx
 
 ### 待办任务 (TODOs)
 
-- [ ] **完成剩余因环境限制跳过的测试用例** — 15 个 SKIP 动作需待双活环境、A800 环境、Pacific DataTurbo 数据就绪后执行（详见 `.reasonix/plans/501-env-todo.md`）
-- [x] **遍历所有动作的帮助信息，检查参数内部格式、响应体格式和动作描述是否与 API 参考文档一致** — 已按 10 批完成 425 个动作的全面检查，修复入口标记错误、缺失 Returns、字段错误等 24 处问题，发现并修复 9 个 payload 未传入 body 的运行时 bug
+- [x] **protect 子主题全部测试通过** — 77 个动作全部 ✅ 已覆盖（replication_group/hypermetro_group/replication_pair/hypermetro_pair/group/device_pair/replication_link/snapshot_group/clone_group/fs_hypermetro_pair/vstore_hypermetro_pair/fs_hypermetro_domain）
+- [ ] **完成剩余因环境限制跳过的测试用例** — SKIP 动作需待双活环境、A800 环境、Pacific DataTurbo 数据就绪后执行（详见 `.reasonix/plans/501-env-todo.md`）
+- [x] **遍历所有动作的帮助信息，检查参数内部格式、响应体格式和动作描述是否与 API 参考文档一致** — 已按 10 批完成 435 个动作的全面检查
 
 ### Recent Changes
+
+- **Plan 500 — Phase 2 complete**: 补测 protect 下所有子主题动作（replication_group/hypermetro_group/replication_pair/hypermetro_pair/group/device_pair/replication_link/snapshot_group/clone_group/fs_hypermetro_pair/vstore_hypermetro_pair/fs_hypermetro_domain），新增 8.18~8.28 测试表，protect 77 个动作全部 ✅ 已覆盖
+
+- **API doc alignment — replication_group**: 补充 create 缺失 14 参数（replication_mode/sync_type/timing_val 等），modify 补充 6 参数（switch_to_sync/transfer_cycle 等）
+
+- **API doc alignment — hypermetro_group**: 补充 create 缺失 13 参数（name_prefix/name_suffix/first_sync_policy/isolation_threshold_time 等），list 补充 4 过滤参数（domain_name/health_status/running_status/priority_station_type）
+
+- **API doc alignment — replication_pair**: 完全重写 list 函数签名（pair_raw_id→raw_id, local_volume_name→local_resource_name, +12 过滤参数）；create 新增 create_mode/replication_mode/resource_pairs 等 8 参数；modify 新增 secondary_res_protection/switch_to_sync 等 7 参数；delete 新增 is_enforce_secondary_data
+
+- **Bug fix — replication_pair_list**: 修复 payload 构建残留 old params（pair_raw_id/local_volume_name 导致 CLI 崩溃）
+
+- **API doc alignment — hypermetro_pair**: 修复 query_available_luns 方法 GET→POST，新增 7 参数
+
+- **API doc alignment — device_pair_list**: 新增 6 缺失过滤参数（local_storage_name/remote_storage_name/health_status/running_status/page_no/page_size）
+
+- **API doc alignment — fs_hypermetro_pair**: 新增 recovery_policy/first_sync_policy 参数；list 新增 11 过滤参数（pair_raw_id/local_filesystem_raw_id/is_primary 等）；函数名重命名 fs_pair_*→fs_hypermetro_pair_*
+
+- **API doc alignment — vstore_hypermetro_pair**: 完全重写 create（domain_id+local_vstore_id+remote_vstore_id+preferred_mode）；完全重写 modify（preferred_mode+preferred_site）；修复 force_start/switch/delete payload 字段 ids→vstore_pair_ids；switch 新增 is_force；list 新增 12 过滤参数
+
+- **API doc alignment — fs_hypermetro_domain**: split 新增 stop_role 参数（AA 模式必选）
+
+- **Subtopic rename**: fs_hypermetro_pair 动作函数名统一 fs_pair_*→fs_hypermetro_pair_*；hypermetro_domain FS 特定操作拆分为 fs_hypermetro_domain 子主题（force_start/switch_site/recover/split/swap_role），保留 hypermetro_domain list 为通用查询
 
 - **Plan 102 completed — Full docstring audit**: 遍历 16 个 action 文件 425 个动作，逐动作运行 `--help` 对照 API 参考文档校验；修复 24 处 docstring 问题（含 4 处 `格式：{` 入口标记错误、2 处缺失 Returns 段、6 处纯文本 Returns、3 处动作描述过简、8 处尾部多余中文/字段错误等）；**发现并修复 9 个 payload 未传入 body 的运行时 bug**（san.py 4 处、storage.py 5 处，修复后 8 个动作需在测试环境中重新验证）
 

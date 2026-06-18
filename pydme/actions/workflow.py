@@ -65,9 +65,8 @@ def template_groups(client: DMEAPIClient) -> dict:
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含：
-        - groups: 模板分组列表，包含 name（模板分组名称）
+            groups: 模板分组列表 (List)，包含 name（模板分组名称）,
+        }
     """
     url = "/rest/wfamgmt/v1/workflow/templates/groups/query"
     
@@ -139,7 +138,6 @@ def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
             task_id: 任务ID (string, 1~64个字符),
         }，包含：
         - instance_id: 实例 id
-        - template_id: 实例对应的模板 id
         - template_name: 实例对应的模板名称
         - state: 执行状态（EXECUTING/SUCCESSFUL/FAILED/MANUAL_TERMINATED/ABNORMAL_TERMINATED）
         - stage: 执行阶段（PRECHECK/MAIN/NORMAL_END/ABNORMAL_END）
@@ -175,9 +173,8 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含：
-        - instance_id: 实例 id
+            instance_id: 实例 ID (string),
+        }
     """
     url = "/rest/wfamgmt/v1/workflow/instances"
     
@@ -209,9 +206,8 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含：
-        - logs: 步骤日志列表（最多 6000 条）
+            logs: 步骤日志列表 (List，最多 6000 条),
+        }
     """
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/steps/{step_id}/log"
     

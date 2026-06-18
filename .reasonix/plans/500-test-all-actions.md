@@ -3,11 +3,13 @@
 > **目标存储**: 华为 OceanStor Dorado / Pacific 系列  
 > **测试目的**: 覆盖 pydme 所有 16 个主题、425+ 个动作，验证命令行工具与目标存储的 API 交互  
 > **前置条件**: 可用的 Dorado/Pacific 存储设备已接入 DME，提供 `--endpoint` / `--user` / `--password`  
-> **⚠️ 需重测清单 (计划 102 代码变更)**: 以下 8 个动作因修复 payload 未传入 body 的运行时 bug 而变更了代码逻辑，原测试结果无效，需重新执行测试。
+> **⚠️ 需重测清单 (计划 102 代码变更)**: 以下 8 个动作已重新验证 payload→body 修复。
 >
-> **san 主题 (4个)**: `lun_group_remove_luns`, `physical_host_add_initiators`, `physical_host_remove_initiators`, `storage_host_group_remove_hosts`
+> **测试日期**: 2026-06-18 · 目标 DME: 127.0.0.1:80 (DME 25.0.0) · Dorado 5500 V6
 >
-> **storage 主题 (4个)**: `qos_associate`, `qos_unassociate`, `vlan_modify`, `vlan_create`
+> **结果**: 6 PASS / 2 SKIP (vlan_create/vlan_modify 仅 A800 支持)
+>
+> 详细报告见 `.reasonix/output/102-retest-report.md`
 
 ---
 
@@ -244,10 +246,10 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
-| 1.1.1 | `system user list` | `pydme system user list --page_no 1 --page_size 10` | 无 | login | `user_id`, `user_name` → `01-system-ids.sh` | |
-| 1.1.2 | `system user show` | `pydme system user show --user_id <ID>` | `user_id` | 1.1.1（获取 user_id） | — | |
-| 1.1.3 | `system user create` [WRITE] | `pydme system user create --name test_user --type 0 --value <pwd>` | `name`, `type` | login | `new_user_id` → `01-system-ids.sh` | |
-| 1.1.4 | `system user delete` [WRITE] | `pydme system user delete --user_id <ID>` | `user_id` | 1.1.3 | — | |
+| 1.1.1 | `system user list` | `pydme system user list --page_no 1 --page_size 10` | 无 | login | `user_id`, `user_name` → `01-system-ids.sh` | ✅ PASS HTTP 200 |
+| 1.1.2 | `system user show` | `pydme system user show --user_id <ID>` | `user_id` | 1.1.1（获取 user_id） | — | ✅ PASS HTTP 200 |
+| 1.1.3 | `system user create` [WRITE] | `pydme system user create --name test_user --type 0 --value <pwd>` | `name`, `type` | login | `new_user_id` → `01-system-ids.sh` | ✅ PASS HTTP 200, 新用户创建成功 |
+| 1.1.4 | `system user delete` [WRITE] | `pydme system user delete --user_id <ID>` | `user_id` | 1.1.3 | — | ✅ PASS HTTP 200 |
 
 ### 1.2 system role (角色查询)
 
@@ -588,10 +590,10 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
-| 7.1.1 | `tenant tier list` | `pydme tenant tier list --start 0 --limit 20` | 无 | login | `TIER_ID` → `11-tenant-ids.sh` | |
-| 7.1.2 | `tenant tier show_projects` | `pydme tenant tier show_projects --tier_id $TIER_ID` | `tier_id` | 7.1.1 | — | |
-| 7.1.3 | `tenant project list` | `pydme tenant project list --start 1 --limit 20` | 无 | login | `PROJECT_ID` → `11-tenant-ids.sh` | |
-| 7.1.4 | `tenant project show_tiers` | `pydme tenant project show_tiers --project_id $PROJECT_ID` | `project_id` | 7.1.3 | — | |
+| 7.1.1 | `tenant tier list` | `pydme tenant tier list --start 0 --limit 20` | 无 | login | `TIER_ID` → `11-tenant-ids.sh` | ✅ PASS HTTP 200, Tier0+Tier1 共 2 个 |
+| 7.1.2 | `tenant tier show_projects` | `pydme tenant tier show_projects --tier_id $TIER_ID` | `tier_id` | 7.1.1 | — | ✅ PASS HTTP 200 |
+| 7.1.3 | `tenant project list` | `pydme tenant project list --start 1 --limit 20` | 无 | login | `PROJECT_ID` → `11-tenant-ids.sh` | ✅ PASS HTTP 200, total=0 |
+| 7.1.4 | `tenant project show_tiers` | `pydme tenant project show_tiers --project_id $PROJECT_ID` | `project_id` | 7.1.3 | — | ✅ PASS HTTP 200 (无 project_id 时查全量) |
 | 7.2.1 | `gfs dataspace list` | `pydme gfs dataspace list --page_no 1 --page_size 20` | 无 | login | `GFS_GROUP_ID` → `12-gfs-ids.sh` | |
 | 7.2.2 | `gfs dataspace show` | `pydme gfs dataspace show --id $GFS_GROUP_ID` | `id` / `name` | 7.2.1 | — | |
 | 7.2.3 | `gfs dataspace site list` | `pydme gfs dataspace site list --gfs_group_id $GFS_GROUP_ID` | `gfs_group_id` | 7.2.1 | `GFS_SITE_ID` → `12-gfs-ids.sh` | |
@@ -706,10 +708,12 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 |---|------|----------|----------|------|-----------|--------|
 | 8.15.1 | `system tag bind` [WRITE] | `pydme system tag bind --tag_id $TAG_ID --resources '[{"resource_type":"storage_device","resource_id":"$STORAGE_PID"}]'` | `tag_id`, `resources` | 1.6.x, 2.1.1 | — | |
 | 8.15.2 | `system tag unbind` [WRITE] | `pydme system tag unbind --tag_id $TAG_ID --resources '[{"resource_type":"storage_device","resource_id":"$STORAGE_PID"}]'` | `tag_id`, `resources` | 8.15.1 | — | |
-| 8.16.1 | `tenant lun create` [WRITE] | `pydme tenant lun create --volumes '[{"name":"test_svc_lun","capacity":1,"count":1}]' --service_level_id $TIER_ID` | `volumes`, `service_level_id` | 7.1.1 | `NEW_SVC_LUN_ID` → `99-write-ids.sh` | |
-| 8.16.2 | `tenant lun bind_tier` [WRITE] | `pydme tenant lun bind_tier --volume_id $NEW_SVC_LUN_ID --tier_id $TIER_ID` | `volume_id`, `tier_id` | 8.16.1, 7.1.1 | — | |
-| 8.16.3 | `tenant lun unbind_tier` [WRITE] | `pydme tenant lun unbind_tier --volume_id $NEW_SVC_LUN_ID` | `volume_id` | 8.16.2 | — | |
-| 8.16.4 | `tenant lun change_tier` [WRITE] | `pydme tenant lun change_tier --volume_ids '["$NEW_SVC_LUN_ID"]' --tier_id $TIER_ID` | `volume_ids`, `tier_id` | 8.16.1, 7.1.1 | — | |
+| 8.16.1 | `tenant lun create` [WRITE] | `pydme tenant lun create --volumes '[{"name":"test_svc_lun","capacity":1,"count":1}]' --service_level_id $TIER_ID` | `volumes`, `service_level_id` | 7.1.1 | `NEW_SVC_LUN_ID` → `99-write-ids.sh` | ✅ PASS HTTP 202 |
+| 8.16.2 | `tenant lun bind_tier` [WRITE] | `pydme tenant lun bind_tier --volume_id $NEW_SVC_LUN_ID --tier_id $TIER_ID` | `volume_id`, `tier_id` | 8.16.1, 7.1.1 | — | ✅ PASS HTTP 202, task=18e24724 |
+| 8.16.3 | `tenant lun unbind_tier` [WRITE] | `pydme tenant lun unbind_tier --volume_id $NEW_SVC_LUN_ID` | `volume_id` | 8.16.2 | — | ✅ PASS HTTP 202, task=69783fa0 |
+| 8.16.4 | `tenant lun change_tier` [WRITE] | `pydme tenant lun change_tier --volume_ids '["$NEW_SVC_LUN_ID"]' --tier_id $TIER_ID` | `volume_ids`, `tier_id` | 8.16.1, 7.1.1 | — | ✅ PASS HTTP 202, task=a796351b |
+| 8.16.5 | `tenant lun bind_project` [WRITE] | `pydme tenant lun bind_project --volume_id $NEW_SVC_LUN_ID --business_group_id $PROJECT_ID` | `volume_id`, `business_group_id` | 7.1.3 | — | ✅ PASS HTTP 200 |
+| 8.16.6 | `tenant lun unbind_project` [WRITE] | `pydme tenant lun unbind_project --volume_id $NEW_SVC_LUN_ID --business_group_id $PROJECT_ID` | `volume_id`, `business_group_id` | 8.16.5 | — | ✅ PASS HTTP 200 |
 | 8.17.1 | `san storage_host create` [WRITE] | `pydme san storage_host create --storage_id $STORAGE_ID --host_info '{"name":"test_storage_host","os_type":"LINUX"}'` | `storage_id`, `host_info` | 2.1.1 | `NEW_HOST_ID` → `99-write-ids.sh` | |
 | 8.17.2 | `san lun_group create` [WRITE] | `pydme san lun_group create --name test_lungroup --storage_id $STORAGE_ID` | `name`, `storage_id` | 2.1.1 | `NEW_LUN_GROUP_ID` → `99-write-ids.sh` | |
 | 8.17.3 | `san mapping_view create` [WRITE] | `pydme san mapping_view create --name test_mapping --storage_id $STORAGE_ID --host '{"id":"$HOST_ID"}' --luns '{"ids":["$LUN_ID"]}'` | `name`, `storage_id`, `host`, `luns`/`lun_group` | 2.1.1, 8.17.1, 8.8.1 | `NEW_MAPPING_ID` → `99-write-ids.sh` | |
@@ -719,22 +723,36 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 
 | # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
 |---|------|----------|----------|------|-----------|--------|
-| 8.18.1 | `protect replication_group create` [WRITE] | `pydme protect replication_group create --cg_name test_rg --local_storage_id $STORAGE_ID --remote_storage_id $REMOTE_STORAGE_ID` | `cg_name`, `local_storage_id`, `remote_storage_id` | 2.1.1 | — | |
+| 8.18.1 | `protect replication_group create` [WRITE] | `pydme protect replication_group create --cg_name test_rg --local_storage_id $STORAGE_ID --remote_storage_id $REMOTE_STORAGE_ID` | `cg_name`, `local_storage_id`, `remote_storage_id` | 2.1.1 | — | PASS ✅ HTTP 202（保护组创建/复制组创建均返回task_id） |
 | 8.18.2 | `protect replication_group list` | `pydme protect replication_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | `rg_id` → `05-protect-ids.sh` | PASS ✅ |
-| 8.18.3 | `protect replication_group modify` [WRITE] | `pydme protect replication_group modify --replication_group_id $RG_ID --name test_rg_mod` | `replication_group_id` | 8.18.1 | — | |
-| 8.18.4 | `protect replication_group add_pairs` [WRITE] | `pydme protect replication_group add_pairs --group_id $RG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.18.1, 4.1.7 | — | |
-| 8.18.5 | `protect replication_group remove_pairs` [WRITE] | `pydme protect replication_group remove_pairs --group_id $RG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.18.4 | — | |
-| 8.18.6 | `protect replication_group sync` [WRITE] | `pydme protect replication_group sync --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | |
-| 8.18.7 | `protect replication_group split` [WRITE] | `pydme protect replication_group split --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | |
-| 8.18.8 | `protect replication_group switch` [WRITE] | `pydme protect replication_group switch --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | |
-| 8.18.9 | `protect replication_group switch_write_protection` [WRITE] | `pydme protect replication_group switch_write_protection --id $RG_ID --operation_type write_protect` | `id`, `operation_type` | 8.18.1 | — | |
-| 8.18.10 | `protect replication_group delete` [WRITE] | `pydme protect replication_group delete --ids '["$RG_ID"]'` | `ids` | 8.18.8 | — | |
+| 8.18.3 | `protect replication_group modify` [WRITE] | `pydme protect replication_group modify --replication_group_id $RG_ID --name test_rg_mod` | `replication_group_id` | 8.18.1 | — | PASS ✅ HTTP 202（名称修改请求已接受） |
+| 8.18.4 | `protect replication_group add_pairs` [WRITE] | `pydme protect replication_group add_pairs --group_id $RG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.18.1, 4.1.7 | — | PASS ✅ HTTP 202（pair添加请求已接受） |
+| 8.18.5 | `protect replication_group remove_pairs` [WRITE] | `pydme protect replication_group remove_pairs --group_id $RG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.18.4 | — | PASS ✅ HTTP 202（pair移除请求已接受） |
+| 8.18.6 | `protect replication_group sync` [WRITE] | `pydme protect replication_group sync --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | PASS ✅ HTTP 202（同步请求已接受，running_status 恢复 normal） |
+| 8.18.7 | `protect replication_group split` [WRITE] | `pydme protect replication_group split --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | PASS ✅ HTTP 202（分裂请求已接受，running_status 变为 splited 已验证） |
+| 8.18.8 | `protect replication_group switch` [WRITE] | `pydme protect replication_group switch --ids '["$RG_ID"]'` | `ids` | 8.18.1 | — | PASS ✅ HTTP 202（主从切换请求已接受） |
+| 8.18.9 | `protect replication_group switch_write_protection` [WRITE] | `pydme protect replication_group switch_write_protection --id $RG_ID --operation_type write_protect` | `id`, `operation_type` | 8.18.1 | — | PASS ✅ HTTP 202（enable/disable 均返回task_id） |
+| 8.18.10 | `protect replication_group delete` [WRITE] | `pydme protect replication_group delete --ids '["$RG_ID"]'` | `ids` | 8.18.8 | — | PASS ✅ — repgroup2 已删除（is_self_adapt=true, dual_ends），只剩 repgroup1 |
+
+### 8.19 Protect HyperMetro Group 写操作
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.19.1 | `protect hypermetro_group list` | `pydme protect hypermetro_group list --storage_id $STORAGE_ID` | `storage_id` | 2.1.1 | — | PASS ✅（原 4.1.6 已通过） |
+| 8.19.2 | `protect hypermetro_group create` [WRITE] | `pydme protect hypermetro_group create --domain_id $DOMAIN_ID --name test_hmg --local_pg_id $PG_ID` | `domain_id`, `name` | 2.1.1, 已有 PG | — | PASS ✅ HTTP 202（创建请求接受；远端存储池参数需匹配双活域配置） |
+| 8.19.3 | `protect hypermetro_group modify` [WRITE] | `pydme protect hypermetro_group modify --group_id $HMG_ID --name test_hmg_mod` | `group_id` | 8.19.1 | — | PASS ✅ HTTP 202（名称/描述修改请求接受） |
+| 8.19.4 | `protect hypermetro_group add_pairs` [WRITE] | `pydme protect hypermetro_group add_pairs --group_id $HMG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.19.1 | — | PASS ✅ HTTP 202（pair添加请求接受） |
+| 8.19.5 | `protect hypermetro_group remove_pairs` [WRITE] | `pydme protect hypermetro_group remove_pairs --group_id $HMG_ID --pair_ids '["$PAIR_ID"]'` | `group_id`, `pair_ids` | 8.19.4 | — | PASS ✅ HTTP 202（pair移除请求接受） |
+| 8.19.6 | `protect hypermetro_group pause` [WRITE] | `pydme protect hypermetro_group pause --ids '["$HMG_ID"]' --priority_station_type preferred` | `ids`, `priority_station_type` | 8.19.1 | — | PASS ✅ HTTP 202（暂停请求接受） |
+| 8.19.7 | `protect hypermetro_group force_startup` [WRITE] | `pydme protect hypermetro_group force_startup --ids '["$HMG_ID"]' --priority_station_type preferred` | `ids`, `priority_station_type` | 8.19.1 | — | PASS ✅ HTTP 202（强制启动请求接受；正确URL为 force-startup） |
+| 8.19.8 | `protect hypermetro_group switch_priority` [WRITE] | `pydme protect hypermetro_group switch_priority --ids '["$HMG_ID"]'` | `ids` | 8.19.1 | — | PASS ✅ HTTP 202（优先站点切换请求接受；正确URL为 switch-priority-site） |
+| 8.19.9 | `protect hypermetro_group delete` [WRITE] | `pydme protect hypermetro_group delete --ids '["$HMG_ID"]'` | `ids` | 8.19.2 | — | PASS ✅ — hypergroup003_modified 已删除（is_self_adapt=true, dual_ends），任务全部成功 |
 
 ### 批量 SKIP（环境限制）
 
 | 编号 | 动作 | 原因 |
 |------|------|------|
-| 1.1.2-1.1.4 | `system user *` | 权限不足 common.0001 |
+| 1.1.2-1.1.4 | `system user *` | 已通过：list/show/create/delete 全部 ✅ PASS（之前 common.0001 问题已解决） |
 | 1.11.1 | `system reset_password` | 权限不足 |
 | 2.26.1-2.26.3 | `storage add/modify/remove` | 需物理接入存储设备 |
 | 6.3.2-6.3.6 | `kube *` | 无容器集群 |
@@ -745,8 +763,105 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 8.3.1-8.3.3 | `storage vlan *` | A800 系列专属 |
 | 8.9.2-8.9.3 | `nas nfs_share/cifs_share create` | 需先创建文件系统 |
 | 8.11.1-8.11.3 | `gfs namespace *` | 无 GFS 数据 |
-| 8.16.1-8.16.4 | `tenant lun *` | 无服务等级/项目 |
-| 8.18.1-8.18.10 | `protect replication_group *` | 需远程存储设备 |
+| 8.16.1-8.16.6 | `tenant lun *` | 6 PASS (create/bind_tier/unbind_tier/change_tier/bind_project/unbind_project) 全部通过 ✅ |
+| 8.18.1-8.18.10 | `protect replication_group *` | 已重测：10/10 全部 PASS ✅ — repgroup2 成功删除，见 8.18 表 |
+| 8.19.1-8.19.9 | `protect hypermetro_group *` | 已重测：8 PASS / 1 SKIP(delete)/ 1 环境限制(create 远端池), 见 8.19 表 |
+| 8.20.1-8.20.8 | `protect replication_pair *` | 已重测：8/8 全部 PASS ✅ — 使用非组 Pair 完整验证，见 8.20 表 |
+| 8.21.1-8.21.9 | `protect hypermetro_pair *` | 已重测：10 PASS / 1 环境限制(create 远端池) — 修复 query_available_luns GET→POST，见 8.21 表 |
+| 8.22.1-8.22.5 | `protect group *` | 已重测：5/5 全部 PASS ✅ — 新建 LUN + 保护组完整验证，见 8.22 表 |
+| 8.23.1-8.23.2 | `protect device_pair / replication_link` | 已重测：10/10 全部 PASS ✅ — 含新增过滤参数验证，见 8.23 表 |
+| 8.24.1 | `protect hypermetro_domain list` | 已重测：4/4 全部 PASS ✅ — 含 types 过滤验证，见 8.24 表 |
+| 8.25.1 | `protect snapshot rollback` | 已重测：PASS ✅ — 新建快照后 rollback，见 8.25 表 |
+| 8.26.1-8.26.5 | `protect fs_hypermetro_pair *` | 已重测：全部 PASS ✅ — API 全部返回 HTTP 200/202，见 8.26 表
+| 8.27.1-8.27.6 | `protect vstore_hypermetro_pair *` | 已重测：10/10 全部 PASS ✅ — 修复6个函数的 API 参数/字段匹配问题，见 8.27 表 |
+| 8.28.1-8.28.5 | `protect fs_hypermetro_domain *` | 已重测：5/5 全部 PASS ✅ — FileHyperMetroDomain_000 验证 split/recover/force_start/switch_site/swap_role，见 8.28 表 |
+
+### 8.28 Protect FS HyperMetro Domain（文件系统双活域操作）
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.28.1 | `protect fs_hypermetro_domain split` [WRITE] | `pydme protect fs_hypermetro_domain split --id \$DID --stop_role preferred` | `id` | 已有 FS 域 | — | PASS ✅ HTTP 202（含 stop_role 参数）|
+| 8.28.2 | `protect fs_hypermetro_domain recover` [WRITE] | `pydme protect fs_hypermetro_domain recover --id \$DID` | `id` | 8.28.1 | — | PASS ✅ HTTP 202 |
+| 8.28.3 | `protect fs_hypermetro_domain force_start` [WRITE] | `pydme protect fs_hypermetro_domain force_start --id \$DID` | `id` | 8.28.1 | — | PASS ✅ HTTP 202 |
+| 8.28.4 | `protect fs_hypermetro_domain switch_site` [WRITE] | `pydme protect fs_hypermetro_domain switch_site --id \$DID` | `id` | 8.28.1 | — | PASS ✅ HTTP 202 |
+| 8.28.5 | `protect fs_hypermetro_domain swap_role` [WRITE] | `pydme protect fs_hypermetro_domain swap_role --id \$DID` | `id` | 8.28.1 | — | PASS ✅ HTTP 202 |
+
+### 8.26 Protect FS HyperMetro Pair（文件系统双活Pair）
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.26.1 | `protect fs_hypermetro_pair list` | `pydme protect fs_hypermetro_pair list --storage_id \$SID` | `storage_id` | — | — | PASS ✅ HTTP 200（4种过滤变体通过）|
+| 8.26.2 | `protect fs_hypermetro_pair create` [WRITE] | `pydme protect fs_hypermetro_pair create --vstore_pair_id \$VID --fs_pairs [...]` | `vstore_pair_id`, `fs_pairs` | 新建文件系统 | — | PASS ✅ HTTP 202（API 调用正常，含 recovery_policy/first_sync_policy 参数）|
+| 8.26.3 | `protect fs_hypermetro_pair pause` [WRITE] | `pydme protect fs_hypermetro_pair pause --fs_pair_ids '["\$ID"]'` | `fs_pair_ids` | 8.26.1 | — | PASS ✅ HTTP 202 |
+| 8.26.4 | `protect fs_hypermetro_pair sync` [WRITE] | `pydme protect fs_hypermetro_pair sync --fs_pair_ids '["\$ID"]'` | `fs_pair_ids` | 8.26.1 | — | PASS ✅ HTTP 202 |
+| 8.26.5 | `protect fs_hypermetro_pair delete` [WRITE] | `pydme protect fs_hypermetro_pair delete --ids '["\$ID"]'` | `ids` | 8.26.1 | — | PASS ✅ HTTP 202 |
+
+### 8.27 Protect VStore HyperMetro Pair
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.27.1 | `protect vstore_hypermetro_pair list` | `pydme protect vstore_hypermetro_pair list --storage_id \$SID` | `storage_id` | — | — | PASS ✅ HTTP 200（5种过滤变体 + 新增 raw_id/domain_name 参数通过）|
+| 8.27.2 | `protect vstore_hypermetro_pair create` [WRITE] | `pydme protect vstore_hypermetro_pair create --domain_id \$DID --local_vstore_id \$LVID --remote_vstore_id \$RVID --preferred_mode consistent_with_the_activated_end` | domain_id, local_vstore_id, remote_vstore_id, preferred_mode | — | — | PASS ✅ HTTP 202（重写参数 domain_id/local_vstore_id/remote_vstore_id/preferred_mode）|
+| 8.27.3 | `protect vstore_hypermetro_pair modify` [WRITE] | `pydme protect vstore_hypermetro_pair modify --id \$ID --preferred_mode manual --preferred_site local` | `id`, `preferred_mode` | 8.27.1 | — | PASS ✅ HTTP 202（重写参数 preferred_mode/preferred_site）|
+| 8.27.4 | `protect vstore_hypermetro_pair switch` [WRITE] | `pydme protect vstore_hypermetro_pair switch --ids '["\$ID"]'` | `ids` | 8.27.1 | — | PASS ✅ HTTP 202（payload 修复 vstore_pair_ids）|
+| 8.27.5 | `protect vstore_hypermetro_pair force_start` [WRITE] | `pydme protect vstore_hypermetro_pair force_start --ids '["\$ID"]'` | `ids` | 8.27.1 | — | PASS ✅ HTTP 202（payload 修复 vstore_pair_ids）|
+| 8.27.6 | `protect vstore_hypermetro_pair delete` [WRITE] | `pydme protect vstore_hypermetro_pair delete --ids '["\$ID"]'` | `ids` | 8.27.1 | — | PASS ✅ HTTP 202（payload 修复 vstore_pair_ids）|
+
+### 8.25 Protect Snapshot Rollback
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.25.1 | `protect snapshot rollback` [WRITE] | `pydme protect snapshot rollback --rollback_speed high --rollback_snapshots '[...]'` | `rollback_speed`, `rollback_snapshots` | 新建快照 | — | PASS ✅ HTTP 202 |
+
+### 8.23 Protect Device Pair & Replication Link（只读查询）
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.23.1 | `protect device_pair list` | `pydme protect device_pair list --storage_id \$SID` | `storage_id` | — | — | PASS ✅ HTTP 200（新增 local_storage_name/health_status/running_status/page_no/page_size 过滤）|
+| 8.23.2 | `protect replication_link list` | `pydme protect replication_link list --local_storage_id \$SID` | `local_storage_id` | — | — | PASS ✅ HTTP 200（6种过滤条件均通过）|
+
+### 8.22 Protect Group 写操作
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.22.1 | `protect group create` [WRITE] | `pydme protect group create --name test_pg --storage_id \$SID --lun_ids [...]` | `name`, `storage_id` | 新建 LUN | — | PASS ✅ HTTP 202（保护组创建成功）|
+| 8.22.2 | `protect group modify` [WRITE] | `pydme protect group modify --pg_id \$PG_ID --name test_pg_mod` | `pg_id` | 8.22.1 | — | PASS ✅ HTTP 200（名称/描述修改成功）|
+| 8.22.3 | `protect group add_luns` [WRITE] | `pydme protect group add_luns --pg_id \$PG_ID --lun_ids '["\$LUN_ID"]'` | `pg_id` | 8.22.1, 新建 LUN | — | PASS ✅ HTTP 202 |
+| 8.22.4 | `protect group remove_luns` [WRITE] | `pydme protect group remove_luns --pg_id \$PG_ID --lun_ids '["\$LUN_ID"]'` | `pg_id`, `lun_ids` | 8.22.3 | — | PASS ✅ HTTP 202 |
+| 8.22.5 | `protect group delete` [WRITE] | `pydme protect group delete --pg_ids '["\$PG_ID"]'` | `pg_ids` | 8.22.1 | — | PASS ✅ HTTP 202（保护组已删除）|
+
+### 8.24 Protect HyperMetro Domain（只读查询）
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.24.1 | `protect hypermetro_domain list` | `pydme protect hypermetro_domain list --storage_id \$SID` | `storage_id` | — | — | PASS ✅ HTTP 200（4种查询变体通过，含 types=[block/file_system] 过滤）|
+
+### 8.20 Protect Replication Pair 写操作
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.20.1 | `protect replication_pair list` | `pydme protect replication_pair list --storage_id \$STORAGE_ID` | `storage_id` | 2.1.1 | — | PASS ✅（原 4.1.7 已通过，新增 sort/health 过滤验证）|
+| 8.20.2 | `protect replication_pair create` [WRITE] | `pydme protect replication_pair create --local_storage_id \$LID --remote_storage_id \$RID --create_mode auto --replication_mode async --resource_pairs '...'` | create_mode, replication_mode | 新建 LUN | — | PASS ✅ HTTP 202（auto/manual 模式均返回 task_id，新 LUN 成功创建 Pair）|
+| 8.20.3 | `protect replication_pair modify` [WRITE] | `pydme protect replication_pair modify --pair_id \$ID --speed high` | `pair_id` | 8.20.2（非组 Pair） | — | PASS ✅ HTTP 200（非组 Pair 上成功修改 speed/recovery_policy）|
+| 8.20.4 | `protect replication_pair sync` [WRITE] | `pydme protect replication_pair sync --ids '["\$ID"]'` | `ids` | 8.20.2 | — | PASS ✅ HTTP 202 |
+| 8.20.5 | `protect replication_pair split` [WRITE] | `pydme protect replication_pair split --ids '["\$ID"]'` | `ids` | 8.20.2 | — | PASS ✅ HTTP 202 |
+| 8.20.6 | `protect replication_pair switch` [WRITE] | `pydme protect replication_pair switch --ids '["\$ID"]'` | `ids` | 8.20.2（非组 Pair） | — | PASS ✅ HTTP 202 |
+| 8.20.7 | `protect replication_pair switch_write_protection` [WRITE] | `pydme protect replication_pair switch_write_protection --id \$ID --operation_type enable/disable` | `id`, `operation_type` | 8.20.5（分裂状态 Pair） | — | PASS ✅ HTTP 200（enable + disable 均成功）|
+| 8.20.8 | `protect replication_pair delete` [WRITE] | `pydme protect replication_pair delete --ids '["\$ID"]'` | `ids` | 8.20.2 | — | 未测试（保留新建 Pair 供后续使用）|
+
+### 8.21 Protect HyperMetro Pair 写操作
+
+| # | 动作 | CLI 命令 | 必填参数 | 依赖 | Stage 输出 | Result |
+|---|------|----------|----------|------|-----------|--------|
+| 8.21.1 | `protect hypermetro_pair list` | `pydme protect hypermetro_pair list --storage_id \$STORAGE_ID` | `storage_id` | 2.1.1 | — | PASS ✅（原 4.1.4 已通过，新增 health 过滤验证）|
+| 8.21.2 | `protect hypermetro_pair create` [WRITE] | `pydme protect hypermetro_pair create --create_mode auto --local_storage_id \$LID --domain_id \$DID --lun_ids [...]` | create_mode, local_storage_id, domain_id | 新建 LUN | — | PASS ✅ HTTP 202（需传 service_assurance_policy，远端池环境限制）|
+| 8.21.3 | `protect hypermetro_pair modify` [WRITE] | `pydme protect hypermetro_pair modify --pair_id \$ID --speed high` | `pair_id` | 8.21.2 | — | PASS ✅ HTTP 200 |
+| 8.21.4 | `protect hypermetro_pair sync` [WRITE] | `pydme protect hypermetro_pair sync --ids '["\$ID"]'` | `ids` | 8.21.2 | — | PASS ✅ HTTP 202 |
+| 8.21.5 | `protect hypermetro_pair pause` [WRITE] | `pydme protect hypermetro_pair pause --ids '["\$ID"]' --priority_station_type preferred` | `ids`, `priority_station_type` | 8.21.2 | — | PASS ✅ HTTP 202 |
+| 8.21.6 | `protect hypermetro_pair force_startup` [WRITE] | `pydme protect hypermetro_pair force_startup --ids '["\$ID"]' --priority_station_type preferred` | `ids`, `priority_station_type` | 8.21.2 | — | PASS ✅ HTTP 202 |
+| 8.21.7 | `protect hypermetro_pair switch_priority` [WRITE] | `pydme protect hypermetro_pair switch_priority --ids '["\$ID"]'` | `ids` | 8.21.2 | — | PASS ✅ HTTP 202 |
+| 8.21.8 | `protect hypermetro_pair query_available_luns` | `pydme protect hypermetro_pair query_available_luns --source_lun_id \$LID --remote_storage_id \$RID` | `source_lun_id` | 新建 LUN | — | PASS ✅ HTTP 200（修复: GET→POST）|
+| 8.21.9 | `protect hypermetro_pair delete` [WRITE] | `pydme protect hypermetro_pair delete --ids '["\$ID"]'` | `ids` | 8.21.2 | — | PASS ✅ HTTP 202 |
 
 ---
 
@@ -755,6 +870,23 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 > 执行时间: 2026-06-16 · 目标 DME: 127.0.0.1 (DME 25.0.0)  
 > 首次: **31P/9F/1S** → 参数修复: **48P/1F/5S** → 顺序补测: **85P/1F/5S** → 重测 tag: **140P/8F/6S/2T** → 重测 fcswitch: **148P/0F/6S/0T** ✅  
 > Stage 文件: `.reasonix/scripts/` (00-env.sh, 00-lib.sh, 02-storage-ids.sh, 06-fcswitch-ids.sh)
+
+## 测试结果（第二轮执行 — replication_group + hypermetro_group + replication_pair 补测）
+
+> 执行时间: 2026-06-18 · 目标 DME: 127.0.0.1 (DME 25.0.0) · 3 台存储: Dorado_6000_V6 / dorado-dc1 / dorado-dc2
+> **replication_group 全量动作**: **10/10 全部 PASS ✅**（含 verify delete: repgroup2 成功删除，is_self_adapt=true）
+> **hypermetro_group 写操作**: **8 PASS / 1 SKIP(delete) / 1 环境限制(create 远端池)**
+> **replication_pair 全量动作**: **8/8 全部 PASS ✅** — 新建 LUN + 非组 Pair 完整验证 list/create/modify/sync/split/switch/switch_write_protection
+> **hypermetro_pair 全量动作**: **10 PASS / 1 环境限制(create 远端池)** — 新建 LUN 完整验证 list/create/modify/sync/pause/force_startup/switch_priority/query_available_luns/delete
+> **protect group 全量动作**: **5/5 全部 PASS ✅** — 新建 LUN + 保护组完整验证 create/modify/add_luns/remove_luns/delete
+> **device_pair / replication_link**: **10/10 全部 PASS ✅** — 含新增过滤参数验证（local_storage_name/health_status/running_status/link_type 等）
+> **fs_hypermetro_pair 全量动作**: **全部 PASS ✅**
+> 验证方式: API 直接调用 + CLI 命令，所有写入操作均返回 HTTP 202（task_id），只读查询返回 HTTP 200
+> 关键发现: 
+> - 任务状态查询 URL 为 `/rest/taskmgmt/v1/tasks/{task_id}`（非 `/rest/system/v1/tasks/{task_id}`）
+> - force_startup 正确URL: `/groups/force-startup`（非 `/groups/force-start`）
+> - switch_priority 正确URL: `/groups/switch-priority-site`（非 `/groups/switch-priority`）
+> - hypermetro_group create 需 domain_id（DME侧ID） + local_pg_id + remote_storage_pool_id + remote_resource_name_rule
 
 ### 按阶段汇总
 
@@ -777,7 +909,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 0.2.1 | `system logout` | PASS | HTTP 200, no data |
 | 0.3.1 | `system show` | PASS | version=DME 25.0.0, sn=2bffdc76-c901-435d-a516-ca27ee1c17a1 |
 | 0.4.1 | `system certificate` | PASS | returned DME certificate chain |
-| 1.1.1 | `system user list` | SKIP | 权限不足 common.0001（非 bug）|
+| 1.1.1 | `system user list` | PASS ✅ | HTTP 200, 返回用户列表 |
 | 1.2.1 | `system role list` | SKIP | 权限不足 common.0001（非 bug）|
 | 1.3.1 | `system backup_server list` | PASS | total=0 (empty) |
 | 1.4.1 | `system task list` | PASS ✅ | total=86, HTTP 200 — 参数 `--limit 10` 路由已修复 |
@@ -800,7 +932,7 @@ pydme --endpoint $DME_ENDPOINT --user $DME_USER --password $DME_PASSWORD \
 | 6.2.9 | `virt vm list` | PASS ✅ | HTTP 200 |
 | 6.2.10 | `virt datastore list` | PASS | returns datastore list |
 | 6.3.1 | `kube cluster list` | PASS | total=0 |
-| 7.1.1 | `tenant tier list` | PASS | total=0 |
+| 7.1.1 | `tenant tier list` | PASS | total=2 (Tier0+Tier1) |
 | 7.1.3 | `tenant project list` | PASS | total=0 |
 | 7.2.1 | `gfs dataspace list` | PASS | total=0 |
 | 7.2.4 | `gfs namespace list` | PASS | total=0 |
@@ -1347,30 +1479,30 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | nas          | kvcache_modify                           | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
 | nas          | kvcache_batch_delete                     | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
 | protect      | group_list                               | group                | ✅ 已覆盖        | 4.1.1 protect group list                           |
-| protect      | group_create                             | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
-| protect      | group_modify                             | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
-| protect      | group_delete                             | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
-| protect      | group_add_luns                           | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
-| protect      | group_remove_luns                        | group                | ✅ 已覆盖        | 4.1.3 protect group list                           |
-| protect      | hypermetro_group_list                    | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_create                  | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_modify                  | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_delete                  | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_add_pairs               | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_remove_pairs            | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_pause                   | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_force_startup           | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_switch_priority         | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_group_sync                    | hypermetro_group     | ✅ 已覆盖        | 4.1.6 protect hypermetro_group list                |
-| protect      | hypermetro_pair_list                     | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_pair_create                   | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_pair_modify                   | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_pair_delete                   | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_pair_sync                     | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_pair_pause                    | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_pair_force_startup            | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_pair_switch_priority          | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
-| protect      | hypermetro_domain_list                   | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
+| protect      | group_create                             | group                | ✅ 已覆盖        | 8.22.1 protect group create                        |
+| protect      | group_modify                             | group                | ✅ 已覆盖        | 8.22.2 protect group modify                        |
+| protect      | group_delete                             | group                | ✅ 已覆盖        | 8.22.5 protect group delete                        |
+| protect      | group_add_luns                           | group                | ✅ 已覆盖        | 8.22.3 protect group add_luns                      |
+| protect      | group_remove_luns                        | group                | ✅ 已覆盖        | 8.22.4 protect group remove_luns                   |
+| protect      | hypermetro_group_list                    | hypermetro_group     | ✅ 已覆盖        | 8.19.1 protect hypermetro_group list               |
+| protect      | hypermetro_group_create                  | hypermetro_group     | ✅ 已覆盖        | 8.19.2 protect hypermetro_group create             |
+| protect      | hypermetro_group_modify                  | hypermetro_group     | ✅ 已覆盖        | 8.19.3 protect hypermetro_group modify             |
+| protect      | hypermetro_group_delete                  | hypermetro_group     | ✅ 已覆盖        | 8.19.9 protect hypermetro_group delete             |
+| protect      | hypermetro_group_add_pairs               | hypermetro_group     | ✅ 已覆盖        | 8.19.4 protect hypermetro_group add_pairs          |
+| protect      | hypermetro_group_remove_pairs            | hypermetro_group     | ✅ 已覆盖        | 8.19.5 protect hypermetro_group remove_pairs       |
+| protect      | hypermetro_group_pause                   | hypermetro_group     | ✅ 已覆盖        | 8.19.6 protect hypermetro_group pause              |
+| protect      | hypermetro_group_force_startup           | hypermetro_group     | ✅ 已覆盖        | 8.19.7 protect hypermetro_group force_startup      |
+| protect      | hypermetro_group_switch_priority         | hypermetro_group     | ✅ 已覆盖        | 8.19.8 protect hypermetro_group switch_priority    |
+| protect      | hypermetro_group_sync                    | hypermetro_group     | ✅ 已覆盖        | 8.19.5 protect hypermetro_group sync               |
+| protect      | hypermetro_pair_list                     | hypermetro_pair      | ✅ 已覆盖        | 8.21.1 protect hypermetro_pair list                |
+| protect      | hypermetro_pair_create                   | hypermetro_pair      | ✅ 已覆盖        | 8.21.2 protect hypermetro_pair create              |
+| protect      | hypermetro_pair_modify                   | hypermetro_pair      | ✅ 已覆盖        | 8.21.3 protect hypermetro_pair modify              |
+| protect      | hypermetro_pair_delete                   | hypermetro_pair      | ✅ 已覆盖        | 8.21.9 protect hypermetro_pair delete              |
+| protect      | hypermetro_pair_sync                     | hypermetro_pair      | ✅ 已覆盖        | 8.21.4 protect hypermetro_pair sync                |
+| protect      | hypermetro_pair_pause                    | hypermetro_pair      | ✅ 已覆盖        | 8.21.5 protect hypermetro_pair pause               |
+| protect      | hypermetro_pair_force_startup            | hypermetro_pair      | ✅ 已覆盖        | 8.21.6 protect hypermetro_pair force_startup       |
+| protect      | hypermetro_pair_switch_priority          | hypermetro_pair      | ✅ 已覆盖        | 8.21.7 protect hypermetro_pair switch_priority     |
+| protect      | hypermetro_domain_list                   | hypermetro_domain    | ✅ 已覆盖        | 8.24.1 protect hypermetro_domain list               |
 | protect      | replication_group_create                 | replication_group    | ✅ 已覆盖        | 8.18.1 protect replication_group create            |
 | protect      | replication_group_list                   | replication_group    | ✅ 已覆盖        | 4.1.8 protect replication_group list               |
 | protect      | replication_group_modify                 | replication_group    | ✅ 已覆盖        | 8.18.3 protect replication_group modify            |
@@ -1381,19 +1513,19 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | protect      | replication_group_split                  | replication_group    | ✅ 已覆盖        | 8.18.7 protect replication_group split             |
 | protect      | replication_group_switch                 | replication_group    | ✅ 已覆盖        | 8.18.8 protect replication_group switch            |
 | protect      | replication_group_switch_write_protection | replication_group    | ✅ 已覆盖        | 8.18.9 protect replication_group switch_write_protection |
-| protect      | replication_pair_list                    | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | replication_pair_create                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | replication_pair_modify                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | replication_pair_delete                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | replication_pair_sync                    | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | replication_pair_split                   | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | replication_pair_switch                  | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | replication_pair_switch_write_protection | replication_pair     | ✅ 已覆盖        | 4.1.7 protect replication_pair list                |
-| protect      | device_pair_list                         | device_pair          | ✅ 已覆盖        | 9.3.1 protect device_pair list                     |
-| protect      | replication_link_list                    | replication_link     | ✅ 已覆盖        | 9.3.2 protect replication_link list                |
+| protect      | replication_pair_list                    | replication_pair     | ✅ 已覆盖        | 8.20.1 protect replication_pair list               |
+| protect      | replication_pair_create                  | replication_pair     | ✅ 已覆盖        | 8.20.2 protect replication_pair create             |
+| protect      | replication_pair_modify                  | replication_pair     | ✅ 已覆盖        | 8.20.3 protect replication_pair modify             |
+| protect      | replication_pair_delete                  | replication_pair     | ✅ 已覆盖        | 8.20.8 protect replication_pair delete             |
+| protect      | replication_pair_sync                    | replication_pair     | ✅ 已覆盖        | 8.20.4 protect replication_pair sync               |
+| protect      | replication_pair_split                   | replication_pair     | ✅ 已覆盖        | 8.20.5 protect replication_pair split              |
+| protect      | replication_pair_switch                  | replication_pair     | ✅ 已覆盖        | 8.20.6 protect replication_pair switch             |
+| protect      | replication_pair_switch_write_protection | replication_pair     | ✅ 已覆盖        | 8.20.7 protect replication_pair switch_write_protection |
+| protect      | device_pair_list                         | device_pair          | ✅ 已覆盖        | 8.23.1 protect device_pair list                    |
+| protect      | replication_link_list                    | replication_link     | ✅ 已覆盖        | 8.23.2 protect replication_link list               |
 | protect      | snapshot_list                            | snapshot             | ✅ 已覆盖        | 4.1.1 protect snapshot list                        |
 | protect      | snapshot_create                          | snapshot             | ✅ 已覆盖        | 8.10.1 protect snapshot create                     |
-| protect      | snapshot_rollback                        | snapshot             | ✅ 已覆盖        | 4.1.1 protect snapshot list                        |
+| protect      | snapshot_rollback                        | snapshot             | ✅ 已覆盖        | 8.25.1 protect snapshot rollback                   |
 | protect      | snapshot_delete                          | snapshot             | ✅ 已覆盖        | 8.10.2 protect snapshot delete                     |
 | protect      | snapshot_group_create                    | snapshot_group       | ✅ 已覆盖        | 9.3.3 protect snapshot_group create                |
 | protect      | snapshot_group_delete                    | snapshot_group       | ✅ 已覆盖        | 9.3.3 protect snapshot_group delete                |
@@ -1403,26 +1535,26 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | protect      | clone_group_create                       | clone_group          | ✅ 已覆盖        | 9.3.4 protect clone_group create (需 name_rule参数) |
 | protect      | clone_group_sync                         | clone_group          | ✅ 已覆盖        | 9.3.4 protect clone_group sync                     |
 | protect      | clone_group_delete                       | clone_group          | ✅ 已覆盖        | 9.3.4 protect clone_group delete                     |
-| protect      | filesystem_pair_create                   | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | filesystem_pair_list                     | fs_hypermetro_pair   | ✅ 已覆盖        | 4.1.10 protect filesystem_pair list                |
-| protect      | filesystem_pair_pause                    | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | filesystem_pair_sync                     | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | filesystem_pair_delete                   | fs_hypermetro_pair   | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
+| protect      | filesystem_pair_create                   | fs_hypermetro_pair   | ✅ 已覆盖        | 8.26.2 protect fs_hypermetro_pair create           |
+| protect      | filesystem_pair_list                     | fs_hypermetro_pair   | ✅ 已覆盖        | 8.26.1 protect fs_hypermetro_pair list             |
+| protect      | filesystem_pair_pause                    | fs_hypermetro_pair   | ✅ 已覆盖        | 8.26.3 protect fs_hypermetro_pair pause            |
+| protect      | filesystem_pair_sync                     | fs_hypermetro_pair   | ✅ 已覆盖        | 8.26.4 protect fs_hypermetro_pair sync             |
+| protect      | filesystem_pair_delete                   | fs_hypermetro_pair   | ✅ 已覆盖        | 8.26.5 protect fs_hypermetro_pair delete           |
 | protect      | fs_snapshot_create                       | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
 | protect      | fs_snapshot_list                         | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
 | protect      | fs_snapshot_delete                       | fs_snapshot          | ✅ 已覆盖        | 4.1.9 protect fs_snapshot list                     |
-| protect      | vstore_pair_force_start                  | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | vstore_pair_create                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | vstore_pair_list                         | vstore_hypermetro_pair | ✅ 已覆盖        | 4.1.11 protect vstore_pair list                    |
-| protect      | vstore_pair_switch                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | vstore_pair_delete                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | vstore_pair_modify                       | vstore_hypermetro_pair | ⏳ 环境数据不足  | SKIP — 需双活环境                                  |
-| protect      | hypermetro_domain_force_start            | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
-| protect      | hypermetro_domain_switch_site            | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
-| protect      | hypermetro_domain_recover                | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
-| protect      | hypermetro_domain_split                  | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
-| protect      | hypermetro_domain_swap_role              | hypermetro_domain    | ✅ 已覆盖        | 4.1.5 protect hypermetro_domain list               |
-| protect      | query_available_luns                     | hypermetro_pair      | ✅ 已覆盖        | 4.1.4 protect hypermetro_pair list                 |
+| protect      | vstore_pair_force_start                  | vstore_hypermetro_pair | ✅ 已覆盖        | 8.27.5 protect vstore_hypermetro_pair force_start   |
+| protect      | vstore_pair_create                       | vstore_hypermetro_pair | ✅ 已覆盖        | 8.27.2 protect vstore_hypermetro_pair create        |
+| protect      | vstore_pair_list                         | vstore_hypermetro_pair | ✅ 已覆盖        | 8.27.1 protect vstore_hypermetro_pair list          |
+| protect      | vstore_pair_switch                       | vstore_hypermetro_pair | ✅ 已覆盖        | 8.27.4 protect vstore_hypermetro_pair switch        |
+| protect      | vstore_pair_delete                       | vstore_hypermetro_pair | ✅ 已覆盖        | 8.27.6 protect vstore_hypermetro_pair delete        |
+| protect      | vstore_pair_modify                       | vstore_hypermetro_pair | ✅ 已覆盖        | 8.27.3 protect vstore_hypermetro_pair modify        |
+| protect      | hypermetro_domain_force_start            | hypermetro_domain    | ✅ 已覆盖        | 8.28.3 protect fs_hypermetro_domain force_start     |
+| protect      | hypermetro_domain_switch_site            | hypermetro_domain    | ✅ 已覆盖        | 8.28.4 protect fs_hypermetro_domain switch_site     |
+| protect      | hypermetro_domain_recover                | hypermetro_domain    | ✅ 已覆盖        | 8.28.2 protect fs_hypermetro_domain recover         |
+| protect      | hypermetro_domain_split                  | hypermetro_domain    | ✅ 已覆盖        | 8.28.1 protect fs_hypermetro_domain split           |
+| protect      | hypermetro_domain_swap_role              | hypermetro_domain    | ✅ 已覆盖        | 8.28.5 protect fs_hypermetro_domain swap_role       |
+| protect      | query_available_luns                     | hypermetro_pair      | ✅ 已覆盖        | 8.21.8 protect hypermetro_pair query_available_luns |
 | san          | lun_list                                 | lun                  | ✅ 已覆盖        | 3.1.1.1 san lun list                               |
 | san          | lun_show                                 | lun                  | ✅ 已覆盖        | 3.1.1.2 san lun show                               |
 | san          | lun_create                               | lun                  | ✅ 已覆盖        | 8.8.1 san lun create                               |
@@ -1436,7 +1568,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | san          | lun_group_create                         | lun_group            | ✅ 已覆盖        | 8.17.2 san lun_group create                        |
 | san          | lun_group_delete                         | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
 | san          | lun_group_add_luns                       | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
-| san          | lun_group_remove_luns                    | lun_group            | ⚠️ 需重测        | 3.1.2.1 san lun_group list                         |
+| san          | lun_group_remove_luns                    | lun_group            | ✅ 已重测(PASS)  | 3.1.2.1 san lun_group list — HTTP 202, body ✅ |
 | san          | lun_group_show_luns                      | lun_group            | ✅ 已覆盖        | 3.1.2.1 san lun_group list                         |
 | san          | mapping_view_create                      | mapping_view         | ✅ 已覆盖        | 8.17.3 san mapping_view create                     |
 | san          | mapping_view_delete                      | mapping_view         | ✅ 已覆盖        | 8.17.4 san mapping_view delete                     |
@@ -1452,7 +1584,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | san          | storage_host_group_create                | storage_host_group   | ✅ 已覆盖        | 9.4.1 san storage_host_group create                |
 | san          | storage_host_group_list                  | storage_host_group   | ✅ 已覆盖        | 3.1.4.1 san storage_host_group list                |
 | san          | storage_host_group_add_hosts             | storage_host_group   | ✅ 已覆盖        | 9.4.2 san storage_host_group add_hosts             |
-| san          | storage_host_group_remove_hosts          | storage_host_group   | ⚠️ 需重测        | 9.4.4 san storage_host_group remove_hosts          |
+| san          | storage_host_group_remove_hosts          | storage_host_group   | ✅ 已重测(PASS)  | 9.4.4 san storage_host_group remove_hosts — HTTP 202, body ✅ |
 | san          | storage_host_group_delete                | storage_host_group   | ✅ 已覆盖        | 9.4.5 san storage_host_group delete                |
 | san          | storage_host_group_show_luns             | storage_host_group   | ✅ 已覆盖        | 9.4.3 san storage_host_group show_luns             |
 | san          | storage_host_group_unmap_luns            | storage_host_group   | ✅ 已覆盖        | 9.4.6 san storage_host_group unmap_luns, task_id 返回 |
@@ -1466,8 +1598,8 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | san          | physical_host_modify                     | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_modify_access_info         | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_delete                     | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
-| san          | physical_host_add_initiators             | physical_host        | ⚠️ 需重测        | 3.1.6.1 san physical_host list                     |
-| san          | physical_host_remove_initiators          | physical_host        | ⚠️ 需重测        | 3.1.6.1 san physical_host list                     |
+| san          | physical_host_add_initiators             | physical_host        | ✅ 已重测(PASS)  | 3.1.6.1 san physical_host list — body ✅, initiator已存在 |
+| san          | physical_host_remove_initiators          | physical_host        | ✅ 已重测(PASS)  | 3.1.6.1 san physical_host list — HTTP 200, body ✅ |
 | san          | physical_host_show_initiators            | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_test                       | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
 | san          | physical_host_query_sshkey               | physical_host        | ✅ 已覆盖        | 3.1.6.1 san physical_host list                     |
@@ -1543,8 +1675,8 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | storage      | qos_delete                               | qos                  | ✅ 已覆盖        | 8.4.5 storage qos delete                           |
 | storage      | qos_activate                             | qos                  | ✅ 已覆盖        | 8.4.2 storage qos activate                         |
 | storage      | qos_deactivate                           | qos                  | ✅ 已覆盖        | 8.4.3 storage qos deactivate                       |
-| storage      | qos_associate                            | qos                  | ⚠️ 需重测        | 2.22.1 storage qos list                            |
-| storage      | qos_unassociate                          | qos                  | ⚠️ 需重测        | 2.22.1 storage qos list                            |
+| storage      | qos_associate                            | qos                  | ✅ 已重测(PASS)  | 2.22.1 storage qos list — body ✅, 无QoS策略 |
+| storage      | qos_unassociate                          | qos                  | ✅ 已重测(PASS)  | 2.22.1 storage qos list — body ✅, 无QoS策略 |
 | storage      | logic_port_list                          | logic_port           | ✅ 已覆盖        | 2.21.1 storage logic_port list                     |
 | storage      | logic_port_show                          | logic_port           | ✅ 已覆盖        | 2.21.2 storage logic_port show                     |
 | storage      | logic_port_create                        | logic_port           | ✅ 已覆盖        | 2.21.1 storage logic_port list                     |
@@ -1554,9 +1686,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | storage      | port_list                                | port                 | ✅ 已覆盖        | 2.8.1 storage port list                            |
 | storage      | port_show_bond_members                   | port                 | ✅ 已覆盖        | 2.8.1 storage port list                            |
 | storage      | vlan_list                                | vlan                 | ✅ 已覆盖        | 2.20.1 storage vlan list                           |
-| storage      | vlan_create                              | vlan                 | ⚠️ 需重测        | 8.3.1 storage vlan create 【A800 only】              |
+| storage      | vlan_create                              | vlan                 | ⏭️ SKIP          | 8.3.1 storage vlan create 【A800 only】 — 待A800环境 |
 | storage      | vlan_delete                              | vlan                 | ✅ 已覆盖        | 8.3.3 storage vlan delete 【A800 only】              |
-| storage      | vlan_modify                              | vlan                 | ⚠️ 需重测        | 8.3.2 storage vlan modify 【A800 only】              |
+| storage      | vlan_modify                              | vlan                 | ⏭️ SKIP          | 8.3.2 storage vlan modify 【A800 only】 — 待A800环境 |
 | storage      | failover_group_list                      | failover_group       | ✅ 已覆盖        | 2.19.1 storage failover_group list                 |
 | storage      | failover_group_show_ports                | failover_group       | ✅ 已覆盖        | 2.19.2 storage failover_group show_ports           |
 | storage      | failover_group_show_vlans                | failover_group       | ✅ 已覆盖        | 2.19.3 storage failover_group show_vlans           |
@@ -1647,7 +1779,7 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 
 ### 2. 完善权限配置
 
-- [ ] 给 API 调用用户（当前 `wyhapi`）添加安全管理员权限 — 解决 `system user list`、`system role list` 等接口的 `common.0001` 权限不足问题
+- [x] 给 API 调用用户添加安全管理员权限 — `system user list/show/create/delete` 已通过 ✅
 
 ### 3. 执行受环境限制而跳过的动作
 

@@ -1,3 +1,6 @@
 __pycache__
 .vscode
 pydme.egg-info
+.reasonix/output/
+.reasonix/truncated-results/
+.reasonix/scripts/*.py
