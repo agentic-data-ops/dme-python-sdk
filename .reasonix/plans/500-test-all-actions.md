@@ -1341,19 +1341,19 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | aiops        | alarm_clear                              | alarm                | ✅ 已覆盖        | 7.6.1.1 aiops alarm list                           |
 | aiops        | diagnose_task_create                     | diagnose_task        | ✅ 已覆盖        | 9.6.1 LUN gq-fcsan, highReadLatency                 |
 | aiops        | diagnose_task_status                     | diagnose_task        | ✅ 已覆盖        | 7.6.1.6 aiops diagnose task_status                 |
-| aiops        | performance_create_collect_task          | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
-| aiops        | performance_download_collect_result      | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
-| aiops        | performance_query                        | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
-| aiops        | performance_show_indicators              | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
-| aiops        | performance_list_indicators              | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_create_collect_task          | performance          | ⏳ 待执行        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_download_collect_result      | performance          | ⏳ 待执行        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_query                        | performance          | ⏳ 待执行        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_show_indicators              | performance          | ⏳ 待执行        | 7.6.1.3 aiops performance list_object_types        |
+| aiops        | performance_list_indicators              | performance          | ⏳ 待执行        | 7.6.1.3 aiops performance list_object_types        |
 | aiops        | performance_list_object_types            | performance          | ✅ 已覆盖        | 7.6.1.3 aiops performance list_object_types        |
 | aiops        | check_result_list                        | check_result         | ✅ 已覆盖        | 9.6.3 aiops check_result list, total=3897          |
 | aiops        | check_result_show                        | check_result         | ✅ 已覆盖        | 9.6.4 aiops check_result show, detail 字段完整     |
 | aiops        | check_policy_list                        | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
-| aiops        | check_policy_execute                     | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
-| aiops        | check_policy_enable                      | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
-| aiops        | check_policy_disable                     | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
-| aiops        | check_policy_delete                      | check_policy         | ✅ 已覆盖        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_execute                     | check_policy         | ⏳ 待执行        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_enable                      | check_policy         | ⏳ 待执行        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_disable                     | check_policy         | ⏳ 待执行        | 7.6.1.2 aiops check_policy list                    |
+| aiops        | check_policy_delete                      | check_policy         | ⏳ 待执行        | 7.6.1.2 aiops check_policy list                    |
 | aiops        | topology_query_san_path                  | topology             | ✅ 已覆盖        | 7.6.1.4a aiops topology query_san_path             |
 | aiops        | topology_query_luns                      | topology             | ✅ 已覆盖        | 7.6.1.4b aiops topology query_luns                 |
 | aiops        | topology_query_vms                       | topology             | ✅ 已覆盖        | 7.6.1.4c aiops topology query_vms                  |
@@ -1393,10 +1393,10 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | gfs          | namespace_delete                         | namespace            | ✅ 已覆盖        | 8.11.3 gfs namespace delete                        |
 | gfs          | migration_task_list                      | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
 | gfs          | migration_task_show                      | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
-| gfs          | migration_task_create                    | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
-| gfs          | migration_task_modify                    | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
-| gfs          | migration_task_delete                    | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
-| gfs          | migration_task_operate                   | migration_task       | ✅ 已覆盖        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_create                    | migration_task       | ⏳ 待执行        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_modify                    | migration_task       | ⏳ 待执行        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_delete                    | migration_task       | ⏳ 待执行        | 7.2.6 gfs migration_task list                      |
+| gfs          | migration_task_operate                   | migration_task       | ⏳ 待执行        | 7.2.6 gfs migration_task list                      |
 | integrate    | cmdb_system_list                         | cmdb                 | ✅ 已覆盖        | 7.4.1 integrate cmdb system_list                   |
 | integrate    | cmdb_host_list                           | cmdb                 | ✅ 已覆盖        | 7.4.2 integrate cmdb host_list                     |
 | integrate    | cmdb_host_show                           | cmdb                 | ✅ 已覆盖        | 7.4.3 integrate cmdb host_show                     |
@@ -1410,11 +1410,11 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | ipswitch     | fan_list                                 | fan                  | ✅ 已覆盖        | 5.2.6 ipswitch fan list                            |
 | ipswitch     | port_list                                | port                 | ✅ 已覆盖        | 5.2.7 ipswitch port list                           |
 | kube         | cluster_list                             | cluster              | ✅ 已覆盖        | 6.3.1 kube cluster list                            |
-| kube         | node_list                                | node                 | ✅ 已覆盖        | 6.3.2 kube node list                               |
-| kube         | pod_list                                 | pod                  | ✅ 已覆盖        | 6.3.4 kube pod list                                |
-| kube         | namespace_list                           | namespace            | ✅ 已覆盖        | 6.3.3 kube namespace list                          |
-| kube         | pvc_list                                 | pvc                  | ✅ 已覆盖        | 6.3.5 kube pvc list                                |
-| kube         | pv_list                                  | pv                   | ✅ 已覆盖        | 6.3.6 kube pv list                                 |
+| kube         | node_list                                | node                 | ⏳ 待执行        | 6.3.2 kube node list                               |
+| kube         | pod_list                                 | pod                  | ⏳ 待执行        | 6.3.4 kube pod list                                |
+| kube         | namespace_list                           | namespace            | ⏳ 待执行        | 6.3.3 kube namespace list                          |
+| kube         | pvc_list                                 | pvc                  | ⏳ 待执行        | 6.3.5 kube pvc list                                |
+| kube         | pv_list                                  | pv                   | ⏳ 待执行        | 6.3.6 kube pv list                                 |
 | nas          | account_dataturbo_admin_list             | account              | ✅ 已覆盖        | 9.1.1 nas account_dataturbo_admin list             |
 | nas          | account_unix_user_create                 | account              | ✅ 已覆盖        | 9.1.4 nas account_unix_user create (Pacific, raw_id) |
 | nas          | account_unix_user_add_group              | account              | ✅ 已覆盖        | 9.1.6 nas account_unix_user add_group              |
@@ -1431,20 +1431,20 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | nas          | dtree_list                               | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
 | nas          | dtree_show                               | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
 | nas          | dtree_create                             | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
-| nas          | dtree_delete                             | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
-| nas          | dtree_modify                             | dtree                | ✅ 已覆盖        | 3.2.5.1 nas dtree list                             |
+| nas          | dtree_delete                             | dtree                | ⏳ 待执行        | 3.2.5.1 nas dtree list                             |
+| nas          | dtree_modify                             | dtree                | ⏳ 待执行        | 3.2.5.1 nas dtree list                             |
 | nas          | nfs_share_list                           | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
 | nas          | nfs_share_show                           | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
 | nas          | nfs_share_create                         | nfs_share            | ✅ 已覆盖        | 8.9.2 nas nfs_share create                         |
-| nas          | nfs_share_modify                         | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
-| nas          | nfs_share_delete                         | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
-| nas          | nfs_share_show_clients                   | nfs_share            | ✅ 已覆盖        | 3.2.2.1 nas nfs_share list                         |
+| nas          | nfs_share_modify                         | nfs_share            | ⏳ 待执行        | 3.2.2.1 nas nfs_share list                         |
+| nas          | nfs_share_delete                         | nfs_share            | ⏳ 待执行        | 3.2.2.1 nas nfs_share list                         |
+| nas          | nfs_share_show_clients                   | nfs_share            | ⏳ 待执行        | 3.2.2.1 nas nfs_share list                         |
 | nas          | cifs_share_list                          | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
 | nas          | cifs_share_show                          | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
 | nas          | cifs_share_create                        | cifs_share           | ✅ 已覆盖        | 8.9.3 nas cifs_share create                        |
-| nas          | cifs_share_modify                        | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
-| nas          | cifs_share_delete                        | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
-| nas          | cifs_share_show_permissions              | cifs_share           | ✅ 已覆盖        | 3.2.3.1 nas cifs_share list                        |
+| nas          | cifs_share_modify                        | cifs_share           | ⏳ 待执行        | 3.2.3.1 nas cifs_share list                        |
+| nas          | cifs_share_delete                        | cifs_share           | ⏳ 待执行        | 3.2.3.1 nas cifs_share list                        |
+| nas          | cifs_share_show_permissions              | cifs_share           | ⏳ 待执行        | 3.2.3.1 nas cifs_share list                        |
 | nas          | dataturbo_share_list                     | dataturbo_share      | ✅ 已覆盖        | 9.2.3 nas dataturbo_share list                     |
 | nas          | dataturbo_share_show                     | dataturbo_share      | ⏳ 环境数据不足  | SKIP — 需 Pacific DataTurbo 环境数据              |
 | nas          | dataturbo_share_create                   | dataturbo_share      | ⏳ 环境数据不足  | SKIP — 需 Pacific DataTurbo 环境数据              |
@@ -1454,15 +1454,15 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | nas          | quota_list                               | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
 | nas          | quota_show                               | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
 | nas          | quota_create                             | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
-| nas          | quota_modify                             | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
-| nas          | quota_delete                             | quota                | ✅ 已覆盖        | 3.2.4.1 nas quota list                             |
+| nas          | quota_modify                             | quota                | ⏳ 待执行        | 3.2.4.1 nas quota list                             |
+| nas          | quota_delete                             | quota                | ⏳ 待执行        | 3.2.4.1 nas quota list                             |
 | nas          | filesystem_list                          | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
 | nas          | filesystem_show                          | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
 | nas          | filesystem_delete                        | filesystem           | ✅ 已覆盖        | 8.9.4 nas filesystem delete                        |
-| nas          | filesystem_batch_modify                  | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
+| nas          | filesystem_batch_modify                  | filesystem           | ⏳ 待执行        | 3.2.1.1 nas filesystem list                        |
 | nas          | filesystem_create                        | filesystem           | ✅ 已覆盖        | 8.9.1 nas filesystem create                        |
 | nas          | filesystem_query_available               | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
-| nas          | filesystem_modify                        | filesystem           | ✅ 已覆盖        | 3.2.1.1 nas filesystem list                        |
+| nas          | filesystem_modify                        | filesystem           | ⏳ 待执行        | 3.2.1.1 nas filesystem list                        |
 | nas          | namespace_list                           | namespace            | ✅ 已覆盖        | 3.2.6.1 nas namespace list                         |
 | nas          | namespace_show                           | namespace            | ✅ 已覆盖        | 7.2.5 gfs namespace show                           |
 | nas          | namespace_create                         | namespace            | ✅ 已覆盖        | 8.11.1 gfs namespace create                        |
@@ -1473,9 +1473,9 @@ Bug 修复: `virt vm_show/datastore_show/host_show/cluster_show`, `workflow temp
 | nas          | list                                     | dpc                  | ✅ 已覆盖        | 6.1.1 server list                                  |
 | nas          | show                                     | dpc                  | ✅ 已覆盖        | 0.3.1 system show                                  |
 | nas          | kvcache_list                             | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
-| nas          | kvcache_batch_create                     | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
-| nas          | kvcache_modify                           | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
-| nas          | kvcache_batch_delete                     | kvcache              | ✅ 已覆盖        | 3.2.7.1 nas kvcache list                           |
+| nas          | kvcache_batch_create                     | kvcache              | ⏳ 待执行        | 3.2.7.1 nas kvcache list                           |
+| nas          | kvcache_modify                           | kvcache              | ⏳ 待执行        | 3.2.7.1 nas kvcache list                           |
+| nas          | kvcache_batch_delete                     | kvcache              | ⏳ 待执行        | 3.2.7.1 nas kvcache list                           |
 | protect      | group_list                               | group                | ✅ 已覆盖        | 4.1.1 protect group list                           |
 | protect      | group_create                             | group                | ✅ 已覆盖        | 8.22.1 protect group create                        |
 | protect      | group_modify                             | group                | ✅ 已覆盖        | 8.22.2 protect group modify                        |
