@@ -933,7 +933,7 @@ def main():
                 parser.print_help()
                 sys.exit(1)
 
-            # 创建客户端并登录
+            # 创建客户端
             client = DMEAPIClient(
                 endpoint=endpoint,
                 username=username,
@@ -942,7 +942,8 @@ def main():
                 timeout=args.timeout,
             )
 
-            if not auth_token:
+            # 检查客户端是否已有 token（可能从缓存加载），没有再登录
+            if not client.headers.get("X-Auth-Token"):
                 print(f"正在连接 DME: {endpoint}")
                 client.login()
 
@@ -1079,7 +1080,7 @@ def main():
             parser.print_help()
             sys.exit(1)
 
-        # 创建客户端并登录
+        # 创建客户端
         client = DMEAPIClient(
             endpoint=endpoint,
             username=username,
@@ -1088,7 +1089,8 @@ def main():
             timeout=args.timeout,
         )
 
-        if not auth_token:
+        # 检查客户端是否已有 token（可能从缓存加载），没有再登录
+        if not client.headers.get("X-Auth-Token"):
             print(f"正在连接 DME: {endpoint}")
             client.login()
 
