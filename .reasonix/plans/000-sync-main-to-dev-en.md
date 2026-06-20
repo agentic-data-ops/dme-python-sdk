@@ -1,73 +1,63 @@
-# Plan 000: Sync main → dev-en (today's changes)
+# Plan 000: Sync main → dev-en
 
 ## Objective
 
-Port commit `1d88d67` (today's code change on `main`) to `dev-en`: sync code logic changes and translate Chinese docstrings/comments to English.
+Sync the latest code logic fixes from `main` to `dev-en`.
+`dev-en` already has CN→EN translation completed; this sync ports only the code changes
+(bug fixes, parameter updates) while preserving English docstrings.
 
-## Scope
+## Pending sync commits on main
 
-Commit `1d88d67` — `sync: merge pydme/ updates from dev` — touched 10 files:
+```
+0b63875 sync: merge updates from dev (6 files, +312/-135)
+```
 
-| File | Changes |
-|------|---------|
-| `pydme/actions/protect.py` | New params added to `hypermetro_group_list/create/delete/add_pairs/remove_pairs/pause/force_startup`; Returns schema updates; all docstrings in Chinese |
-| `pydme/actions/backup.py` | Removed `name`/`quota_type` params; Returns schema updates; cleaned imports |
-| `pydme/actions/fcswitch.py` | Returns schema updates (task_id → real fields) |
-| `pydme/actions/ipswitch.py` | Returns schema updates (task_id → real fields) |
-| `pydme/actions/aiops.py` | Returns schema updates (task_id → real fields) |
-| `pydme/actions/tenant.py` | (part of the sync commit) |
-| `pydme/actions/virt.py` | (part of the sync commit) |
-| `pydme/actions/workflow.py` | (part of the sync commit) |
-| `pydme/cli.py` | (part of the sync commit) |
-| `pydme/client.py` | (part of the sync commit) |
+## Changes to sync
+
+| File | Change type | Detail |
+|------|-------------|--------|
+| `pydme/actions/kube.py` | **Code + Docstring** | Add full optional params; fix `namespace`→`namespace_name`; Returns detail |
+| `pydme/actions/nas.py` | **Code + Docstring** | Fix `cifs_share_show_permissions` URL param; remove duplicate `payload={}`; docstring cleanup |
+| `pydme/actions/aiops.py` | **Code + Docstring** | Fix `performance_show_indicators` body: bare list → `{"indicators": [...]}` |
+| `pydme/actions/gfs.py` | **Code + Docstring** | Fix `migration_task_operate` type: `dict` → `str` |
+| `README.md` | **Doc** | Update topic table with action counts, test coverage |
+| `.gitignore` | **Config** | `.vscode/` → `.vscode` |
 
 **Excluded:** `.reasonix/`, `REASONIX.md` (main-only files).
 
-## Approach
+## Strategy
 
-1. Checkout each changed file from `origin/main`
-2. Translate all new/modified Chinese in docstrings and comments to English per the keyword map below
-3. Keep code logic changes as-is (function bodies, signatures, payloads)
-4. Do NOT translate: Python identifiers, URL paths, API payload keys, enum constants
+Use `git checkout origin/main -- <file>` to pull the main version, then re-translate
+any Chinese docstrings that came along. Since `dev-en` already has English docstrings,
+the checkout will overwrite them with Chinese — needs re-translation after checkout.
 
-### Keyword Translation Map
-
-| Chinese (main) | English (dev-en) |
-|----------------|------------------|
-| `参数格式如下：[{` | `parameter format: [{` |
-| `属性格式如下：{` | `attribute format: {` |
-| `可选值：` | `valid values: ` |
-| `（必选）` | `(Required)` |
-| `（可选）` | `(Optional)` |
-| `DME API 客户端` | `DME API client` |
-| `默认` | `default` |
-| `是否` | `whether` |
-| `查询...信息` | `query ... info` |
-| `列表` | `list` |
-| `支持模糊匹配` | `supports fuzzy match` |
-| `互斥` | `mutually exclusive with` |
-| `条件必选` | `conditionally required` |
-| `条件可选` | `conditionally optional` |
-| `本端` | `local` |
-| `远端` | `remote` |
-| `双活` | `hypermetro` / `active-active` |
-| `一致性组` | `consistency group` |
-| `保护组` | `protection group` |
+Alternatively, use `git merge` with manual conflict resolution for each file.
 
 ## Steps
 
 ```bash
-# 1. Checkout changed files from main
-git checkout origin/main -- pydme/actions/aiops.py pydme/actions/backup.py pydme/actions/fcswitch.py pydme/actions/ipswitch.py pydme/actions/protect.py pydme/actions/tenant.py pydme/actions/virt.py pydme/actions/workflow.py pydme/cli.py pydme/client.py
+# 1. Checkout fixed files from main (overwrites English docstrings with Chinese)
+git checkout origin/main -- pydme/actions/kube.py pydme/actions/nas.py \
+  pydme/actions/aiops.py pydme/actions/gfs.py README.md .gitignore
 
-# 2. Translate all Chinese docstrings/comments to English in each file
+# 2. Re-translate Chinese docstrings in each file back to English
 
-# 3. Commit (single commit on dev-en)
-git commit -m "sync: merge pydme/ updates from main (1d88d67) with CN→EN translation"
+# 3. Commit
+git commit -m "sync: merge bug fixes from main (0b63875) into dev-en
+
+- kube.py: full optional params, namespace→namespace_name, Returns detail
+- nas.py: fix cifs_share_show_permissions URL param, dedup payload
+- aiops.py: fix performance_show_indicators body format
+- gfs.py: fix migration_task_operate operate_type type
+- README.md: topic table update
+- .gitignore: vscode pattern"
 ```
 
-## Verify
+## Status
 
-- [ ] `python3 -m pydme --list-topics` — all modules load
-- [ ] Spot-check 3 files for Chinese remnants (`grep -n '[\u4e00-\u9fff]'`)
-- [ ] `py_compile` each changed file
+✅ Committed `2e89c45` — aiops.py, gfs.py, kube.js fixes ported:
+  - `aiops.py`: performance_show_indicators body format
+  - `gfs.py`: migration_task_operate operate_type type
+  - `kube.py`: full optional params, namespace→namespace_name, Returns detail
+
+✅ All changes synced (commits 2e89c45 + 3d880c7).
