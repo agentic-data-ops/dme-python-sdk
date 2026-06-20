@@ -21,6 +21,52 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pydme.client import DMEAPIClient
 
 
+CACHE_DIR = os.path.expanduser("~/.config/pydme")
+CACHE_FILE = os.path.join(CACHE_DIR, "cache.json")
+
+
+def _load_cache() -> list:
+    """Load cached auth tokens from cache.json."""
+    if not os.path.isfile(CACHE_FILE):
+        return []
+    try:
+        with open(CACHE_FILE) as f:
+            data = json.load(f)
+        return data.get("dme", [])
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
+def _save_cache(entries: list):
+    """Save auth tokens to cache.json, creating directories if needed."""
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    with open(CACHE_FILE, "w") as f:
+        json.dump({"dme": entries}, f, indent=2)
+
+
+def _update_cache(endpoint: str, username: str, auth_token: str):
+    """Add or update a cached token entry for (endpoint, username)."""
+    entries = _load_cache()
+    entries = [
+        e for e in entries
+        if not (e.get("endpoint") == endpoint and e.get("username") == username)
+    ]
+    entries.append({
+        "endpoint": endpoint,
+        "username": username,
+        "auth_token": auth_token,
+    })
+    _save_cache(entries)
+
+
+def _find_cached_token(endpoint: str, username: str) -> str:
+    """Look up a cached token for (endpoint, username). Returns empty string if not found."""
+    for entry in _load_cache():
+        if entry.get("endpoint") == endpoint and entry.get("username") == username:
+            return entry.get("auth_token", "")
+    return ""
+
+
 def load_blacklist() -> Dict[str, list]:
     """
     加载风险操作黑名单。
@@ -710,6 +756,10 @@ def create_parser(cli: DMECLI) -> argparse.ArgumentParser:
                         default=os.environ.get('DME_API_AUTH_TOKEN'))
     parser.add_argument('--timeout', type=int, default=90,
                         help='API 请求超时时间（秒），默认 90 秒')
+    parser.add_argument('--cache-auth-token', action='store_true', default=True,
+                        help='缓存认证密钥到 ~/.config/pydme/cache.json（默认启用）')
+    parser.add_argument('--no-cache-auth-token', action='store_false', dest='cache_auth_token',
+                        help='禁用认证密钥缓存')
 
     # 全局选项
     parser.add_argument('--list-topics', action='store_true',
@@ -933,6 +983,12 @@ def main():
                 parser.print_help()
                 sys.exit(1)
 
+            # 尝试从缓存加载 token
+            if not auth_token and args.cache_auth_token and endpoint and username:
+                cached = _find_cached_token(endpoint, username)
+                if cached:
+                    auth_token = cached
+
             # 创建客户端
             client = DMEAPIClient(
                 endpoint=endpoint,
@@ -942,10 +998,16 @@ def main():
                 timeout=args.timeout,
             )
 
-            # 检查客户端是否已有 token（可能从缓存加载），没有再登录
+            # 检查客户端是否已有 token，没有再登录
             if not client.headers.get("X-Auth-Token"):
                 print(f"正在连接 DME: {endpoint}")
                 client.login()
+                # 登录成功后缓存 token
+                if args.cache_auth_token and endpoint and username:
+                    _update_cache(endpoint, username, client.headers.get("X-Auth-Token", ""))
+            elif auth_token and args.cache_auth_token and endpoint and username:
+                # 传入的 token（非缓存加载）写入缓存
+                _update_cache(endpoint, username, auth_token)
 
             cli.client = client
 
@@ -1080,6 +1142,12 @@ def main():
             parser.print_help()
             sys.exit(1)
 
+        # 尝试从缓存加载 token
+        if not auth_token and args.cache_auth_token and endpoint and username:
+            cached = _find_cached_token(endpoint, username)
+            if cached:
+                auth_token = cached
+
         # 创建客户端
         client = DMEAPIClient(
             endpoint=endpoint,
@@ -1089,10 +1157,16 @@ def main():
             timeout=args.timeout,
         )
 
-        # 检查客户端是否已有 token（可能从缓存加载），没有再登录
+        # 检查客户端是否已有 token，没有再登录
         if not client.headers.get("X-Auth-Token"):
             print(f"正在连接 DME: {endpoint}")
             client.login()
+            # 登录成功后缓存 token
+            if args.cache_auth_token and endpoint and username:
+                _update_cache(endpoint, username, client.headers.get("X-Auth-Token", ""))
+        elif auth_token and args.cache_auth_token and endpoint and username:
+            # 传入的 token（非缓存加载）写入缓存
+            _update_cache(endpoint, username, auth_token)
 
         cli.client = client
 

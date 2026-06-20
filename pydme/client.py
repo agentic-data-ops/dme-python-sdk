@@ -191,53 +191,6 @@ class CONST:
     TASK_QUERY_RETRY_INTERVAL = 5
 
 
-CACHE_DIR = os.path.expanduser("~/.config/pydme")
-CACHE_FILE = os.path.join(CACHE_DIR, "cache.json")
-
-
-def _load_cache() -> list:
-    """Load cached auth tokens from cache.json."""
-    if not os.path.isfile(CACHE_FILE):
-        return []
-    try:
-        with open(CACHE_FILE) as f:
-            data = json.load(f)
-        return data.get("dme", [])
-    except (json.JSONDecodeError, OSError):
-        return []
-
-
-def _save_cache(entries: list):
-    """Save auth tokens to cache.json, creating directories if needed."""
-    os.makedirs(CACHE_DIR, exist_ok=True)
-    with open(CACHE_FILE, "w") as f:
-        json.dump({"dme": entries}, f, indent=2)
-
-
-def _update_cache(endpoint: str, username: str, auth_token: str):
-    """Add or update a cached token entry for (endpoint, username)."""
-    entries = _load_cache()
-    # Remove old entry for same endpoint+username
-    entries = [
-        e for e in entries
-        if not (e.get("endpoint") == endpoint and e.get("username") == username)
-    ]
-    entries.append({
-        "endpoint": endpoint,
-        "username": username,
-        "auth_token": auth_token,
-    })
-    _save_cache(entries)
-
-
-def _find_cached_token(endpoint: str, username: str) -> str:
-    """Look up a cached token for (endpoint, username). Returns empty string if not found."""
-    for entry in _load_cache():
-        if entry.get("endpoint") == endpoint and entry.get("username") == username:
-            return entry.get("auth_token", "")
-    return ""
-
-
 class DMEAPIClient(BaseClient):
     """DME API Client"""
 
@@ -251,16 +204,7 @@ class DMEAPIClient(BaseClient):
         timeout: int = 90,
         session_timeout: int = 900,
         enable_log=True,
-        cache_auth_token: bool = True,
     ):
-        # Load token from cache if not provided and caching is enabled
-        if not auth_token and cache_auth_token and endpoint and username:
-            cached = _find_cached_token(endpoint, username)
-            if cached:
-                auth_token = cached
-                if enable_log:
-                    LOG.info("Loaded cached auth token for %s@%s", username, endpoint)
-
         headers = {
             "Content-Type": "application/json;charset=utf8",
             "Accept": "application/json",
@@ -271,13 +215,9 @@ class DMEAPIClient(BaseClient):
         self.username = username
         self.password = password
         self.storage_clients = {}
-        self.cache_auth_token = cache_auth_token
 
         if auth_token:
             self.last_accessed = time.time()
-            # Cache the provided token immediately
-            if cache_auth_token and endpoint and username:
-                _update_cache(endpoint, username, auth_token)
 
     def login(self):
         path = "/rest/plat/smapp/v1/sessions"
@@ -295,12 +235,8 @@ class DMEAPIClient(BaseClient):
             timeout=self.timeout,
         )
         if response.status_code == 200:
-            token = response.json()["accessSession"]
-            self.headers["X-Auth-Token"] = token
+            self.headers["X-Auth-Token"] = response.json()["accessSession"]
             self.last_accessed = time.time()
-            # Cache the newly acquired token
-            if self.cache_auth_token and self.endpoint and self.username:
-                _update_cache(self.endpoint, self.username, token)
         else:
             raise Exception(response.text)
 
