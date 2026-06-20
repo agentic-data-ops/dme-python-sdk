@@ -101,26 +101,26 @@ pydme storage list --limit 20
 pydme storage disk list --storage_id <id>
 ```
 
-Available topics:
+Available topics (427 actions, 98.4% test coverage):
 
-| Topic | Description |
-|-------|-------------|
-| `protect` | Data protection (protection groups/active-active/replication/snapshots/clones) |
-| `san` | SAN block storage (LUNs/mapping views/hosts/port groups) |
-| `nas` | NAS file storage (NFS/CIFS/DPC/filesystems/quotas) |
-| `storage` | Storage device management (tenants/disks/pools/ports/controllers) |
-| `system` | System management (users/tags/tasks/regions/certificates) |
-| `aiops` | AIOps (alerts/performance/health/topology) |
-| `fcswitch` | FC switch management |
-| `gfs` | Global file system (GFS) |
-| `virt` | Virtualization services (VMs/clusters/datastores) |
-| `server` | Server management (CPU/memory/RAID) |
-| `tenant` | Tenant self-service (service LUNs/project groups) |
-| `ipswitch` | IP switch management |
-| `workflow` | Workflow management |
-| `kube` | Kubernetes management |
-| `integrate` | Third-party integration (CMDB) |
-| `backup` | Backup management |
+| Topic | Description | Actions |
+|-------|-------------|:-------:|
+| `protect` | Data protection (protection groups/active-active/replication/snapshots/clones) | 77 |
+| `san` | SAN block storage (LUNs/mapping views/hosts/port groups) | 66 |
+| `storage` | Storage device management (tenants/disks/pools/ports/controllers) | 62 |
+| `nas` | NAS file storage (NFS/CIFS/filesystems/quotas/DTree) | 61 |
+| `system` | System management (users/tags/tasks/regions/certificates) | 40 |
+| `aiops` | AIOps (alerts/performance/health/topology) | 26 |
+| `fcswitch` | FC switch management | 19 |
+| `gfs` | Global file system (GFS) | 14 |
+| `virt` | Virtualization services (VMs/clusters/datastores) | 14 |
+| `server` | Server management (CPU/memory/RAID) | 10 |
+| `tenant` | Tenant self-service (service LUNs/project groups) | 10 |
+| `ipswitch` | IP switch management | 7 |
+| `workflow` | Workflow management | 7 |
+| `kube` | Kubernetes management | 6 |
+| `integrate` | Third-party integration (CMDB) | 5 |
+| `backup` | Backup management | 3 |
 
 DME connection info can also be passed via CLI arguments:
 
