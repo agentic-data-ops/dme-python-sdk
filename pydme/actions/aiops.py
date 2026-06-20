@@ -556,11 +556,10 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
     # Ensure indicators is an integer list
-    if indicators:
-        indicators = [int(i) for i in indicators]
+    indicator_ids = [int(i) for i in (indicators or [])]
 
-    # API requires passing array directly, not object
-    response = client.post(url, body=indicators)
+    # API requires body to be {"indicators": [int64, ...]}
+    response = client.post(url, body={"indicators": indicator_ids})
     return response
 
 

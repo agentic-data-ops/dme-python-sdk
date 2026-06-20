@@ -684,14 +684,14 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
     return response
 
 
-def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) -> dict:
+def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: str) -> dict:
     """
     Batch pause or start Omni-Dataverse data migration tasks
 
     Args:
         client: DME API client
         ids: Data migration task ID list
-        operate_type: Operation type, contains operate_type field, values: start, stop
+        operate_type: Operation type (Required), valid values: start, stop
 
     Returns:
         {
