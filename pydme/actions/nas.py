@@ -1056,7 +1056,7 @@ def cifs_share_create(client: DMEAPIClient, create_cifs_param: dict, fs_id: str 
                 unencrypted_access: 是否允许未加密客户端访问 (可选),
                 enable_lease: 是否开启租约锁定开关 (可选),
              }
-        fs_id: 文件系统的 ID，与 namespace_id 互斥
+        fs_id: 文件系统的 ID，与 namespace_id 互斥（此参数为顶层请求参数，不在 create_cifs_param 内部）
         namespace_id: 命名空间的 ID，与 fs_id 互斥
         task_remarks: 异步任务备注信息
 
@@ -1298,20 +1298,11 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
             payload['sort_key'] = sort_key
         if sort_dir is not None:
             payload['sort_dir'] = sort_dir
-        payload = {}
-        if user_filter is not None:
-            for key, value in user_filter.items():
-                if value is not None:
-                    payload[key] = value
-        if sort_key is not None:
-            payload['sort_key'] = sort_key
-        if sort_dir is not None:
-            payload['sort_dir'] = sort_dir
         if page_no is not None:
             payload['page_no'] = page_no
         if page_size is not None:
             payload['page_size'] = page_size
-        response = client.post(url, body=payload)
+        response = client.post(url, body=payload, params={"cifs_share_id": cifs_share_id})
         if response.get('auth_users'):
             result['user'] = response.get('auth_users')
 
@@ -1326,20 +1317,11 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
             payload['sort_key'] = sort_key
         if sort_dir is not None:
             payload['sort_dir'] = sort_dir
-        payload = {}
-        if ip_filter is not None:
-            for key, value in ip_filter.items():
-                if value is not None:
-                    payload[key] = value
-        if sort_key is not None:
-            payload['sort_key'] = sort_key
-        if sort_dir is not None:
-            payload['sort_dir'] = sort_dir
         if page_no is not None:
             payload['page_no'] = page_no
         if page_size is not None:
             payload['page_size'] = page_size
-        response = client.post(url, body=payload)
+        response = client.post(url, body=payload, params={"cifs_share_id": cifs_share_id})
         if response.get('ip_access_rules'):
             result['ip'] = response.get('ip_access_rules')
 
@@ -1354,20 +1336,11 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
             payload['sort_key'] = sort_key
         if sort_dir is not None:
             payload['sort_dir'] = sort_dir
-        payload = {}
-        if file_filter is not None:
-            for key, value in file_filter.items():
-                if value is not None:
-                    payload[key] = value
-        if sort_key is not None:
-            payload['sort_key'] = sort_key
-        if sort_dir is not None:
-            payload['sort_dir'] = sort_dir
         if page_no is not None:
             payload['page_no'] = page_no
         if page_size is not None:
             payload['page_size'] = page_size
-        response = client.post(url, body=payload)
+        response = client.post(url, body=payload, params={"cifs_share_id": cifs_share_id})
         if response.get('file_filter_rules'):
             result['file'] = response.get('file_filter_rules')
 

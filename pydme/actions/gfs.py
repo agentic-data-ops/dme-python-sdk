@@ -684,14 +684,14 @@ def migration_task_delete(client: DMEAPIClient, ids: list) -> dict:
     return response
 
 
-def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: dict) -> dict:
+def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: str) -> dict:
     """
     批量暂停或者启动 Omni-Dataverse 数据迁移任务
 
     Args:
         client: DME API 客户端
         ids: 数据迁移任务 ID 列表
-        operate_type: 操作类型，包含 operate_type 字段，取值 start(启动), stop(停止)
+        operate_type: 操作类型 (必选)，可选值：start(启动), stop(停止)
 
     Returns:
         {

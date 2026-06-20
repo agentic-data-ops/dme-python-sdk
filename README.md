@@ -12,7 +12,7 @@
 ├── pydme/                  # Python 包
 │   ├── client.py           # DME API 客户端
 │   ├── cli.py              # 命令行接口
-│   └── actions/            # 动作模块（每个主题一个文件）
+│   └── actions/            # 动作模块（每个主题一个文件，427 个动作）
 │       ├── aiops.py         # AIOps 智能运维
 │       ├── backup.py         # 数据备份管理
 │       ├── fcswitch.py       # FC 光纤交换机
@@ -101,27 +101,26 @@ pydme storage list --limit 20
 pydme storage disk list --storage_id <id>
 ```
 
-可用主题：
+可用主题（427 个动作，98.4% 已测试覆盖）：
 
-| 主题 | 描述 |
-|-------|-------------|
-| `protect` | 数据保护（保护组/双活/复制/快照/克隆） |
-| `san` | SAN 块存储（LUN/映射视图/主机/端口组） |
-| `nas` | NAS 文件存储（NFS/CIFS/DPC/文件系统/配额） |
-| `storage` | 存储设备管理（租户/磁盘/池/端口/控制器） |
-| `system` | 系统管理（用户/标签/任务/Region/证书） |
-| `aiops` | AIOps 智能运维（告警/性能/健康度/拓扑） |
-| `fcswitch` | FC 光纤交换机管理 |
-| `gfs` | 全局文件系统 |
-| `virt` | 虚拟化服务（VM/集群/数据存储） |
-| `server` | 服务器管理（CPU/内存/RAID） |
-| `tenant` | 租户自助服务（服务化LUN/业务群组） |
-| `ipswitch` | IP 交换机管理 |
-| `workflow` | 工作流管理 |
-| `kube` | Kubernetes 容器管理 |
-| `integrate` | 三方系统集成（CMDB） |
-| `backup` | 数据备份管理 |
-| `workflow` | 工作流管理 |
+| 主题 | 描述 | 动作数 |
+|------|------|:------:|
+| `protect` | 数据保护（保护组/双活/复制/快照/克隆） | 77 |
+| `san` | SAN 块存储（LUN/映射视图/主机/端口组） | 66 |
+| `storage` | 存储设备管理（租户/磁盘/池/端口/控制器） | 62 |
+| `nas` | NAS 文件存储（NFS/CIFS/文件系统/配额/DTree） | 61 |
+| `system` | 系统管理（用户/标签/任务/Region/证书） | 40 |
+| `aiops` | AIOps 智能运维（告警/性能/健康度/拓扑） | 26 |
+| `fcswitch` | FC 光纤交换机管理 | 19 |
+| `gfs` | 全局文件系统 | 14 |
+| `virt` | 虚拟化服务（VM/集群/数据存储） | 14 |
+| `server` | 服务器管理（CPU/内存/RAID） | 10 |
+| `tenant` | 租户自助服务（服务化LUN/业务群组） | 10 |
+| `ipswitch` | IP 交换机管理 | 7 |
+| `workflow` | 工作流管理 | 7 |
+| `kube` | Kubernetes 容器管理 | 6 |
+| `integrate` | 三方系统集成（CMDB） | 5 |
+| `backup` | 数据备份管理 | 3 |
 
 DME 连接信息也可通过命令行参数传递：
 

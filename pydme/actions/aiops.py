@@ -543,6 +543,7 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
         client: DME API 客户端
         indicators: 监控对象指标标识列表(必填,最多 1000 个字符)
                    可以是整数列表或字符串列表,如 [123, 456] 或 ["123", "456"]
+                   API 要求包装在 {"indicators": [...]} 中发送
 
     Returns:
         {
@@ -555,11 +556,10 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
     # 确保 indicators 是整数列表
-    if indicators:
-        indicators = [int(i) for i in indicators]
+    indicator_ids = [int(i) for i in (indicators or [])]
 
-    # API 要求直接传递数组,而不是对象
-    response = client.post(url, body=indicators)
+    # API 要求 body 为 {"indicators": [int64, ...]}
+    response = client.post(url, body={"indicators": indicator_ids})
     return response
 
 
