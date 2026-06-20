@@ -756,10 +756,8 @@ def create_parser(cli: DMECLI) -> argparse.ArgumentParser:
                         default=os.environ.get('DME_API_AUTH_TOKEN'))
     parser.add_argument('--timeout', type=int, default=90,
                         help='API 请求超时时间（秒），默认 90 秒')
-    parser.add_argument('--cache-auth-token', action='store_true', default=True,
-                        help='缓存认证密钥到 ~/.config/pydme/cache.json（默认启用）')
     parser.add_argument('--no-cache-auth-token', action='store_false', dest='cache_auth_token',
-                        help='禁用认证密钥缓存')
+                        default=True, help='禁用认证密钥缓存（默认启用缓存）')
 
     # 全局选项
     parser.add_argument('--list-topics', action='store_true',
