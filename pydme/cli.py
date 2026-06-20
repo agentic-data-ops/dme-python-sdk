@@ -21,59 +21,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pydme.client import DMEAPIClient
 
 
-CACHE_DIR = os.path.expanduser("~/.config/pydme")
-CACHE_FILE = os.path.join(CACHE_DIR, "cache.json")
-
-
-def _load_cache() -> list:
-    """Load cached auth tokens from cache.json."""
-    if not os.path.isfile(CACHE_FILE):
-        return []
-    try:
-        with open(CACHE_FILE) as f:
-            data = json.load(f)
-        return data.get("dme", [])
-    except (json.JSONDecodeError, OSError):
-        return []
-
-
-def _save_cache(entries: list):
-    """Save auth tokens to cache.json, creating directories if needed."""
-    os.makedirs(CACHE_DIR, exist_ok=True)
-    with open(CACHE_FILE, "w") as f:
-        json.dump({"dme": entries}, f, indent=2)
-
-
-def _update_cache(endpoint: str, username: str, auth_token: str):
-    """Add or update a cached token entry for (endpoint, username)."""
-    entries = _load_cache()
-    entries = [
-        e for e in entries
-        if not (e.get("endpoint") == endpoint and e.get("username") == username)
-    ]
-    entries.append({
-        "endpoint": endpoint,
-        "username": username,
-        "auth_token": auth_token,
-    })
-    _save_cache(entries)
-
-
-def _find_cached_token(endpoint: str, username: str) -> str:
-    """Look up a cached token for (endpoint, username). Returns empty string if not found."""
-    for entry in _load_cache():
-        if entry.get("endpoint") == endpoint and entry.get("username") == username:
-            return entry.get("auth_token", "")
-    return ""
-
-
 def load_blacklist() -> Dict[str, list]:
     """
-    Load high-risk operation blacklist.
+    Load the risk operation blacklist.
 
     Priority:
-    1. User-defined ~/.config/pydme/blacklist.json
-    2. If not found, copy from pydme/config/blacklist.json
+    1. User custom ~/.config/pydme/blacklist.json
+    2. If it doesn't exist, copy from the package pydme/config/blacklist.json
 
     Returns:
         { topic: [action_key, ...] }
@@ -81,14 +35,14 @@ def load_blacklist() -> Dict[str, list]:
     user_path = Path.home() / '.config' / 'pydme' / 'blacklist.json'
 
     if not user_path.exists():
-        # Try to copy default blacklist from package
+        # Try to copy the default blacklist from the package
         try:
             # Python 3.9+: importlib.resources.files
             from importlib.resources import files as res_files
             src = res_files('pydme.config').joinpath('blacklist.json')
             default_data = src.read_text(encoding='utf-8')
         except (ImportError, TypeError, FileNotFoundError, ModuleNotFoundError):
-            # Fallback: use __file__ path (compatible with Python 3.8 / dev mode)
+            # Fallback: based on __file__ path (compatible with Python 3.8 / dev mode)
             try:
                 pkg_dir = Path(__file__).resolve().parent / 'config'
                 default_data = (pkg_dir / 'blacklist.json').read_text(encoding='utf-8')
@@ -101,7 +55,7 @@ def load_blacklist() -> Dict[str, list]:
             user_path.parent.mkdir(parents=True, exist_ok=True)
             user_path.write_text(default_data, encoding='utf-8')
         except (OSError, PermissionError):
-            # User directory not writable (e.g. CI env), use package data directly
+            # User directory not writable (e.g. CI environment), use package data directly
             return json.loads(default_data)
 
     try:
@@ -112,34 +66,34 @@ def load_blacklist() -> Dict[str, list]:
 
 
 def _accepts_risk(args) -> bool:
-    """Check if user confirmed risk acceptance (via CLI arg or env var)."""
+    """Check if the user has confirmed acceptance of risk (via CLI argument or environment variable)."""
     return args.accept_risk or os.environ.get('DME_ACCEPT_RISK', '').lower() in ('true', '1', 'yes')
 
 
 def _check_risk(topic: str, action_key: str, args, *,
                 cmd_parts: list = None) -> None:
-    """If action is in blacklist and user has not confirmed risk, reject execution.
+    """If the action is in the blacklist and the user has not confirmed risk, refuse execution.
 
     Args:
-        topic: topic name (e.g. san)
-        action_key: full action key in blacklist (e.g. lun_delete)
-        args: parsed CLI arguments
-        cmd_parts: original command parts for display (e.g. ["san", "lun", "delete"])
+        topic: Topic name (e.g. san)
+        action_key: The full action key in the blacklist (e.g. lun_delete)
+        args: CLI parsed arguments
+        cmd_parts: The parts of the original command for display (e.g. ["san", "lun", "delete"])
     """
     blacklist = load_blacklist()
     if topic not in blacklist or action_key not in blacklist[topic]:
-        return  # Not in blacklist, safe
+        return  # Not in the blacklist, safe
 
     cmd_display = ' '.join(cmd_parts) if cmd_parts else f'{topic} {action_key}'
 
-    print(f'\n⚠️  风险操作警告："{cmd_display}" is a high-risk operation (may cause data loss or service interruption)')
+    print(f'\n⚠️  Risk operation warning: "{cmd_display}" is a high-risk operation (may cause data loss or service interruption)')
 
     if _accepts_risk(args):
-        print(f'   ✅ Risk accepted (--accept-risk / DME_ACCEPT_RISK), proceeding...\n')
+        print(f'   ✅ Risk confirmed (--accept-risk / DME_ACCEPT_RISK), continuing...\n')
         return
 
-    print(f'   ❌ Rejected. Use --accept-risk to proceed')
-    print(f'      Or set env DME_ACCEPT_RISK=true\n')
+    print(f'   ❌ Execution rejected. To continue, add the --accept-risk argument')
+    print(f'      or set the environment variable DME_ACCEPT_RISK=true\n')
     sys.exit(1)
 
 
@@ -151,17 +105,17 @@ class DMECLI:
         self.actions_module = None
 
     def load_actions(self):
-        """Load all actions from action modules"""
+        """Load all actions from the actions module"""
         if self.actions_module is None:
             from pydme import actions
             self.actions_module = actions
 
     def get_available_topics(self) -> Dict[str, Dict[str, List[str]]]:
         """
-        Get all available topics, sub-topics and actions
+        Get all available topics, subtopics and actions
 
         Returns:
-            Topic -> subtopic -> action list mapping
+            topic -> subtopic -> action list mapping
         """
         topics = {}
         self.load_actions()
@@ -187,12 +141,12 @@ class DMECLI:
                         subtopic = action_info.get('subtopic')
                         action_name = action_key
                         
-                        # If module field exists, this is a subtopic declaration (not executable), skip
+                        # If there is a module field, it's a subtopic declaration (not directly executable), skip
                         if 'module' in action_info:
                             # Register subtopic
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
-                            # Get action list from specified module
+                            # Get action list from the specified module
                             try:
                                 sub_module = importlib.import_module(action_info['module'])
                                 if hasattr(sub_module, 'ACTIONS'):
@@ -219,10 +173,10 @@ class DMECLI:
                             continue
                         
                         if subtopic:
-                            # Subtopic actions (3-level structure)
+                            # subtopic action (three-level structure)
                             if subtopic not in topics[topic]['_subtopics']:
                                 topics[topic]['_subtopics'][subtopic] = []
-                            # Extract action name (remove subtopic prefix, supports space or underscore)
+                            # Extract action name (remove subtopic prefix, supports space or underscore separator)
                             action_name = action_key
                             prefix_space = f"{subtopic} "
                             prefix_underscore = f"{subtopic}_"
@@ -232,23 +186,23 @@ class DMECLI:
                                 action_name = action_key[len(prefix_underscore):]
                             topics[topic]['_subtopics'][subtopic].append(action_name)
                         else:
-                            # Direct actions (2-level structure)
+                            # Direct action (two-level structure)
                             topics[topic]['_direct'].append(action_key)
                             
             except ImportError as e:
-                print(f"Warning: cannot import actions.{modname}: {e}")
+                print(f"Warning: unable to import actions.{modname}: {e}")
 
         return topics
 
     def parse_docstring(self, doc: str) -> Dict[str, str]:
         """
-        Parse function docstring, extract description and parameter info
+        Parse a function docstring, extracting description and parameter info
 
         Args:
-            doc: function docstring
+            doc: Function docstring
 
         Returns:
-            dict with 'description' and 'params'
+            A dictionary containing 'description', 'params', and 'returns'
         """
         result = {
             'description': '',
@@ -261,7 +215,7 @@ class DMECLI:
 
         lines = doc.strip().split('\n')
         
-        # Extract function description (before Args), preserve indentation
+        # Extract function description (the part before Args), preserve indentation and newlines
         description_lines = []
         in_params = False
         in_returns = False
@@ -274,12 +228,12 @@ class DMECLI:
                 in_returns = True
                 break
             if stripped:
-                description_lines.append(line)  # keep original indentation
+                description_lines.append(line)  # Preserve original indentation
         
         if description_lines:
-            # Calculate base indentation（第一行的缩进量）
+            # Calculate base indentation (indentation of the first line)
             base_indent = len(description_lines[0]) - len(description_lines[0].lstrip())
-            # Remove base indentation, keep relative（最小为 0）
+            # Remove base indentation, preserve relative indentation (minimum 0)
             formatted = []
             for line in description_lines:
                 indent = len(line) - len(line.lstrip())
@@ -291,55 +245,55 @@ class DMECLI:
         if in_params:
             current_param = None
             param_lines = []
-            in_format_block = 0  # param format block depth, >0 means skip inner attributes
+            in_format_block = 0  # Parameter format block nesting depth, >0 skips internal property parsing
             
             for line in lines:
-                raw = line  # keep original indentation
+                raw = line  # Preserve original indentation
                 stripped = line.strip()
                 
-                # Check if Returns or subsequent section
+                # Check if it's Returns or subsequent sections
                 if stripped.startswith(('Returns:', 'Raises:', 'Note:', 'Example:')):
                     break
                 
-                # Inside format block: append to current param desc
+                # Inside a format block: don't parse new parameters, append to current parameter description
                 if in_format_block > 0:
                     old_depth = in_format_block
                     in_format_block += stripped.count('{') - stripped.count('}')
                     if in_format_block < 0:
                         in_format_block = 0
-                    # Display indent: current depth when entering, new when leaving
+                    # Display indentation: use current depth when entering a nested block, new depth when leaving
                     display_depth = in_format_block if stripped.count('}') > stripped.count('{') else old_depth
                     indent = '    ' * display_depth
                     if current_param:
                         param_lines.append(indent + stripped)
                     continue
                 
-                # Check if parameter definition line（如 "param_name: 描述"）
+                # Check if it's a parameter definition line (e.g. "param_name: description")
                 param_match = re.match(r'^(\w+)\s*:\s*(.+)$', stripped)
                 
                 if param_match:
-                    # Save previous parameter
+                    # Save the previous parameter
                     if current_param and param_lines:
                         result['params'][current_param] = '\n'.join(param_lines)
                     
                     current_param = param_match.group(1)
                     param_lines = [param_match.group(2)]
                     
-                    # If line enters format/attribute block, track nesting depth
-                    if '参数格式如下：' in stripped or '属性格式如下：{' in stripped:
+                    # If the parameter line also enters a parameter format / attribute format block, track nesting depth
+                    if 'parameter format: [' in stripped or 'attribute format: {' in stripped:
                         in_format_block = stripped.count('{') - stripped.count('}')
                         if in_format_block < 0:
                             in_format_block = 0
                 
                 elif current_param and stripped:
-                    # Parameter description continuation（缩进的行）
+                    # Continuation of parameter description (indented lines)
                     param_lines.append(stripped)
             
-            # Save last parameter
+            # Save the last parameter
             if current_param and param_lines:
                 result['params'][current_param] = '\n'.join(param_lines)
 
-        # Extract return info
+        # Extract return message
         for line in lines:
             stripped = line.strip()
             if stripped.startswith('Returns:'):
@@ -362,13 +316,13 @@ class DMECLI:
 
     def get_topic_actions(self, topic: str) -> Optional[Dict[str, Dict]]:
         """
-        Get all action info for a given topic
+        Get all action info for a specified topic
 
         Args:
-            topic: topic name
+            topic: Topic name
 
         Returns:
-            Action key to info mapping
+            Mapping from action key to detailed info
         """
         self.load_actions()
 
@@ -387,9 +341,9 @@ class DMECLI:
         for action_key, action_data in module.ACTIONS.items():
             func = action_data.get('func')
             
-            # If module field, this is a subtopic declaration, skip
+            # If there is a module field, it's a subtopic declaration, skip
             if 'module' in action_data:
-                # Load actions from sub-module
+                # Load actions from submodule
                 subtopic = action_data.get('subtopic')
                 try:
                     sub_module = importlib.import_module(action_data['module'])
@@ -401,7 +355,7 @@ class DMECLI:
                                 if sub_func:
                                     sub_doc = inspect.getdoc(sub_func) or ""
                                     sub_parsed = self.parse_docstring(sub_doc)
-                                    # Use original action_key as key（如 lun_list）
+                                    # Use the original action_key as the key (e.g. lun_list)
                                     actions_info[sub_action_key] = {
                                         'description': sub_action_data.get('description', ''),
                                         'params': sub_action_data.get('params', []),
@@ -413,9 +367,9 @@ class DMECLI:
                     pass
                 continue
             
-            # Supports func as string or function object
+            # Support func as a string (unresolved) or function object (resolved)
             if func:
-                # If func is string, keep original, resolve later
+                # If func is a string, keep the original value, resolve later
                 if isinstance(func, str):
                     doc = ""
                 else:
@@ -434,10 +388,10 @@ class DMECLI:
 
     def get_module_doc(self, topic: str) -> Optional[str]:
         """
-        Get overall topic module description
+        Get the overall description of a topic module
 
         Args:
-            topic: topic name
+            topic: Topic name
 
         Returns:
             Module docstring
@@ -450,11 +404,11 @@ class DMECLI:
 
     def execute_action(self, topic: str, action_key: str, params: Dict[str, Any]) -> bool:
         """
-        Execute specified action
+        Execute the specified action
 
         Args:
-            topic: topic name
-            action_key: Action key (e.g. "disk_list" 或 "list"）
+            topic: Topic name
+            action_key: Action key (e.g. "disk_list" or "list")
             params: Action parameters
 
         Returns:
@@ -463,26 +417,26 @@ class DMECLI:
         self.load_actions()
 
         if self.actions_module is None:
-            print(f"Error: cannot load actions module")
+            print(f"Error: unable to load actions module")
             return False
 
         try:
             module = importlib.import_module(f'pydme.actions.{topic}')
         except ImportError:
-            print(f"Error: topic not found '{topic}'")
+            print(f"Error: topic '{topic}' not found")
             return False
 
         if not hasattr(module, 'ACTIONS') or action_key not in module.ACTIONS:
-            print(f"Error: topic '{topic}' action not found in '{action_key}'")
+            print(f"Error: action '{action_key}' not found in topic '{topic}'")
             return False
 
         action_info = module.ACTIONS[action_key]
         func = action_info.get('func')
         
-        # 如果 func 为空，说明可能是子主题声明，需要从子模块加载
+        # If func is empty, it may be a subtopic declaration, load from submodule
         if not func and 'module' in action_info:
             subtopic = action_info.get('subtopic')
-            # 尝试从子模块获取动作
+            # Try to get the action from submodule
             try:
                 sub_module = importlib.import_module(action_info['module'])
                 if hasattr(sub_module, 'ACTIONS'):
@@ -497,7 +451,7 @@ class DMECLI:
                 pass
         
         if not func:
-            print(f"Error: topic '{topic}' action not found in '{action_key}'")
+            print(f"Error: action '{action_key}' not found in topic '{topic}'")
             return False
 
         try:
@@ -507,7 +461,7 @@ class DMECLI:
                 print(json.dumps(result, indent=2, ensure_ascii=False))
             return True
         except Exception as e:
-            print(f"Execute action失败：{e}")
+            print(f"Action execution failed: {e}")
             import traceback
             traceback.print_exc()
             return False
@@ -515,24 +469,24 @@ class DMECLI:
 
 def print_topic_help(cli: DMECLI, topic: str):
     """
-    打印主题的帮助信息
+    Print help info for a topic
 
     Args:
-        cli: DMECLI 实例
-        topic: topic name
+        cli: DMECLI instance
+        topic: Topic name
     """
     actions_info = cli.get_topic_actions(topic)
     module_doc = cli.get_module_doc(topic)
 
     print(f"\n{'='*60}")
-    print(f"主题：{topic}")
+    print(f"Topic: {topic}")
     print(f"{'='*60}")
 
     if module_doc:
         print(f"\n{module_doc.strip()}")
 
     if actions_info:
-        # 分离直接动作和子主题动作
+        # Separate direct actions and subtopic actions
         direct_actions = {}
         subtopics = {}
         
@@ -541,24 +495,24 @@ def print_topic_help(cli: DMECLI, topic: str):
             if subtopic:
                 if subtopic not in subtopics:
                     subtopics[subtopic] = {}
-                # 提取动作名（去掉子主题前缀）
+                # Extract action name (remove subtopic prefix)
                 action_name = action_key[len(subtopic) + 1:] if action_key.startswith(f"{subtopic}_") else action_key
                 subtopics[subtopic][action_name] = info
             else:
                 direct_actions[action_key] = info
 
-        # 显示直接动作（两级结构）
+        # Display direct actions (two-level structure)
         if direct_actions:
-            print(f"\n直接动作（<topic> <action>）:")
+            print(f"\nDirect actions (<topic> <action>):")
             print(f"{'-'*60}")
             for action_name in sorted(direct_actions.keys()):
                 info = direct_actions[action_name]
                 print(f"\n  {action_name}")
                 print(f"    {info['description']}")
 
-        # 显示子主题动作（三级结构）
+        # Display subtopic actions (three-level structure)
         for subtopic in sorted(subtopics.keys()):
-            print(f"\n子主题：{subtopic}（<topic> <action>）")
+            print(f"\nSub-topic: {subtopic} (<topic> <action>)")
             print(f"{'-'*60}")
             for action_name in sorted(subtopics[subtopic].keys()):
                 info = subtopics[subtopic][action_name]
@@ -566,22 +520,22 @@ def print_topic_help(cli: DMECLI, topic: str):
                 print(f"    {info['description']}")
 
     print(f"\n{'='*60}")
-    print(f"使用示例:")
-    print(f"  pydme {topic} --help              # 查看主题帮助")
-    print(f"  pydme {topic} <action>            # 执行直接动作")
-    print(f"  pydme {topic} <subtopic> --help   # 查看子主题帮助")
-    print(f"  pydme {topic} <subtopic> <action> # 执行子主题动作")
+    print(f"Usage examples:")
+    print(f"  pydme {topic} --help              # View topic help")
+    print(f"  pydme {topic} <action>            # Execute a direct action")
+    print(f"  pydme {topic} <subtopic> --help   # View subtopic help")
+    print(f"  pydme {topic} <subtopic> <action> # Execute a subtopic action")
     print(f"{'='*60}\n")
 
 
 def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
     """
-    打印子主题的帮助信息
+    Print help info for a subtopic
 
     Args:
-        cli: DMECLI 实例
-        topic: topic name
-        subtopic: 子topic name
+        cli: DMECLI instance
+        topic: Topic name
+        subtopic: Subtopic name
     """
     import importlib
     try:
@@ -592,14 +546,14 @@ def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
     actions_info = cli.get_topic_actions(topic)
 
     if not actions_info:
-        print(f"Error: topic not found '{topic}'")
+        print(f"Error: topic '{topic}' not found")
         return
 
     print(f"\n{'='*60}")
-    print(f"主题：{topic}  子主题：{subtopic}")
+    print(f"Topic: {topic}   Sub-topic: {subtopic}")
     print(f"{'='*60}")
 
-    # 查找该子主题下的所有动作
+    # Find all actions under this subtopic
     subtopic_actions = {}
     for action_key, info in actions_info.items():
         if info.get('subtopic') == subtopic:
@@ -607,17 +561,17 @@ def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
             subtopic_actions[action_name] = info
 
     if subtopic_actions:
-        print(f"\n可用动作（<topic> {subtopic} <action>）:")
+        print(f"\nAvailable actions (<topic> {subtopic} <action>):")
         print(f"{'-'*60}")
         for action_name in sorted(subtopic_actions.keys()):
             info = subtopic_actions[action_name]
             print(f"\n  {action_name}")
             print(f"    {info['description']}")
     else:
-        print(f"\n未找到子主题 '{subtopic}' 下的动作")
+        print(f"\nNo actions found under subtopic '{subtopic}'")
 
     print(f"\n{'='*60}")
-    print(f"使用示例:")
+    print(f"Usage examples:")
     print(f"  pydme {topic} {subtopic} --help")
     print(f"  pydme {topic} {subtopic} list --help")
     print(f"  pydme {topic} {subtopic} list --limit 10")
@@ -626,43 +580,43 @@ def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
 
 def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = None, action: str = None):
     """
-    打印指定动作的详细帮助信息
+    Print detailed help info for an action
 
     Args:
-        cli: DMECLI 实例
-        topic: topic name
-        action_key: Action key (e.g. "hyperscale_list"）
-        subtopic: 子topic name（可选，如 "hyperscale"）
-        action: 动作名称（可选，如 "list"）
+        cli: DMECLI instance
+        topic: Topic name
+        action_key: Action key (e.g. "hyperscale_list")
+        subtopic: Subtopic name (optional, e.g. "hyperscale")
+        action: Action name (optional, e.g. "list")
     """
     actions_info = cli.get_topic_actions(topic)
 
     if not actions_info or action_key not in actions_info:
-        print(f"错误：未找到动作 '{topic} {action_key}'")
+        print(f"Error: action '{topic} {action_key}' not found")
         return
 
     info = actions_info[action_key]
 
-    # 构造显示用的命令（如果是三级结构，显示为 "topic subtopic action"）
+    # Construct the display command (if three-level structure, show as "topic subtopic action")
     if subtopic and action:
         display_cmd = f"{topic} {subtopic} {action}"
     else:
         display_cmd = f"{topic} {action_key}"
 
     print(f"\n{'='*60}")
-    print(f"动作：{display_cmd}")
+    print(f"Action: {display_cmd}")
     print(f"{'='*60}")
 
     if info['description']:
-        print(f"\n描述:")
+        print(f"\nDescription:")
         print(f"  {info['description']}")
 
     if info['parsed']['description']:
-        print(f"\n详细说明:")
+        print(f"\nDetail:")
         for line in info['parsed']['description'].split('\n'):
             print(f"  {line}")
 
-    print(f"\n参数说明:")
+    print(f"\nParameters:")
     print(f"{'-'*60}")
 
     params = info['parsed'].get('params', {})
@@ -673,11 +627,11 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
                 for line in param_desc.split('\n'):
                     print(f"      {line}")
     else:
-        print("  无参数")
+        print("  No parameters")
 
     returns = info['parsed'].get('returns', '')
     if returns:
-        print(f"\n输出说明:")
+        print(f"\nOutput:")
         print(f"{'-'*60}")
         brace_depth = 1
         for line in returns.split('\n'):
@@ -694,7 +648,7 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
                 brace_depth = 0
 
     print(f"\n{'='*60}")
-    print(f"使用示例:")
+    print(f"Usage examples:")
     print(f"  pydme {display_cmd}")
     if params:
         param_str = ' '.join([f"--{p} <value>" for p in params.keys() if p != 'client'])
@@ -703,61 +657,59 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
 
 
 def create_parser(cli: DMECLI) -> argparse.ArgumentParser:
-    """创建命令行解析器"""
+    """Create the command-line parser"""
     parser = argparse.ArgumentParser(
         prog='pydme',
-        description='DME operations CLI tool - 用于存储设备的日常运维操作',
+        description='DME operations CLI tool - for daily storage device operation and maintenance',
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        add_help=False,  # 禁用内置的 --help，自定义处理
+        add_help=False,  # Disable built-in --help, handle it ourselves
         epilog='''
-使用示例:
-  # 查看所有Action topic
+Usage examples:
+  # View all action topics
   pydme --help
 
-  # 查看特定主题的所有动作
+  # View all actions for a specific topic
   pydme storage --help
 
-  # 查看特定子主题的所有动作
+  # View all actions for a specific subtopic
   pydme storage disk --help
 
-  # 查看特定动作的详细帮助
+  # View detailed help for a specific action
   pydme storage disk list --help
 
-  # 执行两级结构动作
+  # Execute a two-level structure action
   pydme storage list --limit 20
 
-  # 执行三级结构动作
+  # Execute a three-level structure action
   pydme storage disk list --storage_id <id>
 
-  # 使用环境变量设置 DME 连接信息
+  # Use environment variables to set DME connection info
   export DME_API_ENDPOINT=https://192.168.1.100:26335
   export DME_API_USERNAME=admin
   export DME_API_PASSWORD=password
   pydme storage list
 
-格式:
-  topic: Action topic，如 storage, storagepool, lun, filesystem, host, task, system
-  subtopic: Sub topic (optional)，如 disk, fan, node, pool, snapshot, initiator
-  action: 动作名称，如 list, create, delete, show, modify
+Format:
+  topic: Action topic, e.g. storage, storagepool, lun, filesystem, host, task, system
+  subtopic: Sub-topic (Optional), e.g. disk, fan, node, pool, snapshot, initiator
+  action: Action name, e.g. list, create, delete, show, modify
         '''
     )
 
-    # DME 连接参数（可通过环境变量设置）
+    # DME connection parameters (can be set via environment variables)
     parser.add_argument('--endpoint', '-e',
-                        help='DME API 端点地址，格式：https://<ip>:<port>',
+                        help='DME API endpoint address, format: https://<ip>:<port>',
                         default=os.environ.get('DME_API_ENDPOINT'))
     parser.add_argument('--user', '-u',
-                        help='DME API 用户名',
+                        help='DME API username',
                         default=os.environ.get('DME_API_USERNAME'))
     parser.add_argument('--password', '-p',
-                        help='DME API 密码',
+                        help='DME API password',
                         default=os.environ.get('DME_API_PASSWORD'))
     parser.add_argument('--token', help='DME API auth token (optional, skips login if provided)',
                         default=os.environ.get('DME_API_AUTH_TOKEN'))
-    parser.add_argument('--timeout', type=int, default=90,
-                        help='API request timeout in seconds, default 90')
-    parser.add_argument('--no-cache-auth-token', action='store_false', dest='cache_auth_token',
-                        default=True, help='Disable auth token caching (enabled by default)')
+    parser.add_argument('--timeout', type=int, default=30,
+                        help='API request timeout (seconds), default 30 seconds')
 
     # Global options
     parser.add_argument('--list-topics', action='store_true',
@@ -765,26 +717,26 @@ def create_parser(cli: DMECLI) -> argparse.ArgumentParser:
 
     # Topic arguments
     parser.add_argument('topic', nargs='?', help='Action topic')
-    parser.add_argument('subtopic', nargs='?', help='Sub topic (optional)')
+    parser.add_argument('subtopic', nargs='?', help='Sub-topic (optional)')
     parser.add_argument('action', nargs='?', help='Action name (optional)')
     parser.add_argument('action_args', nargs='*', help='Action arguments (optional)')
     parser.add_argument('--accept-risk', action='store_true',
-                        help='Accept risk and execute dangerous operations (delete, modify, etc.)')
+                        help='Confirm acceptance of risk, allow executing risky operations (e.g. delete, modify)')
 
     return parser
 
 
 def main():
-    """主入口函数"""
+    """Main entry function"""
     cli = DMECLI()
     parser = create_parser(cli)
 
-    # 使用 parse_known_args 来捕获未知参数（Action parameters）
+    # Use parse_known_args to capture unknown arguments (action arguments)
     args, unknown = parser.parse_known_args()
 
-    # 解析未知参数为Action parameters
+    # Parse unknown arguments as action parameters
     action_params = {}
-    show_help = False  # 是否显示帮助（由 -h, --help 控制）
+    show_help = False  # Whether to show help (controlled by -h, --help)
 
     i = 0
     while i < len(unknown):
@@ -792,29 +744,29 @@ def main():
             show_help = True
             i += 1
         elif unknown[i].startswith('--'):
-            param_name = unknown[i][2:]  # 去掉 --
+            param_name = unknown[i][2:]  # Remove --
             if i + 1 < len(unknown) and not unknown[i + 1].startswith('--'):
                 action_params[param_name] = unknown[i + 1]
                 i += 2
             else:
-                # 参数值可能被 argparse 吞为 action position 参数
-                # 如 pydme storage show --storage_id XXX
-                #   → argparse 把 XXX 吃进 args.action
-                #   → unknown = ['--storage_id']（值丢失）
-                # 此时 args.action 中有被误吞的原始值，用它补位
+                # Param value may have been swallowed by argparse as an action positional argument
+                # e.g. pydme storage show --storage_id XXX
+                #   -> argparse consumes XXX into args.action
+                #   -> unknown = ['--storage_id'] (value lost)
+                # In this case args.action has the original value that was mistakenly consumed, use it as filler
                 action_params[param_name] = True
                 i += 1
         else:
             i += 1
 
-    # 修正：orphan --param 的值被 argparse 吃掉后，用被吞的值补位
-    # 值可能被吞入 args.action（2 级命令）或 args.action_args（3 级命令）
-    # 例如: pydme storage show --storage_id X  → args.action = "X"
-    # 例如: pydme system task list --limit 10  → action_args = ["10"]
-    # 注意：当有多个 orphan param 时，从 args.action_args 和 args.action 中逐个取补位
+    # Fix: orphan --param values swallowed by argparse, fill in with consumed value
+    # Value may be swallowed into args.action (2-level command) or args.action_args (3-level command)
+    # e.g. pydme storage show --storage_id X  -> args.action = "X"
+    # e.g. pydme system task list --limit 10  -> action_args = ["10"]
+    # Note: when multiple orphan params exist, take from args.action_args and args.action one by one
     orphan_params = [p for p, v in action_params.items() if v is True]
     if orphan_params:
-        # args.action 先被 argparse 吃掉（更靠前），后吃的 action_args 追加在其后
+        # args.action is eaten first by argparse, action_args are appended after
         stolen_values = []
         if args.action:
             stolen_values.append(args.action)
@@ -826,42 +778,42 @@ def main():
             if i < len(stolen_values):
                 action_params[pname] = stolen_values[i]
 
-    # 处理位置参数（如 host_id 等）
+    # Handle positional arguments (e.g. host_id)
     if hasattr(args, 'action_args') and args.action_args:
-        # 将第一个位置参数作为 host_id
+        # Use the first positional argument as host_id
         if len(args.action_args) >= 1 and 'host_id' not in action_params:
             action_params['host_id'] = args.action_args[0]
 
-    # 处理全局选项
+    # Handle global options
     if args.list_topics:
         topics = cli.get_available_topics()
-        print("\n可用的Action topic（树形结构）:")
+        print("\nAvailable action topics (tree structure):")
         print(f"{'='*70}")
 
         for topic in sorted(topics.keys()):
             topic_info = topics[topic]
             module_doc = cli.get_module_doc(topic)
 
-            # 提取模块描述（第一行或前几行）
+            # Extract module description (first line or first few lines)
             topic_desc = ""
             if module_doc:
                 first_line = module_doc.strip().split('\n')[0].strip()
                 if first_line and not first_line.startswith('"""'):
                     topic_desc = first_line
 
-            # 显示topic name和描述
+            # Display topic name and description
             if topic_desc:
                 print(f"\n📁 {topic} - {topic_desc}")
             else:
                 print(f"\n📁 {topic}")
 
-            # 显示直接动作
+            # Display direct actions
             direct_actions = topic_info.get('_direct', [])
             if direct_actions:
-                print(f"  ├── 直接动作:")
+                print(f"  ├── Direct actions:")
                 for action_key in sorted(direct_actions):
                     action_desc = ""
-                    # 获取动作描述
+                    # Get action description
                     try:
                         module = importlib.import_module(f'pydme.actions.{topic}')
                         if hasattr(module, 'ACTIONS') and action_key in module.ACTIONS:
@@ -874,7 +826,7 @@ def main():
                     else:
                         print(f"  │     ├── {action_key}")
 
-            # 显示子主题及其动作
+            # Display subtopics and their actions
             subtopics = topic_info.get('_subtopics', {})
             for subtopic in sorted(subtopics.keys()):
                 actions_list = subtopics[subtopic]
@@ -882,23 +834,23 @@ def main():
 
                 for action_name in sorted(actions_list):
                     action_desc = ""
-                    # 获取动作描述
+                    # Get action description
                     try:
                         module = importlib.import_module(f'pydme.actions.{topic}')
-                        # 构造完整的 action_key，支持空格和下划线分隔
-                        # 例如: subtopic="cluster", action_name="list" -> "cluster_list" 或 "cluster list"
+                        # Construct the full action_key, supports space and underscore separators
+                        # e.g. subtopic="cluster", action_name="list" -> "cluster_list" or "cluster list"
                         full_action_key_space = f"{subtopic} {action_name}"
                         full_action_key_underscore = f"{subtopic}_{action_name}"
                         
-                        # 先尝试从主模块获取
+                        # First try to get from the main module
                         if hasattr(module, 'ACTIONS'):
-                            # 尝试多种key格式
+                            # Try multiple key formats
                             for key_format in [full_action_key_space, full_action_key_underscore]:
                                 if key_format in module.ACTIONS:
                                     action_desc = module.ACTIONS[key_format].get('description', '')
                                     break
                             else:
-                                # 尝试从子模块获取（支持子主题模块引用）
+                                # Try to get from submodule (supports subtopic module reference)
                                 for ak, ai in module.ACTIONS.items():
                                     if ai.get('module') and ai.get('subtopic') == subtopic:
                                         try:
@@ -920,51 +872,51 @@ def main():
                         print(f"  │       ├─── {action_name}")
 
         print(f"\n{'='*70}")
-        print("\n说明:")
-        print("  📁 主题 - 主题描述")
-        print("  │     ├── 直接动作 - 动作描述")
-        print("  ├── 📂 子主题")
-        print("  │       ├── 动作 - 动作描述")
+        print("\nLegend:")
+        print("  📁 Topic - Topic description")
+        print("  │     ├── Direct action - Action description")
+        print("  ├── 📂 Sub-topic")
+        print("  │       ├── Action - Action description")
         print(f"{'='*70}\n")
         return
 
-    # 1. 未指定 <topic> 参数，显示全局帮助
+    # 1. No <topic> argument specified, show global help
     if not args.topic:
         parser.print_help()
         return
 
-    # 获取主题动作信息
+    # Get topic action info
     actions_info = cli.get_topic_actions(args.topic)
 
     if not actions_info:
-        print(f"Error: topic not found '{args.topic}'")
+        print(f"Error: topic '{args.topic}' not found")
         return
 
-    # 修正：argparse 将直接动作的参数值误吞为 action position 参数
-    # 值已在未知参数解析阶段（745-749 行）通过 orphan 检测补回到 action_params，
-    # 此处只需清空 args.action，确保 dispatch 进入 2-arg 路径
+    # Fix: argparse swallowed the direct action's parameter value as an action positional argument
+    # The value has been restored to action_params via orphan detection in the unknown argument parsing phase (above),
+    # just need to clear args.action to ensure dispatch enters the 2-arg path
     if args.action and args.subtopic in actions_info:
         _direct_info = actions_info.get(args.subtopic, {})
         if _direct_info.get('subtopic') is None:
             args.action = None
 
-    # 2. 只指定了 <topic>，显示主题帮助
+    # 2. Only <topic> specified, show topic help
     if not args.subtopic and not args.action:
         print_topic_help(cli, args.topic)
         return
 
-    # 3. 指定了 <topic> <subtopic>，检查 subtopic 是直接动作还是子主题
+    # 3. <topic> <subtopic> specified, check if subtopic is a direct action or subtopic
     if args.subtopic and not args.action:
-        # 检查 subtopic 是否是直接动作
+        # Check if subtopic is a direct action
         if args.subtopic in actions_info:
-            # 是直接动作
+            # It's a direct action
             action_key = args.subtopic
-            # 如果指定了 --help，显示帮助
+            # If --help is specified, show help
             if show_help:
                 print_action_help(cli, args.topic, action_key)
                 return
 
-            # 没有指定 --help，Execute action（需要登录）
+            # No --help, execute the action (login required)
 
             # Risk operation check
             _check_risk(args.topic, action_key, args,
@@ -976,18 +928,12 @@ def main():
             auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
             if not auth_token and not (endpoint and username and password):
-                print("Error: Must provide endpoint, user and password, or use --token")
-                print("Set via --endpoint, --user, --password, --token or environment variables")
+                print("Error: must provide endpoint, user and password arguments, or use --token to provide an auth key")
+                print("Can be set via --endpoint, --user, --password, --token or environment variables")
                 parser.print_help()
                 sys.exit(1)
 
-            # Try to load token from cache
-            if not auth_token and args.cache_auth_token and endpoint and username:
-                cached = _find_cached_token(endpoint, username)
-                if cached:
-                    auth_token = cached
-
-            # Create client
+            # Create client and login
             client = DMEAPIClient(
                 endpoint=endpoint,
                 username=username,
@@ -996,16 +942,9 @@ def main():
                 timeout=args.timeout,
             )
 
-            # 检查客户端是否已有 token，没有再登录
-            if not client.headers.get("X-Auth-Token"):
+            if not auth_token:
                 print(f"Connecting to DME: {endpoint}")
                 client.login()
-                # Cache token after login
-                if args.cache_auth_token and endpoint and username:
-                    _update_cache(endpoint, username, client.headers.get("X-Auth-Token", ""))
-            elif auth_token and args.cache_auth_token and endpoint and username:
-                # Cache the provided token
-                _update_cache(endpoint, username, auth_token)
 
             cli.client = client
 
@@ -1013,7 +952,7 @@ def main():
             func = action_info['func']
 
             print(f"Executing: {args.topic} {action_key}")
-            print(f"描述：{action_info.get('description', '')}")
+            print(f"Description: {action_info.get('description', '')}")
             print("-" * 60)
 
             try:
@@ -1022,7 +961,7 @@ def main():
                 sig = inspect.signature(func)
                 typed_params = {}
 
-                # 参数名映射：CLI 参数名 -> 函数参数名
+                # Parameter name mapping: CLI parameter name -> function parameter name
                 param_mapping = {
                     'name': 'name',
                     'alias_name': 'name',
@@ -1046,7 +985,7 @@ def main():
                 }
 
                 for param_name, param_value in action_params.items():
-                    # 尝试直接匹配或映射后匹配
+                    # Try direct match or mapped match
                     func_param_name = param_mapping.get(param_name, param_name)
                     if func_param_name in sig.parameters:
                         param_type = sig.parameters[func_param_name].annotation
@@ -1055,7 +994,7 @@ def main():
                                 try:
                                     param_value = param_type(param_value)
                                 except ValueError:
-                                    print(f"警告：参数 {param_name} 无法转换为 {param_type.__name__}")
+                                    print(f"Warning: parameter {param_name} cannot be converted to {param_type.__name__}")
                             elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                                 import json
                                 try:
@@ -1067,16 +1006,14 @@ def main():
                                 try:
                                     param_value = json.loads(param_value)
                                 except (ValueError, json.JSONDecodeError):
-                                    print(f"警告：参数 {param_name} 需要 JSON 格式")
+                                    print(f"Warning: parameter {param_name} requires JSON format")
                             elif param_type in (bool, builtins.bool):
                                 if isinstance(param_value, str):
                                     param_value = param_value.lower() in ('true', '1', 'yes')
 
                         typed_params[func_param_name] = param_value
 
-
-
-                # 检查函数是否需要 client 参数
+                # Check if the function needs the client parameter
                 sig_params = sig.parameters
                 if sig_params and 'client' in sig_params:
                     result = func(client, **typed_params)
@@ -1086,44 +1023,44 @@ def main():
                 if result:
                     print(json.dumps(result, indent=2, ensure_ascii=False))
                 else:
-                    print("无返回数据")
+                    print("No return data")
             except Exception as e:
-                print(f"执行失败：{e}")
+                print(f"Execution failed: {e}")
                 import traceback
                 traceback.print_exc()
             return
         else:
-            # 是子主题，显示子主题帮助
+            # It's a subtopic, show subtopic help
             print_subtopic_help(cli, args.topic, args.subtopic)
             return
 
-    # 4. 指定了 <topic> <subtopic> <action>，显示动作帮助或Execute action
+    # 4. <topic> <subtopic> <action> specified, show action help or execute action
     if args.subtopic and args.action:
-        # 尝试组合为 action_key（三级结构：<topic> <subtopic> <action>）
-        # 先尝试 subtopic_action 格式（支持带空格的动作名，如 "frame list"）
+        # Try to compose action_key (three-level structure: <topic> <subtopic> <action>)
+        # First try subtopic_action format (supports space-separated action names, e.g. "frame list")
         action_key = f"{args.subtopic}_{args.action}"
         
-        # 如果找不到，尝试 subtopic action 格式（空格分隔）
+        # If not found, try subtopic action format (space-separated)
         if action_key not in actions_info:
-            # 尝试将 subtopic 和 action 组合成带空格的形式
+            # Try to compose subtopic and action with space
             space_action_key = f"{args.subtopic} {args.action}"
             if space_action_key in actions_info:
                 action_key = space_action_key
             else:
-                # 仍然找不到，显示错误
-                print(f"错误：未找到动作 '{args.topic} {args.subtopic} {args.action}'")
+                # Still not found, show error
+                print(f"Error: action '{args.topic} {args.subtopic} {args.action}' not found")
                 available = [k for k in actions_info.keys() if k.startswith(args.subtopic + '_') or k.startswith(args.subtopic + ' ')]
                 if available:
-                    print(f"提示：可用动作包括：{', '.join(available)}")
+                    print(f"Hint: available actions include: {', '.join(available)}")
                 return
 
-        # 如果指定了 --help，显示帮助；否则Execute action
+        # If --help is specified, show help; otherwise execute the action
         if show_help:
-            # 显示帮助（不需要登录）
+            # Show help (no login required)
             print_action_help(cli, args.topic, action_key, args.subtopic, args.action)
             return
 
-        # Execute action（需要登录）
+        # Execute the action (login required)
 
         # Risk operation check
         _check_risk(args.topic, action_key, args,
@@ -1135,18 +1072,12 @@ def main():
         auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
         if not auth_token and not (endpoint and username and password):
-            print("Error: Must provide endpoint, user and password, or use --token")
-            print("Set via --endpoint, --user, --password, --token or environment variables")
+            print("Error: must provide endpoint, user and password arguments, or use --token to provide an auth key")
+            print("Can be set via --endpoint, --user, --password, --token or environment variables")
             parser.print_help()
             sys.exit(1)
 
-        # Try to load token from cache
-        if not auth_token and args.cache_auth_token and endpoint and username:
-            cached = _find_cached_token(endpoint, username)
-            if cached:
-                auth_token = cached
-
-        # Create client
+        # Create client and login
         client = DMEAPIClient(
             endpoint=endpoint,
             username=username,
@@ -1155,25 +1086,18 @@ def main():
             timeout=args.timeout,
         )
 
-        # 检查客户端是否已有 token，没有再登录
-        if not client.headers.get("X-Auth-Token"):
+        if not auth_token:
             print(f"Connecting to DME: {endpoint}")
             client.login()
-            # Cache token after login
-            if args.cache_auth_token and endpoint and username:
-                _update_cache(endpoint, username, client.headers.get("X-Auth-Token", ""))
-        elif auth_token and args.cache_auth_token and endpoint and username:
-            # Cache the provided token
-            _update_cache(endpoint, username, auth_token)
 
         cli.client = client
 
         action_info = actions_info[action_key]
         func = action_info['func']
 
-        # 三级结构显示为 "topic subtopic action"
+        # Three-level structure displays as "topic subtopic action"
         print(f"Executing: {args.topic} {args.subtopic} {args.action}")
-        print(f"描述：{action_info.get('description', '')}")
+        print(f"Description: {action_info.get('description', '')}")
         print("-" * 60)
 
         try:
@@ -1182,7 +1106,7 @@ def main():
             sig = inspect.signature(func)
             typed_params = {}
 
-            # 参数名映射：CLI 参数名 -> 函数参数名
+            # Parameter name mapping: CLI parameter name -> function parameter name
             param_mapping = {
                 'name': 'name',
                 'alias_name': 'name',
@@ -1215,7 +1139,7 @@ def main():
             }
 
             for param_name, param_value in action_params.items():
-                # 尝试直接匹配或映射后匹配
+                # Try direct match or mapped match
                 func_param_name = param_mapping.get(param_name, param_name)
                 if func_param_name in sig.parameters:
                     param_type = sig.parameters[func_param_name].annotation
@@ -1229,7 +1153,7 @@ def main():
                             try:
                                 param_value = param_type(param_value)
                             except ValueError:
-                                print(f"警告：参数 {param_name} 无法转换为 {param_type.__name__}")
+                                print(f"Warning: parameter {param_name} cannot be converted to {param_type.__name__}")
                         elif param_type in (list, builtins.list) or (hasattr(param_type, '__name__') and param_type.__name__ == 'list'):
                             import json
                             try:
@@ -1241,10 +1165,7 @@ def main():
                             try:
                                 param_value = json.loads(param_value)
                             except (ValueError, json.JSONDecodeError):
-                                print(f"警告：参数 {param_name} 需要 JSON 格式")
-                        elif param_type in (bool, builtins.bool):
-                            if isinstance(param_value, str):
-                                param_value = param_value.lower() in ('true', '1', 'yes')
+                                print(f"Warning: parameter {param_name} requires JSON format")
 
                     typed_params[func_param_name] = param_value
 
@@ -1253,9 +1174,9 @@ def main():
             if result:
                 print(json.dumps(result, indent=2, ensure_ascii=False))
             else:
-                print("无返回数据")
+                print("No return data")
         except Exception as e:
-            print(f"执行失败：{e}")
+            print(f"Execution failed: {e}")
             import traceback
             traceback.print_exc()
         return
