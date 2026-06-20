@@ -248,7 +248,7 @@ class DMEAPIClient(BaseClient):
         password: str = os.getenv("DME_API_PASSWORD"),
         auth_token: str = os.getenv("DME_API_AUTH_TOKEN"),
         verify=False,
-        timeout: int = 30,
+        timeout: int = 90,
         session_timeout: int = 900,
         enable_log=True,
         cache_auth_token: bool = True,
