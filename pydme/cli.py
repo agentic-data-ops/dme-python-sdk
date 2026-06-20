@@ -21,6 +21,54 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pydme.client import DMEAPIClient
 
 
+
+CACHE_DIR = os.path.expanduser("~/.config/pydme")
+CACHE_FILE = os.path.join(CACHE_DIR, "cache.json")
+
+
+def _load_cache() -> list:
+    """Load cached auth tokens from cache.json."""
+    if not os.path.isfile(CACHE_FILE):
+        return []
+    try:
+        with open(CACHE_FILE) as f:
+            data = json.load(f)
+        return data.get("dme", [])
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
+def _save_cache(entries: list):
+    """Save auth tokens to cache.json, creating directories if needed."""
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    with open(CACHE_FILE, "w") as f:
+        json.dump({"dme": entries}, f, indent=2)
+
+
+def _update_cache(endpoint: str, username: str, auth_token: str):
+    """Add or update a cached token entry for (endpoint, username)."""
+    entries = _load_cache()
+    entries = [
+        e for e in entries
+        if not (e.get("endpoint") == endpoint and e.get("username") == username)
+    ]
+    entries.append({
+        "endpoint": endpoint,
+        "username": username,
+        "auth_token": auth_token,
+    })
+    _save_cache(entries)
+
+
+def _find_cached_token(endpoint: str, username: str) -> str:
+    """Look up a cached token for (endpoint, username). Returns empty string if not found."""
+    for entry in _load_cache():
+        if entry.get("endpoint") == endpoint and entry.get("username") == username:
+            return entry.get("auth_token", "")
+    return ""
+
+
+
 def load_blacklist() -> Dict[str, list]:
     """
     Load the risk operation blacklist.
@@ -708,8 +756,10 @@ Format:
                         default=os.environ.get('DME_API_PASSWORD'))
     parser.add_argument('--token', help='DME API auth token (optional, skips login if provided)',
                         default=os.environ.get('DME_API_AUTH_TOKEN'))
-    parser.add_argument('--timeout', type=int, default=30,
-                        help='API request timeout (seconds), default 30 seconds')
+    parser.add_argument('--timeout', type=int, default=90,
+                        help='API request timeout (seconds), default 90 seconds')
+    parser.add_argument('--no-cache-auth-token', action='store_false', dest='cache_auth_token',
+                        default=True, help='Disable auth token caching (enabled by default)')
 
     # Global options
     parser.add_argument('--list-topics', action='store_true',
@@ -933,6 +983,12 @@ def main():
                 parser.print_help()
                 sys.exit(1)
 
+            # Try to load token from cache
+            if not auth_token and getattr(args, 'cache_auth_token', True) and endpoint and username:
+                cached = _find_cached_token(endpoint, username)
+                if cached:
+                    auth_token = cached
+
             # Create client and login
             client = DMEAPIClient(
                 endpoint=endpoint,
@@ -942,9 +998,16 @@ def main():
                 timeout=args.timeout,
             )
 
-            if not auth_token:
+            # Check if client already has a token (loaded from cache), login if not
+            if not client.headers.get("X-Auth-Token"):
                 print(f"Connecting to DME: {endpoint}")
                 client.login()
+                # Cache token after login
+                if getattr(args, 'cache_auth_token', True) and endpoint and username:
+                    _update_cache(endpoint, username, client.headers.get("X-Auth-Token", ""))
+            elif auth_token and getattr(args, 'cache_auth_token', True) and endpoint and username:
+                # Cache the provided token
+                _update_cache(endpoint, username, auth_token)
 
             cli.client = client
 
@@ -1077,6 +1140,12 @@ def main():
             parser.print_help()
             sys.exit(1)
 
+        # Try to load token from cache
+        if not auth_token and getattr(args, 'cache_auth_token', True) and endpoint and username:
+            cached = _find_cached_token(endpoint, username)
+            if cached:
+                auth_token = cached
+
         # Create client and login
         client = DMEAPIClient(
             endpoint=endpoint,
@@ -1086,9 +1155,16 @@ def main():
             timeout=args.timeout,
         )
 
-        if not auth_token:
+        # Check if client already has a token (loaded from cache), login if not
+        if not client.headers.get("X-Auth-Token"):
             print(f"Connecting to DME: {endpoint}")
             client.login()
+            # Cache token after login
+            if getattr(args, 'cache_auth_token', True) and endpoint and username:
+                _update_cache(endpoint, username, client.headers.get("X-Auth-Token", ""))
+        elif auth_token and getattr(args, 'cache_auth_token', True) and endpoint and username:
+            # Cache the provided token
+            _update_cache(endpoint, username, auth_token)
 
         cli.client = client
 
