@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pydme"
-version = "0.1.0"
+version = "25.0.0"
 description = "DME python SDK for storage management"
 readme = "README.md"
 license = { text = "MIT" }
