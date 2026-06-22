@@ -307,3 +307,11 @@ storage_client = client.get_storage_client(storage_id)
 lun_list = storage_client.get("/lun", params={"filter": "NAME:lun"}).get("data", [])
 print(json.dumps(lun_list, indent=2))
 ```
+
+---
+
+## 免责声明
+
+1. **非官方项目**：本项目非华为 DME 官方提供，由个人维护，仅提供参考样例，不提供技术支持。
+
+2. **AI 生成代码**：本项目代码完全由 AI 编码工具开发和测试，仍存在少部分动作因缺乏环境未进行实际测试（动作实现与 API 是一致的），请谨慎评估后使用。
