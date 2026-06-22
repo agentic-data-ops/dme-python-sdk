@@ -306,3 +306,11 @@ storage_client = client.get_storage_client(storage_id)
 lun_list = storage_client.get("/lun", params={"filter": "NAME:lun"}).get("data", [])
 print(json.dumps(lun_list, indent=2))
 ```
+
+---
+
+## Disclaimer
+
+1. **Unofficial project**: This project is not officially provided by Huawei DME. It is maintained by individuals and serves as a reference sample only. No technical support is provided.
+
+2. **AI-generated code**: The code in this project is entirely developed and tested by AI coding tools. A small number of actions have not been actually tested due to lack of environment (the action implementations are consistent with the APIs). Please evaluate carefully before use.
