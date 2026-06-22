@@ -935,7 +935,7 @@ def main():
                 parser.print_help()
                 sys.exit(1)
 
-            # Create client (token cache load/save handled internally)
+            # 创建客户端（内部处理 token 缓存加载/保存）
             client = DMEAPIClient(
                 endpoint=endpoint,
                 username=username,
@@ -945,7 +945,7 @@ def main():
                 cache_token=args.cache_auth_token,
             )
 
-            # Check if client already has a token; login if not
+            # 检查客户端是否已有 token，没有再登录
             if not client.headers.get("X-Auth-Token"):
                 print(f"正在连接 DME: {endpoint}")
                 client.login()
@@ -1083,7 +1083,7 @@ def main():
             parser.print_help()
             sys.exit(1)
 
-        # Create client (token cache load/save handled internally)
+        # 创建客户端（内部处理 token 缓存加载/保存）
         client = DMEAPIClient(
             endpoint=endpoint,
             username=username,
@@ -1093,7 +1093,7 @@ def main():
             cache_token=args.cache_auth_token,
         )
 
-        # Check if client already has a token; login if not
+        # 检查客户端是否已有 token，没有再登录
         if not client.headers.get("X-Auth-Token"):
             print(f"正在连接 DME: {endpoint}")
             client.login()
