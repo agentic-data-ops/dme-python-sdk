@@ -210,7 +210,7 @@ class DMEAPIClient(BaseClient):
         enable_log=True,
         cache_token: bool = True,
     ):
-        # 尝试从缓存加载 token（仅在未指定且缓存开启时）
+        # Attempt to load token from cache (only when not provided and cache enabled)
         _loaded_from_cache = False
         if not auth_token and cache_token and endpoint and username:
             cached = self._find_cached_token(endpoint, username)
@@ -233,7 +233,7 @@ class DMEAPIClient(BaseClient):
         if auth_token:
             self.last_accessed = time.time()
 
-        # 缓存显式提供的 token（非从缓存加载的）
+        # Cache explicitly-provided token (not one loaded from cache)
         if auth_token and cache_token and endpoint and username and not _loaded_from_cache:
             self._update_cache(endpoint, username, auth_token)
 
@@ -255,7 +255,7 @@ class DMEAPIClient(BaseClient):
         if response.status_code == 200:
             self.headers["X-Auth-Token"] = response.json()["accessSession"]
             self.last_accessed = time.time()
-            # 登录成功后缓存 token
+            # Cache token after successful login
             if self._cache_token and self.endpoint and self.username:
                 self._update_cache(self.endpoint, self.username, self.headers["X-Auth-Token"])
         else:
