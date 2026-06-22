@@ -7,6 +7,7 @@ import zlib
 import gzip
 from abc import abstractmethod
 import os
+from pathlib import Path
 
 logging.basicConfig(
     level=logging.INFO,
@@ -194,6 +195,9 @@ class CONST:
 class DMEAPIClient(BaseClient):
     """DME API Client"""
 
+    _CACHE_DIR = os.path.expanduser("~/.config/pydme")
+    _CACHE_FILE = os.path.join(_CACHE_DIR, "cache.json")
+
     def __init__(
         self,
         endpoint: str = os.getenv("DME_API_ENDPOINT"),
@@ -204,7 +208,16 @@ class DMEAPIClient(BaseClient):
         timeout: int = 30,
         session_timeout: int = 900,
         enable_log=True,
+        cache_token: bool = True,
     ):
+        # 尝试从缓存加载 token（仅在未指定且缓存开启时）
+        _loaded_from_cache = False
+        if not auth_token and cache_token and endpoint and username:
+            cached = self._find_cached_token(endpoint, username)
+            if cached:
+                auth_token = cached
+                _loaded_from_cache = True
+
         headers = {
             "Content-Type": "application/json;charset=utf8",
             "Accept": "application/json",
@@ -215,9 +228,14 @@ class DMEAPIClient(BaseClient):
         self.username = username
         self.password = password
         self.storage_clients = {}
+        self._cache_token = cache_token
 
         if auth_token:
             self.last_accessed = time.time()
+
+        # 缓存显式提供的 token（非从缓存加载的）
+        if auth_token and cache_token and endpoint and username and not _loaded_from_cache:
+            self._update_cache(endpoint, username, auth_token)
 
     def login(self):
         path = "/rest/plat/smapp/v1/sessions"
@@ -237,6 +255,9 @@ class DMEAPIClient(BaseClient):
         if response.status_code == 200:
             self.headers["X-Auth-Token"] = response.json()["accessSession"]
             self.last_accessed = time.time()
+            # 登录成功后缓存 token
+            if self._cache_token and self.endpoint and self.username:
+                self._update_cache(self.endpoint, self.username, self.headers["X-Auth-Token"])
         else:
             raise Exception(response.text)
 
@@ -255,6 +276,48 @@ class DMEAPIClient(BaseClient):
         )
         self.storage_clients[storage_id] = storage_client
         return storage_client
+
+    @staticmethod
+    def _load_cache() -> list:
+        """Load cached auth tokens from cache.json."""
+        if not os.path.isfile(DMEAPIClient._CACHE_FILE):
+            return []
+        try:
+            with open(DMEAPIClient._CACHE_FILE) as f:
+                data = json.load(f)
+            return data.get("dme", [])
+        except (json.JSONDecodeError, OSError):
+            return []
+
+    @staticmethod
+    def _save_cache(entries: list):
+        """Save auth tokens to cache.json, creating directories if needed."""
+        os.makedirs(DMEAPIClient._CACHE_DIR, exist_ok=True)
+        with open(DMEAPIClient._CACHE_FILE, "w") as f:
+            json.dump({"dme": entries}, f, indent=2)
+
+    @staticmethod
+    def _update_cache(endpoint: str, username: str, auth_token: str):
+        """Add or update a cached token entry for (endpoint, username)."""
+        entries = DMEAPIClient._load_cache()
+        entries = [
+            e for e in entries
+            if not (e.get("endpoint") == endpoint and e.get("username") == username)
+        ]
+        entries.append({
+            "endpoint": endpoint,
+            "username": username,
+            "auth_token": auth_token,
+        })
+        DMEAPIClient._save_cache(entries)
+
+    @staticmethod
+    def _find_cached_token(endpoint: str, username: str) -> str:
+        """Look up a cached token for (endpoint, username). Returns empty string if not found."""
+        for entry in DMEAPIClient._load_cache():
+            if entry.get("endpoint") == endpoint and entry.get("username") == username:
+                return entry.get("auth_token", "")
+        return ""
 
     def get_task_result(
         self,
