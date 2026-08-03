@@ -18,3 +18,6 @@ pydme = "pydme.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["pydme*"]
+
+[tool.setuptools.package-data]
+"pydme.config" = ["*.json"]
