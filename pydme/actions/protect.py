@@ -192,8 +192,6 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     """
     保护组中添加成员 LUN
 
-    向指定保护组中添加成员 LUN。
-
     Args:
         client: DME API 客户端
         pg_id: 保护组 ID

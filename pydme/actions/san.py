@@ -511,8 +511,6 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
     """
     批量查询 LUN 组
 
-    查询 LUN 组列表，支持分页和多种过滤条件。
-
     Args:
         client: DME API 客户端
         page_size: 分页查询的个数 (可选, 0~1000, 默认20)
@@ -612,8 +610,6 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
                      mapping_view: dict = None) -> dict:
     """
     创建 LUN 组
-
-    创建新的 LUN 组。
 
     Args:
         client: DME API 客户端
@@ -1223,8 +1219,6 @@ def storage_host_create(client: DMEAPIClient, storage_id: str,
                 vstore_id: str = None) -> dict:
     """
     创建存储主机
-
-    在指定存储设备上创建存储主机。
 
     Args:
         client: DME API 客户端
@@ -2554,8 +2548,6 @@ def physical_host_save_sshkey(client: DMEAPIClient, ip: str, key: str,
     """
     保存指定物理主机 SSH 公钥
 
-    保存物理主机的 SSH 公钥，用于后续通信中检测通信物理主机的身份是否合法。
-
     Args:
         client: DME API 客户端
         ip: 物理主机 IP 地址（必选）
@@ -2713,8 +2705,6 @@ def physical_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: st
               task_remarks: str = None) -> dict:
     """
     解除主机映射
-
-    LUN 解除主机映射。
 
     Args:
         client: DME API 客户端
@@ -2927,8 +2917,6 @@ def physical_host_group_create(client: DMEAPIClient, name: str, host_ids: list,
            description: str = None) -> dict:
     """
     创建物理主机组
-
-    指定物理主机创建物理主机组。
 
     Args:
         client: DME API 客户端

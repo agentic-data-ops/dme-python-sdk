@@ -659,8 +659,6 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
     """
     查询对象健康度
 
-    查询指定类型对象的健康度信息。
-
     Args:
         client: DME API 客户端
         object_type: 对象类型（必选）
@@ -1345,8 +1343,6 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
                 type: str = None, filter: list = None) -> dict:
     r"""
     查询拓扑图库信息
-
-    查询拓扑图库信息，支持 NAS、K8s、DB 等业务类型。
 
     Args:
         client: DME API 客户端

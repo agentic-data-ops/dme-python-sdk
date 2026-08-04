@@ -99,9 +99,7 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
     """
     查询指定虚拟机详情
-    
-    查询虚拟机的详细信息。
-    
+
     Args:
         client: DME API 客户端
         vm_id: 虚拟机 ID（必选）
@@ -212,9 +210,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
 def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None) -> dict:
     """
     查询指定数据存储详情
-    
-    查询数据存储的详细信息。
-    
+
     Args:
         client: DME API 客户端
         datastore_id: 数据存储 ID（必选）
@@ -296,9 +292,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
     查询指定主机详情
-    
-    查询物理主机的详细信息。
-    
+
     Args:
         client: DME API 客户端
         host_id: 主机 ID（必选）
@@ -369,9 +363,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
 def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> dict:
     """
     查询指定集群详情
-    
-    查询集群的详细信息。
-    
+
     Args:
         client: DME API 客户端
         cluster_id: 集群 ID（必选）
@@ -420,9 +412,7 @@ def site_list(client: DMEAPIClient) -> dict:
 def site_show(client: DMEAPIClient, site_id: str) -> dict:
     """
     查询指定站点详情
-    
-    查询虚拟化站点的详细信息。
-    
+
     Args:
         client: DME API 客户端
         site_id: 站点 ID（必选）
@@ -527,9 +517,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询虚拟磁盘信息列表
-    
-    查询虚拟磁盘列表，支持多种过滤条件。
-    
+
     Args:
         client: DME API 客户端
         site_id: 虚拟磁盘所属站点 ID（可选）
@@ -576,9 +564,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
 def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
     查询指定虚拟磁盘信息
-    
-    查询虚拟磁盘的详细信息。
-    
+
     Args:
         client: DME API 客户端
         virtual_disk_id: 虚拟磁盘 ID（必选）
