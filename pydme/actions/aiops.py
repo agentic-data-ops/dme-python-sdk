@@ -467,26 +467,11 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     When aggregated data exists, the returned result sequence is the average sequence, containing
     the maximum, minimum values and their corresponding timestamps.
 
-    Usage notes:
-    - Object type and indicator definitions: obtain from the performance indicator model documentation (reference/dme_performance_model/index.md)
-    - Object ID (CMDB instance ID) acquisition steps:
-      1. Run `cmdb instance list --help` to view help, understand class definitions and query methods
-      2. Based on help info, determine the resource type (Class name) to query from the CMDB resource model
-      3. Use `cmdb instance list --class_name <Class name>` to query instance list
-      4. Obtain the instance_id of the corresponding resource from the returned result (i.e., the obj_ids parameter)
-
     Args:
         client: DME API client
         obj_type_id: monitoring object type ID (Required), corresponds to monitoring object type ID
-                     obtain from the performance indicator model documentation: reference/dme_performance_model/index.md
         indicator_ids: monitoring indicator ID list (Required, up to 100), corresponds to indicator ID
-                       obtain from the performance indicator model documentation: reference/dme_performance_model/index.md
         obj_ids: monitoring object ID list (Required, up to 512), corresponds to CMDB instance ID
-                 acquisition method:
-                 1. Run `cmdb instance list --help` to view help, understand class definitions
-                 2. Determine the resource type (Class name) to query based on help
-                 3. Run `cmdb instance list --class_name <Class name>` to query instances
-                 4. Obtain instance_id from the returned result
         obj_type: monitoring object type (Optional, 1~512 characters)
         indicators: monitoring indicator list (Optional, up to 100)
         ext_dimensions: extended dimension info list (Optional, up to 100)
