@@ -602,29 +602,32 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
     
     Returns:
         {
-            id: 任务ID (string),
-            name_en: 任务英文名称 (string),
-            name_cn: 任务中文名称 (string),
-            description: 任务描述 (string),
-            parent_id: 父任务ID (string),
-            seq_no: 任务序号 (string),
-            status: 状态。可选值：1 (初始状态), 2 (执行中), 3 (成功), 4 (部分成功), 5 (失败), 6 (超时),
-            progress: 任务进度 (string),
-            owner_name: 创建任务用户名称 (string),
-            owner_id: 创建任务用户ID (string),
-            create_time: 任务创建时间 (string, UTC毫秒数),
-            start_time: 任务开始时间 (string, UTC毫秒数),
-            end_time: 任务结束时间 (string, UTC毫秒数),
-            detail_en: 任务英文详情 (string),
-            detail_cn: 任务中文详情 (string),
-            is_support_retry: 是否支持重试 (boolean),
-            is_support_rollback: 是否支持回滚 (boolean),
-            remarks: 备注信息 (string),
-            resources: 任务关联的资源列表 (List<AffectedResource>)。参数格式如下：[{
-                operate: 操作类型 (string),
-                type: 资源类型 (string),
-                id: 资源ID (string),
-                name: 资源名称 (string),
+            任务详情列表 (List<TaskDetail>)。参数格式如下：[{
+                id: 任务ID (string),
+                name_en: 任务英文名称 (string),
+                name_cn: 任务中文名称 (string),
+                description: 任务描述 (string, 可空),
+                parent_id: 父任务ID (string),
+                seq_no: 任务序号 (integer),
+                status: 任务状态 (integer)。可选值：1 (初始状态), 2 (执行中), 3 (成功), 4 (部分成功), 5 (失败), 6 (超时), 7 (告警),
+                progress: 任务进度 (integer),
+                owner_name: 创建任务用户名称 (string, 可空),
+                owner_id: 创建任务用户ID (string, 可空),
+                create_time: 任务创建时间 (integer, UTC毫秒数),
+                start_time: 任务开始时间 (integer, UTC毫秒数),
+                end_time: 任务结束时间 (integer, UTC毫秒数),
+                detail_en: 任务英文详情 (string, 可空),
+                detail_cn: 任务中文详情 (string, 可空),
+                is_support_retry: 是否支持重试 (boolean),
+                is_support_rollback: 是否支持回滚 (boolean),
+                remarks: 备注信息 (string, 可空),
+                execute_history_count: 任务执行历史次数 (integer),
+                resources: 任务关联的资源列表 (List<AffectedResource>)。参数格式如下：[{
+                    operate: 操作类型 (string),
+                    type: 资源类型 (string),
+                    id: 资源ID (string),
+                    name: 资源名称 (string),
+                }, ...],
             }, ...],
         }
     """
@@ -646,7 +649,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: 分页起始位置，默认 1
         limit: 分页数量，默认 100
         task_name: 任务名称过滤（可选）
-        status: 状态过滤（可选，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时）
+        status: 状态过滤（可选，1-初始状态;2-执行中;3-成功;4-部分成功;5-失败;6-超时;7-告警）
         owner_id: 创建任务用户 ID 过滤（可选）
         create_time_from: 创建时间起始（可选，UTC 毫秒数）
         create_time_to: 创建时间结束（可选，UTC 毫秒数）
@@ -657,12 +660,29 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
             tasks: 任务列表 (List<TaskDetail>)。参数格式如下：[{
                 id: 任务ID (string),
                 name_en: 任务英文名称 (string),
-                status: 状态 (string),
-                progress: 任务进度 (string),
-                owner_name: 创建任务用户名称 (string),
-                create_time: 创建时间 (string),
-                start_time: 开始时间 (string),
-                end_time: 结束时间 (string),
+                name_cn: 任务中文名称 (string),
+                description: 任务描述 (string, 可空),
+                parent_id: 父任务ID (string),
+                seq_no: 任务序号 (integer),
+                status: 任务状态 (integer)。可选值：1 (初始状态), 2 (执行中), 3 (成功), 4 (部分成功), 5 (失败), 6 (超时), 7 (告警),
+                progress: 任务进度 (integer),
+                owner_name: 创建任务用户名称 (string, 可空),
+                owner_id: 创建任务用户ID (string, 可空),
+                create_time: 任务创建时间 (integer, UTC毫秒数),
+                start_time: 任务开始时间 (integer, UTC毫秒数),
+                end_time: 任务结束时间 (integer, UTC毫秒数),
+                detail_en: 任务英文详情 (string, 可空),
+                detail_cn: 任务中文详情 (string, 可空),
+                is_support_retry: 是否支持重试 (boolean),
+                is_support_rollback: 是否支持回滚 (boolean),
+                remarks: 备注信息 (string, 可空),
+                execute_history_count: 任务执行历史次数 (integer, 可空),
+                resources: 任务关联的资源列表 (List<AffectedResource>, 可空)。参数格式如下：[{
+                    operate: 操作类型 (string),
+                    type: 资源类型 (string),
+                    id: 资源ID (string),
+                    name: 资源名称 (string),
+                }, ...],
             }, ...],
         }
     """
