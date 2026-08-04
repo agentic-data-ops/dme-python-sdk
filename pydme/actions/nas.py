@@ -335,8 +335,6 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
     """
     Create and share Dtree
 
-    Create Dtree, and share the Dtree via NFS, CIFS or DataTurbo.
-
     Args:
         client: DME API client
         storage_id: Dtree storage device ID, 1~64 characters
@@ -3116,8 +3114,6 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
                            sort_dir: str = None) -> dict:
     """
     Query client access list under NFS share
-
-    Specify a device or NFS ID to query the client access list under the NFS share.
 
     Args:
         client: DME API client

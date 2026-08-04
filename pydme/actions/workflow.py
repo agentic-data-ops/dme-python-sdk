@@ -15,9 +15,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
                   name: str = None) -> dict:
     """
     Paginated query template list
-    
-    Paginated query of workflow template list.
-    
+
     Args:
         client: DME API client
         page_no: Page index (required, minimum: 1)
@@ -57,9 +55,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
 def template_groups(client: DMEAPIClient) -> dict:
     """
     Query all template groups
-    
-    Query all workflow template groups.
-    
+
     Args:
         client: DME API client
     
@@ -78,9 +74,7 @@ def template_show(client: DMEAPIClient, template_id: str,
                   template_version_id: str = None) -> dict:
     """
     Query template detailed info
-    
-    Query detailed info of a specified template.
-    
+
     Args:
         client: DME API client
         template_id: Template id (required, 1~64 characters)
@@ -107,9 +101,7 @@ def template_show(client: DMEAPIClient, template_id: str,
 def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     """
     Stop instance
-    
-    Stop a running workflow instance.
-    
+
     Args:
         client: DME API client
         instance_id: Instance id (required, 1~64 characters)
@@ -126,9 +118,7 @@ def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
 def instance_show(client: DMEAPIClient, instance_id: str) -> dict:
     """
     Query instance details
-    
-    Query detailed info of a specified workflow instance.
-    
+
     Args:
         client: DME API client
         instance_id: Instance id to query (required, 1~64 characters)
@@ -198,9 +188,7 @@ def instance_create(client: DMEAPIClient, template_id: str = None,
 def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> dict:
     """
     Query step log
-    
-    Query the execution log of a specified step in a workflow instance.
-    
+
     Args:
         client: DME API client
         instance_id: Instance id (required, 1~64 characters)

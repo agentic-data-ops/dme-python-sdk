@@ -41,9 +41,7 @@ def cluster_list(client: DMEAPIClient,
 def cluster_capacity(client: DMEAPIClient, cluster_id: str) -> dict:
     """
     Query backup cluster capacity
-    
-    Query specified backup cluster capacity info.
-    
+
     Args:
         client: DME API client
         cluster_id: backup cluster ID (Required, 1~64 characters)
@@ -65,9 +63,7 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
     Query backup cluster tenant quota list
-    
-    Query the tenant quota list under a specified backup cluster.
-    
+
     Args:
         client: DME API client
         cluster_id: backup cluster ID (Required, 1~64 characters)

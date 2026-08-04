@@ -75,8 +75,6 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
     """
     Batch update LUN service level
 
-    This operation updates LUN capabilities and attributes based on service level attributes. Supported updates include: QoS policy, I/O priority, SmartTier policy.
-
     Args:
         client: DME API client
         volume_ids: LUN list (List<string>, max array members: 1000)
@@ -165,8 +163,6 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
     """
     LUN associate business group
 
-    Associate a LUN to a specified business group.
-
     Args:
         client: DME API client
         volume_id: LUN ID (string, 1~64 characters)
@@ -189,8 +185,6 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
                           business_group_id: str) -> dict:
     """
     Remove LUN from business group association
-
-    Remove the association between a LUN and a business group.
 
     Args:
         client: DME API client
@@ -220,8 +214,6 @@ def tier_list(client: DMEAPIClient, name: str = None,
                         sort_dir: str = 'asc', type: str = None) -> dict:
     """
     Batch query service levels
-
-    Query service level list, supports filtering by name, project ID, availability zone, storage ID, etc. and pagination.
 
     Args:
         client: DME API client
@@ -274,8 +266,6 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     """
     Batch query business group and service level associations
 
-    Query the list of associations between business groups and service levels, supports filtering by service level ID.
-
     Args:
         client: DME API client
         tier_id: Service level ID (Optional)
@@ -308,8 +298,6 @@ def project_list(client: DMEAPIClient, name: str = None,
                   start: int = 1, limit: int = 20) -> dict:
     """
     Batch query business groups
-
-    Query business group list, supports filtering by name and pagination.
 
     Args:
         client: DME API client

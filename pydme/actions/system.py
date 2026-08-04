@@ -393,8 +393,6 @@ def todo_task_group_execute(client: DMEAPIClient, group_id: str) -> dict:
     """
     Execute todo task group
 
-    Execute the specified todo task group.
-
     Args:
         client: DME API client
         group_id: Todo task group ID(Required)
@@ -471,8 +469,6 @@ def todo_task_list(client: DMEAPIClient, service_type: str,
 def todo_task_show(client: DMEAPIClient, item_id: str) -> dict:
     """
     Query todo item details info
-
-    Query the detailed info of the specified todo item.
 
     Args:
         client: DME API client
@@ -552,8 +548,6 @@ def todo_task_revoke(client: DMEAPIClient, item_id: str) -> dict:
     """
     Revoke audit for todo item
 
-    Revoke the audit of the specified todo item.
-
     Args:
         client: DME API client
         item_id: Todo item ID(Required)
@@ -598,8 +592,6 @@ import time
 def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
     Query specified task details
-
-    Query by the unique task identifier TaskId.
 
     Args:
         client: DME API client
@@ -696,8 +688,6 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
 def task_retry(client: DMEAPIClient, task_id: str) -> dict:
     """
     Retry task
-
-    Retry the specified task, used when the task was not fully successful.
 
     Args:
         client: DME API client
