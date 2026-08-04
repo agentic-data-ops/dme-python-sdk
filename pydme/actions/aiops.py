@@ -528,14 +528,28 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
         client: DME API 客户端
         indicators: 监控对象指标标识列表(必填,最多 1000 个字符)
                    可以是整数列表或字符串列表,如 [123, 456] 或 ["123", "456"]
-                   API 要求包装在 {"indicators": [...]} 中发送
+                   API 要求 body 为顶层 JSON 数组,如 [123, 456]
 
     Returns:
         {
-            status_code: 状态码 (int32),
-            error_code: 错误码 (int32),
-            error_msg: 错误消息 (string),
-            data: 监控指标映射 (Map<object, SimpleIndicator>),
+            status_code: 状态码 (int32,默认值 200),
+            error_code: 错误码 (int32,默认值 0),
+            error_msg: 错误消息 (string,默认值 Successful.),
+            data: 监控指标信息 (Map<object, SimpleIndicator>),
+                {
+                    kpi: 是否KPI指标：0表示非KPI指标；1表示KPI指标 (int32),
+                    data_type: 数据类型 (string,最多 32 个字符),
+                    data_unit: 数据单位 (string,最多 32 个字符),
+                    en_us: 指标英文名称 (string,最多 128 个字符),
+                    zh_cn: 指标中文名称 (string,最多 128 个字符),
+                    group_en_us: 指标组英文名称 (string,最多 128 个字符),
+                    group_zh_cn: 指标组中文名称 (string,最多 128 个字符),
+                    tag: 指标TAG，用于指标分类 (string,最多 128 个字符),
+                    alarm_id: 告警标识 (string,最多 128 个字符),
+                    alarm_desc_en_us: 阈值告警英文名称 (string,最多 128 个字符),
+                    alarm_desc_zh_cn: 阈值告警中文名称 (string,最多 128 个字符),
+                    indicator_name: 指标标识 (string,最多 128 个字符),
+                },
         }
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
@@ -543,8 +557,8 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     # 确保 indicators 是整数列表
     indicator_ids = [int(i) for i in (indicators or [])]
 
-    # API 要求 body 为 {"indicators": [int64, ...]}
-    response = client.post(url, body={"indicators": indicator_ids})
+    # API 要求 body 为顶层 JSON 数组 [int64, ...]（List<int64>）
+    response = client.post(url, body=indicator_ids)
     return response
 
 
