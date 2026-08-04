@@ -21,54 +21,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pydme.client import DMEAPIClient
 
 
-
-CACHE_DIR = os.path.expanduser("~/.config/pydme")
-CACHE_FILE = os.path.join(CACHE_DIR, "cache.json")
-
-
-def _load_cache() -> list:
-    """Load cached auth tokens from cache.json."""
-    if not os.path.isfile(CACHE_FILE):
-        return []
-    try:
-        with open(CACHE_FILE) as f:
-            data = json.load(f)
-        return data.get("dme", [])
-    except (json.JSONDecodeError, OSError):
-        return []
-
-
-def _save_cache(entries: list):
-    """Save auth tokens to cache.json, creating directories if needed."""
-    os.makedirs(CACHE_DIR, exist_ok=True)
-    with open(CACHE_FILE, "w") as f:
-        json.dump({"dme": entries}, f, indent=2)
-
-
-def _update_cache(endpoint: str, username: str, auth_token: str):
-    """Add or update a cached token entry for (endpoint, username)."""
-    entries = _load_cache()
-    entries = [
-        e for e in entries
-        if not (e.get("endpoint") == endpoint and e.get("username") == username)
-    ]
-    entries.append({
-        "endpoint": endpoint,
-        "username": username,
-        "auth_token": auth_token,
-    })
-    _save_cache(entries)
-
-
-def _find_cached_token(endpoint: str, username: str) -> str:
-    """Look up a cached token for (endpoint, username). Returns empty string if not found."""
-    for entry in _load_cache():
-        if entry.get("endpoint") == endpoint and entry.get("username") == username:
-            return entry.get("auth_token", "")
-    return ""
-
-
-
 def load_blacklist() -> Dict[str, list]:
     """
     Load the risk operation blacklist.
