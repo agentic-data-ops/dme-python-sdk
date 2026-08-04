@@ -212,9 +212,7 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
 def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None) -> dict:
     """
     Query specified data store details
-    
-    Query detailed info of a data store.
-    
+
     Args:
         client: DME API client
         datastore_id: Data store ID (Required)
@@ -246,9 +244,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                page_no: int = 1, page_size: int = 20) -> dict:
     """
     Query host list
-    
-    Query physical host list, supports multiple filter criteria.
-    
+
     Args:
         client: DME API client
         site_id: Site ID of the host
@@ -296,9 +292,7 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
     """
     Query specified host details
-    
-    Query detailed info of a physical host.
-    
+
     Args:
         client: DME API client
         host_id: Host ID (Required)
@@ -369,9 +363,7 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
 def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> dict:
     """
     Query specified cluster details
-    
-    Query detailed info of a cluster.
-    
+
     Args:
         client: DME API client
         cluster_id: Cluster ID (Required)
@@ -399,9 +391,7 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
 def site_list(client: DMEAPIClient) -> dict:
     """
     Query site list
-    
-    Query all virtualization site list.
-    
+
     Args:
         client: DME API client
     
@@ -420,9 +410,7 @@ def site_list(client: DMEAPIClient) -> dict:
 def site_show(client: DMEAPIClient, site_id: str) -> dict:
     """
     Query specified site details
-    
-    Query detailed info of a virtualization site.
-    
+
     Args:
         client: DME API client
         site_id: Site ID (Required)
@@ -445,9 +433,7 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
 def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
     """
     Query specified host storage adapter list
-    
-    Query the storage adapters of a physical host.
-    
+
     Args:
         client: DME API client
         host_id: Host ID (Required)
@@ -475,9 +461,7 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
                          page_no: int = 1, page_size: int = 20) -> dict:
     """
     Query physical disk info
-    
-    Query physical disk list, supports multiple filter criteria.
-    
+
     Args:
         client: DME API client
         site_id: Site ID of the physical disk (Optional)
@@ -527,9 +511,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
     """
     Query virtual disk info list
-    
-    Query virtual disk list, supports multiple filter criteria.
-    
+
     Args:
         client: DME API client
         site_id: Site ID of the virtual disk (Optional)
@@ -576,9 +558,7 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
 def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     """
     Query specified virtual disk info
-    
-    Query detailed info of a virtual disk.
-    
+
     Args:
         client: DME API client
         virtual_disk_id: Virtual disk ID (Required)

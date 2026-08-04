@@ -192,8 +192,6 @@ def group_add_luns(client: DMEAPIClient, pg_id: str, lun_ids: list = None,
     """
     Add member LUNs to protection group
 
-    Add member LUNs to the specified protection group. 
-
     Args:
         client: DME API client
         pg_id: protection group ID
@@ -248,8 +246,6 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
                       is_delay: bool = None) -> dict:
     """
     Remove member LUNs from protection group
-
-    Remove member LUNs from the specified protection group. 
 
     Args:
         client: DME API client

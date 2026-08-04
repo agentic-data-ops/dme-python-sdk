@@ -513,8 +513,6 @@ def lun_group_list(client: DMEAPIClient, page_size: int = 20, page_no: int = 1,
     """
     Batch query LUN groups
 
-    Query LUN group list, supports pagination and multiple filter criteria
-
     Args:
         client: DME API client
         page_size: Number of paginated query results (Optional, 0~1000, default 20)
@@ -615,8 +613,6 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
                      mapping_view: dict = None) -> dict:
     """
     Create LUN group
-
-    Create a new LUN group
 
     Args:
         client: DME API client
@@ -1039,8 +1035,6 @@ def mapping_view_list(
     """
     Batch query mapping view list
 
-    Batch query mapping view info on storage devices, supports multiple filter criteria
-
     Args:
         client: DME API client
         page_size: Number of paginated query results (Optional, 0~1000, default 100)
@@ -1227,8 +1221,6 @@ def storage_host_create(client: DMEAPIClient, storage_id: str,
                 vstore_id: str = None) -> dict:
     """
     Create Storage host
-
-    Create a Storage host on the specified storage device
 
     Args:
         client: DME API client
@@ -1522,8 +1514,6 @@ def storage_host_delete(client: DMEAPIClient, host_ids: list) -> dict:
     """
     Batch delete storage hosts
 
-    Batch delete specified storage hosts
-
     Args:
         client: DME API client
         host_ids: Storage host ID list (Required, up to 1000)
@@ -1734,8 +1724,6 @@ def storage_host_group_add_hosts(client: DMEAPIClient, storage_host_group_id: st
     """
     Add Storage hosts to a Storage host group
 
-    Add existing hosts to a Storage host group, or create new hosts within the host group
-
     Args:
         client: DME API client
         storage_host_group_id: Storage host group ID (Required)
@@ -1794,8 +1782,6 @@ def storage_host_group_remove_hosts(client: DMEAPIClient, storage_host_group_id:
     """
     Remove hosts from a Storage host group
 
-    Remove one or more hosts from the specified Storage host group
-
     Args:
         client: DME API client
         storage_host_group_id: Storage host group ID (Required, 1~64 characters)
@@ -1825,8 +1811,6 @@ def storage_host_group_delete(client: DMEAPIClient, host_group_ids: list,
     """
     Batch delete storage host groups
 
-    Batch delete specified storage host groups
-
     Args:
         client: DME API client
         host_group_ids: Storage host group ID list (Required, 1~100)
@@ -1854,8 +1838,6 @@ def storage_host_show_luns(client: DMEAPIClient, storage_host_id: str,
                    sort_dir: str = None) -> dict:
     """
     Query LUN info list mapped to a Storage host
-
-    Query the mapped LUN info list for a specified Storage host, including LUN info and host LUN ID info
 
     Args:
         client: DME API client
@@ -1896,8 +1878,6 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
                          sort_dir: str = None) -> dict:
     """
     Query LUN info list mapped to a Storage host group
-
-    Query the mapped LUN info list for a specified Storage host group, including LUN info and host LUN ID info
 
     Args:
         client: DME API client
@@ -2397,8 +2377,6 @@ def physical_host_delete(client: DMEAPIClient, host_id: str,
     """
     Remove a physical host
 
-    Remove the specified physical host
-
     Args:
         client: DME API client
         host_id: Physical host ID (Required)
@@ -2560,8 +2538,6 @@ def physical_host_save_sshkey(client: DMEAPIClient, ip: str, key: str,
     """
     Save the SSH public key of a specified physical host
 
-    Save the SSH public key of a physical host, used for verifying the identity of the communication physical host in subsequent communications
-
     Args:
         client: DME API client
         ip: Physical host IP address (Required)
@@ -2616,8 +2592,6 @@ def physical_host_query_by_initiator(client: DMEAPIClient, initiator_id: str = N
     """
     Query associated physical host by initiator
 
-    Query the associated physical host by initiator ID or initiator WWPN/IQN/NQN
-
     Args:
         client: DME API client
         initiator_id: Initiator ID (Optional, mutually exclusive with raw_id)
@@ -2670,8 +2644,6 @@ def physical_host_map_luns(client: DMEAPIClient, volume_ids: list, host_id: str,
     """
     Map LUNs to a physical host
 
-    Map LUNs to the specified physical host
-
     Args:
         client: DME API client
         volume_ids: LUN ID list (Required, max array members: 1000)
@@ -2721,8 +2693,6 @@ def physical_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: st
     """
     Unmap LUNs from host
 
-    Unmap LUNs from host
-
     Args:
         client: DME API client
         volume_ids: LUN ID list (Required, max array members: 1000)
@@ -2753,8 +2723,6 @@ def storage_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: str
               task_remarks: str = None) -> dict:
     """
     Unmap LUNs from storage host
-
-    Unmap the mapping relation between LUNs and storage host
 
     Args:
         client: DME API client
@@ -2842,8 +2810,6 @@ def physical_host_group_show_hosts(client: DMEAPIClient, hostgroup_id: str,
                 page_no: int = 1) -> dict:
     """
     Query physical hosts in a physical host group
-
-    Query the list of physical hosts in a specified physical host group
 
     Args:
         client: DME API client
@@ -2934,8 +2900,6 @@ def physical_host_group_create(client: DMEAPIClient, name: str, host_ids: list,
            description: str = None) -> dict:
     """
     Create a physical host group
-
-    Create a physical host group with specified physical hosts
 
     Args:
         client: DME API client
@@ -3057,8 +3021,6 @@ def physical_host_group_remove_hosts(client: DMEAPIClient, hostgroup_id: str,
     """
     Remove physical hosts from a physical host group
 
-    Remove physical hosts from a physical host group
-
     Args:
         client: DME API client
         hostgroup_id: Physical host group ID (Required)
@@ -3082,8 +3044,6 @@ def physical_host_group_map_luns(client: DMEAPIClient, volume_ids: list, hostgro
             mapping_policy: list = None, task_remarks: str = None) -> dict:
     """
     Map LUNs to a physical host group
-
-    Map LUNs to the specified physical host group
 
     Args:
         client: DME API client
@@ -3133,8 +3093,6 @@ def physical_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostg
     """
     Unmap LUNs from host group
 
-    Unmap the mapping relation between LUNs and host group
-
     Args:
         client: DME API client
         volume_ids: LUN ID list (Required, max array members: 1000)
@@ -3165,8 +3123,6 @@ def storage_host_group_unmap_luns(client: DMEAPIClient, volume_ids: list, hostgr
               task_remarks: str = None) -> dict:
     """
     Unmap LUNs from storage host group
-
-    Unmap the mapping relation between LUNs and storage host group
 
     Args:
         client: DME API client

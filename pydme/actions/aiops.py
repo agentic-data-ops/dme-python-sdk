@@ -181,8 +181,6 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     """
     Query alarm info
 
-    Query current alarms. Optionally query history alarms simultaneously.
-
     Args:
         client: DME API client
         alarm_id: alarm ID, supports fuzzy match
@@ -250,8 +248,6 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
     r"""
     Acknowledge alarm
 
-    Acknowledge (ACK) the specified alarms.
-
     Args:
         client: DME API client
         csns: alarm serial number list (Required), up to 30
@@ -280,8 +276,6 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     r"""
     Un-acknowledge alarm
 
-    Un-acknowledge (UNACK) the specified alarms.
-
     Args:
         client: DME API client
         csns: alarm serial number list (Required), up to 30
@@ -309,8 +303,6 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
 def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
     r"""
     Clear alarm
-
-    Clear (CLEAR) the specified alarms.
 
     Args:
         client: DME API client
@@ -614,8 +606,6 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     """
     Query health related data
 
-    Query capacity prediction, performance prediction, performance anomaly and other health related data.
-
     Args:
         client: DME API client
         type: data type (Required), valid values: capacity_prediction, performance_prediction, performance_anomaly
@@ -658,8 +648,6 @@ def health_show_score(client: DMEAPIClient, object_type: str, object_name: str =
                       sort_key: str = None, sort_dir: str = None) -> dict:
     """
     Query object health score
-
-    Query health score info of specified type of objects.
 
     Args:
         client: DME API client
@@ -709,8 +697,6 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
                        health_dimension: str) -> dict:
     """
     Query deduction details of health dimensions
-
-    Query the deduction details of a specified object under a specified health dimension.
 
     Args:
         client: DME API client
@@ -802,8 +788,6 @@ def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query
     """
     Query check policy list
 
-    Query the check policy list, supports filtering by policy name, status, type, etc.
-
     Args:
         client: DME API client
         policy_name: policy name (supports fuzzy query, up to 256 characters)
@@ -877,8 +861,6 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Execute check policy
 
-    Execute the specified check policy.
-
     Args:
         client: DME API client
         policy_id: policy ID (1~64 characters)
@@ -897,8 +879,6 @@ def check_policy_execute(client: DMEAPIClient, policy_id: str) -> dict:
 def check_policy_enable(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Enable check policy
-
-    Enable the specified check policy.
 
     Args:
         client: DME API client
@@ -919,8 +899,6 @@ def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Disable check policy
 
-    Disable the specified check policy.
-
     Args:
         client: DME API client
         policy_id: policy ID (1~64 characters)
@@ -939,8 +917,6 @@ def check_policy_disable(client: DMEAPIClient, policy_id: str) -> dict:
 def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
     """
     Delete check policy
-
-    Delete the specified check policy.
 
     Args:
         client: DME API client
@@ -1352,8 +1328,6 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
                 type: str = None, filter: list = None) -> dict:
     r"""
     Query topology graph info
-
-    Query topology graph info, supports NAS, K8s, DB and other service types.
 
     Args:
         client: DME API client

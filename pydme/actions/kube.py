@@ -176,8 +176,6 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     """
     Query container pod list
 
-    Query container pod list, supports filtering by cluster ID, namespace and name.
-
     Args:
         client: DME API client
         id: Pod ID (Optional)
@@ -402,8 +400,6 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
     Query container PV list
-
-    Query container PV list。
 
     Args:
         client: DME API client

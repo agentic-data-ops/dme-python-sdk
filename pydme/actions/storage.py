@@ -1200,9 +1200,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
 def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     """
     Query the Controller info of a specified Storage device
-    
-    Query the Controller list info of a Storage device.
-    
+
     Args:
         client: DME API client
         storage_id: Storage device ID (Required, 1~36 characters, UUID format or 32-bit hexadecimal)
@@ -1391,8 +1389,6 @@ def initiator_list(client: DMEAPIClient, page_size: int = None, page_no: int = N
                    vstore_name: str = None, storage_id: str = None) -> dict:
     """
     Batch query storage-side initiator objects
-
-    Batch query the list of initiator objects on the storage side.
 
     Args:
         client: DME API client
@@ -2008,8 +2004,6 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
     """
     Create a QoS policy
 
-    Create a new QoS policy, can configure performance limits, alarm parameters and scheduled scheduling.
-
     Args:
         client: DME API client
         name: QoS policy name (Required, 1~31 characters)
@@ -2149,8 +2143,6 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
     """
     Modify a QoS policy
 
-    Modify the configuration of an existing QoS policy.
-
     Args:
         client: DME API client
         qos_policy_id: QoS policy ID(Required)
@@ -2257,8 +2249,6 @@ def qos_delete(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     Delete QoS policies
 
-    Delete one or more QoS policies.
-
     Args:
         client: DME API client
         qos_policy_ids: List of QoS policy IDs (Required, 1~100)
@@ -2277,8 +2267,6 @@ def qos_activate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     Batch activate QoS policies
 
-    Activate one or more QoS policies.
-
     Args:
         client: DME API client
         qos_policy_ids: List of QoS policy IDs(Required)
@@ -2296,8 +2284,6 @@ def qos_activate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 def qos_deactivate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     Batch deactivate QoS policies
-
-    Deactivate one or more QoS policies.
 
     Args:
         client: DME API client
