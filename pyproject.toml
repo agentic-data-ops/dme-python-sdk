@@ -3,7 +3,7 @@ requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pydme"
+name = "dme-python-sdk"
 version = "25.0.0"
 description = "DME python SDK for storage management"
 readme = "README.md"
