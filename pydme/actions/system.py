@@ -712,9 +712,6 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     """
     等待任务完成
 
-    调用 DMEAPIClient.get_task_result 轮询任务状态，直到任务完成或超时。
-    Warning(7) 状态也视为任务已完成。
-
     Args:
         client: DME API 客户端
         task_id: 任务 ID（必选，1~36 个字符）
