@@ -2872,7 +2872,7 @@ def fs_hypermetro_pair_list(client: DMEAPIClient, ids: list = None, name: str = 
 
 def fs_hypermetro_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量暂停文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+    批量暂停文件系统双活Pair。
 
     Args:
         client: DME API 客户端
@@ -2898,7 +2898,7 @@ def fs_hypermetro_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
 def fs_hypermetro_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    批量同步文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+    批量同步文件系统双活Pair。
 
     Args:
         client: DME API 客户端
@@ -2926,7 +2926,7 @@ def fs_hypermetro_pair_delete(client: DMEAPIClient, ids: list,
                             is_local_delete: bool = None,
                             is_online_delete: bool = None) -> dict:
     """
-    批量删除文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
+    批量删除文件系统双活Pair。
 
     Args:
         client: DME API 客户端
