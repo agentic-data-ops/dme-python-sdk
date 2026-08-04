@@ -599,29 +599,32 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
 
     Returns:
         {
-            id: task ID (string),
-            name_en: task English name (string),
-            name_cn: task Chinese name (string),
-            description: task description (string),
-            parent_id: parent task ID (string),
-            seq_no: task sequence number (string),
-            status: status. valid values: 1 (initial status), 2 (executing), 3 (success), 4 (partial success), 5 (failure), 6 (timeout),
-            progress: task progress (string),
-            owner_name: task creator username (string),
-            owner_id: task creator user ID (string),
-            create_time: task creation time (string, UTC milliseconds),
-            start_time: task start time (string, UTC milliseconds),
-            end_time: task end time (string, UTC milliseconds),
-            detail_en: task English details (string),
-            detail_cn: task Chinese details (string),
-            is_support_retry: whether retry is supported (boolean),
-            is_support_rollback: whether rollback is supported (boolean),
-            remarks: remarks info (string),
-            resources: list of resources associated with the task (List<AffectedResource>). parameter format: [{
-                operate: operation type (string),
-                type: resource type (string),
-                id: resource ID (string),
-                name: resource name (string),
+            task detail list (List<TaskDetail>). parameter format: [{
+                id: task ID (string),
+                name_en: task English name (string),
+                name_cn: task Chinese name (string),
+                description: task description (string, nullable),
+                parent_id: parent task ID (string),
+                seq_no: task sequence number (integer),
+                status: task status (integer). valid values: 1 (initial status), 2 (executing), 3 (success), 4 (partial success), 5 (failure), 6 (timeout), 7 (warning),
+                progress: task progress (integer),
+                owner_name: task creator username (string, nullable),
+                owner_id: task creator user ID (string, nullable),
+                create_time: task creation time (integer, UTC milliseconds),
+                start_time: task start time (integer, UTC milliseconds),
+                end_time: task end time (integer, UTC milliseconds),
+                detail_en: task English details (string, nullable),
+                detail_cn: task Chinese details (string, nullable),
+                is_support_retry: whether retry is supported (boolean),
+                is_support_rollback: whether rollback is supported (boolean),
+                remarks: remarks info (string, nullable),
+                execute_history_count: task execution history count (integer),
+                resources: list of resources associated with the task (List<AffectedResource>). parameter format: [{
+                    operate: operation type (string),
+                    type: resource type (string),
+                    id: resource ID (string),
+                    name: resource name (string),
+                }, ...],
             }, ...],
         }
     """
@@ -643,7 +646,7 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
         start: Pagination start position, default 1
         limit: Pagination count, default 100
         task_name: Task name filter(Optional)
-        status: Status filter (Optional, 1-initial status;2-executing;3-success;4-partial success;5-failure;6-timeout)
+        status: Status filter (Optional, 1-initial status;2-executing;3-success;4-partial success;5-failure;6-timeout;7-warning)
         owner_id: Task creator user ID filter(Optional)
         create_time_from: Creation time lower bound (Optional, UTC milliseconds)
         create_time_to: Creation time upper bound (Optional, UTC milliseconds)
@@ -654,12 +657,29 @@ def task_list(client: DMEAPIClient, start: int = 1, limit: int = 100,
             tasks: task list (List<TaskDetail>). parameter format: [{
                 id: task ID (string),
                 name_en: task English name (string),
-                status: status (string),
-                progress: task progress (string),
-                owner_name: task creator username (string),
-                create_time: creation time (string),
-                start_time: start time (string),
-                end_time: end time (string),
+                name_cn: task Chinese name (string),
+                description: task description (string, nullable),
+                parent_id: parent task ID (string),
+                seq_no: task sequence number (integer),
+                status: task status (integer). valid values: 1 (initial status), 2 (executing), 3 (success), 4 (partial success), 5 (failure), 6 (timeout), 7 (warning),
+                progress: task progress (integer),
+                owner_name: task creator username (string, nullable),
+                owner_id: task creator user ID (string, nullable),
+                create_time: task creation time (integer, UTC milliseconds),
+                start_time: task start time (integer, UTC milliseconds),
+                end_time: task end time (integer, UTC milliseconds),
+                detail_en: task English details (string, nullable),
+                detail_cn: task Chinese details (string, nullable),
+                is_support_retry: whether retry is supported (boolean),
+                is_support_rollback: whether rollback is supported (boolean),
+                remarks: remarks info (string, nullable),
+                execute_history_count: task execution history count (integer, nullable),
+                resources: list of resources associated with the task (List<AffectedResource>, nullable). parameter format: [{
+                    operate: operation type (string),
+                    type: resource type (string),
+                    id: resource ID (string),
+                    name: resource name (string),
+                }, ...],
             }, ...],
         }
     """
