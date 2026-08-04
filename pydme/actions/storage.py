@@ -226,7 +226,7 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
 
 def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     """
-    批量删除租户，该操作会删除存储设备上指定的租户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+    批量删除租户，该操作会删除存储设备上指定的租户。
 
     Args:
         client: DME API 客户端
