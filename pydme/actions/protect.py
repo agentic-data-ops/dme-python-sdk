@@ -168,9 +168,6 @@ def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
     """
     Batch delete protection groups
 
-    >![](public_sys-resources/icon-notice.gif) **Notice: **
-    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
-
     Args:
         client: DME API client
         pg_ids: protection group ID list
@@ -2243,9 +2240,6 @@ def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
     """
     Batch sync remote replication consistency groups
 
-    >![](public_sys-resources/icon-notice.gif) **Notice: **
-    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
-
     Args:
         client: DME API client
         ids: consistency group ID list
@@ -2269,9 +2263,6 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
     """
     Batch split remote replication consistency groups
 
-    >![](public_sys-resources/icon-notice.gif) **Notice: **
-    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
-
     Args:
         client: DME API client
         ids: consistency group ID list
@@ -2294,9 +2285,6 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
 def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
     """
     Batch primary-secondary switch for remote replication consistency groups
-
-    >![](public_sys-resources/icon-notice.gif) **Notice: **
-    >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
 
     Args:
         client: DME API client
