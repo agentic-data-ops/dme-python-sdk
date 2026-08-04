@@ -466,26 +466,11 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
     根据传入参数中的"range"字段所取的枚举值或从开始到结束时间范围内的查询数据.
     有汇聚数据情况下,返回结果序列是平均值序列,并包含最大值,最小值以及对应时间戳.
 
-    使用说明:
-    - 对象类型和指标定义:从性能指标模型文档获取 (reference/dme_performance_model/index.md)
-    - 对象 ID (CMDB 实例 ID) 获取步骤:
-      1. 运行 `cmdb instance list --help` 查看帮助,了解类定义和查询方式
-      2. 根据帮助信息,从 CMDB 资源模型中确定要查询的资源类型 (Class 名称)
-      3. 使用 `cmdb instance list --class_name <Class 名称>` 查询实例列表
-      4. 从返回结果中获取对应资源的 instance_id (即 obj_ids 参数)
-
     Args:
         client: DME API 客户端
         obj_type_id: 监控对象类型标识(必填),对应监控对象类型 ID
-                     从性能指标模型文档获取:reference/dme_performance_model/index.md
         indicator_ids: 监控指标标识列表(必填,最多 100 个),对应指标 ID
-                       从性能指标模型文档获取:reference/dme_performance_model/index.md
         obj_ids: 监控对象标识列表(必填,最多 512 个),对应 CMDB 实例 ID
-                 获取方式:
-                 1. 运行 `cmdb instance list --help` 查看帮助,了解类定义
-                 2. 根据帮助确定要查询的资源类型 (Class 名称)
-                 3. 运行 `cmdb instance list --class_name <Class 名称>` 查询实例
-                 4. 从返回结果中获取 instance_id
         obj_type: 监控对象类型(可选,1~512 个字符)
         indicators: 监控指标列表(可选,最多 100 个)
         ext_dimensions: 扩展维度信息列表(可选,最多 100 个)
