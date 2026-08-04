@@ -601,35 +601,33 @@ def task_show(client: DMEAPIClient, task_id: str) -> list:
         task_id: 任务 ID（必选，1~36 个字符）
     
     Returns:
-        {
-            任务详情列表 (List<TaskDetail>)。参数格式如下：[{
-                id: 任务ID (string),
-                name_en: 任务英文名称 (string),
-                name_cn: 任务中文名称 (string),
-                description: 任务描述 (string, 可空),
-                parent_id: 父任务ID (string),
-                seq_no: 任务序号 (integer),
-                status: 任务状态 (integer)。可选值：1 (初始状态), 2 (执行中), 3 (成功), 4 (部分成功), 5 (失败), 6 (超时), 7 (告警),
-                progress: 任务进度 (integer),
-                owner_name: 创建任务用户名称 (string, 可空),
-                owner_id: 创建任务用户ID (string, 可空),
-                create_time: 任务创建时间 (integer, UTC毫秒数),
-                start_time: 任务开始时间 (integer, UTC毫秒数),
-                end_time: 任务结束时间 (integer, UTC毫秒数),
-                detail_en: 任务英文详情 (string, 可空),
-                detail_cn: 任务中文详情 (string, 可空),
-                is_support_retry: 是否支持重试 (boolean),
-                is_support_rollback: 是否支持回滚 (boolean),
-                remarks: 备注信息 (string, 可空),
-                execute_history_count: 任务执行历史次数 (integer),
-                resources: 任务关联的资源列表 (List<AffectedResource>)。参数格式如下：[{
-                    operate: 操作类型 (string),
-                    type: 资源类型 (string),
-                    id: 资源ID (string),
-                    name: 资源名称 (string),
-                }, ...],
-            }, ...],
-        }
+        [{
+            id: 任务ID (string),
+            name_en: 任务英文名称 (string),
+            name_cn: 任务中文名称 (string),
+            description: 任务描述 (string, 可空),
+            parent_id: 父任务ID (string),
+            seq_no: 任务序号 (integer),
+            status: 任务状态 (integer)。可选值：1 (初始状态), 2 (执行中), 3 (成功), 4 (部分成功), 5 (失败), 6 (超时), 7 (告警),
+            progress: 任务进度 (integer),
+            owner_name: 创建任务用户名称 (string, 可空),
+            owner_id: 创建任务用户ID (string, 可空),
+            create_time: 任务创建时间 (integer, UTC毫秒数),
+            start_time: 任务开始时间 (integer, UTC毫秒数),
+            end_time: 任务结束时间 (integer, UTC毫秒数),
+            detail_en: 任务英文详情 (string, 可空),
+            detail_cn: 任务中文详情 (string, 可空),
+            is_support_retry: 是否支持重试 (boolean),
+            is_support_rollback: 是否支持回滚 (boolean),
+            remarks: 备注信息 (string, 可空),
+            execute_history_count: 任务执行历史次数 (integer),
+            resources: 任务关联的资源列表 (List<AffectedResource>)。参数格式如下：[{
+                operate: 操作类型 (string),
+                type: 资源类型 (string),
+                id: 资源ID (string),
+                name: 资源名称 (string),
+            }, ...]
+        }, ...]
     """
     url = "/rest/taskmgmt/v1/tasks/{task_id}"
     
