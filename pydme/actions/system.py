@@ -707,9 +707,6 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     """
     Wait for task completion
 
-    Call DMEAPIClient.get_task_result to poll task status until completion or timeout.
-    Warning(7) status is also considered as task completed.
-
     Args:
         client: DME API client
         task_id: Task ID (Required, 1~36 characters)
