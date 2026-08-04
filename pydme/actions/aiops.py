@@ -521,13 +521,28 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
         client: DME API client
         indicators: monitoring object indicator ID list (Required, up to 1000 characters)
                     can be integer list or string list, e.g. [123, 456] or ["123", "456"]
+                    API requires the body to be a top-level JSON array, e.g. [123, 456]
 
     Returns:
         {
-            status_code: status code (int32),
-            error_code: error code (int32),
-            error_msg: error message (string),
-            data: monitoring indicator mapping (Map<object, SimpleIndicator>),
+            status_code: status code (int32, default 200),
+            error_code: error code (int32, default 0),
+            error_msg: error message (string, default Successful.),
+            data: monitoring indicator info (Map<object, SimpleIndicator>),
+                {
+                    kpi: whether it is a KPI indicator: 0 for non-KPI; 1 for KPI (int32),
+                    data_type: data type (string, up to 32 characters),
+                    data_unit: data unit (string, up to 32 characters),
+                    en_us: indicator English name (string, up to 128 characters),
+                    zh_cn: indicator Chinese name (string, up to 128 characters),
+                    group_en_us: indicator group English name (string, up to 128 characters),
+                    group_zh_cn: indicator group Chinese name (string, up to 128 characters),
+                    tag: indicator TAG for indicator classification (string, up to 128 characters),
+                    alarm_id: alarm identifier (string, up to 128 characters),
+                    alarm_desc_en_us: threshold alarm English name (string, up to 128 characters),
+                    alarm_desc_zh_cn: threshold alarm Chinese name (string, up to 128 characters),
+                    indicator_name: indicator identifier (string, up to 128 characters),
+                },
         }
     """
     url = "/rest/metrics/v1/mgr-svc/indicators"
@@ -535,8 +550,8 @@ def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     # Ensure indicators is an integer list
     indicator_ids = [int(i) for i in (indicators or [])]
 
-    # API requires body to be {"indicators": [int64, ...]}
-    response = client.post(url, body={"indicators": indicator_ids})
+    # API requires body to be a top-level JSON array [int64, ...] (List<int64>)
+    response = client.post(url, body=indicator_ids)
     return response
 
 
