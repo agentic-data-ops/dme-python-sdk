@@ -168,9 +168,6 @@ def group_delete(client: DMEAPIClient, pg_ids: list) -> dict:
     """
     批量删除保护组
 
-    >![](public_sys-resources/icon-notice.gif) **须知：**
-    >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         pg_ids: 保护组的 ID 列表
@@ -949,9 +946,6 @@ def hypermetro_pair_delete(client: DMEAPIClient, ids: list, delete_mode: str = N
     """
     批量删除双活 Pair
 
-    >![](public_sys-resources/icon-notice.gif) **须知：**
-    >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         ids: 双活 Pair 实例 ID 列表
@@ -1519,9 +1513,6 @@ def replication_pair_sync(client: DMEAPIClient, ids: list) -> dict:
     """
     批量同步远程复制 Pair
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         ids: 复制 Pair ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)
@@ -1567,9 +1558,6 @@ def replication_pair_split(client: DMEAPIClient, ids: list) -> dict:
 def replication_pair_switch(client: DMEAPIClient, ids: list) -> dict:
     """
     远程复制 Pair 批量主从切换
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -1861,9 +1849,6 @@ def snapshot_rollback(client: DMEAPIClient, rollback_speed: str, rollback_snapsh
     """
     批量回滚 LUN 快照
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         rollback_speed: 回滚速率 (必选, string)。可选值：low（低）, medium（中）, high（高）, highest（最高）
@@ -1889,9 +1874,6 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
                     is_auto_deactivate: bool = None) -> dict:
     """
     批量删除 LUN 快照
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -1959,9 +1941,6 @@ def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str
 def snapshot_group_delete(client: DMEAPIClient, snapshot_cg_ids: list, is_delete_target_lun: bool = None) -> dict:
     """
     批量删除快照一致性组
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -2033,9 +2012,6 @@ def snapshot_group_deactivate(client: DMEAPIClient, snapshot_cg_ids: list) -> di
     """
     批量取消激活快照一致性组
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         snapshot_cg_ids: 快照一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)
@@ -2061,9 +2037,6 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
                             target_snapshot_objects: list = None) -> dict:
     """
     回滚快照一致性组
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -2207,9 +2180,6 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
                        is_recycle_dst_lun_data: bool = None) -> dict:
     """
     批量删除克隆一致性组
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -2548,9 +2518,6 @@ def replication_group_sync(client: DMEAPIClient, ids: list) -> dict:
     """
     批量同步远程复制一致性组
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         ids: 一致性组的 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)
@@ -2574,9 +2541,6 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
     """
     批量分裂远程复制一致性组
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         ids: 一致性组的 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)
@@ -2599,9 +2563,6 @@ def replication_group_split(client: DMEAPIClient, ids: list) -> dict:
 def replication_group_switch(client: DMEAPIClient, ids: list) -> dict:
     """
     远程复制一致性组批量主从切换
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -2726,9 +2687,6 @@ def fs_hypermetro_pair_create(client: DMEAPIClient, vstore_pair_id: str,
                             first_sync_policy: str = None) -> dict:
     """
     创建文件系统双活Pair
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -3115,9 +3073,6 @@ def vstore_pair_force_start(client: DMEAPIClient, ids: list) -> dict:
     """
     批量强制启动双活租户Pair。
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         ids: 双活租户Pair的ID列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)
@@ -3290,9 +3245,6 @@ def vstore_pair_switch(client: DMEAPIClient, ids: list, is_force: bool = None) -
     """
     批量主从切换双活租户Pair。
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         ids: 双活租户Pair的ID列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)
@@ -3321,9 +3273,6 @@ def vstore_pair_switch(client: DMEAPIClient, ids: list, is_force: bool = None) -
 def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
     """
     批量删除双活租户Pair。
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -3388,9 +3337,6 @@ def fs_domain_force_start(client: DMEAPIClient, id: str) -> dict:
     """
     强制启动文件系统双活域。
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
@@ -3412,9 +3358,6 @@ def fs_domain_force_start(client: DMEAPIClient, id: str) -> dict:
 def fs_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
     """
     优先站点切换文件系统双活域。
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -3438,9 +3381,6 @@ def fs_domain_recover(client: DMEAPIClient, id: str) -> dict:
     """
     恢复文件系统双活域。
 
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-
     Args:
         client: DME API 客户端
         id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
@@ -3462,9 +3402,6 @@ def fs_domain_recover(client: DMEAPIClient, id: str) -> dict:
 def fs_domain_split(client: DMEAPIClient, id: str, stop_role: str = None) -> dict:
     """
     分裂文件系统双活域。
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
@@ -3492,9 +3429,6 @@ def fs_domain_split(client: DMEAPIClient, id: str, stop_role: str = None) -> dic
 def fs_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
     """
     主从切换文件系统双活域。
-
-    > ![](public_sys-resources/icon-notice.gif) **须知：**
-    > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
     Args:
         client: DME API 客户端
