@@ -595,9 +595,7 @@ import time
 def task_show(client: DMEAPIClient, task_id: str) -> list:
     """
     查询指定任务详情
-    
-    根据任务唯一标识 TaskId 进行查询。
-    
+
     Args:
         client: DME API 客户端
         task_id: 任务 ID（必选，1~36 个字符）

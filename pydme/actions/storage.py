@@ -1200,9 +1200,7 @@ def app_type_list(client: DMEAPIClient, storage_id: str,
 def controller_list(client: DMEAPIClient, storage_id: str) -> dict:
     """
     查询指定存储设备的控制器信息
-    
-    查询存储设备的控制器列表信息。
-    
+
     Args:
         client: DME API 客户端
         storage_id: 存储设备 ID（必选，1~36 个字符，UUID 格式或 32 位十六进制）
@@ -2008,8 +2006,6 @@ def qos_create(client: DMEAPIClient, name: str, storage_id: str,
     """
     创建 QoS 策略
 
-    创建一个新的 QoS 策略，可以配置性能限制、告警参数和定时调度。
-
     Args:
         client: DME API 客户端
         name: QoS 策略名称（必选，1~31 字符）
@@ -2149,8 +2145,6 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
     """
     修改 QoS 策略
 
-    修改现有 QoS 策略的配置。
-
     Args:
         client: DME API 客户端
         qos_policy_id: QoS 策略 ID（必选）
@@ -2257,8 +2251,6 @@ def qos_delete(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     删除 QoS 策略
 
-    删除一个或多个 QoS 策略。
-
     Args:
         client: DME API 客户端
         qos_policy_ids: QoS 策略 ID 列表（必选，1~100 个）
@@ -2277,8 +2269,6 @@ def qos_activate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     批量激活 QoS 策略
 
-    激活一个或多个 QoS 策略。
-
     Args:
         client: DME API 客户端
         qos_policy_ids: QoS 策略 ID 列表（必选）
@@ -2296,8 +2286,6 @@ def qos_activate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
 def qos_deactivate(client: DMEAPIClient, qos_policy_ids: list) -> dict:
     """
     批量取消激活 QoS 策略
-
-    取消激活一个或多个 QoS 策略。
 
     Args:
         client: DME API 客户端

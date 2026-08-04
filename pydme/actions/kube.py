@@ -176,8 +176,6 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
     """
     查询容器组列表
 
-    查询容器组（Pod）列表，支持按集群 ID、命名空间和名称过滤。
-
     Args:
         client: DME API 客户端
         id: 容器组 ID（可选）
@@ -402,8 +400,6 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
     """
     查询容器持久卷列表
-
-    查询容器持久卷（PV）列表。
 
     Args:
         client: DME API 客户端

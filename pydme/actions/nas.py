@@ -335,8 +335,6 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
     """
     创建并共享 Dtree
 
-    创建 Dtree，同时将 Dtree 以 NFS、CIFS 或 DataTurbo 共享。
-
     Args:
         client: DME API 客户端
         storage_id: dtree 所属存储设备 ID，1~64个字符
@@ -3116,8 +3114,6 @@ def nfs_share_show_clients(client: DMEAPIClient, page_no: int = 1, page_size: in
                            sort_dir: str = None) -> dict:
     """
     查询 NFS 共享下的客户端访问列表
-
-    指定设备或 NFS ID，查询 NFS 共享下的客户端访问列表。
 
     Args:
         client: DME API 客户端

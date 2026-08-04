@@ -75,8 +75,6 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
     """
     批量更新 LUN 的服务等级
 
-    该操作将根据服务等级属性更新 LUN 的能力与属性。支持更新的属性与能力包括：QoS 策略、I/O 优先级、SmartTier 策略。
-
     Args:
         client: DME API 客户端
         volume_ids: LUN 列表 (List<string>, 数组最大成员个数: 1000)。
@@ -221,8 +219,6 @@ def tier_list(client: DMEAPIClient, name: str = None,
     """
     批量查询服务等级
 
-    查询服务等级列表，支持按名称、项目 ID、可用区、存储 ID 等过滤和分页。
-
     Args:
         client: DME API 客户端
         name: 服务等级名称（可选，支持模糊查询）
@@ -308,8 +304,6 @@ def project_list(client: DMEAPIClient, name: str = None,
                   start: int = 1, limit: int = 20) -> dict:
     """
     批量查询业务群组
-
-    查询业务群组列表，支持按名称过滤和分页。
 
     Args:
         client: DME API 客户端

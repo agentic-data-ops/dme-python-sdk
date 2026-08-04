@@ -57,9 +57,7 @@ def template_list(client: DMEAPIClient, page_no: int, page_size: int,
 def template_groups(client: DMEAPIClient) -> dict:
     """
     查询所有模板分组
-    
-    查询所有工作流模板分组。
-    
+
     Args:
         client: DME API 客户端
     
