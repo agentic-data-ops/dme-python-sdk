@@ -227,8 +227,6 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
 def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     """
     Batch delete tenants. This operation will delete the specified tenants on the Storage device.
-    This API may directly or indirectly affect current network operations, cause service interruption,
-    critical data loss, etc. Please proceed with caution.
 
     Args:
         client: DME API client

@@ -2406,7 +2406,7 @@ def filesystem_pair_create(client: DMEAPIClient, vstore_pair_id: str,
                             service_assurance_policy: str = None,
                             isolation_threshold_time: int = None) -> dict:
     """
-    create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution. 
+    create Filesystem hypermetro Pair.
 
     Args:
         client: DME API client
@@ -2543,7 +2543,7 @@ def filesystem_pair_list(client: DMEAPIClient, ids: list = None, name: str = Non
 
 def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
+    Batch pause Filesystem hypermetro Pairs.
 
     Args:
         client: DME API client
@@ -2569,7 +2569,7 @@ def filesystem_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
 
 def filesystem_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     """
-    Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
+    Batch sync Filesystem hypermetro Pairs.
 
     Args:
         client: DME API client
@@ -2597,7 +2597,7 @@ def filesystem_pair_delete(client: DMEAPIClient, ids: list,
                             is_local_delete: bool = None,
                             is_online_delete: bool = None) -> dict:
     """
-    Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
+    Batch delete Filesystem hypermetro Pairs.
 
     Args:
         client: DME API client

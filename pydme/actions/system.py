@@ -88,9 +88,7 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 
 def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     """
-    Delete user. This API may directly or indirectly affect live network
-    operations, causing service interruptions or critical data loss.
-    Exercise caution.
+    Delete user.
 
     Args:
         client: DME API client
