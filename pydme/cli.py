@@ -311,7 +311,8 @@ class DMECLI:
             if current_param and param_lines:
                 result['params'][current_param] = '\n'.join(param_lines)
 
-        # 提取返回信息
+        # 提取返回信息（重置 in_returns：无 Args 段时前面循环可能在 Returns: 处置位）
+        in_returns = False
         for line in lines:
             stripped = line.strip()
             if stripped.startswith('Returns:'):
@@ -641,10 +642,9 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
     params = info['parsed'].get('params', {})
     if params:
         for param_name, param_desc in params.items():
-            if param_name != 'client':
-                print(f"\n  --{param_name}")
-                for line in param_desc.split('\n'):
-                    print(f"      {line}")
+            print(f"\n  --{param_name}")
+            for line in param_desc.split('\n'):
+                print(f"      {line}")
     else:
         print("  无参数")
 
@@ -670,7 +670,7 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
     print(f"使用示例:")
     print(f"  pydme {display_cmd}")
     if params:
-        param_str = ' '.join([f"--{p} <value>" for p in params.keys() if p != 'client'])
+        param_str = ' '.join([f"--{p} <value>" for p in params.keys()])
         print(f"  pydme {display_cmd} {param_str}")
     print(f"{'='*60}\n")
 

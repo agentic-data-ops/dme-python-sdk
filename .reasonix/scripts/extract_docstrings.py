@@ -194,6 +194,9 @@ def split_docstring(doc):
     description = full_detail.split('\n')[0] if full_detail else ''
     detail = full_detail
 
+    # client 是调用方注入的会话参数，不属于 CLI 参数，从 i18n 提取中排除
+    parameters.pop('client', None)
+
     return {'description': description, 'detail': detail,
             'parameters': parameters, 'outputs': outputs}
 
@@ -224,10 +227,40 @@ def build_docstring(entry):
     return '\n\n'.join(parts)
 
 
+def _strip_empty_args(text):
+    """删除仅含 client 参数（或无参数）的空 Args 段。
+
+    client 已从 i18n 提取中排除，重组 docstring 不再生成此类 Args 段，
+    归一化比较时需同步移除原始 docstring 中的对应段。
+    """
+    lines = text.split('\n')
+    out = []
+    i = 0
+    while i < len(lines):
+        stripped = lines[i].strip()
+        if stripped == 'Args:':
+            j = i + 1
+            seg = [lines[i]]
+            while j < len(lines):
+                s = lines[j].strip()
+                if not s or re.match(r'^(Returns|Raises|Note|Example):', s):
+                    break
+                seg.append(lines[j])
+                j += 1
+            param_lines = [l for l in seg[1:] if re.match(r'^\w+\s*:', l.strip())]
+            if not param_lines or all(re.match(r'^client\s*:', l.strip()) for l in param_lines):
+                i = j  # 空 Args 段：跳过
+                continue
+        out.append(lines[i])
+        i += 1
+    return '\n'.join(out)
+
+
 def normalize(text):
     """round-trip 校验用的归一化：去行尾空白、连续空行压缩为单个空行、
     段头（Args/Returns/Raises/Note/Example）与参数行行首缩进统一 4 空格。
     parse_docstring 对空行数量与行首缩进不敏感，故这些差异视为等价。"""
+    text = _strip_empty_args(text)
     out = []
     prev_blank = False
     for line in text.split('\n'):
@@ -239,6 +272,8 @@ def normalize(text):
             prev_blank = True
             continue
         prev_blank = False
+        if re.match(r'^ {0,4}client: ', s):
+            continue  # client 参数行已从 i18n 提取中排除，比较时忽略
         stripped = s.lstrip()
         if re.match(r'^(Args|Returns|Raises|Note|Example):', stripped):
             out.append('    ' + stripped)

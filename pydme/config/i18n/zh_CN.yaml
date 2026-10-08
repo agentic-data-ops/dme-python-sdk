@@ -9,7 +9,6 @@ topics:
           
           查询当前告警,可选择是否同时查询历史告警.
         parameters:
-          client: 'DME API 客户端'
           alarm_id: '告警 ID,支持模糊匹配'
           severity: '告警级别列表,取值:critical, major, minor, warning, indeterminate, cleared'
           mo_dn: '被管理对象 DN,支持 inc 操作符匹配'
@@ -43,7 +42,6 @@ topics:
           
           对指定告警执行确认 (ACK) 操作.
         parameters:
-          client: 'DME API 客户端'
           csns: '告警流水号列表(必选),最多 30 个'
         outputs: '操作结果'
       alarm_unack:
@@ -53,7 +51,6 @@ topics:
           
           对指定告警执行取消确认 (UNACK) 操作.
         parameters:
-          client: 'DME API 客户端'
           csns: '告警流水号列表(必选),最多 30 个'
         outputs: '操作结果'
       alarm_clear:
@@ -63,14 +60,12 @@ topics:
           
           对指定告警执行清除 (CLEAR) 操作.
         parameters:
-          client: 'DME API 客户端'
           csns: '告警流水号列表(必选),最多 30 个'
         outputs: '操作结果'
       diagnose_task_create:
         description: '创建智能分析任务'
         detail: '创建智能分析任务'
         parameters:
-          client: 'DME API 客户端'
           object_ids: '入口分析对象 ID 列表(必选),数组大小:1~50'
           object_type: |
             入口对象类型(必选),取值范围:
@@ -120,7 +115,6 @@ topics:
           
           根据任务 ID 查询诊断任务状态.
         parameters:
-          client: 'DME API 客户端'
           task_id: '任务 ID(必选),1~128 个字符'
         outputs: |
           {
@@ -148,7 +142,6 @@ topics:
           收集范围为开始日期到结束日期的性能文件,只支持收集 7 天内的数据,
           每次传入的对象乘以指标数不超过 2000.
         parameters:
-          client: 'DME API 客户端'
           begin_time: '开始时间(必填,Unix 时间戳毫秒)'
           end_time: '结束时间(必填,Unix 时间戳毫秒)'
           object_type_id: '对象类型 ID(必填,1~32 个字符)'
@@ -159,7 +152,6 @@ topics:
         description: '下载性能文件'
         detail: '下载性能文件'
         parameters:
-          client: 'DME API 客户端'
           task_id: '任务 ID(必填)'
         outputs: '性能文件下载链接或文件内容'
       performance_query:
@@ -170,7 +162,6 @@ topics:
           根据传入参数中的"range"字段所取的枚举值或从开始到结束时间范围内的查询数据.
           有汇聚数据情况下,返回结果序列是平均值序列,并包含最大值,最小值以及对应时间戳.
         parameters:
-          client: 'DME API 客户端'
           obj_type_id: '监控对象类型标识(必填),对应监控对象类型 ID'
           indicator_ids: '监控指标标识列表(必填,最多 100 个),对应指标 ID'
           obj_ids: '监控对象标识列表(必填,最多 512 个),对应 CMDB 实例 ID'
@@ -200,7 +191,6 @@ topics:
         description: '显示监控指标详细信息'
         detail: '显示监控指标详细信息'
         parameters:
-          client: 'DME API 客户端'
           indicators: |
             监控对象指标标识列表(必填,最多 1000 个字符)
                        可以是整数列表或字符串列表,如 [123, 456] 或 ["123", "456"]
@@ -229,14 +219,12 @@ topics:
         description: '列出监控对象类型支持的监控指标'
         detail: '列出监控对象类型支持的监控指标'
         parameters:
-          client: 'DME API 客户端'
           obj_type_id: '监控对象类型标识(必填)'
         outputs: '监控指标信息,包含 indicator_ids 列表'
       performance_list_object_types:
         description: '获取所有监控对象类型'
         detail: '获取所有监控对象类型'
         parameters:
-          client: 'DME API 客户端'
           filter: |
             过滤关键字(可选),用于模糊匹配 zh_cn 和 en_us 字段
                     如果提供,仅返回匹配的对象类型
@@ -262,7 +250,6 @@ topics:
           
           查询检查策略的异常检查结果，支持多种过滤条件和分页查询。
         parameters:
-          client: 'DME API 客户端'
           object_name: '对象名称（支持模糊查询，1~256 个字符）'
           level: '异常级别（可选）。可选值：critical (紧急), major (重要), minor (次要), info (提示)'
           object_ids: '对象 ID 列表（最多 100 个）'
@@ -308,7 +295,6 @@ topics:
           
           查询指定检查结果的详细信息。
         parameters:
-          client: 'DME API 客户端'
           check_result_id: '检查结果 ID（1~64 个字符）'
         outputs: |
           {
@@ -333,7 +319,6 @@ topics:
         description: '查询检查策略列表'
         detail: '查询检查策略列表'
         parameters:
-          client: 'DME API 客户端'
           policy_name: '策略名称（支持模糊查询，1~256 个字符）'
           exact_query: '名称是否精确查询（true-精确查询，false-模糊查询），默认 false'
           status: '策略状态（normal-正常，checking-检查中，failed-检查失败，queuing-排队中）'
@@ -367,7 +352,6 @@ topics:
           
           执行指定的检查策略。
         parameters:
-          client: 'DME API 客户端'
           policy_id: '策略 ID（1~64 个字符）'
         outputs: |
           {
@@ -380,7 +364,6 @@ topics:
           
           启用指定的检查策略。
         parameters:
-          client: 'DME API 客户端'
           policy_id: '策略 ID（1~64 个字符）'
         outputs: |
           {
@@ -393,7 +376,6 @@ topics:
           
           禁用指定的检查策略。
         parameters:
-          client: 'DME API 客户端'
           policy_id: '策略 ID（1~64 个字符）'
         outputs: |
           {
@@ -406,7 +388,6 @@ topics:
           
           删除指定的检查策略。
         parameters:
-          client: 'DME API 客户端'
           policy_id: '策略 ID（1~64 个字符）'
         outputs: |
           {
@@ -420,7 +401,6 @@ topics:
           根据指定入口对象查询 SAN 网络中从主机到存储池之间的拓扑结构。
           支持 IP_SAN 和 FC_SAN 两种类型。
         parameters:
-          client: 'DME API 客户端'
           entry_objects: |
             入口对象列表（必选，数组最大成员个数: 1）。FC_SAN 参数格式如下：[{
                     id: 入口对象 id（必选，string，1~128 个字符）,
@@ -498,7 +478,6 @@ topics:
           
           根据指定入口对象和存储池查询 LUN 列表。
         parameters:
-          client: 'DME API 客户端'
           entry_objects: |
             入口对象列表（List<LunTopoQueryEntryObject>，必选，数组最大成员个数: 5）。参数格式如下：[{
                     id: 入口对象 id（必选，string，1~128 个字符）,
@@ -535,7 +514,6 @@ topics:
           
           根据指定入口对象查询虚拟化资源。
         parameters:
-          client: 'DME API 客户端'
           entry_objects: |
             入口对象列表（List<VmTopoQueryEntryObject>，必选，数组最大成员个数: 5）。参数格式如下：[{
                     id: 入口对象 id（必选，string，1~128 个字符）,
@@ -569,7 +547,6 @@ topics:
         description: '查询拓扑图库信息'
         detail: '查询拓扑图库信息'
         parameters:
-          client: 'DME API 客户端'
           entry_res_type: '入口资源类型（必选，string）。可选值：storage_device（存储设备），disk（硬盘），storage_pool（存储池），hyper_scale_pool（全局池），file_system（文件系统），controller（控制器），eth_port（以太/RoCE端口），ib_port（IB端口），logic_port（逻辑端口），ip_client（IP客户端），dtree（Dtree），lun（LUN），k8s_application（容器应用），k8s_workload（工作负载），k8s_pod（容器组），k8s_pvc（持久卷申领），k8s_pv（持久卷），k8s_cluster（容器集群），k8s_node（容器节点），k8s_vc_job（Volcano Job），data_turbo_client（DataTurbo客户端），enclosures（机框），eth_switch（交换机），storage_zone（存储zone），service_network（业务网络），db_instance（高斯数据库实例），db_node（高斯数据库节点）'
           entry_res_id: '入口资源 ID（必选，string，1~256 个字符）'
           type: '业务类型（可选，string）。可选值：nas, k8s, db'
@@ -601,7 +578,6 @@ topics:
           
           查询容量预测、性能预测、性能异常等健康度相关数据。
         parameters:
-          client: 'DME API 客户端'
           type: '数据类型（必选），可选值：capacity_prediction（容量预测）, performance_prediction（性能预测）, performance_anomaly（性能异常）'
           object_id: '资源 ID（必选，1~256 个字符）'
           begin_time: '开始时间（必选），自 1970 年 1 月 1 日（00:00:00GMT）至当前时间的毫秒数'
@@ -616,7 +592,6 @@ topics:
         description: '查询对象健康度'
         detail: '查询对象健康度'
         parameters:
-          client: 'DME API 客户端'
           object_type: |
             对象类型（必选）
                         可选值：storage（存储设备）, storage_pool（存储池）, storage_host（存储主机）,
@@ -642,7 +617,6 @@ topics:
           
           查询指定对象在指定健康维度下的扣分详情。
         parameters:
-          client: 'DME API 客户端'
           object_id: '对象 Id（必选，1~128 个字符）'
           object_type: |
             对象类型（必选）
@@ -666,7 +640,6 @@ topics:
         description: '查询备份集群列表'
         detail: '查询备份集群列表'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的起始页码，1~10000，默认 1'
           page_size: '每页数量，1~200，默认 20'
         outputs: |
@@ -685,7 +658,6 @@ topics:
           
           查询指定备份集群的容量信息。
         parameters:
-          client: 'DME API 客户端'
           cluster_id: '备份集群 ID（必选，1~64个字符）'
         outputs: |
           {
@@ -700,7 +672,6 @@ topics:
           
           查询指定备份集群下的租户配额列表。
         parameters:
-          client: 'DME API 客户端'
           cluster_id: '备份集群 ID（必选，1~64个字符）'
           page_no: '分页查询的起始页码，1~10000，默认 1'
           page_size: '每页数量，1~200，默认 20'
@@ -722,7 +693,6 @@ topics:
         description: '批量查询交换机'
         detail: '批量查询交换机'
         parameters:
-          client: 'DME API 客户端'
           name: '交换机名称（可选，支持模糊查询）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -739,7 +709,6 @@ topics:
         description: '同步指定交换机'
         detail: '同步指定交换机'
         parameters:
-          client: 'DME API 客户端'
           switch_id: '交换机 ID（必选）'
         outputs: |
           {
@@ -749,7 +718,6 @@ topics:
         description: '批量查询交换机端口'
         detail: '批量查询交换机端口'
         parameters:
-          client: 'DME API 客户端'
           switch_id: '交换机 ID（可选）'
           port_name: '端口名称（可选）'
           page_no: '分页查询的页码，默认 1'
@@ -763,7 +731,6 @@ topics:
         description: '批量查询交换机控制处理器'
         detail: '批量查询交换机控制处理器'
         parameters:
-          client: 'DME API 客户端'
           switch_id: '交换机 ID（可选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -776,7 +743,6 @@ topics:
         description: '批量查询光纤网络'
         detail: '批量查询光纤网络'
         parameters:
-          client: 'DME API 客户端'
           name: '光纤网络名称（可选，支持模糊查询）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -789,7 +755,6 @@ topics:
         description: '查询指定光纤网络的端口列表'
         detail: '查询指定光纤网络的端口列表'
         parameters:
-          client: 'DME API 客户端'
           fabric_id: '光纤网络 ID（必选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -802,7 +767,6 @@ topics:
         description: '执行光纤网络配置文件备份'
         detail: '执行光纤网络配置文件备份'
         parameters:
-          client: 'DME API 客户端'
           fabric_id: '光纤网络 ID（必选）'
           backup_server_id: '备份服务器 ID（必选）'
           backup_type: '备份类型，默认 full（full/incremental）'
@@ -814,7 +778,6 @@ topics:
         description: '查询 VSAN 列表'
         detail: '查询 VSAN 列表'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
         outputs: |
@@ -829,7 +792,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           fabric_wwn: '光纤网络 WWN（可选，string，1~1024 个字符）'
           name: 'Zone 名称（可选，string，1~1024 个字符），支持模糊查询'
           cfg_name: '所属 CFG 名称（可选，string，0~1024 个字符），支持模糊查询'
@@ -863,7 +825,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           name: 'Zone 名称（必选，string，1~64 个字符，正则 ^[A-Za-z][A-Za-z0-9_^$\-]*$）'
           fabric_wwn: '光纤网络 WWN（必选，string，1~128 个字符，正则 ^[A-Za-z0-9:]+$）'
           vsan_wwn: 'VSAN WWN（可选，string，1~32 个字符）。条件必选：VSAN 创建 ZONE 时需要传递'
@@ -892,7 +853,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           zone_id: 'Zone ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）'
           zone_name: 'Zone 名称（可选，string，1~64 个字符，正则 ^[A-Za-z][A-Za-z0-9_^$\-]*$）'
           wwn_members: |
@@ -939,7 +899,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           zone_id: 'Zone ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）'
         outputs: '无。'
       zone_batch_create:
@@ -949,7 +908,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           is_active_zone: '是否激活 zones（必选，boolean），可选值：true（激活），false（不激活）'
           zones: |
             创建 zone 的请求列表（List<ZoneCreateRequest>，必选，数组最小成员个数: 1，数组最大成员个数: 20）。参数格式如下：[{
@@ -977,7 +935,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           zone_id: 'Zone ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）'
           type: '成员类型（可选，string）。可选值：port（端口成员），wwn（WWN 成员），alias（别名成员）。不指定时返回所有类型的成员'
         outputs: |
@@ -1014,7 +971,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           fabric_wwn: '光纤网络 WWN（必选，string，1~1024 个字符），从查询光纤网络接口获取'
           name: '别名名称（可选，string，1~1024 个字符），支持模糊查询'
           member_count: '成员数量（可选，int32，0~65535）'
@@ -1042,7 +998,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           name: '别名名称（必选，string，1~64 个字符，正则 ^[A-Za-z0-9][A-Za-z0-9_^$\-]*$）'
           fabric_wwn: '光纤网络 WWN（条件必选，string，1~32 个字符），光纤网络创建别名时需要传递'
           vsan_wwn: 'VSAN WWN（条件必选，string，1~32 个字符），VSAN 创建别名时需要传递'
@@ -1069,7 +1024,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           alias_id: '别名 ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）'
           name: '别名名称（可选，string，1~64 个字符，正则 ^[A-Za-z0-9][A-Za-z0-9_^$\-]*$）。条件可选：思科交换机支持修改别名名称，博科交换机不支持'
           wwn_members: |
@@ -1111,7 +1065,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           alias_id: '别名 ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）'
         outputs: '无。'
       alias_show_members:
@@ -1122,7 +1075,6 @@ topics:
           
           ⚠️  注意：FC 交换机配置操作为同步执行，建议设置请求超时时间为 90 秒以上（--timeout 90）。
         parameters:
-          client: 'DME API 客户端'
           alias_id: '别名 ID（必选，string，正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）'
           type: '成员类型（可选，string）。可选值：port（端口成员），wwn（WWN 成员）。不指定时返回所有类型的成员'
         outputs: |
@@ -1149,7 +1101,6 @@ topics:
         description: '批量查询 Omni-Dataverse'
         detail: '批量查询 Omni-Dataverse'
         parameters:
-          client: 'DME API 客户端'
           name: 'Omni-Dataverse 名称，支持模糊查询'
           id: 'Omni-Dataverse id'
           raw_id: 'Omni-Dataverse 在设备侧的 id'
@@ -1169,7 +1120,6 @@ topics:
         description: '查询指定 Omni-Dataverse 的容量统计信息'
         detail: '查询指定 Omni-Dataverse 的容量统计信息'
         parameters:
-          client: 'DME API 客户端'
           id: 'Omni-Dataverse 的 ID，与 name 不能同时为空，都有值时优先使用 ID'
           name: 'Omni-Dataverse 名称，与 id 不能同时为空，都有值时优先使用 ID'
         outputs: |
@@ -1183,7 +1133,6 @@ topics:
         description: '查询 Omni-Dataverse 数据服务站点'
         detail: '查询 Omni-Dataverse 数据服务站点'
         parameters:
-          client: 'DME API 客户端'
           raw_id: '数据服务站点在设备侧的 id'
           site_role: '数据服务站点角色，包含 site_role 字段，取值范围：ORDINARY(普通站点)，METASTORE(元数据服务站点)'
           gfs_group_id: 'Omni-Dataverse id'
@@ -1205,7 +1154,6 @@ topics:
         description: '批量查询全局命名空间'
         detail: '批量查询全局命名空间'
         parameters:
-          client: 'DME API 客户端'
           name: '全局命名空间的名称，支持模糊搜索 (0~256个字符, 可选)'
           gfs_group_name: '全局数据空间的名称，支持模糊搜索 (0~256个字符, 可选)'
           gfs_group_id: '所属全局数据空间的 ID (1~32个字符, 可选)'
@@ -1227,7 +1175,6 @@ topics:
         description: '查询全局命名空间详情'
         detail: '查询全局命名空间详情'
         parameters:
-          client: 'DME API 客户端'
           id: '全局命名空间的 ID，与 name_locator 不能同时为空，都有值时优先使用 ID'
           name_locator: '名称定位器，格式为：全局命名空间的名称@全局数据空间的名称'
         outputs: |
@@ -1242,7 +1189,6 @@ topics:
         description: '创建全局命名空间'
         detail: '创建全局命名空间'
         parameters:
-          client: 'DME API 客户端'
           name: '全局命名空间名称 (1~255个字符, 必填)'
           gfs_group_id: '全局数据空间 ID (1~32个字符, 可选。与 gfs_group_name 不能同时为空，都有值时优先使用 gfs_group_id)'
           gfs_group_name: '全局数据空间名称 (1~255个字符, 可选。与 gfs_group_id 不能同时为空，都有值时优先使用 gfs_group_id)'
@@ -1264,7 +1210,6 @@ topics:
         description: '修改指定全局命名空间'
         detail: '修改指定全局命名空间'
         parameters:
-          client: 'DME API 客户端'
           id: '全局命名空间的 ID (1~32个字符, 可选。与 name_locator 不能同时为空，都有值时优先使用 id)'
           name_locator: '名称定位器，格式为：全局命名空间的名称@全局数据空间的名称 (3~507个字符, 可选。与 id 不能同时为空，都有值时优先使用 id)'
           smart_share_members: |
@@ -1282,7 +1227,6 @@ topics:
         description: '删除指定的全局命名空间'
         detail: '删除指定的全局命名空间'
         parameters:
-          client: 'DME API 客户端'
           id: '全局命名空间的 ID，与 name_locator 不能同时为空'
           name_locator: '名称定位器，格式为：全局命名空间的名称@全局数据空间的名称'
           is_delete_child: '是否删除子命名空间，默认 true'
@@ -1294,7 +1238,6 @@ topics:
         description: '批量查询 Omni-Dataverse 数据迁移任务'
         detail: '批量查询 Omni-Dataverse 数据迁移任务'
         parameters:
-          client: 'DME API 客户端'
           gfs_id: '全局命名空间 ID (1~32个字符, 可选)'
           task_name: '任务名称，支持模糊查询 (1~256个字符, 可选)'
           task_id: '数据迁移任务在设备侧的 ID (1~256个字符, 可选)'
@@ -1323,7 +1266,6 @@ topics:
         description: '查询 Omni-Dataverse 数据迁移任务详情'
         detail: '查询 Omni-Dataverse 数据迁移任务详情'
         parameters:
-          client: 'DME API 客户端'
           id: '数据迁移任务 ID'
         outputs: |
           {
@@ -1338,7 +1280,6 @@ topics:
         description: '创建 Omni-Dataverse 数据迁移任务'
         detail: '创建 Omni-Dataverse 数据迁移任务'
         parameters:
-          client: 'DME API 客户端'
           gfs_id: '全局命名空间 ID (1~64个字符, 必填)'
           task_name: '任务名称 (1~255个字符, 可选)'
           task_mode: '任务模式 (必填)。可选值：pre_fetch (预取缓存), tier (数据拉取)'
@@ -1391,7 +1332,6 @@ topics:
         description: '修改 Omni-Dataverse 数据迁移任务'
         detail: '修改 Omni-Dataverse 数据迁移任务'
         parameters:
-          client: 'DME API 客户端'
           id: '数据迁移任务 ID (1~32个字符, 必填)'
           task_name: '任务名称 (1~255个字符, 可选)'
           start_mode: '任务执行模式 (可选)。可选值：manual (手动), auto (自动)'
@@ -1411,7 +1351,6 @@ topics:
         description: '批量删除 Omni-Dataverse 数据迁移任务'
         detail: '批量删除 Omni-Dataverse 数据迁移任务'
         parameters:
-          client: 'DME API 客户端'
           ids: '数据迁移任务 ID 列表'
         outputs: |
           {
@@ -1421,7 +1360,6 @@ topics:
         description: '批量暂停或者启动 Omni-Dataverse 数据迁移任务'
         detail: '批量暂停或者启动 Omni-Dataverse 数据迁移任务'
         parameters:
-          client: 'DME API 客户端'
           ids: '数据迁移任务 ID 列表'
           operate_type: '操作类型 (必选)，可选值：start(启动), stop(停止)'
         outputs: |
@@ -1436,7 +1374,6 @@ topics:
         description: '查询CMDB系统列表。'
         detail: '查询CMDB系统列表。'
         parameters:
-          client: 'DME API 客户端'
           name: 'CMDB系统名称（可选，支持模糊查询）'
           page_no: '分页查询的起始页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1453,7 +1390,6 @@ topics:
         description: '查询CMDB系统中的主机列表。'
         detail: '查询CMDB系统中的主机列表。'
         parameters:
-          client: 'DME API 客户端'
           system_id: 'CMDB系统ID（可选）'
           name: '主机名称（可选，支持模糊查询）'
           ip: '主机IP（可选）'
@@ -1472,7 +1408,6 @@ topics:
         description: '查询指定CMDB主机详情。'
         detail: '查询指定CMDB主机详情。'
         parameters:
-          client: 'DME API 客户端'
           cmdb_host_id: 'CMDB主机ID（必选）'
         outputs: |
           {
@@ -1484,7 +1419,6 @@ topics:
         description: '查询CMDB系统中的应用列表。'
         detail: '查询CMDB系统中的应用列表。'
         parameters:
-          client: 'DME API 客户端'
           system_id: 'CMDB系统ID（可选）'
           name: '应用名称（可选，支持模糊查询）'
           page_no: '分页查询的起始页码，默认 1'
@@ -1501,7 +1435,6 @@ topics:
         description: '根据启动器列表查询CMDB主机列表。'
         detail: '根据启动器列表查询CMDB主机列表。'
         parameters:
-          client: 'DME API 客户端'
           initiators: '启动器列表（必选）'
         outputs: |
           {
@@ -1518,7 +1451,6 @@ topics:
         description: '查询以太网交换机列表信息'
         detail: '查询以太网交换机列表信息'
         parameters:
-          client: 'DME API 客户端'
           name: '交换机名称（可选，支持模糊查询）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1535,7 +1467,6 @@ topics:
         description: '查询 IP 交换机机框列表信息'
         detail: '查询 IP 交换机机框列表信息'
         parameters:
-          client: 'DME API 客户端'
           ipswitch_id: 'IP 交换机 ID（必选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1548,7 +1479,6 @@ topics:
         description: '查询 IP 交换机单板列表信息'
         detail: '查询 IP 交换机单板列表信息'
         parameters:
-          client: 'DME API 客户端'
           ipswitch_id: 'IP 交换机 ID（必选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1561,7 +1491,6 @@ topics:
         description: '查询 IP 交换机子卡列表信息'
         detail: '查询 IP 交换机子卡列表信息'
         parameters:
-          client: 'DME API 客户端'
           ipswitch_id: 'IP 交换机 ID（必选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1574,7 +1503,6 @@ topics:
         description: '查询 IP 交换机电源列表信息'
         detail: '查询 IP 交换机电源列表信息'
         parameters:
-          client: 'DME API 客户端'
           ipswitch_id: 'IP 交换机 ID（必选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1587,7 +1515,6 @@ topics:
         description: '查询 IP 交换机风扇列表信息'
         detail: '查询 IP 交换机风扇列表信息'
         parameters:
-          client: 'DME API 客户端'
           ipswitch_id: 'IP 交换机 ID（必选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1600,7 +1527,6 @@ topics:
         description: '查询 IP 交换机端口列表信息'
         detail: '查询 IP 交换机端口列表信息'
         parameters:
-          client: 'DME API 客户端'
           ipswitch_id: 'IP 交换机 ID（必选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -1617,7 +1543,6 @@ topics:
         description: '查询容器集群列表'
         detail: '查询容器集群列表'
         parameters:
-          client: 'DME API 客户端'
           id: '集群 ID（可选）'
           name: '集群名称（可选，支持模糊查询）'
           version: '版本（可选）'
@@ -1654,7 +1579,6 @@ topics:
         description: '查询容器节点列表'
         detail: '查询容器节点列表'
         parameters:
-          client: 'DME API 客户端'
           id: '节点 ID（可选）'
           name: '节点名称（可选，支持模糊查询）'
           cluster_id: '容器集群 ID（可选）'
@@ -1690,7 +1614,6 @@ topics:
         description: '查询容器组列表'
         detail: '查询容器组列表'
         parameters:
-          client: 'DME API 客户端'
           id: '容器组 ID（可选）'
           name: '容器组名称（可选，支持模糊查询）'
           workload_id: '所属工作负载 ID（可选）'
@@ -1729,7 +1652,6 @@ topics:
         description: '查询容器命名空间列表'
         detail: '查询容器命名空间列表'
         parameters:
-          client: 'DME API 客户端'
           name: '命名空间名称（可选，支持模糊查询）'
           cluster_id: '所属容器集群 ID（可选）'
           status: '命名空间状态列表（可选），可选值：active（激活）, terminating（终止）, unknown（未知）'
@@ -1751,7 +1673,6 @@ topics:
         description: '查询容器持久卷声明列表'
         detail: '查询容器持久卷声明列表'
         parameters:
-          client: 'DME API 客户端'
           name: '持久卷声明名称（可选，支持模糊查询）'
           namespace_name: '所属命名空间名称（可选，支持模糊查询）'
           cluster_name: '所属集群名称（可选，支持模糊查询）'
@@ -1788,7 +1709,6 @@ topics:
         description: '查询容器持久卷列表'
         detail: '查询容器持久卷列表'
         parameters:
-          client: 'DME API 客户端'
           id: '持久卷 ID（可选）'
           name: '持久卷名称（可选，支持模糊查询）'
           cluster_name: '所属集群名称（可选，支持模糊查询）'
@@ -1829,7 +1749,6 @@ topics:
           
           仅 OceanStor A800 系列存储支持。
         parameters:
-          client: 'DME API 客户端'
           storage_id: '设备 ID (1~64个字符, 可选)'
           vstore_id: '租户的 ID (1~64个字符, 可选)'
           vstore_name: '租户的名称，支持模糊查询 (1~256个字符, 可选)'
@@ -1855,7 +1774,6 @@ topics:
         description: '创建 UNIX 用户'
         detail: '创建 UNIX 用户'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '创建 UNIX 用户所属存储设备 ID (1~64个字符, 必填)'
           name: 'UNIX 用户名称 (1~64个字符, 必填)'
           raw_id: 'UNIX 用户 ID (int64, 0~4294967294, 可选。OceanStor Pacific 和 OceanStor A310 存储必填)'
@@ -1871,7 +1789,6 @@ topics:
         description: '添加 UNIX 用户附属组'
         detail: '添加 UNIX 用户附属组'
         parameters:
-          client: 'DME API 客户端'
           user_id: 'UNIX 用户 ID (1~32个字符, 必填)'
           secondary_group_name_list: '附属组名称列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)'
         outputs: '操作结果'
@@ -1879,7 +1796,6 @@ topics:
         description: '查询 UNIX 认证用户列表'
         detail: '查询 UNIX 认证用户列表'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的起始位置 (int32, 1~2147483647, 默认值: 1, 可选)'
           page_size: '每页显示的数量 (int32, 10~100, 默认值: 100, 可选)'
           storage_name: '设备名称，支持模糊搜索过滤 (1~256个字符, 可选)'
@@ -1907,7 +1823,6 @@ topics:
         description: '查询 UNIX 认证用户详情'
         detail: '查询 UNIX 认证用户详情'
         parameters:
-          client: 'DME API 客户端'
           id: '用户 ID (1~32个字符, 必填)'
         outputs: |
           {
@@ -1921,7 +1836,6 @@ topics:
         description: '移除 UNIX 用户附属组'
         detail: '移除 UNIX 用户附属组'
         parameters:
-          client: 'DME API 客户端'
           user_id: 'UNIX 用户 ID (1~32个字符, 必填)'
           secondary_group_name_list: '附属组名称列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)'
         outputs: '操作结果'
@@ -1929,7 +1843,6 @@ topics:
         description: '修改 UNIX 用户'
         detail: '修改 UNIX 用户'
         parameters:
-          client: 'DME API 客户端'
           id: 'UNIX 用户 ID (1~32个字符, 必填)'
           raw_id: 'UNIX 用户在存储设备上的 ID (int64, 0~4294967294, 可选)'
           description: 'UNIX 用户描述 (0~255个字符, 可选)'
@@ -1941,14 +1854,12 @@ topics:
         description: '删除 UNIX 用户'
         detail: '删除 UNIX 用户'
         parameters:
-          client: 'DME API 客户端'
           ids: 'UNIX 用户 ID 列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)'
         outputs: '操作结果'
       account_unix_user_group_create:
         description: '创建 UNIX 用户组'
         detail: '创建 UNIX 用户组'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '创建 UNIX 用户组所属存储设备 ID (1~64个字符, 必填)'
           name: 'UNIX 用户组名称 (1~64个字符, 必填)'
           raw_id: 'UNIX 用户组 ID (int64, 0~4294967294, 可选。OceanStor Pacific 和 OceanStor A310 存储必填)'
@@ -1960,7 +1871,6 @@ topics:
         description: '查询 UNIX 认证用户组列表'
         detail: '查询 UNIX 认证用户组列表'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的起始位置 (int32, 1~2147483647, 默认值: 1, 可选)'
           page_size: '每页显示的数量 (int32, 10~100, 默认值: 100, 可选)'
           storage_name: '设备名称，支持模糊匹配过滤 (1~256个字符, 可选)'
@@ -1985,7 +1895,6 @@ topics:
         description: '查询 UNIX 用户组详情'
         detail: '查询 UNIX 用户组详情'
         parameters:
-          client: 'DME API 客户端'
           id: '用户组 ID (1~32个字符, 必填)'
         outputs: |
           {
@@ -1998,7 +1907,6 @@ topics:
         description: '修改 UNIX 用户组'
         detail: '修改 UNIX 用户组'
         parameters:
-          client: 'DME API 客户端'
           id: 'UNIX 用户组 ID (1~32个字符, 必填)'
           raw_id: 'UNIX 用户组在存储设备上的 ID (int64, 0~4294967294, 可选)'
           description: 'UNIX 用户组描述 (0~255个字符, 可选)'
@@ -2007,14 +1915,12 @@ topics:
         description: '删除 UNIX 用户组'
         detail: '删除 UNIX 用户组'
         parameters:
-          client: 'DME API 客户端'
           ids: 'UNIX 用户组的 ID 列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)'
         outputs: '操作结果'
       dtree_list:
         description: '查询 Dtree 列表'
         detail: '查询 Dtree 列表'
         parameters:
-          client: 'DME API 客户端'
           id_in_storage: 'Dtree 在存储侧的 ID（可选），1~256 个字符'
           name: 'Dtree 名称（可选），1~256 个字符，支持模糊搜索'
           device_name: 'dtree 所属存储设备名称（可选），1~256 个字符，支持模糊搜索'
@@ -2049,7 +1955,6 @@ topics:
         description: '查询指定 Dtree 详情。'
         detail: '查询指定 Dtree 详情。'
         parameters:
-          client: 'DME API 客户端'
           dtree_id: 'Dtree ID (必选, string)'
         outputs: |
           {
@@ -2062,7 +1967,6 @@ topics:
         description: '创建并共享 Dtree'
         detail: '创建并共享 Dtree'
         parameters:
-          client: 'DME API 客户端'
           storage_id: 'dtree 所属存储设备 ID，1~64个字符'
           create_dtrees_param: |
             Dtree 名称和数量信息列表 (条件必传)。参数格式如下：[{
@@ -2111,7 +2015,6 @@ topics:
         description: '批量删除 Dtree。'
         detail: '批量删除 Dtree。'
         parameters:
-          client: 'DME API 客户端'
           dtree_ids: '待删除 Dtree ID 列表 (必选, List[string])'
           task_remarks: '异步任务备注信息 (可选, string, 最多1024个字符)'
         outputs: |
@@ -2122,7 +2025,6 @@ topics:
         description: '修改指定 Dtree'
         detail: '修改指定 Dtree'
         parameters:
-          client: 'DME API 客户端'
           dtree_id: 'Dtree ID'
           name: 'Dtree 名称'
           quota_switch: '配额开关，true/false'
@@ -2138,7 +2040,6 @@ topics:
         description: '查询 NFS 共享列表'
         detail: '查询 NFS 共享列表'
         parameters:
-          client: 'DME API 客户端'
           id_in_storage: 'NFS 在存储侧的 ID（可选），1~256 个字符'
           name: '共享名称（可选），1~256 个字符，支持模糊搜索'
           share_path: '共享路径（可选），1~256 个字符，支持模糊搜索'
@@ -2179,7 +2080,6 @@ topics:
         description: '查询指定 NFS 共享详情'
         detail: '查询指定 NFS 共享详情'
         parameters:
-          client: 'DME API 客户端'
           nfs_share_id: 'NFS 共享 ID'
         outputs: |
           {
@@ -2193,7 +2093,6 @@ topics:
         description: '创建 NFS 共享'
         detail: '创建 NFS 共享'
         parameters:
-          client: 'DME API 客户端'
           create_nfs_share_param: |
             创建 NFS 共享参数。参数格式如下：{
                     name: NFS共享别名 (可选),
@@ -2235,7 +2134,6 @@ topics:
         description: '修改指定 NFS 共享'
         detail: '修改指定 NFS 共享'
         parameters:
-          client: 'DME API 客户端'
           nfs_share_id: 'NFS 共享 ID'
           description: '描述信息'
           character_encoding: '字符编码，可选值：utf-8, zh, gbk 等'
@@ -2294,7 +2192,6 @@ topics:
         description: '批量删除 NFS 共享'
         detail: '批量删除 NFS 共享'
         parameters:
-          client: 'DME API 客户端'
           nfs_share_ids: '待删除 NFS 共享 ID 列表'
           task_remarks: '异步任务备注信息'
         outputs: |
@@ -2305,7 +2202,6 @@ topics:
         description: '查询 NFS 共享下的客户端访问列表'
         detail: '查询 NFS 共享下的客户端访问列表'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的起始页码（可选），最小值 1，默认 1'
           page_size: '单页显示的数量（可选），1~1000，默认 20'
           nfs_share_id: 'NFS 共享 ID（可选），1~64 个字符'
@@ -2330,7 +2226,6 @@ topics:
         description: '批量查询 CIFS 共享'
         detail: '批量查询 CIFS 共享'
         parameters:
-          client: 'DME API 客户端'
           raw_id: 'CIFS 共享在存储设备上的 ID（可选），1~256 个字符'
           name: 'CIFS 共享名称（可选），1~256 个字符，支持模糊查询'
           share_path: 'CIFS 共享路径（可选），1~512 个字符，支持模糊查询'
@@ -2387,7 +2282,6 @@ topics:
         description: '查询指定 CIFS 共享详情'
         detail: '查询指定 CIFS 共享详情'
         parameters:
-          client: 'DME API 客户端'
           cifs_share_id: 'CIFS 共享 ID'
         outputs: |
           {
@@ -2414,7 +2308,6 @@ topics:
         description: '创建单个 CIFS 共享'
         detail: '创建单个 CIFS 共享'
         parameters:
-          client: 'DME API 客户端'
           create_cifs_param: |
             创建 CIFS 共享参数。参数格式如下：{
                     name: 共享名称 (必选),
@@ -2464,7 +2357,6 @@ topics:
         description: '修改指定 CIFS 共享'
         detail: '修改指定 CIFS 共享'
         parameters:
-          client: 'DME API 客户端'
           cifs_share_id: 'CIFS 共享 ID'
           description: '描述信息，最多 255 个字符'
           op_lock_enabled: 'Oplock 功能开关'
@@ -2521,7 +2413,6 @@ topics:
         description: '批量删除 CIFS 共享'
         detail: '批量删除 CIFS 共享'
         parameters:
-          client: 'DME API 客户端'
           cifs_share_ids: '需要删除 CIFS 共享的 ID 列表'
           task_remarks: '异步任务备注信息'
         outputs: |
@@ -2535,7 +2426,6 @@ topics:
           
           查询 CIFS 共享的用户/用户组、IP 地址/IP 地址段、文件扩展名过滤规则等权限信息。
         parameters:
-          client: 'DME API 客户端'
           cifs_share_id: 'CIFS 共享 ID'
           type: |
             权限类型（可选），可选值：user（用户/用户组）、ip（IP 地址/IP 地址段）、file（文件扩展名过滤规则）；
@@ -2580,7 +2470,6 @@ topics:
         description: '查询 DataTurbo 共享列表'
         detail: '查询 DataTurbo 共享列表'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页页码（可选），1~10000000，默认 1'
           page_size: '每页数据条数（可选），1~1000，默认 10'
           raw_id: 'DataTurbo 共享在设备上 ID（可选），1~1024 个字符，精确查询'
@@ -2620,7 +2509,6 @@ topics:
         description: '查询指定 DataTurbo 共享详情'
         detail: '查询指定 DataTurbo 共享详情'
         parameters:
-          client: 'DME API 客户端'
           dataturbo_share_id: 'DataTurbo 共享 ID'
         outputs: |
           {
@@ -2646,7 +2534,6 @@ topics:
         description: '创建 DataTurbo 共享'
         detail: '创建 DataTurbo 共享'
         parameters:
-          client: 'DME API 客户端'
           charset: '字符集编码，固定值 UTF_8'
           fs_id: '需共享的文件系统的 ID，与 dtree_id 互斥，必传其中一个'
           dtree_id: '需共享的 Dtree 的 ID，与 fs_id 互斥，必传其中一个'
@@ -2665,7 +2552,6 @@ topics:
         description: '修改指定 DataTurbo 共享'
         detail: '修改指定 DataTurbo 共享'
         parameters:
-          client: 'DME API 客户端'
           dataturbo_share_id: 'DataTurbo 共享 ID'
           description: 'DataTurbo 共享描述'
           dataturbo_share_auth_addition: |
@@ -2683,7 +2569,6 @@ topics:
         description: '批量删除 DataTurbo 共享'
         detail: '批量删除 DataTurbo 共享'
         parameters:
-          client: 'DME API 客户端'
           dataturbo_share_ids: 'DataTurbo 共享 ID 列表'
           task_remarks: '异步任务备注信息'
         outputs: |
@@ -2694,7 +2579,6 @@ topics:
         description: '查询 DataTurbo 共享管理员权限列表'
         detail: '查询 DataTurbo 共享管理员权限列表'
         parameters:
-          client: 'DME API 客户端'
           dataturbo_share_id: 'DataTurbo 共享 ID'
           page_no: '分页页码（可选），1~10000000，默认 1'
           page_size: '每页数据条数（可选），1~1000，默认 10'
@@ -2714,7 +2598,6 @@ topics:
         description: '查询配额列表'
         detail: '查询配额列表'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询页码（可选），最小值 1，默认 1'
           page_size: '每页数据条数（可选），1~1000，默认 20'
           ids: '配额的 ID 列表（可选），List<string> 类型，数组最大成员个数 100'
@@ -2749,7 +2632,6 @@ topics:
         description: '查询指定配额详情'
         detail: '查询指定配额详情'
         parameters:
-          client: 'DME API 客户端'
           quota_id: '配额 ID'
         outputs: |
           {
@@ -2767,7 +2649,6 @@ topics:
         description: '创建配额'
         detail: '创建配额'
         parameters:
-          client: 'DME API 客户端'
           space_soft_quota: '空间软配额（可选），单位 Byte，默认 -1（字段无效）；当空间硬配额和空间软配额均有效时，空间硬配额需大于空间软配额；OceanStor V5 设备时此字段必须为 1048576 的整数倍'
           space_hard_quota: '空间硬配额（可选），单位 Byte，默认 -1（字段无效）；当空间硬配额和空间软配额均有效时，空间硬配额需大于空间软配额；OceanStor V5 设备时此字段必须为 1048576 的整数倍'
           space_advisory_quota: '空间建议配额（可选），单位 Byte，默认 -1（字段无效）；仅 OceanStor Pacific 设备支持；当空间建议配额和空间硬配额或空间软配额均有效时，空间建议配额需小于空间硬配额或空间软配额'
@@ -2795,7 +2676,6 @@ topics:
         description: '更新指定配额'
         detail: '更新指定配额'
         parameters:
-          client: 'DME API 客户端'
           quota_id: '配额 ID'
           space_soft_quota: '空间软配额（可选），单位 Byte，-1 表示字段无效；当空间硬配额和空间软配额均有效时，空间硬配额需大于空间软配额'
           space_hard_quota: '空间硬配额（可选），单位 Byte，-1 表示字段无效；当空间硬配额和空间软配额均有效时，空间硬配额需大于空间软配额'
@@ -2814,7 +2694,6 @@ topics:
         description: '批量删除配额'
         detail: '批量删除配额'
         parameters:
-          client: 'DME API 客户端'
           quota_ids: '待删除的配额 ID 列表'
           task_remarks: '异步任务备注信息'
         outputs: |
@@ -2825,7 +2704,6 @@ topics:
         description: '批量查询文件系统'
         detail: '批量查询文件系统'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询页码（可选），1~10000000'
           page_size: '每页显示的数量（可选），1~1000，默认 100'
           sort_dir: '指定排序方向（可选），可选值：asc（升序）、desc（降序）'
@@ -2903,7 +2781,6 @@ topics:
         description: '查询指定文件系统详情'
         detail: '查询指定文件系统详情'
         parameters:
-          client: 'DME API 客户端'
           filesystem_id: '文件系统 ID'
         outputs: |
           {
@@ -2933,7 +2810,6 @@ topics:
         description: '批量删除文件系统'
         detail: '批量删除文件系统'
         parameters:
-          client: 'DME API 客户端'
           filesystem_ids: '文件系统 ID 列表'
           task_remarks: '异步任务备注信息（可选）'
         outputs: |
@@ -2947,7 +2823,6 @@ topics:
           
           仅支持修改名称。
         parameters:
-          client: 'DME API 客户端'
           filesystems: |
             待修改的文件系统信息列表（必填），List<UpdateFileSystemInfo> 类型，数组最大成员个数 1000。参数格式如下：[{
                             file_system_id: 文件系统的唯一标识（必填），1~64 个字符,
@@ -2962,7 +2837,6 @@ topics:
         description: '自定义创建文件系统'
         detail: '自定义创建文件系统'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID'
           pool_raw_id: '存储池在指定存储设备上的 ID'
           filesystem_specs: |
@@ -3083,7 +2957,6 @@ topics:
           
           查询可用于配置增删特性的文件系统。当前仅支持可配置远程复制的文件系统。
         parameters:
-          client: 'DME API 客户端'
           feature_type: '特性类型，当前仅支持 remote_replication（远程复制）'
           local_storage_id: '本端存储设备 ID'
           remote_storage_id: '远端存储设备 ID（当 feature_type 为 remote_replication 时必选）'
@@ -3105,7 +2978,6 @@ topics:
         description: '修改指定文件系统'
         detail: '修改指定文件系统'
         parameters:
-          client: 'DME API 客户端'
           file_system_id: '文件系统唯一标识'
           name: '文件系统名称，1~255个字符（可选）'
           description: '描述信息，0~255个字符（可选）'
@@ -3205,7 +3077,6 @@ topics:
         description: '批量查询命名空间'
         detail: '批量查询命名空间'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询页码（可选），1~10000000'
           page_size: '每页显示的数量（可选），1~1000，默认 100'
           sort_dir: '指定排序方向（可选），可选值：asc（升序）、desc（降序）'
@@ -3232,7 +3103,6 @@ topics:
         description: '查询指定命名空间详情'
         detail: '查询指定命名空间详情'
         parameters:
-          client: 'DME API 客户端'
           namespace_id: '命名空间 ID（必选，1~64 个字符）'
         outputs: |
           {
@@ -3262,7 +3132,6 @@ topics:
         description: '批量创建命名空间'
         detail: '批量创建命名空间'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填）'
           pool_raw_id: '存储池在存储设备上的 ID（必填）'
           namespace_specs: |
@@ -3375,7 +3244,6 @@ topics:
         description: '修改指定命名空间'
         detail: '修改指定命名空间'
         parameters:
-          client: 'DME API 客户端'
           namespace_id: '命名空间 ID（必选，1~64 个字符）'
           enable_update_atime: '是否更新 Atime，true：更新；false：不更新'
           show_snap_dir: '快照目录是否可见，true：可见；false：不可见'
@@ -3463,7 +3331,6 @@ topics:
         description: '批量删除命名空间'
         detail: '批量删除命名空间'
         parameters:
-          client: 'DME API 客户端'
           namespace_ids: '命名空间 ID 列表（必选），数组最大 100 个，最小 1 个'
           task_remarks: '异步任务备注信息（可选，0~1024 个字符）'
         outputs: |
@@ -3474,7 +3341,6 @@ topics:
         description: '批量查询并行客户端列表'
         detail: '批量查询并行客户端列表'
         parameters:
-          client: 'DME API 客户端'
           ids: '并行客户端 ID 列表（可选），List<string> 类型，数组最大成员个数 100，精确查询'
           hostname: '计算节点的主机名称（可选），1~256 个字符，模糊查询'
           ip: '并行客户端所在计算节点的管理 IP（可选），1~256 个字符，模糊查询'
@@ -3502,7 +3368,6 @@ topics:
         description: '查询并行客户端详情。'
         detail: '查询并行客户端详情。'
         parameters:
-          client: 'DME API 客户端'
           dpc_id: '并行客户端 ID (必选, string)'
         outputs: |
           {
@@ -3516,7 +3381,6 @@ topics:
         description: '批量查询DPC客户端。'
         detail: '批量查询DPC客户端。'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储ID (可选, string, 1~64个字符)'
           process_id: 'DPC客户端进程ID (可选, string, 1~64个字符)'
           name: 'DPC客户端名称，支持模糊搜索 (可选, string, 1~256个字符)'
@@ -3549,7 +3413,6 @@ topics:
         description: '查询DPC客户端详情。'
         detail: '查询DPC客户端详情。'
         parameters:
-          client: 'DME API 客户端'
           id: '查询DPC客户端ID (必选, string, 1~64个字符)'
         outputs: |
           {
@@ -3565,7 +3428,6 @@ topics:
         description: '查询 KV Cache 库'
         detail: '查询 KV Cache 库'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID (长度为36个字符, 可选)'
           id: 'KV Cache 库 ID (长度为32个字符, 可选)'
           raw_id: 'KV Cache 库在 Zone 上的 ID (1~256个字符, 可选)'
@@ -3595,7 +3457,6 @@ topics:
         description: '批量创建 KV Cache 库'
         detail: '批量创建 KV Cache 库'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID (长度为36个字符, 必填)'
           zone_id: '所属 Zone 的 ID (长度为36个字符, 必填)'
           pool_raw_id: '存储池在所属 Zone 上的 ID (1~64个字符, 必填)'
@@ -3615,7 +3476,6 @@ topics:
         description: '修改 KV Cache 库'
         detail: '修改 KV Cache 库'
         parameters:
-          client: 'DME API 客户端'
           kv_cache_stores_id: 'KV Cache 库 ID (1~64个字符, 必填)'
           name: 'KV Cache 库名称 (1~255个字符, 可选)'
           description: '描述信息 (0~255个字符, 可选)'
@@ -3626,7 +3486,6 @@ topics:
         description: '批量删除 KV Cache 库'
         detail: '批量删除 KV Cache 库'
         parameters:
-          client: 'DME API 客户端'
           ids: 'KV Cache 库 ID 列表 (List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100, 必填)'
         outputs: '操作结果'
 
@@ -3637,7 +3496,6 @@ topics:
         description: '批量查询保护组'
         detail: '批量查询保护组'
         parameters:
-          client: 'DME API 客户端'
           name: '保护组名称，支持模糊搜索'
           project_id: '业务群组 ID，支持条件过滤'
           storage_name: '存储设备名称，支持模糊搜索'
@@ -3683,7 +3541,6 @@ topics:
         description: '创建保护组，支持基于LUN或者LUN组创建'
         detail: '创建保护组，支持基于LUN或者LUN组创建'
         parameters:
-          client: 'DME API 客户端'
           name: '保护组名称 (必选, string, 1~255个字符)'
           storage_id: '存储设备 ID (必选, string, UUID格式或32位十六进制)'
           description: '保护组描述 (string, 0~255个字符)'
@@ -3697,7 +3554,6 @@ topics:
         description: '修改保护组'
         detail: '修改保护组'
         parameters:
-          client: 'DME API 客户端'
           pg_id: '保护组 ID'
           name: '保护组的名称'
           description: '保护组的描述'
@@ -3709,7 +3565,6 @@ topics:
         description: '批量删除保护组'
         detail: '批量删除保护组'
         parameters:
-          client: 'DME API 客户端'
           pg_ids: '保护组的 ID 列表'
         outputs: |
           {
@@ -3719,7 +3574,6 @@ topics:
         description: '保护组中添加成员 LUN'
         detail: '保护组中添加成员 LUN'
         parameters:
-          client: 'DME API 客户端'
           pg_id: '保护组 ID'
           lun_ids: '待添加到保护组的 LUN 的 ID 列表（可选），数组最大成员个数 100，与 hyper_metro 和 rem_reps 的参数 lun_pairs 互斥；保护组不存在双活、复制、环形 3DC 特性时此参数有效'
           hyper_metro: |
@@ -3760,7 +3614,6 @@ topics:
           
           移除指定保护组中的成员 LUN。
         parameters:
-          client: 'DME API 客户端'
           pg_id: '保护组 ID'
           lun_ids: '待移除的保护组成员 LUN 的 ID 列表'
           is_delay: '是否延迟执行。在远程复制，同步 + 异步的环形 3DC 情况下，此参数无效'
@@ -3772,7 +3625,6 @@ topics:
         description: '批量查询双活一致性组'
         detail: '批量查询双活一致性组'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页显示的数量，默认 20'
           name: '双活一致性组名称，支持模糊匹配'
@@ -3825,7 +3677,6 @@ topics:
         description: '创建双活一致性组'
         detail: '创建双活一致性组'
         parameters:
-          client: 'DME API 客户端'
           domain_id: '双活域 ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
           name: '双活一致性组名称 (必选, string, 1~255个字符)'
           local_storage_id: '本端设备 ID (string, UUID格式或32位十六进制)'
@@ -3861,7 +3712,6 @@ topics:
         description: '修改双活一致性组'
         detail: '修改双活一致性组'
         parameters:
-          client: 'DME API 客户端'
           group_id: '双活一致性组 ID'
           name: '双活一致性组名称'
           description: '描述信息'
@@ -3878,7 +3728,6 @@ topics:
         description: '批量删除双活一致性组'
         detail: '批量删除双活一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           delete_mode: '删除模式 (必选, string)。可选值：preferred_only（优先站点删除）, non_preferred_only（非优先站点删除）, dual_ends（两端站点删除）'
           is_self_adapt: '是否支持自适应删除成员 Pair (bool, 默认 false)。true：允许自适应；false：不允许'
@@ -3890,7 +3739,6 @@ topics:
         description: '双活一致性组添加成员 Pair（异步任务接口）'
         detail: '双活一致性组添加成员 Pair（异步任务接口）'
         parameters:
-          client: 'DME API 客户端'
           group_id: '双活一致性组 ID (必选, string, 1~32个字符)'
           pair_ids: '双活 Pair ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           is_self_adapt: '是否自适应修改双活 Pair 运行状态 (bool)。true：根据一致性组运行状态同步/暂停Pair；false：不改变Pair运行状态'
@@ -3902,7 +3750,6 @@ topics:
         description: '双活一致性组移除成员 Pair（异步任务接口）'
         detail: '双活一致性组移除成员 Pair（异步任务接口）'
         parameters:
-          client: 'DME API 客户端'
           group_id: '双活一致性组 ID (必选, string, 1~32个字符)'
           pair_ids: '双活 Pair ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
@@ -3913,7 +3760,6 @@ topics:
         description: '暂停双活一致性组'
         detail: '暂停双活一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           priority_station_type: '站点类型 (必选, string)。可选值：preferred（优先站点）, non_preferred（非优先站点）'
         outputs: |
@@ -3924,7 +3770,6 @@ topics:
         description: '强制启动双活一致性组'
         detail: '强制启动双活一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           priority_station_type: '站点类型 (必选, string)。可选值：preferred（优先站点）, non_preferred（非优先站点）'
         outputs: |
@@ -3935,7 +3780,6 @@ topics:
         description: '双活一致性组优先站点切换'
         detail: '双活一致性组优先站点切换'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -3945,7 +3789,6 @@ topics:
         description: '同步双活一致性组'
         detail: '同步双活一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -3955,7 +3798,6 @@ topics:
         description: '批量查询 LUN 双活 Pair'
         detail: '批量查询 LUN 双活 Pair'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页显示的数量，默认 20'
           group_id: '所属双活一致性组 ID'
@@ -4020,7 +3862,6 @@ topics:
         description: '创建双活 Pair'
         detail: '创建双活 Pair'
         parameters:
-          client: 'DME API 客户端'
           create_mode: '双活 Pair 的创建模式，可选值：auto（自动创建）, manual（手动创建）'
           local_storage_id: '创建双活 Pair 的存储设备 ID'
           domain_id: '双活域 ID'
@@ -4048,7 +3889,6 @@ topics:
         description: '修改双活 Pair'
         detail: '修改双活 Pair'
         parameters:
-          client: 'DME API 客户端'
           pair_id: '双活 Pair 实例 ID'
           speed: '双活 Pair 同步速率，可选值：low, medium, high, highest, custom'
           bandwidth: '自定义速率（MB/s），当 speed 为 custom 时必选'
@@ -4063,7 +3903,6 @@ topics:
         description: '批量删除双活 Pair'
         detail: '批量删除双活 Pair'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活 Pair 实例 ID 列表'
           delete_mode: '删除模式，可选值：preferred_only, non_preferred_only, dual_ends'
           is_lun_service_interrupt: '是否中断 LUN 业务，当 delete_mode 为 preferred_only 或 non_preferred_only 时有效'
@@ -4075,7 +3914,6 @@ topics:
         description: '同步双活 Pair'
         detail: '同步双活 Pair'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活 Pair ID 列表'
         outputs: |
           {
@@ -4085,7 +3923,6 @@ topics:
         description: '暂停双活 Pair'
         detail: '暂停双活 Pair'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活 Pair ID 列表'
           priority_station_type: '站点类型，可选值：preferred, non_preferred'
         outputs: |
@@ -4096,7 +3933,6 @@ topics:
         description: '强制启动双活 Pair'
         detail: '强制启动双活 Pair'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活 Pair ID 列表'
           priority_station_type: '站点类型，可选值：preferred, non_preferred'
         outputs: |
@@ -4107,7 +3943,6 @@ topics:
         description: '双活 Pair 优先站点切换'
         detail: '双活 Pair 优先站点切换'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活 Pair ID 列表'
         outputs: |
           {
@@ -4117,7 +3952,6 @@ topics:
         description: '批量查询双活域'
         detail: '批量查询双活域'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '设备 ID'
           types: '双活域类型列表'
         outputs: |
@@ -4152,7 +3986,6 @@ topics:
         description: '创建远程复制一致性组'
         detail: '创建远程复制一致性组'
         parameters:
-          client: 'DME API 客户端'
           cg_name: '远程复制一致性组名称 (必选, string, 0~255个字符)'
           remote_storage_id: '远端存储设备 ID (必选, string, UUID格式或32位十六进制)'
           local_pg_id: '本端保护组的 ID，当存储设备版本是 OceanStor V6、OceanStor Dorado V6 时必传 (string, 1~32个字符)'
@@ -4194,7 +4027,6 @@ topics:
         description: '批量查询复制一致性组'
         detail: '批量查询复制一致性组'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的起始位置 (int32, 默认 1)'
           page_size: '每页显示的数量 (int32, 1~1000, 默认 20)'
           protect_group_id: '保护组 ID (string, 1~64个字符)'
@@ -4225,7 +4057,6 @@ topics:
         description: '修改远程复制一致性组'
         detail: '修改远程复制一致性组'
         parameters:
-          client: 'DME API 客户端'
           replication_group_id: '远程复制一致性组 ID (必选, string)'
           name: '远程复制一致性组名称 (string, V3/V5最大31字节，V6最大255字节)'
           description: '描述信息 (string, 0~127个字符)'
@@ -4254,7 +4085,6 @@ topics:
         description: '批量删除远程复制一致性组'
         detail: '批量删除远程复制一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '远程复制一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           is_self_adapt: '是否支持自适应移除成员 Pair (bool, 默认 false)。true：允许自适应；false：不允许'
           delete_mode: '删除模式 (string, 默认 dual_ends)。可选值：primary_only（主端删除）, secondary_only（从端删除）, dual_ends（两端删除）'
@@ -4272,7 +4102,6 @@ topics:
           - 需组健康状态正常且运行状态为正常或分裂
           - 复制 Pair 的复制方向须与一致性组方向一致
         parameters:
-          client: 'DME API 客户端'
           group_id: '远程复制一致性组的 ID (必选, string, 1~32个字符, ^[A-F0-9]+$)'
           pair_ids: '远程复制 Pair 的 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
@@ -4288,7 +4117,6 @@ topics:
           - OceanStor Dorado V6 6.1.3 以下不支持
           - 需组健康状态正常且运行状态为分裂
         parameters:
-          client: 'DME API 客户端'
           group_id: '远程复制一致性组的 ID (必选, string, 1~32个字符, ^[A-F0-9]+$)'
           pair_ids: '远程复制 Pair 的 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
@@ -4299,7 +4127,6 @@ topics:
         description: '批量同步远程复制一致性组'
         detail: '批量同步远程复制一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '一致性组的 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4309,7 +4136,6 @@ topics:
         description: '批量分裂远程复制一致性组'
         detail: '批量分裂远程复制一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '一致性组的 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4319,7 +4145,6 @@ topics:
         description: '远程复制一致性组批量主从切换'
         detail: '远程复制一致性组批量主从切换'
         parameters:
-          client: 'DME API 客户端'
           ids: '一致性组的 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4329,7 +4154,6 @@ topics:
         description: '远程复制一致性组从资源写保护状态切换'
         detail: '远程复制一致性组从资源写保护状态切换'
         parameters:
-          client: 'DME API 客户端'
           id: '一致性组的 ID (必选, string, 1~32个字符, ^[A-F0-9]+$)'
           operation_type: '操作类型 (必选, string)。可选值：enable（开启写保护）, disable（取消写保护）'
         outputs: |
@@ -4340,7 +4164,6 @@ topics:
         description: '批量查询复制 Pair'
         detail: '批量查询复制 Pair'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的页码 (int32, 默认 1)'
           page_size: '每页显示的数量 (int32, 1~1000, 默认 20)'
           raw_id: '复制 Pair 在存储设备上的 ID (string, 1~64个字符)'
@@ -4408,7 +4231,6 @@ topics:
         description: '创建远程复制 Pair'
         detail: '创建远程复制 Pair'
         parameters:
-          client: 'DME API 客户端'
           local_storage_id: '本端存储设备 ID (必选, string, 1~64个字符)'
           remote_storage_id: '远端存储设备 ID (必选, string, 1~64个字符)'
           create_mode: '远程复制 Pair 的创建模式 (必选, string)。可选值：auto（自动创建）, manual（手动创建）'
@@ -4446,7 +4268,6 @@ topics:
         description: '修改复制 Pair'
         detail: '修改复制 Pair'
         parameters:
-          client: 'DME API 客户端'
           pair_id: '复制 Pair 实例 ID (必选, string)'
           speed: '同步速率 (string)。可选值：low, medium, high, highest, custom'
           bandwidth: '自定义同步速率 (int32, 1~1024 MB/s)。speed 为 custom 时必选'
@@ -4475,7 +4296,6 @@ topics:
         description: '批量删除远程复制 Pair'
         detail: '批量删除远程复制 Pair'
         parameters:
-          client: 'DME API 客户端'
           ids: '远程复制 Pair 实例 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           delete_mode: '删除模式 (string, 默认 dual_ends)。可选值：primary_only（主端删除）, secondary_only（从端删除）, dual_ends（两端删除）'
           is_enforce_secondary_data: '是否强制保证从端资源数据的完整性 (bool, 默认 true)'
@@ -4487,7 +4307,6 @@ topics:
         description: '批量同步远程复制 Pair'
         detail: '批量同步远程复制 Pair'
         parameters:
-          client: 'DME API 客户端'
           ids: '复制 Pair ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4497,7 +4316,6 @@ topics:
         description: '批量分裂远程复制 Pair'
         detail: '批量分裂远程复制 Pair'
         parameters:
-          client: 'DME API 客户端'
           ids: '复制 Pair ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4507,7 +4325,6 @@ topics:
         description: '远程复制 Pair 批量主从切换'
         detail: '远程复制 Pair 批量主从切换'
         parameters:
-          client: 'DME API 客户端'
           ids: '复制 Pair ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4517,7 +4334,6 @@ topics:
         description: '远程复制 Pair 从资源保护状态切换'
         detail: '远程复制 Pair 从资源保护状态切换'
         parameters:
-          client: 'DME API 客户端'
           id: '复制 Pair ID (必选, string, 32位十六进制)'
           operation_type: '操作类型 (必选, string)。可选值：enable（开启写保护）, disable（取消写保护）'
         outputs: |
@@ -4528,7 +4344,6 @@ topics:
         description: '查询设备 Pairs'
         detail: '查询设备 Pairs'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID'
           local_storage_name: '本端设备名称 (string, 0~255个字符)，支持模糊匹配'
           remote_storage_name: '远端设备名称 (string, 0~255个字符)，支持模糊匹配'
@@ -4565,7 +4380,6 @@ topics:
         description: '查询复制链路'
         detail: '查询复制链路'
         parameters:
-          client: 'DME API 客户端'
           local_storage_id: '本端存储设备 ID（可选，string，1~64 个字符），作为源端存储设备进行查询'
           page_no: '分页查询的页码（可选，int32，默认 1）'
           page_size: '每页显示的数量（可选，int32，1~1000，默认 20）'
@@ -4587,7 +4401,6 @@ topics:
         description: '批量查询 LUN 快照'
         detail: '批量查询 LUN 快照'
         parameters:
-          client: 'DME API 客户端'
           snapshot_ids: '快照 ID 列表'
           storage_id: '存储设备 ID'
           raw_id: '快照在存储设备上的 ID'
@@ -4634,7 +4447,6 @@ topics:
         description: '批量创建 LUN 快照'
         detail: '批量创建 LUN 快照'
         parameters:
-          client: 'DME API 客户端'
           snapshots_info: |
             LUN 快照创建信息列表 (List<LunSnapshotCreateInfo>, 数组最大成员个数: 2048)。参数格式如下：[{
                     name: 快照名称 (1~255个字符),
@@ -4650,7 +4462,6 @@ topics:
         description: '批量回滚 LUN 快照'
         detail: '批量回滚 LUN 快照'
         parameters:
-          client: 'DME API 客户端'
           rollback_speed: '回滚速率 (必选, string)。可选值：low（低）, medium（中）, high（高）, highest（最高）'
           rollback_snapshots: '快照回滚的资源信息列表 (必选, List<LunSnapshotRollbackResource>, 数组最小成员个数: 1, 数组最大成员个数: 2048)。每项包含 snapshot_id（必选）, target_type（必选, lun/snapshot）, target_id（必选）'
         outputs: |
@@ -4661,7 +4472,6 @@ topics:
         description: '批量删除 LUN 快照'
         detail: '批量删除 LUN 快照'
         parameters:
-          client: 'DME API 客户端'
           snapshot_ids: '快照 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 2048)'
           is_delete_target_lun: '是否删除目标 LUN (bool, 默认 true)。仅 Dorado 6.1.2 及以上版本有效'
           is_auto_deactivate: '是否在删除前自动取消激活快照 (bool, 默认 false)。true：先取消激活再删除'
@@ -4673,7 +4483,6 @@ topics:
         description: '创建快照一致性组'
         detail: '创建快照一致性组'
         parameters:
-          client: 'DME API 客户端'
           name: '快照一致性组名称'
           protect_group_id: '保护组的 ID'
           description: '描述信息'
@@ -4686,7 +4495,6 @@ topics:
         description: '批量删除快照一致性组'
         detail: '批量删除快照一致性组'
         parameters:
-          client: 'DME API 客户端'
           snapshot_cg_ids: '快照一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           is_delete_target_lun: '是否删除目标 LUN (bool, 默认 true)。仅 Dorado 6.1.2 及以上版本有效'
         outputs: |
@@ -4697,7 +4505,6 @@ topics:
         description: '激活快照一致性组'
         detail: '激活快照一致性组'
         parameters:
-          client: 'DME API 客户端'
           snapshot_cg_id: '快照一致性组 ID'
           object_type: '对象类型，可选值：parent_object'
           snapshot_create_mode: '快照创建方式，可选值：auto, manual'
@@ -4713,7 +4520,6 @@ topics:
         description: '批量取消激活快照一致性组'
         detail: '批量取消激活快照一致性组'
         parameters:
-          client: 'DME API 客户端'
           snapshot_cg_ids: '快照一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4723,7 +4529,6 @@ topics:
         description: '回滚快照一致性组'
         detail: '回滚快照一致性组'
         parameters:
-          client: 'DME API 客户端'
           snapshot_cg_id: '快照一致性组 ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
           rollback_speed: '回滚速率 (string)。可选值：low（低）, medium（中）, high（高）, highest（最高）'
           snapshot_create_mode: '快照创建方式 (string)。可选值：auto（自动）, manual（手动）。保护组有新增LUN差异时必选'
@@ -4739,7 +4544,6 @@ topics:
         description: '创建克隆一致性组'
         detail: '创建克隆一致性组'
         parameters:
-          client: 'DME API 客户端'
           name: '克隆一致性组名称 (必选, string, 1~255个字符)'
           protect_group_id: '保护组 ID (必选, string, 1~64个字符, ^[A-F0-9]+$)'
           create_mode: '创建模式 (必选, string)。可选值：auto（自动）, manual（手动）'
@@ -4762,7 +4566,6 @@ topics:
         description: '同步克隆一致性组'
         detail: '同步克隆一致性组'
         parameters:
-          client: 'DME API 客户端'
           clone_cg_id: '克隆一致性组 ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
           create_mode: '克隆 Pair 创建模式 (string)。可选值：auto（自动）, manual（手动）。保护组有新增LUN差异时必选'
           name_rule: '目标 LUN 名称命名规则 (string)。可选值：prefix_and_suffix（前后缀）, prefix_and_num（前缀+序号）。create_mode 为 auto 时不可为空'
@@ -4781,7 +4584,6 @@ topics:
         description: '批量删除克隆一致性组'
         detail: '批量删除克隆一致性组'
         parameters:
-          client: 'DME API 客户端'
           ids: '克隆一致性组 ID 列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           is_delete_dst_lun: '是否删除目标 LUN (bool)'
           is_recycle_dst_lun_data: '是否回收目标 LUN 数据 (bool)'
@@ -4793,7 +4595,6 @@ topics:
         description: '创建文件系统双活Pair'
         detail: '创建文件系统双活Pair'
         parameters:
-          client: 'DME API 客户端'
           vstore_pair_id: '双活租户Pair的ID (必选, string, 1~32个字符)'
           create_mode: '创建模式 (string, 默认 manual)。可选值：manual（手动）'
           fs_pairs: |
@@ -4815,7 +4616,6 @@ topics:
         description: '查询文件系统双活Pair列表。'
         detail: '查询文件系统双活Pair列表。'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活Pair实例ID列表 (List[string])'
           name: '双活Pair名称 (string)，支持模糊查询'
           status: '运行状态 (string)'
@@ -4877,7 +4677,6 @@ topics:
         description: '批量暂停文件系统双活Pair。'
         detail: '批量暂停文件系统双活Pair。'
         parameters:
-          client: 'DME API 客户端'
           fs_pair_ids: '文件系统双活Pair的ID列表 (必选, List[string], 数组最大成员个数：100, 数组最小成员个数：1)'
         outputs: |
           {
@@ -4887,7 +4686,6 @@ topics:
         description: '批量同步文件系统双活Pair。'
         detail: '批量同步文件系统双活Pair。'
         parameters:
-          client: 'DME API 客户端'
           fs_pair_ids: '文件系统双活Pair的ID列表 (必选, List[string])'
         outputs: |
           {
@@ -4897,7 +4695,6 @@ topics:
         description: '批量删除文件系统双活Pair。'
         detail: '批量删除文件系统双活Pair。'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活Pair实例ID列表 (必选, List[string])'
           is_local_delete: '是否删除本端配置信息 (可选, boolean, true,false)'
           is_online_delete: '是否在线删除 (可选, boolean, true,false)'
@@ -4909,7 +4706,6 @@ topics:
         description: '创建文件系统快照。'
         detail: '创建文件系统快照。'
         parameters:
-          client: 'DME API 客户端'
           vstore_pair_id: '文件名系统所属双活租户Pair的ID (必选, string)'
           fs_pairs: '快照参数列表 (必选, List)'
         outputs: |
@@ -4920,7 +4716,6 @@ topics:
         description: '批量查询文件系统快照。'
         detail: '批量查询文件系统快照。'
         parameters:
-          client: 'DME API 客户端'
           fs_pair_id: '双活Pair ID (可选, string)'
           name: '快照名称 (可选, string, 支持模糊搜索)'
           status: '快照状态 (可选, string)'
@@ -4941,7 +4736,6 @@ topics:
         description: '批量删除文件系统快照。'
         detail: '批量删除文件系统快照。'
         parameters:
-          client: 'DME API 客户端'
           ids: '快照ID列表 (必选, List[string])'
         outputs: |
           {
@@ -4951,7 +4745,6 @@ topics:
         description: '批量强制启动双活租户Pair。'
         detail: '批量强制启动双活租户Pair。'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活租户Pair的ID列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -4961,7 +4754,6 @@ topics:
         description: '创建双活租户Pair。'
         detail: '创建双活租户Pair。'
         parameters:
-          client: 'DME API 客户端'
           domain_id: '双活域的ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
           local_vstore_id: '本端租户的ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
           remote_vstore_id: '远端租户的ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
@@ -4975,7 +4767,6 @@ topics:
         description: '查询双活租户Pair列表。'
         detail: '查询双活租户Pair列表。'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活租户Pair ID列表 (可选, List[string])'
           name: '名称 (可选, string)'
           status: '状态 (可选, string)'
@@ -5011,7 +4802,6 @@ topics:
         description: '批量主从切换双活租户Pair。'
         detail: '批量主从切换双活租户Pair。'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活租户Pair的ID列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
           is_force: '是否强制主从切换 (bool)。可选值：true（是）, false（否）'
         outputs: |
@@ -5022,7 +4812,6 @@ topics:
         description: '批量删除双活租户Pair。'
         detail: '批量删除双活租户Pair。'
         parameters:
-          client: 'DME API 客户端'
           ids: '双活租户Pair的ID列表 (必选, List<string>, 数组最小成员个数: 1, 数组最大成员个数: 100)'
         outputs: |
           {
@@ -5032,7 +4821,6 @@ topics:
         description: '修改指定双活租户pair。'
         detail: '修改指定双活租户pair。'
         parameters:
-          client: 'DME API 客户端'
           id: '双活租户Pair的ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
           preferred_mode: '双活租户Pair优先站点切换模式 (必选, string)。可选值：consistent_with_the_activated_end（与激活端保持一致）, manual（手动）'
           preferred_site: '双活租户Pair优先站点 (string)。条件必选：preferred_mode 为 manual 时必选。可选值：local（本端）, remote（远端）'
@@ -5044,7 +4832,6 @@ topics:
         description: '强制启动文件系统双活域。'
         detail: '强制启动文件系统双活域。'
         parameters:
-          client: 'DME API 客户端'
           id: '双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
         outputs: |
           {
@@ -5054,7 +4841,6 @@ topics:
         description: '优先站点切换文件系统双活域。'
         detail: '优先站点切换文件系统双活域。'
         parameters:
-          client: 'DME API 客户端'
           id: '双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
         outputs: |
           {
@@ -5064,7 +4850,6 @@ topics:
         description: '恢复文件系统双活域。'
         detail: '恢复文件系统双活域。'
         parameters:
-          client: 'DME API 客户端'
           id: '双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
         outputs: |
           {
@@ -5074,7 +4859,6 @@ topics:
         description: '分裂文件系统双活域。'
         detail: '分裂文件系统双活域。'
         parameters:
-          client: 'DME API 客户端'
           id: '双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
           stop_role: '停止业务站点 (string)。条件必选：AA模式时必选。可选值：preferred（优先站点）, non_preferred（非优先站点）'
         outputs: |
@@ -5085,7 +4869,6 @@ topics:
         description: '主从切换文件系统双活域。'
         detail: '主从切换文件系统双活域。'
         parameters:
-          client: 'DME API 客户端'
           id: '双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)'
         outputs: |
           {
@@ -5095,7 +4878,6 @@ topics:
         description: '查询可创建双活Pair的目标LUN。'
         detail: '查询可创建双活Pair的目标LUN。'
         parameters:
-          client: 'DME API 客户端'
           source_lun_id: '源LUN的ID (必选, string, 1~32个字符, ^[A-F0-9]+$)'
           remote_storage_id: '远端存储设备ID (必选, string)'
           name: '目标LUN名称，支持模糊搜索 (string, 1~255个字符)'
@@ -5120,7 +4902,6 @@ topics:
         description: '批量查询 LUN'
         detail: '批量查询 LUN'
         parameters:
-          client: 'DME API 客户端'
           limit: '分页查询的个数 (可选, 0~1000, 默认1000)'
           offset: '分页查询的起始位置 (可选, 最小值0, 默认0)'
           sort_dir: '排序方向 (可选)。可选值：asc (升序), desc (降序)'
@@ -5192,7 +4973,6 @@ topics:
         description: '查询指定 LUN。'
         detail: '查询指定 LUN。'
         parameters:
-          client: 'DME API 客户端'
           volume_id: 'LUN id (必选, string, 1~64个字符)'
         outputs: |
           {
@@ -5214,7 +4994,6 @@ topics:
         description: '自定义创建 LUN'
         detail: '自定义创建 LUN'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填），1~64 个字符，通过存储设备查询接口获取'
           lun_specs: |
             待创建 LUN 基本参数 (条件必传), List<LunSpecs> 类型, 数组最大成员个数 1000, 单次最多可创建 10 组; 与 lun_specs_pass_through 互斥; 当存储设备模式不为直通模式时必传。参数格式如下：[{
@@ -5286,7 +5065,6 @@ topics:
         description: '批量删除 LUN。'
         detail: '批量删除 LUN。'
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, List[string], 数组最大成员个数：1000)'
           task_remarks: '异步任务备注信息 (可选, string, 最多1024个字符)'
         outputs: |
@@ -5297,7 +5075,6 @@ topics:
         description: '修改指定 LUN'
         detail: '修改指定 LUN'
         parameters:
-          client: 'DME API 客户端'
           volume_id: 'LUN ID'
           name: '新名称（可选，1~255 个字符）'
           description: '修改 LUN 描述信息（可选，0~255 个字符）'
@@ -5328,7 +5105,6 @@ topics:
         description: '批量修改 LUN 名称'
         detail: '批量修改 LUN 名称'
         parameters:
-          client: 'DME API 客户端'
           volumes: |
             待修改的 LUN 信息列表 (数组最大成员个数: 1000)。参数格式如下：[{
                     volume_id: LUN唯一标识 (1~64个字符),
@@ -5342,7 +5118,6 @@ topics:
         description: '批量扩容 LUN'
         detail: '批量扩容 LUN'
         parameters:
-          client: 'DME API 客户端'
           volumes: |
             需要扩容的 LUN 信息列表 (数组最大成员个数: 1000)。参数格式如下：[{
                     volume_id: LUN唯一标识 (必选, 1~64个字符),
@@ -5357,7 +5132,6 @@ topics:
         description: '查询指定 LUN ID 的连接信息。'
         detail: '查询指定 LUN ID 的连接信息。'
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, List[string], 数组最大成员个数: 1000)'
         outputs: |
           {
@@ -5370,7 +5144,6 @@ topics:
         description: '批量查询 LUN 组'
         detail: '批量查询 LUN 组'
         parameters:
-          client: 'DME API 客户端'
           page_size: '分页查询的个数 (可选, 0~1000, 默认20)'
           page_no: '分页查询的起始页码 (可选, 1~10000000, 默认1)'
           sort_dir: '排序方向 (可选)。可选值：asc (升序), desc (降序)'
@@ -5401,7 +5174,6 @@ topics:
         description: '查询指定 LUN 组详情。'
         detail: '查询指定 LUN 组详情。'
         parameters:
-          client: 'DME API 客户端'
           group_id: 'LUN 组 ID (必选, string)'
           storage_id: '存储设备 ID (可选, string)'
         outputs: |
@@ -5416,7 +5188,6 @@ topics:
         description: '创建 LUN 组'
         detail: '创建 LUN 组'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID (必选, 1~64个字符)'
           name: 'LUN 组名称 (必选, 1~255个字符, 支持字母数字._-和中文字符)'
           description: 'LUN 组描述 (可选, 0~255个字符)'
@@ -5484,7 +5255,6 @@ topics:
         description: '批量删除 LUN 组'
         detail: '批量删除 LUN 组'
         parameters:
-          client: 'DME API 客户端'
           lun_group_ids: 'LUN组ID列表 (必选, 数组最大成员个数: 500)'
           task_remarks: '异步任务备注信息 (可选, 最多1024个字符)'
         outputs: |
@@ -5495,7 +5265,6 @@ topics:
         description: '向 LUN 组添加 LUN'
         detail: '向 LUN 组添加 LUN'
         parameters:
-          client: 'DME API 客户端'
           group_id: 'LUN 组 ID'
           existing_lun_ids: |
             已有LUN集合 (可选, 与customize_volumes互斥, 数组最大成员个数: 1000)。参数格式如下：[{
@@ -5549,7 +5318,6 @@ topics:
         description: '从 LUN 组移除 LUN'
         detail: '从 LUN 组移除 LUN'
         parameters:
-          client: 'DME API 客户端'
           group_id: 'LUN 组 ID'
           lun_ids: 'LUN ID 列表 (必选, 数组最小成员个数: 1, 数组最大成员个数: 10000)'
           task_remarks: '异步任务备注信息 (可选, 最多1024个字符)'
@@ -5561,7 +5329,6 @@ topics:
         description: '查询 LUN 组中的 LUN'
         detail: '查询 LUN 组中的 LUN'
         parameters:
-          client: 'DME API 客户端'
           group_id: 'LUN 组 ID'
           page_size: '分页查询的个数 (可选, 1~1000, 默认100)'
           page_no: '分页查询的页码 (可选, 1~10000000, 默认1)'
@@ -5574,7 +5341,6 @@ topics:
         description: '创建映射视图'
         detail: '创建映射视图'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID (必选, 1~64个字符)'
           name: '映射视图名称 (可选, 1~31个字符; 设备类型为OceanStor V3/V5时有效)'
           port_group_id: '端口组 ID (可选, 1~64个字符)'
@@ -5611,7 +5377,6 @@ topics:
         description: '批量删除映射视图。'
         detail: '批量删除映射视图。'
         parameters:
-          client: 'DME API 客户端'
           ids: '映射视图 ID 列表 (必选, List[string])'
         outputs: |
           {
@@ -5624,7 +5389,6 @@ topics:
           
           批量查询存储设备上的映射视图信息，支持多种过滤条件。
         parameters:
-          client: 'DME API 客户端'
           page_size: '分页查询的个数 (可选, 0~1000, 默认100)'
           page_no: '分页查询的起始位置 (可选, 1~10000000, 默认1)'
           name: '映射视图名称 (可选, 0~256个字符, 支持模糊搜索)'
@@ -5658,7 +5422,6 @@ topics:
         description: '创建存储主机'
         detail: '创建存储主机'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID (必选, 1~64个字符)'
           host_info: |
             CreateStorageHostInfo对象 (必选)。属性格式如下：{
@@ -5688,7 +5451,6 @@ topics:
         description: '根据存储主机 ID 列表批量查询存储主机'
         detail: '根据存储主机 ID 列表批量查询存储主机'
         parameters:
-          client: 'DME API 客户端'
           ids: 'ID 列表（必选，1~1000 个）'
         outputs: |
           {
@@ -5729,7 +5491,6 @@ topics:
         description: '批量查询存储主机'
         detail: '批量查询存储主机'
         parameters:
-          client: 'DME API 客户端'
           page_size: '分页查询的个数 (可选, 1~1000, 默认20)'
           page_no: '分页查询的起始位置 (可选, 最小值1, 默认1)'
           sort_key: '排序关键字 (可选, sort_key不填时sort_dir不生效)。可选值：ip, name, initiator_count, lun_count, lun_group_count, capacity, allocated_capacity, raw_id'
@@ -5788,7 +5549,6 @@ topics:
         description: '修改存储主机'
         detail: '修改存储主机'
         parameters:
-          client: 'DME API 客户端'
           storage_host_id: '存储主机 ID (必选)'
           storage_host_name: '存储主机名称 (可选, 1~255个字符, 支持字母数字._-和中文字符)'
           storage_host_description: '存储主机描述信息 (可选, 0~63个字符)'
@@ -5819,14 +5579,12 @@ topics:
           
           批量删除指定的存储主机。
         parameters:
-          client: 'DME API 客户端'
           host_ids: '存储主机 ID 列表（必选，最多 1000 个）'
         outputs: '删除结果'
       storage_host_show_paths:
         description: '批量查询存储主机的路径信息'
         detail: '批量查询存储主机的路径信息'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的页码 (可选, 1~2147483647, 默认1)'
           page_size: '分页查询的每页大小 (可选, 1~1000, 默认20)'
           storage_id: '所属存储设备ID (可选, 1~64个字符)'
@@ -5859,7 +5617,6 @@ topics:
           
           指定存储主机查询映射 LUN 信息列表，包含 LUN 信息和主机 LUN ID 信息。
         parameters:
-          client: 'DME API 客户端'
           storage_host_id: '存储主机 ID（必选，1~64 字符）'
           name: 'LUN 名称（可选，1~256 字符，支持模糊搜索）'
           page_size: '分页查询的个数（可选，1~1000，默认 20）'
@@ -5877,7 +5634,6 @@ topics:
           
           解除 LUN 与存储主机的映射关系。
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, 数组最大成员个数: 1000)'
           host_id: '主机 ID (必选, 1~64个字符)'
           task_remarks: '异步任务备注信息 (可选, 最多1024个字符)'
@@ -5889,7 +5645,6 @@ topics:
         description: '创建存储主机组'
         detail: '创建存储主机组'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID (必选, 1~64个字符)'
           name: '主机组名称 (必选, 1~255个字符, 支持字母数字._-和中文字符; V3/V5设备最长31字节, V6设备最长255字节)'
           description: '描述信息 (可选, 0~63个字符)'
@@ -5922,7 +5677,6 @@ topics:
         description: '批量查询存储主机组'
         detail: '批量查询存储主机组'
         parameters:
-          client: 'DME API 客户端'
           raw_id: '主机组在设备侧的ID (可选, 0~256个字符)'
           storage_id: '设备ID (可选, 0~64个字符)'
           page_size: '分页查询的个数 (可选, 1~1000, 默认100)'
@@ -5946,7 +5700,6 @@ topics:
           
           将现有主机添加到存储主机组，或在主机组中创建新主机。
         parameters:
-          client: 'DME API 客户端'
           storage_host_group_id: '存储主机组 ID (必选)'
           storage_host_id_ids: '存储主机ID列表 (可选, 与create_storage_host_params互斥, 数组最大成员个数: 1000)'
           create_storage_host_params: |
@@ -5979,7 +5732,6 @@ topics:
           
           从指定的存储主机组中移除一个或多个主机。
         parameters:
-          client: 'DME API 客户端'
           storage_host_group_id: '存储主机组 ID（必选，1~64 字符）'
           storage_host_ids: '要移除的主机 ID 列表（必选，最多 1000 个）'
           task_remarks: '任务备注（可选，最多 1024 字符）'
@@ -5994,7 +5746,6 @@ topics:
           
           批量删除指定的存储主机组。
         parameters:
-          client: 'DME API 客户端'
           host_group_ids: '存储主机组 ID 列表（必选，1~100 个）'
           task_remarks: '任务备注（可选，最多 1024 字符）'
         outputs: '删除结果'
@@ -6005,7 +5756,6 @@ topics:
           
           指定存储主机组查询映射 LUN 信息列表，包含 LUN 信息和主机 LUN ID 信息。
         parameters:
-          client: 'DME API 客户端'
           storage_host_group_id: '存储主机组 ID（必选，1~64 字符）'
           name: 'LUN 名称（可选，1~256 字符，支持模糊搜索）'
           page_size: '分页查询的个数（可选，1~1000，默认 20）'
@@ -6023,7 +5773,6 @@ topics:
           
           解除 LUN 与存储主机组的映射关系。
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, 数组最大成员个数: 1000)'
           hostgroup_id: '主机组 ID (必选, 1~64个字符)'
           task_remarks: '异步任务备注信息 (可选, 最多1024个字符)'
@@ -6035,7 +5784,6 @@ topics:
         description: '批量查询端口组'
         detail: '批量查询端口组'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID (可选, 1~64个字符, 支持过滤)'
           page_no: '分页查询的页码 (可选, 1~10000, 默认1)'
           page_size: '分页查询的每页大小 (可选, 1~1000, 默认20)'
@@ -6050,7 +5798,6 @@ topics:
           
           注意：仅支持 OceanStor 1800 系列存储。
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID (必选, 1~64个字符)'
           name: '端口组名称 (必选, 1~255个字符, 支持字母数字._-和中文字符)'
           description: '端口组描述 (可选, 0~63个字符)'
@@ -6063,7 +5810,6 @@ topics:
         description: '批量查询指定端口组的端口'
         detail: '批量查询指定端口组的端口'
         parameters:
-          client: 'DME API 客户端'
           port_group_id: '端口组 ID (必选)'
           type: '端口类型 (可选)。可选值：fc (FC端口), fcoe (FCoE端口), eth (以太网口), roce (RoCE端口)'
           page_no: '分页查询的页码 (可选, 1~10000, 默认1)'
@@ -6076,7 +5822,6 @@ topics:
         description: '批量查询端口组与端口关联关系'
         detail: '批量查询端口组与端口关联关系'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的页码 (可选, 1~10000, 默认1)'
           page_size: '分页查询的每页大小 (可选, 1~1000, 默认20)'
         outputs: |
@@ -6087,7 +5832,6 @@ topics:
         description: '批量查询物理主机'
         detail: '批量查询物理主机'
         parameters:
-          client: 'DME API 客户端'
           limit: '分页查询的个数 (可选, 1~1000)'
           start: '分页查询的起始位置 (可选, 0~10000000)'
           sort_key: '排序关键字 (可选)。可选值：initiator_count, ip, name'
@@ -6110,7 +5854,6 @@ topics:
         description: '查询指定物理主机'
         detail: '查询指定物理主机'
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机 ID（必选）'
         outputs: |
           {
@@ -6146,7 +5889,6 @@ topics:
         description: '接入物理主机'
         detail: '接入物理主机'
         parameters:
-          client: 'DME API 客户端'
           access_mode: '物理主机接入方式 (必选)。可选值：ACCOUNT (指定账号密码), NONE (手动录入)'
           type: '主机类型 (必选)。可选值：UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC。ACCOUNT模式仅支持LINUX'
           host_name: '物理主机名称 (NONE模式必填, 1~255个字符, 支持字母数字._-和中文字符)'
@@ -6176,7 +5918,6 @@ topics:
         description: '修改物理主机基本信息'
         detail: '修改物理主机基本信息'
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机 ID (必选)'
           ip: '物理主机IP地址 (可选, 最多127个字符, 支持IPv4和IPv6; 不填表示不变)'
           host_name: '物理主机名称 (可选, 1~255个字符, 支持字母数字._-; 为空表示保持不变)'
@@ -6188,7 +5929,6 @@ topics:
         description: '修改物理主机接入信息'
         detail: '修改物理主机接入信息'
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机ID (必选, 1~64个字符)'
           ip: '物理主机接入IP地址 (可选, 最多127个字符, 支持IPv4和IPv6; NONE转ACCOUNT场景必填)'
           port: '物理主机接入端口 (可选, 1~65535; NONE转ACCOUNT场景必填)'
@@ -6210,7 +5950,6 @@ topics:
           
           移除指定的物理主机。
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机 ID（必选）'
           sync_to_storage: '是否同步从存储删除（可选，默认 false）'
         outputs: '删除结果'
@@ -6218,7 +5957,6 @@ topics:
         description: '为物理主机添加启动器'
         detail: '为物理主机添加启动器'
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机 ID (必选)'
           initiators: |
             启动器列表 (必选, 数组最大成员个数: 100)。参数格式如下：[{
@@ -6230,7 +5968,6 @@ topics:
         description: '从物理主机移除启动器'
         detail: '从物理主机移除启动器'
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机 ID（必选）'
           initiators: '启动器 ID 列表（必选，最多 1000 个）'
         outputs: '移除结果'
@@ -6238,7 +5975,6 @@ topics:
         description: '查询指定物理主机的启动器'
         detail: '查询指定物理主机的启动器'
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机 ID (必选)'
           port_name: '物理主机启动器wwn或iqn (可选, 1~223个字符)'
           protocol: '启动器类型 (可选, 1~64个字符)。可选值：UNKNOWN, FC, ISCSI, NVME_OVER_ROCE, SAS, NVME_OVER_FABRIC'
@@ -6261,7 +5997,6 @@ topics:
         description: '检测存储设备和物理主机连通性'
         detail: '检测存储设备和物理主机连通性'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必选）'
           host_ids: '物理主机 ID 列表（可选，与 hostgroup_id 二选一）'
           hostgroup_id: '物理主机组 ID（可选，与 host_ids 二选一）'
@@ -6273,7 +6008,6 @@ topics:
         description: '查询指定物理主机 SSH 公钥'
         detail: '查询指定物理主机 SSH 公钥'
         parameters:
-          client: 'DME API 客户端'
           ip: '物理主机 IP 地址（必选）'
           port: 'SSH 端口（可选，默认 22）'
         outputs: 'SSH 公钥信息'
@@ -6281,7 +6015,6 @@ topics:
         description: '保存指定物理主机 SSH 公钥'
         detail: '保存指定物理主机 SSH 公钥'
         parameters:
-          client: 'DME API 客户端'
           ip: '物理主机 IP 地址（必选）'
           key: '物理主机 SSH 公钥（必选）'
           port: 'SSH 端口（可选，默认 22）'
@@ -6293,7 +6026,6 @@ topics:
           
           根据启动器 ID 或启动器 WWPN/IQN/NQN 查询关联的物理主机。
         parameters:
-          client: 'DME API 客户端'
           initiator_id: '启动器 ID（可选，与 raw_id 互斥）'
           raw_id: '启动器 WWPN/IQN/NQN（可选，与 initiator_id 互斥）'
           protocol: '启动器类型（可选，FC/ISCSI/NVME_OVER_ROCE）'
@@ -6329,7 +6061,6 @@ topics:
           
           将 LUN 映射给指定的物理主机。
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, 数组最大成员个数: 1000)'
           host_id: '物理主机 ID (必选, 1~64个字符)'
           mapping_policy: |
@@ -6357,7 +6088,6 @@ topics:
         description: '解除主机映射'
         detail: '解除主机映射'
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, 数组最大成员个数: 1000)'
           host_id: '主机 ID (必选, 1~64个字符)'
           task_remarks: '异步任务备注信息 (可选, 最多1024个字符)'
@@ -6369,7 +6099,6 @@ topics:
         description: '查询物理主机关联的映射关系'
         detail: '查询物理主机关联的映射关系'
         parameters:
-          client: 'DME API 客户端'
           host_id: '物理主机 ID (必选, 1~64个字符)'
           storage_id: '存储设备 ID (必选, 1~64个字符)'
         outputs: |
@@ -6380,7 +6109,6 @@ topics:
         description: '批量查询物理主机组'
         detail: '批量查询物理主机组'
         parameters:
-          client: 'DME API 客户端'
           limit: '分页查询的个数 (可选, 1~1000)'
           start: '分页查询的起始位置 (可选, 0~10000000)'
           sort_dir: '排序方向 (可选, sort_key不填时不生效)。可选值：desc (降序), asc (升序)'
@@ -6400,7 +6128,6 @@ topics:
           
           查询指定物理主机组的物理主机列表。
         parameters:
-          client: 'DME API 客户端'
           hostgroup_id: '物理主机组ID (必选, 1~64个字符)'
           name: '物理主机名称 (可选, 1~256个字符, 支持模糊匹配)'
           ip: '物理主机IP (可选, 1~256个字符, 支持模糊匹配)'
@@ -6432,14 +6159,12 @@ topics:
         description: '查询指定物理主机组'
         detail: '查询指定物理主机组'
         parameters:
-          client: 'DME API 客户端'
           hostgroup_id: '物理主机组 ID（必选）'
         outputs: '物理主机组详细信息'
       physical_host_group_create:
         description: '创建物理主机组'
         detail: '创建物理主机组'
         parameters:
-          client: 'DME API 客户端'
           name: '物理主机组名称 (必选, 1~255个字符, 支持字母数字._-和中文字符)'
           host_ids: '物理主机ID列表 (必选, 数组最大成员个数: 100)'
           azs: '可用分区ID列表 (可选, 数组最大成员个数: 40)'
@@ -6450,7 +6175,6 @@ topics:
         description: '修改物理主机组基本信息'
         detail: '修改物理主机组基本信息'
         parameters:
-          client: 'DME API 客户端'
           hostgroup_id: '物理主机组 ID (必选)'
           name: '物理主机组名称 (可选, 1~255个字符, 支持字母数字._-和中文字符; 不填或空串表示不修改)'
           description: '物理主机组描述信息 (可选, 0~63个字符)'
@@ -6461,7 +6185,6 @@ topics:
         description: '删除指定物理主机组'
         detail: '删除指定物理主机组'
         parameters:
-          client: 'DME API 客户端'
           hostgroup_id: '物理主机组 ID（必选）'
           sync_to_storage: '是否同步从存储删除（可选，默认 false）'
         outputs: '删除结果'
@@ -6469,7 +6192,6 @@ topics:
         description: '向物理主机组中增加物理主机'
         detail: '向物理主机组中增加物理主机'
         parameters:
-          client: 'DME API 客户端'
           hostgroup_id: '物理主机组 ID（必选）'
           host_ids: '物理主机 ID 列表（必选，最多 100 个）'
           sync_to_storage: '是否同步添加到存储（可选，默认 false）'
@@ -6481,7 +6203,6 @@ topics:
           
           从物理主机组中移除物理主机。
         parameters:
-          client: 'DME API 客户端'
           hostgroup_id: '物理主机组 ID（必选）'
           host_ids: '物理主机 ID 列表（必选，最多 1000 个）'
           sync_to_storage: '是否同步从存储移除（可选，默认 false）'
@@ -6493,7 +6214,6 @@ topics:
           
           将 LUN 映射给指定的物理主机组。
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, 数组最大成员个数: 1000)'
           hostgroup_id: '物理主机组 ID (必选, 0~64个字符)'
           mapping_policy: |
@@ -6524,7 +6244,6 @@ topics:
           
           解除 LUN 与主机组的映射关系。
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN ID 列表 (必选, 数组最大成员个数: 1000)'
           hostgroup_id: '主机组 ID (必选, 1~64个字符)'
           task_remarks: '异步任务备注信息 (可选, 最多1024个字符)'
@@ -6536,7 +6255,6 @@ topics:
         description: '查询物理主机组关联的映射关系'
         detail: '查询物理主机组关联的映射关系'
         parameters:
-          client: 'DME API 客户端'
           host_group_id: '物理主机组 ID (必选, 1~64个字符)'
           storage_id: '存储设备 ID (必选, 1~64个字符)'
         outputs: |
@@ -6547,7 +6265,6 @@ topics:
         description: '查询物理主机组关联的存储主机组列表。'
         detail: '查询物理主机组关联的存储主机组列表。'
         parameters:
-          client: 'DME API 客户端'
           hostgroup_id: '物理主机组ID (必选, string, 1~64个字符)'
           storage_ip: '存储设备IP (可选, string, 1~127个字符)'
           storage_name: '存储设备名称，支持模糊搜索 (可选, string, 1~256个字符)'
@@ -6562,7 +6279,6 @@ topics:
         description: '查询存储主机和LUN映射关系。'
         detail: '查询存储主机和LUN映射关系。'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID (必选, string, 1~64个字符)'
           name: '映射视图名称，支持模糊搜索 (可选, string, 0~256个字符)'
           mapping_type: '查询主机映射类型 (可选, string)。可选值：all (和LUN存在映射关系的存储主机，包括直接映射和间接映射), match_mapping_view (与LUN直接映射的存储主机)'
@@ -6590,7 +6306,6 @@ topics:
         description: '查询服务器列表'
         detail: '查询服务器列表'
         parameters:
-          client: 'DME API 客户端'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
           name: '服务器名称过滤（可选）'
@@ -6609,7 +6324,6 @@ topics:
         description: '查询指定服务器的概览信息'
         detail: '查询指定服务器的概览信息'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID（注意：需要使用 device_id 字段，即带连字符的 UUID 格式，如 507cb27f-3eda-44c8-a491-5a81ca035da5）'
         outputs: |
           {
@@ -6622,7 +6336,6 @@ topics:
         description: '查询服务器上的所有 CPU 列表'
         detail: '查询服务器上的所有 CPU 列表'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
@@ -6640,7 +6353,6 @@ topics:
         description: '查询服务器上的内存'
         detail: '查询服务器上的内存'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
@@ -6657,7 +6369,6 @@ topics:
         description: '查询服务器上的硬盘集合'
         detail: '查询服务器上的硬盘集合'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
@@ -6675,7 +6386,6 @@ topics:
         description: '查询服务器上的网卡集合'
         detail: '查询服务器上的网卡集合'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID（可选）'
           page_no: '分页查询的页码，默认 1'
           page_size: '每页数量，5~1000，默认 20'
@@ -6693,7 +6403,6 @@ topics:
         description: '查询服务器上的风扇'
         detail: '查询服务器上的风扇'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
@@ -6711,7 +6420,6 @@ topics:
         description: '查询服务器上的电源'
         detail: '查询服务器上的电源'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
@@ -6729,7 +6437,6 @@ topics:
         description: '查询服务器上的 RAID 卡详情'
         detail: '查询服务器上的 RAID 卡详情'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
@@ -6746,7 +6453,6 @@ topics:
         description: '查询服务器上的 PCIe 卡信息'
         detail: '查询服务器上的 PCIe 卡信息'
         parameters:
-          client: 'DME API 客户端'
           server_id: '服务器 ID'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
@@ -6767,7 +6473,6 @@ topics:
         description: '批量查询存储设备：支持分页查询，过滤。'
         detail: '批量查询存储设备：支持分页查询，过滤。'
         parameters:
-          client: 'DME API 客户端。'
           az: '可用分区 ID (可选, string, 1~64个字符)'
           source: '存储设备的来源 (可选, string)。可选值：add (接入), record (录入), all (所有)。默认查询接入设备'
           dc_id: '存储设备所属数据中心的ID (可选, string, 1~32个字符)'
@@ -6792,7 +6497,6 @@ topics:
         description: '查询指定存储设备。'
         detail: '查询指定存储设备。'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID，必选 (必选, string, 1~36个字符)。需满足UUID格式或32位十六进制'
         outputs: |
           {
@@ -6811,7 +6515,6 @@ topics:
           
           通过离线方式添加存储设备信息到 DME 系统。
         parameters:
-          client: 'DME API 客户端。'
           name: '设备名称 (1~256个字符)。只能包含半角字母、半角数字、"_"、"-"、"."、中文字符。'
           sn: '设备序列号 (正则表达式为^[a-zA-Z0-9]{1,128}$)。'
           ip: '设备IP地址 (可选, 0~128个字符, 支持IPv4与IPv6格式, 也可为空字符串)。'
@@ -6839,7 +6542,6 @@ topics:
         description: '批量移除存储设备。'
         detail: '批量移除存储设备。'
         parameters:
-          client: 'DME API 客户端'
           ids: '存储设备ID列表 (必选, List[string], 数组最大成员个数：100, 数组最小成员个数：1)'
         outputs: |
           {
@@ -6849,14 +6551,12 @@ topics:
         description: '同步存储设备信息，该接口为异步消息。'
         detail: '同步存储设备信息，该接口为异步消息。'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备Id (必选, string, 1~64个字符)。通过批量查询存储设备接口获取'
         outputs: '无'
       modify:
         description: '修改存储设备（仅支持修改录入的离线存储设备信息）'
         detail: '修改存储设备（仅支持修改录入的离线存储设备信息）'
         parameters:
-          client: 'DME API 客户端。'
           storage_id: '存储设备 ID（必填）。'
           name: '设备名称 (可选, 1~256个字符)。只能包含半角字母、半角数字、"_"、"-"、"."、中文字符。'
           ip: '设备IP地址 (可选, 0~128个字符, 支持IPv4与IPv6格式, 也可为空字符串)。'
@@ -6879,7 +6579,6 @@ topics:
         description: '查询存储设备的 BBU 信息列表'
         detail: '查询存储设备的 BBU 信息列表'
         parameters:
-          client: 'DME API 客户端。'
           storage_id: 'BBU所属存储设备的id (可选, 1~64个字符)。'
           health_status: '健康状态 (可选)。可选值：unknown (未知), normal (正常), faulty (故障), about_to_fail (即将故障), low_battery (电量不足)。'
           running_status: '运行状态 (可选)。可选值：unknown (未知), normal (正常), running (运行), online (在线), offline (离线), charging (正在充电), charging_completed (充电完成), discharging (正在放电)。'
@@ -6910,7 +6609,6 @@ topics:
         description: '获取存储设备访问的令牌'
         detail: '获取存储设备访问的令牌'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID（必选）'
         outputs: |
           {
@@ -6922,7 +6620,6 @@ topics:
         description: '查询存储设备的风扇信息'
         detail: '查询存储设备的风扇信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '所属存储设备ID（可选，1~64个字符）'
           health_status: '健康状态（可选）。可选值：unknown (未知), normal (正常), faulty (故障)'
           running_status: '运行状态（可选）。可选值：unknown (未知), normal (正常), running (运行), not_running (未运行), spin_down (休眠), online (在线), offline (离线)'
@@ -6952,7 +6649,6 @@ topics:
         description: '查询存储设备的硬盘信息列表'
         detail: '查询存储设备的硬盘信息列表'
         parameters:
-          client: 'DME API 客户端。'
           storage_id: '存储设备ID (1~36个字符, 满足uuid格式)。'
           ids: '端口ID列表 (可选, List<string>, 数组最大成员个数: 100, 数组最小成员个数: 0)。'
           name: '硬盘名称 (可选, 1~256个字符)。'
@@ -6996,7 +6692,6 @@ topics:
         description: '查询存储设备存储池列表'
         detail: '查询存储设备存储池列表'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备的ID（可选，1~64个字符）'
           raw_id: '存储池在存储设备上的ID（可选，1~64个字符）'
           zone_id: '所属Zone的ID（可选，1~256个字符），支持精确搜索，仅OceanStor A800存储支持'
@@ -7044,7 +6739,6 @@ topics:
         description: '查询 HyperScale 存储池列表'
         detail: '查询 HyperScale 存储池列表'
         parameters:
-          client: 'DME API 客户端'
           raw_id: '存储池在存储设备上的ID（可选，1~64个字符），支持精确搜索'
           name: 'HyperScale存储池名称（可选，1~256个字符），支持模糊搜索'
           local_pool_id: 'HyperScale存储池下本地存储池ID（可选，0~64个字符），支持过滤指定本地存储池关联的HyperScale存储池'
@@ -7083,7 +6777,6 @@ topics:
         description: '查询存储设备的节点列表'
         detail: '查询存储设备的节点列表'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '所属存储设备id（可选，1~64个字符），支持过滤'
           raw_id: '节点在存储设备上的ID（可选，1~64个字符）'
           storage_name: '所属存储设备名称（可选，1~255个字符），支持过滤'
@@ -7126,7 +6819,6 @@ topics:
         description: '查询存储设备电源详情信息，仅支持OceanStor A800存储。'
         detail: '查询存储设备电源详情信息，仅支持OceanStor A800存储。'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '所属存储设备ID（必选，1~64个字符）'
           health_status: '健康状态（可选）。可选值：unknown (未知), normal (正常), faulty (故障), inconsistent (不一致), no_input (无输入)'
           running_status: '运行状态（可选）。可选值：unknown (未知), normal (正常), running (运行), online (在线), offline (离线)'
@@ -7169,7 +6861,6 @@ topics:
         description: '查询存储设备功率数据'
         detail: '查询存储设备功率数据'
         parameters:
-          client: 'DME API 客户端'
           start_time: '开始时间戳（必选，13位数字毫秒时间戳，正则 ^([0-9]){13}$）'
           end_time: '结束时间戳（必选，13位数字毫秒时间戳，正则 ^([0-9]){13}$）'
           storage_ids: '存储ID列表（必选，List<string>，数组最大成员个数：300）'
@@ -7188,7 +6879,6 @@ topics:
           
           仅 Dorado 类型设备支持。
         parameters:
-          client: 'DME API 客户端。'
           storage_id: '存储设备 id (1~36个字符, 满足uuid格式)。'
           create_type: '创建类型 (可选, 0~1)。可选值：0 (系统预置), 1 (用户定义)。不传返回所有类型。'
           template_type: '应用类型分类 (可选, 0~1)。可选值：0 (LUN类型), 1 (NAS类型)。不传默认LUN类型。'
@@ -7206,7 +6896,6 @@ topics:
         description: '查询指定存储设备的控制器信息'
         detail: '查询指定存储设备的控制器信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必选，1~36 个字符，UUID 格式或 32 位十六进制）'
         outputs: |
           {
@@ -7218,7 +6907,6 @@ topics:
         description: '批量查询硬盘域'
         detail: '批量查询硬盘域'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（可选，1~64 个字符），支持过滤'
           page_no: '分页查询的页码（可选，1~2147483647，默认 1）'
           page_size: '分页查询的每页大小（可选，1~1000，默认 20）'
@@ -7243,7 +6931,6 @@ topics:
         description: '批量查询分布式存储设备的硬盘池。仅支持OceanStor Pacific和OceanStor A310存储。'
         detail: '批量查询分布式存储设备的硬盘池。仅支持OceanStor Pacific和OceanStor A310存储。'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备id (可选, string, 1~64个字符)。非OceanStor Pacific或A310设备会报参数错误'
           page_no: '分页查询的页码 (可选, int32, 1~2147483647)。默认值：1'
           page_size: '分页查询的每页大小 (可选, int32, 1~1000)。默认值：20'
@@ -7260,7 +6947,6 @@ topics:
         description: '批量查询机框信息'
         detail: '批量查询机框信息'
         parameters:
-          client: 'DME API 客户端'
           page_no: '分页查询的页码（可选，1~2147483647，默认 1）'
           page_size: '分页查询的每页大小（可选，1~1000，默认 20）'
           storage_id: '所属存储设备ID（可选，1~64个字符）'
@@ -7309,7 +6995,6 @@ topics:
         description: '批量查询存储设备租户信息。'
         detail: '批量查询存储设备租户信息。'
         parameters:
-          client: 'DME API 客户端'
           raw_id: '所属租户在设备中的ID (可选, string, 1~256个字符)'
           vstore_id: '租户ID (可选, string, 1~64个字符)'
           qos_id: 'QoS策略ID (可选, string, 1~64个字符)'
@@ -7347,7 +7032,6 @@ topics:
         description: '查询租户详情。'
         detail: '查询租户详情。'
         parameters:
-          client: 'DME API 客户端'
           id: '租户id (必选, string, 1~256个字符)。需满足UUID格式或32位十六进制'
         outputs: |
           {
@@ -7362,7 +7046,6 @@ topics:
         description: '创建租户。OceanStor Dorado v3设备不支持该功能。'
         detail: '创建租户。OceanStor Dorado v3设备不支持该功能。'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID (必选, string, 1~36个字符)。需满足UUID格式或32位十六进制'
           name: '租户名称 (必选, string, 1~256个字符)。仅包含字母、数字、"_"、"-"、"."和中文字符'
           san_capacity_quota: 'SAN 容量配额（可选，单位：扇区）'
@@ -7379,7 +7062,6 @@ topics:
         description: '修改指定租户，该操作会修改存储设备上指定的租户。'
         detail: '修改指定租户，该操作会修改存储设备上指定的租户。'
         parameters:
-          client: 'DME API 客户端'
           id: '租户的ID (必选, string, 1~64个字符)。需满足UUID格式或32位十六进制'
           name: '租户名称 (可选, string, 1~256个字符)。名称包含字母、数字、"_"、"-"、"."和中文字符'
           san_capacity_quota: 'SAN容量配额 (可选, string, 1~20个字符)'
@@ -7395,7 +7077,6 @@ topics:
         description: '批量删除租户，该操作会删除存储设备上指定的租户。'
         detail: '批量删除租户，该操作会删除存储设备上指定的租户。'
         parameters:
-          client: 'DME API 客户端'
           ids: '租户的ID列表 (必选, List[string], 数组最大成员个数：100, 数组最小成员个数：1)'
         outputs: |
           {
@@ -7408,7 +7089,6 @@ topics:
           
           批量查询存储侧的启动器对象列表。
         parameters:
-          client: 'DME API 客户端'
           page_size: '分页查询的个数 (可选, 1~1000, 默认100)'
           page_no: '分页查询的页码 (可选, 最小值1, 默认1)'
           raw_id: '启动器WWPN/IQN/NQN (可选, 0~256个字符, 支持模糊匹配)'
@@ -7435,7 +7115,6 @@ topics:
         description: '批量删除存储设备的启动器对象'
         detail: '批量删除存储设备的启动器对象'
         parameters:
-          client: 'DME API 客户端'
           initiator_ids: '启动器 ID 列表（必选，1~100 个）'
           task_remarks: '任务备注（可选，最多 1024 字符）'
         outputs: '任务 ID'
@@ -7446,7 +7125,6 @@ topics:
           
           修改启动器，该操作会修改存储设备上指定的启动器。
         parameters:
-          client: 'DME API 客户端'
           initiator_id: '启动器 ID (必选)'
           vstore_id: '租户ID (可选, 1~64个字符; 设备为OceanStor V300R006C30/V500R007C20/Dorado 6.1.3及以上时有效)'
           alias: '启动器别名 (可选, 0~31个字符, 支持字母数字._-和中文字符)'
@@ -7462,7 +7140,6 @@ topics:
         description: '查询指定存储设备本地认证用户的信息'
         detail: '查询指定存储设备本地认证用户的信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填，1~36 个字符）'
           vstore_raw_id: '本地认证用户所属租户在设备上 ID（可选）'
           name: '本地认证用户名称，支持模糊查询（可选）'
@@ -7481,7 +7158,6 @@ topics:
         description: '创建本地认证用户'
         detail: '创建本地认证用户'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '创建本地认证用户所属存储设备 ID (1~36个字符, 必填)'
           name: '本地认证用户名称 (1~255个字符, 必填)'
           description: '本地认证用户描述 (1~255个字符, 可选)'
@@ -7494,7 +7170,6 @@ topics:
         description: '创建指定存储设备 UNIX 认证用户'
         detail: '创建指定存储设备 UNIX 认证用户'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '创建 UNIX 认证用户所属存储设备 ID (1~36个字符, 必填)'
           name: 'UNIX 认证用户名称 (1~255个字符, 必填)'
           raw_id: 'UNIX 认证用户在设备上 ID (int64, 0~4294967295, 可选)'
@@ -7508,7 +7183,6 @@ topics:
         description: '创建指定存储设备 Windows 认证用户'
         detail: '创建指定存储设备 Windows 认证用户'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '创建 Windows 认证用户所属存储设备 ID (1~36个字符, 必填)'
           name: 'Windows 认证用户名称 (1~255个字符, 必填)'
           raw_id: 'Windows 认证用户在设备上 ID (int64, 1000~4294967295, 可选)'
@@ -7521,7 +7195,6 @@ topics:
         description: '查询指定存储设备 UNIX 认证用户的信息'
         detail: '查询指定存储设备 UNIX 认证用户的信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填，1~36 个字符）'
           vstore_raw_id: 'UNIX 认证用户所属租户在设备上 ID（可选）'
           name: 'UNIX 认证用户名称，支持模糊查询（可选）'
@@ -7540,7 +7213,6 @@ topics:
         description: '查询指定存储设备 Windows 认证用户的信息'
         detail: '查询指定存储设备 Windows 认证用户的信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填，1~36 个字符）'
           vstore_raw_id: 'Windows 认证用户所属租户在设备上 ID（可选）'
           name: 'Windows 认证用户名称，支持模糊查询（可选）'
@@ -7558,7 +7230,6 @@ topics:
         description: '查询指定存储设备本地认证用户组的信息'
         detail: '查询指定存储设备本地认证用户组的信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填，1~36 个字符）'
           vstore_raw_id: '本地认证用户组所属租户在设备上 ID（可选）'
           name: '本地认证用户组名称，支持模糊查询（可选）'
@@ -7576,7 +7247,6 @@ topics:
         description: '查询指定存储设备 UNIX 认证用户组的信息'
         detail: '查询指定存储设备 UNIX 认证用户组的信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填，1~36 个字符）'
           vstore_raw_id: 'UNIX 认证用户组所属租户在设备上 ID（可选）'
           name: 'UNIX 认证用户组名称，支持模糊查询（可选）'
@@ -7595,7 +7265,6 @@ topics:
         description: '查询指定存储设备 Windows 认证用户组的信息'
         detail: '查询指定存储设备 Windows 认证用户组的信息'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必填，1~36 个字符）'
           vstore_raw_id: 'Windows 认证用户组所属租户在设备上 ID（可选）'
           name: 'Windows 认证用户组名称，支持模糊查询（可选）'
@@ -7613,7 +7282,6 @@ topics:
         description: '批量查询 QoS 策略'
         detail: '批量查询 QoS 策略'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（必选）'
           name: 'QoS 策略名称（可选，1~256 字符）'
           raw_id: 'QoS 策略设备侧 ID（可选）'
@@ -7644,14 +7312,12 @@ topics:
         description: '查询指定 QoS 策略详情'
         detail: '查询指定 QoS 策略详情'
         parameters:
-          client: 'DME API 客户端'
           qos_policy_id: 'QoS 策略 ID（必选）'
         outputs: ''
       qos_create:
         description: '创建 QoS 策略'
         detail: '创建 QoS 策略'
         parameters:
-          client: 'DME API 客户端'
           name: 'QoS 策略名称（必选，1~31 字符）'
           storage_id: '存储设备 ID（必选）'
           resource_type: '控制的资源类型（必选，file_system/vstore）'
@@ -7691,7 +7357,6 @@ topics:
         description: '修改 QoS 策略'
         detail: '修改 QoS 策略'
         parameters:
-          client: 'DME API 客户端'
           qos_policy_id: 'QoS 策略 ID（必选）'
           name: 'QoS 策略名称（可选）'
           description: '描述（可选）'
@@ -7721,21 +7386,18 @@ topics:
         description: '删除 QoS 策略'
         detail: '删除 QoS 策略'
         parameters:
-          client: 'DME API 客户端'
           qos_policy_ids: 'QoS 策略 ID 列表（必选，1~100 个）'
         outputs: ''
       qos_activate:
         description: '批量激活 QoS 策略'
         detail: '批量激活 QoS 策略'
         parameters:
-          client: 'DME API 客户端'
           qos_policy_ids: 'QoS 策略 ID 列表（必选）'
         outputs: ''
       qos_deactivate:
         description: '批量取消激活 QoS 策略'
         detail: '批量取消激活 QoS 策略'
         parameters:
-          client: 'DME API 客户端'
           qos_policy_ids: 'QoS 策略 ID 列表（必选）'
         outputs: ''
       qos_associate:
@@ -7745,7 +7407,6 @@ topics:
           
           将一个或多个资源关联到 QoS 策略。
         parameters:
-          client: 'DME API 客户端'
           qos_policy_id: 'QoS 策略 ID（必选）'
           resource_ids: '资源 ID 列表（必选）'
           resource_type: '资源类型（必选，file_system/vstore）'
@@ -7757,7 +7418,6 @@ topics:
           
           将资源从 QoS 策略解关联。
         parameters:
-          client: 'DME API 客户端'
           qos_policy_id: 'QoS 策略 ID（必选）'
           resource_ids: '资源 ID 列表（必选）'
           resource_type: '资源类型（必选）'
@@ -7766,7 +7426,6 @@ topics:
         description: '查询存储设备的逻辑端口列表'
         detail: '查询存储设备的逻辑端口列表'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID（可选，1~64个字符）'
           vstore_raw_id: 'vStore在存储设备上的id（可选，1~64个字符）'
           zone_raw_id: '所属Zone在设备上的ID（可选，1~64个字符），仅OceanStor A800系列存储支持'
@@ -7829,7 +7488,6 @@ topics:
         description: '查询存储设备的逻辑端口详情'
         detail: '查询存储设备的逻辑端口详情'
         parameters:
-          client: 'DME API 客户端'
           logic_port_id: '逻辑端口的 ID（必填，1~64 个字符，UUID 格式或 32 位十六进制）'
         outputs: |
           {
@@ -7884,7 +7542,6 @@ topics:
         description: '创建存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         detail: '创建存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID（必选，1~64个字符）'
           name: '端口名称（必选，1~255个字符）。只允许包含字母、数字、"_"、"-"、"."和中文字符'
           address_family: 'IP协议版本（必选）。可选值：IPv4 (IPv4), IPv6 (IPv6)'
@@ -7916,7 +7573,6 @@ topics:
         description: '修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         detail: '修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         parameters:
-          client: 'DME API 客户端'
           logic_port_id: '逻辑端口 ID（必填，1~128 个字符）'
           name: '端口名称（可选）'
           address_family: 'IP 协议版本（可选）'
@@ -7942,7 +7598,6 @@ topics:
         description: '删除存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         detail: '删除存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         parameters:
-          client: 'DME API 客户端'
           ids: '逻辑端口 ID 列表（必填，1~1000 个 ID）'
         outputs: |
           {
@@ -7952,7 +7607,6 @@ topics:
         description: '回切存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         detail: '回切存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
         parameters:
-          client: 'DME API 客户端'
           id: '逻辑端口 ID（必填，1~64 个字符）'
         outputs: |
           {
@@ -7962,7 +7616,6 @@ topics:
         description: '查询存储设备端口信息，支持 ETH、FC、IB、Bond、SAS 五种类型'
         detail: '查询存储设备端口信息，支持 ETH、FC、IB、Bond、SAS 五种类型'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备 ID（可选，1~36 个字符）'
           port_type: '端口类型（可选，eth/fc/ib/bond/sas，不指定则返回所有类型）'
           location: '位置（可选，仅 ETH 端口支持，1~255 个字符）'
@@ -7980,7 +7633,6 @@ topics:
         description: '查询指定绑定端口的成员列表信息'
         detail: '查询指定绑定端口的成员列表信息'
         parameters:
-          client: 'DME API 客户端'
           bond_port_id: '绑定端口 id（必填，1~64 个字符）'
         outputs: |
           {
@@ -7990,7 +7642,6 @@ topics:
         description: '批量查询 VLAN 列表'
         detail: '批量查询 VLAN 列表'
         parameters:
-          client: 'DME API 客户端'
           name: 'VLAN 名称（支持模糊查询）'
           storage_id: '存储设备 ID'
           page_no: '分页查询的起始页码，默认 1'
@@ -8006,7 +7657,6 @@ topics:
           
           注意：仅支持 OceanStor A800、A600 系列存储。
         parameters:
-          client: 'DME API 客户端'
           name: 'VLAN 名称（必选）'
           vlan_id: 'VLAN ID（必选，1~4094）'
           storage_id: '存储设备 ID（必选）'
@@ -8022,7 +7672,6 @@ topics:
           
           注意：仅支持 OceanStor A800、A600 系列存储。
         parameters:
-          client: 'DME API 客户端'
           vlan_id: 'VLAN ID'
         outputs: |
           {
@@ -8035,7 +7684,6 @@ topics:
           
           注意：仅支持 OceanStor A800、A600 系列存储。
         parameters:
-          client: 'DME API 客户端'
           vlan_id: 'VLAN ID'
           name: 'VLAN 名称（可选）'
           description: 'VLAN 描述（可选）'
@@ -8047,7 +7695,6 @@ topics:
         description: '查询漂移组列表'
         detail: '查询漂移组列表'
         parameters:
-          client: 'DME API 客户端'
           storage_id: '存储设备ID（必选，1~36个字符，且满足正则 ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$）'
           failover_group_type: '漂移组类型（可选）。可选值：system, VLAN, customized'
           zone_id: '所属Zone ID（可选，1~255个字符），仅OceanStor A800系列存储支持'
@@ -8070,7 +7717,6 @@ topics:
         description: '查询漂移组下的端口（支持 bond、eth、ib 三种类型）'
         detail: '查询漂移组下的端口（支持 bond、eth、ib 三种类型）'
         parameters:
-          client: 'DME API 客户端'
           failover_group_id: '漂移组 id（必填，1~64 个字符）'
           port_type: '端口类型（可选，bond/eth/ib，不指定则返回所有类型）'
         outputs: |
@@ -8081,7 +7727,6 @@ topics:
         description: '查询漂移组下的 VLAN'
         detail: '查询漂移组下的 VLAN'
         parameters:
-          client: 'DME API 客户端'
           failover_group_id: '漂移组 id（必填，1~64 个字符）'
         outputs: |
           {
@@ -8091,7 +7736,6 @@ topics:
         description: '查询OceanStor A800集群中zone信息'
         detail: '查询OceanStor A800集群中zone信息'
         parameters:
-          client: 'DME API 客户端'
           name: 'zone名称（可选，1~256个字符），精确查询'
           ip: 'zone ip地址名称（可选，1~256个字符），精确查询'
           status: 'Zone状态列表（可选，List<string>，数组最大成员个数：6）。可选值：OFFLINE (离线), NORMAL (正常), FAULT (故障), DEGRADED (降级), ABNORMAL (未管理), UNKNOWN (未知)'
@@ -8136,8 +7780,6 @@ topics:
           
           强制调用 client.login() 完成认证，然后从 header 获取 accessSession，
           提示用户可配置环境变量复用认证密钥，避免重复登录。
-        parameters:
-          client: 'DME API 客户端'
         outputs: |
           {
               accessSession: 会话 token (string)，用于后续请求的 X-Auth-Token header,
@@ -8145,14 +7787,10 @@ topics:
       logout:
         description: '注销当前已经登录的三方会话或普通会话。'
         detail: '注销当前已经登录的三方会话或普通会话。'
-        parameters:
-          client: 'DME API 客户端'
         outputs: '无'
       show:
         description: '查询产品系统信息。'
         detail: '查询产品系统信息。'
-        parameters:
-          client: 'DME API 客户端'
         outputs: |
           {
               version: DME产品版本信息 (string, 最多128个字符),
@@ -8162,7 +7800,6 @@ topics:
         description: '获取DME证书。'
         detail: '获取DME证书。'
         parameters:
-          client: 'DME API 客户端'
           service_type: '服务类型 (必选, string)。可选值：APIGWService (DME北向网关)'
         outputs: |
           {
@@ -8172,7 +7809,6 @@ topics:
         description: '根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。'
         detail: '根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。'
         parameters:
-          client: 'DME API 客户端'
           user_name: '需要重置密码的用户名 (必选, string, 1~128个字符)'
           new_value: '新密码 (必选, string, 8~32个字符)。要求：1. 密码长度不能小于8个字符、大于32个字符。2. 密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符（!"#$%&"()*+,-./:;<=>?@[]^`{|}~）。3. 密码中同一字符连续出现次数不能超过2，不能包含重复字符序列（重复次数为4，重复序列字符数为1）。4. 密码不能包含用户名和用户名的倒序，不能包含用户手机号码和电子邮箱帐号，不能包含密码字典中的词汇。'
           is_initial_password: '标识密码重置后当下次登录时是否必须修改密码 (必选, boolean, true,false)。true：下次登录系统时必须执行初始化修改；false：下次直接登录系统，不需初始化修改。默认值：true'
@@ -8181,7 +7817,6 @@ topics:
         description: '批量查询用户信息。'
         detail: '批量查询用户信息。'
         parameters:
-          client: 'DME API 客户端'
           page_no: '页数 (必选, integer, 最小值：1)。默认值：1'
           page_size: '页面大小 (必选, integer, 5~200)。默认值：10'
           name: '用户名搜索关键字 (可选, string, 最多32个字符)'
@@ -8200,7 +7835,6 @@ topics:
         description: '查询指定用户信息。'
         detail: '查询指定用户信息。'
         parameters:
-          client: 'DME API 客户端'
           user_id: '用户ID (必选, integer, 1~2147483647)'
         outputs: |
           {
@@ -8214,7 +7848,6 @@ topics:
         description: '创建用户。'
         detail: '创建用户。'
         parameters:
-          client: 'DME API 客户端'
           name: '用户名 (必选, string, 最多32个字符)。本地用户名不能小于6个字符，大于32个字符，不能包含空格、转义字符、不可见字符和特殊字符。远端用户名不能小于1个字符，大于32个字符，不能包含不可见字符和;特殊字符。'
           type: '用户类型 (必选, integer, 无)。0：本地用户；2：远端用户。'
           value: '密码 (可选, string, 8~32个字符)。密码长度不能小于8个字符、大于32个字符。密码中至少包含2个字母，至少包含1个大写字母，至少包含1个小写字母，至少包含1个数字，至少包含1个特殊字符。远端用户不涉及。'
@@ -8225,14 +7858,12 @@ topics:
         description: '删除用户。'
         detail: '删除用户。'
         parameters:
-          client: 'DME API 客户端'
           user_id: '用户ID (必选, integer, 11~2147483647)'
         outputs: '无'
       role_list:
         description: '批量查询角色信息。'
         detail: '批量查询角色信息。'
         parameters:
-          client: 'DME API 客户端'
           page_no: '页数 (必选, integer, 最小值：1)。默认值：1'
           page_size: '页面大小 (必选, integer, 5~100)。默认值：10'
           name: '角色名搜索关键字 (可选, string, 最多64个字符)'
@@ -8249,7 +7880,6 @@ topics:
         description: '批量查询备份服务器。'
         detail: '批量查询备份服务器。'
         parameters:
-          client: 'DME API 客户端'
           address: '备份服务器地址，支持IPv4地址，支持模糊匹配 (可选, string, 1~256个字符)'
           name: '备份服务器名称 (可选, string)'
           page_no: '分页查询的起始页码 (可选, int32)。默认值：1'
@@ -8265,7 +7895,6 @@ topics:
         description: '查询待办任务组列表'
         detail: '查询待办任务组列表'
         parameters:
-          client: 'DME API 客户端'
           group_id: '待办任务组 ID（可选）'
           name: '待办任务组名称（可选）'
           creator_name: '创建人名称（可选）'
@@ -8292,14 +7921,12 @@ topics:
           
           执行指定的待办任务组。
         parameters:
-          client: 'DME API 客户端'
           group_id: '待办任务组 ID（必选）'
         outputs: '执行结果，包含 task_id'
       todo_task_group_confirm:
         description: '确认执行定时待办任务组'
         detail: '确认执行定时待办任务组'
         parameters:
-          client: 'DME API 客户端'
           group_id: '待办任务组 ID（必选）'
         outputs: '确认结果'
       todo_task_list:
@@ -8309,7 +7936,6 @@ topics:
           
           批量查询待办项列表，支持过滤和分页。
         parameters:
-          client: 'DME API 客户端'
           service_type: '业务类型（必选，wfa_execute_activity-自动化编排）'
           status: '待办项状态列表（可选，1-未执行/2-执行中/3-成功/4-部分成功/5-失败/6-超时/7-警告/8-已关闭/9-待审核/10-审核不通过/21-预检查中/22-预检查失败）'
           page_no: '页索引号（可选，默认 1）'
@@ -8330,7 +7956,6 @@ topics:
           
           查询指定待办项的详细信息。
         parameters:
-          client: 'DME API 客户端'
           item_id: '待办项 ID（必选）'
         outputs: |
           {
@@ -8355,7 +7980,6 @@ topics:
           
           执行指定的待办项。
         parameters:
-          client: 'DME API 客户端'
           item_id: '待办项 ID（必选）'
         outputs: '执行结果，包含 task_id'
       todo_task_audit:
@@ -8365,7 +7989,6 @@ topics:
           
           对待办项进行审核（批准或拒绝）。
         parameters:
-          client: 'DME API 客户端'
           item_id: '待办项 ID（必选）'
           is_approval: '是否批准（必选，true-批准/false-拒绝）'
           suggestion: '审核建议（可选，0-63 字符）'
@@ -8377,7 +8000,6 @@ topics:
           
           撤销对指定待办项的审核。
         parameters:
-          client: 'DME API 客户端'
           item_id: '待办项 ID（必选）'
         outputs: '撤销结果'
       todo_task_close:
@@ -8387,7 +8009,6 @@ topics:
           
           关闭指定的待办项，需要提供关闭原因。
         parameters:
-          client: 'DME API 客户端'
           item_id: '待办项 ID（必选）'
           reason: '关闭原因（必选，0-63 字符）'
         outputs: '关闭结果'
@@ -8395,7 +8016,6 @@ topics:
         description: '查询指定任务详情'
         detail: '查询指定任务详情'
         parameters:
-          client: 'DME API 客户端'
           task_id: '任务 ID（必选，1~36 个字符）'
         outputs: |
           [{
@@ -8429,7 +8049,6 @@ topics:
         description: '批量查询任务'
         detail: '批量查询任务'
         parameters:
-          client: 'DME API 客户端'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
           task_name: '任务名称过滤（可选）'
@@ -8475,14 +8094,12 @@ topics:
           
           重试指定的任务，用于任务未完全成功的重试。
         parameters:
-          client: 'DME API 客户端'
           task_id: '任务 ID（必选，1~36 个字符）'
         outputs: '重试结果'
       task_wait:
         description: '等待任务完成'
         detail: '等待任务完成'
         parameters:
-          client: 'DME API 客户端'
           task_id: '任务 ID（必选，1~36 个字符）'
           timeout: '超时时间（秒），默认 300 秒。轮询次数 = timeout / poll_interval'
           poll_interval: '轮询间隔（秒），默认 2 秒'
@@ -8507,7 +8124,6 @@ topics:
         description: '创建标签类型'
         detail: '创建标签类型'
         parameters:
-          client: 'DME API 客户端'
           name: '标签类型名称（必选）'
           description: '标签类型描述（可选）'
         outputs: |
@@ -8519,7 +8135,6 @@ topics:
         description: '批量查询标签类型'
         detail: '批量查询标签类型'
         parameters:
-          client: 'DME API 客户端'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
           name: '标签类型名称过滤（可选）'
@@ -8535,7 +8150,6 @@ topics:
         description: '修改标签类型'
         detail: '修改标签类型'
         parameters:
-          client: 'DME API 客户端'
           tag_type_id: '标签类型 ID（必选）'
           name: '标签类型名称（可选）'
           description: '标签类型描述（可选）'
@@ -8548,14 +8162,12 @@ topics:
         description: '批量删除标签类型'
         detail: '批量删除标签类型'
         parameters:
-          client: 'DME API 客户端'
           tag_type_ids: '标签类型 ID 列表（必选）'
         outputs: '批量删除结果'
       tag_create:
         description: '创建标签'
         detail: '创建标签'
         parameters:
-          client: 'DME API 客户端'
           name: '标签名称（必选）'
           tag_type_id: '标签类型 ID（必选）'
           tag_type_name: '标签类型名称（API 需要）'
@@ -8569,7 +8181,6 @@ topics:
         description: '批量查询标签'
         detail: '批量查询标签'
         parameters:
-          client: 'DME API 客户端'
           start: '分页起始位置，默认 1'
           limit: '分页数量，默认 100'
           name: '标签名称过滤（可选）'
@@ -8587,7 +8198,6 @@ topics:
         description: '修改标签'
         detail: '修改标签'
         parameters:
-          client: 'DME API 客户端'
           tag_id: '标签 ID（必选）'
           name: '标签名称（可选）'
           description: '标签描述（可选）'
@@ -8601,14 +8211,12 @@ topics:
         description: '批量删除标签'
         detail: '批量删除标签'
         parameters:
-          client: 'DME API 客户端'
           tag_ids: '标签 ID 列表（必选）'
         outputs: '批量删除结果'
       tag_bind:
         description: '标签关联资源'
         detail: '标签关联资源'
         parameters:
-          client: 'DME API 客户端'
           tag_id: '标签 ID（必选，32 位十六进制字符，正则 ^[a-fA-F0-9]{32}$）'
           resources: |
             资源列表（List<TagResource>，必选，数组最小成员个数: 1，数组最大成员个数: 100）。参数格式如下：[{
@@ -8620,7 +8228,6 @@ topics:
         description: '标签取消关联资源'
         detail: '标签取消关联资源'
         parameters:
-          client: 'DME API 客户端'
           tag_id: '标签 ID（必选，32 位十六进制字符，正则 ^[a-fA-F0-9]{32}$）'
           resources: |
             资源列表（List<TagResource>，必选，数组最小成员个数: 1，数组最大成员个数: 100）。参数格式如下：[{
@@ -8632,7 +8239,6 @@ topics:
         description: '批量查询可用分区。'
         detail: '批量查询可用分区。'
         parameters:
-          client: 'DME API 客户端'
           az_name: '可用分区名称，支持模糊匹配 (可选, string, 1~64个字符)'
           operate_status: '可用分区运营状态。对于未上线的az，其operate_status是null，因此暂时只支持过滤上线online的az (可选, string, 1~16个字符)'
           start: '分页的页号，从1开始 (可选, int32, 1~10000000)。默认值：1'
@@ -8656,7 +8262,6 @@ topics:
           
           查询数据中心列表，支持按名称过滤和分页。
         parameters:
-          client: 'DME API 客户端'
           name: '数据中心名称（可选，支持模糊查询）'
           page_no: '分页查询的起始页码，默认 1'
           page_size: '每页数量，1~1000，默认 20'
@@ -8671,7 +8276,6 @@ topics:
           
           查询指定数据中心的详细信息。
         parameters:
-          client: 'DME API 客户端'
           dc_id: '数据中心 ID（必选）'
         outputs: |
           {
@@ -8696,7 +8300,6 @@ topics:
         description: '查询指定数据中心的设备列表信息'
         detail: '查询指定数据中心的设备列表信息'
         parameters:
-          client: 'DME API 客户端'
           dc_id: '数据中心 ID（必选）'
           device_type: |
             设备类型列表（可选）
@@ -8712,7 +8315,6 @@ topics:
         description: '批量查询Region。'
         detail: '批量查询Region。'
         parameters:
-          client: 'DME API 客户端'
           ids: 'Region的ID列表，支持精确匹配 (可选, List[string], 数组最大成员个数：100)'
           name: 'Region的名称，支持模糊搜索 (可选, string, 最多256个字符)'
           active_ip_address: 'Region主IP地址，支持模糊搜索 (可选, string, 最多256个字符)'
@@ -8737,7 +8339,6 @@ topics:
         description: '查询下级Region资源信息。'
         detail: '查询下级Region资源信息。'
         parameters:
-          client: 'DME API 客户端'
           region_id: '下级Region的ID (必选, string, 1~64个字符)'
           request_url: '查询下级相应资源北向接口URL (必选, string, 1~8192个字符)'
           request_method: '请求方式 (必选, string)。可选值：get (Get请求), post (Post请求)'
@@ -8751,7 +8352,6 @@ topics:
         description: '批量查询服务等级'
         detail: '批量查询服务等级'
         parameters:
-          client: 'DME API 客户端'
           name: '服务等级名称（可选，支持模糊查询）'
           project_id: '业务群组 ID（可选）'
           available_zone_id: '可用区 ID（可选）'
@@ -8772,7 +8372,6 @@ topics:
           
           查询业务群组与服务等级的关联关系列表，支持按服务等级 ID 过滤。
         parameters:
-          client: 'DME API 客户端'
           tier_id: '服务等级 ID（可选）'
           page_no: '分页查询的起始页码，默认 1'
           page_size: '每页数量，10~1000，默认 200'
@@ -8784,7 +8383,6 @@ topics:
         description: '批量查询业务群组'
         detail: '批量查询业务群组'
         parameters:
-          client: 'DME API 客户端'
           name: '业务群组名称（可选，支持模糊查询）'
           start: '分页的页号，从 1 开始，默认 1'
           limit: '分页的大小，1~512，默认 20'
@@ -8799,7 +8397,6 @@ topics:
           
           查询指定业务群组的关联服务等级列表。
         parameters:
-          client: 'DME API 客户端'
           project_id: '业务群组 ID（可选）'
           page_no: '分页查询的起始页码，默认 1'
           page_size: '每页数量，10~1000，默认 200'
@@ -8811,7 +8408,6 @@ topics:
         description: '服务化批量创建 LUN'
         detail: '服务化批量创建 LUN'
         parameters:
-          client: 'DME API 客户端'
           volumes: |
             待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, 数组最大成员个数: 1000)。参数格式如下：[{
                     name: LUN名称 (1~255个字符, 支持字母数字._-和中文字符),
@@ -8843,7 +8439,6 @@ topics:
         description: '批量更新 LUN 的服务等级'
         detail: '批量更新 LUN 的服务等级'
         parameters:
-          client: 'DME API 客户端'
           volume_ids: 'LUN 列表 (List<string>, 数组最大成员个数: 1000)。'
           tier_id: '服务等级 ID (string, 1~64个字符)。'
           attributes_auto_change: '是否根据服务等级参数刷新 LUN 属性 (boolean)。可选值：true (自动更新), false (不自动更新)。'
@@ -8857,7 +8452,6 @@ topics:
         description: 'LUN 关联服务等级'
         detail: 'LUN 关联服务等级'
         parameters:
-          client: 'DME API 客户端'
           volume_id: 'LUN ID'
           tier_id: '服务等级 ID'
           attributes_auto_change: '是否根据服务等级参数刷新 LUN 属性（可选，true/false）'
@@ -8869,7 +8463,6 @@ topics:
         description: '解除 LUN 与服务等级关联'
         detail: '解除 LUN 与服务等级关联'
         parameters:
-          client: 'DME API 客户端'
           volume_id: 'LUN ID'
         outputs: |
           {
@@ -8882,7 +8475,6 @@ topics:
           
           关联 LUN 至指定业务群组。
         parameters:
-          client: 'DME API 客户端'
           volume_id: 'LUN ID (string, 1~64个字符)。'
           business_group_id: '业务群组 ID (string, 1~64个字符)。'
         outputs: '无返回数据。HTTP 200 表示关联成功。'
@@ -8893,7 +8485,6 @@ topics:
           
           解除 LUN 与业务群组关联关系。
         parameters:
-          client: 'DME API 客户端'
           volume_id: 'LUN ID (string, 1~64个字符)。'
           business_group_id: '业务群组 ID (string, 1~64个字符)。'
         outputs: '无返回数据。HTTP 200 表示解除关联成功。'
@@ -8905,7 +8496,6 @@ topics:
         description: '查询虚拟机列表'
         detail: '查询虚拟机列表'
         parameters:
-          client: 'DME API 客户端'
           site_id: '虚拟机所属站点 ID'
           cluster_id: '虚拟机所属集群 ID（HCS 场景不支持）'
           dc_id: '数据中心 ID（仅 FusionCompute 场景支持）'
@@ -8944,7 +8534,6 @@ topics:
         description: '查询指定虚拟机详情'
         detail: '查询指定虚拟机详情'
         parameters:
-          client: 'DME API 客户端'
           vm_id: '虚拟机 ID（必选）'
           vr_type: '虚拟化平台类型（可选）'
         outputs: |
@@ -8972,7 +8561,6 @@ topics:
         description: '查询数据存储列表'
         detail: '查询数据存储列表'
         parameters:
-          client: 'DME API 客户端'
           site_id: '数据存储所在的站点 ID'
           cluster_id: '数据存储所关联的集群 ID'
           host_id: '数据存储所关联的主机 ID'
@@ -9002,7 +8590,6 @@ topics:
         description: '查询指定数据存储详情'
         detail: '查询指定数据存储详情'
         parameters:
-          client: 'DME API 客户端'
           datastore_id: '数据存储 ID（必选）'
           vr_type: '虚拟化平台类型（可选）'
         outputs: |
@@ -9021,7 +8608,6 @@ topics:
           
           查询物理主机列表，支持多种过滤条件。
         parameters:
-          client: 'DME API 客户端'
           site_id: '主机所属站点 ID'
           cluster_id: '主机所属集群 ID'
           dc_id: '数据中心 ID'
@@ -9040,7 +8626,6 @@ topics:
         description: '查询指定主机详情'
         detail: '查询指定主机详情'
         parameters:
-          client: 'DME API 客户端'
           host_id: '主机 ID（必选）'
           vr_type: '虚拟化平台类型（可选）'
         outputs: |
@@ -9060,7 +8645,6 @@ topics:
           
           查询物理主机的存储适配器列表。
         parameters:
-          client: 'DME API 客户端'
           host_id: '主机 ID（必选）'
         outputs: |
           {
@@ -9076,7 +8660,6 @@ topics:
         description: '查询集群列表'
         detail: '查询集群列表'
         parameters:
-          client: 'DME API 客户端'
           site_id: '集群所属站点 ID'
           dc_id: '数据中心 ID'
           name: '集群名称（支持模糊搜索）'
@@ -9092,7 +8675,6 @@ topics:
         description: '查询指定集群详情'
         detail: '查询指定集群详情'
         parameters:
-          client: 'DME API 客户端'
           cluster_id: '集群 ID（必选）'
           vr_type: '虚拟化平台类型（可选）'
         outputs: |
@@ -9109,8 +8691,6 @@ topics:
           查询站点列表
           
           查询所有虚拟化站点列表。
-        parameters:
-          client: 'DME API 客户端'
         outputs: |
           {
               total: 总数量 (int),
@@ -9120,7 +8700,6 @@ topics:
         description: '查询指定站点详情'
         detail: '查询指定站点详情'
         parameters:
-          client: 'DME API 客户端'
           site_id: '站点 ID（必选）'
         outputs: |
           {
@@ -9135,7 +8714,6 @@ topics:
           
           查询物理磁盘列表，支持多种过滤条件。
         parameters:
-          client: 'DME API 客户端'
           site_id: '物理盘所属站点 ID（可选）'
           host_id: '物理盘所属主机 ID（可选）'
           name: '物理盘名称（可选）'
@@ -9157,7 +8735,6 @@ topics:
         description: '查询虚拟磁盘信息列表'
         detail: '查询虚拟磁盘信息列表'
         parameters:
-          client: 'DME API 客户端'
           site_id: '虚拟磁盘所属站点 ID（可选）'
           vm_id: '虚拟磁盘所属虚拟机 ID（可选）'
           name: '虚拟磁盘名称（可选）'
@@ -9179,7 +8756,6 @@ topics:
         description: '查询指定虚拟磁盘信息'
         detail: '查询指定虚拟磁盘信息'
         parameters:
-          client: 'DME API 客户端'
           virtual_disk_id: '虚拟磁盘 ID（必选）'
         outputs: |
           {
@@ -9200,7 +8776,6 @@ topics:
           
           分页查询工作流模板列表。
         parameters:
-          client: 'DME API 客户端'
           page_no: '页索引号（必选，最小值：1）'
           page_size: '每页查询数量（必选，1~1000）'
           directory_id: '目录 id（可选，1~64 个字符）'
@@ -9218,8 +8793,6 @@ topics:
       template_groups:
         description: '查询所有模板分组'
         detail: '查询所有模板分组'
-        parameters:
-          client: 'DME API 客户端'
         outputs: |
           {
               groups: 模板分组列表 (List)，包含 name（模板分组名称）,
@@ -9231,7 +8804,6 @@ topics:
           
           查询指定模板的详细信息。
         parameters:
-          client: 'DME API 客户端'
           template_id: '模板 id（必选，1~64 个字符）'
           template_version_id: '模板版本 id（可选，1~64 个字符）'
         outputs: |
@@ -9246,7 +8818,6 @@ topics:
           
           停止正在执行的工作流实例。
         parameters:
-          client: 'DME API 客户端'
           instance_id: '实例的 id（必选，1~64 个字符）'
         outputs: '操作结果'
       instance_show:
@@ -9256,7 +8827,6 @@ topics:
           
           查询指定工作流实例的详细信息。
         parameters:
-          client: 'DME API 客户端'
           instance_id: '查询实例的 id（必选，1~64 个字符）'
         outputs: |
           {
@@ -9280,7 +8850,6 @@ topics:
           创建并执行工作流实例。可以通过指定模板 id 与模板版本 id（模板版本 id 未指定时默认为最新版本）
           来创建实例并执行，也可以通过指定实例 id 来找到对应实例对应的模板创建实例并执行。
         parameters:
-          client: 'DME API 客户端'
           template_id: '模板 id（可选，1~64 个字符，满足正则）'
           template_version_id: '模板版本 id（可选，1~64 个字符，满足正则）'
           instance_id: '实例的 id（可选，1~64 个字符，满足正则）'
@@ -9296,7 +8865,6 @@ topics:
           
           查询工作流实例中指定步骤的执行日志。
         parameters:
-          client: 'DME API 客户端'
           instance_id: '实例 id（必选，1~64 个字符）'
           step_id: '步骤 id（必选，1~64 个字符）'
         outputs: |

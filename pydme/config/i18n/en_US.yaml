@@ -9,7 +9,6 @@ topics:
           
           Query current alarms. Optionally query history alarms simultaneously.
         parameters:
-          client: 'DME API client'
           alarm_id: 'alarm ID, supports fuzzy match'
           severity: 'severity list, valid values: critical, major, minor, warning, indeterminate, cleared'
           mo_dn: 'managed object DN, supports inc operator match'
@@ -43,7 +42,6 @@ topics:
           
           Acknowledge (ACK) the specified alarms.
         parameters:
-          client: 'DME API client'
           csns: 'alarm serial number list (Required), up to 30'
         outputs: 'operation result'
       alarm_unack:
@@ -53,7 +51,6 @@ topics:
           
           Un-acknowledge (UNACK) the specified alarms.
         parameters:
-          client: 'DME API client'
           csns: 'alarm serial number list (Required), up to 30'
         outputs: 'operation result'
       alarm_clear:
@@ -63,14 +60,12 @@ topics:
           
           Clear (CLEAR) the specified alarms.
         parameters:
-          client: 'DME API client'
           csns: 'alarm serial number list (Required), up to 30'
         outputs: 'operation result'
       diagnose_task_create:
         description: 'Create intelligent analysis task'
         detail: 'Create intelligent analysis task'
         parameters:
-          client: 'DME API client'
           object_ids: 'entry analysis object ID list (Required), array size: 1~50'
           object_type: |
             entry object type (Required), valid values: 
@@ -120,7 +115,6 @@ topics:
           
           Query diagnosis task status by task ID.
         parameters:
-          client: 'DME API client'
           task_id: 'task ID (Required), 1~128 characters'
         outputs: |
           {
@@ -148,7 +142,6 @@ topics:
           Collection scope is from start date to end date, only supports collecting data within 7 days,
           the number of objects multiplied by indicators per call must not exceed 2000.
         parameters:
-          client: 'DME API client'
           begin_time: 'start time (Required, Unix timestamp milliseconds)'
           end_time: 'end time (Required, Unix timestamp milliseconds)'
           object_type_id: 'object type ID (Required, 1~32 characters)'
@@ -159,7 +152,6 @@ topics:
         description: 'Download performance file'
         detail: 'Download performance file'
         parameters:
-          client: 'DME API client'
           task_id: 'task ID (Required)'
         outputs: 'performance file download link or file content'
       performance_query:
@@ -179,7 +171,6 @@ topics:
             3. Use `cmdb instance list --class_name <Class name>` to query instance list
             4. Obtain the instance_id of the corresponding resource from the returned result (i.e., the obj_ids parameter)
         parameters:
-          client: 'DME API client'
           obj_type_id: |
             monitoring object type ID (Required), corresponds to monitoring object type ID
                          obtain from the performance indicator model documentation: reference/dme_performance_model/index.md
@@ -219,7 +210,6 @@ topics:
         description: 'Show monitoring indicator details'
         detail: 'Show monitoring indicator details'
         parameters:
-          client: 'DME API client'
           indicators: |
             monitoring object indicator ID list (Required, up to 1000 characters)
                         can be integer list or string list, e.g. [123, 456] or ["123", "456"]
@@ -234,14 +224,12 @@ topics:
         description: 'List monitoring indicators supported by the monitoring object type'
         detail: 'List monitoring indicators supported by the monitoring object type'
         parameters:
-          client: 'DME API client'
           obj_type_id: 'monitoring object type ID (Required)'
         outputs: 'monitoring indicator info, containing indicator_ids list'
       performance_list_object_types:
         description: 'Get all monitoring object types'
         detail: 'Get all monitoring object types'
         parameters:
-          client: 'DME API client'
           filter: |
             filter keyword (Optional), used for fuzzy matching zh_cn and en_us fields
                     If provided, only return matching object types
@@ -267,7 +255,6 @@ topics:
           
           Query abnormal check results of check policies, supports multiple filter conditions and pagination.
         parameters:
-          client: 'DME API client'
           object_name: 'object name (supports fuzzy query, 1~256 characters)'
           level: 'abnormal level (Optional). valid values: critical (critical), major (major), minor (minor), info (info)'
           object_ids: 'object ID list (up to 100)'
@@ -313,7 +300,6 @@ topics:
           
           Query details of a specified check result.
         parameters:
-          client: 'DME API client'
           check_result_id: 'check result ID (1~64 characters)'
         outputs: |
           {
@@ -341,7 +327,6 @@ topics:
           
           Query the check policy list, supports filtering by policy name, status, type, etc.
         parameters:
-          client: 'DME API client'
           policy_name: 'policy name (supports fuzzy query, up to 256 characters)'
           exact_query: 'whether to use exact query (Optional, boolean). When True, exact matching; when False, fuzzy matching'
           status: 'policy status (Optional). valid values: enabled (enabled), disabled (disabled)'
@@ -378,7 +363,6 @@ topics:
           
           Execute the specified check policy.
         parameters:
-          client: 'DME API client'
           policy_id: 'policy ID (1~64 characters)'
         outputs: |
           {
@@ -391,7 +375,6 @@ topics:
           
           Enable the specified check policy.
         parameters:
-          client: 'DME API client'
           policy_id: 'policy ID (1~64 characters)'
         outputs: |
           {
@@ -404,7 +387,6 @@ topics:
           
           Disable the specified check policy.
         parameters:
-          client: 'DME API client'
           policy_id: 'policy ID (1~64 characters)'
         outputs: |
           {
@@ -417,7 +399,6 @@ topics:
           
           Delete the specified check policy.
         parameters:
-          client: 'DME API client'
           policy_id: 'policy ID (1~64 characters)'
         outputs: |
           {
@@ -431,7 +412,6 @@ topics:
           Query the topology structure from host to storage pool in the SAN network based on the specified entry object.
           Supports both IP_SAN and FC_SAN types.
         parameters:
-          client: 'DME API client'
           entry_objects: |
             entry object list (Required, max array members: 1). FC_SAN parameter format: [{
                     id: entry object id (Required, string, 1~128 characters),
@@ -509,7 +489,6 @@ topics:
           
           Query LUN list based on the specified entry object and storage pool.
         parameters:
-          client: 'DME API client'
           entry_objects: |
             entry object list (List<LunTopoQueryEntryObject>, Required, max array members: 5). parameter format: [{
                     id: entry object id (Required, string, 1~128 characters),
@@ -546,7 +525,6 @@ topics:
           
           Query virtualization resources based on the specified entry object.
         parameters:
-          client: 'DME API client'
           entry_objects: |
             entry object list (List<VmTopoQueryEntryObject>, Required, max array members: 5). parameter format: [{
                     id: entry object id (Required, string, 1~128 characters),
@@ -583,7 +561,6 @@ topics:
           
           Query topology graph info, supports NAS, K8s, DB and other service types.
         parameters:
-          client: 'DME API client'
           entry_res_type: 'entry resource type (Required, string). valid values: storage_device (Storage device), disk (hard disk), storage_pool (Storage pool), hyper_scale_pool (global pool), file_system (Filesystem), controller (Controller), eth_port (Ethernet/RoCE port), ib_port (IB port), logic_port (Logic port), ip_client (IP client), dtree (Dtree), lun (LUN), k8s_application (container application), k8s_workload (workload), k8s_pod (pod group), k8s_pvc (persistent volume claim), k8s_pv (persistent volume), k8s_cluster (container cluster), k8s_node (container node), k8s_vc_job (Volcano Job), data_turbo_client (DataTurbo client), enclosures (chassis), eth_switch (switch), storage_zone (storage zone), service_network (service network), db_instance (GaussDB instance), db_node (GaussDB node)'
           entry_res_id: 'entry resource ID (Required, string, 1~256 characters)'
           type: 'service type (Optional, string). valid values: nas, k8s, db'
@@ -615,7 +592,6 @@ topics:
           
           Query capacity prediction, performance prediction, performance anomaly and other health related data.
         parameters:
-          client: 'DME API client'
           type: 'data type (Required), valid values: capacity_prediction, performance_prediction, performance_anomaly'
           object_id: 'resource ID (Required, 1~256 characters)'
           begin_time: 'start time (Required), milliseconds since January 1, 1970 (00:00:00 GMT)'
@@ -633,7 +609,6 @@ topics:
           
           Query health score info of specified type of objects.
         parameters:
-          client: 'DME API client'
           object_type: |
             object type (Required)
                         valid values: storage (Storage device), storage_pool (Storage pool), storage_host (Storage host),
@@ -659,7 +634,6 @@ topics:
           
           Query the deduction details of a specified object under a specified health dimension.
         parameters:
-          client: 'DME API client'
           object_id: 'object Id (Required, 1~128 characters)'
           object_type: |
             object type (Required)
@@ -683,7 +657,6 @@ topics:
         description: 'Query backup cluster list'
         detail: 'Query backup cluster list'
         parameters:
-          client: 'DME API client'
           page_no: 'pagination start page, 1~10000, default 1'
           page_size: 'items per page, 1~200, default 20'
         outputs: |
@@ -702,7 +675,6 @@ topics:
           
           Query specified backup cluster capacity info.
         parameters:
-          client: 'DME API client'
           cluster_id: 'backup cluster ID (Required, 1~64 characters)'
         outputs: |
           {
@@ -717,7 +689,6 @@ topics:
           
           Query the tenant quota list under a specified backup cluster.
         parameters:
-          client: 'DME API client'
           cluster_id: 'backup cluster ID (Required, 1~64 characters)'
           page_no: 'pagination start page, 1~10000, default 1'
           page_size: 'items per page, 1~200, default 20'
@@ -739,7 +710,6 @@ topics:
         description: 'Batch query switches'
         detail: 'Batch query switches'
         parameters:
-          client: 'DME API client'
           name: 'switch name (Optional, supports fuzzy query)'
           page_no: 'page number for paginated query, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -756,7 +726,6 @@ topics:
         description: 'Sync specified switch'
         detail: 'Sync specified switch'
         parameters:
-          client: 'DME API client'
           switch_id: 'switch ID (Required)'
         outputs: |
           {
@@ -766,7 +735,6 @@ topics:
         description: 'Batch query switch ports'
         detail: 'Batch query switch ports'
         parameters:
-          client: 'DME API client'
           switch_id: 'switch ID (Optional)'
           port_name: 'port name (Optional)'
           page_no: 'page number for paginated query, default 1'
@@ -780,7 +748,6 @@ topics:
         description: 'Batch query switch control processors'
         detail: 'Batch query switch control processors'
         parameters:
-          client: 'DME API client'
           switch_id: 'switch ID (Optional)'
           page_no: 'page number for paginated query, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -793,7 +760,6 @@ topics:
         description: 'Batch query fabrics'
         detail: 'Batch query fabrics'
         parameters:
-          client: 'DME API client'
           name: 'fabric name (Optional, supports fuzzy query)'
           page_no: 'page number for paginated query, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -806,7 +772,6 @@ topics:
         description: 'Query port list of specified fabric'
         detail: 'Query port list of specified fabric'
         parameters:
-          client: 'DME API client'
           fabric_id: 'fabric ID (Required)'
           page_no: 'page number for paginated query, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -819,7 +784,6 @@ topics:
         description: 'Execute fabric configuration file backup'
         detail: 'Execute fabric configuration file backup'
         parameters:
-          client: 'DME API client'
           fabric_id: 'fabric ID (Required)'
           backup_server_id: 'backup server ID (Required)'
           backup_type: 'backup type, default full (full/incremental)'
@@ -831,7 +795,6 @@ topics:
         description: 'Query VSAN list'
         detail: 'Query VSAN list'
         parameters:
-          client: 'DME API client'
           page_no: 'page number for paginated query, default 1'
           page_size: 'items per page, 1~1000, default 20'
         outputs: |
@@ -846,7 +809,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           fabric_wwn: 'fabric WWN (Optional, string, 1~1024 characters)'
           name: 'zone name (Optional, string, 1~1024 characters), supports fuzzy query'
           cfg_name: 'CFG name (Optional, string, 0~1024 characters), supports fuzzy query'
@@ -880,7 +842,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           name: 'zone name (Required, string, 1~64 characters, regex ^[A-Za-z][A-Za-z0-9_^$\-]*$)'
           fabric_wwn: 'fabric WWN (Required, string, 1~128 characters, regex ^[A-Za-z0-9:]+$)'
           vsan_wwn: 'VSAN WWN (Optional, string, 1~32 characters). Conditionally required: must pass when creating zone in VSAN'
@@ -909,7 +870,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           zone_id: 'zone ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)'
           zone_name: 'zone name (Optional, string, 1~64 characters, regex ^[A-Za-z][A-Za-z0-9_^$\-]*$)'
           wwn_members: |
@@ -956,7 +916,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           zone_id: 'zone ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)'
         outputs: 'None. '
       zone_batch_create:
@@ -966,7 +925,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           is_active_zone: 'whether to activate zones (Required, boolean), valid values: true, false'
           zones: |
             zone create request list (List<zoneCreateRequest>, Required, min array items: 1, max array members: 20). parameter format: [{
@@ -994,7 +952,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           zone_id: 'zone ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)'
           type: 'member type (Optional, string). valid values: port, wwn, alias. Returns all types when not specified'
         outputs: |
@@ -1031,7 +988,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           fabric_wwn: 'fabric WWN (Required, string, 1~1024 characters), obtained from query fabric interface'
           name: 'alias name (Optional, string, 1~1024 characters), supports fuzzy query'
           member_count: 'member count (Optional, int32, 0~65535)'
@@ -1059,7 +1015,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           name: 'alias name (Required, string, 1~64 characters, regex ^[A-Za-z0-9][A-Za-z0-9_^$\-]*$)'
           fabric_wwn: 'fabric WWN (conditionally required, string, 1~32 characters), must pass when creating alias in fabric'
           vsan_wwn: 'VSAN WWN (conditionally required, string, 1~32 characters), must pass when creating alias in VSAN'
@@ -1086,7 +1041,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           alias_id: 'alias ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)'
           name: 'alias name (Optional, string, 1~64 characters, regex ^[A-Za-z0-9][A-Za-z0-9_^$\-]*$). Conditionally optional: Cisco switches support modifying alias name, Brocade switches do not'
           wwn_members: |
@@ -1128,7 +1082,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           alias_id: 'alias ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)'
         outputs: 'None. '
       alias_show_members:
@@ -1139,7 +1092,6 @@ topics:
           
           ⚠️  Note: FC switch configuration operations are synchronous. It is recommended to set the request timeout to 90 seconds or more (--timeout 90). 
         parameters:
-          client: 'DME API client'
           alias_id: 'alias ID (Required, string, regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)'
           type: 'member type (Optional, string). valid values: port, wwn. Returns all types when not specified'
         outputs: |
@@ -1166,7 +1118,6 @@ topics:
         description: 'Batch query Omni-Dataverse'
         detail: 'Batch query Omni-Dataverse'
         parameters:
-          client: 'DME API client'
           name: 'Omni-Dataverse name, supports fuzzy query'
           id: 'Omni-Dataverse id'
           raw_id: 'Omni-Dataverse id on the device side'
@@ -1186,7 +1137,6 @@ topics:
         description: 'Query capacity statistics info of the specified Omni-Dataverse'
         detail: 'Query capacity statistics info of the specified Omni-Dataverse'
         parameters:
-          client: 'DME API client'
           id: 'Omni-Dataverse ID, cannot be empty simultaneously with name, ID is used first when both have values'
           name: 'Omni-Dataverse name, cannot be empty simultaneously with id, ID is used first when both have values'
         outputs: |
@@ -1200,7 +1150,6 @@ topics:
         description: 'Query Omni-Dataverse data service sites'
         detail: 'Query Omni-Dataverse data service sites'
         parameters:
-          client: 'DME API client'
           raw_id: 'Data service site id on the device side'
           site_role: 'Data service site role, contains site_role field. valid values: ORDINARY, METASTORE'
           gfs_group_id: 'Omni-Dataverse id'
@@ -1222,7 +1171,6 @@ topics:
         description: 'Batch query global Namespace'
         detail: 'Batch query global Namespace'
         parameters:
-          client: 'DME API client'
           name: 'Global Namespace name, supports fuzzy search (0~256 characters, Optional)'
           gfs_group_name: 'Global dataspaces name, supports fuzzy search (0~256 characters, Optional)'
           gfs_group_id: 'ID of the owning global dataspaces (1~32 characters, Optional)'
@@ -1244,7 +1192,6 @@ topics:
         description: 'Query global Namespace details'
         detail: 'Query global Namespace details'
         parameters:
-          client: 'DME API client'
           id: 'Global Namespace ID, cannot be empty simultaneously with name_locator, ID is used first when both have values'
           name_locator: 'Name locator, format: global Namespace name@global dataspaces name'
         outputs: |
@@ -1259,7 +1206,6 @@ topics:
         description: 'Create global Namespace'
         detail: 'Create global Namespace'
         parameters:
-          client: 'DME API client'
           name: 'Global namespace name (1~255 characters, Required)'
           gfs_group_id: 'Global dataspaces ID (1~32 characters, Optional. Cannot be empty simultaneously with gfs_group_name, gfs_group_id is used first when both have values)'
           gfs_group_name: 'Global dataspaces name (1~255 characters, Optional. Cannot be empty simultaneously with gfs_group_id, gfs_group_id is used first when both have values)'
@@ -1281,7 +1227,6 @@ topics:
         description: 'Modify the specified global Namespace'
         detail: 'Modify the specified global Namespace'
         parameters:
-          client: 'DME API client'
           id: 'Global Namespace ID (1~32 characters, Optional. Cannot be empty simultaneously with name_locator, id is used first when both have values)'
           name_locator: 'Name locator, format: global Namespace name@global dataspaces name (3~507 characters, Optional. Cannot be empty simultaneously with id, id is used first when both have values)'
           smart_share_members: |
@@ -1299,7 +1244,6 @@ topics:
         description: 'Delete the specified global Namespace'
         detail: 'Delete the specified global Namespace'
         parameters:
-          client: 'DME API client'
           id: 'Global Namespace ID, cannot be empty simultaneously with name_locator'
           name_locator: 'Name locator, format: global Namespace name@global dataspaces name'
           is_delete_child: 'Whether to delete child Namespace, default true'
@@ -1311,7 +1255,6 @@ topics:
         description: 'Batch query Omni-Dataverse data migration tasks'
         detail: 'Batch query Omni-Dataverse data migration tasks'
         parameters:
-          client: 'DME API client'
           gfs_id: 'Global Namespace ID (1~32 characters, Optional)'
           task_name: 'task name, supports fuzzy query (1~256 characters, Optional)'
           task_id: 'Data migration task ID on the device side (1~256 characters, Optional)'
@@ -1340,7 +1283,6 @@ topics:
         description: 'Query Omni-Dataverse data migration task details'
         detail: 'Query Omni-Dataverse data migration task details'
         parameters:
-          client: 'DME API client'
           id: 'Data migration task ID'
         outputs: |
           {
@@ -1355,7 +1297,6 @@ topics:
         description: 'Create Omni-Dataverse data migration task'
         detail: 'Create Omni-Dataverse data migration task'
         parameters:
-          client: 'DME API client'
           gfs_id: 'Global Namespace ID (1~64 characters, Required)'
           task_name: 'task name (1~255 characters, Optional)'
           task_mode: 'Task mode (Required). valid values: pre_fetch (prefetch cache), tier (data pull)'
@@ -1408,7 +1349,6 @@ topics:
         description: 'Modify Omni-Dataverse data migration task'
         detail: 'Modify Omni-Dataverse data migration task'
         parameters:
-          client: 'DME API client'
           id: 'Data migration task ID (1~32 characters, Required)'
           task_name: 'task name (1~255 characters, Optional)'
           start_mode: 'Task execution mode (Optional). valid values: manual, auto'
@@ -1428,7 +1368,6 @@ topics:
         description: 'Batch delete Omni-Dataverse data migration tasks'
         detail: 'Batch delete Omni-Dataverse data migration tasks'
         parameters:
-          client: 'DME API client'
           ids: 'Data migration task ID list'
         outputs: |
           {
@@ -1438,7 +1377,6 @@ topics:
         description: 'Batch pause or start Omni-Dataverse data migration tasks'
         detail: 'Batch pause or start Omni-Dataverse data migration tasks'
         parameters:
-          client: 'DME API client'
           ids: 'Data migration task ID list'
           operate_type: 'Operation type, contains operate_type field, values: start, stop'
         outputs: |
@@ -1453,7 +1391,6 @@ topics:
         description: 'Query CMDB system list.'
         detail: 'Query CMDB system list.'
         parameters:
-          client: 'DME API client'
           name: 'CMDB system name (optional, supports fuzzy query)'
           page_no: 'Pagination start page, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1470,7 +1407,6 @@ topics:
         description: 'Query host list in CMDB system.'
         detail: 'Query host list in CMDB system.'
         parameters:
-          client: 'DME API client'
           system_id: 'CMDB system ID (Optional)'
           name: 'Host name (optional, supports fuzzy query)'
           ip: 'Host IP (Optional)'
@@ -1489,7 +1425,6 @@ topics:
         description: 'Query specified CMDB host details.'
         detail: 'Query specified CMDB host details.'
         parameters:
-          client: 'DME API client'
           cmdb_host_id: 'CMDB host ID (Required)'
         outputs: |
           {
@@ -1501,7 +1436,6 @@ topics:
         description: 'Query application list in CMDB system.'
         detail: 'Query application list in CMDB system.'
         parameters:
-          client: 'DME API client'
           system_id: 'CMDB system ID (Optional)'
           name: 'Application name (optional, supports fuzzy query)'
           page_no: 'Pagination start page, default 1'
@@ -1518,7 +1452,6 @@ topics:
         description: 'Query CMDB host list by initiator list.'
         detail: 'Query CMDB host list by initiator list.'
         parameters:
-          client: 'DME API client'
           initiators: 'Initiator list (Required)'
         outputs: |
           {
@@ -1535,7 +1468,6 @@ topics:
         description: 'Query Ethernet switch list info'
         detail: 'Query Ethernet switch list info'
         parameters:
-          client: 'DME API client'
           name: 'Switch name (optional, supports fuzzy query)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1552,7 +1484,6 @@ topics:
         description: 'Query IP switch chassis list info'
         detail: 'Query IP switch chassis list info'
         parameters:
-          client: 'DME API client'
           ipswitch_id: 'IP switch ID (Required)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1565,7 +1496,6 @@ topics:
         description: 'Query IP switch board list info'
         detail: 'Query IP switch board list info'
         parameters:
-          client: 'DME API client'
           ipswitch_id: 'IP switch ID (Required)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1578,7 +1508,6 @@ topics:
         description: 'Query IP switch subcard list info'
         detail: 'Query IP switch subcard list info'
         parameters:
-          client: 'DME API client'
           ipswitch_id: 'IP switch ID (Required)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1591,7 +1520,6 @@ topics:
         description: 'Query IP switch power supply list info'
         detail: 'Query IP switch power supply list info'
         parameters:
-          client: 'DME API client'
           ipswitch_id: 'IP switch ID (Required)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1604,7 +1532,6 @@ topics:
         description: 'Query IP switch fan list info'
         detail: 'Query IP switch fan list info'
         parameters:
-          client: 'DME API client'
           ipswitch_id: 'IP switch ID (Required)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1617,7 +1544,6 @@ topics:
         description: 'Query IP switch port list info'
         detail: 'Query IP switch port list info'
         parameters:
-          client: 'DME API client'
           ipswitch_id: 'IP switch ID (Required)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1634,7 +1560,6 @@ topics:
         description: 'Query container cluster list'
         detail: 'Query container cluster list'
         parameters:
-          client: 'DME API client'
           name: 'Container cluster name (optional, supports fuzzy query)'
           page_no: 'Pagination start page, default 1'
           page_size: 'items per page, 1~1000, default 20'
@@ -1651,7 +1576,6 @@ topics:
         description: 'Query container node list'
         detail: 'Query container node list'
         parameters:
-          client: 'DME API client'
           cluster_id: 'Container cluster ID (Optional)'
           name: 'Container node name (optional, supports fuzzy query)'
           page_no: 'Pagination start page, default 1'
@@ -1671,7 +1595,6 @@ topics:
           
           Query pod list, supports filtering by cluster ID, Namespace and name.
         parameters:
-          client: 'DME API client'
           cluster_id: 'Container cluster ID (Optional)'
           namespace: 'Container Namespace (Optional)'
           name: 'Pod name (optional, supports fuzzy query)'
@@ -1689,7 +1612,6 @@ topics:
         description: 'Query container Namespace list'
         detail: 'Query container Namespace list'
         parameters:
-          client: 'DME API client'
           cluster_id: 'Container cluster ID (Optional)'
           name: 'namespace name (optional, supports fuzzy query)'
           page_no: 'Pagination start page, default 1'
@@ -1702,7 +1624,6 @@ topics:
         description: 'Query container persistent volume claim list'
         detail: 'Query container persistent volume claim list'
         parameters:
-          client: 'DME API client'
           cluster_id: 'Container cluster ID (Optional)'
           namespace: 'Container Namespace (Optional)'
           name: 'Persistent volume claim name (optional, supports fuzzy query)'
@@ -1723,7 +1644,6 @@ topics:
           
           Query container persistent volume (PV) list, supports filtering by cluster ID and name.
         parameters:
-          client: 'DME API client'
           cluster_id: 'Container cluster ID (Optional)'
           name: 'Persistent volume name (optional, supports fuzzy query)'
           page_no: 'Pagination start page, default 1'
@@ -1747,7 +1667,6 @@ topics:
           
           Only supported by OceanStor A800 series storage.
         parameters:
-          client: 'DME API client'
           storage_id: 'Device ID (1~64 characters, Optional)'
           vstore_id: 'Tenant ID (1~64 characters, Optional)'
           vstore_name: 'Tenant name, supports fuzzy query (1~256 characters, Optional)'
@@ -1773,7 +1692,6 @@ topics:
         description: 'Create UNIX user'
         detail: 'Create UNIX user'
         parameters:
-          client: 'DME API client'
           storage_id: 'Create UNIX user storage device ID (1~64 characters, Required)'
           name: 'UNIX user name (1~64 characters, Required)'
           raw_id: 'UNIX user ID (int64, 0~4294967294, Optional. Required for OceanStor Pacific and OceanStor A310 storage)'
@@ -1789,7 +1707,6 @@ topics:
         description: 'Add UNIX user secondary group'
         detail: 'Add UNIX user secondary group'
         parameters:
-          client: 'DME API client'
           user_id: 'UNIX user ID (1~32 characters, Required)'
           secondary_group_name_list: 'Secondary group name list (List<string>, array min members: 1, max array members: 100, Required)'
         outputs: 'operation result'
@@ -1797,7 +1714,6 @@ topics:
         description: 'Query UNIX authentication user list'
         detail: 'Query UNIX authentication user list'
         parameters:
-          client: 'DME API client'
           page_no: 'Start page for paginated query (int32, 1~2147483647, default: 1, Optional)'
           page_size: 'Records per page (int32, 10~100, default: 100, Optional)'
           storage_name: 'Device name, supports fuzzy search filtering (1~256 characters, Optional)'
@@ -1825,7 +1741,6 @@ topics:
         description: 'Query UNIX authentication user details'
         detail: 'Query UNIX authentication user details'
         parameters:
-          client: 'DME API client'
           id: 'User ID (1~32 characters, Required)'
         outputs: |
           {
@@ -1839,7 +1754,6 @@ topics:
         description: 'Remove UNIX user secondary group'
         detail: 'Remove UNIX user secondary group'
         parameters:
-          client: 'DME API client'
           user_id: 'UNIX user ID (1~32 characters, Required)'
           secondary_group_name_list: 'Secondary group name list (List<string>, array min members: 1, max array members: 100, Required)'
         outputs: 'operation result'
@@ -1847,7 +1761,6 @@ topics:
         description: 'Modify UNIX user'
         detail: 'Modify UNIX user'
         parameters:
-          client: 'DME API client'
           id: 'UNIX user ID (1~32 characters, Required)'
           raw_id: 'UNIX user ID on the storage device (int64, 0~4294967294, Optional)'
           description: 'UNIX user description (0~255 characters, Optional)'
@@ -1859,14 +1772,12 @@ topics:
         description: 'Delete UNIX user'
         detail: 'Delete UNIX user'
         parameters:
-          client: 'DME API client'
           ids: 'UNIX user ID list (List<string>, array min members: 1, max array members: 100, Required)'
         outputs: 'operation result'
       account_unix_user_group_create:
         description: 'Create UNIX user group'
         detail: 'Create UNIX user group'
         parameters:
-          client: 'DME API client'
           storage_id: 'Create UNIX user group storage device ID (1~64 characters, Required)'
           name: 'UNIX user group name (1~64 characters, Required)'
           raw_id: 'UNIX user group ID (int64, 0~4294967294, Optional. Required for OceanStor Pacific and OceanStor A310 storage)'
@@ -1878,7 +1789,6 @@ topics:
         description: 'Query UNIX authentication user group list'
         detail: 'Query UNIX authentication user group list'
         parameters:
-          client: 'DME API client'
           page_no: 'Start page for paginated query (int32, 1~2147483647, default: 1, Optional)'
           page_size: 'Records per page (int32, 10~100, default: 100, Optional)'
           storage_name: 'Device name, supports fuzzy match filtering (1~256 characters, Optional)'
@@ -1903,7 +1813,6 @@ topics:
         description: 'Query UNIX user group details'
         detail: 'Query UNIX user group details'
         parameters:
-          client: 'DME API client'
           id: 'User group ID (1~32 characters, Required)'
         outputs: |
           {
@@ -1916,7 +1825,6 @@ topics:
         description: 'Modify UNIX user group'
         detail: 'Modify UNIX user group'
         parameters:
-          client: 'DME API client'
           id: 'UNIX user group ID (1~32 characters, Required)'
           raw_id: 'UNIX user group ID on the storage device (int64, 0~4294967294, Optional)'
           description: 'UNIX user group description (0~255 characters, Optional)'
@@ -1925,14 +1833,12 @@ topics:
         description: 'Delete UNIX user group'
         detail: 'Delete UNIX user group'
         parameters:
-          client: 'DME API client'
           ids: 'UNIX user group ID list (List<string>, array min members: 1, max array members: 100, Required)'
         outputs: 'operation result'
       dtree_list:
         description: 'Query Dtree list'
         detail: 'Query Dtree list'
         parameters:
-          client: 'DME API client'
           id_in_storage: 'Dtree ID on the storage side(Optional), 1~256 characters'
           name: 'Dtree name(Optional), 1~256 characters, supports fuzzy search'
           device_name: 'Name of the storage device the dtree belongs to(Optional), 1~256 characters, supports fuzzy search'
@@ -1967,7 +1873,6 @@ topics:
         description: 'Query specified Dtree details'
         detail: 'Query specified Dtree details'
         parameters:
-          client: 'DME API client'
           dtree_id: 'Dtree ID (Required, string)'
         outputs: |
           {
@@ -1983,7 +1888,6 @@ topics:
           
           Create Dtree, and share the Dtree via NFS, CIFS or DataTurbo.
         parameters:
-          client: 'DME API client'
           storage_id: 'Dtree storage device ID, 1~64 characters'
           create_dtrees_param: |
             Dtree name and count info list (conditionally required). parameter format: [{
@@ -2032,7 +1936,6 @@ topics:
         description: 'Batch delete Dtree'
         detail: 'Batch delete Dtree'
         parameters:
-          client: 'DME API client'
           dtree_ids: 'List of Dtree IDs to delete (Required, List[string])'
           task_remarks: 'Async task remark info (Optional, string, up to 1024 characters)'
         outputs: |
@@ -2043,7 +1946,6 @@ topics:
         description: 'Modify specified Dtree'
         detail: 'Modify specified Dtree'
         parameters:
-          client: 'DME API client'
           dtree_id: 'Dtree ID'
           name: 'Dtree name'
           quota_switch: 'Quota switch, true/false'
@@ -2059,7 +1961,6 @@ topics:
         description: 'Query NFS share list'
         detail: 'Query NFS share list'
         parameters:
-          client: 'DME API client'
           id_in_storage: 'NFS ID on the storage side(Optional), 1~256 characters'
           name: 'Share name(Optional), 1~256 characters, supports fuzzy search'
           share_path: 'Share path(Optional), 1~256 characters, supports fuzzy search'
@@ -2100,7 +2001,6 @@ topics:
         description: 'Query specified NFS share details'
         detail: 'Query specified NFS share details'
         parameters:
-          client: 'DME API client'
           nfs_share_id: 'NFS share ID'
         outputs: |
           {
@@ -2114,7 +2014,6 @@ topics:
         description: 'Create NFS share'
         detail: 'Create NFS share'
         parameters:
-          client: 'DME API client'
           create_nfs_share_param: |
             Create NFS share parameters. parameter format: {
                     name: NFS share alias (Optional),
@@ -2156,7 +2055,6 @@ topics:
         description: 'Modify specified NFS share'
         detail: 'Modify specified NFS share'
         parameters:
-          client: 'DME API client'
           nfs_share_id: 'NFS share ID'
           description: 'description info'
           character_encoding: 'Character encoding, valid values: utf-8, zh, gbk, etc.'
@@ -2215,7 +2113,6 @@ topics:
         description: 'Batch delete NFS shares'
         detail: 'Batch delete NFS shares'
         parameters:
-          client: 'DME API client'
           nfs_share_ids: 'List of NFS share IDs to delete'
           task_remarks: 'Async task remark info'
         outputs: |
@@ -2229,7 +2126,6 @@ topics:
           
           Specify a device or NFS ID to query the client access list under the NFS share.
         parameters:
-          client: 'DME API client'
           page_no: 'pagination start page(Optional), minimum 1, default 1'
           page_size: 'Records per page(Optional), 1~1000, default 20'
           nfs_share_id: 'NFS share ID(Optional), 1~64 characters'
@@ -2254,7 +2150,6 @@ topics:
         description: 'Batch query CIFS shares'
         detail: 'Batch query CIFS shares'
         parameters:
-          client: 'DME API client'
           raw_id: 'CIFS share ID on the storage device(Optional), 1~256 characters'
           name: 'CIFS share name(Optional), 1~256 characters, supports fuzzy query'
           share_path: 'CIFS share path(Optional), 1~512 characters, supports fuzzy query'
@@ -2311,7 +2206,6 @@ topics:
         description: 'Query specified CIFS share details'
         detail: 'Query specified CIFS share details'
         parameters:
-          client: 'DME API client'
           cifs_share_id: 'CIFS share ID'
         outputs: |
           {
@@ -2338,7 +2232,6 @@ topics:
         description: 'Create a single CIFS share'
         detail: 'Create a single CIFS share'
         parameters:
-          client: 'DME API client'
           create_cifs_param: |
             Create CIFS share parameters. parameter format: {
                     name: Share name (Required),
@@ -2388,7 +2281,6 @@ topics:
         description: 'Modify specified CIFS share'
         detail: 'Modify specified CIFS share'
         parameters:
-          client: 'DME API client'
           cifs_share_id: 'CIFS share ID'
           description: 'description info, up to 255 characters'
           op_lock_enabled: 'Oplock feature switch'
@@ -2445,7 +2337,6 @@ topics:
         description: 'Batch delete CIFS shares'
         detail: 'Batch delete CIFS shares'
         parameters:
-          client: 'DME API client'
           cifs_share_ids: 'List of CIFS share IDs to delete'
           task_remarks: 'Async task remark info'
         outputs: |
@@ -2459,7 +2350,6 @@ topics:
           
           Query the permissions info of a CIFS share, including users/user groups, IP addresses/IP address segments, file extension filter rules, etc.
         parameters:
-          client: 'DME API client'
           cifs_share_id: 'CIFS share ID'
           type: |
             Permission type(Optional), valid values: user (user/user group), ip (IP address/IP address segment), file (file extension filter rule);
@@ -2504,7 +2394,6 @@ topics:
         description: 'Query DataTurbo share list'
         detail: 'Query DataTurbo share list'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number(Optional), 1~10000000, default 1'
           page_size: 'Records per page(Optional), 1~1000, default 10'
           raw_id: 'DataTurbo share device-side ID(Optional), 1~1024 characters, exact query'
@@ -2544,7 +2433,6 @@ topics:
         description: 'Query specified DataTurbo share details'
         detail: 'Query specified DataTurbo share details'
         parameters:
-          client: 'DME API client'
           dataturbo_share_id: 'DataTurbo share ID'
         outputs: |
           {
@@ -2570,7 +2458,6 @@ topics:
         description: 'Create DataTurbo share'
         detail: 'Create DataTurbo share'
         parameters:
-          client: 'DME API client'
           charset: 'Character set encoding, fixed value UTF_8'
           fs_id: 'ID of the filesystem to share, mutually exclusive with dtree_id, one must be provided'
           dtree_id: 'ID of the Dtree to share, mutually exclusive with fs_id, one must be provided'
@@ -2589,7 +2476,6 @@ topics:
         description: 'Modify specified DataTurbo share'
         detail: 'Modify specified DataTurbo share'
         parameters:
-          client: 'DME API client'
           dataturbo_share_id: 'DataTurbo share ID'
           description: 'DataTurbo share description'
           dataturbo_share_auth_addition: |
@@ -2607,7 +2493,6 @@ topics:
         description: 'Batch delete DataTurbo shares'
         detail: 'Batch delete DataTurbo shares'
         parameters:
-          client: 'DME API client'
           dataturbo_share_ids: 'DataTurbo share ID list'
           task_remarks: 'Async task remark info'
         outputs: |
@@ -2618,7 +2503,6 @@ topics:
         description: 'Query DataTurbo share administrator permission list'
         detail: 'Query DataTurbo share administrator permission list'
         parameters:
-          client: 'DME API client'
           dataturbo_share_id: 'DataTurbo share ID'
           page_no: 'Page number(Optional), 1~10000000, default 1'
           page_size: 'Records per page(Optional), 1~1000, default 10'
@@ -2638,7 +2522,6 @@ topics:
         description: 'Query quota list'
         detail: 'Query quota list'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number for query(Optional), minimum 1, default 1'
           page_size: 'Records per page(Optional), 1~1000, default 20'
           ids: 'Quota ID list(Optional), List<string> type, max array members 100'
@@ -2673,7 +2556,6 @@ topics:
         description: 'Query specified quota details'
         detail: 'Query specified quota details'
         parameters:
-          client: 'DME API client'
           quota_id: 'Quota ID'
         outputs: |
           {
@@ -2691,7 +2573,6 @@ topics:
         description: 'Create quota'
         detail: 'Create quota'
         parameters:
-          client: 'DME API client'
           space_soft_quota: 'Space soft quota(Optional), unit Byte, default -1 (field invalid); when both hard and soft space quotas are valid, hard must be greater than soft; for OceanStor V5 devices, this field must be a multiple of 1048576'
           space_hard_quota: 'Space hard quota(Optional), unit Byte, default -1 (field invalid); when both hard and soft space quotas are valid, hard must be greater than soft; for OceanStor V5 devices, this field must be a multiple of 1048576'
           space_advisory_quota: 'Space advisory quota(Optional), unit Byte, default -1 (field invalid); only supported by OceanStor Pacific devices; when advisory and hard/soft space quotas are both valid, advisory must be less than hard or soft'
@@ -2719,7 +2600,6 @@ topics:
         description: 'Update specified quota'
         detail: 'Update specified quota'
         parameters:
-          client: 'DME API client'
           quota_id: 'Quota ID'
           space_soft_quota: 'Space soft quota(Optional), unit Byte, -1 means field invalid; when both hard and soft space quotas are valid, hard must be greater than soft'
           space_hard_quota: 'Space hard quota(Optional), unit Byte, -1 means field invalid; when both hard and soft space quotas are valid, hard must be greater than soft'
@@ -2738,7 +2618,6 @@ topics:
         description: 'Batch delete quotas'
         detail: 'Batch delete quotas'
         parameters:
-          client: 'DME API client'
           quota_ids: 'List of quota IDs to delete'
           task_remarks: 'Async task remark info'
         outputs: |
@@ -2749,7 +2628,6 @@ topics:
         description: 'Batch query Filesystem'
         detail: 'Batch query Filesystem'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number for query(Optional), 1~10000000'
           page_size: 'Records per page(Optional), 1~1000, default 100'
           sort_dir: 'Sort direction(Optional), valid values: asc (ascending), desc (descending)'
@@ -2827,7 +2705,6 @@ topics:
         description: 'Query specified Filesystem details'
         detail: 'Query specified Filesystem details'
         parameters:
-          client: 'DME API client'
           filesystem_id: 'Filesystem ID'
         outputs: |
           {
@@ -2857,7 +2734,6 @@ topics:
         description: 'Batch delete Filesystem'
         detail: 'Batch delete Filesystem'
         parameters:
-          client: 'DME API client'
           filesystem_ids: 'Filesystem ID list'
           task_remarks: 'Async task remark info(Optional)'
         outputs: |
@@ -2871,7 +2747,6 @@ topics:
           
           Only supports modifying names.
         parameters:
-          client: 'DME API client'
           filesystems: |
             List of Filesystem info to modify (Required), List<UpdateFileSystemInfo> type, max array members 1000. parameter format: [{
                             file_system_id: Unique identifier of the Filesystem (Required), 1~64 characters,
@@ -2886,7 +2761,6 @@ topics:
         description: 'Custom create Filesystem'
         detail: 'Custom create Filesystem'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID'
           pool_raw_id: 'Storage pool ID on the specified storage device'
           filesystem_specs: |
@@ -3007,7 +2881,6 @@ topics:
           
           Query Filesystems that can be used for adding or removing features. Currently only supports Filesystems that can be configured for remote replication.
         parameters:
-          client: 'DME API client'
           feature_type: 'Feature type, currently only supports remote_replication (remote replication)'
           local_storage_id: 'Local storage device ID'
           remote_storage_id: 'Remote storage device ID (required when feature_type is remote_replication)'
@@ -3029,7 +2902,6 @@ topics:
         description: 'Modify specified Filesystem'
         detail: 'Modify specified Filesystem'
         parameters:
-          client: 'DME API client'
           file_system_id: 'Filesystem unique identifier'
           name: 'Filesystem name, 1~255 characters(Optional)'
           description: 'description info, 0~255 characters(Optional)'
@@ -3129,7 +3001,6 @@ topics:
         description: 'Batch query Namespace'
         detail: 'Batch query Namespace'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number for query(Optional), 1~10000000'
           page_size: 'Records per page(Optional), 1~1000, default 100'
           sort_dir: 'Sort direction(Optional), valid values: asc (ascending), desc (descending)'
@@ -3156,7 +3027,6 @@ topics:
         description: 'Query specified Namespace details'
         detail: 'Query specified Namespace details'
         parameters:
-          client: 'DME API client'
           namespace_id: 'Namespace ID (Required, 1~64 characters)'
         outputs: |
           {
@@ -3186,7 +3056,6 @@ topics:
         description: 'Batch create Namespace'
         detail: 'Batch create Namespace'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required)'
           pool_raw_id: 'Storage pool ID on the storage device (Required)'
           namespace_specs: |
@@ -3299,7 +3168,6 @@ topics:
         description: 'Modify specified Namespace'
         detail: 'Modify specified Namespace'
         parameters:
-          client: 'DME API client'
           namespace_id: 'Namespace ID (Required, 1~64 characters)'
           enable_update_atime: 'Whether to update Atime, true: update; false: do not update'
           show_snap_dir: 'Whether the snapshot directory is visible, true: visible; false: invisible'
@@ -3387,7 +3255,6 @@ topics:
         description: 'Batch delete Namespace'
         detail: 'Batch delete Namespace'
         parameters:
-          client: 'DME API client'
           namespace_ids: 'Namespace ID list (Required), array max 100, min 1'
           task_remarks: 'Async task remark info (Optional, 0~1024 characters)'
         outputs: |
@@ -3398,7 +3265,6 @@ topics:
         description: 'Batch query DPC list'
         detail: 'Batch query DPC list'
         parameters:
-          client: 'DME API client'
           ids: 'DPC ID list(Optional), List<string> type, max array members 100, exact query'
           hostname: 'Host name of the compute node(Optional), 1~256 characters, fuzzy query'
           ip: 'Management IP of the DPC"s compute node(Optional), 1~256 characters, fuzzy query'
@@ -3426,7 +3292,6 @@ topics:
         description: 'Query DPC details'
         detail: 'Query DPC details'
         parameters:
-          client: 'DME API client'
           dpc_id: 'DPC ID (Required, string)'
         outputs: |
           {
@@ -3440,7 +3305,6 @@ topics:
         description: 'Batch query DPC clients'
         detail: 'Batch query DPC clients'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage ID (Optional, string, 1~64 characters)'
           process_id: 'DPC client process ID (Optional, string, 1~64 characters)'
           name: 'DPC client name, supports fuzzy search (Optional, string, 1~256 characters)'
@@ -3473,7 +3337,6 @@ topics:
         description: 'Query DPC client details'
         detail: 'Query DPC client details'
         parameters:
-          client: 'DME API client'
           id: 'Query DPC client ID (Required, string, 1~64 characters)'
         outputs: |
           {
@@ -3489,7 +3352,6 @@ topics:
         description: 'Query KV Cache store'
         detail: 'Query KV Cache store'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (36 characters, Optional)'
           id: 'KV Cache store ID (32 characters, Optional)'
           raw_id: 'KV Cache store ID on the zone (1~256 characters, Optional)'
@@ -3519,7 +3381,6 @@ topics:
         description: 'Batch create KV Cache store'
         detail: 'Batch create KV Cache store'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (36 characters, Required)'
           zone_id: 'Zone ID (36 characters, Required)'
           pool_raw_id: 'Storage pool ID on the zone (1~64 characters, Required)'
@@ -3539,7 +3400,6 @@ topics:
         description: 'Modify KV Cache store'
         detail: 'Modify KV Cache store'
         parameters:
-          client: 'DME API client'
           kv_cache_stores_id: 'KV Cache store ID (1~64 characters, Required)'
           name: 'KV Cache store name (1~255 characters, Optional)'
           description: 'description info (0~255 characters, Optional)'
@@ -3550,7 +3410,6 @@ topics:
         description: 'Batch delete KV Cache store'
         detail: 'Batch delete KV Cache store'
         parameters:
-          client: 'DME API client'
           ids: 'KV Cache store ID list (List<string>, array min members: 1, max array members: 100, Required)'
         outputs: 'operation result'
 
@@ -3561,7 +3420,6 @@ topics:
         description: 'Batch query protection groups'
         detail: 'Batch query protection groups'
         parameters:
-          client: 'DME API client'
           name: 'protection group name, supports fuzzy search'
           project_id: 'business group ID, supports conditional filtering'
           storage_name: 'storage device name, supports fuzzy search'
@@ -3607,7 +3465,6 @@ topics:
         description: 'create protection group, supports creation based on LUN or LUN group'
         detail: 'create protection group, supports creation based on LUN or LUN group'
         parameters:
-          client: 'DME API client'
           name: 'protection group name (Required, string, 1~255 characters)'
           storage_id: 'storage device ID (Required, string, UUID or 32 hex chars)'
           description: 'protection group description (string, 0~255 characters)'
@@ -3621,7 +3478,6 @@ topics:
         description: 'modify protection group'
         detail: 'modify protection group'
         parameters:
-          client: 'DME API client'
           pg_id: 'protection group ID'
           name: 'protection group name'
           description: 'protection group description'
@@ -3637,7 +3493,6 @@ topics:
           >![](public_sys-resources/icon-notice.gif) **Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
         parameters:
-          client: 'DME API client'
           pg_ids: 'protection group ID list'
         outputs: |
           {
@@ -3650,7 +3505,6 @@ topics:
           
           Add member LUNs to the specified protection group. 
         parameters:
-          client: 'DME API client'
           pg_id: 'protection group ID'
           lun_ids: 'ID list of LUNs to be added to the protection group (Optional), max array members 100, mutually exclusive with lun_pairs in hyper_metro and rem_reps; valid when the protection group does not have hypermetro, replication, or ring 3DC features'
           hyper_metro: |
@@ -3691,7 +3545,6 @@ topics:
           
           Remove member LUNs from the specified protection group. 
         parameters:
-          client: 'DME API client'
           pg_id: 'protection group ID'
           lun_ids: 'ID list of protection group member LUNs to be removed'
           is_delay: 'whether to delay execution. This parameter is invalid in remote replication, synchronous + asynchronous ring 3DC scenarios'
@@ -3703,7 +3556,6 @@ topics:
         description: 'Batch query hypermetro consistency groups'
         detail: 'Batch query hypermetro consistency groups'
         parameters:
-          client: 'DME API client'
           page_no: 'pagination page number, default 1'
           page_size: 'items per page, default 20'
           name: 'hypermetro consistency group name, supports fuzzy match'
@@ -3752,7 +3604,6 @@ topics:
         description: 'create hypermetro consistency group'
         detail: 'create hypermetro consistency group'
         parameters:
-          client: 'DME API client'
           domain_id: 'hypermetro domain ID'
           name: 'hypermetro consistency group name'
           local_storage_id: 'local device ID'
@@ -3771,7 +3622,6 @@ topics:
         description: 'modify hypermetro consistency group'
         detail: 'modify hypermetro consistency group'
         parameters:
-          client: 'DME API client'
           group_id: 'hypermetro consistency group ID'
           name: 'hypermetro consistency group name'
           description: 'description info'
@@ -3788,7 +3638,6 @@ topics:
         description: 'Batch delete hypermetro consistency groups'
         detail: 'Batch delete hypermetro consistency groups'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro consistency group ID list'
           delete_mode: 'delete mode, valid values: preferred_only, non_preferred_only, dual_ends'
           is_self_adapt: 'whether to support adaptive deletion of member Pairs, default false'
@@ -3800,7 +3649,6 @@ topics:
         description: 'Add member Pairs to hypermetro consistency group'
         detail: 'Add member Pairs to hypermetro consistency group'
         parameters:
-          client: 'DME API client'
           group_id: 'hypermetro consistency group ID'
           pair_ids: 'hypermetro Pair ID list'
           is_self_adapt: 'whether to adaptively modify hypermetro Pair running status'
@@ -3812,7 +3660,6 @@ topics:
         description: 'Remove member Pairs from hypermetro consistency group (async task interface)'
         detail: 'Remove member Pairs from hypermetro consistency group (async task interface)'
         parameters:
-          client: 'DME API client'
           group_id: 'hypermetro consistency group ID'
           pair_ids: 'hypermetro Pair ID list'
         outputs: |
@@ -3823,7 +3670,6 @@ topics:
         description: 'Pause hypermetro consistency group'
         detail: 'Pause hypermetro consistency group'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro consistency group ID list'
           priority_station_type: 'station type, valid values: preferred, non_preferred'
         outputs: |
@@ -3834,7 +3680,6 @@ topics:
         description: 'Force start hypermetro consistency group'
         detail: 'Force start hypermetro consistency group'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro consistency group ID list'
           priority_station_type: 'station type, valid values: preferred, non_preferred'
         outputs: |
@@ -3845,7 +3690,6 @@ topics:
         description: 'Switch priority site for hypermetro consistency group'
         detail: 'Switch priority site for hypermetro consistency group'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro consistency group ID list'
         outputs: |
           {
@@ -3855,7 +3699,6 @@ topics:
         description: 'Sync hypermetro consistency group'
         detail: 'Sync hypermetro consistency group'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro consistency group ID list (Required, List<string>, min array members: 1, max array members: 100)'
         outputs: |
           {
@@ -3865,7 +3708,6 @@ topics:
         description: 'Batch query LUN hypermetro Pairs'
         detail: 'Batch query LUN hypermetro Pairs'
         parameters:
-          client: 'DME API client'
           page_no: 'pagination page number, default 1'
           page_size: 'items per page, default 20'
           group_id: 'hypermetro consistency group ID'
@@ -3924,7 +3766,6 @@ topics:
         description: 'create hypermetro Pair'
         detail: 'create hypermetro Pair'
         parameters:
-          client: 'DME API client'
           create_mode: 'hypermetro Pair creation mode (Required). valid values: auto, manual'
           lun_pairs: |
             manually configured hypermetro Pair info list (Optional, List<LunPairInstance>, max array members: 100). parameter format: [{
@@ -3952,7 +3793,6 @@ topics:
         description: 'modify hypermetro Pair'
         detail: 'modify hypermetro Pair'
         parameters:
-          client: 'DME API client'
           pair_id: 'hypermetro Pair ID'
           speed: 'sync speed, valid values: low, medium, high, highest, custom'
           bandwidth: 'custom sync speed (MB/s), required when speed is custom'
@@ -3967,7 +3807,6 @@ topics:
         description: 'Batch delete hypermetro Pairs'
         detail: 'Batch delete hypermetro Pairs'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro Pair ID list'
           delete_mode: 'delete mode. valid values: preferred_only, non_preferred_only, dual_ends'
           is_lun_service_interrupt: 'whether to allow LUN service interruption (Optional, boolean). valid values: true (allow), false (not allow)'
@@ -3979,7 +3818,6 @@ topics:
         description: 'Batch sync hypermetro Pairs'
         detail: 'Batch sync hypermetro Pairs'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro Pair ID list'
         outputs: |
           {
@@ -3989,7 +3827,6 @@ topics:
         description: 'Pause hypermetro Pair'
         detail: 'Pause hypermetro Pair'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro Pair ID list'
           priority_station_type: 'station type. valid values: preferred, non_preferred'
         outputs: |
@@ -4000,7 +3837,6 @@ topics:
         description: 'Force start hypermetro Pair'
         detail: 'Force start hypermetro Pair'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro Pair ID list'
           priority_station_type: 'station type. valid values: preferred, non_preferred'
         outputs: |
@@ -4011,7 +3847,6 @@ topics:
         description: 'Switch priority site for hypermetro Pair'
         detail: 'Switch priority site for hypermetro Pair'
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro Pair ID list'
         outputs: |
           {
@@ -4021,7 +3856,6 @@ topics:
         description: 'Batch query hypermetro domains'
         detail: 'Batch query hypermetro domains'
         parameters:
-          client: 'DME API client'
           storage_id: 'device ID'
           types: 'hypermetro domain type list'
         outputs: |
@@ -4056,7 +3890,6 @@ topics:
         description: 'create remote replication consistency group'
         detail: 'create remote replication consistency group'
         parameters:
-          client: 'DME API client'
           cg_name: 'remote replication consistency group name'
           remote_storage_id: 'remote storage device ID'
           local_pg_id: 'local protection group ID, required when storage device version is OceanStor V6, OceanStor Dorado V6'
@@ -4084,7 +3917,6 @@ topics:
         description: 'Batch query replication consistency groups'
         detail: 'Batch query replication consistency groups'
         parameters:
-          client: 'DME API client'
           page_no: 'pagination start position (Optional, int32, default 1)'
           page_size: 'items per page (Optional, int32, 1~1000, default 20)'
           protect_group_id: 'protection group ID (Optional, string, 1~64 characters)'
@@ -4115,7 +3947,6 @@ topics:
         description: 'modify remote replication consistency group'
         detail: 'modify remote replication consistency group'
         parameters:
-          client: 'DME API client'
           replication_group_id: 'remote replication consistency group ID'
           name: 'remote replication consistency group name'
           description: 'description info'
@@ -4138,7 +3969,6 @@ topics:
         description: 'Batch delete remote replication consistency groups'
         detail: 'Batch delete remote replication consistency groups'
         parameters:
-          client: 'DME API client'
           ids: 'remote replication consistency group ID list'
           is_self_adapt: 'whether to support adaptive removal of member Pairs, default false'
           delete_mode: 'delete mode, valid values: primary_only, secondary_only, dual_ends, default dual_ends'
@@ -4150,7 +3980,6 @@ topics:
         description: 'Add member Pairs to remote replication consistency group (Not supported below OceanStor Dorado V6 6.1.3, requires group health status normal and running status normal or split)'
         detail: 'Add member Pairs to remote replication consistency group (Not supported below OceanStor Dorado V6 6.1.3, requires group health status normal and running status normal or split)'
         parameters:
-          client: 'DME API client'
           group_id: 'remote replication consistency group ID'
           pair_ids: 'remote replication Pair ID list'
         outputs: |
@@ -4161,7 +3990,6 @@ topics:
         description: 'Remove member Pairs from remote replication consistency group'
         detail: 'Remove member Pairs from remote replication consistency group'
         parameters:
-          client: 'DME API client'
           group_id: 'remote replication consistency group ID'
           pair_ids: 'remote replication Pair ID list'
         outputs: |
@@ -4176,7 +4004,6 @@ topics:
           >![](public_sys-resources/icon-notice.gif) **Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
         parameters:
-          client: 'DME API client'
           ids: 'consistency group ID list'
         outputs: |
           {
@@ -4190,7 +4017,6 @@ topics:
           >![](public_sys-resources/icon-notice.gif) **Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
         parameters:
-          client: 'DME API client'
           ids: 'consistency group ID list'
         outputs: |
           {
@@ -4204,7 +4030,6 @@ topics:
           >![](public_sys-resources/icon-notice.gif) **Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
         parameters:
-          client: 'DME API client'
           ids: 'consistency group ID list'
         outputs: |
           {
@@ -4214,7 +4039,6 @@ topics:
         description: 'Switch write protection state for remote replication consistency group secondary resource'
         detail: 'Switch write protection state for remote replication consistency group secondary resource'
         parameters:
-          client: 'DME API client'
           id: 'consistency group ID'
           operation_type: 'operation type, valid values: enable, disable'
         outputs: |
@@ -4225,7 +4049,6 @@ topics:
         description: 'Batch query replication Pairs'
         detail: 'Batch query replication Pairs'
         parameters:
-          client: 'DME API client'
           page_no: 'pagination page number, default 1'
           page_size: 'items per page, default 20'
           group_id: 'replication consistency group ID'
@@ -4287,7 +4110,6 @@ topics:
         description: 'create remote replication Pair'
         detail: 'create remote replication Pair'
         parameters:
-          client: 'DME API client'
           local_storage_id: 'local storage device ID'
           local_lun_id: 'local LUN ID'
           remote_storage_id: 'remote storage device ID'
@@ -4315,7 +4137,6 @@ topics:
         description: 'modify replication Pair'
         detail: 'modify replication Pair'
         parameters:
-          client: 'DME API client'
           pair_id: 'replication Pair instance ID'
           speed: 'sync speed, valid values: low, medium, high, highest, custom'
           bandwidth: 'custom sync speed (MB/s), required when speed is custom'
@@ -4336,7 +4157,6 @@ topics:
         description: 'Batch delete remote replication Pairs'
         detail: 'Batch delete remote replication Pairs'
         parameters:
-          client: 'DME API client'
           ids: 'replication Pair instance ID list'
           delete_mode: 'delete mode, valid values: primary_only, secondary_only, dual_ends, default dual_ends'
         outputs: |
@@ -4347,7 +4167,6 @@ topics:
         description: 'Batch sync remote replication Pairs'
         detail: 'Batch sync remote replication Pairs'
         parameters:
-          client: 'DME API client'
           ids: 'replication Pair ID list'
         outputs: |
           {
@@ -4357,7 +4176,6 @@ topics:
         description: 'Batch split remote replication Pairs'
         detail: 'Batch split remote replication Pairs'
         parameters:
-          client: 'DME API client'
           ids: 'replication Pair ID list'
         outputs: |
           {
@@ -4367,7 +4185,6 @@ topics:
         description: 'Batch primary-secondary switch for remote replication Pairs'
         detail: 'Batch primary-secondary switch for remote replication Pairs'
         parameters:
-          client: 'DME API client'
           ids: 'replication Pair ID list'
         outputs: |
           {
@@ -4377,7 +4194,6 @@ topics:
         description: 'Switch write protection state for remote replication Pair secondary resource'
         detail: 'Switch write protection state for remote replication Pair secondary resource'
         parameters:
-          client: 'DME API client'
           id: 'replication Pair ID'
           operation_type: 'operation type, valid values: enable, disable'
         outputs: |
@@ -4388,7 +4204,6 @@ topics:
         description: 'Query device Pairs'
         detail: 'Query device Pairs'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID'
         outputs: |
           {
@@ -4419,7 +4234,6 @@ topics:
         description: 'Query replication links'
         detail: 'Query replication links'
         parameters:
-          client: 'DME API client'
           local_storage_id: 'local storage device ID (Optional, string, 1~64 characters), query as source storage device'
           page_no: 'pagination page number (Optional, int32, default 1)'
           page_size: 'items per page (Optional, int32, 1~1000, default 20)'
@@ -4441,7 +4255,6 @@ topics:
         description: 'Batch query LUN snapshots'
         detail: 'Batch query LUN snapshots'
         parameters:
-          client: 'DME API client'
           snapshot_ids: 'snapshot ID list'
           storage_id: 'Storage device ID'
           raw_id: 'snapshot ID on the storage device'
@@ -4488,7 +4301,6 @@ topics:
         description: 'Batch create LUN snapshots'
         detail: 'Batch create LUN snapshots'
         parameters:
-          client: 'DME API client'
           snapshots_info: |
             LUN snapshot creation info list (List<LunSnapshotCreateInfo>, max array members: 2048). parameter format: [{
                     name: snapshot name (1~255 characters),
@@ -4504,7 +4316,6 @@ topics:
         description: 'Batch rollback LUN snapshots'
         detail: 'Batch rollback LUN snapshots'
         parameters:
-          client: 'DME API client'
           rollback_speed: 'rollback speed, valid values: low, medium, high, highest'
           rollback_snapshots: 'snapshot rollback resource info list, each item contains snapshot_id, target_type, target_id'
         outputs: |
@@ -4515,7 +4326,6 @@ topics:
         description: 'Batch delete LUN snapshots'
         detail: 'Batch delete LUN snapshots'
         parameters:
-          client: 'DME API client'
           snapshot_ids: 'snapshot ID list'
           is_delete_target_lun: 'whether to delete target LUN, default true'
           is_auto_deactivate: 'whether to automatically deactivate snapshot before deletion, default false'
@@ -4527,7 +4337,6 @@ topics:
         description: 'create snapshot consistency group'
         detail: 'create snapshot consistency group'
         parameters:
-          client: 'DME API client'
           name: 'snapshot consistency group name'
           protect_group_id: 'protection group ID'
           description: 'description info'
@@ -4540,7 +4349,6 @@ topics:
         description: 'Batch delete snapshot consistency groups'
         detail: 'Batch delete snapshot consistency groups'
         parameters:
-          client: 'DME API client'
           snapshot_cg_ids: 'snapshot consistency group ID list'
           is_delete_target_lun: 'whether to delete target LUN, only supported in Dorado 6.1.2 and above, default true'
         outputs: |
@@ -4551,7 +4359,6 @@ topics:
         description: 'Activate snapshot consistency group'
         detail: 'Activate snapshot consistency group'
         parameters:
-          client: 'DME API client'
           snapshot_cg_id: 'snapshot consistency group ID'
           object_type: 'object type, valid values: parent_object'
           snapshot_create_mode: 'snapshot creation mode, valid values: auto, manual'
@@ -4567,7 +4374,6 @@ topics:
         description: 'Batch deactivate snapshot consistency groups'
         detail: 'Batch deactivate snapshot consistency groups'
         parameters:
-          client: 'DME API client'
           snapshot_cg_ids: 'snapshot consistency group ID list'
         outputs: |
           {
@@ -4577,7 +4383,6 @@ topics:
         description: 'Rollback snapshot consistency group'
         detail: 'Rollback snapshot consistency group'
         parameters:
-          client: 'DME API client'
           snapshot_cg_id: 'snapshot consistency group ID'
           rollback_speed: 'rollback speed, valid values: low, medium, high, highest'
           snapshot_create_mode: 'snapshot creation mode, valid values: auto, manual'
@@ -4593,7 +4398,6 @@ topics:
         description: 'create clone consistency group'
         detail: 'create clone consistency group'
         parameters:
-          client: 'DME API client'
           name: 'clone consistency group name'
           protect_group_id: 'protection group ID'
           create_mode: 'creation mode, valid values: auto, manual'
@@ -4616,7 +4420,6 @@ topics:
         description: 'Sync clone consistency group'
         detail: 'Sync clone consistency group'
         parameters:
-          client: 'DME API client'
           clone_cg_id: 'clone consistency group ID'
           create_mode: 'clone Pair creation mode, valid values: auto, manual'
           name_rule: 'target LUN naming rule, valid values: prefix_and_suffix, prefix_and_num'
@@ -4635,7 +4438,6 @@ topics:
         description: 'Batch delete clone consistency groups'
         detail: 'Batch delete clone consistency groups'
         parameters:
-          client: 'DME API client'
           ids: 'clone consistency group ID list'
           is_delete_dst_lun: 'whether to delete target LUN'
           is_recycle_dst_lun_data: 'whether to recycle target LUN data'
@@ -4647,7 +4449,6 @@ topics:
         description: 'create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution. '
         detail: 'create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution. '
         parameters:
-          client: 'DME API client'
           vstore_pair_id: 'hypermetro tenant Pair ID (Required, string, 1~32 characters)'
           create_mode: 'creation mode (Optional, string). valid values: manual. default value: manual'
           fs_pairs: 'Filesystem Pair list (Optional, List[FsPairInstance], max array members: 100)'
@@ -4663,7 +4464,6 @@ topics:
         description: 'Query Filesystem hypermetro Pair list. '
         detail: 'Query Filesystem hypermetro Pair list. '
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro Pair instance ID list (Optional, List[string])'
           name: 'hypermetro Pair name (Optional, string)'
           status: 'running status (Optional, string)'
@@ -4715,7 +4515,6 @@ topics:
         description: 'Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. '
         detail: 'Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. '
         parameters:
-          client: 'DME API client'
           fs_pair_ids: 'Filesystem hypermetro Pair ID list (Required, List[string], max array members: 100, min array members: 1)'
         outputs: |
           {
@@ -4725,7 +4524,6 @@ topics:
         description: 'Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. '
         detail: 'Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. '
         parameters:
-          client: 'DME API client'
           fs_pair_ids: 'Filesystem hypermetro Pair ID list (Required, List[string])'
         outputs: |
           {
@@ -4735,7 +4533,6 @@ topics:
         description: 'Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. '
         detail: 'Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. '
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro Pair instance ID list (Required, List[string])'
           is_local_delete: 'whether to delete local configuration info (Optional, boolean, true, false)'
           is_online_delete: 'whether to delete online (Optional, boolean, true, false)'
@@ -4747,7 +4544,6 @@ topics:
         description: 'create Filesystem snapshot. '
         detail: 'create Filesystem snapshot. '
         parameters:
-          client: 'DME API client'
           vstore_pair_id: 'Filesystem hypermetro tenant Pair ID (Required, string)'
           fs_pairs: 'snapshot parameter list (Required, List)'
         outputs: |
@@ -4758,7 +4554,6 @@ topics:
         description: 'Batch query Filesystem snapshots. '
         detail: 'Batch query Filesystem snapshots. '
         parameters:
-          client: 'DME API client'
           fs_pair_id: 'hypermetro Pair ID (Optional, string)'
           name: 'snapshot name (Optional, string, supports fuzzy search)'
           status: 'snapshot status (Optional, string)'
@@ -4779,7 +4574,6 @@ topics:
         description: 'Batch delete Filesystem snapshots. '
         detail: 'Batch delete Filesystem snapshots. '
         parameters:
-          client: 'DME API client'
           ids: 'snapshot ID list (Required, List[string])'
         outputs: |
           {
@@ -4789,7 +4583,6 @@ topics:
         description: 'Batch force start hypermetro tenant Pairs. '
         detail: 'Batch force start hypermetro tenant Pairs. '
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro tenant Pair ID list (Required, List[string])'
         outputs: |
           {
@@ -4799,7 +4592,6 @@ topics:
         description: 'create hypermetro tenant Pair. '
         detail: 'create hypermetro tenant Pair. '
         parameters:
-          client: 'DME API client'
           local_storage_id: 'local storage device ID (Required, string)'
           remote_storage_id: 'remote storage device ID (Required, string)'
           name: 'tenant Pair name (Optional, string)'
@@ -4813,7 +4605,6 @@ topics:
         description: 'Query hypermetro tenant Pair list. '
         detail: 'Query hypermetro tenant Pair list. '
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro tenant Pair ID list (Optional, List[string])'
           name: 'name (Optional, string)'
           status: 'status (Optional, string)'
@@ -4849,7 +4640,6 @@ topics:
         description: 'Batch primary-secondary switch for hypermetro tenant Pairs. '
         detail: 'Batch primary-secondary switch for hypermetro tenant Pairs. '
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro tenant Pair ID list (Required, List[string])'
         outputs: |
           {
@@ -4859,7 +4649,6 @@ topics:
         description: 'Batch delete hypermetro tenant Pairs. '
         detail: 'Batch delete hypermetro tenant Pairs. '
         parameters:
-          client: 'DME API client'
           ids: 'hypermetro tenant Pair ID list (Required, List[string])'
         outputs: |
           {
@@ -4869,7 +4658,6 @@ topics:
         description: 'modify specified hypermetro tenant pair. '
         detail: 'modify specified hypermetro tenant pair. '
         parameters:
-          client: 'DME API client'
           id: 'hypermetro tenant Pair ID (Required, string)'
           name: 'name (Optional, string)'
         outputs: |
@@ -4880,7 +4668,6 @@ topics:
         description: 'Force start Filesystem hypermetro domain. '
         detail: 'Force start Filesystem hypermetro domain. '
         parameters:
-          client: 'DME API client'
           id: 'hypermetro domain ID (Required, string)'
         outputs: |
           {
@@ -4890,7 +4677,6 @@ topics:
         description: 'Switch priority site for Filesystem hypermetro domain. '
         detail: 'Switch priority site for Filesystem hypermetro domain. '
         parameters:
-          client: 'DME API client'
           id: 'hypermetro domain ID (Required, string)'
         outputs: |
           {
@@ -4900,7 +4686,6 @@ topics:
         description: 'Recover Filesystem hypermetro domain. '
         detail: 'Recover Filesystem hypermetro domain. '
         parameters:
-          client: 'DME API client'
           id: 'hypermetro domain ID (Required, string)'
         outputs: |
           {
@@ -4910,7 +4695,6 @@ topics:
         description: 'Split Filesystem hypermetro domain. '
         detail: 'Split Filesystem hypermetro domain. '
         parameters:
-          client: 'DME API client'
           id: 'hypermetro domain ID (Required, string)'
         outputs: |
           {
@@ -4920,7 +4704,6 @@ topics:
         description: 'Swap primary-secondary role for Filesystem hypermetro domain. '
         detail: 'Swap primary-secondary role for Filesystem hypermetro domain. '
         parameters:
-          client: 'DME API client'
           id: 'hypermetro domain ID (Required, string)'
         outputs: |
           {
@@ -4930,7 +4713,6 @@ topics:
         description: 'Query target LUNs available for creating hypermetro Pair. '
         detail: 'Query target LUNs available for creating hypermetro Pair. '
         parameters:
-          client: 'DME API client'
           source_lun_id: 'source LUN ID (Required, string)'
         outputs: |
           {
@@ -4948,7 +4730,6 @@ topics:
         description: 'Batch query LUNs'
         detail: 'Batch query LUNs'
         parameters:
-          client: 'DME API client'
           limit: 'Number of paginated query results (Optional, 0~1000, default 1000)'
           offset: 'Start position for paginated query (Optional, min 0, default 0)'
           sort_dir: 'Sort direction (Optional). valid values: asc, desc'
@@ -5020,7 +4801,6 @@ topics:
         description: 'Query a specific LUN'
         detail: 'Query a specific LUN'
         parameters:
-          client: 'DME API client'
           volume_id: 'LUN id (Required, string, 1~64 characters)'
         outputs: |
           {
@@ -5042,7 +4822,6 @@ topics:
         description: 'Custom create LUN'
         detail: 'Custom create LUN'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required), 1~64 characters, obtained via the storage device query API'
           lun_specs: |
             Basic parameters for LUNs to create (conditionally required), List<LunSpecs> type, max array members 1000, up to 10 groups per request; mutually exclusive with lun_specs_pass_through; required when storage device mode is not pass-through. parameter format: [{
@@ -5114,7 +4893,6 @@ topics:
         description: 'Batch delete LUNs'
         detail: 'Batch delete LUNs'
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, List[string], max array members: 1000)'
           task_remarks: 'Async task remarks info (Optional, string, up to 1024 characters)'
         outputs: |
@@ -5125,7 +4903,6 @@ topics:
         description: 'Modify a specific LUN'
         detail: 'Modify a specific LUN'
         parameters:
-          client: 'DME API client'
           volume_id: 'LUN ID'
           name: 'New name (Optional, 1~255 characters)'
           description: 'Modify LUN description info (Optional, 0~255 characters)'
@@ -5156,7 +4933,6 @@ topics:
         description: 'Batch modify LUN names'
         detail: 'Batch modify LUN names'
         parameters:
-          client: 'DME API client'
           volumes: |
             List of LUN info to modify (max array members: 1000). parameter format: [{
                     volume_id: LUN unique identifier (1~64 characters),
@@ -5170,7 +4946,6 @@ topics:
         description: 'Batch expand LUN capacity'
         detail: 'Batch expand LUN capacity'
         parameters:
-          client: 'DME API client'
           volumes: |
             List of LUN info to expand (max array members: 1000). parameter format: [{
                     volume_id: LUN unique identifier (Required, 1~64 characters),
@@ -5185,7 +4960,6 @@ topics:
         description: 'Query connection info for specified LUN IDs'
         detail: 'Query connection info for specified LUN IDs'
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, List[string], max array members: 1000)'
         outputs: |
           {
@@ -5201,7 +4975,6 @@ topics:
           
           Query LUN group list, supports pagination and multiple filter criteria
         parameters:
-          client: 'DME API client'
           page_size: 'Number of paginated query results (Optional, 0~1000, default 20)'
           page_no: 'Pagination start page (Optional, 1~10000000, default 1)'
           sort_dir: 'Sort direction (Optional). valid values: asc, desc'
@@ -5232,7 +5005,6 @@ topics:
         description: 'Query details of a specific LUN group'
         detail: 'Query details of a specific LUN group'
         parameters:
-          client: 'DME API client'
           group_id: 'LUN group ID (Required, string)'
           storage_id: 'Storage device ID (Optional, string)'
         outputs: |
@@ -5250,7 +5022,6 @@ topics:
           
           Create a new LUN group
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~64 characters)'
           name: 'LUN group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters)'
           description: 'LUN group description (Optional, 0~255 characters)'
@@ -5318,7 +5089,6 @@ topics:
         description: 'Batch delete LUN groups'
         detail: 'Batch delete LUN groups'
         parameters:
-          client: 'DME API client'
           lun_group_ids: 'LUN group ID list (Required, max array members: 500)'
           task_remarks: 'Async task remarks info (Optional, up to 1024 characters)'
         outputs: |
@@ -5329,7 +5099,6 @@ topics:
         description: 'Add LUNs to a LUN group'
         detail: 'Add LUNs to a LUN group'
         parameters:
-          client: 'DME API client'
           group_id: 'LUN group ID'
           existing_lun_ids: |
             Existing LUN collection (Optional, mutually exclusive with customize_volumes, max array members: 1000). parameter format: [{
@@ -5383,7 +5152,6 @@ topics:
         description: 'Remove LUNs from a LUN group'
         detail: 'Remove LUNs from a LUN group'
         parameters:
-          client: 'DME API client'
           group_id: 'LUN group ID'
           lun_ids: 'LUN ID list (Required, min array members: 1, max array members: 10000)'
           task_remarks: 'Async task remarks info (Optional, up to 1024 characters)'
@@ -5395,7 +5163,6 @@ topics:
         description: 'Query LUNs in a LUN group'
         detail: 'Query LUNs in a LUN group'
         parameters:
-          client: 'DME API client'
           group_id: 'LUN group ID'
           page_size: 'Number of paginated query results (Optional, 1~1000, default 100)'
           page_no: 'Page number for paginated query (Optional, 1~10000000, default 1)'
@@ -5408,7 +5175,6 @@ topics:
         description: 'Create mapping view'
         detail: 'Create mapping view'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~64 characters)'
           name: 'Mapping view name (Optional, 1~31 characters; valid when device type is OceanStor V3/V5)'
           port_group_id: 'Port group ID (Optional, 1~64 characters)'
@@ -5445,7 +5211,6 @@ topics:
         description: 'Batch delete mapping views'
         detail: 'Batch delete mapping views'
         parameters:
-          client: 'DME API client'
           ids: 'Mapping view ID list (Required, List[string])'
         outputs: |
           {
@@ -5458,7 +5223,6 @@ topics:
           
           Batch query mapping view info on storage devices, supports multiple filter criteria
         parameters:
-          client: 'DME API client'
           page_size: 'Number of paginated query results (Optional, 0~1000, default 100)'
           page_no: 'Start position for paginated query (Optional, 1~10000000, default 1)'
           name: 'Mapping view name (Optional, 0~256 characters, supports fuzzy search)'
@@ -5495,7 +5259,6 @@ topics:
           
           Create a Storage host on the specified storage device
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Required, 1~64 characters)'
           host_info: |
             CreateStorageHostInfo object (Required). attribute format: {
@@ -5525,7 +5288,6 @@ topics:
         description: 'Batch query storage hosts by storage host ID list'
         detail: 'Batch query storage hosts by storage host ID list'
         parameters:
-          client: 'DME API client'
           ids: 'ID list (Required, 1~1000 items)'
         outputs: |
           {
@@ -5566,7 +5328,6 @@ topics:
         description: 'Batch query storage hosts'
         detail: 'Batch query storage hosts'
         parameters:
-          client: 'DME API client'
           page_size: 'Number of paginated query results (Optional, 1~1000, default 20)'
           page_no: 'Start position for paginated query (Optional, min 1, default 1)'
           sort_key: 'Sort key (Optional, sort_dir is ineffective when sort_key is not set). valid values: ip, name, initiator_count, lun_count, lun_group_count, capacity, allocated_capacity, raw_id'
@@ -5625,7 +5386,6 @@ topics:
         description: 'Modify Storage host'
         detail: 'Modify Storage host'
         parameters:
-          client: 'DME API client'
           storage_host_id: 'Storage host ID (Required)'
           storage_host_name: 'Storage host name (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters)'
           storage_host_description: 'Storage host description info (Optional, 0~63 characters)'
@@ -5656,14 +5416,12 @@ topics:
           
           Batch delete specified storage hosts
         parameters:
-          client: 'DME API client'
           host_ids: 'Storage host ID list (Required, up to 1000)'
         outputs: 'delete result'
       storage_host_show_paths:
         description: 'Batch query storage host path info'
         detail: 'Batch query storage host path info'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number for paginated query (Optional, 1~2147483647, default 1)'
           page_size: 'Page size for paginated query (Optional, 1~1000, default 20)'
           storage_id: 'Belonging storage device ID (Optional, 1~64 characters)'
@@ -5696,7 +5454,6 @@ topics:
           
           Query the mapped LUN info list for a specified Storage host, including LUN info and host LUN ID info
         parameters:
-          client: 'DME API client'
           storage_host_id: 'Storage host ID (Required, 1~64 characters)'
           name: 'LUN name (Optional, 1~256 characters, supports fuzzy search)'
           page_size: 'Number of paginated query results (Optional, 1~1000, default 20)'
@@ -5714,7 +5471,6 @@ topics:
           
           Unmap the mapping relation between LUNs and storage host
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, max array members: 1000)'
           host_id: 'Host ID (Required, 1~64 characters)'
           task_remarks: 'Async task remarks info (Optional, up to 1024 characters)'
@@ -5726,7 +5482,6 @@ topics:
         description: 'Create Storage host group'
         detail: 'Create Storage host group'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Required, 1~64 characters)'
           name: 'host group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters; V3/V5 devices max 31 bytes, V6 devices max 255 bytes)'
           description: 'description info (Optional, 0~63 characters)'
@@ -5759,7 +5514,6 @@ topics:
         description: 'Batch query storage host groups'
         detail: 'Batch query storage host groups'
         parameters:
-          client: 'DME API client'
           raw_id: 'Host group ID on the device side (Optional, 0~256 characters)'
           storage_id: 'Device ID (Optional, 0~64 characters)'
           page_size: 'Number of paginated query results (Optional, 1~1000, default 100)'
@@ -5783,7 +5537,6 @@ topics:
           
           Add existing hosts to a Storage host group, or create new hosts within the host group
         parameters:
-          client: 'DME API client'
           storage_host_group_id: 'Storage host group ID (Required)'
           storage_host_id_ids: 'Storage host ID list (Optional, mutually exclusive with create_storage_host_params, max array members: 1000)'
           create_storage_host_params: |
@@ -5816,7 +5569,6 @@ topics:
           
           Remove one or more hosts from the specified Storage host group
         parameters:
-          client: 'DME API client'
           storage_host_group_id: 'Storage host group ID (Required, 1~64 characters)'
           storage_host_ids: 'Host ID list to remove (Required, up to 1000)'
           task_remarks: 'Task remarks (Optional, up to 1024 characters)'
@@ -5831,7 +5583,6 @@ topics:
           
           Batch delete specified storage host groups
         parameters:
-          client: 'DME API client'
           host_group_ids: 'Storage host group ID list (Required, 1~100)'
           task_remarks: 'Task remarks (Optional, up to 1024 characters)'
         outputs: 'delete result'
@@ -5842,7 +5593,6 @@ topics:
           
           Query the mapped LUN info list for a specified Storage host group, including LUN info and host LUN ID info
         parameters:
-          client: 'DME API client'
           storage_host_group_id: 'Storage host group ID (Required, 1~64 characters)'
           name: 'LUN name (Optional, 1~256 characters, supports fuzzy search)'
           page_size: 'Number of paginated query results (Optional, 1~1000, default 20)'
@@ -5860,7 +5610,6 @@ topics:
           
           Unmap the mapping relation between LUNs and storage host group
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, max array members: 1000)'
           hostgroup_id: 'Host group ID (Required, 1~64 characters)'
           task_remarks: 'Async task remarks info (Optional, up to 1024 characters)'
@@ -5872,7 +5621,6 @@ topics:
         description: 'Batch query port groups'
         detail: 'Batch query port groups'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Optional, 1~64 characters, supports filtering)'
           page_no: 'Page number for paginated query (Optional, 1~10000, default 1)'
           page_size: 'Page size for paginated query (Optional, 1~1000, default 20)'
@@ -5887,7 +5635,6 @@ topics:
           
           Note: Only supports OceanStor 1800 series storage
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Required, 1~64 characters)'
           name: 'port group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters)'
           description: 'Port group description (Optional, 0~63 characters)'
@@ -5900,7 +5647,6 @@ topics:
         description: 'Batch query ports of a specified port group'
         detail: 'Batch query ports of a specified port group'
         parameters:
-          client: 'DME API client'
           port_group_id: 'Port group ID (Required)'
           type: 'Port type (Optional). valid values: fc (FC port), fcoe (FCoE port), eth (Ethernet port), roce (RoCE port)'
           page_no: 'Page number for paginated query (Optional, 1~10000, default 1)'
@@ -5913,7 +5659,6 @@ topics:
         description: 'Batch query port group and port association relations'
         detail: 'Batch query port group and port association relations'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number for paginated query (Optional, 1~10000, default 1)'
           page_size: 'Page size for paginated query (Optional, 1~1000, default 20)'
         outputs: |
@@ -5924,7 +5669,6 @@ topics:
         description: 'Batch query physical hosts'
         detail: 'Batch query physical hosts'
         parameters:
-          client: 'DME API client'
           limit: 'Number of paginated query results (Optional, 1~1000)'
           start: 'Start position for paginated query (Optional, 0~10000000)'
           sort_key: 'Sort key (Optional). valid values: initiator_count, ip, name'
@@ -5947,7 +5691,6 @@ topics:
         description: 'Query a specific physical host'
         detail: 'Query a specific physical host'
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required)'
         outputs: |
           {
@@ -5983,7 +5726,6 @@ topics:
         description: 'Onboard a physical host'
         detail: 'Onboard a physical host'
         parameters:
-          client: 'DME API client'
           access_mode: 'Physical host access mode (Required). valid values: ACCOUNT (specify account password), NONE (manual entry)'
           type: 'Host type (Required). valid values: UNKNOWN, LINUX, WINDOWS, SUSE, EULER, REDHAT, CENTOS, WINDOWSSERVER2012, SOLARIS, LINUX_VIS, HPUX, AIX, XENSERVER, MACOS, VMWAREESX, ORACLE, OPENVMS, ORACLE_VM_SERVER_FOR_X86, ORACLE_VM_SERVER_FOR_SPARC. ACCOUNT mode only supports LINUX'
           host_name: 'Physical host name (Required for NONE mode, 1~255 characters, supports letters, digits, ._- and Chinese characters)'
@@ -6013,7 +5755,6 @@ topics:
         description: 'Modify physical host basic info'
         detail: 'Modify physical host basic info'
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required)'
           ip: 'Physical host IP address (Optional, up to 127 characters, supports IPv4 and IPv6; leave empty to keep unchanged)'
           host_name: 'Physical host name (Optional, 1~255 characters, supports letters, digits, ._-; leave empty to keep unchanged)'
@@ -6025,7 +5766,6 @@ topics:
         description: 'Modify physical host access info'
         detail: 'Modify physical host access info'
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required, 1~64 characters)'
           ip: 'Physical host access IP address (Optional, up to 127 characters, supports IPv4 and IPv6; Required for NONE to ACCOUNT transition)'
           port: 'Physical host access port (Optional, 1~65535; Required for NONE to ACCOUNT transition)'
@@ -6047,7 +5787,6 @@ topics:
           
           Remove the specified physical host
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required)'
           sync_to_storage: 'Whether to sync delete from storage (Optional, default false)'
         outputs: 'delete result'
@@ -6055,7 +5794,6 @@ topics:
         description: 'Add initiators to a physical host'
         detail: 'Add initiators to a physical host'
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required)'
           initiators: |
             Initiator list (Required, max array members: 100). parameter format: [{
@@ -6067,7 +5805,6 @@ topics:
         description: 'Remove initiators from a physical host'
         detail: 'Remove initiators from a physical host'
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required)'
           initiators: 'Initiator ID list (Required, up to 1000)'
         outputs: 'remove result'
@@ -6075,7 +5812,6 @@ topics:
         description: 'Query initiators of a specified physical host'
         detail: 'Query initiators of a specified physical host'
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required)'
           port_name: 'Physical host initiator wwn or iqn (Optional, 1~223 characters)'
           protocol: 'Initiator type (Optional, 1~64 characters). valid values: UNKNOWN, FC, ISCSI, NVME_OVER_ROCE, SAS, NVME_OVER_FABRIC'
@@ -6098,7 +5834,6 @@ topics:
         description: 'Test connectivity between storage device and physical host'
         detail: 'Test connectivity between storage device and physical host'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required)'
           host_ids: 'Physical host ID list (Optional, choose one with hostgroup_id)'
           hostgroup_id: 'Physical host group ID (Optional, choose one with host_ids)'
@@ -6110,7 +5845,6 @@ topics:
         description: 'Query the SSH public key of a specified physical host'
         detail: 'Query the SSH public key of a specified physical host'
         parameters:
-          client: 'DME API client'
           ip: 'Physical host IP address (Required)'
           port: 'SSH port (Optional, default 22)'
         outputs: 'SSH public key info'
@@ -6121,7 +5855,6 @@ topics:
           
           Save the SSH public key of a physical host, used for verifying the identity of the communication physical host in subsequent communications
         parameters:
-          client: 'DME API client'
           ip: 'Physical host IP address (Required)'
           key: 'Physical host SSH public key (Required)'
           port: 'SSH port (Optional, default 22)'
@@ -6133,7 +5866,6 @@ topics:
           
           Query the associated physical host by initiator ID or initiator WWPN/IQN/NQN
         parameters:
-          client: 'DME API client'
           initiator_id: 'Initiator ID (Optional, mutually exclusive with raw_id)'
           raw_id: 'Initiator WWPN/IQN/NQN (Optional, mutually exclusive with initiator_id)'
           protocol: 'Initiator type (Optional, FC/ISCSI/NVME_OVER_ROCE)'
@@ -6169,7 +5901,6 @@ topics:
           
           Map LUNs to the specified physical host
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, max array members: 1000)'
           host_id: 'Physical host ID (Required, 1~64 characters)'
           mapping_policy: |
@@ -6200,7 +5931,6 @@ topics:
           
           Unmap LUNs from host
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, max array members: 1000)'
           host_id: 'Host ID (Required, 1~64 characters)'
           task_remarks: 'Async task remarks info (Optional, up to 1024 characters)'
@@ -6212,7 +5942,6 @@ topics:
         description: 'Query mapping relations associated with a physical host'
         detail: 'Query mapping relations associated with a physical host'
         parameters:
-          client: 'DME API client'
           host_id: 'Physical host ID (Required, 1~64 characters)'
           storage_id: 'Storage device ID (Required, 1~64 characters)'
         outputs: |
@@ -6223,7 +5952,6 @@ topics:
         description: 'Batch query physical host groups'
         detail: 'Batch query physical host groups'
         parameters:
-          client: 'DME API client'
           limit: 'Number of paginated query results (Optional, 1~1000)'
           start: 'Start position for paginated query (Optional, 0~10000000)'
           sort_dir: 'Sort direction (Optional, ineffective when sort_key is not set). valid values: desc, asc'
@@ -6243,7 +5971,6 @@ topics:
           
           Query the list of physical hosts in a specified physical host group
         parameters:
-          client: 'DME API client'
           hostgroup_id: 'Physical host group ID (Required, 1~64 characters)'
           name: 'Physical host name (Optional, 1~256 characters, supports fuzzy match)'
           ip: 'Physical host IP (Optional, 1~256 characters, supports fuzzy match)'
@@ -6275,7 +6002,6 @@ topics:
         description: 'Query a specific physical host group'
         detail: 'Query a specific physical host group'
         parameters:
-          client: 'DME API client'
           hostgroup_id: 'Physical host group ID (Required)'
         outputs: 'Physical host group detailed info'
       physical_host_group_create:
@@ -6285,7 +6011,6 @@ topics:
           
           Create a physical host group with specified physical hosts
         parameters:
-          client: 'DME API client'
           name: 'Physical host group name (Required, 1~255 characters, supports letters, digits, ._- and Chinese characters)'
           host_ids: 'Physical host ID list (Required, max array members: 100)'
           azs: 'Availability zone ID list (Optional, max array members: 40)'
@@ -6296,7 +6021,6 @@ topics:
         description: 'Modify physical host group basic info'
         detail: 'Modify physical host group basic info'
         parameters:
-          client: 'DME API client'
           hostgroup_id: 'Physical host group ID (Required)'
           name: 'Physical host group name (Optional, 1~255 characters, supports letters, digits, ._- and Chinese characters; leave empty or empty string to not modify)'
           description: 'Physical host group description info (Optional, 0~63 characters)'
@@ -6307,7 +6031,6 @@ topics:
         description: 'Delete a specific physical host group'
         detail: 'Delete a specific physical host group'
         parameters:
-          client: 'DME API client'
           hostgroup_id: 'Physical host group ID (Required)'
           sync_to_storage: 'Whether to sync delete from storage (Optional, default false)'
         outputs: 'delete result'
@@ -6315,7 +6038,6 @@ topics:
         description: 'Add physical hosts to a physical host group'
         detail: 'Add physical hosts to a physical host group'
         parameters:
-          client: 'DME API client'
           hostgroup_id: 'Physical host group ID (Required)'
           host_ids: 'Physical host ID list (Required, up to 100)'
           sync_to_storage: 'Whether to sync add to storage (Optional, default false)'
@@ -6327,7 +6049,6 @@ topics:
           
           Remove physical hosts from a physical host group
         parameters:
-          client: 'DME API client'
           hostgroup_id: 'Physical host group ID (Required)'
           host_ids: 'Physical host ID list (Required, up to 1000)'
           sync_to_storage: 'Whether to sync remove from storage (Optional, default false)'
@@ -6339,7 +6060,6 @@ topics:
           
           Map LUNs to the specified physical host group
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, max array members: 1000)'
           hostgroup_id: 'Physical host group ID (Required, 0~64 characters)'
           mapping_policy: |
@@ -6370,7 +6090,6 @@ topics:
           
           Unmap the mapping relation between LUNs and host group
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN ID list (Required, max array members: 1000)'
           hostgroup_id: 'Host group ID (Required, 1~64 characters)'
           task_remarks: 'Async task remarks info (Optional, up to 1024 characters)'
@@ -6382,7 +6101,6 @@ topics:
         description: 'Query mapping relations associated with a physical host group'
         detail: 'Query mapping relations associated with a physical host group'
         parameters:
-          client: 'DME API client'
           host_group_id: 'Physical host group ID (Required, 1~64 characters)'
           storage_id: 'Storage device ID (Required, 1~64 characters)'
         outputs: |
@@ -6393,7 +6111,6 @@ topics:
         description: 'Query the Storage host group list associated with a physical host group'
         detail: 'Query the Storage host group list associated with a physical host group'
         parameters:
-          client: 'DME API client'
           hostgroup_id: 'Physical host group ID (Required, string, 1~64 characters)'
           storage_ip: 'Storage device IP (Optional, string, 1~127 characters)'
           storage_name: 'storage device name, supports fuzzy search (Optional, string, 1~256 characters)'
@@ -6408,7 +6125,6 @@ topics:
         description: 'Query Storage host and LUN mapping relations'
         detail: 'Query Storage host and LUN mapping relations'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Required, string, 1~64 characters)'
           name: 'Mapping view name, supports fuzzy search (Optional, string, 0~256 characters)'
           mapping_type: 'Host mapping query type (Optional, string). valid values: all (Storage hosts with mapping relation to LUNs, including direct and indirect mapping), match_mapping_view (Storage hosts directly mapped to LUNs)'
@@ -6436,7 +6152,6 @@ topics:
         description: 'Query server list'
         detail: 'Query server list'
         parameters:
-          client: 'DME API client'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
           name: 'Server name filter (Optional)'
@@ -6455,7 +6170,6 @@ topics:
         description: 'Query overview info of a specified server'
         detail: 'Query overview info of a specified server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID (Note: must use the device_id field, which is a UUID with hyphens, e.g. 507cb27f-3eda-44c8-a491-5a81ca035da5)'
         outputs: |
           {
@@ -6468,7 +6182,6 @@ topics:
         description: 'Query all CPU list on a server'
         detail: 'Query all CPU list on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
@@ -6486,7 +6199,6 @@ topics:
         description: 'Query memory on a server'
         detail: 'Query memory on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
@@ -6503,7 +6215,6 @@ topics:
         description: 'Query disk collection on a server'
         detail: 'Query disk collection on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
@@ -6521,7 +6232,6 @@ topics:
         description: 'Query NIC collection on a server'
         detail: 'Query NIC collection on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID (Optional)'
           page_no: 'Pagination query page number, default 1'
           page_size: 'items per page, 5~1000, default 20'
@@ -6539,7 +6249,6 @@ topics:
         description: 'Query fans on a server'
         detail: 'Query fans on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
@@ -6557,7 +6266,6 @@ topics:
         description: 'Query power supplies on a server'
         detail: 'Query power supplies on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
@@ -6575,7 +6283,6 @@ topics:
         description: 'Query RAID card details on a server'
         detail: 'Query RAID card details on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
@@ -6592,7 +6299,6 @@ topics:
         description: 'Query PCIe card info on a server'
         detail: 'Query PCIe card info on a server'
         parameters:
-          client: 'DME API client'
           server_id: 'Server ID'
           start: 'Pagination start position, default 1'
           limit: 'Page size, default 100'
@@ -6613,7 +6319,6 @@ topics:
         description: 'Batch query Storage devices: supports paginated query and filtering.'
         detail: 'Batch query Storage devices: supports paginated query and filtering.'
         parameters:
-          client: 'DME API client.'
           az: 'Availability zone ID (Optional, string, 1~64 characters)'
           source: 'Source of the Storage device (Optional, string). valid values: add, record, all. default queries connected devices'
           dc_id: 'ID of the data center the Storage device belongs to (Optional, string, 1~32 characters)'
@@ -6638,7 +6343,6 @@ topics:
         description: 'Query the specified Storage device.'
         detail: 'Query the specified Storage device.'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID, Required (Required, string, 1~36 characters). Must satisfy UUID format or 32-bit hexadecimal'
         outputs: |
           {
@@ -6657,7 +6361,6 @@ topics:
           
           Add Storage device info to the DME system in an offline manner.
         parameters:
-          client: 'DME API client.'
           name: 'Device name (1~256 characters). Can only contain half-width letters, half-width digits, "_", "-", ".", and Chinese characters.'
           sn: 'Device serial number (regex pattern ^[a-zA-Z0-9]{1,128}$).'
           ip: 'Device IP address (Optional, 0~128 characters, supports IPv4 and IPv6 formats, can also be an empty string).'
@@ -6685,7 +6388,6 @@ topics:
         description: 'Batch remove Storage devices.'
         detail: 'Batch remove Storage devices.'
         parameters:
-          client: 'DME API client'
           ids: 'List of storage device IDs (Required, List[string], max array members: 100, min array members: 1)'
         outputs: |
           {
@@ -6695,14 +6397,12 @@ topics:
         description: 'Sync Storage device info. This interface is an asynchronous message.'
         detail: 'Sync Storage device info. This interface is an asynchronous message.'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device Id (Required, string, 1~64 characters). Obtained via the batch query Storage device interface'
         outputs: 'None'
       modify:
         description: 'Modify a Storage device (only supports modifying recorded offline Storage device info)'
         detail: 'Modify a Storage device (only supports modifying recorded offline Storage device info)'
         parameters:
-          client: 'DME API client.'
           storage_id: 'Storage device ID (Required).'
           name: 'Device name (Optional, 1~256 characters). Can only contain half-width letters, half-width digits, "_", "-", ".", and Chinese characters.'
           ip: 'Device IP address (Optional, 0~128 characters, supports IPv4 and IPv6 formats, can also be an empty string).'
@@ -6725,7 +6425,6 @@ topics:
         description: 'Query the BBU info list of a Storage device'
         detail: 'Query the BBU info list of a Storage device'
         parameters:
-          client: 'DME API client.'
           storage_id: 'The id of the BBU storage device (Optional, 1~64 characters).'
           health_status: 'health status (Optional). valid values: unknown, normal, faulty, about_to_fail, low_battery.'
           running_status: 'running status (Optional). valid values: unknown, normal, running, online, offline, charging, charging_completed, discharging.'
@@ -6756,7 +6455,6 @@ topics:
         description: 'Get the access token for a Storage device'
         detail: 'Get the access token for a Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID(Required)'
         outputs: |
           {
@@ -6768,7 +6466,6 @@ topics:
         description: 'Query the fan info of a Storage device'
         detail: 'Query the fan info of a Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'ID of the storage device (Optional, 1~64 characters)'
           health_status: 'health status(Optional). valid values: unknown, normal, faulty'
           running_status: 'running status(Optional). valid values: unknown, normal, running, not_running, spin_down, online, offline'
@@ -6798,7 +6495,6 @@ topics:
         description: 'Query the disk info list of a Storage device'
         detail: 'Query the disk info list of a Storage device'
         parameters:
-          client: 'DME API client.'
           storage_id: 'storage device ID (1~36 characters, must satisfy uuid format).'
           ids: 'Port ID list (Optional, List<string>, max array members: 100, min array members: 0).'
           name: 'Disk name (Optional, 1~256 characters).'
@@ -6842,7 +6538,6 @@ topics:
         description: 'Query Storage device Storage pool list'
         detail: 'Query Storage device Storage pool list'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Optional, 1~64 characters)'
           raw_id: 'Storage pool ID on the Storage device (Optional, 1~64 characters)'
           zone_id: 'Zone ID (Optional, 1~256 characters), supports exact search, only supported by OceanStor A800 storage'
@@ -6890,7 +6585,6 @@ topics:
         description: 'Query HyperScale Storage pool list'
         detail: 'Query HyperScale Storage pool list'
         parameters:
-          client: 'DME API client'
           raw_id: 'Storage pool ID on the Storage device (Optional, 1~64 characters), supports exact search'
           name: 'HyperScale storage pool name (Optional, 1~256 characters), supports fuzzy search'
           local_pool_id: 'Local storage pool ID under HyperScale Storage pool (Optional, 0~64 characters), supports filtering HyperScale Storage pool associated with the specified local Storage pool'
@@ -6929,7 +6623,6 @@ topics:
         description: 'Query the node list of a Storage device'
         detail: 'Query the node list of a Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device id (Optional, 1~64 characters), supports filtering'
           raw_id: 'Node ID on the Storage device (Optional, 1~64 characters)'
           storage_name: 'Storage device name (Optional, 1~255 characters), supports filtering'
@@ -6972,7 +6665,6 @@ topics:
         description: 'Query Storage device power supply details info, only supported by OceanStor A800 storage.'
         detail: 'Query Storage device power supply details info, only supported by OceanStor A800 storage.'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~64 characters)'
           health_status: 'health status(Optional). valid values: unknown, normal, faulty, inconsistent, no_input'
           running_status: 'running status(Optional). valid values: unknown, normal, running, online, offline'
@@ -7015,7 +6707,6 @@ topics:
         description: 'Query Storage device power data'
         detail: 'Query Storage device power data'
         parameters:
-          client: 'DME API client'
           start_time: 'Start time stamp (Required, 13-digit millisecond timestamp, pattern ^([0-9]){13}$)'
           end_time: 'End time stamp (Required, 13-digit millisecond timestamp, pattern ^([0-9]){13}$)'
           storage_ids: 'Storage ID list (Required, List<string>, max array members: 300)'
@@ -7034,7 +6725,6 @@ topics:
           
           Only supported by Dorado type devices.
         parameters:
-          client: 'DME API client.'
           storage_id: 'Storage device id (1~36 characters, must satisfy uuid format).'
           create_type: 'create type (Optional, 0~1). valid values: 0 (system preset), 1 (user defined). Returns all types if not provided.'
           template_type: 'Application type category (Optional, 0~1). valid values: 0 (LUN type), 1 (NAS type). Default is LUN type if not provided.'
@@ -7055,7 +6745,6 @@ topics:
           
           Query the Controller list info of a Storage device.
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~36 characters, UUID format or 32-bit hexadecimal)'
         outputs: |
           {
@@ -7067,7 +6756,6 @@ topics:
         description: 'Batch query disk domains'
         detail: 'Batch query disk domains'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Optional, 1~64 characters), supports filtering'
           page_no: 'Page number for paginated query (Optional, 1~2147483647, default 1)'
           page_size: 'Page size for paginated query (Optional, 1~1000, default 20)'
@@ -7092,7 +6780,6 @@ topics:
         description: 'Batch query disk pools of distributed Storage devices. Only supported by OceanStor Pacific and OceanStor A310 storage.'
         detail: 'Batch query disk pools of distributed Storage devices. Only supported by OceanStor Pacific and OceanStor A310 storage.'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device id (Optional, string, 1~64 characters). Non-OceanStor Pacific or A310 devices will report a parameter error'
           page_no: 'Page number for paginated query (Optional, int32, 1~2147483647). default value: 1'
           page_size: 'Page size for paginated query (Optional, int32, 1~1000). default value: 20'
@@ -7109,7 +6796,6 @@ topics:
         description: 'Batch query enclosure info'
         detail: 'Batch query enclosure info'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number for paginated query (Optional, 1~2147483647, default 1)'
           page_size: 'Page size for paginated query (Optional, 1~1000, default 20)'
           storage_id: 'Storage device ID (Optional, 1~64 characters)'
@@ -7158,7 +6844,6 @@ topics:
         description: 'Batch query Storage device tenant info.'
         detail: 'Batch query Storage device tenant info.'
         parameters:
-          client: 'DME API client'
           raw_id: 'The ID of the tenant on the device (Optional, string, 1~256 characters)'
           vstore_id: 'tenant ID (Optional, string, 1~64 characters)'
           qos_id: 'QoS policy ID (Optional, string, 1~64 characters)'
@@ -7196,7 +6881,6 @@ topics:
         description: 'Query tenant details.'
         detail: 'Query tenant details.'
         parameters:
-          client: 'DME API client'
           id: 'Tenant id (Required, string, 1~256 characters). Must satisfy UUID format or 32-bit hexadecimal'
         outputs: |
           {
@@ -7211,7 +6895,6 @@ topics:
         description: 'Create tenant. OceanStor Dorado v3 devices do not support this feature.'
         detail: 'Create tenant. OceanStor Dorado v3 devices do not support this feature.'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Required, string, 1~36 characters). Must satisfy UUID format or 32-bit hexadecimal'
           name: 'Tenant name (Required, string, 1~256 characters). Only contains letters, digits, "_", "-", "." and Chinese characters'
           san_capacity_quota: 'SAN capacity quota (Optional, unit: sectors)'
@@ -7228,7 +6911,6 @@ topics:
         description: 'Modify the specified tenant. This operation will modify the specified tenant on the Storage device.'
         detail: 'Modify the specified tenant. This operation will modify the specified tenant on the Storage device.'
         parameters:
-          client: 'DME API client'
           id: 'Tenant ID (Required, string, 1~64 characters). Must satisfy UUID format or 32-bit hexadecimal'
           name: 'Tenant name (Optional, string, 1~256 characters). name contains letters, digits, "_", "-", "." and Chinese characters'
           san_capacity_quota: 'SAN capacity quota (Optional, string, 1~20 characters)'
@@ -7247,7 +6929,6 @@ topics:
           This API may directly or indirectly affect current network operations, cause service interruption,
           critical data loss, etc. Please proceed with caution.
         parameters:
-          client: 'DME API client'
           ids: 'List of tenant IDs (Required, List[string], max array members: 100, min array members: 1)'
         outputs: |
           {
@@ -7260,7 +6941,6 @@ topics:
           
           Batch query the list of initiator objects on the storage side.
         parameters:
-          client: 'DME API client'
           page_size: 'Number of items per page (Optional, 1~1000, default 100)'
           page_no: 'Page number for paginated query (Optional, min 1, default 1)'
           raw_id: 'Initiator WWPN/IQN/NQN (Optional, 0~256 characters, supports fuzzy match)'
@@ -7287,7 +6967,6 @@ topics:
         description: 'Batch delete initiator objects from a Storage device'
         detail: 'Batch delete initiator objects from a Storage device'
         parameters:
-          client: 'DME API client'
           initiator_ids: 'List of initiator IDs (Required, 1~100)'
           task_remarks: 'Task remarks (Optional, up to 1024 characters)'
         outputs: 'Task ID'
@@ -7298,7 +6977,6 @@ topics:
           
           Modify the initiator. This operation will modify the specified initiator on the Storage device.
         parameters:
-          client: 'DME API client'
           initiator_id: 'Initiator ID (Required)'
           vstore_id: 'tenant ID (Optional, 1~64 characters; valid when device is OceanStor V300R006C30/V500R007C20/Dorado 6.1.3 or above)'
           alias: 'Initiator alias (Optional, 0~31 characters, supports letters, digits, ._- and Chinese characters)'
@@ -7314,7 +6992,6 @@ topics:
         description: 'Query the info of local authentication users on a specified Storage device'
         detail: 'Query the info of local authentication users on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~36 characters)'
           vstore_raw_id: 'ID of the tenant on the device that the local authentication user belongs to(Optional)'
           name: 'Local authentication user name, supports fuzzy query(Optional)'
@@ -7333,7 +7010,6 @@ topics:
         description: 'Create a local authentication user'
         detail: 'Create a local authentication user'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID for creating local authentication user (1~36 characters, Required)'
           name: 'Local authentication user name (1~255 characters, Required)'
           description: 'Local authentication user description (1~255 characters, Optional)'
@@ -7346,7 +7022,6 @@ topics:
         description: 'Create a UNIX authentication user on a specified Storage device'
         detail: 'Create a UNIX authentication user on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID for creating UNIX authentication user (1~36 characters, Required)'
           name: 'UNIX authentication user name (1~255 characters, Required)'
           raw_id: 'ID of the UNIX authentication user on the device (int64, 0~4294967295, Optional)'
@@ -7360,7 +7035,6 @@ topics:
         description: 'Create a Windows authentication user on a specified Storage device'
         detail: 'Create a Windows authentication user on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID for creating Windows authentication user (1~36 characters, Required)'
           name: 'Windows authentication user name (1~255 characters, Required)'
           raw_id: 'ID of the Windows authentication user on the device (int64, 1000~4294967295, Optional)'
@@ -7373,7 +7047,6 @@ topics:
         description: 'Query the info of UNIX authentication users on a specified Storage device'
         detail: 'Query the info of UNIX authentication users on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~36 characters)'
           vstore_raw_id: 'ID of the tenant on the device that the UNIX authentication user belongs to(Optional)'
           name: 'UNIX authentication user name, supports fuzzy query(Optional)'
@@ -7392,7 +7065,6 @@ topics:
         description: 'Query the info of Windows authentication users on a specified Storage device'
         detail: 'Query the info of Windows authentication users on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~36 characters)'
           vstore_raw_id: 'ID of the tenant on the device that the Windows authentication user belongs to(Optional)'
           name: 'Windows authentication user name, supports fuzzy query(Optional)'
@@ -7410,7 +7082,6 @@ topics:
         description: 'Query the info of local authentication user groups on a specified Storage device'
         detail: 'Query the info of local authentication user groups on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~36 characters)'
           vstore_raw_id: 'ID of the tenant on the device that the local authentication user group belongs to(Optional)'
           name: 'Local authentication user group name, supports fuzzy query(Optional)'
@@ -7428,7 +7099,6 @@ topics:
         description: 'Query the info of UNIX authentication user groups on a specified Storage device'
         detail: 'Query the info of UNIX authentication user groups on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~36 characters)'
           vstore_raw_id: 'ID of the tenant on the device that the UNIX authentication user group belongs to(Optional)'
           name: 'UNIX authentication user group name, supports fuzzy query(Optional)'
@@ -7447,7 +7117,6 @@ topics:
         description: 'Query the info of Windows authentication user groups on a specified Storage device'
         detail: 'Query the info of Windows authentication user groups on a specified Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Required, 1~36 characters)'
           vstore_raw_id: 'ID of the tenant on the device that the Windows authentication user group belongs to(Optional)'
           name: 'Windows authentication user group name, supports fuzzy query(Optional)'
@@ -7465,7 +7134,6 @@ topics:
         description: 'Batch query QoS policies'
         detail: 'Batch query QoS policies'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID(Required)'
           name: 'QoS policy name (Optional, 1~256 characters)'
           raw_id: 'QoS policy device-side ID(Optional)'
@@ -7496,7 +7164,6 @@ topics:
         description: 'Query the details of a specified QoS policy'
         detail: 'Query the details of a specified QoS policy'
         parameters:
-          client: 'DME API client'
           qos_policy_id: 'QoS policy ID(Required)'
         outputs: ''
       qos_create:
@@ -7506,7 +7173,6 @@ topics:
           
           Create a new QoS policy, can configure performance limits, alarm parameters and scheduled scheduling.
         parameters:
-          client: 'DME API client'
           name: 'QoS policy name (Required, 1~31 characters)'
           storage_id: 'Storage device ID(Required)'
           resource_type: 'Controlled resource type (Required, file_system/vstore)'
@@ -7549,7 +7215,6 @@ topics:
           
           Modify the configuration of an existing QoS policy.
         parameters:
-          client: 'DME API client'
           qos_policy_id: 'QoS policy ID(Required)'
           name: 'QoS policy name(Optional)'
           description: 'description(Optional)'
@@ -7582,7 +7247,6 @@ topics:
           
           Delete one or more QoS policies.
         parameters:
-          client: 'DME API client'
           qos_policy_ids: 'List of QoS policy IDs (Required, 1~100)'
         outputs: ''
       qos_activate:
@@ -7592,7 +7256,6 @@ topics:
           
           Activate one or more QoS policies.
         parameters:
-          client: 'DME API client'
           qos_policy_ids: 'List of QoS policy IDs(Required)'
         outputs: ''
       qos_deactivate:
@@ -7602,7 +7265,6 @@ topics:
           
           Deactivate one or more QoS policies.
         parameters:
-          client: 'DME API client'
           qos_policy_ids: 'List of QoS policy IDs(Required)'
         outputs: ''
       qos_associate:
@@ -7612,7 +7274,6 @@ topics:
           
           Associate one or more resources with a QoS policy.
         parameters:
-          client: 'DME API client'
           qos_policy_id: 'QoS policy ID(Required)'
           resource_ids: 'List of resource IDs(Required)'
           resource_type: 'resource type (Required, file_system/vstore)'
@@ -7624,7 +7285,6 @@ topics:
           
           Disassociate resources from a QoS policy.
         parameters:
-          client: 'DME API client'
           qos_policy_id: 'QoS policy ID(Required)'
           resource_ids: 'List of resource IDs(Required)'
           resource_type: 'resource type(Required)'
@@ -7633,7 +7293,6 @@ topics:
         description: 'Query the Logic port list of a Storage device'
         detail: 'Query the Logic port list of a Storage device'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Optional, 1~64 characters)'
           vstore_raw_id: 'vStore id on the Storage device (Optional, 1~64 characters)'
           zone_raw_id: 'Zone ID on the device (Optional, 1~64 characters), only supported by OceanStor A800 series storage'
@@ -7696,7 +7355,6 @@ topics:
         description: 'Query the Logic port details of a Storage device'
         detail: 'Query the Logic port details of a Storage device'
         parameters:
-          client: 'DME API client'
           logic_port_id: 'Logic port ID (Required, 1~64 characters, UUID format or 32-bit hexadecimal)'
         outputs: |
           {
@@ -7751,7 +7409,6 @@ topics:
         description: 'Create a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
         detail: 'Create a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Required, 1~64 characters)'
           name: 'Port name (Required, 1~255 characters). Only allows letters, digits, "_", "-", "." and Chinese characters'
           address_family: 'IP protocol version(Required). valid values: IPv4, IPv6'
@@ -7783,7 +7440,6 @@ topics:
         description: 'Modify a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
         detail: 'Modify a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
         parameters:
-          client: 'DME API client'
           logic_port_id: 'Logic port ID (Required, 1~128 characters)'
           name: 'Port name(Optional)'
           address_family: 'IP protocol version(Optional)'
@@ -7809,7 +7465,6 @@ topics:
         description: 'Delete Logic ports from a Storage device (only supported by OceanStor A800 series storage)'
         detail: 'Delete Logic ports from a Storage device (only supported by OceanStor A800 series storage)'
         parameters:
-          client: 'DME API client'
           ids: 'List of Logic port IDs (Required, 1~1000 IDs)'
         outputs: |
           {
@@ -7819,7 +7474,6 @@ topics:
         description: 'Failback a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
         detail: 'Failback a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
         parameters:
-          client: 'DME API client'
           id: 'Logic port ID (Required, 1~64 characters)'
         outputs: |
           {
@@ -7829,7 +7483,6 @@ topics:
         description: 'Query Storage device port info, supports ETH, FC, IB, Bond, SAS five types'
         detail: 'Query Storage device port info, supports ETH, FC, IB, Bond, SAS five types'
         parameters:
-          client: 'DME API client'
           storage_id: 'Storage device ID (Optional, 1~36 characters)'
           port_type: 'Port type (Optional, eth/fc/ib/bond/sas, returns all types if not specified)'
           location: 'location (Optional, only supported by ETH ports, 1~255 characters)'
@@ -7847,7 +7500,6 @@ topics:
         description: 'Query the member list info of a specified bond port'
         detail: 'Query the member list info of a specified bond port'
         parameters:
-          client: 'DME API client'
           bond_port_id: 'Bond port id (Required, 1~64 characters)'
         outputs: |
           {
@@ -7857,7 +7509,6 @@ topics:
         description: 'Batch query VLAN list'
         detail: 'Batch query VLAN list'
         parameters:
-          client: 'DME API client'
           name: 'VLAN name (supports fuzzy query)'
           storage_id: 'Storage device ID'
           page_no: 'pagination start page, default 1'
@@ -7873,7 +7524,6 @@ topics:
           
           Note: Only supported by OceanStor A800, A600 series storage.
         parameters:
-          client: 'DME API client'
           name: 'VLAN name(Required)'
           vlan_id: 'VLAN ID (Required, 1~4094)'
           storage_id: 'Storage device ID(Required)'
@@ -7889,7 +7539,6 @@ topics:
           
           Note: Only supported by OceanStor A800, A600 series storage.
         parameters:
-          client: 'DME API client'
           vlan_id: 'VLAN ID'
         outputs: |
           {
@@ -7902,7 +7551,6 @@ topics:
           
           Note: Only supported by OceanStor A800, A600 series storage.
         parameters:
-          client: 'DME API client'
           vlan_id: 'VLAN ID'
           name: 'VLAN name(Optional)'
           description: 'VLAN description(Optional)'
@@ -7914,7 +7562,6 @@ topics:
         description: 'Query failover group list'
         detail: 'Query failover group list'
         parameters:
-          client: 'DME API client'
           storage_id: 'storage device ID (Required, 1~36 characters, must satisfy regex ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$|^[a-fA-F0-9]{32}$)'
           failover_group_type: 'Failover group type(Optional). valid values: system, VLAN, customized'
           zone_id: 'Zone ID (Optional, 1~255 characters), only supported by OceanStor A800 series storage'
@@ -7937,7 +7584,6 @@ topics:
         description: 'Query ports under a failover group (supports bond, eth, ib three types)'
         detail: 'Query ports under a failover group (supports bond, eth, ib three types)'
         parameters:
-          client: 'DME API client'
           failover_group_id: 'Failover group id (Required, 1~64 characters)'
           port_type: 'Port type (Optional, bond/eth/ib, returns all types if not specified)'
         outputs: |
@@ -7948,7 +7594,6 @@ topics:
         description: 'Query VLANs under a failover group'
         detail: 'Query VLANs under a failover group'
         parameters:
-          client: 'DME API client'
           failover_group_id: 'Failover group id (Required, 1~64 characters)'
         outputs: |
           {
@@ -7958,7 +7603,6 @@ topics:
         description: 'Query zone info in an OceanStor A800 cluster'
         detail: 'Query zone info in an OceanStor A800 cluster'
         parameters:
-          client: 'DME API client'
           name: 'zone name (Optional, 1~256 characters), exact query'
           ip: 'zone ip address name (Optional, 1~256 characters), exact query'
           status: 'zone status list (Optional, List<string>, max array members: 6). valid values: OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL, UNKNOWN'
@@ -8004,8 +7648,6 @@ topics:
           Force call client.login() to complete authentication, then get accessSession
           from header, prompt user to configure environment variables to reuse the
           authentication key and avoid repeated logins.
-        parameters:
-          client: 'DME API client'
         outputs: |
           {
               accessSession: session token (string), used as X-Auth-Token header in subsequent requests,
@@ -8013,14 +7655,10 @@ topics:
       logout:
         description: 'Log out the currently logged-in third-party session or normal session.'
         detail: 'Log out the currently logged-in third-party session or normal session.'
-        parameters:
-          client: 'DME API client'
         outputs: 'None'
       show:
         description: 'Query product system information.'
         detail: 'Query product system information.'
-        parameters:
-          client: 'DME API client'
         outputs: |
           {
               version: DME product version info (string, max 128 characters),
@@ -8030,7 +7668,6 @@ topics:
         description: 'Get DME certificate.'
         detail: 'Get DME certificate.'
         parameters:
-          client: 'DME API client'
           service_type: 'Service type (Required, string). valid values: APIGWService (DME northbound gateway)'
         outputs: |
           {
@@ -8043,7 +7680,6 @@ topics:
           require the original password. Therefore, the third-party user role calling
           this API must be the security administrator role.
         parameters:
-          client: 'DME API client'
           user_name: 'Username whose password needs to be reset (Required, string, 1~128 characters)'
           new_value: 'New password (Required, string, 8~32 characters). Requirements: 1. Password length cannot be less than 8 characters or more than 32 characters. 2. Password must contain at least 2 letters, must contain at least 1 uppercase letter, must contain at least 1 lowercase letter, must contain at least 1 digit, must contain at least 1 special character (!"#$%&"()*+,-./:;<=>?@[]^`{|}~). 3. The same character cannot appear consecutively more than 2 times, and cannot contain repeated character sequences (repeat count 4, repeat sequence character count 1). 4. Password cannot contain the username or its reverse, the user"s phone number or email account, or words from the password dictionary.'
           is_initial_password: 'Indicates whether the password must be changed on next login after reset (Required, boolean, true/false). true: must change password on next login; false: can log in directly on next login without changing. Default: true'
@@ -8052,7 +7688,6 @@ topics:
         description: 'Batch query user information.'
         detail: 'Batch query user information.'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number (Required, integer, min: 1). Default: 1'
           page_size: 'Page size (Required, integer, 5~200). Default: 10'
           name: 'Username search keyword (Optional, string, max 32 characters)'
@@ -8071,7 +7706,6 @@ topics:
         description: 'Query the specified user information.'
         detail: 'Query the specified user information.'
         parameters:
-          client: 'DME API client'
           user_id: 'User ID (Required, integer, 1~2147483647)'
         outputs: |
           {
@@ -8085,7 +7719,6 @@ topics:
         description: 'Create user.'
         detail: 'Create user.'
         parameters:
-          client: 'DME API client'
           name: 'Username (Required, string, max 32 characters). Local username cannot be less than 6 or more than 32 characters, cannot contain spaces, escape characters, invisible characters or special characters. Remote username cannot be less than 1 or more than 32 characters, cannot contain invisible characters or ; special characters.'
           type: 'User type (Required, integer). 0: local user; 2: remote user.'
           value: 'Password (Optional, string, 8~32 characters). Password length cannot be less than 8 or more than 32 characters. Password must contain at least 2 letters, must contain at least 1 uppercase letter, must contain at least 1 lowercase letter, must contain at least 1 digit, must contain at least 1 special character. Not applicable for remote users.'
@@ -8099,14 +7732,12 @@ topics:
           operations, causing service interruptions or critical data loss.
           Exercise caution.
         parameters:
-          client: 'DME API client'
           user_id: 'User ID (Required, integer, 11~2147483647)'
         outputs: 'None'
       role_list:
         description: 'Batch query role information.'
         detail: 'Batch query role information.'
         parameters:
-          client: 'DME API client'
           page_no: 'Page number (Required, integer, min: 1). Default: 1'
           page_size: 'Page size (Required, integer, 5~100). Default: 10'
           name: 'Role name search keyword (Optional, string, max 64 characters)'
@@ -8123,7 +7754,6 @@ topics:
         description: 'Batch query backup servers.'
         detail: 'Batch query backup servers.'
         parameters:
-          client: 'DME API client'
           address: 'Backup server address, supports IPv4 address, supports fuzzy match (Optional, string, 1~256 characters)'
           name: 'Backup server name (Optional, string)'
           page_no: 'Pagination start page (Optional, int32). Default: 1'
@@ -8139,7 +7769,6 @@ topics:
         description: 'Query todo task group list'
         detail: 'Query todo task group list'
         parameters:
-          client: 'DME API client'
           group_id: 'Todo task group ID(Optional)'
           name: 'Todo task group name(Optional)'
           creator_name: 'Creator name(Optional)'
@@ -8166,14 +7795,12 @@ topics:
           
           Execute the specified todo task group.
         parameters:
-          client: 'DME API client'
           group_id: 'Todo task group ID(Required)'
         outputs: 'Execution result, including task_id'
       todo_task_group_confirm:
         description: 'Confirm execution of scheduled todo task group'
         detail: 'Confirm execution of scheduled todo task group'
         parameters:
-          client: 'DME API client'
           group_id: 'Todo task group ID(Required)'
         outputs: 'Confirmation result'
       todo_task_list:
@@ -8183,7 +7810,6 @@ topics:
           
           Batch query the todo item list, supports filtering and pagination.
         parameters:
-          client: 'DME API client'
           service_type: 'Service type (Required, wfa_execute_activity-automation orchestration)'
           status: 'Todo item status list (Optional, 1-not executed/2-executing/3-success/4-partial success/5-failure/6-timeout/7-warning/8-failed/9-pending review/10-review rejected/21-pre-checking/22-pre-check failed)'
           page_no: 'Page index (Optional, default 1)'
@@ -8204,7 +7830,6 @@ topics:
           
           Query the detailed info of the specified todo item.
         parameters:
-          client: 'DME API client'
           item_id: 'Todo item ID(Required)'
         outputs: |
           {
@@ -8229,7 +7854,6 @@ topics:
           
           Execute the specified todo item.
         parameters:
-          client: 'DME API client'
           item_id: 'Todo item ID(Required)'
         outputs: 'Execution result, including task_id'
       todo_task_audit:
@@ -8239,7 +7863,6 @@ topics:
           
           Audit the todo item (approve or reject).
         parameters:
-          client: 'DME API client'
           item_id: 'Todo item ID(Required)'
           is_approval: 'Whether to approve (Required, true-approve/false-reject)'
           suggestion: 'Review suggestion (Optional, 0-63 characters)'
@@ -8251,7 +7874,6 @@ topics:
           
           Revoke the audit of the specified todo item.
         parameters:
-          client: 'DME API client'
           item_id: 'Todo item ID(Required)'
         outputs: 'Revocation result'
       todo_task_close:
@@ -8261,7 +7883,6 @@ topics:
           
           Close the specified todo item, requires a reason.
         parameters:
-          client: 'DME API client'
           item_id: 'Todo item ID(Required)'
           reason: 'Close reason (Required, 0-63 characters)'
         outputs: 'Close result'
@@ -8272,7 +7893,6 @@ topics:
           
           Query by the unique task identifier TaskId.
         parameters:
-          client: 'DME API client'
           task_id: 'Task ID (Required, 1~36 characters)'
         outputs: |
           {
@@ -8305,7 +7925,6 @@ topics:
         description: 'Batch query tasks'
         detail: 'Batch query tasks'
         parameters:
-          client: 'DME API client'
           start: 'Pagination start position, default 1'
           limit: 'Pagination count, default 100'
           task_name: 'Task name filter(Optional)'
@@ -8334,7 +7953,6 @@ topics:
           
           Retry the specified task, used when the task was not fully successful.
         parameters:
-          client: 'DME API client'
           task_id: 'Task ID (Required, 1~36 characters)'
         outputs: 'Retry result'
       task_wait:
@@ -8345,7 +7963,6 @@ topics:
           Call DMEAPIClient.get_task_result to poll task status until completion or timeout.
           Warning(7) status is also considered as task completed.
         parameters:
-          client: 'DME API client'
           task_id: 'Task ID (Required, 1~36 characters)'
           timeout: 'Timeout in seconds, default 300 seconds. Poll count = timeout / poll_interval'
           poll_interval: 'Poll interval in seconds, default 2 seconds'
@@ -8370,7 +7987,6 @@ topics:
         description: 'Create tag type'
         detail: 'Create tag type'
         parameters:
-          client: 'DME API client'
           name: 'tag type name(Required)'
           description: 'tag type description(Optional)'
         outputs: |
@@ -8382,7 +7998,6 @@ topics:
         description: 'Batch query tag types'
         detail: 'Batch query tag types'
         parameters:
-          client: 'DME API client'
           start: 'Pagination start position, default 1'
           limit: 'Pagination count, default 100'
           name: 'tag type name filter(Optional)'
@@ -8398,7 +8013,6 @@ topics:
         description: 'Modify tag type'
         detail: 'Modify tag type'
         parameters:
-          client: 'DME API client'
           tag_type_id: 'tag type ID(Required)'
           name: 'tag type name(Optional)'
           description: 'tag type description(Optional)'
@@ -8411,14 +8025,12 @@ topics:
         description: 'Batch delete tag types'
         detail: 'Batch delete tag types'
         parameters:
-          client: 'DME API client'
           tag_type_ids: 'tag type ID list(Required)'
         outputs: 'Batch delete result'
       tag_create:
         description: 'Create tag'
         detail: 'Create tag'
         parameters:
-          client: 'DME API client'
           name: 'tag name(Required)'
           tag_type_id: 'tag type ID(Required)'
           tag_type_name: 'tag type name (API requires)'
@@ -8432,7 +8044,6 @@ topics:
         description: 'Batch query tags'
         detail: 'Batch query tags'
         parameters:
-          client: 'DME API client'
           start: 'Pagination start position, default 1'
           limit: 'Pagination count, default 100'
           name: 'tag name filter(Optional)'
@@ -8450,7 +8061,6 @@ topics:
         description: 'Modify tag'
         detail: 'Modify tag'
         parameters:
-          client: 'DME API client'
           tag_id: 'tag ID(Required)'
           name: 'tag name(Optional)'
           description: 'tag description(Optional)'
@@ -8464,14 +8074,12 @@ topics:
         description: 'Batch delete tags'
         detail: 'Batch delete tags'
         parameters:
-          client: 'DME API client'
           tag_ids: 'tag ID list(Required)'
         outputs: 'Batch delete result'
       tag_bind:
         description: 'Associate resources with tag'
         detail: 'Associate resources with tag'
         parameters:
-          client: 'DME API client'
           tag_id: 'Tag ID (Required, 32-bit hex string, pattern ^[a-fA-F0-9]{32}$)'
           resources: |
             Resource list (List<TagResource>, Required, min array items: 1, max array members: 100). parameter format: [{
@@ -8483,7 +8091,6 @@ topics:
         description: 'Disassociate resources from tag'
         detail: 'Disassociate resources from tag'
         parameters:
-          client: 'DME API client'
           tag_id: 'Tag ID (Required, 32-bit hex string, pattern ^[a-fA-F0-9]{32}$)'
           resources: |
             Resource list (List<TagResource>, Required, min array items: 1, max array members: 100). parameter format: [{
@@ -8495,7 +8102,6 @@ topics:
         description: 'Batch query availability zones.'
         detail: 'Batch query availability zones.'
         parameters:
-          client: 'DME API client'
           az_name: 'Availability zone name, supports fuzzy match (Optional, string, 1~64 characters)'
           operate_status: 'Availability zone operation status. For an AZ that is not online, its operate_status is null, so currently only filtering online AZs is supported (Optional, string, 1~16 characters)'
           start: 'Page number, starting from 1 (Optional, int32, 1~10000000). Default: 1'
@@ -8519,7 +8125,6 @@ topics:
           
           Query data center list, supports filtering by name and pagination.
         parameters:
-          client: 'DME API client'
           name: 'Data center name (Optional, supports fuzzy query)'
           page_no: 'Pagination start page, default 1'
           page_size: 'Items per page, 1~1000, default 20'
@@ -8534,7 +8139,6 @@ topics:
           
           Query the detailed info of the specified data center.
         parameters:
-          client: 'DME API client'
           dc_id: 'Data center ID(Required)'
         outputs: |
           {
@@ -8559,7 +8163,6 @@ topics:
         description: 'Query device list info of the specified data center'
         detail: 'Query device list info of the specified data center'
         parameters:
-          client: 'DME API client'
           dc_id: 'Data center ID(Required)'
           device_type: |
             Device type list(Optional)
@@ -8575,7 +8178,6 @@ topics:
         description: 'Batch query Regions.'
         detail: 'Batch query Regions.'
         parameters:
-          client: 'DME API client'
           ids: 'Region ID list, supports exact match (Optional, List[string], max array members: 100)'
           name: 'Region name, supports fuzzy search (Optional, string, max 256 characters)'
           active_ip_address: 'Region active IP address, supports fuzzy search (Optional, string, max 256 characters)'
@@ -8600,7 +8202,6 @@ topics:
         description: 'Query child Region resource info.'
         detail: 'Query child Region resource info.'
         parameters:
-          client: 'DME API client'
           region_id: 'Child Region ID (Required, string, 1~64 characters)'
           request_url: 'URL for querying child region northbound API (Required, string, 1~8192 characters)'
           request_method: 'Request method (Required, string). valid values: get (Get request), post (Post request)'
@@ -8617,7 +8218,6 @@ topics:
           
           Query service level list, supports filtering by name, project ID, availability zone, storage ID, etc. and pagination.
         parameters:
-          client: 'DME API client'
           name: 'Service level name (optional, supports fuzzy query)'
           project_id: 'Business group ID (Optional)'
           available_zone_id: 'Availability zone ID (Optional)'
@@ -8638,7 +8238,6 @@ topics:
           
           Query the list of associations between business groups and service levels, supports filtering by service level ID.
         parameters:
-          client: 'DME API client'
           tier_id: 'Service level ID (Optional)'
           page_no: 'Pagination start page, default 1'
           page_size: 'items per page, 10~1000, default 200'
@@ -8653,7 +8252,6 @@ topics:
           
           Query business group list, supports filtering by name and pagination.
         parameters:
-          client: 'DME API client'
           name: 'Business group name (optional, supports fuzzy query)'
           start: 'Page number, starting from 1, default 1'
           limit: 'Page size, 1~512, default 20'
@@ -8668,7 +8266,6 @@ topics:
           
           Query the list of associated service levels for a specified business group.
         parameters:
-          client: 'DME API client'
           project_id: 'Business group ID (Optional)'
           page_no: 'Pagination start page, default 1'
           page_size: 'items per page, 10~1000, default 200'
@@ -8680,7 +8277,6 @@ topics:
         description: 'Service-oriented batch create LUN'
         detail: 'Service-oriented batch create LUN'
         parameters:
-          client: 'DME API client'
           volumes: |
             List of basic parameters for LUNs to create (List<ServiceVolumeBasicParams>, max array members: 1000). parameter format: [{
                     name: LUN name (1~255 characters, supports letters, digits, ._- and Chinese characters),
@@ -8715,7 +8311,6 @@ topics:
           
           This operation updates LUN capabilities and attributes based on service level attributes. Supported updates include: QoS policy, I/O priority, SmartTier policy.
         parameters:
-          client: 'DME API client'
           volume_ids: 'LUN list (List<string>, max array members: 1000)'
           tier_id: 'service level ID (string, 1~64 characters)'
           attributes_auto_change: 'whether to refresh LUN attributes based on service level parameters (boolean). valid values: true (auto update), false (no auto update)'
@@ -8729,7 +8324,6 @@ topics:
         description: 'LUN associate service level'
         detail: 'LUN associate service level'
         parameters:
-          client: 'DME API client'
           volume_id: 'LUN ID'
           tier_id: 'Service level ID'
           attributes_auto_change: 'Whether to refresh LUN attributes based on service level parameters (optional, true/false)'
@@ -8741,7 +8335,6 @@ topics:
         description: 'Remove LUN from service level association'
         detail: 'Remove LUN from service level association'
         parameters:
-          client: 'DME API client'
           volume_id: 'LUN ID'
         outputs: |
           {
@@ -8754,7 +8347,6 @@ topics:
           
           Associate a LUN to a specified business group.
         parameters:
-          client: 'DME API client'
           volume_id: 'LUN ID (string, 1~64 characters)'
           business_group_id: 'business group ID (string, 1~64 characters)'
         outputs: 'No return data. HTTP 200 indicates association succeeded.'
@@ -8765,7 +8357,6 @@ topics:
           
           Remove the association between a LUN and a business group.
         parameters:
-          client: 'DME API client'
           volume_id: 'LUN ID (string, 1~64 characters)'
           business_group_id: 'business group ID (string, 1~64 characters)'
         outputs: 'No return data. HTTP 200 indicates unbind succeeded.'
@@ -8777,7 +8368,6 @@ topics:
         description: 'Query virtual machine list'
         detail: 'Query virtual machine list'
         parameters:
-          client: 'DME API client'
           site_id: 'Site ID the VM belongs to'
           cluster_id: 'Cluster ID the VM belongs to (not supported in HCS scenario)'
           dc_id: 'Data center ID (only supported in FusionCompute scenario)'
@@ -8819,7 +8409,6 @@ topics:
           
           Query detailed info of a virtual machine.
         parameters:
-          client: 'DME API client'
           vm_id: 'VM ID (Required)'
           vr_type: 'Virtualization platform type (Optional)'
         outputs: |
@@ -8847,7 +8436,6 @@ topics:
         description: 'Query data store list'
         detail: 'Query data store list'
         parameters:
-          client: 'DME API client'
           site_id: 'Site ID of the data store'
           cluster_id: 'Cluster ID associated with the data store'
           host_id: 'Host ID associated with the data store'
@@ -8880,7 +8468,6 @@ topics:
           
           Query detailed info of a data store.
         parameters:
-          client: 'DME API client'
           datastore_id: 'Data store ID (Required)'
           vr_type: 'Virtualization platform type (Optional)'
         outputs: |
@@ -8899,7 +8486,6 @@ topics:
           
           Query physical host list, supports multiple filter criteria.
         parameters:
-          client: 'DME API client'
           site_id: 'Site ID of the host'
           cluster_id: 'Cluster ID of the host'
           dc_id: 'Data center ID'
@@ -8921,7 +8507,6 @@ topics:
           
           Query detailed info of a physical host.
         parameters:
-          client: 'DME API client'
           host_id: 'Host ID (Required)'
           vr_type: 'Virtualization platform type (Optional)'
         outputs: |
@@ -8941,7 +8526,6 @@ topics:
           
           Query the storage adapters of a physical host.
         parameters:
-          client: 'DME API client'
           host_id: 'Host ID (Required)'
         outputs: |
           {
@@ -8957,7 +8541,6 @@ topics:
         description: 'Query cluster list'
         detail: 'Query cluster list'
         parameters:
-          client: 'DME API client'
           site_id: 'Site ID of the cluster'
           dc_id: 'Data center ID'
           name: 'Cluster name (supports fuzzy search)'
@@ -8976,7 +8559,6 @@ topics:
           
           Query detailed info of a cluster.
         parameters:
-          client: 'DME API client'
           cluster_id: 'Cluster ID (Required)'
           vr_type: 'Virtualization platform type (Optional)'
         outputs: |
@@ -8993,8 +8575,6 @@ topics:
           Query site list
           
           Query all virtualization site list.
-        parameters:
-          client: 'DME API client'
         outputs: |
           {
               total: total count (int),
@@ -9007,7 +8587,6 @@ topics:
           
           Query detailed info of a virtualization site.
         parameters:
-          client: 'DME API client'
           site_id: 'Site ID (Required)'
         outputs: |
           {
@@ -9022,7 +8601,6 @@ topics:
           
           Query physical disk list, supports multiple filter criteria.
         parameters:
-          client: 'DME API client'
           site_id: 'Site ID of the physical disk (Optional)'
           host_id: 'Host ID of the physical disk (Optional)'
           name: 'Physical disk name (Optional)'
@@ -9047,7 +8625,6 @@ topics:
           
           Query virtual disk list, supports multiple filter criteria.
         parameters:
-          client: 'DME API client'
           site_id: 'Site ID of the virtual disk (Optional)'
           vm_id: 'VM ID of the virtual disk (Optional)'
           name: 'Virtual disk name (Optional)'
@@ -9072,7 +8649,6 @@ topics:
           
           Query detailed info of a virtual disk.
         parameters:
-          client: 'DME API client'
           virtual_disk_id: 'Virtual disk ID (Required)'
         outputs: |
           {
@@ -9093,7 +8669,6 @@ topics:
           
           Paginated query of workflow template list.
         parameters:
-          client: 'DME API client'
           page_no: 'Page index (required, minimum: 1)'
           page_size: 'Number of items per page (required, 1~1000)'
           directory_id: 'Directory id (optional, 1~64 characters)'
@@ -9114,8 +8689,6 @@ topics:
           Query all template groups
           
           Query all workflow template groups.
-        parameters:
-          client: 'DME API client'
         outputs: |
           {
               groups: template group list (List), containing name (template group name),
@@ -9127,7 +8700,6 @@ topics:
           
           Query detailed info of a specified template.
         parameters:
-          client: 'DME API client'
           template_id: 'Template id (required, 1~64 characters)'
           template_version_id: 'Template version id (optional, 1~64 characters)'
         outputs: |
@@ -9142,7 +8714,6 @@ topics:
           
           Stop a running workflow instance.
         parameters:
-          client: 'DME API client'
           instance_id: 'Instance id (required, 1~64 characters)'
         outputs: 'operation result'
       instance_show:
@@ -9152,7 +8723,6 @@ topics:
           
           Query detailed info of a specified workflow instance.
         parameters:
-          client: 'DME API client'
           instance_id: 'Instance id to query (required, 1~64 characters)'
         outputs: |
           {
@@ -9178,7 +8748,6 @@ topics:
           is used by default), or it can create and execute an instance by finding the template
           corresponding to an existing instance id.
         parameters:
-          client: 'DME API client'
           template_id: 'Template id (optional, 1~64 characters, matching regex)'
           template_version_id: 'Template version id (optional, 1~64 characters, matching regex)'
           instance_id: 'Instance id (optional, 1~64 characters, matching regex)'
@@ -9194,7 +8763,6 @@ topics:
           
           Query the execution log of a specified step in a workflow instance.
         parameters:
-          client: 'DME API client'
           instance_id: 'Instance id (required, 1~64 characters)'
           step_id: 'Step id (required, 1~64 characters)'
         outputs: |
