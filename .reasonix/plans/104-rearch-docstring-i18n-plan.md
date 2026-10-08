@@ -1,5 +1,10 @@
 # 计划 104：rearch docstring i18n —— 注释外置 i18n YAML 并按语言加载
 
+> **v2 补充（见文末「v2 结构化 i18n 格式」）**：i18n YAML 改为 `topics` 包裹的结构化格式
+> （topic 的 `description` + 每个 action 的 `description/detail/parameters/outputs`），
+> `ACTIONS` dict 的 `description` 字段移除，`--list-topics` 等从 i18n 读取描述。
+> 原四阶段中 M1–M3 已完成，M4（废弃 dev-en/main-en）暂缓。
+
 ## 概述
 
 将全部 action 函数的 docstring 注释从代码中**提取为标准的国际化（i18n）资源文件**，`cli.py` 改为**按语言从 i18n YAML 加载注释**（`DME_LANG` 环境变量或 `--lang` CLI 参数切换 zh_CN/en_US），**验证通过后移除函数内 docstring**，并**废弃 dev-en / main-en 分支**，双语注释统一在 dev/main 单分支维护。
@@ -181,4 +186,65 @@ python3 .reasonix/scripts/extract_docstrings.py --ref dev-en -o pydme/config/i18
 - **M1**（阶段 1）：提取脚本 + `zh_CN.yaml` + `en_US.yaml` 提交 dev；验收 1~4。
 - **M2**（阶段 2）：`cli.py` 加载改造 + `package-data` 改为 `["*.json", "i18n/*.yaml"]` 并 `pip wheel . --no-deps` 实测 i18n 全部 YAML 入包；验收 5、7。
 - **M3**（阶段 3）：移除 docstring + 全量回归；验收 6。
-- **M4**（阶段 4）：归档并删除 dev-en / main-en；验收 8。
+- **M4**（阶段 4）：归档并删除 dev-en / main-en；验收 8。**（暂缓：用户 2026-10-08 决定先不做；本地归档 tag `archive/dev-en-final`、`archive/main-en-final` 已打）**
+
+---
+
+## v2 结构化 i18n 格式（2026-10-08，用户补充）
+
+### 目标
+
+将 i18n YAML 从「topic → action → 整段 docstring」改为**结构化字段**；移除 `ACTIONS` dict 的 `description` 字段；`--list-topics` 等描述改从 i18n 读取。
+
+### 新文件格式
+
+```yaml
+topics:
+  <topic>:
+    description: <topic-description>      # 模块 docstring 首行（与 --list-topics 同源）；多行用 |
+    actions:
+      <action-func>:
+        description: <func 注释第一段>     # 多行用 |
+        detail: <func 注释第二段>          # Args 之前其余段落；无则留空 ''；多行用 |
+        parameters:
+          <arg1>: <arg1 描述>             # 多行用 |
+          <arg2>: <arg2 描述>
+        outputs: |
+          <Returns 段内容>                # 无 Returns 则留空 ''
+```
+
+- 顶层新增 `topics` 包裹（为将来扩展元数据留位）。
+- `<topic-description>`：模块 docstring 的 strip 后首行；中文内容取 dev 分支模块 docstring，英文内容取 dev-en 分支模块 docstring（英文翻译版）。
+- action 的 `description` / `detail` / `parameters` / `outputs` 由原 docstring 拆分，**拆分可无损重组回原 docstring 文本**（逐字一致），使 `parse_docstring` 输出不变。
+
+### 拆分/重组规则
+
+| 字段 | 拆分（来自原 docstring） | 重组（build_docstring） |
+|------|--------------------------|--------------------------|
+| description | Args/Returns 之前的第一段（首行起至首个空行） | 作为首段 |
+| detail | Args 之前第二段及以后（无则空） | 作为第二段 |
+| parameters | Args 段按 `name: desc` 解析，描述保留格式块相对缩进 | 生成 `Args:` 段：参数行 4 空格、多行描述续行 4 空格前缀 |
+| outputs | Returns 段内容去公共缩进 | 生成 `Returns:` 段：内容 4 空格缩进 |
+
+重组仅输出非空段，段间空行分隔；重组文本与原始 docstring（clean 后）**逐字一致**。
+
+### 实施改动
+
+1. `.reasonix/scripts/extract_docstrings.py`：改生成 v2 格式；topic 的 description 取模块 docstring 首行（`--ref` 时取该 ref 的模块 docstring）。
+2. `pydme/i18n.py`：解析 v2 结构；新增 `build_docstring(topic, action)` 无损重组、`get_action_description(topic, action)`、`get_topic_description(topic)`。
+3. `pydme/cli.py`：
+   - `get_topic_actions`：`actions_info[action]['description']` 改从 i18n 取；`_doc_for` 改为用 i18n 结构化字段重组文本（缺失回退逻辑保留）；
+   - `--list-topics`：`topic_desc` 从 i18n `topics.<topic>.description` 取，`action_desc` 从 i18n `actions.<action>.description` 取（不再读 ACTIONS dict）；
+   - `print_topic_help` / `print_subtopic_help` / `print_action_help` / 执行时打印的 description 均经 `get_topic_actions` 的 `actions_info['description']` 自动生效。
+4. 移除 16 个 `pydme/actions/*.py` 中 `ACTIONS` 各条目的 `description` 字段。
+5. 重新生成 `pydme/config/i18n/zh_CN.yaml`（dev）与 `en_US.yaml`（dev-en 英文 + protect 改名动作映射，与 zh_CN 对齐 427 keys）。
+
+### 验收（v2）
+
+| # | 标准 |
+|---|------|
+| V1 | 两个 YAML 结构为 `topics.<topic>.actions.<action>.{description,detail,parameters,outputs}`，解析合法 |
+| V2 | 拆分→重组 round-trip 逐字一致（重组文本 == 提取前 docstring） |
+| V3 | 默认 zh_CN 全量 427 个 `--help` 与 v2 改造前逐字一致 |
+| V4 | `--list-topics` 输出与 v2 改造前一致（topic 描述与 action 描述内容不变） |
+| V5 | `ACTIONS` dict 无 `description` 字段残留；en_US 全量 help 无缺失警告；wheel 打包正常 |
