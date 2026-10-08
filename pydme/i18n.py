@@ -85,6 +85,9 @@ def parse_yaml(text: str) -> dict:
             pass
         elif indent == 4 and stripped == 'description: |':
             begin('topic_desc', indent_=indent)
+        elif indent == 4 and stripped.startswith('description:'):
+            # 单行 topic 描述：description: xxx
+            topics[cur_topic]['description'] = stripped.partition(':')[2].strip()
         elif indent == 6 and stripped.endswith(':'):
             cur_action = stripped[:-1]
             topics[cur_topic]['actions'].setdefault(
@@ -95,8 +98,16 @@ def parse_yaml(text: str) -> dict:
             begin('field', field_=stripped[:-3].strip(), indent_=indent)
         elif indent == 8 and stripped.endswith(": ''"):
             topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
+        elif indent == 8:
+            # 单行 action 字段：description: xxx / detail: xxx / outputs: xxx
+            key, _, val = stripped.partition(':')
+            topics[cur_topic]['actions'][cur_action][key.strip()] = val.strip()
         elif indent == 10 and stripped.endswith(': |'):
             begin('param', key_=stripped[:-3].strip(), indent_=indent)
+        elif indent == 10:
+            # 单行参数：arg: xxx
+            key, _, val = stripped.partition(':')
+            topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = val.strip()
     save()
     return {'topics': topics}
 

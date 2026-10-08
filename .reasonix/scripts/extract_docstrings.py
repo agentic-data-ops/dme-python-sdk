@@ -244,6 +244,32 @@ def normalize(text):
     return '\n'.join(out).rstrip('\n')
 
 
+def is_safe_inline(value):
+    """单行值可否用内联形式（YAML plain scalar 安全）。"""
+    if not value:
+        return True  # 空值以 `key: ''` 内联
+    if '\n' in value:
+        return False
+    if ': ' in value:          # 半角冒号+空格会破坏 plain scalar
+        return False
+    if value.startswith(('#', '- ', '[', '{', '?', ':', ',', '&', '*', '!', '|', '>',
+                         '%', '@', '`', "'", '"')):
+        return False
+    return True
+
+
+def put_value(out, indent, key, value):
+    """输出 `indent<key>: value`：空值 ''、单行安全内联、否则 | 块（内容缩进 +2）。"""
+    if not value:
+        out.append(f"{indent}{key}: ''")
+    elif is_safe_inline(value):
+        out.append(f"{indent}{key}: {value}")
+    else:
+        out.append(f"{indent}{key}: |")
+        for line in value.split('\n'):
+            out.append(f"{indent}  {line}")
+
+
 def serialize_yaml(entries, topics_desc):
     """Serialize [(topic, action, doc), ...] to v2 structured YAML text."""
     out = ['topics:']
@@ -253,34 +279,18 @@ def serialize_yaml(entries, topics_desc):
             if prev_topic is not None:
                 out.append('')
             out.append(f'  {topic}:')
-            out.append('    description: |')
-            for line in topics_desc[topic].split('\n'):
-                out.append(f'      {line}')
+            put_value(out, '    ', 'description', topics_desc[topic])
             out.append('    actions:')
             prev_topic = topic
         entry = split_docstring(doc)
         out.append(f'      {action}:')
-        out.append('        description: |')
-        for line in entry['description'].split('\n'):
-            out.append(f'          {line}')
-        if entry['detail']:
-            out.append('        detail: |')
-            for line in entry['detail'].split('\n'):
-                out.append(f'          {line}')
-        else:
-            out.append("        detail: ''")
+        put_value(out, '        ', 'description', entry['description'])
+        put_value(out, '        ', 'detail', entry['detail'])
         if entry['parameters']:
             out.append('        parameters:')
             for name, desc in entry['parameters'].items():
-                out.append(f'          {name}: |')
-                for line in desc.split('\n'):
-                    out.append(f'            {line}')
-        if entry['outputs']:
-            out.append('        outputs: |')
-            for line in entry['outputs'].split('\n'):
-                out.append(f'          {line}')
-        else:
-            out.append("        outputs: ''")
+                put_value(out, '          ', name, desc)
+        put_value(out, '        ', 'outputs', entry['outputs'])
     # 去掉文件末尾多余空行
     while out and out[-1] == '':
         out.pop()
@@ -343,6 +353,9 @@ def parse_yaml(text):
             pass
         elif indent == 4 and stripped == 'description: |':
             begin('topic_desc', indent_=indent)
+        elif indent == 4 and stripped.startswith('description:'):
+            # 单行 topic 描述：description: xxx
+            topics[cur_topic]['description'] = stripped.partition(':')[2].strip()
         elif indent == 6 and stripped.endswith(':'):
             cur_action = stripped[:-1]
             topics[cur_topic]['actions'].setdefault(
@@ -353,8 +366,16 @@ def parse_yaml(text):
             begin('field', field_=stripped[:-3].strip(), indent_=indent)
         elif indent == 8 and stripped.endswith(": ''"):
             topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
+        elif indent == 8:
+            # 单行 action 字段：description: xxx / detail: xxx / outputs: xxx
+            key, _, val = stripped.partition(':')
+            topics[cur_topic]['actions'][cur_action][key.strip()] = val.strip()
         elif indent == 10 and stripped.endswith(': |'):
             begin('param', key_=stripped[:-3].strip(), indent_=indent)
+        elif indent == 10:
+            # 单行参数：arg: xxx
+            key, _, val = stripped.partition(':')
+            topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = val.strip()
     save()
     return {'topics': topics}
 
