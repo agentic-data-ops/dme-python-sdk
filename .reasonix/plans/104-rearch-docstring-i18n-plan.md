@@ -116,7 +116,11 @@ python3 .reasonix/scripts/extract_docstrings.py --ref dev-en -o pydme/config/i18
   - 2 空格缩进且以 `: |` 结尾 → action key，后续 4 空格缩进行（含空行）为 block 内容，直到遇到缩进 ≤2 的非空行结束；
   - 加载后按 `(topic, action)` 建索引并模块级缓存（每次进程仅解析一次）。
 - 备选（若未来 i18n 文件由外部工具生成、格式不可控）：改依赖 PyYAML，需新增运行时依赖并更新 `pyproject.toml`。默认不采用。
-- **打包**：`pyproject.toml` 的 `package-data` 增加 `"pydme.config" = ["*.json", "*.yaml"]`，确保 i18n 资源随 wheel 发布（阶段 2 提交时一并修改）。
+- **打包（i18n 全部 YAML 作为发布内容）**：`pyproject.toml` 的 `package-data` 修改为 `"pydme.config" = ["*.json", "i18n/*.yaml"]`，将 **`pydme/config/i18n/` 下所有 YAML 文件**纳入发布内容（wheel + sdist）：
+  - 实测确认：setuptools 支持相对包目录的子目录 glob，`i18n/*.yaml` 会把 `pydme/config/i18n/` 下的 `zh_CN.yaml`、`en_US.yaml` 及未来新增的全部语言文件（如 `fr_FR.yaml`）一并打入，且不会误收其它扩展名文件；i18n 目录**无需** `__init__.py`，package-data 的 key 保持 `"pydme.config"` 即可。
+  - 新增语言资源时**无需再改** `pyproject.toml`。
+  - 仓库无 `MANIFEST.in`，sdist 由 setuptools 默认规则处理，无需额外配置。
+  - 打包验证：`pip wheel . --no-deps` 后检查 wheel 内包含 `pydme/config/i18n/*.yaml`（对应验收标准 #7）。
 
 ### 2.3 parse_docstring 改造
 
@@ -161,7 +165,7 @@ python3 .reasonix/scripts/extract_docstrings.py --ref dev-en -o pydme/config/i18
 | 4 | 阶段 1 提交后 `pydme --help` / `--list-topics` 行为不变（未改 cli.py） |
 | 5 | `DME_LANG` 与 `--lang` 切换生效；zh_CN 下全量 427 个 `--help` 输出与改造前逐字一致；en_US 下输出与 `en_US.yaml` 一致 |
 | 6 | 阶段 3 移除 docstring 后，上述 help 输出仍逐字一致（回归脚本 + 现有 `.reasonix/scripts` 端到端测试通过） |
-| 7 | wheel 打包含 `pydme/config/i18n/*.yaml`（`package-data` 已加 `*.yaml`） |
+| 7 | wheel 与 sdist 打包含 `pydme/config/i18n/` 下**全部** YAML 文件（`package-data` 用 `"pydme.config" = ["*.json", "i18n/*.yaml"]`，`pip wheel . --no-deps` 实测验证） |
 | 8 | dev-en / main-en 已归档；仓库后续不在双分支维护注释 |
 
 ## 注意与风险
@@ -175,6 +179,6 @@ python3 .reasonix/scripts/extract_docstrings.py --ref dev-en -o pydme/config/i18
 ## 执行顺序（里程碑）
 
 - **M1**（阶段 1）：提取脚本 + `zh_CN.yaml` + `en_US.yaml` 提交 dev；验收 1~4。
-- **M2**（阶段 2）：`cli.py` 加载改造 + `package-data` 加 `*.yaml`；验收 5、7。
+- **M2**（阶段 2）：`cli.py` 加载改造 + `package-data` 改为 `["*.json", "i18n/*.yaml"]` 并 `pip wheel . --no-deps` 实测 i18n 全部 YAML 入包；验收 5、7。
 - **M3**（阶段 3）：移除 docstring + 全量回归；验收 6。
 - **M4**（阶段 4）：归档并删除 dev-en / main-en；验收 8。
