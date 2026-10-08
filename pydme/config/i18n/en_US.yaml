@@ -5086,7 +5086,7 @@ protect:
         }
 
 protect:
-  filesystem_pair_create: |
+  create: |
     create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
@@ -5105,7 +5105,7 @@ protect:
         }
 
 protect:
-  filesystem_pair_list: |
+  list: |
     Query Filesystem hypermetro Pair list. 
 
     Args:
@@ -5160,7 +5160,7 @@ protect:
         }
 
 protect:
-  filesystem_pair_pause: |
+  pause: |
     Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
@@ -5173,7 +5173,7 @@ protect:
         }
 
 protect:
-  filesystem_pair_sync: |
+  sync: |
     Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
@@ -5186,7 +5186,7 @@ protect:
         }
 
 protect:
-  filesystem_pair_delete: |
+  delete: |
     Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
     Args:
@@ -5361,7 +5361,7 @@ protect:
         }
 
 protect:
-  hypermetro_domain_force_start: |
+  force_start: |
     Force start Filesystem hypermetro domain. 
 
     Args:
@@ -5374,7 +5374,7 @@ protect:
         }
 
 protect:
-  hypermetro_domain_switch_site: |
+  switch_site: |
     Switch priority site for Filesystem hypermetro domain. 
 
     Args:
@@ -5387,7 +5387,7 @@ protect:
         }
 
 protect:
-  hypermetro_domain_recover: |
+  recover: |
     Recover Filesystem hypermetro domain. 
 
     Args:
@@ -5400,7 +5400,7 @@ protect:
         }
 
 protect:
-  hypermetro_domain_split: |
+  split: |
     Split Filesystem hypermetro domain. 
 
     Args:
@@ -5413,7 +5413,7 @@ protect:
         }
 
 protect:
-  hypermetro_domain_swap_role: |
+  swap_role: |
     Swap primary-secondary role for Filesystem hypermetro domain. 
 
     Args:
