@@ -1,5 +1,5 @@
 """
-GFS (Global File System) 相关操作
+GFS (Global File System) related operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# Dataspace 子主题相关动作
+# Dataspace subtopic related operations
 # ============================================================================
 
 def dataspace_list(client: DMEAPIClient, name: str = None, id: str = None,
@@ -79,7 +79,7 @@ def dataspace_site_list(client: DMEAPIClient, raw_id: str = None,
 
 
 # ============================================================================
-# Namespace 子主题相关动作
+# Namespace subtopic related operations
 # ============================================================================
 
 def namespace_list(client: DMEAPIClient, name: str = None, gfs_group_name: str = None,
@@ -183,7 +183,7 @@ def namespace_delete(client: DMEAPIClient, id: str = None, name_locator: str = N
 
 
 # ============================================================================
-# Migration Task 子主题相关动作
+# Migration Task subtopic related operations
 # ============================================================================
 
 def migration_task_list(client: DMEAPIClient, gfs_id: str = None,
@@ -401,9 +401,9 @@ def migration_task_operate(client: DMEAPIClient, ids: list, operate_type: str) -
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # Dataspace 子主题动作
+    # Dataspace subtopic actions
     'dataspace_list': {
         'func': dataspace_list,
         'params': ['name', 'id', 'raw_id', 'max_site_num', 'page_no', 'page_size'],
@@ -419,7 +419,7 @@ ACTIONS = {
         'params': ['raw_id', 'site_role', 'gfs_group_id', 'storage_name', 'storage_pool_name', 'account_name', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
-    # Namespace 子主题动作
+    # Namespace subtopic actions
     'namespace_list': {
         'func': namespace_list,
         'params': ['name', 'gfs_group_name', 'gfs_group_id', 'gfs_type', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -445,7 +445,7 @@ ACTIONS = {
         'params': ['id', 'name_locator', 'is_delete_child'],
         'subtopic': 'namespace'
     },
-    # Migration Task 子主题动作
+    # Migration Task subtopic actions
     'migration_task_list': {
         'func': migration_task_list,
         'params': ['gfs_id', 'task_name', 'task_id', 'target_storage_name', 'namespace_name', 'namespace_id', 'namespace_raw_id', 'local_path', 'status', 'task_mode', 'execute_mode', 'page_no', 'page_size', 'sort_dir', 'sort_key'],

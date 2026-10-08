@@ -1,5 +1,5 @@
 """
-存储设备 (Storage) 相关操作
+Storage device (Storage) related operations
 """
 
 import sys
@@ -8,7 +8,7 @@ import os
 from pydme.client import DMEAPIClient
 
 # ============================================================================
-# VStore (租户) 子主题函数
+# VStore (tenant) subtopic functions
 # ============================================================================
 
 
@@ -61,9 +61,9 @@ def vstore_list(client: DMEAPIClient, storage_id: str = None, name: str = None,
 def vstore_show(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/fileservice/v1/vstores/{id}"
 
-    # 参数校验
+    # Parameter validation
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     response = client.get(url, params={"id": id})
     return response
@@ -78,7 +78,7 @@ def vstore_create(client: DMEAPIClient, name: str, storage_id: str,
     url = "/rest/fileservice/v1/vstores"
 
     if not storage_id:
-        raise ValueError("参数 storage_id 是必填的")
+        raise ValueError("parameter storage_id is required")
 
     payload = {
         'storage_id': storage_id,
@@ -108,9 +108,9 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
                   nas_capacity_quota_alarm_threshold: int = None) -> dict:
     url = "/rest/fileservice/v1/vstores/{id}"
 
-    # 参数校验
+    # Parameter validation
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     payload = {}
     if name is not None:
@@ -133,9 +133,9 @@ def vstore_modify(client: DMEAPIClient, id: str, name: str = None,
 def vstore_delete(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/fileservice/v1/vstores/delete"
 
-    # 参数校验
+    # Parameter validation
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数，至少需要1个租户ID")
+        raise ValueError("ids is required, at least 1 tenant ID")
 
     payload = {
         'ids': ids
@@ -175,7 +175,7 @@ def show(client: DMEAPIClient, storage_id: str) -> dict:
     url = "/rest/storagemgmt/v1/storages/{storage_id}/detail"
 
     if not storage_id:
-        raise ValueError("storage_id 是必选参数")
+        raise ValueError("storage_id is required")
 
     response = client.get(url, params={"storage_id": storage_id})
     return response
@@ -190,9 +190,9 @@ def add(client: DMEAPIClient, name: str = None, sn: str = None, ip: str = None,
         used_capacity: float = None, free_capacity: float = None,
         subscription_capacity: float = None, tag_ids: list = None) -> dict:
     if not name:
-        raise ValueError("name 是必选参数")
+        raise ValueError("name is required")
     if not sn:
-        raise ValueError("sn 是必选参数")
+        raise ValueError("sn is required")
 
     url = "/rest/storagemgmt/v2/storages/offline-storages"
 
@@ -244,7 +244,7 @@ def remove(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/storagemgmt/v2/storages/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数，至少需要1个存储设备ID")
+        raise ValueError("ids is required, at least 1 storage device ID")
 
     payload = {
         'ids': ids
@@ -258,7 +258,7 @@ def sync(client: DMEAPIClient, storage_id: str) -> dict:
     url = "/rest/storagemgmt/v1/storages/refresh"
 
     if not storage_id:
-        raise ValueError("storage_id 是必选参数")
+        raise ValueError("storage_id is required")
 
     payload = {
         'id': storage_id
@@ -559,7 +559,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
            used_capacity: float = None, free_capacity: float = None,
            subscription_capacity: float = None, tag_ids: list = None) -> dict:
     if not storage_id:
-        raise ValueError("storage_id 是必选参数")
+        raise ValueError("storage_id is required")
 
     url = "/rest/storagemgmt/v2/storages/offline-storages/{storage_id}"
 
@@ -599,7 +599,7 @@ def modify(client: DMEAPIClient, storage_id: str = None, name: str = None,
         payload['tag_ids'] = json.dumps(tag_ids) if isinstance(tag_ids, list) else tag_ids
 
     response = client.put(url, body=payload, params={"storage_id": storage_id})
-    # 修改接口返回空响应，返回空字典表示成功
+    # The modify interface returns an empty response; return an empty dict to indicate success
     return response if response else {}
 
 
@@ -776,7 +776,7 @@ def initiator_modify(client: DMEAPIClient, initiator_id: str,
     return response
 
 
-# ============ 认证用户 (account) 子主题函数 ============
+# ============ Account (account) subtopic functions ============
 
 
 def account_show_local_users(client: DMEAPIClient, storage_id: str, vstore_raw_id: str = None,
@@ -968,7 +968,7 @@ def account_show_windows_user_groups(client: DMEAPIClient, storage_id: str, vsto
     return response
 
 
-# ============ QoS 子主题函数 ============
+# ============ QoS subtopic functions ============
 
 
 def qos_list(client: DMEAPIClient, storage_id: str, name: str = None,
@@ -1195,7 +1195,7 @@ def qos_modify(client: DMEAPIClient, qos_policy_id: str,
         io_param['burst_write_iops'] = burst_write_iops
 
     if io_param:
-        # DME API 要求 io_param 内的字段使用驼峰命名
+        # The DME API requires camelCase for fields inside io_param
         import re
         def _to_camel(snake):
             parts = snake.split('_')
@@ -1274,7 +1274,7 @@ def qos_unassociate(client: DMEAPIClient, qos_policy_id: str,
     return response
 
 
-# ============ 存储逻辑端口 (logic_port) 子主题函数 ============
+# ============ Storage logic port (logic_port) subtopic functions ============
 
 
 def logic_port_list(client: DMEAPIClient, storage_id: str = None, vstore_raw_id: str = None,
@@ -1447,7 +1447,7 @@ def logic_port_failback(client: DMEAPIClient, id: str) -> dict:
     return response
 
 
-# ============ 存储端口 (port) 子主题函数 ============
+# ============ Storage port (port) subtopic functions ============
 
 
 def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = None,
@@ -1455,7 +1455,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
               port_name: str = None, zone_id: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
     if port_type is not None and port_type.lower() == 'eth':
-        # ETH 端口查询
+        # Query ETH ports
         url = "/rest/storagemgmt/v1/storages/eth-ports/query"
         payload = {}
         if storage_id is not None:
@@ -1471,7 +1471,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         response = client.post(url, body=payload)
         return response
     elif port_type is not None and port_type.lower() == 'bond':
-        # Bond 端口查询
+        # Query Bond ports
         url = "/rest/storagemgmt/v1/bond-ports/query"
         payload = {'storage_id': storage_id}
         if zone_id is not None:
@@ -1479,7 +1479,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         response = client.post(url, body=payload)
         return response
     elif port_type is not None and port_type.lower() == 'fc':
-        # FC 端口查询
+        # Query FC ports
         url = "/rest/storagemgmt/v1/frontend-ports/fc-ports/query"
         payload = {
             'page_no': page_no,
@@ -1490,7 +1490,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         response = client.post(url, body=payload)
         return response
     elif port_type is not None and port_type.lower() == 'ib':
-        # IB 端口查询
+        # Query IB ports
         url = "/rest/storagemgmt/v1/storages/ib-ports/query"
         payload = {}
         if storage_id is not None:
@@ -1498,7 +1498,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         response = client.post(url, body=payload)
         return response
     elif port_type is not None and port_type.lower() == 'sas':
-        # SAS 端口查询
+        # Query SAS ports
         url = "/rest/storagemgmt/v1/backend-ports/sas-ports/query"
         payload = {
             'page_no': page_no,
@@ -1509,14 +1509,14 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         response = client.post(url, body=payload)
         return response
     else:
-        # 返回所有类型端口（ETH + FC + IB + SAS）
+        # Return all port types (ETH + FC + IB + SAS)
         all_eth_ports = []
         all_fc_ports = []
         all_ib_ports = []
         all_sas_ports = []
         total_count = 0
 
-        # 查询 ETH 端口
+        # Query ETH ports
         eth_url = "/rest/storagemgmt/v1/storages/eth-ports/query"
         eth_payload = {}
         if storage_id is not None:
@@ -1530,12 +1530,12 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         if port_name is not None:
             eth_payload['port_name'] = port_name
         eth_response = client.post(eth_url, body=eth_payload)
-        # ETH 端口 API 返回结构：{'total': N, 'eth_ports': [...]}
+        # ETH port API return structure: {'total': N, 'eth_ports': [...]}
         if 'eth_ports' in eth_response:
             all_eth_ports = eth_response.get('eth_ports', [])
             total_count += len(all_eth_ports)
 
-        # 查询 FC 端口
+        # Query FC ports
         fc_url = "/rest/storagemgmt/v1/frontend-ports/fc-ports/query"
         fc_payload = {
             'page_no': page_no,
@@ -1544,23 +1544,23 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         if storage_id is not None:
             fc_payload['storage_id'] = storage_id
         fc_response = client.post(fc_url, body=fc_payload)
-        # FC 端口 API 返回结构：{'total': N, 'ports': [...]}
+        # FC port API return structure: {'total': N, 'ports': [...]}
         if 'ports' in fc_response:
             all_fc_ports = fc_response.get('ports', [])
             total_count += len(all_fc_ports)
 
-        # 查询 IB 端口
+        # Query IB ports
         ib_url = "/rest/storagemgmt/v1/storages/ib-ports/query"
         ib_payload = {}
         if storage_id is not None:
             ib_payload['storage_id'] = storage_id
         ib_response = client.post(ib_url, body=ib_payload)
-        # IB 端口 API 返回结构：{'ib_ports': [...]}
+        # IB port API return structure: {'ib_ports': [...]}
         if 'ib_ports' in ib_response:
             all_ib_ports = ib_response.get('ib_ports', [])
             total_count += len(all_ib_ports)
 
-        # 查询 SAS 端口
+        # Query SAS ports
         sas_url = "/rest/storagemgmt/v1/backend-ports/sas-ports/query"
         sas_payload = {
             'page_no': page_no,
@@ -1569,7 +1569,7 @@ def port_list(client: DMEAPIClient, storage_id: str = None, port_type: str = Non
         if storage_id is not None:
             sas_payload['storage_id'] = storage_id
         sas_response = client.post(sas_url, body=sas_payload)
-        # SAS 端口 API 返回结构：{'total': N, 'ports': [...]}
+        # SAS port API return structure: {'total': N, 'ports': [...]}
         if 'ports' in sas_response:
             all_sas_ports = sas_response.get('ports', [])
             total_count += len(all_sas_ports)
@@ -1590,10 +1590,10 @@ def port_show_bond_members(client: DMEAPIClient, bond_port_id: str) -> dict:
     return response
 
 
-# ============ 存储端口组 (port_group) 子主题函数 ============
+# ============ Storage port group (port_group) subtopic functions ============
 
 
-# ============ 存储 VLAN 子主题函数 ============
+# ============ Storage VLAN subtopic functions ============
 
 
 def vlan_list(client: DMEAPIClient, name: str = None, storage_id: str = None,
@@ -1652,7 +1652,7 @@ def vlan_modify(client: DMEAPIClient, vlan_id: str, name: str = None,
     return response
 
 
-# ============ 存储漂移组 (failover_group) 子主题函数 ============
+# ============ Storage failover group (failover_group) subtopic functions ============
 
 
 def failover_group_list(client: DMEAPIClient, storage_id: str,
@@ -1693,7 +1693,7 @@ def failover_group_show_ports(client: DMEAPIClient, failover_group_id: str,
         return (ptype, resp)
 
     if port_type is None:
-        # 不指定类型，返回所有三种类型的端口，扁平化结构
+        # If no type is specified, return all three port types in a flat structure
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             futures = [executor.submit(query_port_type, 'bond'),
                       executor.submit(query_port_type, 'eth'),
@@ -1725,7 +1725,7 @@ def failover_group_show_vlans(client: DMEAPIClient, failover_group_id: str) -> d
     return response
 
 
-# ============ Zone (OceanStor A800 集群 zone) 子主题函数 ============
+# ============ Zone (OceanStor A800 cluster zone) subtopic functions ============
 
 
 def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
@@ -1752,12 +1752,12 @@ def zone_list(client: DMEAPIClient, name: str = None, ip: str = None,
     return response
 
 
-# 动作列表，用于 CLI 帮助
-# 格式：action_key: {func, description, params, subtopic}
-# subtopic 表示该动作属于哪个子主题，None 表示直接动作
+# Action list for CLI help
+# Format: action_key: {func, description, params, subtopic}
+# subtopic indicates the subtopic the action belongs to; None means a direct action
 
 ACTIONS = {
-    # 直接动作（两级结构：<topic> <action>）
+    # Direct actions (two-level structure: <topic> <action>)
     'list': {
         'func': list,
         'params': ['az', 'source', 'dc_id', 'tag_ids', 'start', 'limit', 'ext_attrs'],
@@ -1788,7 +1788,7 @@ ACTIONS = {
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
         'subtopic': None
     },
-    # 子主题动作（三级结构：<topic> <subtopic> <action>）
+    # Subtopic actions (three-level structure: <topic> <subtopic> <action>)
     'bbu_list': {
         'func': bbu_list,
         'params': ['storage_id', 'health_status', 'running_status', 'enclosure_name',
@@ -1908,7 +1908,7 @@ ACTIONS = {
         'params': ['initiator_id', 'vstore_id', 'alias', 'multi_path'],
         'subtopic': 'initiator'
     },
-    # account 子主题动作（认证用户）
+    # account subtopic actions (accounts)
     'account_show_local_users': {
         'func': account_show_local_users,
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
@@ -1954,7 +1954,7 @@ ACTIONS = {
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
-    # qos 子主题动作
+    # qos subtopic actions
     'qos_list': {
         'func': qos_list,
         'params': ['storage_id', 'name', 'raw_id', 'enable_status', 'running_status',
@@ -2018,7 +2018,7 @@ ACTIONS = {
         'params': ['qos_policy_id', 'resource_ids', 'resource_type'],
         'subtopic': 'qos'
     },
-    # logic_port 子主题动作（存储逻辑端口）
+    # logic_port subtopic actions (storage logic ports)
     'logic_port_list': {
         'func': logic_port_list,
         'params': ['storage_id', 'vstore_raw_id', 'zone_raw_id', 'scope', 'page_no', 'page_size'],
@@ -2056,7 +2056,7 @@ ACTIONS = {
         'params': ['id'],
         'subtopic': 'logic_port'
     },
-    # port 子主题动作（存储端口）
+    # port subtopic actions (storage ports)
     'port_list': {
         'func': port_list,
         'params': ['storage_id', 'port_type', 'location', 'ipv4', 'ipv6', 'port_name', 'zone_id', 'page_no', 'page_size'],
@@ -2067,7 +2067,7 @@ ACTIONS = {
         'params': ['bond_port_id'],
         'subtopic': 'port'
     },
-    # vlan 子主题动作（存储 VLAN）
+    # vlan subtopic actions (storage VLANs)
     'vlan_list': {
         'func': vlan_list,
         'params': ['name', 'storage_id', 'page_no', 'page_size'],
@@ -2088,7 +2088,7 @@ ACTIONS = {
         'params': ['vlan_id', 'name', 'description'],
         'subtopic': 'vlan'
     },
-    # failover_group 子主题动作（存储漂移组）
+    # failover_group subtopic actions (storage failover groups)
     'failover_group_list': {
         'func': failover_group_list,
         'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover_group_service_type'],
@@ -2104,7 +2104,7 @@ ACTIONS = {
         'params': ['failover_group_id'],
         'subtopic': 'failover_group'
     },
-    # zone 子主题动作（OceanStor A800 集群 zone）
+    # zone subtopic actions (OceanStor A800 cluster zones)
     'zone_list': {
         'func': zone_list,
         'params': ['name', 'ip', 'status', 'sync_status', 'sn', 'storage_ids'],

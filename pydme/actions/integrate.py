@@ -1,6 +1,6 @@
 """
-三方系统集成 (Integrate) 相关操作
-包含CMDB系统、主机、应用等资源查询
+Third-party system integration (Integrate) related operations
+Includes resource queries for CMDB systems, hosts, applications, etc.
 """
 
 import sys
@@ -47,7 +47,7 @@ def cmdb_host_show(client: DMEAPIClient, cmdb_host_id: str) -> dict:
     url = "/rest/appmgmt/v1/cmdb-hosts/{cmdb_host_id}"
 
     if not cmdb_host_id:
-        raise ValueError("cmdb_host_id 是必选参数")
+        raise ValueError("cmdb_host_id is required")
 
     response = client.get(url, params={"cmdb_host_id": cmdb_host_id})
     return response
@@ -74,7 +74,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
     url = "/rest/appmgmt/v1/cmdb-hosts/query-by-initiators"
 
     if not initiators or len(initiators) == 0:
-        raise ValueError("initiators 是必选参数")
+        raise ValueError("initiators is required")
 
     payload = {
         'initiators': initiators
@@ -85,7 +85,7 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
 
 ACTIONS = {
-    # cmdb 子主题动作
+    # cmdb subtopic actions
     'cmdb_system_list': {
         'func': cmdb_system_list,
         'params': ['name', 'page_no', 'page_size'],

@@ -1,5 +1,5 @@
 """
-FC Switch (光纤交换机) 相关操作
+FC Switch (fibre channel switch) related operations
 """
 
 import sys
@@ -111,7 +111,7 @@ def fabric_backup(client: DMEAPIClient, fabric_id: str, backup_server_id: str,
     return response
 
 
-# ==================== VSAN 相关操作 ====================
+# ==================== VSAN related operations ====================
 
 def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> dict:
     url = "/rest/fcswitchmgmt/v1/vsans/query"
@@ -125,7 +125,7 @@ def vsan_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20) -> di
     return response
 
 
-# ==================== Zone 相关操作 ====================
+# ==================== Zone related operations ====================
 
 def zone_list(client: DMEAPIClient, fabric_wwn: str = None, name: str = None,
               cfg_name: str = None, zone_set: str = None, active_status: list = None,
@@ -171,13 +171,13 @@ def zone_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
 
-    # fabric_wwn 或 vsan_wwn 至少提供一个
+    # At least one of fabric_wwn or vsan_wwn must be provided
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
 
-    # 成员列表
+    # Member list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -243,7 +243,7 @@ def zone_batch_create(client: DMEAPIClient, is_active_zone: str, zones: list) ->
 def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> dict:
     result = {'port_members': [], 'wwn_members': [], 'alias_members': []}
 
-    # 根据 type 参数查询对应类型的成员
+    # Query the members of the corresponding type according to the type parameter
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/zones/{zone_id}/port-members/list"
         payload = {}
@@ -264,7 +264,7 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
         if response.get('alias_members'):
             result['alias_members'] = response.get('alias_members')
 
-    # 如果指定了 type，只返回对应类型的成员
+    # If type is specified, only return the members of the corresponding type
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
@@ -272,12 +272,12 @@ def zone_show_members(client: DMEAPIClient, zone_id: str, type: str = None) -> d
     elif type == 'alias':
         return {'alias_members': result['alias_members']}
     else:
-        # 返回所有成员
+        # Return all members
         all_members = result['port_members'] + result['wwn_members'] + result['alias_members']
         return {'members': all_members}
 
 
-# ==================== Alias 相关操作 ====================
+# ==================== Alias related operations ====================
 
 def alias_list(client: DMEAPIClient, fabric_wwn: str,
                page_no: int = 1, page_size: int = 20) -> dict:
@@ -303,13 +303,13 @@ def alias_create(client: DMEAPIClient, name: str, fabric_wwn: str = None,
         'name': name
     }
     
-    # fabric_wwn 或 vsan_wwn 至少提供一个
+    # At least one of fabric_wwn or vsan_wwn must be provided
     if fabric_wwn is not None:
         payload['fabric_wwn'] = fabric_wwn
     if vsan_wwn is not None:
         payload['vsan_wwn'] = vsan_wwn
     
-    # 成员列表
+    # Member list
     if wwn_members is not None:
         payload['wwn_members'] = wwn_members
     if port_members is not None:
@@ -359,7 +359,7 @@ def alias_delete(client: DMEAPIClient, alias_id: str) -> dict:
 def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) -> dict:
     result = {'port_members': [], 'wwn_members': []}
 
-    # 如果指定了 type 或默认为 None 时，查询对应类型的成员
+    # If type is specified (or defaults to None), query the members of the corresponding type
     if type is None or type == 'port':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/port-members/list"
         payload = {}
@@ -370,22 +370,22 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
     if type is None or type == 'wwn':
         url = "/rest/fcswitchmgmt/v1/aliases/{alias_id}/wwn-members/list"
         response = client.get(url, params={"alias_id": alias_id})
-        # API 返回字段为 wwn_member（单数）
+        # The API returns the field wwn_member (singular)
         if response.get('wwn_member'):
             result['wwn_members'] = response.get('wwn_member')
 
-    # 如果指定了 type，只返回对应类型的成员
+    # If type is specified, only return the members of the corresponding type
     if type == 'port':
         return {'port_members': result['port_members']}
     elif type == 'wwn':
         return {'wwn_members': result['wwn_members']}
     else:
-        # 返回所有成员
+        # Return all members
         all_members = result['port_members'] + result['wwn_members']
         return {'members': all_members}
 
 
-# ACTIONS 字典，定义所有可用动作
+# ACTIONS dict defining all available actions
 ACTIONS = {
     'list': {
         'func': list,

@@ -1,5 +1,5 @@
 """
-系统管理 (System) 相关操作
+System management (System) related operations
 """
 
 import sys
@@ -13,8 +13,8 @@ def login(client: DMEAPIClient) -> dict:
 
     accessSession = client.headers.get("X-Auth-Token", "")
     if accessSession:
-        print(f"\n登录成功！")
-        print(f"\n提示：配置环境变量复用认证密钥，避免重复登录：")
+        print(f"\nLogin successful!")
+        print(f"\nTip: configure environment variables to reuse the auth token and avoid repeated login:")
         print("  export DME_API_AUTH_TOKEN='<accessSession>'")
 
     return {
@@ -33,11 +33,11 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
                    is_initial_password: bool = True) -> dict:
     url = "/rest/usm/v1/users/{user_name}/reset-credentials"
 
-    # 参数校验
+    # Parameter validation
     if not user_name or len(user_name) > 128:
-        raise ValueError("user_name 是必选参数，1~128个字符")
+        raise ValueError("user_name is required, 1~128 characters")
     if not new_value or len(new_value) < 8 or len(new_value) > 32:
-        raise ValueError("new_value 是必选参数，8~32个字符")
+        raise ValueError("new_value is required, 8~32 characters")
 
     payload = {
         'newValue': new_value,
@@ -51,9 +51,9 @@ def reset_password(client: DMEAPIClient, user_name: str, new_value: str,
 def user_delete(client: DMEAPIClient, user_id: int) -> dict:
     url = "/rest/usermgmt/v1/users/{user_id}"
 
-    # 参数校验
+    # Parameter validation
     if user_id is None:
-        raise ValueError("user_id 是必选参数")
+        raise ValueError("user_id is required")
 
     response = client.delete(url, params={"user_id": user_id})
     return response
@@ -64,9 +64,9 @@ def user_create(client: DMEAPIClient, name: str, type: int,
                 roles: list = None) -> dict:
     url = "/rest/usermgmt/v1/users"
 
-    # 参数校验
+    # Parameter validation
     if not name:
-        raise ValueError("name 是必选参数")
+        raise ValueError("name is required")
 
     payload = {
         'name': name,
@@ -111,9 +111,9 @@ def role_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
 def user_show(client: DMEAPIClient, user_id: int) -> dict:
     url = "/rest/usermgmt/v1/users/{user_id}"
     
-    # 参数校验
+    # Parameter validation
     if user_id is None:
-        raise ValueError("user_id 是必选参数")
+        raise ValueError("user_id is required")
 
     response = client.get(url, params={"user_id": user_id})
     return response
@@ -129,9 +129,9 @@ def show(client: DMEAPIClient) -> dict:
 def certificate(client: DMEAPIClient, service_type: str = "APIGWService") -> dict:
     url = "/rest/certmgmt/v1/certs"
 
-    # 参数校验
+    # Parameter validation
     if service_type not in ["APIGWService"]:
-        raise ValueError(f"service_type 可选值：APIGWService")
+        raise ValueError(f"service_type valid values: APIGWService")
 
     response = client.get(url, params={'service_type': service_type})
     return response
@@ -156,7 +156,7 @@ def backup_server_list(client: DMEAPIClient, address: str = None,
     return response
 
 
-# ==================== 待办任务组管理（todo_task_group 子主题） ====================
+# ==================== Todo task group management (todo_task_group subtopic) ====================
 
 def todo_task_group_list(client: DMEAPIClient, group_id: str = None, name: str = None,
                creator_name: str = None, is_finished: bool = None,
@@ -217,7 +217,7 @@ def todo_task_group_confirm(client: DMEAPIClient, group_id: str) -> dict:
     return response
 
 
-# ==================== 待办任务管理（todo_task 子主题） ====================
+# ==================== Todo task management (todo_task subtopic) ====================
 
 def todo_task_list(client: DMEAPIClient, service_type: str,
                status: list = None, page_no: int = None,
@@ -284,7 +284,7 @@ def todo_task_close(client: DMEAPIClient, item_id: str, reason: str) -> dict:
     return response
 
 
-# ==================== 任务管理（task 子主题） ====================
+# ==================== Task management (task subtopic) ====================
 
 import time
 
@@ -338,7 +338,7 @@ def task_wait(client: DMEAPIClient, task_id: str, timeout: int = 300,
     )
 
 
-# ==================== 标签类型管理（tag_type 子主题） ====================
+# ==================== Tag type management (tag_type subtopic) ====================
 
 def tag_type_create(client: DMEAPIClient, name: str, description: str = None) -> dict:
     url = "/rest/tagmgmt/v1/tag-types"
@@ -396,7 +396,7 @@ def tag_type_delete(client: DMEAPIClient, tag_type_ids: list) -> dict:
     return response
 
 
-# ==================== 标签管理（tag 子主题） ====================
+# ==================== Tag management (tag subtopic) ====================
 
 def tag_create(client: DMEAPIClient, name: str, tag_type_id: str,
                 tag_type_name: str = None, description: str = None, color: str = None) -> dict:
@@ -486,7 +486,7 @@ def tag_unbind(client: DMEAPIClient, tag_id: str, resources: list) -> dict:
     return response
 
 
-# ==================== 可用分区管理（az 子主题） ====================
+# ==================== Available zone management (az subtopic) ====================
 
 def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = None,
          start: int = 1, limit: int = 512, is_sc: bool = False) -> dict:
@@ -508,7 +508,7 @@ def az_list(client: DMEAPIClient, az_name: str = None, operate_status: str = Non
     return response
 
 
-# ==================== 数据中心管理（dc 子主题） ====================
+# ==================== Data center management (dc subtopic) ====================
 
 def dc_list(client: DMEAPIClient, name: str = None,
                      page_no: int = 1, page_size: int = 20) -> dict:
@@ -588,9 +588,9 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     url = "/rest/regionmgmt/v1/regions/{region_id}/resources/query"
 
     if not region_id:
-        raise ValueError("region_id 是必选参数")
+        raise ValueError("region_id is required")
     if not request_url:
-        raise ValueError("request_url 是必选参数")
+        raise ValueError("request_url is required")
 
     payload = {
         'request_url': request_url,
@@ -603,9 +603,9 @@ def region_query(client: DMEAPIClient, region_id: str, request_url: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # 直接动作（两级结构）
+    # Direct actions (two-level structure)
     'login': {
         'func': login,
         'params': ['username', 'password', 'grant_type'],
@@ -631,7 +631,7 @@ ACTIONS = {
         'params': ['user_name', 'new_value', 'is_initial_password'],
         'subtopic': None
     },
-    # 子主题动作 - user（三级结构）
+    # Subtopic actions - user (three-level structure)
     'user_list': {
         'func': user_list,
         'params': ['page_no', 'page_size', 'name'],
@@ -652,19 +652,19 @@ ACTIONS = {
         'params': ['user_id'],
         'subtopic': 'user'
     },
-    # 子主题动作 - role（三级结构）
+    # Subtopic actions - role (three-level structure)
     'role_list': {
         'func': role_list,
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
-    # 子主题动作 - backup_server（三级结构）
+    # Subtopic actions - backup_server (three-level structure)
     'backup_server_list': {
         'func': backup_server_list,
         'params': ['address', 'name', 'page_no', 'page_size'],
         'subtopic': 'backup_server'
     },
-    # 子主题动作 - todo_task_group（三级结构）
+    # Subtopic actions - todo_task_group (three-level structure)
     'todo_task_group_list': {
         'func': todo_task_group_list,
         'params': ['group_id', 'name', 'creator_name', 'is_finished', 'is_group',
@@ -683,7 +683,7 @@ ACTIONS = {
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
-    # 子主题动作 - todo_task（三级结构）
+    # Subtopic actions - todo_task (three-level structure)
     'todo_task_list': {
         'func': todo_task_list,
         'params': ['service_type', 'status', 'page_no', 'page_size'],
@@ -714,7 +714,7 @@ ACTIONS = {
         'params': ['item_id', 'reason'],
         'subtopic': 'todo_task'
     },
-    # 子主题动作 - task（三级结构）
+    # Subtopic actions - task (three-level structure)
     'task_show': {
         'func': task_show,
         'params': ['task_id'],
@@ -735,7 +735,7 @@ ACTIONS = {
         'params': ['task_id', 'timeout', 'poll_interval'],
         'subtopic': 'task'
     },
-    # 子主题动作 - tag_type（三级结构）
+    # Subtopic actions - tag_type (three-level structure)
     'tag_type_create': {
         'func': tag_type_create,
         'params': ['name', 'description'],
@@ -756,7 +756,7 @@ ACTIONS = {
         'params': ['tag_type_ids'],
         'subtopic': 'tag_type'
     },
-    # 子主题动作 - tag（三级结构）
+    # Subtopic actions - tag (three-level structure)
     'tag_create': {
         'func': tag_create,
         'params': ['name', 'tag_type_id', 'tag_type_name', 'description', 'color'],
@@ -787,13 +787,13 @@ ACTIONS = {
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
-    # 子主题动作 - az（三级结构）
+    # Subtopic actions - az (three-level structure)
     'az_list': {
         'func': az_list,
         'params': ['az_name', 'operate_status', 'start', 'limit', 'is_sc'],
         'subtopic': 'az'
     },
-    # 子主题动作 - dc（三级结构）
+    # Subtopic actions - dc (three-level structure)
     'dc_list': {
         'func': dc_list,
         'params': ['name', 'page_no', 'page_size'],
@@ -809,7 +809,7 @@ ACTIONS = {
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
-    # region 子主题动作
+    # region subtopic actions
     'region_list': {
         'func': region_list,
         'params': ['ids', 'name', 'active_ip_address', 'standby_ip_address', 'sync_status', 'role', 'sort_key', 'sort_dir', 'page_no', 'page_size'],

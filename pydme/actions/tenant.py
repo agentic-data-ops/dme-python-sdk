@@ -1,7 +1,7 @@
 """
-租户自助服务 (Self Service) 相关操作
+Tenant self-service (Self Service) related operations
 
-租户自助服务用于管理服务等级和业务群组。
+Tenant self-service is used to manage service tiers and business groups.
 """
 
 import sys
@@ -9,7 +9,7 @@ import os
 
 from pydme.client import DMEAPIClient
 
-# ============ lun 子主题函数 ============
+# ============ lun subtopic functions ============
 
 
 def lun_create(client: DMEAPIClient, volumes: list,
@@ -109,7 +109,7 @@ def lun_unbind_project(client: DMEAPIClient, volume_id: str,
     return response
 
 
-# ============ tier 子主题函数 ============
+# ============ tier subtopic functions ============
 
 
 def tier_list(client: DMEAPIClient, name: str = None,
@@ -162,7 +162,7 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
     return response
 
 
-# ============ project 子主题函数 ============
+# ============ project subtopic functions ============
 
 
 def project_list(client: DMEAPIClient, name: str = None,
@@ -197,10 +197,10 @@ def project_show_tiers(client: DMEAPIClient, project_id: str = None,
     return response
 
 
-# 动作列表，用于 CLI 帮助
-# 本主题无直接动作，所有动作均在子主题下
+# Action list for CLI help
+# This topic has no direct actions; all actions are under subtopics
 ACTIONS = {
-    # tier 子主题
+    # tier subtopic
     'tier_list': {
         'func': tier_list,
         'params': ['name', 'project_id', 'available_zone_id', 'storage_array_id', 'start', 'limit', 'sort_key', 'sort_dir', 'type'],
@@ -211,7 +211,7 @@ ACTIONS = {
         'params': ['tier_id', 'page_no', 'page_size'],
         'subtopic': 'tier'
     },
-    # project 子主题
+    # project subtopic
     'project_list': {
         'func': project_list,
         'params': ['name', 'start', 'limit'],
@@ -222,7 +222,7 @@ ACTIONS = {
         'params': ['project_id', 'page_no', 'page_size'],
         'subtopic': 'project'
     },
-    # lun 子主题
+    # lun subtopic
     'lun_create': {
         'func': lun_create,
         'params': ['volumes', 'service_level_id', 'task_remarks', 'project_id', 'availability_zone', 'scheduler_hints', 'mapping'],

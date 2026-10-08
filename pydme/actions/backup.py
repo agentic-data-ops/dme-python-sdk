@@ -1,11 +1,11 @@
 """
-数据备份管理 (Backup) 相关操作
+Data backup management (Backup) related operations
 """
 
 from pydme.client import DMEAPIClient
 
 
-# ==================== 备份集群管理 ====================
+# ==================== Backup cluster management ====================
 
 def cluster_list(client: DMEAPIClient,
                   page_no: int = 1, page_size: int = 20) -> dict:
@@ -40,9 +40,9 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # 子主题动作 - cluster（三级结构：backup cluster list/capacity/quota）
+    # Subtopic actions - cluster (three-level structure: backup cluster list/capacity/quota)
     'cluster_list': {
         'func': cluster_list,
         'params': ['page_no', 'page_size'],

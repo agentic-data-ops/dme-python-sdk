@@ -1,5 +1,5 @@
 """
-保护 (Protection) 相关操作
+Protection related operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# group 子主题 - 保护组相关操作
+# group subtopic - protection group operations
 # ============================================================================
 
 def group_list(client: DMEAPIClient, name: str = None, project_id: str = None,
@@ -130,7 +130,7 @@ def group_remove_luns(client: DMEAPIClient, pg_id: str, lun_ids: list,
 
 
 # ============================================================================
-# hypermetro_group 子主题 - 双活一致性组相关操作
+# hypermetro_group subtopic - hypermetro consistency group operations
 # ============================================================================
 
 def hypermetro_group_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -364,7 +364,7 @@ def hypermetro_group_sync(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_pair 子主题 - 双活 Pair 相关操作
+# hypermetro_pair subtopic - hypermetro pair operations
 # ============================================================================
 
 def hypermetro_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -544,7 +544,7 @@ def hypermetro_pair_switch_priority(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# hypermetro_domain 子主题 - 双活域相关操作
+# hypermetro_domain subtopic - hypermetro domain operations
 # ============================================================================
 
 def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
@@ -563,7 +563,7 @@ def hypermetro_domain_list(client: DMEAPIClient, storage_id: str = None,
 
 
 # ============================================================================
-# replication_pair 子主题 - 复制 Pair 相关操作
+# replication_pair subtopic - replication pair operations
 # ============================================================================
 
 def replication_pair_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -838,7 +838,7 @@ def replication_pair_switch_write_protection(client: DMEAPIClient, id: str, oper
 
 
 # ============================================================================
-# device 子主题 - 设备 Pair 和复制链路相关操作
+# device subtopic - device pair and replication link operations
 # ============================================================================
 
 def device_pair_list(client: DMEAPIClient, storage_id: str = None,
@@ -897,7 +897,7 @@ def replication_link_list(client: DMEAPIClient, local_storage_id: str = None,
 
 
 # ============================================================================
-# snapshot 子主题 - LUN 快照相关操作
+# snapshot subtopic - LUN snapshot operations
 # ============================================================================
 
 def snapshot_list(client: DMEAPIClient, snapshot_ids: list = None, storage_id: str = None,
@@ -981,7 +981,7 @@ def snapshot_delete(client: DMEAPIClient, snapshot_ids: list, is_delete_target_l
 
 
 # ============================================================================
-# snapshot_group 子主题 - 快照一致性组相关操作
+# snapshot_group subtopic - snapshot consistency group operations
 # ============================================================================
 
 def snapshot_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
@@ -1078,7 +1078,7 @@ def snapshot_group_rollback(client: DMEAPIClient, snapshot_cg_id: str, rollback_
 
 
 # ============================================================================
-# clone_group 子主题 - 克隆一致性组相关操作
+# clone_group subtopic - clone consistency group operations
 # ============================================================================
 
 def clone_group_create(client: DMEAPIClient, name: str, protect_group_id: str,
@@ -1153,7 +1153,7 @@ def clone_group_delete(client: DMEAPIClient, ids: list, is_delete_dst_lun: bool 
 
 
 # ============================================================================
-# replication_group 子主题 - 复制一致性组相关操作
+# replication_group subtopic - replication consistency group operations
 # ============================================================================
 
 def replication_group_create(client: DMEAPIClient, cg_name: str, remote_storage_id: str,
@@ -1414,7 +1414,7 @@ def replication_group_list(client: DMEAPIClient, page_no: int = None, page_size:
 
 
 # ============================================================================
-# 文件系统双活Pair (fs_hypermetro_pair) 子主题函数
+# Filesystem hypermetro pair (fs_hypermetro_pair) subtopic functions
 # ============================================================================
 
 
@@ -1428,7 +1428,7 @@ def fs_hypermetro_pair_create(client: DMEAPIClient, vstore_pair_id: str,
     url = "/rest/protection/v1/hypermetro/filesystem-pairs"
 
     if not vstore_pair_id:
-        raise ValueError("vstore_pair_id 是必选参数")
+        raise ValueError("vstore_pair_id is required")
 
     payload = {
         'vstore_pair_id': vstore_pair_id,
@@ -1527,7 +1527,7 @@ def fs_hypermetro_pair_pause(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/pause"
 
     if not fs_pair_ids or len(fs_pair_ids) == 0:
-        raise ValueError("fs_pair_ids 是必选参数")
+        raise ValueError("fs_pair_ids is required")
 
     payload = {
         'fs_pair_ids': fs_pair_ids
@@ -1541,7 +1541,7 @@ def fs_hypermetro_pair_sync(client: DMEAPIClient, fs_pair_ids: list) -> dict:
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/sync"
 
     if not fs_pair_ids or len(fs_pair_ids) == 0:
-        raise ValueError("fs_pair_ids 是必选参数")
+        raise ValueError("fs_pair_ids is required")
 
     payload = {
         'fs_pair_ids': fs_pair_ids
@@ -1557,7 +1557,7 @@ def fs_hypermetro_pair_delete(client: DMEAPIClient, ids: list,
     url = "/rest/protection/v1/hypermetro/filesystem-pairs/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数")
+        raise ValueError("ids is required")
 
     payload = {
         'ids': ids
@@ -1572,7 +1572,7 @@ def fs_hypermetro_pair_delete(client: DMEAPIClient, ids: list,
 
 
 # ============================================================================
-# 文件系统快照 (fs_snapshot) 子主题函数
+# Filesystem snapshot (fs_snapshot) subtopic functions
 # ============================================================================
 
 
@@ -1581,7 +1581,7 @@ def fs_snapshot_create(client: DMEAPIClient, vstore_pair_id: str,
     url = "/rest/protection/v1/filesystem-snapshots"
 
     if not vstore_pair_id:
-        raise ValueError("vstore_pair_id 是必选参数")
+        raise ValueError("vstore_pair_id is required")
 
     payload = {
         'vstore_pair_id': vstore_pair_id,
@@ -1621,7 +1621,7 @@ def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/protection/v1/filesystem-snapshots/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数")
+        raise ValueError("ids is required")
 
     payload = {
         'ids': ids
@@ -1632,7 +1632,7 @@ def fs_snapshot_delete(client: DMEAPIClient, ids: list) -> dict:
 
 
 # ============================================================================
-# 双活租户Pair (vstore_hypermetro_pair) 子主题函数
+# Hypermetro tenant pair (vstore_hypermetro_pair) subtopic functions
 # ============================================================================
 
 
@@ -1640,7 +1640,7 @@ def vstore_pair_force_start(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/protection/v1/metro/vstore-pairs/force-start"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数")
+        raise ValueError("ids is required")
 
     payload = {
         'vstore_pair_ids': ids
@@ -1658,7 +1658,7 @@ def vstore_pair_create(client: DMEAPIClient, domain_id: str,
     url = "/rest/protection/v1/metro/vstore-pairs"
 
     if not domain_id or not local_vstore_id or not remote_vstore_id or not preferred_mode:
-        raise ValueError("domain_id, local_vstore_id, remote_vstore_id, preferred_mode 是必选参数")
+        raise ValueError("domain_id, local_vstore_id, remote_vstore_id, preferred_mode are required")
 
     payload = {
         'domain_id': domain_id,
@@ -1746,7 +1746,7 @@ def vstore_pair_switch(client: DMEAPIClient, ids: list, is_force: bool = None) -
     url = "/rest/protection/v1/metro/vstore-pairs/switch"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数")
+        raise ValueError("ids is required")
 
     payload = {
         'vstore_pair_ids': ids
@@ -1762,7 +1762,7 @@ def vstore_pair_delete(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/protection/v1/metro/vstore-pairs/delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数")
+        raise ValueError("ids is required")
 
     payload = {
         'vstore_pair_ids': ids
@@ -1778,7 +1778,7 @@ def vstore_pair_modify(client: DMEAPIClient, id: str,
     url = "/rest/protection/v1/metro/vstore-pairs/{id}"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     payload = {
         'preferred_mode': preferred_mode
@@ -1791,7 +1791,7 @@ def vstore_pair_modify(client: DMEAPIClient, id: str,
 
 
 # ============================================================================
-# 双活域 (hypermetro_domain) 子主题函数
+# Hypermetro domain (hypermetro_domain) subtopic functions
 # ============================================================================
 
 
@@ -1799,7 +1799,7 @@ def fs_domain_force_start(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/force-start"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -1809,7 +1809,7 @@ def fs_domain_switch_site(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/switch-priority-site"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -1819,7 +1819,7 @@ def fs_domain_recover(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/recover"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
@@ -1829,7 +1829,7 @@ def fs_domain_split(client: DMEAPIClient, id: str, stop_role: str = None) -> dic
     url = "/rest/protection/v1/hyper-metro-domains/{id}/split"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     payload = {}
     if stop_role is not None:
@@ -1843,14 +1843,14 @@ def fs_domain_swap_role(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/protection/v1/hyper-metro-domains/{id}/swap-role"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     response = client.post(url, body={}, params={"id": id})
     return response
 
 
 # ============================================================================
-# 双活Pair (hypermetro_pair) 子主题函数
+# Hypermetro pair (hypermetro_pair) subtopic functions
 # ============================================================================
 
 
@@ -1866,7 +1866,7 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
     url = "/rest/protection/v1/metro/lun-pairs/{source_lun_id}/optional-target-luns"
 
     if not source_lun_id:
-        raise ValueError("source_lun_id 是必选参数")
+        raise ValueError("source_lun_id is required")
 
     payload = {}
     if remote_storage_id is not None:
@@ -1888,9 +1888,9 @@ def hypermetro_pair_query_available_luns(client: DMEAPIClient,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # group 子主题动作
+    # group subtopic actions
     'group_list': {
         'func': group_list,
         'params': ['name', 'project_id', 'storage_name', 'storage_id', 'raw_id', 'lun_group_raw_id', 'vstore_id', 'vstore_raw_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -1921,7 +1921,7 @@ ACTIONS = {
         'params': ['pg_id', 'lun_ids', 'is_delay'],
         'subtopic': 'group'
     },
-    # hypermetro_group 子主题动作
+    # hypermetro_group subtopic actions
     'hypermetro_group_list': {
         'func': hypermetro_group_list,
         'params': ['page_no', 'page_size', 'name', 'raw_id', 'protect_group_id', 'storage_id', 'storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'remote_vstore_id', 'remote_vstore_raw_id', 'domain_name', 'health_status', 'running_status', 'priority_station_type'],
@@ -1972,7 +1972,7 @@ ACTIONS = {
         'params': ['ids'],
         'subtopic': 'hypermetro_group'
     },
-    # hypermetro_pair 子主题动作
+    # hypermetro_pair subtopic actions
     'hypermetro_pair_list': {
         'func': hypermetro_pair_list,
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'group_raw_id', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'local_host_access_state', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
@@ -2013,13 +2013,13 @@ ACTIONS = {
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
-    # hypermetro_domain 子主题动作
+    # hypermetro_domain subtopic actions
     'hypermetro_domain_list': {
         'func': hypermetro_domain_list,
         'params': ['storage_id', 'types'],
         'subtopic': 'hypermetro_domain'
     },
-    # replication_group 子主题动作
+    # replication_group subtopic actions
     'replication_group_create': {
         'func': replication_group_create,
         'params': ['cg_name', 'remote_storage_id', 'local_pg_id', 'description', 'remote_lun_group_id', 'local_storage_id', 'create_mode', 'existed_pair_ids', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'replication_mode', 'sync_type', 'timing_val', 'sync_schedule', 'is_backup', 'speed', 'bandwidth', 'recovery_policy', 'first_sync_policy', 'enable_compress', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'is_auto_sync'],
@@ -2070,7 +2070,7 @@ ACTIONS = {
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_group'
     },
-    # replication_pair 子主题动作
+    # replication_pair subtopic actions
     'replication_pair_list': {
         'func': replication_pair_list,
         'params': ['page_no', 'page_size', 'raw_id', 'local_resource_types', 'local_vstore_raw_id', 'group_id', 'group_name', 'group_raw_id', 'local_resource_raw_id', 'local_resource_raw_ids', 'local_resource_name', 'remote_resource_name', 'local_storage_id', 'local_storage_name', 'health_status', 'running_status', 'recovery_policy', 'sort_key', 'sort_dir'],
@@ -2111,7 +2111,7 @@ ACTIONS = {
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_pair'
     },
-    # device 子主题动作
+    # device subtopic actions
     'device_pair_list': {
         'func': device_pair_list,
         'params': ['storage_id', 'local_storage_name', 'remote_storage_name', 'health_status', 'running_status', 'page_no', 'page_size'],
@@ -2122,7 +2122,7 @@ ACTIONS = {
         'params': ['local_storage_id', 'page_no', 'page_size', 'health_status', 'running_status', 'link_type'],
         'subtopic': 'replication_link'
     },
-    # snapshot 子主题动作
+    # snapshot subtopic actions
     'snapshot_list': {
         'func': snapshot_list,
         'params': ['snapshot_ids', 'storage_id', 'raw_id', 'name', 'health_status', 'running_status', 'source_lun_name', 'parent_name', 'activated_time_from', 'activated_time_to', 'page_no', 'page_size'],
@@ -2143,7 +2143,7 @@ ACTIONS = {
         'params': ['snapshot_ids', 'is_delete_target_lun', 'is_auto_deactivate'],
         'subtopic': 'snapshot'
     },
-    # snapshot_group 子主题动作
+    # snapshot_group subtopic actions
     'snapshot_group_create': {
         'func': snapshot_group_create,
         'params': ['name', 'protect_group_id', 'description', 'creation_mode'],
@@ -2169,7 +2169,7 @@ ACTIONS = {
         'params': ['snapshot_cg_id', 'rollback_speed', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },
-    # clone_group 子主题动作
+    # clone_group subtopic actions
     'clone_group_create': {
         'func': clone_group_create,
         'params': ['name', 'protect_group_id', 'create_mode', 'description', 'name_rule', 'name_prefix', 'name_suffix', 'copy_rate', 'is_sync', 'clone_pairs'],
@@ -2185,7 +2185,7 @@ ACTIONS = {
         'params': ['ids', 'is_delete_dst_lun', 'is_recycle_dst_lun_data'],
         'subtopic': 'clone_group'
     },
-    # fs_hypermetro_pair 子主题动作
+    # fs_hypermetro_pair subtopic actions
     'create': {
         'func': fs_hypermetro_pair_create,
         'params': ['vstore_pair_id', 'create_mode', 'fs_pairs', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time', 'recovery_policy', 'first_sync_policy'],
@@ -2211,7 +2211,7 @@ ACTIONS = {
         'params': ['ids', 'is_local_delete', 'is_online_delete'],
         'subtopic': 'fs_hypermetro_pair'
     },
-    # fs_snapshot 子主题动作
+    # fs_snapshot subtopic actions
     'fs_snapshot_create': {
         'func': fs_snapshot_create,
         'params': ['vstore_pair_id', 'fs_pairs'],
@@ -2227,7 +2227,7 @@ ACTIONS = {
         'params': ['ids'],
         'subtopic': 'fs_snapshot'
     },
-    # vstore_hypermetro_pair 子主题动作
+    # vstore_hypermetro_pair subtopic actions
     'vstore_pair_force_start': {
         'func': vstore_pair_force_start,
         'params': ['ids'],
@@ -2258,8 +2258,8 @@ ACTIONS = {
         'params': ['id', 'preferred_mode', 'preferred_site'],
         'subtopic': 'vstore_hypermetro_pair'
     },
-    # hypermetro_domain 子主题动作
-    # fs_hypermetro_domain 子主题（文件系统双活域特有操作）
+    # hypermetro_domain subtopic actions
+    # fs_hypermetro_domain subtopic (filesystem hypermetro domain specific operations)
     'force_start': {
         'func': fs_domain_force_start,
         'params': ['id'],
@@ -2285,7 +2285,7 @@ ACTIONS = {
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
-    # hypermetro_pair 子主题动作
+    # hypermetro_pair subtopic actions
     'query_available_luns': {
         'func': hypermetro_pair_query_available_luns,
         'params': ['source_lun_id', 'remote_storage_id', 'name', 'vstore_id', 'vstore_raw_id', 'remote_lun_group_id', 'page_no', 'page_size'],

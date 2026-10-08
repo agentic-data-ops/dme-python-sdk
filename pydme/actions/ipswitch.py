@@ -1,5 +1,5 @@
 """
-IP 交换机 (IPSwitch) 管理相关操作
+IP switch (IPSwitch) management related operations
 """
 
 import sys
@@ -101,7 +101,7 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     return response
 
 
-# ACTIONS 字典，定义所有可用动作
+# ACTIONS dict defining all available actions
 ACTIONS = {
     'list': {
         'func': list,

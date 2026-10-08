@@ -1,6 +1,6 @@
 """
-SAN (Storage Area Network) 相关操作
-包含LUN、LUN组、映射视图、存储主机、存储主机组、端口组等子主题
+SAN (Storage Area Network) related operations
+Contains subtopics such as LUN, LUN groups, mapping views, storage hosts, storage host groups, port groups
 """
 
 import sys
@@ -9,11 +9,11 @@ import os
 from pydme.client import DMEAPIClient
 
 # ============================================================================
-# LUN 子主题函数
+# LUN subtopic functions
 # ============================================================================
 
 """
-LUN (Volume) 相关操作
+LUN (Volume) related operations
 """
 
 import sys
@@ -97,7 +97,7 @@ def lun_show(client: DMEAPIClient, volume_id: str) -> dict:
     url = "/rest/blockservice/v1/volumes/{volume_id}"
 
     if not volume_id:
-        raise ValueError("volume_id 是必选参数")
+        raise ValueError("volume_id is required")
 
     response = client.get(url, params={"volume_id": volume_id})
     return response
@@ -112,7 +112,7 @@ def lun_create(client: DMEAPIClient, storage_id: str, lun_specs: list = None,
     url = "/rest/blockservice/v1/volumes/customize"
 
     if not storage_id:
-        raise ValueError("storage_id 是必选参数")
+        raise ValueError("storage_id is required")
 
     payload = {
         'storage_id': storage_id
@@ -149,7 +149,7 @@ def lun_delete(client: DMEAPIClient, volume_ids: list, task_remarks: str = None)
     url = "/rest/blockservice/v1/volumes/delete"
 
     if not volume_ids or len(volume_ids) == 0:
-        raise ValueError("volume_ids 是必选参数")
+        raise ValueError("volume_ids is required")
 
     payload = {
         'volume_ids': volume_ids
@@ -169,7 +169,7 @@ def lun_modify(client: DMEAPIClient, volume_id: str, name: str = None,
     url = "/rest/blockservice/v1/volumes/{volume_id}"
 
     if not volume_id:
-        raise ValueError("volume_id 是必选参数")
+        raise ValueError("volume_id is required")
 
     volume = {}
     if name is not None:
@@ -200,7 +200,7 @@ def lun_modify_name(client: DMEAPIClient, volumes: list) -> dict:
     url = "/rest/blockservice/v1/volumes"
 
     if not volumes or len(volumes) == 0:
-        raise ValueError("volumes 是必选参数")
+        raise ValueError("volumes is required")
 
     payload = {
         'volumes': volumes
@@ -214,7 +214,7 @@ def lun_expand(client: DMEAPIClient, volumes: list, task_remarks: str = None) ->
     url = "/rest/blockservice/v1/volumes/expand"
 
     if not volumes or len(volumes) == 0:
-        raise ValueError("volumes 是必选参数")
+        raise ValueError("volumes is required")
 
     payload = {
         'volumes': volumes
@@ -232,7 +232,7 @@ def lun_connection(client: DMEAPIClient, volume_ids: list) -> dict:
     url = "/rest/blockservice/v1/volumes/connection-infos-query"
 
     if not volume_ids or len(volume_ids) == 0:
-        raise ValueError("volume_ids 是必选参数")
+        raise ValueError("volume_ids is required")
 
     payload = {
         'lun_ids': volume_ids
@@ -305,7 +305,7 @@ def lun_group_create(client: DMEAPIClient, storage_id: str, name: str,
     url = "/rest/blockservice/v1/lun-groups"
 
     if not storage_id or not name:
-        raise ValueError("storage_id 和 name 是必选参数")
+        raise ValueError("storage_id and name are required")
 
     body_params = {
         'storage_id': storage_id,
@@ -336,7 +336,7 @@ def lun_group_delete(client: DMEAPIClient, lun_group_ids: list,
     url = "/rest/blockservice/v1/lun-groups/delete"
 
     if not lun_group_ids or len(lun_group_ids) == 0:
-        raise ValueError("lun_group_ids 是必选参数")
+        raise ValueError("lun_group_ids is required")
 
     body_params = {
         'lun_group_ids': lun_group_ids
@@ -424,10 +424,10 @@ def lun_group_show_luns(client: DMEAPIClient, group_id: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 
 # ============================================================================
-# 映射视图 (mapping_view) 子主题函数
+# Mapping view (mapping_view) subtopic functions
 # ============================================================================
 
 
@@ -482,7 +482,7 @@ def mapping_view_delete(client: DMEAPIClient, ids: list) -> dict:
     url = "/rest/blockservice/v1/mapping-views/batch-delete"
 
     if not ids or len(ids) == 0:
-        raise ValueError("ids 是必选参数")
+        raise ValueError("ids is required")
 
     body_params = {
         'ids': ids
@@ -589,20 +589,20 @@ def mapping_view_query(
     storage_id: str
 ) -> dict:
     """
-    查询物理主机（组）关联的映射关系
+    Query the mapping relationships associated with a physical host (group)
 
-    根据物理主机/主机组 ID 过滤查询指定存储设备上的映射视图。
+    Filter and query the mapping views on the specified storage device by physical host/host group ID.
 
     Args:
-        client: DME API 客户端
-        type: 查询类别 (必选)。可选值：host (物理主机), host_group (主机组)
-        request_id: 物理主机/主机组 ID (必选, 1~64个字符)
-        storage_id: 存储设备 ID (必选, 1~64个字符)
+        client: DME API client
+        type: query type (Required). valid values: host (physical host), host_group (host group)
+        request_id: physical host/host group ID (Required, 1~64 characters)
+        storage_id: storage device ID (Required, 1~64 characters)
 
     Returns:
         {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含映射视图列表
+            task_id: task ID (string, 1~64 characters),
+        }, including the mapping view list
     """
     url = "/rest/blockservice/v1/volumes/mapping-view/query"
 
@@ -633,7 +633,7 @@ def physical_host_group_show_mapping_views(client: DMEAPIClient, host_group_id: 
 
 
 # ============================================================================
-# 存储主机 (storage_host) 子主题函数
+# Storage host (storage_host) subtopic functions
 # ============================================================================
 
 def storage_host_create(client: DMEAPIClient, storage_id: str,
@@ -805,7 +805,7 @@ def storage_host_show_paths(client: DMEAPIClient, page_no: int = None, page_size
     response = client.post(url, body=payload)
     return response
 # ============================================================================
-# 存储主机组 (storage_host_group) 子主题函数
+# Storage host group (storage_host_group) subtopic functions
 # ============================================================================
 
 def storage_host_group_create(client: DMEAPIClient, storage_id: str, name: str,
@@ -978,7 +978,7 @@ def storage_host_group_show_luns(client: DMEAPIClient, storage_host_group_id: st
     response = client.post(url, body=payload)
     return response
 # ============================================================================
-# 端口组 (port_group) 子主题函数
+# Port group (port_group) subtopic functions
 # ============================================================================
 
 def port_group_list(client: DMEAPIClient, storage_id: str = None,
@@ -1058,12 +1058,12 @@ def port_group_show_relations(client: DMEAPIClient, page_no: int = 1,
 
 
 # ============================================================================
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # ============================================================================
 
 
 # ============================================================================
-# 物理主机 (physical_host) 子主题函数
+# Physical host (physical_host) subtopic functions
 # ============================================================================
 
 def physical_host_list(client: DMEAPIClient, limit: int = None, start: int = None,
@@ -1434,7 +1434,7 @@ def storage_host_unmap_luns(client: DMEAPIClient, volume_ids: list, host_id: str
 
 
 # ============================================================================
-# 物理主机组 (physical_host_group) 子主题函数
+# Physical host group (physical_host_group) subtopic functions
 # ============================================================================
 
 def physical_host_group_list(client: DMEAPIClient, limit: int = None, start: int = None,
@@ -1659,7 +1659,7 @@ def physical_host_group_show_related(client: DMEAPIClient, hostgroup_id: str,
     url = "/rest/hostmgmt/v1/hostgroups/{hostgroup_id}/related-storage-hostgroups"
 
     if not hostgroup_id:
-        raise ValueError("hostgroup_id 是必选参数")
+        raise ValueError("hostgroup_id is required")
 
     params = {
         'hostgroup_id': hostgroup_id
@@ -1681,7 +1681,7 @@ def mapping_view_query_host_to_lun(client: DMEAPIClient, storage_id: str,
     url = "/rest/blockservice/v1/mapping-views/query_for_host_to_lun"
 
     if not storage_id:
-        raise ValueError("storage_id 是必选参数")
+        raise ValueError("storage_id is required")
 
     payload = {
         'storage_id': storage_id,
@@ -1706,11 +1706,11 @@ def mapping_view_query_host_to_lun(client: DMEAPIClient, storage_id: str,
 
 
 # ============================================================================
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # ============================================================================
 
 ACTIONS = {
-    # LUN 子主题动作（san lun xxx）
+    # LUN subtopic actions (san lun xxx)
     'lun_list': {
         'func': lun_list,
         'params': ['limit', 'offset', 'sort_dir', 'sort_key', 'name', 'vstore_raw_id', 'vstore_name', 'status', 'health_status', 'service_level_id', 'volume_wwn', 'storage_id', 'pool_raw_id', 'host_id', 'hostgroup_id', 'unmapped_host_id', 'unmapped_hostgroup_id', 'project_id', 'allocate_type', 'attached', 'query_mode', 'protected', 'pg_id', 'usage_type', 'support_provisioning'],
@@ -1752,7 +1752,7 @@ ACTIONS = {
         'subtopic': 'lun'
     },
 
-    # LUN 组子主题动作（san lun_group xxx）
+    # LUN group subtopic actions (san lun_group xxx)
     'lun_group_list': {
         'func': lun_group_list,
         'params': ['page_size', 'page_no', 'sort_dir', 'sort_key', 'name', 'vstore_raw_id', 'vstore_name', 'storage_id', 'storage_name', 'raw_id', 'attached', 'protection_group_raw_id', 'avaiable_mapping_for_host_id', 'avaiable_mapping_for_host_group_id', 'support_provisioning'],
@@ -1788,7 +1788,7 @@ ACTIONS = {
         'params': ['group_id', 'page_size', 'page_no', 'health_status'],
         'subtopic': 'lun_group'
     },
-    # 映射视图子主题动作（san mapping_view xxx）
+    # Mapping view subtopic actions (san mapping_view xxx)
     'mapping_view_create': {
         'func': mapping_view_create,
         'params': ['storage_id', 'name', 'port_group_id', 'start_host_lun_id',
@@ -1812,7 +1812,7 @@ ACTIONS = {
         'subtopic': 'mapping_view'
     },
 
-    # 存储主机子主题动作（san storage_host xxx）
+    # Storage host subtopic actions (san storage_host xxx)
     'storage_host_create': {
         'func': storage_host_create,
         'params': ['storage_id', 'host_info', 'task_remarks', 'vstore_id'],
@@ -1859,7 +1859,7 @@ ACTIONS = {
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'storage_host'
     },
-    # 存储主机组子主题动作（san storage_host_group xxx）
+    # Storage host group subtopic actions (san storage_host_group xxx)
     'storage_host_group_create': {
         'func': storage_host_group_create,
         'params': ['storage_id', 'name', 'description', 'exist_host_ids', 'create_storage_host_params', 'task_remarks', 'vstore_id'],
@@ -1897,7 +1897,7 @@ ACTIONS = {
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
-    # 端口组子主题动作（san port_group xxx）
+    # Port group subtopic actions (san port_group xxx)
     'port_group_list': {
         'func': port_group_list,
         'params': ['storage_id', 'page_no', 'page_size'],
@@ -1918,7 +1918,7 @@ ACTIONS = {
         'params': ['page_no', 'page_size'],
         'subtopic': 'port_group'
     },
-    # 物理主机子主题动作（san physical_host xxx）
+    # Physical host subtopic actions (san physical_host xxx)
     'physical_host_list': {
         'func': physical_host_list,
         'params': ['limit', 'start', 'sort_key', 'sort_dir', 'name',
@@ -2004,7 +2004,7 @@ ACTIONS = {
         'params': ['host_id', 'storage_id'],
         'subtopic': 'physical_host'
     },
-    # 物理主机组子主题动作（san physical_host_group xxx）
+    # Physical host group subtopic actions (san physical_host_group xxx)
     'physical_host_group_list': {
         'func': physical_host_group_list,
         'params': ['limit', 'start', 'sort_dir', 'sort_key', 'name', 'project_id', 'az_ids', 'managed_status'],

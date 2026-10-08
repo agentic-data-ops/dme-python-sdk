@@ -1,5 +1,5 @@
 """
-虚拟化服务 (Virtualization) 相关操作
+Virtualization service (Virtualization) related operations
 """
 
 import sys
@@ -275,9 +275,9 @@ def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # 虚拟机管理
+    # Virtual machine management
     'vm_list': {
         'func': vm_list,
         'params': ['site_id', 'cluster_id', 'dc_id', 'cluster_name', 'host_id', 
@@ -291,7 +291,7 @@ ACTIONS = {
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
-    # 数据存储管理
+    # Datastore management
     'datastore_list': {
         'func': datastore_list,
         'params': ['site_id', 'cluster_id', 'host_id', 'dc_id', 'name', 
@@ -304,7 +304,7 @@ ACTIONS = {
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
-    # 主机管理
+    # Host management
     'host_list': {
         'func': host_list,
         'params': ['site_id', 'cluster_id', 'dc_id', 'host_name', 'ip_address',
@@ -321,7 +321,7 @@ ACTIONS = {
         'params': ['host_id'],
         'subtopic': 'host'
     },
-    # 集群管理
+    # Cluster management
     'cluster_list': {
         'func': cluster_list,
         'params': ['site_id', 'dc_id', 'name', 'vr_type', 'page_no', 'page_size'],
@@ -332,7 +332,7 @@ ACTIONS = {
         'params': ['cluster_id', 'vr_type'],
         'subtopic': 'cluster'
     },
-    # 站点管理
+    # Site management
     'site_list': {
         'func': site_list,
         'params': [],
@@ -343,13 +343,13 @@ ACTIONS = {
         'params': ['site_id'],
         'subtopic': 'site'
     },
-    # 物理盘管理
+    # Physical disk management
     'disk_list': {
         'func': disk_list,
         'params': ['site_id', 'host_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'disk'
     },
-    # 虚拟磁盘管理
+    # Virtual disk management
     'vdisk_list': {
         'func': vdisk_list,
         'params': ['site_id', 'vm_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],

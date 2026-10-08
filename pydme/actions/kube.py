@@ -1,5 +1,5 @@
 """
-Kubernetes 相关操作
+Kubernetes related operations
 """
 
 import sys
@@ -251,9 +251,9 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # 集群管理
+    # Cluster management
     'cluster_list': {
         'func': cluster_list,
         'params': ['id', 'name', 'version', 'ip_address', 'status',
@@ -261,7 +261,7 @@ ACTIONS = {
                    'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
-    # 节点管理
+    # Node management
     'node_list': {
         'func': node_list,
         'params': ['id', 'name', 'cluster_id', 'pool_id', 'ip_address',
@@ -269,7 +269,7 @@ ACTIONS = {
                    'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'node'
     },
-    # 容器组管理
+    # Pod management
     'pod_list': {
         'func': pod_list,
         'params': ['id', 'name', 'workload_id', 'node_id', 'namespace_name',
@@ -278,14 +278,14 @@ ACTIONS = {
                    'controller', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'pod'
     },
-    # 命名空间管理
+    # Namespace management
     'namespace_list': {
         'func': namespace_list,
         'params': ['name', 'cluster_id', 'status', 'sort_key', 'sort_dir',
                    'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
-    # 持久卷声明管理
+    # Persistent volume claim management
     'pvc_list': {
         'func': pvc_list,
         'params': ['name', 'namespace_name', 'cluster_name', 'cluster_id',
@@ -294,7 +294,7 @@ ACTIONS = {
                    'page_no', 'page_size'],
         'subtopic': 'pvc'
     },
-    # 持久卷管理
+    # Persistent volume management
     'pv_list': {
         'func': pv_list,
         'params': ['id', 'name', 'cluster_name', 'cluster_id', 'platform_id',

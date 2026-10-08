@@ -1,5 +1,5 @@
 """
-工作流 (Workflow) 相关操作
+Workflow related operations
 """
 
 import sys
@@ -8,7 +8,7 @@ import os
 from pydme.client import DMEAPIClient
 
 
-# ==================== template 子主题 ====================
+# ==================== template subtopic ====================
 
 def template_list(client: DMEAPIClient, page_no: int, page_size: int,
                   directory_id: str = None, group: str = None,
@@ -50,7 +50,7 @@ def template_show(client: DMEAPIClient, template_id: str,
     return response
 
 
-# ==================== instance 子主题 ====================
+# ==================== instance subtopic ====================
 
 def instance_stop(client: DMEAPIClient, instance_id: str) -> dict:
     url = "/rest/wfamgmt/v1/workflow/instances/{instance_id}/stop"
@@ -94,10 +94,10 @@ def instance_step_log(client: DMEAPIClient, instance_id: str, step_id: str) -> d
     return response
 
 
-# ==================== 动作注册信息 ====================
+# ==================== Action registration information ====================
 
 ACTIONS = {
-    # template 子主题动作
+    # template subtopic actions
     'template_list': {
         'func': template_list,
         'params': ['page_no', 'page_size', 'directory_id', 'group', 'name'],
@@ -113,7 +113,7 @@ ACTIONS = {
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },
-    # instance 子主题动作
+    # instance subtopic actions
     'instance_stop': {
         'func': instance_stop,
         'params': ['instance_id'],

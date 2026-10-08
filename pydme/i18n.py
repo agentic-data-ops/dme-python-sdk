@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 """
-pydme i18n：按语言加载 action 注释资源（pydme/config/i18n/<lang>.yaml）。
+pydme i18n: load action comment resources by language (pydme/config/i18n/<lang>.yaml).
 
-v2 结构化格式（零依赖轻量解析，仅支持本仓库自产格式）：
+v2 structured format (zero-dependency lightweight parser; only supports this
+repo's self-produced format):
 
     topics:
       <topic>:
-        description: |            # 模块 docstring 首行
+        description: |            # first line of the module docstring
         actions:
           <action-func>:
-            description: |        # 函数注释第一段
-            detail: |             # Args 之前其余段落（'' 表示无）
+            description: |        # first paragraph of the function comments
+            detail: |             # remaining paragraphs before Args ('' means none)
             parameters:
-              <arg>: |            # 参数描述（多行）
-            outputs: |            # Returns 段内容（'' 表示无）
+              <arg>: |            # parameter description (multi-line)
+            outputs: |            # Returns section content ('' means none)
 
-语言选择：CLI 参数 --lang > 环境变量 DME_LANG > 默认 zh_CN。
+Language selection: CLI argument --lang > environment variable DME_LANG >
+default zh_CN.
 """
 import os
 import sys
@@ -28,17 +30,18 @@ _CACHE = {}
 
 
 def _unquote(value):
-    """去掉单引号包裹（单行值统一以单引号序列化）。"""
+    """Remove single-quote wrapping (single-line values are serialized with single quotes)."""
     if value.startswith("'") and value.endswith("'") and len(value) >= 2:
         return value[1:-1]
     return value
 
 
 def parse_yaml(text: str) -> dict:
-    """解析 v2 i18n YAML：{topics: {topic: {description, actions: {action: entry}}}}。
+    """Parse v2 i18n YAML: {topics: {topic: {description, actions: {action: entry}}}}.
 
-    block 内容行缩进 >= 块头缩进 + 2 即归入当前块；空行保留在块内。
-    空值字段以 `key: ''` 内联表示。
+    Block content lines with indent >= block header indent + 2 belong to the
+    current block; blank lines are kept inside the block. Empty values are
+    inlined as `key: ''`.
     """
     topics = {}
     cur_topic = cur_action = None
@@ -93,7 +96,7 @@ def parse_yaml(text: str) -> dict:
         elif indent == 4 and stripped == 'description: |':
             begin('topic_desc', indent_=indent)
         elif indent == 4 and stripped.startswith('description:'):
-            # 单行 topic 描述：description: 'xxx'
+            # single-line topic description: description: 'xxx'
             topics[cur_topic]['description'] = _unquote(stripped.partition(':')[2].strip())
         elif indent == 6 and stripped.endswith(':'):
             cur_action = stripped[:-1]
@@ -106,13 +109,13 @@ def parse_yaml(text: str) -> dict:
         elif indent == 8 and stripped.endswith(": ''"):
             topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
         elif indent == 8:
-            # 单行 action 字段：description: 'xxx' / detail: 'xxx' / outputs: 'xxx'
+            # single-line action field: description: 'xxx' / detail: 'xxx' / outputs: 'xxx'
             key, _, val = stripped.partition(':')
             topics[cur_topic]['actions'][cur_action][key.strip()] = _unquote(val.strip())
         elif indent == 10 and stripped.endswith(': |'):
             begin('param', key_=stripped[:-3].strip(), indent_=indent)
         elif indent == 10:
-            # 单行参数：arg: 'xxx'
+            # single-line parameter: arg: 'xxx'
             key, _, val = stripped.partition(':')
             topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = _unquote(val.strip())
     save()
@@ -120,9 +123,11 @@ def parse_yaml(text: str) -> dict:
 
 
 def build_docstring(entry: dict) -> str:
-    """结构化字段重组为 docstring 文本（与拆分前语义一致，供 parse_docstring 使用）。
+    """Rebuild docstring text from structured fields (semantically identical to
+    the pre-split text, for parse_docstring).
 
-    仅用 detail（已含完整说明）重组，description 只供 --list-topics 使用。
+    Only detail (which contains the full description) is used for the rebuild;
+    description is only consumed by --list-topics.
     """
     parts = []
     if entry.get('detail'):
@@ -145,10 +150,11 @@ def build_docstring(entry: dict) -> str:
 
 
 def resolve_lang(cli_lang=None) -> str:
-    """CLI 参数 > DME_LANG 环境变量 > 默认 zh_CN；非法值回退默认并警告。"""
+    """CLI argument > DME_LANG env var > default zh_CN; an invalid value falls
+    back to the default with a warning."""
     lang = cli_lang or os.environ.get('DME_LANG') or DEFAULT_LANG
     if lang not in SUPPORTED_LANGS:
-        print(f"警告：未知语言 '{lang}'，回退为 {DEFAULT_LANG}", file=sys.stderr)
+        print(f"Warning: unknown language '{lang}', falling back to {DEFAULT_LANG}", file=sys.stderr)
         lang = DEFAULT_LANG
     return lang
 
@@ -158,7 +164,8 @@ def _yaml_path(lang: str) -> Path:
 
 
 def load_i18n(lang=None) -> dict:
-    """按语言加载 {topics: {...}}，进程内缓存；文件缺失返回空结构并警告。"""
+    """Load {topics: {...}} by language, cached per process; a missing file
+    returns an empty structure with a warning."""
     lang = resolve_lang(lang)
     if lang in _CACHE:
         return _CACHE[lang]
@@ -167,28 +174,30 @@ def load_i18n(lang=None) -> dict:
     if path.exists():
         data = parse_yaml(path.read_text(encoding='utf-8'))
     else:
-        print(f"警告：未找到 i18n 资源 {path}，注释将回退函数 docstring", file=sys.stderr)
+        print(f"Warning: i18n resource {path} not found, comments will fall back to the function docstring",
+              file=sys.stderr)
     _CACHE[lang] = data
     return data
 
 
 def get_topic_description(topic: str, lang=None) -> str:
-    """topic 描述（模块 docstring 首行）。"""
+    """Topic description (first line of the module docstring)."""
     return load_i18n(lang)['topics'].get(topic, {}).get('description', '')
 
 
 def get_action_entry(topic: str, action: str, lang=None):
-    """action 结构化字段（无则 None）。"""
+    """Structured fields of an action (None if missing)."""
     return load_i18n(lang)['topics'].get(topic, {}).get('actions', {}).get(action)
 
 
 def get_action_description(topic: str, action: str, lang=None) -> str:
-    """action 描述（函数注释第一段）。"""
+    """Action description (first paragraph of the function comments)."""
     entry = get_action_entry(topic, action, lang)
     return entry.get('description', '') if entry else ''
 
 
 def get_action_doc(topic: str, action: str, lang=None):
-    """重组 docstring 文本供 parse_docstring 解析；资源缺失返回 None。"""
+    """Rebuild the docstring text for parse_docstring; returns None if the
+    resource is missing."""
     entry = get_action_entry(topic, action, lang)
     return build_docstring(entry) if entry else None

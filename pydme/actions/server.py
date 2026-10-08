@@ -1,5 +1,5 @@
 """
-服务器管理 (Server) 相关操作
+Server management (Server) related operations
 """
 
 import sys
@@ -147,9 +147,9 @@ def pcie_card_list(client: DMEAPIClient, server_id: str,
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 ACTIONS = {
-    # 直接动作（两级结构）
+    # Direct actions (two-level structure)
     'list': {
         'func': list,
         'params': ['start', 'limit', 'name', 'server_type'],
@@ -160,49 +160,49 @@ ACTIONS = {
         'params': ['server_id'],
         'subtopic': None
     },
-    # 子主题动作 - cpu（三级结构）
+    # Subtopic actions - cpu (three-level structure)
     'cpu_list': {
         'func': cpu_list,
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
-    # 子主题动作 - memory（三级结构）
+    # Subtopic actions - memory (three-level structure)
     'memory_list': {
         'func': memory_list,
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'memory'
     },
-    # 子主题动作 - disk（三级结构）
+    # Subtopic actions - disk (three-level structure)
     'disk_list': {
         'func': disk_list,
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },
-    # 子主题动作 - nic（三级结构）
+    # Subtopic actions - nic (three-level structure)
     'nic_list': {
         'func': nic_list,
         'params': ['server_id', 'page_no', 'page_size'],
         'subtopic': 'nic'
     },
-    # 子主题动作 - fan（三级结构）
+    # Subtopic actions - fan (three-level structure)
     'fan_list': {
         'func': fan_list,
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
-    # 子主题动作 - power（三级结构）
+    # Subtopic actions - power (three-level structure)
     'power_list': {
         'func': power_list,
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },
-    # 子主题动作 - raid_card（三级结构）
+    # Subtopic actions - raid_card (three-level structure)
     'raid_card_list': {
         'func': raid_card_list,
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },
-    # 子主题动作 - pcie_card（三级结构）
+    # Subtopic actions - pcie_card (three-level structure)
     'pcie_card_list': {
         'func': pcie_card_list,
         'params': ['server_id', 'start', 'limit'],

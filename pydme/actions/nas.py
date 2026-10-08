@@ -1,5 +1,5 @@
 """
-NAS 相关操作
+NAS related operations
 """
 
 import sys
@@ -9,7 +9,7 @@ from pydme.client import DMEAPIClient
 
 
 # ============================================================================
-# DPC (并行客户端) 子主题函数
+# DPC (parallel client) subtopic functions
 # ============================================================================
 
 
@@ -53,7 +53,7 @@ def dpc_show(client: DMEAPIClient, dpc_id: str) -> dict:
     url = "/rest/dpc-mgmt/v1/dpcs/{dpc_id}"
 
     if not dpc_id:
-        raise ValueError("dpc_id 是必选参数")
+        raise ValueError("dpc_id is required")
 
     response = client.get(url, params={"dpc_id": dpc_id})
     return response
@@ -101,7 +101,7 @@ def dpc_client_show(client: DMEAPIClient, id: str) -> dict:
     url = "/rest/fileservice/v1/dpc-clients/{id}"
 
     if not id:
-        raise ValueError("id 是必选参数")
+        raise ValueError("id is required")
 
     response = client.get(url, params={"id": id})
     return response
@@ -168,7 +168,7 @@ def dtree_show(client: DMEAPIClient, dtree_id: str) -> dict:
     url = "/rest/fileservice/v1/dtrees/{dtree_id}"
 
     if not dtree_id:
-        raise ValueError("dtree_id 是必选参数")
+        raise ValueError("dtree_id is required")
 
     response = client.get(url, params={"dtree_id": dtree_id})
     return response
@@ -184,7 +184,7 @@ def dtree_create(client: DMEAPIClient, storage_id: str, create_dtrees_param: lis
     url = "/rest/fileservice/v1/dtrees"
 
     if not storage_id or not create_dtrees_param:
-        raise ValueError("storage_id 和 create_dtrees_param 是必选参数")
+        raise ValueError("storage_id and create_dtrees_param are required")
 
     payload = {
         'storage_id': storage_id,
@@ -226,7 +226,7 @@ def dtree_delete(client: DMEAPIClient, dtree_ids: list, task_remarks: str = None
     url = "/rest/fileservice/v1/dtrees/delete"
 
     if not dtree_ids or len(dtree_ids) == 0:
-        raise ValueError("dtree_ids 是必选参数")
+        raise ValueError("dtree_ids is required")
 
     payload = {
         'dtree_ids': dtree_ids
@@ -274,7 +274,7 @@ def dtree_modify(client: DMEAPIClient, dtree_id: str, name: str = None,
 
 
 # ============================================================================
-# NFS 共享子主题相关动作
+# NFS share subtopic related operations
 # ============================================================================
 
 def nfs_share_list(client: DMEAPIClient, id_in_storage: str = None, name: str = None,
@@ -355,7 +355,7 @@ def nfs_share_show(client: DMEAPIClient, nfs_share_id: str) -> dict:
     url = "/rest/fileservice/v1/nfs-shares/{nfs_share_id}"
 
     if not nfs_share_id:
-        raise ValueError("nfs_share_id 是必选参数")
+        raise ValueError("nfs_share_id is required")
 
     response = client.get(url, params={"nfs_share_id": nfs_share_id})
     return response
@@ -436,7 +436,7 @@ def nfs_share_delete(client: DMEAPIClient, nfs_share_ids: list,
 
 
 # ============================================================================
-# CIFS 共享子主题相关动作
+# CIFS share subtopic related operations
 # ============================================================================
 
 def cifs_share_list(client: DMEAPIClient, raw_id: str = None, name: str = None,
@@ -632,7 +632,7 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
                           page_no: int = 1, page_size: int = 10) -> dict:
     result = {'user': [], 'ip': [], 'file': []}
 
-    # 根据 type 参数查询对应类型的权限
+    # Query the permissions of the corresponding type according to the type parameter
     if type is None or type == 'user':
         url = "/rest/fileservice/v1/cifs-shares/{cifs_share_id}/auth-users/query"
         payload = {}
@@ -690,7 +690,7 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
         if response.get('file_filter_rules'):
             result['file'] = response.get('file_filter_rules')
 
-    # 如果指定了 type，只返回对应类型的权限
+    # If type is specified, only return the permissions of the corresponding type
     if type == 'user':
         return {'user_permissions': result['user']}
     elif type == 'ip':
@@ -698,12 +698,12 @@ def cifs_share_show_permissions(client: DMEAPIClient, cifs_share_id: str,
     elif type == 'file':
         return {'file_permissions': result['file']}
     else:
-        # 返回所有权限
+        # Return all permissions
         return {'user_permissions': result['user'], 'ip_permissions': result['ip'], 'file_permissions': result['file']}
 
 
 # ============================================================================
-# dataturbo_share (DataTurbo 共享) 子主题相关动作
+# dataturbo_share (DataTurbo share) subtopic related operations
 # ============================================================================
 
 def dataturbo_share_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 10,
@@ -856,7 +856,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
 
 
 # ============================================================================
-# Quota (配额) 子主题相关动作
+# Quota subtopic related operations
 # ============================================================================
 
 def quota_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 20,
@@ -1008,7 +1008,7 @@ def quota_delete(client: DMEAPIClient, quota_ids: list,
 
 
 # ============================================================================
-# filesystem (文件系统) 子主题相关动作
+# filesystem subtopic related operations
 # ============================================================================
 
 def filesystem_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
@@ -1341,7 +1341,7 @@ def filesystem_modify(client: DMEAPIClient, file_system_id: str, name: str = Non
 
 
 # ============================================================================
-# namespace (命名空间) 子主题相关动作
+# namespace subtopic related operations
 # ============================================================================
 
 def namespace_list(client: DMEAPIClient, page_no: int = 1, page_size: int = 100,
@@ -2057,7 +2057,7 @@ ACTIONS = {
         'params': ['dtree_id', 'name', 'quota_switch', 'security_mode', 'nas_locking_policy', 'unix_permissions', 'task_remarks'],
         'subtopic': 'dtree'
     },
-    # NFS share 子主题动作
+    # NFS share subtopic actions
     'nfs_share_list': {
         'func': nfs_share_list,
         'params': ['id_in_storage', 'name', 'share_path', 'exact_share_path', 'device_name', 'storage_id', 'tier_name', 'owning_dtree_name', 'fs_name', 'fs_id', 'owning_dtree_id', 'vstore_name', 'page_no', 'page_size', 'sort_key', 'sort_dir', 'support_provisioning', 'namespace_id', 'namespace_name', 'dc_id', 'dc_name', 'zone_id', 'zone_name', 'zone_ip'],
@@ -2088,7 +2088,7 @@ ACTIONS = {
         'params': ['page_no', 'page_size', 'nfs_share_id', 'storage_id', 'vstore_id_in_storage', 'name', 'client_id_in_storage', 'sort_key', 'sort_dir'],
         'subtopic': 'nfs_share'
     },
-    # CIFS 共享子主题动作
+    # CIFS share subtopic actions
     'cifs_share_list': {
         'func': cifs_share_list,
         'params': ['raw_id', 'name', 'share_path', 'exact_share_path', 'fs_id', 'fs_name', 'dtree_id', 'dtree_name', 'storage_id', 'storage_name', 'vstore_raw_id', 'vstore_name', 'manufacturer', 'op_lock_enabled', 'notify_enabled', 'offline_file_modes', 'file_extension_filter_enabled', 'abe_enabled', 'page_no', 'page_size', 'sort_key', 'sort_dir', 'namespace_id', 'namespace_name', 'support_provisioning', 'dc_id', 'dc_name'],
@@ -2119,7 +2119,7 @@ ACTIONS = {
         'params': ['cifs_share_id', 'type', 'user_filter', 'ip_filter', 'file_filter', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'cifs_share'
     },
-    # dataturbo_share 子主题动作
+    # dataturbo_share subtopic actions
     'dataturbo_share_list': {
         'func': dataturbo_share_list,
         'params': ['page_no', 'page_size', 'raw_id', 'share_path', 'fs_id', 'fs_name', 'dtree_id', 'dtree_name', 'vstore_id', 'vstore_raw_id', 'vstore_name', 'storage_id', 'storage_name', 'zone_id', 'zone_name', 'scope', 'sort_key', 'sort_dir'],
@@ -2150,7 +2150,7 @@ ACTIONS = {
         'params': ['dataturbo_share_id', 'page_no', 'page_size', 'user_id', 'user_name', 'permission'],
         'subtopic': 'dataturbo_share'
     },
-    # quota 子主题动作
+    # quota subtopic actions
     'quota_list': {
         'func': quota_list,
         'params': ['page_no', 'page_size', 'ids', 'raw_ids', 'quota_type', 'parent_type', 'parent_raw_id', 'owner_name', 'vstore_id', 'vstore_raw_id', 'storage_id', 'sort_key', 'sort_dir', 'zone_id'],
@@ -2176,7 +2176,7 @@ ACTIONS = {
         'params': ['quota_ids', 'task_remarks'],
         'subtopic': 'quota'
     },
-    # filesystem 子主题动作
+    # filesystem subtopic actions
     'filesystem_list': {
         'func': filesystem_list,
         'params': ['page_no', 'page_size', 'sort_dir', 'sort_key', 'name', 'fs_raw_id', 'storage_id'],
@@ -2212,7 +2212,7 @@ ACTIONS = {
         'params': ['file_system_id', 'name', 'description', 'capacity', 'capacity_threshold', 'initial_distribute_policy', 'automatic_update_time', 'atime_update_mode', 'quota_switch', 'vaai_switch', 'owning_controller', 'task_remarks'],
         'subtopic': 'filesystem'
     },
-    # namespace 子主题动作
+    # namespace subtopic actions
     'namespace_list': {
         'func': namespace_list,
         'params': ['page_no', 'page_size', 'sort_dir', 'sort_key', 'name', 
@@ -2254,7 +2254,7 @@ ACTIONS = {
         'params': ['namespace_ids', 'task_remarks'],
         'subtopic': 'namespace'
     },
-    # dataturbo 子主题动作（原 dpc 子主题，重命名）
+    # dataturbo subtopic actions (renamed from the dpc subtopic)
     'dpc_list': {
         'func': dpc_list,
         'params': ['ids', 'hostname', 'ip', 'mgmt_status', 'status', 'sn', 'storage_id', 'dpc_om_id', 'dpc_type', 'client_version', 'page_no', 'page_size'],
@@ -2265,7 +2265,7 @@ ACTIONS = {
         'params': ['dpc_id'],
         'subtopic': 'dataturbo'
     },
-    # dpc 子主题动作 (DPC客户端)
+    # dpc subtopic actions (DPC clients)
     'list': {
         'func': dpc_client_list,
         'params': ['storage_id', 'process_id', 'name', 'manage_ip', 'version', 'status', 'switch_status', 'upgrade_flag', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -2276,7 +2276,7 @@ ACTIONS = {
         'params': ['id'],
         'subtopic': 'dpc'
     },
-    # kvcache 子主题动作
+    # kvcache subtopic actions
     'kvcache_list': {
         'func': kvcache_list,
         'params': ['storage_id', 'id', 'raw_id', 'name', 'zone_id', 'pool_raw_id', 'vstore_id', 'vstore_name', 'fs_id', 'fs_name', 'data_cleanup_switch', 'page_no', 'page_size', 'sort_dir', 'sort_key'],

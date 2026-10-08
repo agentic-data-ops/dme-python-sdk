@@ -1,5 +1,5 @@
 """
-AIOps 智能运维相关操作
+AIOps intelligent O&M related operations
 """
 
 import sys
@@ -16,7 +16,7 @@ def _build_current_alarm_params(alarm_id: str = None, severity: list = None,
                                  alarm_name: str = None, occur_utc_start: str = None,
                                  occur_utc_end: str = None, fields: list = None,
                                  page_size: int = 100) -> dict:
-    """构建当前告警查询参数"""
+    """Build current alarm query parameters"""
     body_params = {'size': page_size}
 
     if alarm_id is not None or severity is not None or mo_dn is not None or \
@@ -108,7 +108,7 @@ def _build_history_alarm_params(alarm_id: str = None, severity: list = None,
                                  occur_utc_start: str = None, occur_utc_end: str = None,
                                  fields: list = None, size: int = 100,
                                  iterator: str = None) -> dict:
-    """构建历史告警查询参数"""
+    """Build history alarm query parameters"""
     body_params = {'size': size}
 
     query_filters = []
@@ -183,7 +183,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
         'history_alarms': None
     }
 
-    # 查询当前告警(默认总是查询)
+    # Query current alarms (always queried by default)
     current_url = "/rest/alarmmgmt/v1/alarms/current-alarm/query"
     current_params = _build_current_alarm_params(
         alarm_id=alarm_id, severity=severity, mo_dn=mo_dn,
@@ -195,7 +195,7 @@ def alarm_list(client: DMEAPIClient, alarm_id: str = None, severity: list = None
     current_response = client.post(current_url, body=current_params)
     result['current_alarms'] = current_response
 
-    # 如果指定了 include_history,同时查询历史告警
+    # If include_history is specified, also query history alarms
     if include_history:
         history_url = "/rest/alarmmgmt/v1/alarms/history-alarms/query"
         history_params = _build_history_alarm_params(
@@ -215,15 +215,15 @@ def alarm_ack(client: DMEAPIClient, csns: list) -> dict:
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
     if not isinstance(csns, list) or len(csns) < 1 or len(csns) > 30:
-        raise ValueError("csns 必须是包含 1-30 个元素的列表")
+        raise ValueError("csns must be a list of 1-30 elements")
 
     payload = {
         "csns": csns,
         "operation_type": "ACK"
     }
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -233,15 +233,15 @@ def alarm_unack(client: DMEAPIClient, csns: list) -> dict:
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
     if not isinstance(csns, list) or len(csns) < 1 or len(csns) > 30:
-        raise ValueError("csns 必须是包含 1-30 个元素的列表")
+        raise ValueError("csns must be a list of 1-30 elements")
 
     payload = {
         "csns": csns,
         "operation_type": "UNACK"
     }
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -251,15 +251,15 @@ def alarm_clear(client: DMEAPIClient, csns: list) -> dict:
     url = "/rest/alarmmgmt/v1/alarms/operation"
 
     if not isinstance(csns, list) or len(csns) < 1 or len(csns) > 30:
-        raise ValueError("csns 必须是包含 1-30 个元素的列表")
+        raise ValueError("csns must be a list of 1-30 elements")
 
     payload = {
         "csns": csns,
         "operation_type": "CLEAR"
     }
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -277,14 +277,14 @@ def diagnose_task_create(client: DMEAPIClient, object_ids: list, object_type: st
         "analysis_types": analysis_types
     }
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
 
 
-# ============ Performance 性能监控子主题函数 ============
+# ============ Performance subtopic functions ============
 
 
 def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_time: int,
@@ -346,10 +346,10 @@ def performance_query(client: DMEAPIClient, obj_type_id: int, indicator_ids: lis
 def performance_show_indicators(client: DMEAPIClient, indicators: list) -> dict:
     url = "/rest/metrics/v1/mgr-svc/indicators"
 
-    # 确保 indicators 是整数列表
+    # Ensure indicators is a list of integers
     indicator_ids = [int(i) for i in (indicators or [])]
 
-    # API 要求 body 为顶层 JSON 数组 [int64, ...]（List<int64>）
+    # The API requires the body to be a top-level JSON array [int64, ...] (List<int64>)
     response = client.post(url, body=indicator_ids)
     return response
 
@@ -366,7 +366,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
 
     response = client.get(url)
 
-    # 如果提供了 filter 参数,过滤结果
+    # If the filter parameter is provided, filter the results
     if filter is not None and response and 'data' in response:
         filter_lower = filter.lower()
         filtered_data = []
@@ -380,7 +380,7 @@ def performance_list_object_types(client: DMEAPIClient, filter: str = None) -> d
     return response
 
 
-# Health 相关函数
+# Health related functions
 def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_time: int,
                       end_time: int, object_type: str, indicator: str = None) -> dict:
     if type == 'capacity_prediction':
@@ -390,7 +390,7 @@ def health_query_data(client: DMEAPIClient, type: str, object_id: str, begin_tim
     elif type == 'performance_anomaly':
         url = "/rest/metrics/v1/performance/anomaly-data/query"
     else:
-        raise ValueError(f"不支持的 type 参数：{type}")
+        raise ValueError(f"Unsupported type parameter: {type}")
 
     payload = {
         'object_id': object_id,
@@ -447,7 +447,7 @@ def health_show_detail(client: DMEAPIClient, object_id: str, object_type: str,
 
 
 
-# ============ Performance 性能监控子主题函数 ============
+# ============ Performance subtopic functions ============
 
 
 
@@ -459,15 +459,15 @@ def diagnose_task_status(client: DMEAPIClient, task_id: str) -> dict:
         "task_id": task_id
     }
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载:{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
 
 
 # ============================================================================
-# 检查策略 (check_policy) 子主题函数
+# Check policy (check_policy) subtopic functions
 # ============================================================================
 
 def check_policy_list(client: DMEAPIClient, policy_name: str = None, exact_query: bool = None,
@@ -541,7 +541,7 @@ def check_policy_delete(client: DMEAPIClient, policy_id: str) -> dict:
 
 
 # ============================================================================
-# 检查结果 (check_result) 子主题函数
+# Check result (check_result) subtopic functions
 # ============================================================================
 
 def check_result_list(client: DMEAPIClient, object_name: str = None, level: str = None,
@@ -599,9 +599,9 @@ def check_result_show(client: DMEAPIClient, check_result_id: str) -> dict:
     return response
 
 
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # ============================================================================
-# 拓扑管理 (topology) 子主题函数
+# Topology management (topology) subtopic functions
 # ============================================================================
 
 def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_id: str,
@@ -625,8 +625,8 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
     if page_no is not None:
         payload["page_no"] = page_no
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -635,45 +635,45 @@ def topology_query_luns(client: DMEAPIClient, entry_objects: list, storage_pool_
 def topology_query_san_path(client: DMEAPIClient, entry_objects: list, san_type: str = None) -> dict:
     result = {}
 
-    # 如果未指定 san_type，同时调用两个 API
+    # If san_type is not specified, call both APIs
     if san_type is None:
-        # 调用 IP_SAN API
+        # Call the IP_SAN API
         ip_san_url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         ip_san_payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {ip_san_url}")
-        print(f"请求负载：{json.dumps(ip_san_payload, ensure_ascii=False, indent=2)}")
+        print(f"Request URL: {ip_san_url}")
+        print(f"Request payload:{json.dumps(ip_san_payload, ensure_ascii=False, indent=2)}")
         ip_san_response = client.post(ip_san_url, body=ip_san_payload)
         result['ip_san'] = ip_san_response
 
-        # 调用 FC_SAN API
+        # Call the FC_SAN API
         fc_san_url = "/rest/topomgmt/v1/topo-data/host-storage/query"
         fc_san_payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {fc_san_url}")
-        print(f"请求负载：{json.dumps(fc_san_payload, ensure_ascii=False, indent=2)}")
+        print(f"Request URL: {fc_san_url}")
+        print(f"Request payload:{json.dumps(fc_san_payload, ensure_ascii=False, indent=2)}")
         fc_san_response = client.post(fc_san_url, body=fc_san_payload)
         result['fc_san'] = fc_san_response
 
         return result
 
-    # 如果指定了 san_type，只调用对应的 API
+    # If san_type is specified, only call the corresponding API
     elif san_type == 'ip_san':
         url = "/rest/topomgmt/v1/topo-data/ipsan/host-storage/query"
         payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {url}")
-        print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+        print(f"Request URL: {url}")
+        print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
         response = client.post(url, body=payload)
         return response
 
     elif san_type == 'fc_san':
         url = "/rest/topomgmt/v1/topo-data/host-storage/query"
         payload = {"entry_objects": entry_objects}
-        print(f"请求 URL: {url}")
-        print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+        print(f"Request URL: {url}")
+        print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
         response = client.post(url, body=payload)
         return response
 
     else:
-        raise ValueError(f"无效的 san_type 参数：{san_type}，仅支持：ip_san, fc_san")
+        raise ValueError(f"Invalid san_type parameter: {san_type}, only supported: ip_san, fc_san")
 
 
 
@@ -696,8 +696,8 @@ def topology_query_vms(client: DMEAPIClient, entry_objects: list, host_id: str,
     if page_no is not None:
         payload["page_no"] = page_no
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
@@ -718,15 +718,15 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
     if filter is not None:
         payload["filter"] = filter
 
-    print(f"请求 URL: {url}")
-    print(f"请求负载：{json.dumps(payload, ensure_ascii=False, indent=2)}")
+    print(f"Request URL: {url}")
+    print(f"Request payload:{json.dumps(payload, ensure_ascii=False, indent=2)}")
 
     response = client.post(url, body=payload)
     return response
 
 
 # ============================================================================
-# 动作列表，用于 CLI 帮助
+# Action list for CLI help
 # ============================================================================
 
 ACTIONS = {
@@ -762,7 +762,7 @@ ACTIONS = {
         'params': ['task_id'],
         'subtopic': 'diagnose_task'
     },
-    # performance 子主题动作
+    # performance subtopic actions
     'performance_create_collect_task': {
         'func': performance_create_collect_task,
         'params': ['begin_time', 'end_time', 'object_type_id', 'object_ids', 'indicator_ids'],
@@ -793,7 +793,7 @@ ACTIONS = {
         'params': ['filter'],
         'subtopic': 'performance'
     },
-    # check_result 子主题动作
+    # check_result subtopic actions
     'check_result_list': {
         'func': check_result_list,
         'params': ['object_name', 'level', 'object_ids', 'object_native_id', 'object_type', 'policy_id', 'policy_name', 'policy_types', 'cause', 'alarm_type', 'first_occur_time', 'last_occur_time', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
@@ -804,7 +804,7 @@ ACTIONS = {
         'params': ['check_result_id'],
         'subtopic': 'check_result'
     },
-    # check_policy 子主题动作
+    # check_policy subtopic actions
     'check_policy_list': {
         'func': check_policy_list,
         'params': ['policy_name', 'exact_query', 'status', 'policy_type', 'policy_source', 'alarm_type', 'object_type', 'page_no', 'page_size', 'sort_key', 'sort_dir', 'administrative_status', 'policy_category', 'object_category'],
@@ -830,7 +830,7 @@ ACTIONS = {
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
-    # topology 子主题动作
+    # topology subtopic actions
     'topology_query_san_path': {
         'func': topology_query_san_path,
         'params': ['entry_objects', 'san_type'],
@@ -851,7 +851,7 @@ ACTIONS = {
         'params': ['entry_res_type', 'entry_res_id', 'type', 'filter'],
         'subtopic': 'topology'
     },
-    # health 子主题动作
+    # health subtopic actions
     'health_query_data': {
         'func': health_query_data,
         'params': ['type', 'object_id', 'begin_time', 'end_time', 'object_type', 'indicator'],

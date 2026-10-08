@@ -85,7 +85,7 @@ def get_action_funcs(src):
 
 
 def module_description(src):
-    """模块 docstring 首行（与 cli --list-topics 逻辑一致）。"""
+    """First line of the module docstring (same logic as cli --list-topics)."""
     tree = ast.parse(src)
     doc = ast.get_docstring(tree, clean=True) or ""
     for line in doc.split('\n'):
@@ -96,16 +96,16 @@ def module_description(src):
 
 
 def _dedent4(line):
-    """去 Args/Returns 段内容的公共 4 空格基准缩进（保留相对缩进）。"""
+    """Strip the common 4-space base indent of Args/Returns section content (keep relative indentation)."""
     return line[4:] if line.startswith('    ') else line.strip()
 
 
 def split_docstring(doc):
-    """将 clean docstring 无损拆分为结构化字段。
+    """Losslessly split a clean docstring into structured fields.
 
     Returns:
-        {'description', 'detail', 'parameters', 'outputs'}；
-        拆分可经 build_docstring() 逐字重组还原。
+        {'description', 'detail', 'parameters', 'outputs'};
+        the split can be rebuilt verbatim via build_docstring().
     """
     lines = doc.split('\n')
     args_idx = ret_idx = None
@@ -116,7 +116,7 @@ def split_docstring(doc):
         elif ret_idx is None and s.startswith('Returns:'):
             ret_idx = i
 
-    # 前段（Args/Returns 之前）：首段=description，其余段=detail
+    # Leading section (before Args/Returns): first paragraph = description, rest = detail
     head = lines[:args_idx if args_idx is not None else (ret_idx if ret_idx is not None else len(lines))]
     while head and head[-1].strip() == '':
         head.pop()
@@ -133,10 +133,13 @@ def split_docstring(doc):
     description = '\n'.join(paras[0]) if paras else ''
     detail = '\n\n'.join('\n'.join(p) for p in paras[1:]) if len(paras) > 1 else ''
 
-    # parameters：Args 段。参数定义行缩进 <= 4 且匹配 `name: desc`；
-    # 其余行（含空行/注释/格式块续行）归入当前参数描述，保留相对缩进。
-    # 空行先入 pending：遇到下一参数/续行时并入前一参数描述；
-    # 段尾（Args 与 Returns 之间）的空行属于段间分隔，不并入任何参数。
+    # parameters: from the Args section. A parameter definition line has indent <= 4
+    # and matches `name: desc`; other lines (blank lines, comments, format-block
+    # continuations) belong to the current parameter description, keeping relative
+    # indentation. Blank lines first go into pending: they are merged into the previous
+    # parameter description when the next parameter/continuation line appears; blank
+    # lines at the end of the section (between Args and Returns) are section separators
+    # and are not merged into any parameter.
     parameters = {}
     if args_idx is not None:
         end = ret_idx if ret_idx is not None else len(lines)
@@ -160,7 +163,7 @@ def split_docstring(doc):
                     parameters[cur_name] = '\n'.join(cur_desc)
                 pending = []
                 cur_name = m.group(1)
-                # 值取自原始行（保留行尾空格），去掉名字前缀与左侧空白
+                # The value is taken from the original line (keeping trailing spaces), removing the name prefix and leading whitespace
                 value = line[len(line[:indent] + m.group(1) + ':'):].lstrip()
                 cur_desc = [value] if value else []
                 if '参数格式如下：' in stripped or '属性格式如下：{' in stripped:
@@ -171,11 +174,11 @@ def split_docstring(doc):
                 cur_desc.extend(pending)
                 pending = []
                 cur_desc.append(_dedent4(line))
-        # 段尾 pending 丢弃（段间分隔空行）
+        # Trailing pending is discarded (section separator blank lines)
         if cur_name is not None:
             parameters[cur_name] = '\n'.join(cur_desc)
 
-    # outputs：Returns 段之后全部内容（含 Raises/Note 等后续段与空行），去公共 4 空格基准
+    # outputs: all content after the Returns section (including Raises/Note etc. and blank lines), stripped of the common 4-space base
     outputs = ''
     if ret_idx is not None:
         out_lines = []
@@ -188,13 +191,13 @@ def split_docstring(doc):
             out_lines.pop()
         outputs = '\n'.join(out_lines)
 
-    # v3 语义：description 的全部内容合入 detail；description 仅保留 detail 首行
-    # （供 --list-topics 使用，不参与 docstring 重组）
+    # v3 semantics: the whole description is merged into detail; description keeps only
+    # the first line of detail (used by --list-topics only, not for docstring rebuild)
     full_detail = description + (('\n\n' + detail) if detail else '')
     description = full_detail.split('\n')[0] if full_detail else ''
     detail = full_detail
 
-    # client 是调用方注入的会话参数，不属于 CLI 参数，从 i18n 提取中排除
+    # client is a session parameter injected by the caller, not a CLI parameter; exclude it from the i18n extraction
     parameters.pop('client', None)
 
     return {'description': description, 'detail': detail,
@@ -202,10 +205,11 @@ def split_docstring(doc):
 
 
 def build_docstring(entry):
-    """将结构化字段无损重组为原 docstring 文本。
+    """Losslessly rebuild the original docstring text from structured fields.
 
-    重组后与原始 docstring 仅可能在「非标准 0 缩进行」上相差 4 空格
-    （parse_docstring 输出不受影响）；round-trip 校验使用缩进归一化比较。
+    The rebuilt text may differ from the original docstring by 4 spaces only on
+    non-standard 0-indent lines (parse_docstring output is unaffected); the
+    round-trip check uses indentation-normalized comparison.
     """
     parts = []
     if entry.get('detail'):
@@ -228,10 +232,11 @@ def build_docstring(entry):
 
 
 def _strip_empty_args(text):
-    """删除仅含 client 参数（或无参数）的空 Args 段。
+    """Remove empty Args sections containing only the client parameter (or no parameters).
 
-    client 已从 i18n 提取中排除，重组 docstring 不再生成此类 Args 段，
-    归一化比较时需同步移除原始 docstring 中的对应段。
+    client is excluded from the i18n extraction, so the rebuilt docstring no longer
+    generates such Args sections; the corresponding sections in the original docstring
+    must also be removed during normalized comparison.
     """
     lines = text.split('\n')
     out = []
@@ -249,7 +254,7 @@ def _strip_empty_args(text):
                 j += 1
             param_lines = [l for l in seg[1:] if re.match(r'^\w+\s*:', l.strip())]
             if not param_lines or all(re.match(r'^client\s*:', l.strip()) for l in param_lines):
-                i = j  # 空 Args 段：跳过
+                i = j  # empty Args section: skip
                 continue
         out.append(lines[i])
         i += 1
@@ -257,15 +262,17 @@ def _strip_empty_args(text):
 
 
 def normalize(text):
-    """round-trip 校验用的归一化：去行尾空白、连续空行压缩为单个空行、
-    段头（Args/Returns/Raises/Note/Example）与参数行行首缩进统一 4 空格。
-    parse_docstring 对空行数量与行首缩进不敏感，故这些差异视为等价。"""
+    """Normalization for round-trip checks: strip trailing whitespace, collapse
+    consecutive blank lines into one, unify section headers (Args/Returns/Raises/
+    Note/Example) and parameter lines to 4-space indentation. parse_docstring is
+    insensitive to blank-line counts and leading indentation, so these differences
+    are treated as equivalent."""
     text = _strip_empty_args(text)
     out = []
     prev_blank = False
     for line in text.split('\n'):
         s = line.rstrip()
-        s = s.replace(chr(39), chr(34))  # 单引号/双引号归一（序列化时值内 ' 替换为 "）
+        s = s.replace(chr(39), chr(34))  # normalize single/double quotes (values serialize ' as ")
         if not s.strip():
             if not prev_blank:
                 out.append('')
@@ -273,7 +280,7 @@ def normalize(text):
             continue
         prev_blank = False
         if re.match(r'^ {0,4}client: ', s):
-            continue  # client 参数行已从 i18n 提取中排除，比较时忽略
+            continue  # client parameter lines are excluded from the i18n extraction; ignore them in comparison
         stripped = s.lstrip()
         if re.match(r'^(Args|Returns|Raises|Note|Example):', stripped):
             out.append('    ' + stripped)
@@ -285,12 +292,12 @@ def normalize(text):
 
 
 def is_safe_inline(value):
-    """单行值可否用内联形式（YAML plain scalar 安全）。"""
+    """Whether a single-line value can use the inline form (safe as a YAML plain scalar)."""
     if not value:
-        return True  # 空值以 `key: ''` 内联
+        return True  # empty values are inlined as `key: ''`
     if '\n' in value:
         return False
-    if ': ' in value:          # 半角冒号+空格会破坏 plain scalar
+    if ': ' in value:          # a colon followed by a space breaks plain scalars
         return False
     if value.startswith(('#', '- ', '[', '{', '?', ':', ',', '&', '*', '!', '|', '>',
                          '%', '@', '`', "'", '"')):
@@ -299,14 +306,15 @@ def is_safe_inline(value):
 
 
 def _unquote(value):
-    """去掉单引号包裹（单行值统一以单引号序列化）。"""
+    """Remove single-quote wrapping (single-line values are serialized with single quotes)."""
     if value.startswith("'") and value.endswith("'") and len(value) >= 2:
         return value[1:-1]
     return value
 
 
 def put_value(out, indent, key, value):
-    """输出 `indent<key>: value`：空值 ''、单行单引号包裹（内容含 ' 替换为 "）、多行 | 块。"""
+    """Emit `indent<key>: value`: empty values as '', single-line values wrapped in
+    single quotes (inner ' replaced with "), multi-line values as | blocks."""
     if not value:
         out.append(f"{indent}{key}: ''")
     elif '\n' in value:
@@ -338,7 +346,7 @@ def serialize_yaml(entries, topics_desc):
             for name, desc in entry['parameters'].items():
                 put_value(out, '          ', name, desc)
         put_value(out, '        ', 'outputs', entry['outputs'])
-    # 去掉文件末尾多余空行
+    # Strip trailing blank lines at the end of the file
     while out and out[-1] == '':
         out.pop()
     return '\n'.join(out) + '\n'
@@ -356,8 +364,9 @@ def parse_yaml(text):
 
     def save():
         nonlocal section, field, param_key, block_indent, block
-        # 保留块内容尾部空行（参数间分隔是真实内容）；整体尾部空行由
-        # normalize() 忽略，且不影响 parse_docstring 输出。
+        # Keep trailing blank lines inside block content (parameter separators are real
+        # content); whole-text trailing blank lines are ignored by normalize() and do
+        # not affect parse_docstring output.
         val = '\n'.join(block)
         if section == 'topic_desc' and cur_topic is not None:
             topics[cur_topic]['description'] = val
@@ -401,7 +410,7 @@ def parse_yaml(text):
         elif indent == 4 and stripped == 'description: |':
             begin('topic_desc', indent_=indent)
         elif indent == 4 and stripped.startswith('description:'):
-            # 单行 topic 描述：description: 'xxx'
+            # single-line topic description: description: 'xxx'
             topics[cur_topic]['description'] = _unquote(stripped.partition(':')[2].strip())
         elif indent == 6 and stripped.endswith(':'):
             cur_action = stripped[:-1]
@@ -414,13 +423,13 @@ def parse_yaml(text):
         elif indent == 8 and stripped.endswith(": ''"):
             topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
         elif indent == 8:
-            # 单行 action 字段：description: 'xxx' / detail: 'xxx' / outputs: 'xxx'
+            # single-line action field: description: 'xxx' / detail: 'xxx' / outputs: 'xxx'
             key, _, val = stripped.partition(':')
             topics[cur_topic]['actions'][cur_action][key.strip()] = _unquote(val.strip())
         elif indent == 10 and stripped.endswith(': |'):
             begin('param', key_=stripped[:-3].strip(), indent_=indent)
         elif indent == 10:
-            # 单行参数：arg: 'xxx'
+            # single-line parameter: arg: 'xxx'
             key, _, val = stripped.partition(':')
             topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = _unquote(val.strip())
     save()
@@ -447,15 +456,15 @@ def extract(ref=None):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('-o', '--output', required=True, help='输出 YAML 文件路径')
-    ap.add_argument('--ref', default=None, help='git ref（分支/commit），从该 ref 提取源码（如 dev-en）')
+    ap.add_argument('-o', '--output', required=True, help='output YAML file path')
+    ap.add_argument('--ref', default=None, help='git ref (branch/commit); extract sources from this ref (e.g. dev-en)')
     args = ap.parse_args()
 
     entries, topics_desc = extract(ref=args.ref)
     if not entries:
-        sys.exit("error: 未提取到任何 action")
+        sys.exit("error: no actions extracted")
 
-    # 校验：拆分→序列化→解析→重组（缩进归一化后逐字还原）
+    # Validation: split -> serialize -> parse -> rebuild (verbatim after indent normalization)
     yaml_text = serialize_yaml(entries, topics_desc)
     parsed = parse_yaml(yaml_text)
     problems = []
@@ -467,7 +476,7 @@ def main():
         if parsed['topics'][topic]['description'] != topics_desc[topic]:
             problems.append(f"{topic}.description")
     if problems:
-        sys.exit(f"error: round-trip 校验失败: {problems[:10]} ... (共 {len(problems)})")
+        sys.exit(f"error: round-trip validation failed: {problems[:10]} ... ({len(problems)} total)")
 
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     with open(args.output, 'w', encoding='utf-8') as f:
