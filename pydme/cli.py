@@ -647,9 +647,10 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
     params = info['parsed'].get('params', {})
     if params:
         for param_name, param_desc in params.items():
-            print(f"\n  --{param_name}")
-            for line in param_desc.split('\n'):
-                print(f"      {line}")
+            if param_name != 'client':  # client is injected by the caller, not a CLI parameter
+                print(f"\n  --{param_name}")
+                for line in param_desc.split('\n'):
+                    print(f"      {line}")
     else:
         print("  No parameters")
 
@@ -675,7 +676,7 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
     print(f"Usage:")
     print(f"  pydme {display_cmd}")
     if params:
-        param_str = ' '.join([f"--{p} <value>" for p in params.keys()])
+        param_str = ' '.join([f"--{p} <value>" for p in params.keys() if p != 'client'])
         print(f"  pydme {display_cmd} {param_str}")
     print(f"{'='*60}\n")
 

@@ -2,19 +2,15 @@
 """
 pydme i18n: load action comment resources by language (pydme/config/i18n/<lang>.yaml).
 
-v2 structured format (zero-dependency lightweight parser; only supports this
+Simplified format (zero-dependency lightweight parser; only supports this
 repo's self-produced format):
 
     topics:
       <topic>:
-        description: |            # first line of the module docstring
+        description: '<module docstring first line>'
         actions:
           <action-func>:
-            description: |        # first paragraph of the function comments
-            detail: |             # remaining paragraphs before Args ('' means none)
-            parameters:
-              <arg>: |            # parameter description (multi-line)
-            outputs: |            # Returns section content ('' means none)
+            docstring: |    # the full function docstring, verbatim
 
 Language selection: CLI argument --lang > environment variable DME_LANG >
 default zh_CN.
@@ -37,41 +33,23 @@ def _unquote(value):
 
 
 def parse_yaml(text: str) -> dict:
-    """Parse v2 i18n YAML: {topics: {topic: {description, actions: {action: entry}}}}.
+    """Parse the simplified i18n YAML: {topics: {topic: {description, actions}}}.
 
-    Block content lines with indent >= block header indent + 2 belong to the
-    current block; blank lines are kept inside the block. Empty values are
-    inlined as `key: ''`.
+    Block content lines with indent >= the docstring header indent + 2 belong
+    to the docstring block; blank lines are kept inside the block.
     """
     topics = {}
     cur_topic = cur_action = None
-    section = None          # 'topic_desc' | 'field' | 'param'
-    field = None
-    param_key = None
+    section = None          # 'docstring'
     block_indent = None
     block = []
 
     def save():
-        nonlocal section, field, param_key, block_indent, block
-        val = '\n'.join(block)
-        if section == 'topic_desc' and cur_topic is not None:
-            topics[cur_topic]['description'] = val
-        elif section == 'field' and cur_topic is not None and cur_action is not None:
-            topics[cur_topic]['actions'][cur_action][field] = val
-        elif section == 'param' and cur_topic is not None and cur_action is not None:
-            topics[cur_topic]['actions'][cur_action]['parameters'][param_key] = val
+        nonlocal section, block_indent, block
+        if section == 'docstring' and cur_topic is not None and cur_action is not None:
+            topics[cur_topic]['actions'][cur_action]['docstring'] = '\n'.join(block).rstrip('\n')
         section = None
-        field = None
-        param_key = None
         block_indent = None
-        block = []
-
-    def begin(section_, field_=None, key_=None, indent_=None):
-        nonlocal section, field, param_key, block_indent, block
-        section = section_
-        field = field_
-        param_key = key_
-        block_indent = (indent_ or 0) + 2
         block = []
 
     for line in text.split('\n'):
@@ -93,60 +71,18 @@ def parse_yaml(text: str) -> dict:
             topics.setdefault(cur_topic, {'description': '', 'actions': {}})
         elif indent == 4 and stripped == 'actions:':
             pass
-        elif indent == 4 and stripped == 'description: |':
-            begin('topic_desc', indent_=indent)
         elif indent == 4 and stripped.startswith('description:'):
             # single-line topic description: description: 'xxx'
             topics[cur_topic]['description'] = _unquote(stripped.partition(':')[2].strip())
         elif indent == 6 and stripped.endswith(':'):
             cur_action = stripped[:-1]
-            topics[cur_topic]['actions'].setdefault(
-                cur_action, {'description': '', 'detail': '', 'parameters': {}, 'outputs': ''})
-        elif indent == 8 and stripped == 'parameters:':
-            pass
-        elif indent == 8 and stripped.endswith(': |'):
-            begin('field', field_=stripped[:-3].strip(), indent_=indent)
-        elif indent == 8 and stripped.endswith(": ''"):
-            topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
-        elif indent == 8:
-            # single-line action field: description: 'xxx' / detail: 'xxx' / outputs: 'xxx'
-            key, _, val = stripped.partition(':')
-            topics[cur_topic]['actions'][cur_action][key.strip()] = _unquote(val.strip())
-        elif indent == 10 and stripped.endswith(': |'):
-            begin('param', key_=stripped[:-3].strip(), indent_=indent)
-        elif indent == 10:
-            # single-line parameter: arg: 'xxx'
-            key, _, val = stripped.partition(':')
-            topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = _unquote(val.strip())
+            topics[cur_topic]['actions'].setdefault(cur_action, {'docstring': ''})
+        elif indent == 8 and stripped == 'docstring: |':
+            section = 'docstring'
+            block_indent = indent + 2
+            block = []
     save()
     return {'topics': topics}
-
-
-def build_docstring(entry: dict) -> str:
-    """Rebuild docstring text from structured fields (semantically identical to
-    the pre-split text, for parse_docstring).
-
-    Only detail (which contains the full description) is used for the rebuild;
-    description is only consumed by --list-topics.
-    """
-    parts = []
-    if entry.get('detail'):
-        parts.append(entry['detail'])
-    if entry.get('parameters'):
-        arg_lines = []
-        for name, desc in entry['parameters'].items():
-            first, *rest = desc.split('\n')
-            line = f"    {name}: {first}"
-            for r in rest:
-                line += ('\n    ' + r) if r else '\n'
-            arg_lines.append(line)
-        parts.append('Args:\n' + '\n'.join(arg_lines))
-    if entry.get('outputs'):
-        out_lines = []
-        for l in entry['outputs'].split('\n'):
-            out_lines.append(('    ' + l) if l else '')
-        parts.append('Returns:\n' + '\n'.join(out_lines))
-    return '\n\n'.join(parts)
 
 
 def resolve_lang(cli_lang=None) -> str:
@@ -186,18 +122,18 @@ def get_topic_description(topic: str, lang=None) -> str:
 
 
 def get_action_entry(topic: str, action: str, lang=None):
-    """Structured fields of an action (None if missing)."""
+    """The action entry (None if missing)."""
     return load_i18n(lang)['topics'].get(topic, {}).get('actions', {}).get(action)
 
 
-def get_action_description(topic: str, action: str, lang=None) -> str:
-    """Action description (first paragraph of the function comments)."""
-    entry = get_action_entry(topic, action, lang)
-    return entry.get('description', '') if entry else ''
-
-
 def get_action_doc(topic: str, action: str, lang=None):
-    """Rebuild the docstring text for parse_docstring; returns None if the
+    """The full docstring text for parse_docstring; returns None if the
     resource is missing."""
     entry = get_action_entry(topic, action, lang)
-    return build_docstring(entry) if entry else None
+    return entry.get('docstring') if entry else None
+
+
+def get_action_description(topic: str, action: str, lang=None) -> str:
+    """Action description (first line of the docstring, for list views)."""
+    doc = get_action_doc(topic, action, lang) or ""
+    return doc.split('\n')[0] if doc else ''
