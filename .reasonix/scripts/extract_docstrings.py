@@ -232,6 +232,7 @@ def normalize(text):
     prev_blank = False
     for line in text.split('\n'):
         s = line.rstrip()
+        s = s.replace(chr(39), chr(34))  # 单引号/双引号归一（序列化时值内 ' 替换为 "）
         if not s.strip():
             if not prev_blank:
                 out.append('')
@@ -262,16 +263,23 @@ def is_safe_inline(value):
     return True
 
 
+def _unquote(value):
+    """去掉单引号包裹（单行值统一以单引号序列化）。"""
+    if value.startswith("'") and value.endswith("'") and len(value) >= 2:
+        return value[1:-1]
+    return value
+
+
 def put_value(out, indent, key, value):
-    """输出 `indent<key>: value`：空值 ''、单行安全内联、否则 | 块（内容缩进 +2）。"""
+    """输出 `indent<key>: value`：空值 ''、单行单引号包裹（内容含 ' 替换为 "）、多行 | 块。"""
     if not value:
         out.append(f"{indent}{key}: ''")
-    elif is_safe_inline(value):
-        out.append(f"{indent}{key}: {value}")
-    else:
+    elif '\n' in value:
         out.append(f"{indent}{key}: |")
         for line in value.split('\n'):
             out.append(f"{indent}  {line}")
+    else:
+        out.append(f"{indent}{key}: '{value.replace(chr(39), chr(34))}'")
 
 
 def serialize_yaml(entries, topics_desc):
@@ -358,8 +366,8 @@ def parse_yaml(text):
         elif indent == 4 and stripped == 'description: |':
             begin('topic_desc', indent_=indent)
         elif indent == 4 and stripped.startswith('description:'):
-            # 单行 topic 描述：description: xxx
-            topics[cur_topic]['description'] = stripped.partition(':')[2].strip()
+            # 单行 topic 描述：description: 'xxx'
+            topics[cur_topic]['description'] = _unquote(stripped.partition(':')[2].strip())
         elif indent == 6 and stripped.endswith(':'):
             cur_action = stripped[:-1]
             topics[cur_topic]['actions'].setdefault(
@@ -371,15 +379,15 @@ def parse_yaml(text):
         elif indent == 8 and stripped.endswith(": ''"):
             topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
         elif indent == 8:
-            # 单行 action 字段：description: xxx / detail: xxx / outputs: xxx
+            # 单行 action 字段：description: 'xxx' / detail: 'xxx' / outputs: 'xxx'
             key, _, val = stripped.partition(':')
-            topics[cur_topic]['actions'][cur_action][key.strip()] = val.strip()
+            topics[cur_topic]['actions'][cur_action][key.strip()] = _unquote(val.strip())
         elif indent == 10 and stripped.endswith(': |'):
             begin('param', key_=stripped[:-3].strip(), indent_=indent)
         elif indent == 10:
-            # 单行参数：arg: xxx
+            # 单行参数：arg: 'xxx'
             key, _, val = stripped.partition(':')
-            topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = val.strip()
+            topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = _unquote(val.strip())
     save()
     return {'topics': topics}
 

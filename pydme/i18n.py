@@ -27,6 +27,13 @@ DEFAULT_LANG = 'zh_CN'
 _CACHE = {}
 
 
+def _unquote(value):
+    """去掉单引号包裹（单行值统一以单引号序列化）。"""
+    if value.startswith("'") and value.endswith("'") and len(value) >= 2:
+        return value[1:-1]
+    return value
+
+
 def parse_yaml(text: str) -> dict:
     """解析 v2 i18n YAML：{topics: {topic: {description, actions: {action: entry}}}}。
 
@@ -86,8 +93,8 @@ def parse_yaml(text: str) -> dict:
         elif indent == 4 and stripped == 'description: |':
             begin('topic_desc', indent_=indent)
         elif indent == 4 and stripped.startswith('description:'):
-            # 单行 topic 描述：description: xxx
-            topics[cur_topic]['description'] = stripped.partition(':')[2].strip()
+            # 单行 topic 描述：description: 'xxx'
+            topics[cur_topic]['description'] = _unquote(stripped.partition(':')[2].strip())
         elif indent == 6 and stripped.endswith(':'):
             cur_action = stripped[:-1]
             topics[cur_topic]['actions'].setdefault(
@@ -99,15 +106,15 @@ def parse_yaml(text: str) -> dict:
         elif indent == 8 and stripped.endswith(": ''"):
             topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
         elif indent == 8:
-            # 单行 action 字段：description: xxx / detail: xxx / outputs: xxx
+            # 单行 action 字段：description: 'xxx' / detail: 'xxx' / outputs: 'xxx'
             key, _, val = stripped.partition(':')
-            topics[cur_topic]['actions'][cur_action][key.strip()] = val.strip()
+            topics[cur_topic]['actions'][cur_action][key.strip()] = _unquote(val.strip())
         elif indent == 10 and stripped.endswith(': |'):
             begin('param', key_=stripped[:-3].strip(), indent_=indent)
         elif indent == 10:
-            # 单行参数：arg: xxx
+            # 单行参数：arg: 'xxx'
             key, _, val = stripped.partition(':')
-            topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = val.strip()
+            topics[cur_topic]['actions'][cur_action]['parameters'][key.strip()] = _unquote(val.strip())
     save()
     return {'topics': topics}
 
