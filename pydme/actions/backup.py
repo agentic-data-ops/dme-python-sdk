@@ -45,19 +45,16 @@ ACTIONS = {
     # 子主题动作 - cluster（三级结构：backup cluster list/capacity/quota）
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询备份集群列表',
         'params': ['page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     'cluster_capacity': {
         'func': cluster_capacity,
-        'description': '查询备份集群容量',
         'params': ['cluster_id'],
         'subtopic': 'cluster'
     },
     'cluster_quota': {
         'func': cluster_quota,
-        'description': '查询备份集群租户配额列表',
         'params': ['cluster_id', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },

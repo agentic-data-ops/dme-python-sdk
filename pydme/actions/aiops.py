@@ -732,7 +732,6 @@ def topology_query_graph_path(client: DMEAPIClient, entry_res_type: str, entry_r
 ACTIONS = {
     'alarm_list': {
         'func': alarm_list,
-        'description': '查询告警信息(当前告警,可选择是否包含历史告警)',
         'params': ['alarm_id', 'severity', 'mo_dn', 'alarm_group_id', 'dc_id',
                    'product_name', 'alarm_name', 'occur_utc_start', 'occur_utc_end',
                    'fields', 'page_no', 'page_size', 'cleared', 'size', 'iterator', 'include_history'],
@@ -740,156 +739,131 @@ ACTIONS = {
     },
     'alarm_ack': {
         'func': alarm_ack,
-        'description': '确认告警',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
     'alarm_unack': {
         'func': alarm_unack,
-        'description': '取消确认告警',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
     'alarm_clear': {
         'func': alarm_clear,
-        'description': '清除告警',
         'params': ['csns'],
         'subtopic': 'alarm'
     },
     'diagnose_task_create': {
         'func': diagnose_task_create,
-        'description': '创建智能分析任务',
         'params': ['object_ids', 'object_type', 'begin_time', 'end_time', 'analysis_types'],
         'subtopic': 'diagnose_task'
     },
     'diagnose_task_status': {
         'func': diagnose_task_status,
-        'description': '查询性能诊断任务状态',
         'params': ['task_id'],
         'subtopic': 'diagnose_task'
     },
     # performance 子主题动作
     'performance_create_collect_task': {
         'func': performance_create_collect_task,
-        'description': '创建性能文件收集任务',
         'params': ['begin_time', 'end_time', 'object_type_id', 'object_ids', 'indicator_ids'],
         'subtopic': 'performance'
     },
     'performance_download_collect_result': {
         'func': performance_download_collect_result,
-        'description': '下载性能文件',
         'params': ['task_id'],
         'subtopic': 'performance'
     },
     'performance_query': {
         'func': performance_query,
-        'description': '查询历史性能数据',
         'params': ['obj_type_id', 'indicator_ids', 'obj_ids', 'obj_type', 'indicators', 'ext_dimensions', 'interval', 'range', 'begin_time', 'end_time'],
         'subtopic': 'performance'
     },
     'performance_show_indicators': {
         'func': performance_show_indicators,
-        'description': '显示监控指标详细信息',
         'params': ['indicators'],
         'subtopic': 'performance'
     },
     'performance_list_indicators': {
         'func': performance_list_indicators,
-        'description': '列出监控对象类型支持的监控指标',
         'params': ['obj_type_id'],
         'subtopic': 'performance'
     },
     'performance_list_object_types': {
         'func': performance_list_object_types,
-        'description': '获取所有监控对象类型',
         'params': ['filter'],
         'subtopic': 'performance'
     },
     # check_result 子主题动作
     'check_result_list': {
         'func': check_result_list,
-        'description': '查询检查策略异常检查结果列表',
         'params': ['object_name', 'level', 'object_ids', 'object_native_id', 'object_type', 'policy_id', 'policy_name', 'policy_types', 'cause', 'alarm_type', 'first_occur_time', 'last_occur_time', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'check_result'
     },
     'check_result_show': {
         'func': check_result_show,
-        'description': '查询检查策略异常检查结果详情',
         'params': ['check_result_id'],
         'subtopic': 'check_result'
     },
     # check_policy 子主题动作
     'check_policy_list': {
         'func': check_policy_list,
-        'description': '查询检查策略列表',
         'params': ['policy_name', 'exact_query', 'status', 'policy_type', 'policy_source', 'alarm_type', 'object_type', 'page_no', 'page_size', 'sort_key', 'sort_dir', 'administrative_status', 'policy_category', 'object_category'],
         'subtopic': 'check_policy'
     },
     'check_policy_execute': {
         'func': check_policy_execute,
-        'description': '执行检查策略',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     'check_policy_enable': {
         'func': check_policy_enable,
-        'description': '启用检查策略',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     'check_policy_disable': {
         'func': check_policy_disable,
-        'description': '禁用检查策略',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     'check_policy_delete': {
         'func': check_policy_delete,
-        'description': '删除检查策略',
         'params': ['policy_id'],
         'subtopic': 'check_policy'
     },
     # topology 子主题动作
     'topology_query_san_path': {
         'func': topology_query_san_path,
-        'description': '查询 SAN 路径拓扑结构（支持 IP_SAN 和 FC_SAN）',
         'params': ['entry_objects', 'san_type'],
         'subtopic': 'topology'
     },
     'topology_query_luns': {
         'func': topology_query_luns,
-        'description': '查询拓扑图 LUN 列表',
         'params': ['entry_objects', 'storage_pool_id', 'lun_name', 'san_type', 'page_size', 'page_no'],
         'subtopic': 'topology'
     },
     'topology_query_vms': {
         'func': topology_query_vms,
-        'description': '查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表',
         'params': ['entry_objects', 'host_id', 'vm_name', 'page_size', 'page_no'],
         'subtopic': 'topology'
     },
     'topology_query_graph_path': {
         'func': topology_query_graph_path,
-        'description': '查询拓扑图库信息（支持 NAS、K8s、DB 等业务类型）',
         'params': ['entry_res_type', 'entry_res_id', 'type', 'filter'],
         'subtopic': 'topology'
     },
     # health 子主题动作
     'health_query_data': {
         'func': health_query_data,
-        'description': '查询健康度相关数据（容量预测/性能预测/性能异常）',
         'params': ['type', 'object_id', 'begin_time', 'end_time', 'object_type', 'indicator'],
         'subtopic': 'health'
     },
     'health_show_score': {
         'func': health_show_score,
-        'description': '查询对象健康度',
         'params': ['object_type', 'object_name', 'object_ids', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'health'
     },
     'health_show_detail': {
         'func': health_show_detail,
-        'description': '查询健康维度的扣分详情',
         'params': ['object_id', 'object_type', 'health_dimension'],
         'subtopic': 'health'
     }

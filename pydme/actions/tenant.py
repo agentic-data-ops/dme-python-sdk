@@ -203,63 +203,53 @@ ACTIONS = {
     # tier 子主题
     'tier_list': {
         'func': tier_list,
-        'description': '批量查询服务等级',
         'params': ['name', 'project_id', 'available_zone_id', 'storage_array_id', 'start', 'limit', 'sort_key', 'sort_dir', 'type'],
         'subtopic': 'tier'
     },
     'tier_show_projects': {
         'func': tier_show_projects,
-        'description': '批量查询业务群组与服务等级关联关系',
         'params': ['tier_id', 'page_no', 'page_size'],
         'subtopic': 'tier'
     },
     # project 子主题
     'project_list': {
         'func': project_list,
-        'description': '批量查询业务群组',
         'params': ['name', 'start', 'limit'],
         'subtopic': 'project'
     },
     'project_show_tiers': {
         'func': project_show_tiers,
-        'description': '批量查询业务群组与服务等级关联关系',
         'params': ['project_id', 'page_no', 'page_size'],
         'subtopic': 'project'
     },
     # lun 子主题
     'lun_create': {
         'func': lun_create,
-        'description': '服务化批量创建 LUN',
         'params': ['volumes', 'service_level_id', 'task_remarks', 'project_id', 'availability_zone', 'scheduler_hints', 'mapping'],
         'subtopic': 'lun'
     },
     'lun_change_tier': {
         'func': lun_change_tier,
-        'description': '批量更新 LUN 的服务等级',
         'params': ['volume_ids', 'tier_id'],
         'subtopic': 'lun'
     },
     'lun_bind_tier': {
         'func': lun_bind_tier,
-        'description': 'LUN 关联服务等级',
         'params': ['volume_id', 'tier_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_tier': {
         'func': lun_unbind_tier,
-        'description': '解除 LUN 与服务等级关联',
         'params': ['volume_id'],
         'subtopic': 'lun'
     },
     'lun_bind_project': {
         'func': lun_bind_project,
-        'description': 'LUN 关联业务群组',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },
     'lun_unbind_project': {
         'func': lun_unbind_project,
-        'description': '解除 LUN 与业务群组间关联',
         'params': ['volume_id', 'business_group_id'],
         'subtopic': 'lun'
     },

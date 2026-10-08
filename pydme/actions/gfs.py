@@ -406,87 +406,73 @@ ACTIONS = {
     # Dataspace 子主题动作
     'dataspace_list': {
         'func': dataspace_list,
-        'description': '批量查询 Omni-Dataverse',
         'params': ['name', 'id', 'raw_id', 'max_site_num', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
     'dataspace_show': {
         'func': dataspace_show,
-        'description': '查询指定 Omni-Dataverse 的容量统计信息',
         'params': ['id', 'name'],
         'subtopic': 'dataspace'
     },
     'dataspace_site_list': {
         'func': dataspace_site_list,
-        'description': '查询 Omni-Dataverse 数据服务站点',
         'params': ['raw_id', 'site_role', 'gfs_group_id', 'storage_name', 'storage_pool_name', 'account_name', 'page_no', 'page_size'],
         'subtopic': 'dataspace'
     },
     # Namespace 子主题动作
     'namespace_list': {
         'func': namespace_list,
-        'description': '批量查询全局命名空间',
         'params': ['name', 'gfs_group_name', 'gfs_group_id', 'gfs_type', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'namespace'
     },
     'namespace_show': {
         'func': namespace_show,
-        'description': '查询全局命名空间详情',
         'params': ['id', 'name_locator'],
         'subtopic': 'namespace'
     },
     'namespace_create': {
         'func': namespace_create,
-        'description': '创建全局命名空间',
         'params': ['name', 'gfs_group_id', 'gfs_group_name', 'gfs_mode', 'single_write_switch', 'smart_share_members'],
         'subtopic': 'namespace'
     },
     'namespace_modify': {
         'func': namespace_modify,
-        'description': '修改指定全局命名空间',
         'params': ['id', 'name_locator', 'smart_share_members'],
         'subtopic': 'namespace'
     },
     'namespace_delete': {
         'func': namespace_delete,
-        'description': '删除指定的全局命名空间',
         'params': ['id', 'name_locator', 'is_delete_child'],
         'subtopic': 'namespace'
     },
     # Migration Task 子主题动作
     'migration_task_list': {
         'func': migration_task_list,
-        'description': '批量查询 Omni-Dataverse 数据迁移任务',
         'params': ['gfs_id', 'task_name', 'task_id', 'target_storage_name', 'namespace_name', 'namespace_id', 'namespace_raw_id', 'local_path', 'status', 'task_mode', 'execute_mode', 'page_no', 'page_size', 'sort_dir', 'sort_key'],
         'subtopic': 'migration_task'
     },
     'migration_task_show': {
         'func': migration_task_show,
-        'description': '查询 Omni-Dataverse 数据迁移任务详情',
         'params': ['id'],
         'subtopic': 'migration_task'
     },
     'migration_task_create': {
         'func': migration_task_create,
-        'description': '创建 Omni-Dataverse 数据迁移任务',
         'params': ['gfs_id', 'task_mode', 'start_mode', 'max_bandwidth', 'target_namespace_id', 'task_name', 'execute_mode', 'execute_time', 'execute_time_unit', 'start_time', 'period_start_day', 'period_end_day', 'period_time', 'period_max_bandwidth', 'local_path', 'src_namespace_ids', 'atime_operator', 'atime', 'atime_unit', 'mtime_operator', 'mtime', 'mtime_unit', 'ctime_operator', 'ctime', 'ctime_unit', 'crtime_operator', 'crtime', 'crtime_unit', 'name_operator', 'name_filter', 'size_operator', 'file_size', 'tag', 'file_paths', 'authentication_type', 'user_operator', 'user_name', 'group_operator', 'group_name', 'files_filter'],
         'subtopic': 'migration_task'
     },
     'migration_task_modify': {
         'func': migration_task_modify,
-        'description': '修改 Omni-Dataverse 数据迁移任务',
         'params': ['id', 'task_name', 'start_mode', 'start_time', 'execute_time', 'execute_time_unit', 'max_bandwidth', 'period_start_day', 'period_end_day', 'period_time', 'period_max_bandwidth'],
         'subtopic': 'migration_task'
     },
     'migration_task_delete': {
         'func': migration_task_delete,
-        'description': '批量删除 Omni-Dataverse 数据迁移任务',
         'params': ['ids'],
         'subtopic': 'migration_task'
     },
     'migration_task_operate': {
         'func': migration_task_operate,
-        'description': '批量暂停或者启动 Omni-Dataverse 数据迁移任务',
         'params': ['ids', 'operate_type'],
         'subtopic': 'migration_task'
     },

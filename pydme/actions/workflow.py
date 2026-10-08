@@ -100,44 +100,37 @@ ACTIONS = {
     # template 子主题动作
     'template_list': {
         'func': template_list,
-        'description': '分页查询模板列表',
         'params': ['page_no', 'page_size', 'directory_id', 'group', 'name'],
         'subtopic': 'template'
     },
     'template_groups': {
         'func': template_groups,
-        'description': '查询所有模板分组',
         'params': [],
         'subtopic': 'template'
     },
     'template_show': {
         'func': template_show,
-        'description': '查询模板详细信息',
         'params': ['template_id', 'template_version_id'],
         'subtopic': 'template'
     },
     # instance 子主题动作
     'instance_stop': {
         'func': instance_stop,
-        'description': '停止实例',
         'params': ['instance_id'],
         'subtopic': 'instance'
     },
     'instance_show': {
         'func': instance_show,
-        'description': '查询实例详情',
         'params': ['instance_id'],
         'subtopic': 'instance'
     },
     'instance_create': {
         'func': instance_create,
-        'description': '创建并执行实例',
         'params': ['template_id', 'template_version_id', 'instance_id', 'params'],
         'subtopic': 'instance'
     },
     'instance_step_log': {
         'func': instance_step_log,
-        'description': '查询步骤日志',
         'params': ['instance_id', 'step_id'],
         'subtopic': 'instance'
     }

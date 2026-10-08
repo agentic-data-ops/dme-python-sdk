@@ -389,115 +389,96 @@ def alias_show_members(client: DMEAPIClient, alias_id: str, type: str = None) ->
 ACTIONS = {
     'list': {
         'func': list,
-        'description': '批量查询光纤交换机',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
     'sync': {
         'func': sync,
-        'description': '同步交换机配置',
         'params': ['switch_id'],
         'subtopic': None
     },
     'port_list': {
         'func': port_list,
-        'description': '查询交换机端口列表',
         'params': ['switch_id', 'port_name', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'controller_list': {
         'func': controller_list,
-        'description': '查询交换机控制器列表',
         'params': ['switch_id', 'page_no', 'page_size'],
         'subtopic': 'controller'
     },
     'fabric_list': {
         'func': fabric_list,
-        'description': '批量查询 fabric',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },
     'fabric_show_ports': {
         'func': fabric_show_ports,
-        'description': '查询 fabric 的端口列表',
         'params': ['fabric_id', 'page_no', 'page_size'],
         'subtopic': 'fabric'
     },
     'fabric_backup': {
         'func': fabric_backup,
-        'description': '备份 fabric 配置',
         'params': ['fabric_id', 'backup_server_id', 'backup_type'],
         'subtopic': 'fabric'
     },
     'vsan_list': {
         'func': vsan_list,
-        'description': '批量查询 vsan',
         'params': ['page_no', 'page_size'],
         'subtopic': 'vsan'
     },
     'zone_list': {
         'func': zone_list,
-        'description': '批量查询 zone',
         'params': ['zone_name', 'page_no', 'page_size'],
         'subtopic': 'zone'
     },
     'zone_create': {
         'func': zone_create,
-        'description': '创建 zone',
         'params': ['name', 'fabric_wwn', 'vsan_wwn', 'wwn_members', 'port_members', 'fwwn_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_modify': {
         'func': zone_modify,
-        'description': '修改 zone',
         'params': ['zone_id', 'zone_name', 'wwn_members', 'fwwn_members', 'port_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'zone'
     },
     'zone_delete': {
         'func': zone_delete,
-        'description': '删除 zone',
         'params': ['zone_id'],
         'subtopic': 'zone'
     },
     'zone_batch_create': {
         'func': zone_batch_create,
-        'description': '批量创建 zone',
         'params': ['is_active_zone', 'zones'],
         'subtopic': 'zone'
     },
     'zone_show_members': {
         'func': zone_show_members,
-        'description': '查询 zone 的成员',
         'params': ['zone_id', 'type'],
         'subtopic': 'zone'
     },
     'alias_list': {
         'func': alias_list,
-        'description': '批量查询别名',
         'params': ['fabric_wwn', 'page_no', 'page_size'],
         'subtopic': 'alias'
     },
     'alias_create': {
         'func': alias_create,
-        'description': '创建别名',
         'params': ['name', 'fabric_wwn', 'vsan_wwn', 'wwn_members', 'port_members', 'fwwn_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'alias'
     },
     'alias_modify': {
         'func': alias_modify,
-        'description': '修改别名',
         'params': ['alias_id', 'name', 'wwn_members', 'fwwn_members', 'port_members', 'fcid_members', 'device_alias_members'],
         'subtopic': 'alias'
     },
     'alias_delete': {
         'func': alias_delete,
-        'description': '删除别名',
         'params': ['alias_id'],
         'subtopic': 'alias'
     },
     'alias_show_members': {
         'func': alias_show_members,
-        'description': '查询别名的成员',
         'params': ['alias_id', 'type'],
         'subtopic': 'alias'
     },

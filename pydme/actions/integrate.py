@@ -88,31 +88,26 @@ ACTIONS = {
     # cmdb 子主题动作
     'cmdb_system_list': {
         'func': cmdb_system_list,
-        'description': '查询CMDB系统列表',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_list': {
         'func': cmdb_host_list,
-        'description': '查询CMDB系统中的主机列表',
         'params': ['system_id', 'name', 'ip', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_show': {
         'func': cmdb_host_show,
-        'description': '查询指定CMDB主机详情',
         'params': ['cmdb_host_id'],
         'subtopic': 'cmdb'
     },
     'cmdb_app_list': {
         'func': cmdb_app_list,
-        'description': '查询CMDB系统中的应用列表',
         'params': ['system_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'cmdb'
     },
     'cmdb_host_query_by_initiators': {
         'func': cmdb_host_query_by_initiators,
-        'description': '根据启动器列表查询CMDB主机列表',
         'params': ['initiators'],
         'subtopic': 'cmdb'
     },

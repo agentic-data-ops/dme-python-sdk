@@ -608,77 +608,65 @@ ACTIONS = {
     # 直接动作（两级结构）
     'login': {
         'func': login,
-        'description': '认证用户登录',
         'params': ['username', 'password', 'grant_type'],
         'subtopic': None
     },
     'logout': {
         'func': logout,
-        'description': '注销会话',
         'params': [],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': '查询产品系统信息',
         'params': [],
         'subtopic': None
     },
     'certificate': {
         'func': certificate,
-        'description': '获取 DME 证书',
         'params': [],
         'subtopic': None
     },
     'reset_password': {
         'func': reset_password,
-        'description': '重置密码',
         'params': ['user_name', 'new_value', 'is_initial_password'],
         'subtopic': None
     },
     # 子主题动作 - user（三级结构）
     'user_list': {
         'func': user_list,
-        'description': '批量查询用户信息',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'user'
     },
     'user_show': {
         'func': user_show,
-        'description': '查询指定用户信息',
         'params': ['user_id'],
         'subtopic': 'user'
     },
     'user_create': {
         'func': user_create,
-        'description': '创建用户',
         'params': ['name', 'type', 'value', 'description', 'roles'],
         'subtopic': 'user'
     },
     'user_delete': {
         'func': user_delete,
-        'description': '删除用户',
         'params': ['user_id'],
         'subtopic': 'user'
     },
     # 子主题动作 - role（三级结构）
     'role_list': {
         'func': role_list,
-        'description': '批量查询角色信息',
         'params': ['page_no', 'page_size', 'name'],
         'subtopic': 'role'
     },
     # 子主题动作 - backup_server（三级结构）
     'backup_server_list': {
         'func': backup_server_list,
-        'description': '批量查询备份服务器',
         'params': ['address', 'name', 'page_no', 'page_size'],
         'subtopic': 'backup_server'
     },
     # 子主题动作 - todo_task_group（三级结构）
     'todo_task_group_list': {
         'func': todo_task_group_list,
-        'description': '查询待办任务组列表',
         'params': ['group_id', 'name', 'creator_name', 'is_finished', 'is_group',
                    'start', 'limit', 'status', 'todo_item_status',
                    'start_time_from', 'start_time_to', 'end_time_from',
@@ -687,176 +675,148 @@ ACTIONS = {
     },
     'todo_task_group_execute': {
         'func': todo_task_group_execute,
-        'description': '执行待办任务组',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
     'todo_task_group_confirm': {
         'func': todo_task_group_confirm,
-        'description': '确认执行定时待办任务组',
         'params': ['group_id'],
         'subtopic': 'todo_task_group'
     },
     # 子主题动作 - todo_task（三级结构）
     'todo_task_list': {
         'func': todo_task_list,
-        'description': '查询待办任务列表',
         'params': ['service_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'todo_task'
     },
     'todo_task_show': {
         'func': todo_task_show,
-        'description': '查询待办任务详情',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
     'todo_task_execute': {
         'func': todo_task_execute,
-        'description': '执行待办任务',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
     'todo_task_audit': {
         'func': todo_task_audit,
-        'description': '审核待办任务',
         'params': ['item_id', 'is_approval', 'suggestion'],
         'subtopic': 'todo_task'
     },
     'todo_task_revoke': {
         'func': todo_task_revoke,
-        'description': '撤销审核待办项',
         'params': ['item_id'],
         'subtopic': 'todo_task'
     },
     'todo_task_close': {
         'func': todo_task_close,
-        'description': '关闭待办任务',
         'params': ['item_id', 'reason'],
         'subtopic': 'todo_task'
     },
     # 子主题动作 - task（三级结构）
     'task_show': {
         'func': task_show,
-        'description': '查询指定任务详情',
         'params': ['task_id'],
         'subtopic': 'task'
     },
     'task_list': {
         'func': task_list,
-        'description': '批量查询任务',
         'params': ['start', 'limit', 'task_name', 'status', 'owner_id', 'create_time_from', 'create_time_to'],
         'subtopic': 'task'
     },
     'task_retry': {
         'func': task_retry,
-        'description': '重试任务',
         'params': ['task_id'],
         'subtopic': 'task'
     },
     'task_wait': {
         'func': task_wait,
-        'description': '等待任务完成',
         'params': ['task_id', 'timeout', 'poll_interval'],
         'subtopic': 'task'
     },
     # 子主题动作 - tag_type（三级结构）
     'tag_type_create': {
         'func': tag_type_create,
-        'description': '创建标签类型',
         'params': ['name', 'description'],
         'subtopic': 'tag_type'
     },
     'tag_type_list': {
         'func': tag_type_list,
-        'description': '批量查询标签类型',
         'params': ['start', 'limit', 'name'],
         'subtopic': 'tag_type'
     },
     'tag_type_modify': {
         'func': tag_type_modify,
-        'description': '修改标签类型',
         'params': ['tag_type_id', 'name', 'description'],
         'subtopic': 'tag_type'
     },
     'tag_type_delete': {
         'func': tag_type_delete,
-        'description': '批量删除标签类型',
         'params': ['tag_type_ids'],
         'subtopic': 'tag_type'
     },
     # 子主题动作 - tag（三级结构）
     'tag_create': {
         'func': tag_create,
-        'description': '创建标签',
         'params': ['name', 'tag_type_id', 'tag_type_name', 'description', 'color'],
         'subtopic': 'tag'
     },
     'tag_list': {
         'func': tag_list,
-        'description': '批量查询标签',
         'params': ['start', 'limit', 'name', 'tag_type_id'],
         'subtopic': 'tag'
     },
     'tag_modify': {
         'func': tag_modify,
-        'description': '修改标签',
         'params': ['tag_id', 'name', 'description', 'color'],
         'subtopic': 'tag'
     },
     'tag_delete': {
         'func': tag_delete,
-        'description': '批量删除标签',
         'params': ['tag_ids'],
         'subtopic': 'tag'
     },
     'tag_bind': {
         'func': tag_bind,
-        'description': '标签关联资源',
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
     'tag_unbind': {
         'func': tag_unbind,
-        'description': '标签取消关联资源',
         'params': ['tag_id', 'resources'],
         'subtopic': 'tag'
     },
     # 子主题动作 - az（三级结构）
     'az_list': {
         'func': az_list,
-        'description': '批量查询可用分区',
         'params': ['az_name', 'operate_status', 'start', 'limit', 'is_sc'],
         'subtopic': 'az'
     },
     # 子主题动作 - dc（三级结构）
     'dc_list': {
         'func': dc_list,
-        'description': '获取数据中心列表',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
     'dc_show': {
         'func': dc_show,
-        'description': '获取数据中心详情',
         'params': ['dc_id'],
         'subtopic': 'dc'
     },
     'dc_show_devices': {
         'func': dc_show_devices,
-        'description': '查询指定数据中心的设备列表信息',
         'params': ['dc_id', 'device_type', 'page_no', 'page_size'],
         'subtopic': 'dc'
     },
     # region 子主题动作
     'region_list': {
         'func': region_list,
-        'description': '批量查询Region',
         'params': ['ids', 'name', 'active_ip_address', 'standby_ip_address', 'sync_status', 'role', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'region'
     },
     'region_query': {
         'func': region_query,
-        'description': '查询下级Region资源信息',
         'params': ['region_id', 'request_url', 'request_method', 'request_body'],
         'subtopic': 'region'
     },

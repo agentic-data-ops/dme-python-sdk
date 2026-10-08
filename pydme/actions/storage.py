@@ -1760,81 +1760,68 @@ ACTIONS = {
     # 直接动作（两级结构：<topic> <action>）
     'list': {
         'func': list,
-        'description': '批量查询存储设备',
         'params': ['az', 'source', 'dc_id', 'tag_ids', 'start', 'limit', 'ext_attrs'],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': '查询指定存储设备',
         'params': ['storage_id'],
         'subtopic': None
     },
     'add': {
         'func': add,
-        'description': '添加存储设备（仅支持录入离线存储设备信息）',
         'params': ['name', 'sn', 'ip', 'vendor', 'model', 'version', 'patch_version', 'dc_id', 'az', 'location', 'maintenance_start', 'maintenance_overtime', 'total_capacity', 'total_effective_capacity', 'total_pool_capacity', 'used_capacity', 'free_capacity', 'subscription_capacity', 'tag_ids'],
         'subtopic': None
     },
     'remove': {
         'func': remove,
-        'description': '批量移除存储设备',
         'params': ['storage_ids'],
         'subtopic': None
     },
     'sync': {
         'func': sync,
-        'description': '同步存储设备信息',
         'params': ['storage_id'],
         'subtopic': None
     },
     'modify': {
         'func': modify,
-        'description': '修改存储设备（仅支持修改录入的离线存储设备信息）',
         'params': ['storage_id', 'name', 'location', 'ext_attrs'],
         'subtopic': None
     },
     # 子主题动作（三级结构：<topic> <subtopic> <action>）
     'bbu_list': {
         'func': bbu_list,
-        'description': '查询存储设备的 BBU 信息列表',
         'params': ['storage_id', 'health_status', 'running_status', 'enclosure_name',
                    'location', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'bbu'
     },
     'get_passphrase': {
         'func': get_passphrase,
-        'description': '获取存储设备访问的令牌',
         'params': ['storage_id'],
     },
     'fan_list': {
         'func': fan_list,
-        'description': '查询存储设备的风扇信息',
         'params': ['storage_id', 'health_status', 'running_status', 'run_level',
                    'enclosure_name', 'location', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'disk_list': {
         'func': disk_list,
-        'description': '查询存储设备的硬盘信息列表',
         'params': ['storage_id'],
         'subtopic': 'disk'
     },
     'pool_list': {
         'func': pool_list,
-        'description': '查询存储设备存储池列表',
         'params': ['storage_id', 'raw_id', 'zone_id', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'pool'
     },
     'hyperscale_pool_list': {
         'func': hyperscale_pool_list,
-        'description': '查询 HyperScale 存储池列表',
         'params': ['raw_id', 'name', 'local_pool_id', 'health_status', 'running_status', 'storage_id', 'description', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'hyperscale_pool'
     },
     'node_list': {
         'func': node_list,
-        'description': '查询存储设备的节点列表',
         'params': ['storage_id', 'raw_id', 'storage_name', 'name', 'ids',
                    'mgmt_ip', 'frame_number', 'slot_number', 'status', 'roles',
                    'page_no', 'page_size', 'sort_key', 'sort_dir'],
@@ -1842,7 +1829,6 @@ ACTIONS = {
     },
     'psu_list': {
         'func': psu_list,
-        'description': '获取存储设备电源（PSU）列表',
         'params': ['storage_id', 'health_status', 'running_status', 'power_type',
                    'power_mode', 'location', 'model', 'sn', 'enclosure_name',
                    'zone_id', 'page_no', 'page_size'],
@@ -1850,36 +1836,30 @@ ACTIONS = {
     },
     'query_power_data': {
         'func': query_power_data,
-        'description': '查询存储设备功率数据',
         'params': ['start_time', 'end_time', 'storage_ids', 'time_granularity'],
     },
     'app_type_list': {
         'func': app_type_list,
-        'description': '查询指定存储设备的应用类型',
         'params': ['storage_id'],
         'subtopic': 'app_type'
     },
     'controller_list': {
         'func': controller_list,
-        'description': '查询指定存储设备的控制器信息',
         'params': ['storage_id'],
         'subtopic': 'controller'
     },
     'disk_domain_list': {
         'func': disk_domain_list,
-        'description': '批量查询硬盘域',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_domain'
     },
     'disk_pool_list': {
         'func': disk_pool_list,
-        'description': '批量查询分布式存储设备的硬盘池',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'disk_pool'
     },
     'enclosure_list': {
         'func': enclosure_list,
-        'description': '批量查询机框信息',
         'params': ['page_no', 'page_size', 'storage_id', 'name', 'location',
                    'health_status', 'zone_name', 'zone_id', 'running_status',
                    'power_mode', 'esn', 'mac', 'sort_key', 'sort_dir'],
@@ -1887,37 +1867,31 @@ ACTIONS = {
     },
     'vstore_list': {
         'func': vstore_list,
-        'description': '批量查询存储设备租户信息',
         'params': ['storage_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'vstore'
     },
     'vstore_show': {
         'func': vstore_show,
-        'description': '查询租户详情',
         'params': ['vstore_id'],
         'subtopic': 'vstore'
     },
     'vstore_create': {
         'func': vstore_create,
-        'description': '创建租户',
         'params': ['name', 'storage_id', 'san_capacity_quota', 'nas_capacity_quota', 'description', 'nas_capacity_quota_alarm_switch', 'nas_capacity_quota_alarm_threshold', 'associate_pool_ids'],
         'subtopic': 'vstore'
     },
     'vstore_modify': {
         'func': vstore_modify,
-        'description': '修改指定租户',
         'params': ['vstore_id', 'name', 'san_capacity_quota', 'nas_capacity_quota', 'description', 'nas_capacity_quota_alarm_switch', 'nas_capacity_quota_alarm_threshold'],
         'subtopic': 'vstore'
     },
     'vstore_delete': {
         'func': vstore_delete,
-        'description': '批量删除租户',
         'params': ['vstore_ids'],
         'subtopic': 'vstore'
     },
     'initiator_list': {
         'func': initiator_list,
-        'description': '批量查询存储侧启动器对象',
         'params': ['page_size', 'page_no', 'raw_id', 'alias', 'status',
                    'associated_host_name', 'associated_host_id', 'multipath_type',
                    'protocol', 'support_provisioning', 'vstore_raw_id',
@@ -1926,75 +1900,63 @@ ACTIONS = {
     },
     'initiator_delete': {
         'func': initiator_delete,
-        'description': '批量删除存储设备的启动器对象',
         'params': ['initiator_ids', 'task_remarks'],
         'subtopic': 'initiator'
     },
     'initiator_modify': {
         'func': initiator_modify,
-        'description': '修改存储侧启动器对象',
         'params': ['initiator_id', 'vstore_id', 'alias', 'multi_path'],
         'subtopic': 'initiator'
     },
     # account 子主题动作（认证用户）
     'account_show_local_users': {
         'func': account_show_local_users,
-        'description': '查询指定存储设备本地认证用户的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_create_local_user': {
         'func': account_create_local_user,
-        'description': '创建本地认证用户',
         'params': ['storage_id', 'name', 'account_password', 'primary_group_raw_id', 'description', 'group_names', 'vstore_id'],
         'subtopic': 'account'
     },
     'account_create_unix_user': {
         'func': account_create_unix_user,
-        'description': '创建指定存储设备 UNIX 认证用户',
         'params': ['storage_id', 'name', 'primary_group_raw_id', 'raw_id', 'description', 'password', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_create_windows_user': {
         'func': account_create_windows_user,
-        'description': '创建指定存储设备 Windows 认证用户',
         'params': ['storage_id', 'name', 'password', 'raw_id', 'description', 'status_enabled', 'vstore_raw_id'],
         'subtopic': 'account'
     },
     'account_show_unix_users': {
         'func': account_show_unix_users,
-        'description': '查询指定存储设备 UNIX 认证用户的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_users': {
         'func': account_show_windows_users,
-        'description': '查询指定存储设备 Windows 认证用户的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_local_user_groups': {
         'func': account_show_local_user_groups,
-        'description': '查询指定存储设备本地认证用户组的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_unix_user_groups': {
         'func': account_show_unix_user_groups,
-        'description': '查询指定存储设备 UNIX 认证用户组的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_show_windows_user_groups': {
         'func': account_show_windows_user_groups,
-        'description': '查询指定存储设备 Windows 认证用户组的信息',
         'params': ['storage_id', 'vstore_raw_id', 'name', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     # qos 子主题动作
     'qos_list': {
         'func': qos_list,
-        'description': '批量查询 QoS 策略',
         'params': ['storage_id', 'name', 'raw_id', 'enable_status', 'running_status',
                    'zone_id', 'resource_type_list', 'vstore_id', 'vstore_name',
                    'alarm_status', 'io_policy_type', 'page_no', 'page_size',
@@ -2003,13 +1965,11 @@ ACTIONS = {
     },
     'qos_show': {
         'func': qos_show,
-        'description': '查询指定 QoS 策略详情',
         'params': ['qos_policy_id'],
         'subtopic': 'qos'
     },
     'qos_create': {
         'func': qos_create,
-        'description': '创建 QoS 策略',
         'params': ['name', 'storage_id', 'resource_type', 'resource_ids', 'description', 'zone_id', 'vstore_id', 'enable_status', 'io_policy_type',
                    'min_bandwidth', 'max_bandwidth', 'burst_bandwidth', 'min_iops',
                    'max_iops', 'burst_iops', 'burst_time', 'latency',
@@ -2023,7 +1983,6 @@ ACTIONS = {
     },
     'qos_modify': {
         'func': qos_modify,
-        'description': '修改 QoS 策略',
         'params': ['qos_policy_id', 'name', 'description', 'io_policy_type',
                    'min_bandwidth', 'max_bandwidth', 'burst_bandwidth', 'min_iops',
                    'max_iops', 'burst_iops', 'burst_time', 'latency',
@@ -2036,50 +1995,42 @@ ACTIONS = {
     },
     'qos_delete': {
         'func': qos_delete,
-        'description': '删除 QoS 策略',
         'params': ['qos_policy_ids'],
         'subtopic': 'qos'
     },
     'qos_activate': {
         'func': qos_activate,
-        'description': '批量激活 QoS 策略',
         'params': ['qos_policy_ids'],
         'subtopic': 'qos'
     },
     'qos_deactivate': {
         'func': qos_deactivate,
-        'description': '批量取消激活 QoS 策略',
         'params': ['qos_policy_ids'],
         'subtopic': 'qos'
     },
     'qos_associate': {
         'func': qos_associate,
-        'description': 'QoS 策略关联控制资源',
         'params': ['qos_policy_id', 'resource_ids', 'resource_type'],
         'subtopic': 'qos'
     },
     'qos_unassociate': {
         'func': qos_unassociate,
-        'description': 'QoS 策略解关联控制资源',
         'params': ['qos_policy_id', 'resource_ids', 'resource_type'],
         'subtopic': 'qos'
     },
     # logic_port 子主题动作（存储逻辑端口）
     'logic_port_list': {
         'func': logic_port_list,
-        'description': '查询存储设备的逻辑端口列表',
         'params': ['storage_id', 'vstore_raw_id', 'zone_raw_id', 'scope', 'page_no', 'page_size'],
         'subtopic': 'logic_port'
     },
     'logic_port_show': {
         'func': logic_port_show,
-        'description': '查询存储设备的逻辑端口详情',
         'params': ['logic_port_id'],
         'subtopic': 'logic_port'
     },
     'logic_port_create': {
         'func': logic_port_create,
-        'description': '创建存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）',
         'params': ['storage_id', 'name', 'address_family', 'home_port_type', 'zone_raw_id', 'scope',
                    'mgmt_ip', 'ipv4_mask', 'ipv4_gateway', 'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway',
                    'home_port_raw_id', 'support_protocol', 'operational_status', 'home_controller_id',
@@ -2089,7 +2040,6 @@ ACTIONS = {
     },
     'logic_port_update': {
         'func': logic_port_update,
-        'description': '修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）',
         'params': ['logic_port_id', 'name', 'address_family', 'mgmt_ip', 'ipv4_mask', 'ipv4_gateway',
                    'mgmt_ipv6', 'ipv6_mask', 'ipv6_gateway', 'home_port_raw_id', 'home_port_type',
                    'operational_status', 'failover_group_raw_id', 'dns_zone_name',
@@ -2098,77 +2048,65 @@ ACTIONS = {
     },
     'logic_port_delete': {
         'func': logic_port_delete,
-        'description': '删除存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）',
         'params': ['ids'],
         'subtopic': 'logic_port'
     },
     'logic_port_failback': {
         'func': logic_port_failback,
-        'description': '回切存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）',
         'params': ['id'],
         'subtopic': 'logic_port'
     },
     # port 子主题动作（存储端口）
     'port_list': {
         'func': port_list,
-        'description': '查询存储设备端口信息，支持 ETH、FC、IB、Bond 四种类型',
         'params': ['storage_id', 'port_type', 'location', 'ipv4', 'ipv6', 'port_name', 'zone_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
     'port_show_bond_members': {
         'func': port_show_bond_members,
-        'description': '查询指定绑定端口的成员列表信息',
         'params': ['bond_port_id'],
         'subtopic': 'port'
     },
     # vlan 子主题动作（存储 VLAN）
     'vlan_list': {
         'func': vlan_list,
-        'description': '批量查询 VLAN 列表',
         'params': ['name', 'storage_id', 'page_no', 'page_size'],
         'subtopic': 'vlan'
     },
     'vlan_create': {
         'func': vlan_create,
-        'description': '创建 VLAN（仅支持 OceanStor A800、A600 系列存储）',
         'params': ['name', 'vlan_id', 'storage_id', 'description'],
         'subtopic': 'vlan'
     },
     'vlan_delete': {
         'func': vlan_delete,
-        'description': '删除 VLAN（仅支持 OceanStor A800、A600 系列存储）',
         'params': ['vlan_id'],
         'subtopic': 'vlan'
     },
     'vlan_modify': {
         'func': vlan_modify,
-        'description': '修改 VLAN（仅支持 OceanStor A800、A600 系列存储）',
         'params': ['vlan_id', 'name', 'description'],
         'subtopic': 'vlan'
     },
     # failover_group 子主题动作（存储漂移组）
     'failover_group_list': {
         'func': failover_group_list,
-        'description': '查询漂移组列表',
         'params': ['storage_id', 'failover_group_type', 'zone_id', 'failover_group_service_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_ports': {
         'func': failover_group_show_ports,
-        'description': '查询漂移组下的端口（支持 bond、eth、ib 三种类型）',
         'params': ['failover_group_id', 'port_type'],
         'subtopic': 'failover_group'
     },
     'failover_group_show_vlans': {
         'func': failover_group_show_vlans,
-        'description': '查询漂移组下的 VLAN',
         'params': ['failover_group_id'],
         'subtopic': 'failover_group'
     },
     # zone 子主题动作（OceanStor A800 集群 zone）
     'zone_list': {
         'func': zone_list,
-        'description': '查询OceanStor A800集群中zone信息',
         'params': ['name', 'ip', 'status', 'sync_status', 'sn', 'storage_ids'],
         'subtopic': 'zone'
     },

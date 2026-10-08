@@ -19,7 +19,8 @@ from typing import Optional, Dict, Any, List, Tuple
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pydme.client import DMEAPIClient
-from pydme.i18n import load_i18n, resolve_lang, DEFAULT_LANG
+from pydme.i18n import (resolve_lang, DEFAULT_LANG, get_action_description,
+                        get_action_doc, get_topic_description)
 
 
 def load_blacklist() -> Dict[str, list]:
@@ -109,12 +110,12 @@ class DMECLI:
     def _doc_for(self, topic: str, action_key: str, func) -> str:
         """按当前语言获取 action 注释文本。
 
-        优先从 i18n 资源（pydme/config/i18n/<lang>.yaml）按 (topic, action_key)
-        取注释；未命中时回退函数 docstring（过渡期；docstring 移除后为空则告警）。
+        优先从 i18n 资源按 (topic, action_key) 重组 docstring；
+        未命中时回退函数 docstring（docstring 已移除后为空则告警）。
         """
-        text = load_i18n(self.lang).get(topic, {}).get(action_key)
-        if text is not None:
-            return text
+        doc = get_action_doc(topic, action_key, self.lang)
+        if doc is not None:
+            return doc
         fallback = inspect.getdoc(func) or ""
         if not fallback:
             print(f"警告：i18n 资源缺少 {self.lang}.{topic}.{action_key} 的注释，请更新对应 YAML",
@@ -374,7 +375,8 @@ class DMECLI:
                                     sub_parsed = self.parse_docstring(sub_doc)
                                     # 使用原始的 action_key 作为键（如 lun_list）
                                     actions_info[sub_action_key] = {
-                                        'description': sub_action_data.get('description', ''),
+                                        'description': (get_action_description(topic, sub_action_key, self.lang)
+                                                        or sub_action_data.get('description', '')),
                                         'params': sub_action_data.get('params', []),
                                         'parsed': sub_parsed,
                                         'subtopic': subtopic,
@@ -394,7 +396,8 @@ class DMECLI:
                 parsed = self.parse_docstring(doc)
 
                 actions_info[action_key] = {
-                    'description': action_data.get('description', ''),
+                    'description': (get_action_description(topic, action_key, self.lang)
+                                    or action_data.get('description', '')),
                     'params': action_data.get('params', []),
                     'parsed': parsed,
                     'subtopic': action_data.get('subtopic'),
@@ -525,7 +528,8 @@ def print_topic_help(cli: DMECLI, topic: str):
             for action_name in sorted(direct_actions.keys()):
                 info = direct_actions[action_name]
                 print(f"\n  {action_name}")
-                print(f"    {info['description']}")
+                for line in info['description'].split('\n'):
+                    print(f"    {line}")
 
         # 显示子主题动作（三级结构）
         for subtopic in sorted(subtopics.keys()):
@@ -534,7 +538,8 @@ def print_topic_help(cli: DMECLI, topic: str):
             for action_name in sorted(subtopics[subtopic].keys()):
                 info = subtopics[subtopic][action_name]
                 print(f"\n  {action_name}")
-                print(f"    {info['description']}")
+                for line in info['description'].split('\n'):
+                    print(f"    {line}")
 
     print(f"\n{'='*60}")
     print(f"使用示例:")
@@ -583,7 +588,8 @@ def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
         for action_name in sorted(subtopic_actions.keys()):
             info = subtopic_actions[action_name]
             print(f"\n  {action_name}")
-            print(f"    {info['description']}")
+            for line in info['description'].split('\n'):
+                print(f"    {line}")
     else:
         print(f"\n未找到子主题 '{subtopic}' 下的动作")
 
@@ -626,7 +632,8 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
 
     if info['description']:
         print(f"\n描述:")
-        print(f"  {info['description']}")
+        for line in info['description'].split('\n'):
+            print(f"  {line}")
 
     if info['parsed']['description']:
         print(f"\n详细说明:")
@@ -816,14 +823,8 @@ def main():
 
         for topic in sorted(topics.keys()):
             topic_info = topics[topic]
-            module_doc = cli.get_module_doc(topic)
-
-            # 提取模块描述（第一行或前几行）
-            topic_desc = ""
-            if module_doc:
-                first_line = module_doc.strip().split('\n')[0].strip()
-                if first_line and not first_line.startswith('"""'):
-                    topic_desc = first_line
+            # 模块描述从 i18n 资源读取（与模块 docstring 首行同源）
+            topic_desc = get_topic_description(topic, cli.lang)
 
             # 显示主题名称和描述
             if topic_desc:
@@ -836,14 +837,8 @@ def main():
             if direct_actions:
                 print(f"  ├── 直接动作:")
                 for action_key in sorted(direct_actions):
-                    action_desc = ""
-                    # 获取动作描述
-                    try:
-                        module = importlib.import_module(f'pydme.actions.{topic}')
-                        if hasattr(module, 'ACTIONS') and action_key in module.ACTIONS:
-                            action_desc = module.ACTIONS[action_key].get('description', '')
-                    except ImportError:
-                        pass
+                    # 动作描述从 i18n 资源读取（列表视图只显示首行）
+                    action_desc = get_action_description(topic, action_key, cli.lang).split('\n')[0]
 
                     if action_desc:
                         print(f"  │     ├── {action_key} - {action_desc}")
@@ -857,38 +852,17 @@ def main():
                 print(f"  ├── 📂 {subtopic}")
 
                 for action_name in sorted(actions_list):
+                    # 构造完整的 action_key，支持空格和下划线分隔
+                    # 例如: subtopic="cluster", action_name="list" -> "cluster_list" 或 "cluster list"
+                    full_action_key_space = f"{subtopic} {action_name}"
+                    full_action_key_underscore = f"{subtopic}_{action_name}"
+
+                    # 动作描述从 i18n 资源读取（列表视图只显示首行）
                     action_desc = ""
-                    # 获取动作描述
-                    try:
-                        module = importlib.import_module(f'pydme.actions.{topic}')
-                        # 构造完整的 action_key，支持空格和下划线分隔
-                        # 例如: subtopic="cluster", action_name="list" -> "cluster_list" 或 "cluster list"
-                        full_action_key_space = f"{subtopic} {action_name}"
-                        full_action_key_underscore = f"{subtopic}_{action_name}"
-                        
-                        # 先尝试从主模块获取
-                        if hasattr(module, 'ACTIONS'):
-                            # 尝试多种key格式
-                            for key_format in [full_action_key_space, full_action_key_underscore]:
-                                if key_format in module.ACTIONS:
-                                    action_desc = module.ACTIONS[key_format].get('description', '')
-                                    break
-                            else:
-                                # 尝试从子模块获取（支持子主题模块引用）
-                                for ak, ai in module.ACTIONS.items():
-                                    if ai.get('module') and ai.get('subtopic') == subtopic:
-                                        try:
-                                            sub_module = importlib.import_module(ai['module'])
-                                            for key_format in [full_action_key_space, full_action_key_underscore]:
-                                                if hasattr(sub_module, 'ACTIONS') and key_format in sub_module.ACTIONS:
-                                                    action_desc = sub_module.ACTIONS[key_format].get('description', '')
-                                                    break
-                                            if action_desc:
-                                                break
-                                        except ImportError:
-                                            pass
-                    except ImportError:
-                        pass
+                    for key_format in [full_action_key_space, full_action_key_underscore]:
+                        action_desc = get_action_description(topic, key_format, cli.lang).split('\n')[0]
+                        if action_desc:
+                            break
 
                     if action_desc:
                         print(f"  │       ├─── {action_name} - {action_desc}")

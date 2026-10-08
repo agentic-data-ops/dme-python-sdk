@@ -1969,301 +1969,252 @@ def kvcache_list(client: DMEAPIClient, storage_id: str = None, id: str = None,
 ACTIONS = {
     'account_dataturbo_admin_list': {
         'func': account_dataturbo_admin_list,
-        'description': '批量查询 DataTurbo 管理员',
         'params': ['storage_id', 'vstore_id', 'vstore_name', 'zone_id', 'name', 'online_status', 'lock_status', 'account_state', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_unix_user_create': {
         'func': account_unix_user_create,
-        'description': '创建 UNIX 用户',
         'params': ['storage_id', 'name', 'vstore_raw_id', 'raw_id', 'description', 'primary_group_raw_id', 'primary_group_name', 'zone_id', 'status', 'secondary_group_name_list'],
         'subtopic': 'account'
     },
     'account_unix_user_add_group': {
         'func': account_unix_user_add_group,
-        'description': '添加 UNIX 用户附属组',
         'params': ['user_id', 'secondary_group_name_list'],
         'subtopic': 'account'
     },
     'account_unix_user_list': {
         'func': account_unix_user_list,
-        'description': '查询 UNIX 认证用户列表',
         'params': ['storage_id', 'storage_name', 'vstore_raw_id', 'vstore_name', 'name', 'primary_group_name', 'raw_id', 'zone_id', 'user_status', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_unix_user_show': {
         'func': account_unix_user_show,
-        'description': '查询 UNIX 认证用户详情',
         'params': ['id'],
         'subtopic': 'account'
     },
     'account_unix_user_remove_group': {
         'func': account_unix_user_remove_group,
-        'description': '移除 UNIX 用户附属组',
         'params': ['user_id', 'secondary_group_name_list'],
         'subtopic': 'account'
     },
     'account_unix_user_modify': {
         'func': account_unix_user_modify,
-        'description': '修改 UNIX 用户',
         'params': ['id', 'raw_id', 'description', 'primary_group_name', 'primary_group_raw_id', 'status_enable'],
         'subtopic': 'account'
     },
     'account_unix_user_batch_delete': {
         'func': account_unix_user_batch_delete,
-        'description': '删除 UNIX 用户',
         'params': ['ids'],
         'subtopic': 'account'
     },
     'account_unix_user_group_create': {
         'func': account_unix_user_group_create,
-        'description': '创建 UNIX 用户组',
         'params': ['storage_id', 'name', 'vstore_raw_id', 'raw_id', 'description', 'zone_id'],
         'subtopic': 'account'
     },
     'account_unix_user_group_list': {
         'func': account_unix_user_group_list,
-        'description': '查询 UNIX 认证用户组列表',
         'params': ['storage_id', 'storage_name', 'vstore_raw_id', 'vstore_name', 'name', 'raw_id', 'zone_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'account'
     },
     'account_unix_user_group_show': {
         'func': account_unix_user_group_show,
-        'description': '查询 UNIX 用户组详情',
         'params': ['id'],
         'subtopic': 'account'
     },
     'account_unix_user_group_modify': {
         'func': account_unix_user_group_modify,
-        'description': '修改 UNIX 用户组',
         'params': ['id', 'raw_id', 'description'],
         'subtopic': 'account'
     },
     'account_unix_user_group_batch_delete': {
         'func': account_unix_user_group_batch_delete,
-        'description': '删除 UNIX 用户组',
         'params': ['ids'],
         'subtopic': 'account'
     },
     'dtree_list': {
         'func': dtree_list,
-        'description': '查询 Dtree 列表',
         'params': ['id_in_storage', 'name', 'device_name', 'storage_id', 'zone_id', 'manufacturer', 'tier_name', 'fs_name', 'fs_id', 'namespace_name', 'namespace_id', 'quota_switch', 'security_mode', 'nas_locking_policy', 'sort_key', 'sort_dir', 'page_no', 'page_size', 'dc_id', 'dc_name'],
         'subtopic': 'dtree'
     },
     'dtree_show': {
         'func': dtree_show,
-        'description': '查询指定 Dtree 详情',
         'params': ['dtree_id'],
         'subtopic': 'dtree'
     },
     'dtree_create': {
         'func': dtree_create,
-        'description': '创建并共享 Dtree',
         'params': ['storage_id', 'create_dtrees_param', 'fs_id', 'namespace_id', 'zone_id', 'parent_dir', 'quota_switch', 'security_mode', 'nas_locking_policy', 'create_nfs_share_param', 'create_cifs_share_param', 'dataturbo_share', 'create_worm_param', 'unix_permissions', 'task_remarks'],
         'subtopic': 'dtree'
     },
     'dtree_delete': {
         'func': dtree_delete,
-        'description': '批量删除 Dtree',
         'params': ['dtree_ids', 'task_remarks'],
         'subtopic': 'dtree'
     },
     'dtree_modify': {
         'func': dtree_modify,
-        'description': '修改指定 Dtree',
         'params': ['dtree_id', 'name', 'quota_switch', 'security_mode', 'nas_locking_policy', 'unix_permissions', 'task_remarks'],
         'subtopic': 'dtree'
     },
     # NFS share 子主题动作
     'nfs_share_list': {
         'func': nfs_share_list,
-        'description': '查询 NFS 共享列表',
         'params': ['id_in_storage', 'name', 'share_path', 'exact_share_path', 'device_name', 'storage_id', 'tier_name', 'owning_dtree_name', 'fs_name', 'fs_id', 'owning_dtree_id', 'vstore_name', 'page_no', 'page_size', 'sort_key', 'sort_dir', 'support_provisioning', 'namespace_id', 'namespace_name', 'dc_id', 'dc_name', 'zone_id', 'zone_name', 'zone_ip'],
         'subtopic': 'nfs_share'
     },
     'nfs_share_show': {
         'func': nfs_share_show,
-        'description': '查询指定 NFS 共享详情',
         'params': ['nfs_share_id'],
         'subtopic': 'nfs_share'
     },
     'nfs_share_create': {
         'func': nfs_share_create,
-        'description': '创建 NFS 共享',
         'params': ['create_nfs_share_param', 'task_remarks'],
         'subtopic': 'nfs_share'
     },
     'nfs_share_modify': {
         'func': nfs_share_modify,
-        'description': '修改指定 NFS 共享',
         'params': ['nfs_share_id', 'description', 'character_encoding', 'audit_items', 'show_snapshot_enable', 'nfs_share_client_addition', 'nfs_share_client_modification', 'nfs_share_client_deletion', 'file_name_ex_filters', 'task_remarks'],
         'subtopic': 'nfs_share'
     },
     'nfs_share_delete': {
         'func': nfs_share_delete,
-        'description': '批量删除 NFS 共享',
         'params': ['nfs_share_ids', 'task_remarks'],
         'subtopic': 'nfs_share'
     },
     'nfs_share_show_clients': {
         'func': nfs_share_show_clients,
-        'description': '查询 NFS 共享下的客户端访问列表',
         'params': ['page_no', 'page_size', 'nfs_share_id', 'storage_id', 'vstore_id_in_storage', 'name', 'client_id_in_storage', 'sort_key', 'sort_dir'],
         'subtopic': 'nfs_share'
     },
     # CIFS 共享子主题动作
     'cifs_share_list': {
         'func': cifs_share_list,
-        'description': '批量查询 CIFS 共享',
         'params': ['raw_id', 'name', 'share_path', 'exact_share_path', 'fs_id', 'fs_name', 'dtree_id', 'dtree_name', 'storage_id', 'storage_name', 'vstore_raw_id', 'vstore_name', 'manufacturer', 'op_lock_enabled', 'notify_enabled', 'offline_file_modes', 'file_extension_filter_enabled', 'abe_enabled', 'page_no', 'page_size', 'sort_key', 'sort_dir', 'namespace_id', 'namespace_name', 'support_provisioning', 'dc_id', 'dc_name'],
         'subtopic': 'cifs_share'
     },
     'cifs_share_show': {
         'func': cifs_share_show,
-        'description': '查询指定 CIFS 共享详情',
         'params': ['cifs_share_id'],
         'subtopic': 'cifs_share'
     },
     'cifs_share_create': {
         'func': cifs_share_create,
-        'description': '创建单个 CIFS 共享',
         'params': ['create_cifs_param', 'fs_id', 'namespace_id', 'task_remarks'],
         'subtopic': 'cifs_share'
     },
     'cifs_share_modify': {
         'func': cifs_share_modify,
-        'description': '修改指定 CIFS 共享',
         'params': ['cifs_share_id', 'description', 'op_lock_enabled', 'notify_enabled', 'ca_enabled', 'offline_file_mode', 'ip_control_enabled', 'abe_enabled', 'audititem_list', 'apply_default_acl', 'file_extension_filter_enabled', 'show_previous_versions_enabled', 'show_snapshot_enabled', 'user_and_user_group_info', 'ip_and_segments', 'file_name_ex_filters', 'task_remarks', 'smb3_encryption_enable', 'unencrypted_access', 'enable_lease'],
         'subtopic': 'cifs_share'
     },
     'cifs_share_delete': {
         'func': cifs_share_delete,
-        'description': '批量删除 CIFS 共享',
         'params': ['cifs_share_ids', 'task_remarks'],
         'subtopic': 'cifs_share'
     },
     'cifs_share_show_permissions': {
         'func': cifs_share_show_permissions,
-        'description': '查询单个 CIFS 共享的权限列表（用户/IP/文件过滤）',
         'params': ['cifs_share_id', 'type', 'user_filter', 'ip_filter', 'file_filter', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'cifs_share'
     },
     # dataturbo_share 子主题动作
     'dataturbo_share_list': {
         'func': dataturbo_share_list,
-        'description': '查询 DataTurbo 共享列表',
         'params': ['page_no', 'page_size', 'raw_id', 'share_path', 'fs_id', 'fs_name', 'dtree_id', 'dtree_name', 'vstore_id', 'vstore_raw_id', 'vstore_name', 'storage_id', 'storage_name', 'zone_id', 'zone_name', 'scope', 'sort_key', 'sort_dir'],
         'subtopic': 'dataturbo_share'
     },
     'dataturbo_share_show': {
         'func': dataturbo_share_show,
-        'description': '查询指定 DataTurbo 共享详情',
         'params': ['dataturbo_share_id'],
         'subtopic': 'dataturbo_share'
     },
     'dataturbo_share_create': {
         'func': dataturbo_share_create,
-        'description': '创建 DataTurbo 共享',
         'params': ['charset', 'fs_id', 'dtree_id', 'description', 'dataturbo_share_auth', 'task_remarks'],
         'subtopic': 'dataturbo_share'
     },
     'dataturbo_share_modify': {
         'func': dataturbo_share_modify,
-        'description': '修改指定 DataTurbo 共享',
         'params': ['dataturbo_share_id', 'description', 'dataturbo_share_auth_addition', 'dataturbo_share_auth_deletion', 'task_remarks'],
         'subtopic': 'dataturbo_share'
     },
     'dataturbo_share_delete': {
         'func': dataturbo_share_delete,
-        'description': '批量删除 DataTurbo 共享',
         'params': ['dataturbo_share_ids', 'task_remarks'],
         'subtopic': 'dataturbo_share'
     },
     'dataturbo_share_show_permissions': {
         'func': dataturbo_share_show_permissions,
-        'description': '查询 DataTurbo 共享管理员权限列表',
         'params': ['dataturbo_share_id', 'page_no', 'page_size', 'user_id', 'user_name', 'permission'],
         'subtopic': 'dataturbo_share'
     },
     # quota 子主题动作
     'quota_list': {
         'func': quota_list,
-        'description': '查询配额列表',
         'params': ['page_no', 'page_size', 'ids', 'raw_ids', 'quota_type', 'parent_type', 'parent_raw_id', 'owner_name', 'vstore_id', 'vstore_raw_id', 'storage_id', 'sort_key', 'sort_dir', 'zone_id'],
         'subtopic': 'quota'
     },
     'quota_show': {
         'func': quota_show,
-        'description': '查询指定配额详情',
         'params': ['quota_id'],
         'subtopic': 'quota'
     },
     'quota_create': {
         'func': quota_create,
-        'description': '创建配额',
         'params': ['parent_id', 'parent_type', 'quota_type', 'space_soft_quota', 'space_hard_quota', 'space_advisory_quota', 'file_soft_quota', 'file_hard_quota', 'file_advisory_quota', 'snap_space_switch', 'soft_grace_time', 'quota_owner', 'dir_quota_target', 'task_remarks'],
         'subtopic': 'quota'
     },
     'quota_modify': {
         'func': quota_modify,
-        'description': '更新指定配额',
         'params': ['quota_id', 'space_soft_quota', 'space_hard_quota', 'space_advisory_quota', 'file_soft_quota', 'file_hard_quota', 'file_advisory_quota', 'snap_space_switch', 'soft_grace_time', 'task_remarks'],
         'subtopic': 'quota'
     },
     'quota_delete': {
         'func': quota_delete,
-        'description': '批量删除配额',
         'params': ['quota_ids', 'task_remarks'],
         'subtopic': 'quota'
     },
     # filesystem 子主题动作
     'filesystem_list': {
         'func': filesystem_list,
-        'description': '批量查询文件系统',
         'params': ['page_no', 'page_size', 'sort_dir', 'sort_key', 'name', 'fs_raw_id', 'storage_id'],
         'subtopic': 'filesystem'
     },
     'filesystem_show': {
         'func': filesystem_show,
-        'description': '查询指定文件系统详情',
         'params': ['filesystem_id'],
         'subtopic': 'filesystem'
     },
     'filesystem_delete': {
         'func': filesystem_delete,
-        'description': '批量删除文件系统',
         'params': ['filesystem_ids', 'task_remarks'],
         'subtopic': 'filesystem'
     },
     'filesystem_batch_modify': {
         'func': filesystem_batch_modify,
-        'description': '批量修改文件系统（支持批量修改名称）',
         'params': ['filesystems', 'task_remarks'],
         'subtopic': 'filesystem'
     },
     'filesystem_create': {
         'func': filesystem_create,
-        'description': '自定义创建文件系统',
         'params': ['storage_id', 'pool_raw_id', 'filesystem_specs', 'vstore_id', 'zone_id', 'task_remarks', 'gfs_group_id', 'automatic_update_time', 'atime_update_mode', 'schedule_name', 'quota_switch', 'vaai_switch', 'initial_distribute_policy', 'capacity_threshold'],
         'subtopic': 'filesystem'
     },
     'filesystem_query_available': {
         'func': filesystem_query_available,
-        'description': '查询可用的文件系统（支持远程复制）',
         'params': ['feature_type', 'local_storage_id', 'remote_storage_id', 'name', 'page_no', 'page_size', 'sort_key', 'sort_dir'],
         'subtopic': 'filesystem'
     },
     'filesystem_modify': {
         'func': filesystem_modify,
-        'description': '修改指定文件系统（完整参数）',
         'params': ['file_system_id', 'name', 'description', 'capacity', 'capacity_threshold', 'initial_distribute_policy', 'automatic_update_time', 'atime_update_mode', 'quota_switch', 'vaai_switch', 'owning_controller', 'task_remarks'],
         'subtopic': 'filesystem'
     },
     # namespace 子主题动作
     'namespace_list': {
         'func': namespace_list,
-        'description': '批量查询命名空间',
         'params': ['page_no', 'page_size', 'sort_dir', 'sort_key', 'name', 
                    'vstore_name', 'vstore_raw_id', 'vstore_id', 'raw_id',
                    'pool_name', 'storage_id', 'enable_encrypt', 
@@ -2272,13 +2223,11 @@ ACTIONS = {
     },
     'namespace_show': {
         'func': namespace_show,
-        'description': '查询指定命名空间详情',
         'params': ['namespace_id'],
         'subtopic': 'namespace'
     },
     'namespace_create': {
         'func': namespace_create,
-        'description': '批量创建命名空间',
         'params': ['storage_id', 'pool_raw_id', 'namespace_specs', 
                    'enable_update_atime', 'trash_visible', 'trash_enable',
                    'interval_trash', 'dps_switch', 'forbidden_dpc',
@@ -2292,7 +2241,6 @@ ACTIONS = {
     },
     'namespace_modify': {
         'func': namespace_modify,
-        'description': '修改指定命名空间',
         'params': ['namespace_id', 'enable_update_atime', 'show_snap_dir',
                    'trash_visible', 'trash_enable', 'interval_trash',
                    'dps_switch', 'forbidden_dpc', 'audit_log_switch',
@@ -2303,58 +2251,49 @@ ACTIONS = {
     },
     'namespace_delete': {
         'func': namespace_delete,
-        'description': '批量删除命名空间',
         'params': ['namespace_ids', 'task_remarks'],
         'subtopic': 'namespace'
     },
     # dataturbo 子主题动作（原 dpc 子主题，重命名）
     'dpc_list': {
         'func': dpc_list,
-        'description': '批量查询并行客户端列表',
         'params': ['ids', 'hostname', 'ip', 'mgmt_status', 'status', 'sn', 'storage_id', 'dpc_om_id', 'dpc_type', 'client_version', 'page_no', 'page_size'],
         'subtopic': 'dataturbo'
     },
     'dpc_show': {
         'func': dpc_show,
-        'description': '查询并行客户端详情',
         'params': ['dpc_id'],
         'subtopic': 'dataturbo'
     },
     # dpc 子主题动作 (DPC客户端)
     'list': {
         'func': dpc_client_list,
-        'description': '批量查询DPC客户端',
         'params': ['storage_id', 'process_id', 'name', 'manage_ip', 'version', 'status', 'switch_status', 'upgrade_flag', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'dpc'
     },
     'show': {
         'func': dpc_client_show,
-        'description': '查询DPC客户端详情',
         'params': ['id'],
         'subtopic': 'dpc'
     },
     # kvcache 子主题动作
     'kvcache_list': {
         'func': kvcache_list,
-        'description': '查询 KV Cache 库',
         'params': ['storage_id', 'id', 'raw_id', 'name', 'zone_id', 'pool_raw_id', 'vstore_id', 'vstore_name', 'fs_id', 'fs_name', 'data_cleanup_switch', 'page_no', 'page_size', 'sort_dir', 'sort_key'],
         'subtopic': 'kvcache'
     },
     'kvcache_batch_create': {
         'func': kvcache_batch_create,
-        'description': '批量创建 KV Cache 库',
         'params': ['storage_id', 'zone_id', 'pool_raw_id', 'vstore_id', 'kv_cache_stores', 'data_cleanup_switch', 'max_survival_time'],
         'subtopic': 'kvcache'
     },
     'kvcache_modify': {
         'func': kvcache_modify,
-        'description': '修改 KV Cache 库',
         'params': ['kv_cache_stores_id', 'name', 'description', 'data_cleanup_switch', 'max_survival_time'],
         'subtopic': 'kvcache'
     },
     'kvcache_batch_delete': {
         'func': kvcache_batch_delete,
-        'description': '批量删除 KV Cache 库',
         'params': ['ids'],
         'subtopic': 'kvcache'
     },

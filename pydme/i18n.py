@@ -2,11 +2,18 @@
 """
 pydme i18n：按语言加载 action 注释资源（pydme/config/i18n/<lang>.yaml）。
 
-零依赖轻量 YAML 子集解析，仅支持本仓库自产的固定格式：
+v2 结构化格式（零依赖轻量解析，仅支持本仓库自产格式）：
 
-    <topic>:
-      <action-func>: |
-        <func-comments>
+    topics:
+      <topic>:
+        description: |            # 模块 docstring 首行
+        actions:
+          <action-func>:
+            description: |        # 函数注释第一段
+            detail: |             # Args 之前其余段落（'' 表示无）
+            parameters:
+              <arg>: |            # 参数描述（多行）
+            outputs: |            # Returns 段内容（'' 表示无）
 
 语言选择：CLI 参数 --lang > 环境变量 DME_LANG > 默认 zh_CN。
 """
@@ -21,38 +28,101 @@ _CACHE = {}
 
 
 def parse_yaml(text: str) -> dict:
-    """解析自产 i18n YAML 文本：{topic: {action: text}}。
+    """解析 v2 i18n YAML：{topics: {topic: {description, actions: {action: entry}}}}。
 
-    block scalar 内容行以 4 空格缩进；空行属于 block 内容；遇到新的
-    topic/action 行时结束当前 block 并去掉尾部空行（action 间分隔行）。
+    block 内容行缩进 >= 块头缩进 + 2 即归入当前块；空行保留在块内。
+    空值字段以 `key: ''` 内联表示。
     """
-    result = {}
-    cur_topic = None
-    cur_action = None
+    topics = {}
+    cur_topic = cur_action = None
+    section = None          # 'topic_desc' | 'field' | 'param'
+    field = None
+    param_key = None
+    block_indent = None
     block = []
 
-    def flush():
-        nonlocal cur_action, block
-        if cur_action is not None:
-            result.setdefault(cur_topic, {})[cur_action] = '\n'.join(block).rstrip('\n')
-        cur_action = None
+    def save():
+        nonlocal section, field, param_key, block_indent, block
+        val = '\n'.join(block)
+        if section == 'topic_desc' and cur_topic is not None:
+            topics[cur_topic]['description'] = val
+        elif section == 'field' and cur_topic is not None and cur_action is not None:
+            topics[cur_topic]['actions'][cur_action][field] = val
+        elif section == 'param' and cur_topic is not None and cur_action is not None:
+            topics[cur_topic]['actions'][cur_action]['parameters'][param_key] = val
+        section = None
+        field = None
+        param_key = None
+        block_indent = None
+        block = []
+
+    def begin(section_, field_=None, key_=None, indent_=None):
+        nonlocal section, field, param_key, block_indent, block
+        section = section_
+        field = field_
+        param_key = key_
+        block_indent = (indent_ or 0) + 2
         block = []
 
     for line in text.split('\n'):
-        if line.startswith('    '):
-            block.append(line[4:])
-        elif line == '':
-            block.append('')
-        elif line.startswith('  ') and line.rstrip().endswith(': |'):
-            flush()
-            cur_action = line.strip()[:-3].strip()
-        elif line and not line.startswith(' ') and line.rstrip().endswith(':'):
-            flush()
-            cur_topic = line.strip()[:-1].strip()
-        else:
-            flush()
-    flush()
-    return result
+        stripped = line.strip()
+        if not stripped:
+            if section is not None:
+                block.append('')
+            continue
+        indent = len(line) - len(line.lstrip())
+        if section is not None and indent >= block_indent:
+            block.append(line[block_indent:])
+            continue
+        save()
+        if indent == 0:
+            pass  # topics:
+        elif indent == 2 and stripped.endswith(':'):
+            cur_topic = stripped[:-1]
+            cur_action = None
+            topics.setdefault(cur_topic, {'description': '', 'actions': {}})
+        elif indent == 4 and stripped == 'actions:':
+            pass
+        elif indent == 4 and stripped == 'description: |':
+            begin('topic_desc', indent_=indent)
+        elif indent == 6 and stripped.endswith(':'):
+            cur_action = stripped[:-1]
+            topics[cur_topic]['actions'].setdefault(
+                cur_action, {'description': '', 'detail': '', 'parameters': {}, 'outputs': ''})
+        elif indent == 8 and stripped == 'parameters:':
+            pass
+        elif indent == 8 and stripped.endswith(': |'):
+            begin('field', field_=stripped[:-3].strip(), indent_=indent)
+        elif indent == 8 and stripped.endswith(": ''"):
+            topics[cur_topic]['actions'][cur_action][stripped[:-4].strip()] = ''
+        elif indent == 10 and stripped.endswith(': |'):
+            begin('param', key_=stripped[:-3].strip(), indent_=indent)
+    save()
+    return {'topics': topics}
+
+
+def build_docstring(entry: dict) -> str:
+    """结构化字段重组为 docstring 文本（与拆分前语义一致，供 parse_docstring 使用）。"""
+    parts = []
+    if entry.get('description'):
+        parts.append(entry['description'])
+    if entry.get('detail'):
+        parts.append(entry['detail'])
+    if entry.get('parameters'):
+        arg_lines = []
+        for name, desc in entry['parameters'].items():
+            first, *rest = desc.split('\n')
+            line = f"    {name}: {first}"
+            for r in rest:
+                line += ('\n    ' + r) if r else '\n'
+            arg_lines.append(line)
+        parts.append('Args:\n' + '\n'.join(arg_lines))
+    if entry.get('outputs'):
+        out_lines = []
+        for l in entry['outputs'].split('\n'):
+            out_lines.append(('    ' + l) if l else '')
+        parts.append('Returns:\n' + '\n'.join(out_lines))
+    return '\n\n'.join(parts)
 
 
 def resolve_lang(cli_lang=None) -> str:
@@ -69,18 +139,37 @@ def _yaml_path(lang: str) -> Path:
 
 
 def load_i18n(lang=None) -> dict:
-    """按语言加载注释资源 {topic: {action: text}}，进程内缓存。
-
-    资源文件缺失时返回空 dict 并打印警告（调用方回退 docstring）。
-    """
+    """按语言加载 {topics: {...}}，进程内缓存；文件缺失返回空结构并警告。"""
     lang = resolve_lang(lang)
     if lang in _CACHE:
         return _CACHE[lang]
     path = _yaml_path(lang)
-    data = {}
+    data = {'topics': {}}
     if path.exists():
         data = parse_yaml(path.read_text(encoding='utf-8'))
     else:
         print(f"警告：未找到 i18n 资源 {path}，注释将回退函数 docstring", file=sys.stderr)
     _CACHE[lang] = data
     return data
+
+
+def get_topic_description(topic: str, lang=None) -> str:
+    """topic 描述（模块 docstring 首行）。"""
+    return load_i18n(lang)['topics'].get(topic, {}).get('description', '')
+
+
+def get_action_entry(topic: str, action: str, lang=None):
+    """action 结构化字段（无则 None）。"""
+    return load_i18n(lang)['topics'].get(topic, {}).get('actions', {}).get(action)
+
+
+def get_action_description(topic: str, action: str, lang=None) -> str:
+    """action 描述（函数注释第一段）。"""
+    entry = get_action_entry(topic, action, lang)
+    return entry.get('description', '') if entry else ''
+
+
+def get_action_doc(topic: str, action: str, lang=None):
+    """重组 docstring 文本供 parse_docstring 解析；资源缺失返回 None。"""
+    entry = get_action_entry(topic, action, lang)
+    return build_docstring(entry) if entry else None

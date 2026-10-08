@@ -105,43 +105,36 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
 ACTIONS = {
     'list': {
         'func': list,
-        'description': '查询以太网交换机列表信息',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
     'frame_list': {
         'func': frame_list,
-        'description': '查询 IP 交换机机框列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'frame'
     },
     'board_list': {
         'func': board_list,
-        'description': '查询 IP 交换机单板列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'board'
     },
     'subcard_list': {
         'func': subcard_list,
-        'description': '查询 IP 交换机子卡列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'subcard'
     },
     'power_list': {
         'func': power_list,
-        'description': '查询 IP 交换机电源列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'power'
     },
     'fan_list': {
         'func': fan_list,
-        'description': '查询 IP 交换机风扇列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'port_list': {
         'func': port_list,
-        'description': '查询 IP 交换机端口列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },

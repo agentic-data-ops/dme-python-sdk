@@ -1713,49 +1713,41 @@ ACTIONS = {
     # LUN 子主题动作（san lun xxx）
     'lun_list': {
         'func': lun_list,
-        'description': '批量查询 LUN',
         'params': ['limit', 'offset', 'sort_dir', 'sort_key', 'name', 'vstore_raw_id', 'vstore_name', 'status', 'health_status', 'service_level_id', 'volume_wwn', 'storage_id', 'pool_raw_id', 'host_id', 'hostgroup_id', 'unmapped_host_id', 'unmapped_hostgroup_id', 'project_id', 'allocate_type', 'attached', 'query_mode', 'protected', 'pg_id', 'usage_type', 'support_provisioning'],
         'subtopic': 'lun'
     },
     'lun_show': {
         'func': lun_show,
-        'description': '查询指定 LUN',
         'params': ['volume_id'],
         'subtopic': 'lun'
     },
     'lun_create': {
         'func': lun_create,
-        'description': '自定义创建 LUN',
         'params': ['storage_id', 'lun_specs', 'lun_specs_pass_through', 'pool_id', 'vstore_id', 'owner_controller', 'initial_distribute_policy', 'prefetch_policy', 'prefetch_value', 'tuning', 'mapping', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_delete': {
         'func': lun_delete,
-        'description': '批量删除 LUN',
         'params': ['volume_ids', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_modify': {
         'func': lun_modify,
-        'description': '修改指定 LUN',
         'params': ['volume_id', 'name', 'description', 'owner_controller', 'prefetch_policy', 'prefetch_value', 'tuning', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_modify_name': {
         'func': lun_modify_name,
-        'description': '批量修改 LUN 名称',
         'params': ['volumes'],
         'subtopic': 'lun'
     },
     'lun_expand': {
         'func': lun_expand,
-        'description': '批量扩容 LUN',
         'params': ['volumes', 'task_remarks'],
         'subtopic': 'lun'
     },
     'lun_connection': {
         'func': lun_connection,
-        'description': '查询指定 LUN ID 的连接信息',
         'params': ['volume_ids'],
         'subtopic': 'lun'
     },
@@ -1763,50 +1755,42 @@ ACTIONS = {
     # LUN 组子主题动作（san lun_group xxx）
     'lun_group_list': {
         'func': lun_group_list,
-        'description': '批量查询 LUN 组',
         'params': ['page_size', 'page_no', 'sort_dir', 'sort_key', 'name', 'vstore_raw_id', 'vstore_name', 'storage_id', 'storage_name', 'raw_id', 'attached', 'protection_group_raw_id', 'avaiable_mapping_for_host_id', 'avaiable_mapping_for_host_group_id', 'support_provisioning'],
         'subtopic': 'lun_group'
     },
     'lun_group_show': {
         'func': lun_group_show,
-        'description': '查询指定 LUN 组详情',
         'params': ['group_id', 'storage_id'],
         'subtopic': 'lun_group'
     },
     'lun_group_create': {
         'func': lun_group_create,
-        'description': '创建 LUN 组',
         'params': ['storage_id', 'name', 'description', 'existing_lun_ids', 'customize_volumes', 'task_remarks', 'vstore_id', 'zoning_info', 'mapping_view'],
         'subtopic': 'lun_group'
     },
     'lun_group_delete': {
         'func': lun_group_delete,
-        'description': '批量删除 LUN 组',
         'params': ['lun_group_ids', 'task_remarks'],
         'subtopic': 'lun_group'
     },
     'lun_group_add_luns': {
         'func': lun_group_add_luns,
-        'description': '向 LUN 组添加 LUN',
         'params': ['group_id', 'existing_lun_ids', 'customize_volumes', 'host_lun_id_infos', 'host_lun_id_verify', 'task_remarks'],
         'subtopic': 'lun_group'
     },
     'lun_group_remove_luns': {
         'func': lun_group_remove_luns,
-        'description': '从 LUN 组移除 LUN',
         'params': ['group_id', 'lun_ids', 'task_remarks'],
         'subtopic': 'lun_group'
     },
     'lun_group_show_luns': {
         'func': lun_group_show_luns,
-        'description': '查询 LUN 组中的 LUN',
         'params': ['group_id', 'page_size', 'page_no', 'health_status'],
         'subtopic': 'lun_group'
     },
     # 映射视图子主题动作（san mapping_view xxx）
     'mapping_view_create': {
         'func': mapping_view_create,
-        'description': '创建映射视图',
         'params': ['storage_id', 'name', 'port_group_id', 'start_host_lun_id',
                    'host', 'vbs', 'host_group', 'lun_group', 'luns',
                    'task_remarks'],
@@ -1814,13 +1798,11 @@ ACTIONS = {
     },
     'mapping_view_delete': {
         'func': mapping_view_delete,
-        'description': '批量删除映射视图',
         'params': ['mapping_view_ids'],
         'subtopic': 'mapping_view'
     },
     'mapping_view_list': {
         'func': mapping_view_list,
-        'description': '批量查询映射视图列表',
         'params': ['page_size', 'page_no', 'name', 'raw_id', 'storage_id',
                    'lun_id', 'lun_name', 'lun_group_id', 'lun_group_raw_id',
                    'lun_group_name', 'storage_host_id', 'storage_host_name',
@@ -1833,19 +1815,16 @@ ACTIONS = {
     # 存储主机子主题动作（san storage_host xxx）
     'storage_host_create': {
         'func': storage_host_create,
-        'description': '创建存储主机',
         'params': ['storage_id', 'host_info', 'task_remarks', 'vstore_id'],
         'subtopic': 'storage_host'
     },
     'storage_host_batch_query': {
         'func': storage_host_batch_query,
-        'description': '根据存储主机 ID 列表批量查询存储主机',
         'params': ['ids'],
         'subtopic': 'storage_host'
     },
     'storage_host_list': {
         'func': storage_host_list,
-        'description': '批量查询存储主机',
         'params': ['page_size', 'page_no', 'sort_key', 'sort_dir', 'name', 'raw_id', 'host_group_id',
                    'avaliable_add_to_host_group_id', 'host_group_name', 'ip', 'health_status', 'os_type',
                    'storage_id', 'avaiable_mapping_for_lun_group_id', 'avaiable_mapping_for_lun_id',
@@ -1854,7 +1833,6 @@ ACTIONS = {
     },
     'storage_host_modify': {
         'func': storage_host_modify,
-        'description': '修改存储主机',
         'params': ['storage_host_id', 'storage_host_name', 'storage_host_description', 'storage_host_ip',
                    'storage_host_os_type', 'add_initiators', 'remove_initiators', 'multipath', 'access_mode',
                    'hyper_metro_path_optimized', 'task_remarks'],
@@ -1862,39 +1840,33 @@ ACTIONS = {
     },
     'storage_host_delete': {
         'func': storage_host_delete,
-        'description': '批量删除存储主机',
         'params': ['host_ids'],
         'subtopic': 'storage_host'
     },
     'storage_host_show_paths': {
         'func': storage_host_show_paths,
-        'description': '批量查询存储主机的路径信息',
         'params': ['page_no', 'page_size', 'storage_id', 'storage_host_ids', 'storage_host_raw_ids',
                    'health_status', 'running_status', 'initiator_type'],
         'subtopic': 'storage_host'
     },
     'storage_host_show_luns': {
         'func': storage_host_show_luns,
-        'description': '查询存储主机映射的 LUN 信息列表',
         'params': ['storage_host_id', 'name', 'page_size', 'page_no', 'sort_key', 'sort_dir'],
         'subtopic': 'storage_host'
     },
     'storage_host_unmap_luns': {
         'func': storage_host_unmap_luns,
-        'description': '解除存储主机映射',
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'storage_host'
     },
     # 存储主机组子主题动作（san storage_host_group xxx）
     'storage_host_group_create': {
         'func': storage_host_group_create,
-        'description': '创建存储主机组',
         'params': ['storage_id', 'name', 'description', 'exist_host_ids', 'create_storage_host_params', 'task_remarks', 'vstore_id'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_list': {
         'func': storage_host_group_list,
-        'description': '批量查询存储主机组',
         'params': ['storage_id', 'name', 'raw_id', 'vstore_id', 'vstore_name', 'page_no', 'page_size',
                    'sort_key', 'sort_dir', 'avaiable_mapping_for_lun_group_id', 'avaiable_mapping_for_lun_id',
                    'support_provisioning'],
@@ -1902,63 +1874,53 @@ ACTIONS = {
     },
     'storage_host_group_add_hosts': {
         'func': storage_host_group_add_hosts,
-        'description': '添加存储主机到存储主机组',
         'params': ['storage_host_group_id', 'storage_host_id_ids', 'create_storage_host_params', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_remove_hosts': {
         'func': storage_host_group_remove_hosts,
-        'description': '从存储主机组中移除主机',
         'params': ['storage_host_group_id', 'storage_host_ids', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_delete': {
         'func': storage_host_group_delete,
-        'description': '批量删除存储主机组',
         'params': ['host_group_ids', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_show_luns': {
         'func': storage_host_group_show_luns,
-        'description': '查询存储主机组映射的 LUN 信息列表',
         'params': ['storage_host_group_id', 'name', 'page_size', 'page_no', 'sort_key', 'sort_dir'],
         'subtopic': 'storage_host_group'
     },
     'storage_host_group_unmap_luns': {
         'func': storage_host_group_unmap_luns,
-        'description': '解除存储主机组映射',
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'storage_host_group'
     },
     # 端口组子主题动作（san port_group xxx）
     'port_group_list': {
         'func': port_group_list,
-        'description': '批量查询端口组',
         'params': ['storage_id', 'page_no', 'page_size'],
         'subtopic': 'port_group'
     },
     'port_group_create': {
         'func': port_group_create,
-        'description': '创建端口组',
         'params': ['storage_id', 'name', 'description', 'port_ids'],
         'subtopic': 'port_group'
     },
     'port_group_show_ports': {
         'func': port_group_show_ports,
-        'description': '批量查询指定端口组的端口',
         'params': ['port_group_id', 'type', 'page_no', 'page_size'],
         'subtopic': 'port_group'
     },
     'port_group_show_relations': {
         'func': port_group_show_relations,
-        'description': '批量查询端口组与端口关联关系',
         'params': ['page_no', 'page_size'],
         'subtopic': 'port_group'
     },
     # 物理主机子主题动作（san physical_host xxx）
     'physical_host_list': {
         'func': physical_host_list,
-        'description': '批量查询物理主机',
         'params': ['limit', 'start', 'sort_key', 'sort_dir', 'name',
                    'host_group_name', 'ip', 'display_status', 'managed_status',
                    'os_type', 'access_mode', 'az_id', 'az_ids', 'project_id'],
@@ -1966,13 +1928,11 @@ ACTIONS = {
     },
     'physical_host_show': {
         'func': physical_host_show,
-        'description': '查询指定物理主机',
         'params': ['host_id'],
         'subtopic': 'physical_host'
     },
     'physical_host_create': {
         'func': physical_host_create,
-        'description': '接入物理主机',
         'params': ['access_mode', 'type', 'host_name', 'ip', 'port',
                    'username', 'password', 'description', 'initiator',
                    'azs', 'project_id', 'sync_to_storage', 'multipath_type',
@@ -1981,158 +1941,132 @@ ACTIONS = {
     },
     'physical_host_modify': {
         'func': physical_host_modify,
-        'description': '修改物理主机基本信息',
         'params': ['host_id', 'ip', 'host_name', 'os_type', 'azs', 'project_id'],
         'subtopic': 'physical_host'
     },
     'physical_host_modify_access_info': {
         'func': physical_host_modify_access_info,
-        'description': '修改物理主机接入信息',
         'params': ['host_id', 'ip', 'port', 'username', 'password', 'project_id', 'azs', 'sync_to_storage', 'description', 'multipath_type', 'path_type', 'failover_mode', 'special_mode_type'],
         'subtopic': 'physical_host'
     },
     'physical_host_delete': {
         'func': physical_host_delete,
-        'description': '移除物理主机',
         'params': ['host_id', 'sync_to_storage'],
         'subtopic': 'physical_host'
     },
     'physical_host_add_initiators': {
         'func': physical_host_add_initiators,
-        'description': '为物理主机添加启动器',
         'params': ['host_id', 'initiators'],
         'subtopic': 'physical_host'
     },
     'physical_host_remove_initiators': {
         'func': physical_host_remove_initiators,
-        'description': '从物理主机移除启动器',
         'params': ['host_id', 'initiators'],
         'subtopic': 'physical_host'
     },
     'physical_host_show_initiators': {
         'func': physical_host_show_initiators,
-        'description': '查询指定物理主机的启动器',
         'params': ['host_id', 'port_name', 'protocol', 'status'],
         'subtopic': 'physical_host'
     },
     'physical_host_test': {
         'func': physical_host_test,
-        'description': '检测存储设备和物理主机连通性',
         'params': ['storage_id', 'host_ids', 'hostgroup_id', 'auto_zoning', 'target_fcports', 'target_fcportgroups'],
         'subtopic': 'physical_host'
     },
     'physical_host_query_sshkey': {
         'func': physical_host_query_sshkey,
-        'description': '查询指定物理主机SSH公钥',
         'params': ['ip', 'port'],
         'subtopic': 'physical_host'
     },
     'physical_host_save_sshkey': {
         'func': physical_host_save_sshkey,
-        'description': '保存指定物理主机SSH公钥',
         'params': ['ip', 'key', 'port'],
         'subtopic': 'physical_host'
     },
     'physical_host_query_by_initiator': {
         'func': physical_host_query_by_initiator,
-        'description': '根据启动器查询关联的物理主机',
         'params': ['initiator_id', 'raw_id', 'protocol'],
         'subtopic': 'physical_host'
     },
     'physical_host_map_luns': {
         'func': physical_host_map_luns,
-        'description': 'LUN映射给物理主机',
         'params': ['volume_ids', 'host_id', 'mapping_policy', 'task_remarks'],
         'subtopic': 'physical_host'
     },
     'physical_host_unmap_luns': {
         'func': physical_host_unmap_luns,
-        'description': '解除主机映射',
         'params': ['volume_ids', 'host_id', 'task_remarks'],
         'subtopic': 'physical_host'
     },
     'physical_host_show_mapping_views': {
         'func': physical_host_show_mapping_views,
-        'description': '查询物理主机关联的映射关系',
         'params': ['host_id', 'storage_id'],
         'subtopic': 'physical_host'
     },
     # 物理主机组子主题动作（san physical_host_group xxx）
     'physical_host_group_list': {
         'func': physical_host_group_list,
-        'description': '批量查询物理主机组',
         'params': ['limit', 'start', 'sort_dir', 'sort_key', 'name', 'project_id', 'az_ids', 'managed_status'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_show_hosts': {
         'func': physical_host_group_show_hosts,
-        'description': '查询物理主机组中的物理主机',
         'params': ['hostgroup_id', 'name', 'ip', 'display_status', 'managed_status', 'os_type', 'sort_key', 'sort_dir', 'page_size', 'page_no'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_show': {
         'func': physical_host_group_show,
-        'description': '查询指定物理主机组',
         'params': ['hostgroup_id'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_create': {
         'func': physical_host_group_create,
-        'description': '创建物理主机组',
         'params': ['name', 'host_ids', 'azs', 'project_id', 'description'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_modify': {
         'func': physical_host_group_modify,
-        'description': '修改物理主机组基本信息',
         'params': ['hostgroup_id', 'name', 'description', 'azs', 'project_id'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_delete': {
         'func': physical_host_group_delete,
-        'description': '删除指定物理主机组',
         'params': ['hostgroup_id', 'sync_to_storage'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_add_hosts': {
         'func': physical_host_group_add_hosts,
-        'description': '向物理主机组中增加物理主机',
         'params': ['hostgroup_id', 'host_ids', 'sync_to_storage'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_remove_hosts': {
         'func': physical_host_group_remove_hosts,
-        'description': '物理主机组移除物理主机',
         'params': ['hostgroup_id', 'host_ids', 'sync_to_storage'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_map_luns': {
         'func': physical_host_group_map_luns,
-        'description': 'LUN映射给物理主机组',
         'params': ['volume_ids', 'hostgroup_id', 'mapping_policy', 'task_remarks'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_unmap_luns': {
         'func': physical_host_group_unmap_luns,
-        'description': '解除物理主机组映射',
         'params': ['volume_ids', 'hostgroup_id', 'task_remarks'],
         'subtopic': 'physical_host_group'
     },
     'physical_host_group_show_mapping_views': {
         'func': physical_host_group_show_mapping_views,
-        'description': '查询物理主机组关联的映射关系',
         'params': ['host_group_id', 'storage_id'],
         'subtopic': 'physical_host_group'
     },
     'show_related': {
         'func': physical_host_group_show_related,
-        'description': '查询物理主机组关联的存储主机组列表',
         'params': ['hostgroup_id', 'storage_ip', 'storage_name'],
         'subtopic': 'physical_host_group'
     },
     'query_host_to_lun': {
         'func': mapping_view_query_host_to_lun,
-        'description': '查询存储主机和LUN映射关系',
         'params': ['storage_id', 'name', 'mapping_type', 'host_info', 'lun_info', 'sort_key', 'sort_dir', 'page_size', 'page_no'],
         'subtopic': 'mapping_view'
     }

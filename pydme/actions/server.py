@@ -152,69 +152,59 @@ ACTIONS = {
     # 直接动作（两级结构）
     'list': {
         'func': list,
-        'description': '查询服务器列表',
         'params': ['start', 'limit', 'name', 'server_type'],
         'subtopic': None
     },
     'show': {
         'func': show,
-        'description': '查询指定服务器的概览信息',
         'params': ['server_id'],
         'subtopic': None
     },
     # 子主题动作 - cpu（三级结构）
     'cpu_list': {
         'func': cpu_list,
-        'description': '查询服务器上的所有 CPU 列表',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'cpu'
     },
     # 子主题动作 - memory（三级结构）
     'memory_list': {
         'func': memory_list,
-        'description': '查询服务器上的内存',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'memory'
     },
     # 子主题动作 - disk（三级结构）
     'disk_list': {
         'func': disk_list,
-        'description': '查询服务器上的硬盘集合',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'disk'
     },
     # 子主题动作 - nic（三级结构）
     'nic_list': {
         'func': nic_list,
-        'description': '查询服务器上的网卡集合',
         'params': ['server_id', 'page_no', 'page_size'],
         'subtopic': 'nic'
     },
     # 子主题动作 - fan（三级结构）
     'fan_list': {
         'func': fan_list,
-        'description': '查询服务器上的风扇',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'fan'
     },
     # 子主题动作 - power（三级结构）
     'power_list': {
         'func': power_list,
-        'description': '查询服务器上的电源',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'power'
     },
     # 子主题动作 - raid_card（三级结构）
     'raid_card_list': {
         'func': raid_card_list,
-        'description': '查询服务器上的 RAID 卡详情',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'raid_card'
     },
     # 子主题动作 - pcie_card（三级结构）
     'pcie_card_list': {
         'func': pcie_card_list,
-        'description': '查询服务器上的 PCIe 卡信息',
         'params': ['server_id', 'start', 'limit'],
         'subtopic': 'pcie_card'
     },

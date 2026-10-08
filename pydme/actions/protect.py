@@ -1893,439 +1893,368 @@ ACTIONS = {
     # group 子主题动作
     'group_list': {
         'func': group_list,
-        'description': '批量查询保护组',
         'params': ['name', 'project_id', 'storage_name', 'storage_id', 'raw_id', 'lun_group_raw_id', 'vstore_id', 'vstore_raw_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'group'
     },
     'group_create': {
         'func': group_create,
-        'description': '创建保护组',
         'params': ['name', 'storage_id', 'lun_ids', 'lun_group_id', 'description'],
         'subtopic': 'group'
     },
     'group_modify': {
         'func': group_modify,
-        'description': '修改保护组',
         'params': ['pg_id', 'name', 'description'],
         'subtopic': 'group'
     },
     'group_delete': {
         'func': group_delete,
-        'description': '批量删除保护组',
         'params': ['pg_ids'],
         'subtopic': 'group'
     },
     'group_add_luns': {
         'func': group_add_luns,
-        'description': '保护组中添加成员 LUN',
         'params': ['pg_id', 'lun_ids', 'hyper_metro', 'rem_reps'],
         'subtopic': 'group'
     },
     'group_remove_luns': {
         'func': group_remove_luns,
-        'description': '移除保护组中的成员 LUN',
         'params': ['pg_id', 'lun_ids', 'is_delay'],
         'subtopic': 'group'
     },
     # hypermetro_group 子主题动作
     'hypermetro_group_list': {
         'func': hypermetro_group_list,
-        'description': '批量查询双活一致性组',
         'params': ['page_no', 'page_size', 'name', 'raw_id', 'protect_group_id', 'storage_id', 'storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'remote_vstore_id', 'remote_vstore_raw_id', 'domain_name', 'health_status', 'running_status', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_create': {
         'func': hypermetro_group_create,
-        'description': '创建双活一致性组',
         'params': ['domain_id', 'name', 'local_storage_id', 'local_pg_id', 'description', 'create_mode', 'remote_vstore_id', 'remote_storage_pool_id', 'lun_ids', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'service_assurance_policy', 'recovery_policy', 'speed', 'bandwidth', 'first_sync_policy', 'remote_lun_group_id', 'lun_pairs', 'existed_pair_ids', 'is_auto_pause', 'is_auto_sync', 'isolation_threshold_time'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_modify': {
         'func': hypermetro_group_modify,
-        'description': '修改双活一致性组',
         'params': ['group_id', 'name', 'description', 'recovery_policy', 'service_assurance_policy', 'speed', 'bandwidth', 'isolation_threshold_time'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_delete': {
         'func': hypermetro_group_delete,
-        'description': '批量删除双活一致性组',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_add_pairs': {
         'func': hypermetro_group_add_pairs,
-        'description': '双活一致性组添加成员 Pair',
         'params': ['group_id', 'pair_ids', 'is_self_adapt'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_remove_pairs': {
         'func': hypermetro_group_remove_pairs,
-        'description': '双活一致性组移除成员 Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_pause': {
         'func': hypermetro_group_pause,
-        'description': '暂停双活一致性组',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_force_startup': {
         'func': hypermetro_group_force_startup,
-        'description': '强制启动双活一致性组',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_switch_priority': {
         'func': hypermetro_group_switch_priority,
-        'description': '双活一致性组优先站点切换',
         'params': ['ids'],
         'subtopic': 'hypermetro_group'
     },
     'hypermetro_group_sync': {
         'func': hypermetro_group_sync,
-        'description': '同步双活一致性组',
         'params': ['ids'],
         'subtopic': 'hypermetro_group'
     },
     # hypermetro_pair 子主题动作
     'hypermetro_pair_list': {
         'func': hypermetro_pair_list,
-        'description': '批量查询 LUN 双活 Pair',
         'params': ['page_no', 'page_size', 'group_id', 'group_name', 'group_raw_id', 'pair_raw_id', 'local_storage_id', 'local_storage_name', 'local_vstore_id', 'local_vstore_raw_id', 'local_volume_name', 'local_host_access_state', 'remote_vstore_id', 'remote_vstore_raw_id', 'remote_volume_name'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_create': {
         'func': hypermetro_pair_create,
-        'description': '创建双活 Pair',
         'params': ['create_mode', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'local_storage_id', 'domain_id', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time', 'recovery_policy'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_modify': {
         'func': hypermetro_pair_modify,
-        'description': '修改双活 Pair',
         'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'service_assurance_policy', 'isolation_threshold_time'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_delete': {
         'func': hypermetro_pair_delete,
-        'description': '批量删除双活 Pair',
         'params': ['ids', 'delete_mode', 'is_lun_service_interrupt'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_sync': {
         'func': hypermetro_pair_sync,
-        'description': '同步双活 Pair',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_pause': {
         'func': hypermetro_pair_pause,
-        'description': '暂停双活 Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_force_startup': {
         'func': hypermetro_pair_force_startup,
-        'description': '强制启动双活 Pair',
         'params': ['ids', 'priority_station_type'],
         'subtopic': 'hypermetro_pair'
     },
     'hypermetro_pair_switch_priority': {
         'func': hypermetro_pair_switch_priority,
-        'description': '双活 Pair 优先站点切换',
         'params': ['ids'],
         'subtopic': 'hypermetro_pair'
     },
     # hypermetro_domain 子主题动作
     'hypermetro_domain_list': {
         'func': hypermetro_domain_list,
-        'description': '批量查询双活域',
         'params': ['storage_id', 'types'],
         'subtopic': 'hypermetro_domain'
     },
     # replication_group 子主题动作
     'replication_group_create': {
         'func': replication_group_create,
-        'description': '创建远程复制一致性组',
         'params': ['cg_name', 'remote_storage_id', 'local_pg_id', 'description', 'remote_lun_group_id', 'local_storage_id', 'create_mode', 'existed_pair_ids', 'lun_pairs', 'lun_ids', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'replication_mode', 'sync_type', 'timing_val', 'sync_schedule', 'is_backup', 'speed', 'bandwidth', 'recovery_policy', 'first_sync_policy', 'enable_compress', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'is_auto_sync'],
         'subtopic': 'replication_group'
     },
     'replication_group_list': {
         'func': replication_group_list,
-        'description': '批量查询复制一致性组',
         'params': ['page_no', 'page_size', 'protect_group_id', 'name', 'raw_id', 'running_status', 'health_status', 'storage_name', 'storage_id', 'replication_mode'],
         'subtopic': 'replication_group'
     },
     'replication_group_modify': {
         'func': replication_group_modify,
-        'description': '修改远程复制一致性组',
         'params': ['replication_group_id', 'name', 'description', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'sync_type', 'timing_value_in_sec', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'switch_to_async', 'switch_to_sync', 'async_to_sync_bandwidth', 'async_to_sync_latency', 'sync_to_async_bandwidth', 'sync_to_async_latency', 'transfer_cycle'],
         'subtopic': 'replication_group'
     },
     'replication_group_delete': {
         'func': replication_group_delete,
-        'description': '批量删除远程复制一致性组',
         'params': ['ids', 'is_self_adapt', 'delete_mode'],
         'subtopic': 'replication_group'
     },
     'replication_group_add_pairs': {
         'func': replication_group_add_pairs,
-        'description': '远程复制一致性组添加成员 Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_remove_pairs': {
         'func': replication_group_remove_pairs,
-        'description': '远程复制一致性组移除成员 Pair',
         'params': ['group_id', 'pair_ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_sync': {
         'func': replication_group_sync,
-        'description': '批量同步远程复制一致性组',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_split': {
         'func': replication_group_split,
-        'description': '批量分裂远程复制一致性组',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_switch': {
         'func': replication_group_switch,
-        'description': '远程复制一致性组批量主从切换',
         'params': ['ids'],
         'subtopic': 'replication_group'
     },
     'replication_group_switch_write_protection': {
         'func': replication_group_switch_write_protection,
-        'description': '远程复制一致性组从资源写保护状态切换',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_group'
     },
     # replication_pair 子主题动作
     'replication_pair_list': {
         'func': replication_pair_list,
-        'description': '批量查询复制 Pair',
         'params': ['page_no', 'page_size', 'raw_id', 'local_resource_types', 'local_vstore_raw_id', 'group_id', 'group_name', 'group_raw_id', 'local_resource_raw_id', 'local_resource_raw_ids', 'local_resource_name', 'remote_resource_name', 'local_storage_id', 'local_storage_name', 'health_status', 'running_status', 'recovery_policy', 'sort_key', 'sort_dir'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_create': {
         'func': replication_pair_create,
-        'description': '创建远程复制 Pair',
         'params': ['local_storage_id', 'remote_storage_id', 'create_mode', 'replication_mode', 'resource_pairs', 'remote_storage_pool_id', 'remote_vstore_id', 'remote_resource_name_rule', 'name_prefix', 'name_suffix', 'speed', 'bandwidth', 'recovery_policy', 'first_sync_policy', 'sync_type', 'timing_val', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'snap_tag_list', 'enable_compress', 'is_backup', 'switch_to_async', 'consistency_group_info'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_modify': {
         'func': replication_pair_modify,
-        'description': '修改复制 Pair',
         'params': ['pair_id', 'speed', 'bandwidth', 'recovery_policy', 'enable_compress', 'secondary_res_protection', 'sync_type', 'timing_val', 'sync_schedule', 'rep_io_timeout', 'sync_snap_policy', 'user_snap_retention_num', 'snap_tag_list', 'switch_to_async', 'switch_to_sync', 'sync_to_async_bandwidth', 'sync_to_async_latency', 'async_to_sync_bandwidth', 'async_to_sync_latency', 'transfer_cycle'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_delete': {
         'func': replication_pair_delete,
-        'description': '批量删除远程复制 Pair',
         'params': ['ids', 'delete_mode', 'is_enforce_secondary_data'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_sync': {
         'func': replication_pair_sync,
-        'description': '批量同步远程复制 Pair',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_split': {
         'func': replication_pair_split,
-        'description': '批量分裂远程复制 Pair',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_switch': {
         'func': replication_pair_switch,
-        'description': '远程复制 Pair 批量主从切换',
         'params': ['ids'],
         'subtopic': 'replication_pair'
     },
     'replication_pair_switch_write_protection': {
         'func': replication_pair_switch_write_protection,
-        'description': '远程复制 Pair 从资源保护状态切换',
         'params': ['id', 'operation_type'],
         'subtopic': 'replication_pair'
     },
     # device 子主题动作
     'device_pair_list': {
         'func': device_pair_list,
-        'description': '查询设备 Pairs',
         'params': ['storage_id', 'local_storage_name', 'remote_storage_name', 'health_status', 'running_status', 'page_no', 'page_size'],
         'subtopic': 'device_pair'
     },
     'replication_link_list': {
         'func': replication_link_list,
-        'description': '查询复制链路',
         'params': ['local_storage_id', 'page_no', 'page_size', 'health_status', 'running_status', 'link_type'],
         'subtopic': 'replication_link'
     },
     # snapshot 子主题动作
     'snapshot_list': {
         'func': snapshot_list,
-        'description': '批量查询 LUN 快照',
         'params': ['snapshot_ids', 'storage_id', 'raw_id', 'name', 'health_status', 'running_status', 'source_lun_name', 'parent_name', 'activated_time_from', 'activated_time_to', 'page_no', 'page_size'],
         'subtopic': 'snapshot'
     },
     'snapshot_create': {
         'func': snapshot_create,
-        'description': '批量创建 LUN 快照',
         'params': ['snapshots_info', 'is_consist_activate'],
         'subtopic': 'snapshot'
     },
     'snapshot_rollback': {
         'func': snapshot_rollback,
-        'description': '批量回滚 LUN 快照',
         'params': ['rollback_speed', 'rollback_snapshots'],
         'subtopic': 'snapshot'
     },
     'snapshot_delete': {
         'func': snapshot_delete,
-        'description': '批量删除 LUN 快照',
         'params': ['snapshot_ids', 'is_delete_target_lun', 'is_auto_deactivate'],
         'subtopic': 'snapshot'
     },
     # snapshot_group 子主题动作
     'snapshot_group_create': {
         'func': snapshot_group_create,
-        'description': '创建快照一致性组',
         'params': ['name', 'protect_group_id', 'description', 'creation_mode'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_delete': {
         'func': snapshot_group_delete,
-        'description': '批量删除快照一致性组',
         'params': ['snapshot_cg_ids', 'is_delete_target_lun'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_activate': {
         'func': snapshot_group_activate,
-        'description': '激活快照一致性组',
         'params': ['snapshot_cg_id', 'object_type', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_deactivate': {
         'func': snapshot_group_deactivate,
-        'description': '批量取消激活快照一致性组',
         'params': ['snapshot_cg_ids'],
         'subtopic': 'snapshot_group'
     },
     'snapshot_group_rollback': {
         'func': snapshot_group_rollback,
-        'description': '回滚快照一致性组',
         'params': ['snapshot_cg_id', 'rollback_speed', 'snapshot_create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'target_snapshot_objects'],
         'subtopic': 'snapshot_group'
     },
     # clone_group 子主题动作
     'clone_group_create': {
         'func': clone_group_create,
-        'description': '创建克隆一致性组',
         'params': ['name', 'protect_group_id', 'create_mode', 'description', 'name_rule', 'name_prefix', 'name_suffix', 'copy_rate', 'is_sync', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
     'clone_group_sync': {
         'func': clone_group_sync,
-        'description': '同步克隆一致性组',
         'params': ['clone_cg_id', 'create_mode', 'name_rule', 'name_prefix', 'name_suffix', 'clone_pairs'],
         'subtopic': 'clone_group'
     },
     'clone_group_delete': {
         'func': clone_group_delete,
-        'description': '批量删除克隆一致性组',
         'params': ['ids', 'is_delete_dst_lun', 'is_recycle_dst_lun_data'],
         'subtopic': 'clone_group'
     },
     # fs_hypermetro_pair 子主题动作
     'create': {
         'func': fs_hypermetro_pair_create,
-        'description': '创建文件系统双活Pair',
         'params': ['vstore_pair_id', 'create_mode', 'fs_pairs', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time', 'recovery_policy', 'first_sync_policy'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'list': {
         'func': fs_hypermetro_pair_list,
-        'description': '查询文件系统双活Pair列表',
         'params': ['ids', 'name', 'status', 'storage_id', 'vstore_pair_id', 'local_fs_name', 'local_fs_id', 'health_status', 'running_status', 'sort_key', 'sort_dir', 'page_no', 'page_size', 'pair_raw_id', 'local_filesystem_raw_id', 'remote_filesystem_raw_id', 'remote_filesystem_name', 'is_primary', 'local_host_access_state', 'remote_host_access_state', 'recovery_policy', 'link_status', 'sync_direction'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'pause': {
         'func': fs_hypermetro_pair_pause,
-        'description': '批量暂停文件系统双活Pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'sync': {
         'func': fs_hypermetro_pair_sync,
-        'description': '批量同步文件系统双活Pair',
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
     'delete': {
         'func': fs_hypermetro_pair_delete,
-        'description': '批量删除文件系统双活Pair',
         'params': ['ids', 'is_local_delete', 'is_online_delete'],
         'subtopic': 'fs_hypermetro_pair'
     },
     # fs_snapshot 子主题动作
     'fs_snapshot_create': {
         'func': fs_snapshot_create,
-        'description': '创建文件系统快照',
         'params': ['vstore_pair_id', 'fs_pairs'],
         'subtopic': 'fs_snapshot'
     },
     'fs_snapshot_list': {
         'func': fs_snapshot_list,
-        'description': '批量查询文件系统快照',
         'params': ['fs_pair_id', 'name', 'status', 'local_fs_name', 'local_fs_id', 'page_no', 'page_size'],
         'subtopic': 'fs_snapshot'
     },
     'fs_snapshot_delete': {
         'func': fs_snapshot_delete,
-        'description': '批量删除文件系统快照',
         'params': ['ids'],
         'subtopic': 'fs_snapshot'
     },
     # vstore_hypermetro_pair 子主题动作
     'vstore_pair_force_start': {
         'func': vstore_pair_force_start,
-        'description': '批量强制启动双活租户Pair',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_create': {
         'func': vstore_pair_create,
-        'description': '创建双活租户Pair',
         'params': ['domain_id', 'local_vstore_id', 'remote_vstore_id', 'preferred_mode', 'preferred_site'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_list': {
         'func': vstore_pair_list,
-        'description': '查询双活租户Pair列表',
         'params': ['ids', 'name', 'status', 'local_storage_id', 'remote_storage_id', 'health_status', 'running_status', 'page_no', 'page_size', 'raw_id', 'local_vstore_name', 'local_vstore_raw_id', 'remote_vstore_name', 'remote_vstore_raw_id', 'domain_id', 'domain_name', 'config_status', 'link_status', 'role', 'active_status', 'sort_key', 'sort_dir'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_switch': {
         'func': vstore_pair_switch,
-        'description': '批量主从切换双活租户Pair',
         'params': ['ids', 'is_force'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_delete': {
         'func': vstore_pair_delete,
-        'description': '批量删除双活租户Pair',
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     'vstore_pair_modify': {
         'func': vstore_pair_modify,
-        'description': '修改指定双活租户pair',
         'params': ['id', 'preferred_mode', 'preferred_site'],
         'subtopic': 'vstore_hypermetro_pair'
     },
@@ -2333,38 +2262,32 @@ ACTIONS = {
     # fs_hypermetro_domain 子主题（文件系统双活域特有操作）
     'force_start': {
         'func': fs_domain_force_start,
-        'description': '强制启动文件系统双活域',
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
     'switch_site': {
         'func': fs_domain_switch_site,
-        'description': '优先站点切换文件系统双活域',
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
     'recover': {
         'func': fs_domain_recover,
-        'description': '恢复文件系统双活域',
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
     'split': {
         'func': fs_domain_split,
-        'description': '分裂文件系统双活域',
         'params': ['id', 'stop_role'],
         'subtopic': 'fs_hypermetro_domain'
     },
     'swap_role': {
         'func': fs_domain_swap_role,
-        'description': '主从切换文件系统双活域',
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
     # hypermetro_pair 子主题动作
     'query_available_luns': {
         'func': hypermetro_pair_query_available_luns,
-        'description': '查询可创建双活Pair的目标LUN',
         'params': ['source_lun_id', 'remote_storage_id', 'name', 'vstore_id', 'vstore_raw_id', 'remote_lun_group_id', 'page_no', 'page_size'],
         'subtopic': 'hypermetro_pair'
     },

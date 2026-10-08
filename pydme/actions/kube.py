@@ -256,7 +256,6 @@ ACTIONS = {
     # 集群管理
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询容器集群列表',
         'params': ['id', 'name', 'version', 'ip_address', 'status',
                    'sync_status', 'platform_id', 'platform_name',
                    'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -265,7 +264,6 @@ ACTIONS = {
     # 节点管理
     'node_list': {
         'func': node_list,
-        'description': '查询容器节点列表',
         'params': ['id', 'name', 'cluster_id', 'pool_id', 'ip_address',
                    'ready_status', 'scheduling_status', 'pool_name',
                    'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -274,7 +272,6 @@ ACTIONS = {
     # 容器组管理
     'pod_list': {
         'func': pod_list,
-        'description': '查询容器组列表',
         'params': ['id', 'name', 'workload_id', 'node_id', 'namespace_name',
                    'cluster_name', 'cluster_id', 'platform_id', 'platform_name',
                    'namespace_id', 'ip_address', 'node_name', 'running_status',
@@ -284,7 +281,6 @@ ACTIONS = {
     # 命名空间管理
     'namespace_list': {
         'func': namespace_list,
-        'description': '查询容器命名空间列表',
         'params': ['name', 'cluster_id', 'status', 'sort_key', 'sort_dir',
                    'page_no', 'page_size'],
         'subtopic': 'namespace'
@@ -292,7 +288,6 @@ ACTIONS = {
     # 持久卷声明管理
     'pvc_list': {
         'func': pvc_list,
-        'description': '查询容器持久卷声明列表',
         'params': ['name', 'namespace_name', 'cluster_name', 'cluster_id',
                    'platform_id', 'platform_name', 'namespace_id', 'status',
                    'access_mode', 'storage_class_name', 'sort_key', 'sort_dir',
@@ -302,7 +297,6 @@ ACTIONS = {
     # 持久卷管理
     'pv_list': {
         'func': pv_list,
-        'description': '查询容器持久卷列表',
         'params': ['id', 'name', 'cluster_name', 'cluster_id', 'platform_id',
                    'platform_name', 'status', 'access_mode', 'storage_class_name',
                    'sort_key', 'sort_dir', 'page_no', 'page_size'],

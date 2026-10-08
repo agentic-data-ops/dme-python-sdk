@@ -280,7 +280,6 @@ ACTIONS = {
     # 虚拟机管理
     'vm_list': {
         'func': vm_list,
-        'description': '查询虚拟机列表',
         'params': ['site_id', 'cluster_id', 'dc_id', 'cluster_name', 'host_id', 
                    'host_name', 'name', 'ip_address', 'status', 'is_template', 
                    'os_type', 'vr_type', 'datacenter_id', 'sort_key', 'sort_dir', 
@@ -289,14 +288,12 @@ ACTIONS = {
     },
     'vm_show': {
         'func': vm_show,
-        'description': '查询指定虚拟机详情',
         'params': ['vm_id', 'vr_type'],
         'subtopic': 'vm'
     },
     # 数据存储管理
     'datastore_list': {
         'func': datastore_list,
-        'description': '查询数据存储列表',
         'params': ['site_id', 'cluster_id', 'host_id', 'dc_id', 'name', 
                    'status', 'storage_type', 'allocate_type', 'vr_type',
                    'datacenter_id', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
@@ -304,73 +301,62 @@ ACTIONS = {
     },
     'datastore_show': {
         'func': datastore_show,
-        'description': '查询指定数据存储详情',
         'params': ['datastore_id', 'vr_type'],
         'subtopic': 'datastore'
     },
     # 主机管理
     'host_list': {
         'func': host_list,
-        'description': '查询主机列表',
         'params': ['site_id', 'cluster_id', 'dc_id', 'host_name', 'ip_address',
                    'status', 'vr_type', 'page_no', 'page_size'],
         'subtopic': 'host'
     },
     'host_show': {
         'func': host_show,
-        'description': '查询指定主机详情',
         'params': ['host_id', 'vr_type'],
         'subtopic': 'host'
     },
     'host_adapter_list': {
         'func': host_adapter_list,
-        'description': '查询指定主机存储适配器列表',
         'params': ['host_id'],
         'subtopic': 'host'
     },
     # 集群管理
     'cluster_list': {
         'func': cluster_list,
-        'description': '查询集群列表',
         'params': ['site_id', 'dc_id', 'name', 'vr_type', 'page_no', 'page_size'],
         'subtopic': 'cluster'
     },
     'cluster_show': {
         'func': cluster_show,
-        'description': '查询指定集群详情',
         'params': ['cluster_id', 'vr_type'],
         'subtopic': 'cluster'
     },
     # 站点管理
     'site_list': {
         'func': site_list,
-        'description': '查询站点列表',
         'params': [],
         'subtopic': 'site'
     },
     'site_show': {
         'func': site_show,
-        'description': '查询指定站点详情',
         'params': ['site_id'],
         'subtopic': 'site'
     },
     # 物理盘管理
     'disk_list': {
         'func': disk_list,
-        'description': '查询物理盘信息',
         'params': ['site_id', 'host_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'disk'
     },
     # 虚拟磁盘管理
     'vdisk_list': {
         'func': vdisk_list,
-        'description': '查询虚拟磁盘信息列表',
         'params': ['site_id', 'vm_id', 'name', 'disk_type', 'status', 'page_no', 'page_size'],
         'subtopic': 'vdisk'
     },
     'vdisk_show': {
         'func': vdisk_show,
-        'description': '查询指定虚拟磁盘信息',
         'params': ['virtual_disk_id'],
         'subtopic': 'vdisk'
     },
