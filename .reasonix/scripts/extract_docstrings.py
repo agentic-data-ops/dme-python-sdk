@@ -188,6 +188,12 @@ def split_docstring(doc):
             out_lines.pop()
         outputs = '\n'.join(out_lines)
 
+    # v3 语义：description 的全部内容合入 detail；description 仅保留 detail 首行
+    # （供 --list-topics 使用，不参与 docstring 重组）
+    full_detail = description + (('\n\n' + detail) if detail else '')
+    description = full_detail.split('\n')[0] if full_detail else ''
+    detail = full_detail
+
     return {'description': description, 'detail': detail,
             'parameters': parameters, 'outputs': outputs}
 
@@ -199,8 +205,6 @@ def build_docstring(entry):
     （parse_docstring 输出不受影响）；round-trip 校验使用缩进归一化比较。
     """
     parts = []
-    if entry.get('description'):
-        parts.append(entry['description'])
     if entry.get('detail'):
         parts.append(entry['detail'])
     if entry.get('parameters'):

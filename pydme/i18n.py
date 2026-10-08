@@ -113,10 +113,11 @@ def parse_yaml(text: str) -> dict:
 
 
 def build_docstring(entry: dict) -> str:
-    """结构化字段重组为 docstring 文本（与拆分前语义一致，供 parse_docstring 使用）。"""
+    """结构化字段重组为 docstring 文本（与拆分前语义一致，供 parse_docstring 使用）。
+
+    仅用 detail（已含完整说明）重组，description 只供 --list-topics 使用。
+    """
     parts = []
-    if entry.get('description'):
-        parts.append(entry['description'])
     if entry.get('detail'):
         parts.append(entry['detail'])
     if entry.get('parameters'):

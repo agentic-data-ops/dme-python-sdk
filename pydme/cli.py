@@ -630,11 +630,6 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
     print(f"动作：{display_cmd}")
     print(f"{'='*60}")
 
-    if info['description']:
-        print(f"\n描述:")
-        for line in info['description'].split('\n'):
-            print(f"  {line}")
-
     if info['parsed']['description']:
         print(f"\n详细说明:")
         for line in info['parsed']['description'].split('\n'):
