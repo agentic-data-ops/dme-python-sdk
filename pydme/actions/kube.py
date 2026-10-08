@@ -15,45 +15,6 @@ def cluster_list(client: DMEAPIClient, name: str = None,
                   platform_name: str = None, sort_key: str = None,
                   sort_dir: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询容器集群列表
-
-    Args:
-        client: DME API 客户端
-        id: 集群 ID（可选）
-        name: 集群名称（可选，支持模糊查询）
-        version: 版本（可选）
-        ip_address: 容器集群 IP 地址（可选，支持模糊查询）
-        status: 状态（可选），可选值：abnormal（异常）, normal（正常）
-        sync_status: 同步状态列表（可选），可选值：unsync（未同步）, sync（同步中）, normal（已同步）, failed（同步失败）, partial（部分已同步）
-        platform_id: 所属容器平台的 ID（可选）
-        platform_name: 所属容器平台名称（可选，支持模糊查询）
-        sort_key: 排序字段（可选），可选值：node_number, total_cpu, total_memory, cpu_allocation_rate, memory_allocation_rate, name
-        sort_dir: 排序方向（可选），可选值：asc（升序）, desc（降序）
-        page_no: 分页查询的页码，1~2147483647，默认 1
-        page_size: 每页数量，1~1000，默认 20
-
-    Returns:
-        {
-            total: 集群总数 (integer),
-            clusters_resp: 容器集群列表 (List<ClustersBaseResponse>)。参数格式如下：[{
-                id: 集群ID (string),
-                neId: 设备ID (string),
-                name: 集群名称 (string),
-                version: 版本 (string),
-                ip_address: 容器集群IP地址 (string),
-                status: 连接状态 (string),
-                sync_status: 同步状态 (string),
-                platform_id: 所属容器平台ID (string),
-                platform_name: 所属容器平台名称 (string),
-                node_number: 节点数量 (int32),
-                total_cpu: CPU总量 (int64),
-                total_memory: 内存总量 (int64),
-                cpu_allocation_rate: CPU分配率 (number),
-                memory_allocation_rate: 内存分配率 (number),
-            }, ...],
-        }
-    """
     url = "/rest/dmecaasmgmt/v1/clusters/query-list"
 
     payload = {
@@ -93,44 +54,6 @@ def node_list(client: DMEAPIClient, cluster_id: str = None,
                pool_name: str = None, sort_key: str = None,
                sort_dir: str = None,
                page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询容器节点列表
-
-    Args:
-        client: DME API 客户端
-        id: 节点 ID（可选）
-        name: 节点名称（可选，支持模糊查询）
-        cluster_id: 容器集群 ID（可选）
-        pool_id: 容器节点所属节点池 ID（可选）
-        ip_address: 容器节点 IP 地址（可选，支持模糊查询）
-        ready_status: 就绪状态（可选），可选值：ready（就绪）, not-ready（未就绪）
-        scheduling_status: 调度状态（可选），可选值：schedule（可调度）, not-schedule（不可调度）
-        pool_name: 所属节点池名称（可选，支持模糊查询）
-        sort_key: 排序字段（可选），可选值：pod_count, create_time, total_cpu, total_memory, cpu_allocation_rate, memory_allocation_rate
-        sort_dir: 排序方向（可选），可选值：asc（升序）, desc（降序）
-        page_no: 分页查询的页码，1~2147483647，默认 1
-        page_size: 每页数量，1~1000，默认 20
-
-    Returns:
-        {
-            total: 节点数量 (int32),
-            nodes_resp: 容器节点列表 (List<NodesBaseResponse>)。参数格式如下：[{
-                id: 节点ID (string),
-                name: 节点名称 (string),
-                ip_address: 容器节点IP地址 (string),
-                ready_status: 就绪状态 (string),
-                scheduling_status: 调度状态 (string),
-                pool_name: 所属节点池名称 (string),
-                pool_id: 节点池ID (string),
-                pod_count: 容器组数量 (int32),
-                total_cpu: CPU总量 (int64),
-                total_memory: 内存总量 (int64),
-                cpu_allocation_rate: CPU分配率 (number),
-                memory_allocation_rate: 内存分配率 (number),
-                create_time: 创建时间戳 (int64),
-            }, ...],
-        }
-    """
     url = "/rest/dmecaasmgmt/v1/nodes/query-list"
 
     payload = {
@@ -173,47 +96,6 @@ def pod_list(client: DMEAPIClient, cluster_id: str = None,
               controller: str = None, sort_key: str = None,
               sort_dir: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询容器组列表
-
-    Args:
-        client: DME API 客户端
-        id: 容器组 ID（可选）
-        name: 容器组名称（可选，支持模糊查询）
-        workload_id: 所属工作负载 ID（可选）
-        node_id: 所属容器节点 ID（可选）
-        namespace_name: 容器命名空间（可选）
-        cluster_name: 所属集群名称（可选，支持模糊查询）
-        cluster_id: 容器集群 ID（可选）
-        platform_id: 所属容器平台的 ID（可选）
-        platform_name: 所属容器平台的名称（可选）
-        namespace_id: 所属命名空间唯一标识 ID（可选）
-        ip_address: 容器组 IP 地址（可选，支持模糊查询）
-        node_name: 所在节点名称（可选）
-        running_status: 运行状态列表（可选），可选值：running（运行中）, pending（悬决）, succeeded（成功）, failed（失败）, unknown（未知）
-        controller: 控制者（可选）
-        sort_key: 排序字段（可选），可选值：reboot_time, create_time
-        sort_dir: 排序方向（可选），可选值：asc（升序）, desc（降序）
-        page_no: 分页查询的页码，1~2147483647，默认 1
-        page_size: 每页数量，1~1000，默认 20
-
-    Returns:
-        {
-            total: 容器组数量 (int32),
-            pods_resp: 容器组列表 (List<PodsBaseResponse>)。参数格式如下：[{
-                id: 容器组ID (string),
-                name: 容器组名称 (string),
-                cluster_id: 所属集群ID (string),
-                cluster_name: 所属集群名称 (string),
-                ip_address: 容器组IP地址 (string),
-                namespace_id: 命名空间ID (string),
-                namespace_name: 命名空间名称 (string),
-                node_name: 所在节点名称 (string),
-                running_status: 运行状态 (string),
-                controller: 控制者 (string),
-            }, ...],
-        }
-    """
     url = "/rest/dmecaasmgmt/v1/pods/query-list"
 
     payload = {
@@ -262,30 +144,6 @@ def namespace_list(client: DMEAPIClient, cluster_id: str = None,
                     name: str = None, status: list = None,
                     sort_key: str = None, sort_dir: str = None,
                     page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询容器命名空间列表
-
-    Args:
-        client: DME API 客户端
-        name: 命名空间名称（可选，支持模糊查询）
-        cluster_id: 所属容器集群 ID（可选）
-        status: 命名空间状态列表（可选），可选值：active（激活）, terminating（终止）, unknown（未知）
-        sort_key: 排序字段（可选），可选值：create_time
-        sort_dir: 排序方向（可选），可选值：asc（升序）, desc（降序）
-        page_no: 分页查询的页码，1~2147483647，默认 1
-        page_size: 每页数量，1~1000，默认 20
-
-    Returns:
-        {
-            total: 命名空间数量 (int32),
-            namespaces_resp: 容器命名空间列表 (List<NamespacesBaseResponse>)。参数格式如下：[{
-                id: 命名空间ID (string),
-                name: 命名空间名称 (string),
-                status: 状态 (string),
-                create_time: 创建时间戳 (int64),
-            }, ...],
-        }
-    """
     url = "/rest/dmecaasmgmt/v1/namespaces/query-list"
 
     payload = {
@@ -316,45 +174,6 @@ def pvc_list(client: DMEAPIClient, cluster_id: str = None,
               storage_class_name: str = None, sort_key: str = None,
               sort_dir: str = None,
               page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询容器持久卷声明列表
-
-    Args:
-        client: DME API 客户端
-        name: 持久卷声明名称（可选，支持模糊查询）
-        namespace_name: 所属命名空间名称（可选，支持模糊查询）
-        cluster_name: 所属集群名称（可选，支持模糊查询）
-        cluster_id: 所属集群 ID（可选）
-        platform_id: 所属容器平台的 ID（可选）
-        platform_name: 所属容器平台名称（可选，支持模糊查询）
-        namespace_id: 所属命名空间唯一标识 ID（可选）
-        status: 状态列表（可选），可选值：pending（悬决）, bound（边界）, lost（丢失）
-        access_mode: 访问模式列表（可选），可选值：read_write_many, read_write_once, read_only_many, read_write_once_pod
-        storage_class_name: 存储类名称（可选，支持模糊查询）
-        sort_key: 排序字段（可选），可选值：capacity, create_time
-        sort_dir: 排序方向（可选），可选值：asc（升序）, desc（降序）
-        page_no: 分页查询的页码，1~2147483647，默认 1
-        page_size: 每页数量，1~1000，默认 20
-
-    Returns:
-        {
-            total: 持久卷声明数量 (int32),
-            pvcs_resp: 容器持久卷声明列表 (List<PvcsBaseResponse>)。参数格式如下：[{
-                id: 持久卷声明ID (string),
-                name: 持久卷声明名称 (string),
-                cluster_id: 所属集群ID (string),
-                cluster_name: 所属集群名称 (string),
-                namespace_id: 所属命名空间ID (string),
-                namespace_name: 所属命名空间名称 (string),
-                status: 状态 (string),
-                pv_name: 持久卷名称 (string),
-                access_mode: 访问模式 (string),
-                storage_class_name: 存储类名称 (string),
-                capacity: 容量GB (number),
-                create_time: 创建时间戳 (int64),
-            }, ...],
-        }
-    """
     url = "/rest/dmecaasmgmt/v1/pvcs/query-list"
 
     payload = {
@@ -398,42 +217,6 @@ def pv_list(client: DMEAPIClient, cluster_id: str = None,
              access_mode: list = None, storage_class_name: str = None,
              sort_key: str = None, sort_dir: str = None,
              page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询容器持久卷列表
-
-    Args:
-        client: DME API 客户端
-        id: 持久卷 ID（可选）
-        name: 持久卷名称（可选，支持模糊查询）
-        cluster_name: 所属集群名称（可选，支持模糊查询）
-        cluster_id: 所属集群 ID（可选）
-        platform_id: 所属容器平台的 ID（可选）
-        platform_name: 所属容器平台的名称（可选，支持模糊查询）
-        status: 状态列表（可选），可选值：available（空闲）, pending（悬决）, bound（已绑定）, released（释放）, failed（失败）
-        access_mode: 访问模式列表（可选），可选值：read_write_many, read_write_once, read_only_many, read_write_once_pod
-        storage_class_name: 存储类名称（可选，支持模糊查询）
-        sort_key: 排序字段（可选），可选值：capacity, create_time
-        sort_dir: 排序方向（可选），可选值：asc（升序）, desc（降序）
-        page_no: 分页查询的页码，1~2147483647，默认 1
-        page_size: 每页数量，1~1000，默认 20
-
-    Returns:
-        {
-            total: 持久卷数量 (int32),
-            pvs_resp: 容器持久卷列表 (List<PvsBaseResponse>)。参数格式如下：[{
-                id: 持久卷ID (string),
-                name: 持久卷名称 (string),
-                cluster_id: 所属集群ID (string),
-                cluster_name: 所属集群名称 (string),
-                status: 状态 (string),
-                pvc_name: 持久卷声明名称 (string),
-                access_mode: 访问模式 (string),
-                storage_class_name: 存储类名称 (string),
-                capacity: 容量GB (number),
-                create_time: 创建时间戳 (int64),
-            }, ...],
-        }
-    """
     url = "/rest/dmecaasmgmt/v1/pvs/query-list"
 
     payload = {

@@ -14,46 +14,6 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
              status: list = None, is_template: bool = None, os_type: list = None,
              vr_type: str = None, datacenter_id: str = None, sort_key: str = None,
              sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询虚拟机列表
-    
-    Args:
-        client: DME API 客户端
-        site_id: 虚拟机所属站点 ID
-        cluster_id: 虚拟机所属集群 ID（HCS 场景不支持）
-        dc_id: 数据中心 ID（仅 FusionCompute 场景支持）
-        cluster_name: 虚拟机所属集群名称（支持模糊搜索，HCS 场景不支持）
-        host_id: 虚拟机所属物理主机唯一标识
-        host_name: 虚拟机所属主机名称（支持模糊搜索）
-        name: 虚拟机名称（支持模糊搜索）
-        ip_address: 虚拟机 IP 地址（支持模糊搜索）
-        status: 虚拟机状态列表
-                取值：running, stopped, unknown, hibernated, creating, shutting-down,
-                     migrating, fault-resuming, starting, stopping, hibernating, pause,
-                     recycling, deactivated, active, saving, deleted, other, uploading,
-                     pending_delete, queued, importing, killed, storage_migrating,
-                     building, error
-        is_template: 是否是模板（true/false）
-        os_type: 操作系统类型列表（Windows, Linux, Other）
-        vr_type: 虚拟化平台类型（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: 数据存储所属数据中心 ID（仅 vCenter 场景支持）
-        sort_key: 排序字段（name, cpu_core, memory_size, disk_total_size, create_time, ip_address）
-        sort_dir: 排序方向（asc, desc），默认 asc
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 虚拟机总数 (integer),
-            vms: 虚拟机列表 (List<VmInfo>)。参数格式如下：[{
-                id: 虚拟机ID (string),
-                name: 虚拟机名称 (string),
-                status: 状态 (string),
-                cpu: CPU数量 (integer),
-                memory: 内存大小 (integer),
-            }, ...],
-        }
-    """
     url = "/rest/vmmgmt/v1/vms/query"
     
     body_params = {
@@ -97,36 +57,6 @@ def vm_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 
 def vm_show(client: DMEAPIClient, vm_id: str, vr_type: str = None) -> dict:
-    """
-    查询指定虚拟机详情
-
-    Args:
-        client: DME API 客户端
-        vm_id: 虚拟机 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
-    
-    Returns:
-        {
-            id: 虚拟机ID (string),
-            name: 名称 (string),
-            status: 状态 (string),
-            cpu: CPU信息。属性格式如下：{
-                cores: CPU核数 (int32),
-                sockets: CPU插槽数 (int32),
-            },
-            memory: 内存大小 (int64, MB),
-            vm_nics: 网卡列表 (List<VmNicInfo>)。参数格式如下：[{
-                id: 网卡ID (string),
-                name: 网卡名称 (string),
-                mac: MAC地址 (string),
-            }, ...],
-            vm_disks: 磁盘列表 (List<VmDiskInfo>)。参数格式如下：[{
-                id: 磁盘ID (string),
-                name: 磁盘名称 (string),
-                capacity: 容量 (int64, GB),
-            }, ...],
-        }
-    """
     url = "/rest/vmmgmt/v1/vms/{vm_id}"
     
     params_dict = {"vm_id": vm_id}
@@ -143,36 +73,6 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
                     allocate_type: bool = None, vr_type: str = None,
                     datacenter_id: str = None, sort_key: str = "name",
                     sort_dir: str = "asc", page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询数据存储列表
-    
-    Args:
-        client: DME API 客户端
-        site_id: 数据存储所在的站点 ID
-        cluster_id: 数据存储所关联的集群 ID
-        host_id: 数据存储所关联的主机 ID
-        dc_id: 数据存储所在数据中心 ID
-        name: 数据存储名称（支持模糊查询）
-        status: 数据存储状态列表
-                取值：NORMAL, ABNORMAL, CREATING, DELETING, READONLY, EXPANDING,
-                     RESTORING, WARNING, ALERT, UNKNOWN, WRITE_PROTECT
-        storage_type: 数据存储类型列表
-                      取值：LOCAL, SAN, ADVANCESAN, DSWARE, NAS, LOCALPOME, LUNPOME,
-                           LUN, iotailor, CIFS, NFS, NFS41, PMEM, VFFS, VMFS, VSAN, VVOL, OTHER
-        allocate_type: 是否支持精简模式（仅 FusionCompute 场景支持）
-        vr_type: 虚拟化平台类型（FUSIONCOMPUTE, VMWARE, HCS）
-        datacenter_id: 数据存储所属的 vCenter 数据中心 ID（仅 vCenter 场景支持）
-        sort_key: 排序字段（name, host_num, vm_num, total_capacity, used_size, free_capacity, lun_count, used_rate）
-        sort_dir: 排序方向（asc, desc），默认 asc
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            datastores: 数据存储列表 (List),
-        }
-    """
     url = "/rest/vmmgmt/v1/datastores/query"
     
     body_params = {
@@ -208,24 +108,6 @@ def datastore_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = 
 
 
 def datastore_show(client: DMEAPIClient, datastore_id: str, vr_type: str = None) -> dict:
-    """
-    查询指定数据存储详情
-
-    Args:
-        client: DME API 客户端
-        datastore_id: 数据存储 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
-    
-    Returns:
-        {
-            id: 数据存储ID (string),
-            name: 名称 (string),
-            type: 类型 (string),
-            total_capacity: 总容量 (int64),
-            free_capacity: 空闲容量 (int64),
-            status: 状态 (string),
-        }
-    """
     url = "/rest/vmmgmt/v1/datastores/{datastore_id}"
     
     params_dict = {"datastore_id": datastore_id}
@@ -240,29 +122,6 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
                dc_id: str = None, host_name: str = None, ip_address: str = None,
                status: list = None, vr_type: str = None,
                page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询主机列表
-    
-    查询物理主机列表，支持多种过滤条件。
-    
-    Args:
-        client: DME API 客户端
-        site_id: 主机所属站点 ID
-        cluster_id: 主机所属集群 ID
-        dc_id: 数据中心 ID
-        host_name: 主机名称（支持模糊搜索）
-        ip_address: 主机 IP 地址
-        status: 主机状态列表
-        vr_type: 虚拟化平台类型
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            hosts: 主机列表 (List),
-        }
-    """
     url = "/rest/vmmgmt/v1/hosts/query"
     
     body_params = {
@@ -290,25 +149,6 @@ def host_list(client: DMEAPIClient, site_id: str = None, cluster_id: str = None,
 
 
 def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
-    """
-    查询指定主机详情
-
-    Args:
-        client: DME API 客户端
-        host_id: 主机 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
-    
-    Returns:
-        {
-            id: 主机ID (string),
-            name: 名称 (string),
-            ip: IP地址 (string),
-            status: 状态 (string),
-            cpu_cores: CPU核数 (int32),
-            memory: 内存大小 (int64, MB),
-            os_type: 操作系统类型 (string),
-        }
-    """
     url = "/rest/vmmgmt/v1/hosts/{host_id}"
     
     params_dict = {"host_id": host_id}
@@ -322,24 +162,6 @@ def host_show(client: DMEAPIClient, host_id: str, vr_type: str = None) -> dict:
 def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
                   name: str = None, vr_type: str = None,
                   page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询集群列表
-    
-    Args:
-        client: DME API 客户端
-        site_id: 集群所属站点 ID
-        dc_id: 数据中心 ID
-        name: 集群名称（支持模糊搜索）
-        vr_type: 虚拟化平台类型
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            clusters: 集群列表 (List),
-        }
-    """
     url = "/rest/vmmgmt/v1/clusters/query"
     
     body_params = {
@@ -361,23 +183,6 @@ def cluster_list(client: DMEAPIClient, site_id: str = None, dc_id: str = None,
 
 
 def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> dict:
-    """
-    查询指定集群详情
-
-    Args:
-        client: DME API 客户端
-        cluster_id: 集群 ID（必选）
-        vr_type: 虚拟化平台类型（可选）
-    
-    Returns:
-        {
-            id: 集群ID (string),
-            name: 名称 (string),
-            type: 类型 (string),
-            host_count: 主机数量 (int32),
-            status: 状态 (string),
-        }
-    """
     url = "/rest/vmmgmt/v1/clusters/{cluster_id}"
     
     params_dict = {"cluster_id": cluster_id}
@@ -389,20 +194,6 @@ def cluster_show(client: DMEAPIClient, cluster_id: str, vr_type: str = None) -> 
 
 
 def site_list(client: DMEAPIClient) -> dict:
-    """
-    查询站点列表
-    
-    查询所有虚拟化站点列表。
-    
-    Args:
-        client: DME API 客户端
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            sites: 站点列表 (List),
-        }
-    """
     url = "/rest/vmmgmt/v1/sites/query"
     
     response = client.post(url, body={})
@@ -410,20 +201,6 @@ def site_list(client: DMEAPIClient) -> dict:
 
 
 def site_show(client: DMEAPIClient, site_id: str) -> dict:
-    """
-    查询指定站点详情
-
-    Args:
-        client: DME API 客户端
-        site_id: 站点 ID（必选）
-    
-    Returns:
-        {
-            id: 站点ID (string),
-            name: 名称 (string),
-            status: 状态 (string),
-        }
-    """
     url = "/rest/vmmgmt/v1/sites/{site_id}"
     
     response = client.get(url, params={"site_id": site_id})
@@ -433,26 +210,6 @@ def site_show(client: DMEAPIClient, site_id: str) -> dict:
 
 
 def host_adapter_list(client: DMEAPIClient, host_id: str) -> dict:
-    """
-    查询指定主机存储适配器列表
-    
-    查询物理主机的存储适配器列表。
-    
-    Args:
-        client: DME API 客户端
-        host_id: 主机 ID（必选）
-    
-    Returns:
-        {
-            total: 适配器数量 (int32),
-            adapters: 存储适配器列表 (List<HostAdapterInfo>)。参数格式如下：[{
-                id: 适配器ID (string),
-                name: 名称 (string),
-                type: 类型 (string),
-                wwn: WWN (string),
-            }, ...],
-        }
-    """
     url = "/rest/vmmgmt/v1/hosts/{host_id}/storage-adapters"
     
     response = client.get(url, params={"host_id": host_id})
@@ -463,32 +220,6 @@ def disk_list(client: DMEAPIClient, site_id: str = None,
                          host_id: str = None, name: str = None,
                          disk_type: list = None, status: list = None,
                          page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询物理盘信息
-    
-    查询物理磁盘列表，支持多种过滤条件。
-    
-    Args:
-        client: DME API 客户端
-        site_id: 物理盘所属站点 ID（可选）
-        host_id: 物理盘所属主机 ID（可选）
-        name: 物理盘名称（可选）
-        disk_type: 磁盘类型列表（可选）
-        status: 磁盘状态列表（可选）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 磁盘数量 (int32),
-            disks: 物理磁盘列表 (List<PhysicalDiskInfo>)。参数格式如下：[{
-                id: 磁盘ID (string),
-                name: 名称 (string),
-                capacity: 容量 (int64),
-                status: 状态 (string),
-            }, ...],
-        }
-    """
     url = "/rest/vmmgmt/v1/vdisks/pdisks"
     
     body_params = {
@@ -515,30 +246,6 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
                         vm_id: str = None, name: str = None,
                         disk_type: list = None, status: list = None,
                         page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询虚拟磁盘信息列表
-
-    Args:
-        client: DME API 客户端
-        site_id: 虚拟磁盘所属站点 ID（可选）
-        vm_id: 虚拟磁盘所属虚拟机 ID（可选）
-        name: 虚拟磁盘名称（可选）
-        disk_type: 磁盘类型列表（可选）
-        status: 磁盘状态列表（可选）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 虚拟磁盘数量 (int32),
-            vdisks: 虚拟磁盘列表 (List<VirtualDiskInfo>)。参数格式如下：[{
-                id: 虚拟磁盘ID (string),
-                name: 名称 (string),
-                capacity: 容量 (int64, GB),
-                status: 状态 (string),
-            }, ...],
-        }
-    """
     url = "/rest/vmmgmt/v1/vdisks/query"
     
     body_params = {
@@ -562,22 +269,6 @@ def vdisk_list(client: DMEAPIClient, site_id: str = None,
 
 
 def vdisk_show(client: DMEAPIClient, virtual_disk_id: str) -> dict:
-    """
-    查询指定虚拟磁盘信息
-
-    Args:
-        client: DME API 客户端
-        virtual_disk_id: 虚拟磁盘 ID（必选）
-    
-    Returns:
-        {
-            id: 虚拟磁盘ID (string),
-            name: 名称 (string),
-            capacity: 容量 (int64, GB),
-            status: 状态 (string),
-            datastore_id: 所属数据存储ID (string),
-        }
-    """
     url = "/rest/vmmgmt/v1/vdisks/{virtual_disk_id}"
     
     response = client.get(url, params={"virtual_disk_id": virtual_disk_id})

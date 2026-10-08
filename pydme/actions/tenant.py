@@ -16,37 +16,6 @@ def lun_create(client: DMEAPIClient, volumes: list,
                service_level_id: str, task_remarks: str = None,
                project_id: str = None, availability_zone: str = None,
                scheduler_hints: dict = None, mapping: dict = None) -> dict:
-    """
-    服务化批量创建 LUN
-
-    Args:
-        client: DME API 客户端
-        volumes: 待创建 LUN 基本参数列表 (List<ServiceVolumeBasicParams>, 数组最大成员个数: 1000)。参数格式如下：[{
-                name: LUN名称 (1~255个字符, 支持字母数字._-和中文字符),
-                capacity: 容量GB (1~262144),
-                count: 创建数量 (1~500),
-                description: 描述 (0~255个字符),
-                start_suffix: 起始后缀编号 (0~9999),
-                suffix_length: 后缀长度规则 (1~4, 名称长度+后缀长度<=255),
-             }, ...]
-        service_level_id: 服务等级 ID（必填，0~64 个字符）
-        task_remarks: 异步任务备注信息（可选，最多 1024 个字符）
-        project_id: 业务群组 ID（可选，0~64 个字符）
-        availability_zone: 可用分区 ID（可选，0~64 个字符）
-        scheduler_hints: 调度策略 (可选, SchedulerHints 对象)。参数格式如下：{
-                affinity: 是否开启亲和性。可选值：true (开启), false (不开启)。默认不开启,
-                affinity_volume: 待亲和的 LUN ID (可选, 0~64个字符),
-             }
-        mapping: 映射信息 (可选, ServiceVolumeMapping 对象, 存在即表示为主机或主机组创建 LUN)。参数格式如下：{
-                host_id: 主机ID (可选, 0~64个字符, 与hostgroup_id二选其一),
-                hostgroup_id: 主机组ID (可选, 0~64个字符, 与host_id二选其一),
-             }
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }
-    """
     url = "/rest/blockservice/v1/volumes"
 
     payload = {
@@ -72,22 +41,6 @@ def lun_create(client: DMEAPIClient, volumes: list,
 def lun_change_tier(client: DMEAPIClient, volume_ids: list,
                                 tier_id: str, attributes_auto_change: bool = None,
                                 task_remarks: str = None) -> dict:
-    """
-    批量更新 LUN 的服务等级
-
-    Args:
-        client: DME API 客户端
-        volume_ids: LUN 列表 (List<string>, 数组最大成员个数: 1000)。
-        tier_id: 服务等级 ID (string, 1~64个字符)。
-        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性 (boolean)。可选值：true (自动更新), false (不自动更新)。
-        task_remarks: 异步任务备注信息 (string, 最多1024个字符)。
-
-    Returns:
-        请求下发成功，开始异步操作：
-        {
-            task_id: 任务ID (string, 0~64个字符),
-        }
-    """
     url = "/rest/blockservice/v1/volumes/update-service-level"
 
     payload = {
@@ -107,20 +60,6 @@ def lun_change_tier(client: DMEAPIClient, volume_ids: list,
 
 def lun_bind_tier(client: DMEAPIClient, volume_id: str,
                        tier_id: str, attributes_auto_change: bool = None) -> dict:
-    """
-    LUN 关联服务等级
-
-    Args:
-        client: DME API 客户端
-        volume_id: LUN ID
-        tier_id: 服务等级 ID
-        attributes_auto_change: 是否根据服务等级参数刷新 LUN 属性（可选，true/false）
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }（异步任务）
-    """
     url = "/rest/blockservice/v1/volumes/add-to-service-level"
 
     payload = {
@@ -136,18 +75,6 @@ def lun_bind_tier(client: DMEAPIClient, volume_id: str,
 
 
 def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
-    """
-    解除 LUN 与服务等级关联
-
-    Args:
-        client: DME API 客户端
-        volume_id: LUN ID
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }（异步任务）
-    """
     url = "/rest/blockservice/v1/volumes/remove-service-level"
 
     payload = {
@@ -160,19 +87,6 @@ def lun_unbind_tier(client: DMEAPIClient, volume_id: str) -> dict:
 
 def lun_bind_project(client: DMEAPIClient, volume_id: str,
                         business_group_id: str) -> dict:
-    """
-    LUN 关联业务群组
-
-    关联 LUN 至指定业务群组。
-
-    Args:
-        client: DME API 客户端
-        volume_id: LUN ID (string, 1~64个字符)。
-        business_group_id: 业务群组 ID (string, 1~64个字符)。
-
-    Returns:
-        无返回数据。HTTP 200 表示关联成功。
-    """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/bound"
 
     payload = {
@@ -185,19 +99,6 @@ def lun_bind_project(client: DMEAPIClient, volume_id: str,
 
 def lun_unbind_project(client: DMEAPIClient, volume_id: str,
                           business_group_id: str) -> dict:
-    """
-    解除 LUN 与业务群组间关联
-
-    解除 LUN 与业务群组关联关系。
-
-    Args:
-        client: DME API 客户端
-        volume_id: LUN ID (string, 1~64个字符)。
-        business_group_id: 业务群组 ID (string, 1~64个字符)。
-
-    Returns:
-        无返回数据。HTTP 200 表示解除关联成功。
-    """
     url = "/rest/blockservice/v1/projects/{business_group_id}/volumes/unbound"
 
     payload = {
@@ -216,26 +117,6 @@ def tier_list(client: DMEAPIClient, name: str = None,
                         storage_array_id: str = None, start: int = 0,
                         limit: int = 200, sort_key: str = 'name',
                         sort_dir: str = 'asc', type: str = None) -> dict:
-    """
-    批量查询服务等级
-
-    Args:
-        client: DME API 客户端
-        name: 服务等级名称（可选，支持模糊查询）
-        project_id: 业务群组 ID（可选）
-        available_zone_id: 可用区 ID（可选）
-        storage_array_id: 存储设备 ID（可选）
-        start: 查询的起始位置，默认 0
-        limit: 每页数量，10~1000，默认 200
-        sort_key: 排序字段，name/total_capacity/created_at，默认 name
-        sort_dir: 排序方向，asc/desc，默认 asc
-        type: 存储类型，FILE/BLOCK/VIRTUAL_DATASTORE（可选）
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含服务等级列表
-    """
     url = "/rest/service-policy/v1/service-levels"
 
     query_params = {
@@ -267,22 +148,6 @@ def tier_list(client: DMEAPIClient, name: str = None,
 
 def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
-    """
-    批量查询业务群组与服务等级关联关系
-
-    查询业务群组与服务等级的关联关系列表，支持按服务等级 ID 过滤。
-
-    Args:
-        client: DME API 客户端
-        tier_id: 服务等级 ID（可选）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，10~1000，默认 200
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含关联关系列表
-    """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
     query_params = {
@@ -302,20 +167,6 @@ def tier_show_projects(client: DMEAPIClient, tier_id: str = None,
 
 def project_list(client: DMEAPIClient, name: str = None,
                   start: int = 1, limit: int = 20) -> dict:
-    """
-    批量查询业务群组
-
-    Args:
-        client: DME API 客户端
-        name: 业务群组名称（可选，支持模糊查询）
-        start: 分页的页号，从 1 开始，默认 1
-        limit: 分页的大小，1~512，默认 20
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含业务群组列表
-    """
     url = "/rest/projectmgmt/v1/projects"
 
     query_params = {
@@ -332,22 +183,6 @@ def project_list(client: DMEAPIClient, name: str = None,
 
 def project_show_tiers(client: DMEAPIClient, project_id: str = None,
                                 page_no: int = 1, page_size: int = 200) -> dict:
-    """
-    批量查询业务群组与服务等级关联关系
-
-    查询指定业务群组的关联服务等级列表。
-
-    Args:
-        client: DME API 客户端
-        project_id: 业务群组 ID（可选）
-        page_no: 分页查询的起始页码，默认 1
-        page_size: 每页数量，10~1000，默认 200
-
-    Returns:
-        {
-            task_id: 任务ID (string, 1~64个字符),
-        }，包含关联关系列表
-    """
     url = "/rest/service-policy/v1/service-levels/projects/relations"
 
     query_params = {
