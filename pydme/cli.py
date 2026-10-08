@@ -19,6 +19,7 @@ from typing import Optional, Dict, Any, List, Tuple
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pydme.client import DMEAPIClient
+from pydme.i18n import load_i18n, resolve_lang, DEFAULT_LANG
 
 
 def load_blacklist() -> Dict[str, list]:
@@ -103,6 +104,22 @@ class DMECLI:
     def __init__(self):
         self.client: Optional[DMEAPIClient] = None
         self.actions_module = None
+        self.lang = DEFAULT_LANG  # 注释语言（--lang / DME_LANG），main() 中按参数解析
+
+    def _doc_for(self, topic: str, action_key: str, func) -> str:
+        """按当前语言获取 action 注释文本。
+
+        优先从 i18n 资源（pydme/config/i18n/<lang>.yaml）按 (topic, action_key)
+        取注释；未命中时回退函数 docstring（过渡期；docstring 移除后为空则告警）。
+        """
+        text = load_i18n(self.lang).get(topic, {}).get(action_key)
+        if text is not None:
+            return text
+        fallback = inspect.getdoc(func) or ""
+        if not fallback:
+            print(f"警告：i18n 资源缺少 {self.lang}.{topic}.{action_key} 的注释，请更新对应 YAML",
+                  file=sys.stderr)
+        return fallback
 
     def load_actions(self):
         """加载 actions 模块中的所有动作"""
@@ -353,7 +370,7 @@ class DMECLI:
                             if sub_subtopic == subtopic or sub_subtopic == action_key:
                                 sub_func = sub_action_data.get('func')
                                 if sub_func:
-                                    sub_doc = inspect.getdoc(sub_func) or ""
+                                    sub_doc = self._doc_for(topic, sub_action_key, sub_func)
                                     sub_parsed = self.parse_docstring(sub_doc)
                                     # 使用原始的 action_key 作为键（如 lun_list）
                                     actions_info[sub_action_key] = {
@@ -373,7 +390,7 @@ class DMECLI:
                 if isinstance(func, str):
                     doc = ""
                 else:
-                    doc = inspect.getdoc(func) or ""
+                    doc = self._doc_for(topic, action_key, func)
                 parsed = self.parse_docstring(doc)
 
                 actions_info[action_key] = {
@@ -716,6 +733,8 @@ def create_parser(cli: DMECLI) -> argparse.ArgumentParser:
     # 全局选项
     parser.add_argument('--list-topics', action='store_true',
                         help='列出所有可用的主题')
+    parser.add_argument('--lang', choices=['zh_CN', 'en_US'], default=None,
+                        help='注释语言：zh_CN（默认）或 en_US；也可用环境变量 DME_LANG 设置')
 
     # 主题参数
     parser.add_argument('topic', nargs='?', help='动作主题')
@@ -735,6 +754,9 @@ def main():
 
     # 使用 parse_known_args 来捕获未知参数（动作参数）
     args, unknown = parser.parse_known_args()
+
+    # 注释语言：--lang 优先，其次 DME_LANG，默认 zh_CN
+    cli.lang = resolve_lang(args.lang)
 
     # 解析未知参数为动作参数
     action_params = {}

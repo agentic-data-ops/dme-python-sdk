@@ -20,4 +20,4 @@ pydme = "pydme.cli:main"
 include = ["pydme*"]
 
 [tool.setuptools.package-data]
-"pydme.config" = ["*.json"]
+"pydme.config" = ["*.json", "i18n/*.yaml"]
