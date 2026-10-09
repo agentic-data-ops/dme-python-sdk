@@ -186,7 +186,7 @@ python3 .reasonix/scripts/extract_docstrings.py --ref dev-en -o pydme/config/i18
 - **M1**（阶段 1）：提取脚本 + `zh_CN.yaml` + `en_US.yaml` 提交 dev；验收 1~4。
 - **M2**（阶段 2）：`cli.py` 加载改造 + `package-data` 改为 `["*.json", "i18n/*.yaml"]` 并 `pip wheel . --no-deps` 实测 i18n 全部 YAML 入包；验收 5、7。
 - **M3**（阶段 3）：移除 docstring + 全量回归；验收 6。
-- **M4**（阶段 4）：归档并删除 dev-en / main-en；验收 8。**（暂缓：用户 2026-10-08 决定先不做；本地归档 tag `archive/dev-en-final`、`archive/main-en-final` 已打）**
+- **M4**（阶段 4）：归档并删除 dev-en / main-en；验收 8。**（已完成 2026-10-09：归档 tag `archive/dev-en-final`、`archive/main-en-final` 已 push 到 origin；remote 分支 dev-en/main-en 已删除；本地分支保留作备份；双语注释统一在 dev/main 的 `pydme/config/i18n/` 维护）**
 
 ---
 
