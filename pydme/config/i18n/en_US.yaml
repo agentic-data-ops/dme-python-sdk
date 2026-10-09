@@ -248,7 +248,14 @@ topics:
               obj_type_id: monitoring object type ID (Required)
           
           Returns:
-              monitoring indicator info, containing indicator_ids list
+              {
+                  status_code: Status code (int32),
+                  error_code: Error code (int32),
+                  error_msg: Error message (string),
+                  data: Monitoring indicator information (IndicatorIdBody). attribute format: {
+                      indicator_ids: Indicator ID list (List<int64>),
+                  },
+              }
       performance_list_object_types:
         docstring: |
           Get all monitoring object types
@@ -470,28 +477,28 @@ topics:
                   fabrics: Fabric list (List<HostToStoragePoolFabric>). parameter format: [{
                       id: Fabric id (string, 1~64 characters),
                       name: Fabric name (string, 1~128 characters),
-                      switches: switch list (List<SwitchItem>). attribute format: [{
+                      switches: switch list (List<SwitchItem>). parameter format: [{
                           id: switch node id (string, 1~64 characters),
                           name: switch node name (string, 1~128 characters),
-                          ports: switch port list (List<SwitchPortItem>). attribute format: [{
+                          ports: switch port list (List<SwitchPortItem>). parameter format: [{
                               id: switch port node id (string, 1~64 characters),
                               name: switch port node name (string, 1~128 characters),
                               status: switch port status (string). valid values: normal, abnormal, unknown,
                           }, ...],
                       }, ...],
-                      port_links: switch port link list (List<PortLinkItem>). attribute format: [{
+                      port_links: switch port link list (List<PortLinkItem>). parameter format: [{
                           left_port: left port (PortNodeItem). attribute format: {
                               id: port Id (string, 1~64 characters),
                               type: port type (string). valid values: host_port, switch_port, storage_port,
                           },
                           right_port: right port (PortNodeItem),
                       }, ...],
-                      switch_links: switch connection list (List<SwitchLinkItem>). attribute format: [{
+                      switch_links: switch connection list (List<SwitchLinkItem>). parameter format: [{
                           host_to_switch_id: host-connected switch ID (string, 1~64 characters),
                           storage_to_switch_id: storage-connected switch ID (string, 1~64 characters),
                       }, ...],
                   }, ...],
-                  hosts: host list (List<HostToStoragePoolHost>). attribute format: [{
+                  hosts: host list (List<HostToStoragePoolHost>). parameter format: [{
                       id: host id (string, 1~64 characters),
                       name: host name (string, 1~256 characters),
                       access_mode: access mode (string). valid values: vcenter, none,
@@ -500,7 +507,7 @@ topics:
                       deployment_type: deployment type (string). valid values: BMS (bare metal server), ECS (ECS host),
                       direct_storage_ids: storage device ID list directly connected to host (List<string>),
                   }, ...],
-                  storages: storage list (List<HostToStoragePoolStorage>). attribute format: [{
+                  storages: storage list (List<HostToStoragePoolStorage>). parameter format: [{
                       id: storage id (string, 1~64 characters),
                       name: storage name (string, 1~128 characters),
                       product_model: storage device type (string),
@@ -516,10 +523,19 @@ topics:
                   storages: storage list (List<HostToStoragePoolStorage>),
                   switch_links: switch connection list (List<SwitchLinkItem>),
               }
-              When san_type=None: 
+              When san_type=None:
               {
-                  ip_san: { IP_SAN return data },
-                  fc_san: { FC_SAN return data },
+                  ip_san: IP_SAN return data. attribute format: {
+                      switches: Switch list (List<SwitchItem>),
+                      hosts: Host list (List<HostToStoragePoolHost>),
+                      storages: Storage list (List<HostToStoragePoolStorage>),
+                      switch_links: Switch connection relationship list (List<SwitchLinkItem>),
+                  },
+                  fc_san: FC_SAN return data. attribute format: {
+                      fabrics: Fabric list (List<HostToStoragePoolFabric>),
+                      hosts: Host list (List<HostToStoragePoolHost>),
+                      storages: Storage list (List<HostToStoragePoolStorage>),
+                  },
               }
       topology_query_luns:
         docstring: |
@@ -545,7 +561,7 @@ topics:
                   luns: LUN query result list (List<LunObject>). parameter format: [{
                       id: LUN id (string, 1~128 characters),
                       name: LUN name (string, 1~256 characters),
-                      datastore: data store list for the LUN (List<LunsQueryDataStoreItem>). attribute format: [{
+                      datastore: data store list for the LUN (List<LunsQueryDataStoreItem>). parameter format: [{
                           id: data store id (string, 1~128 characters),
                           name: data store name (string, 1~256 characters),
                           storage_type: storage type (string). valid values: vmfs (Virtual machine Filesystem),
@@ -584,7 +600,7 @@ topics:
                       ip: vm ip (string, 1~3072 characters),
                       host_id: physical host ID (string, 1~64 characters),
                       vr_type: virtualization type (string). valid values: vmware, hcs,
-                      vdisks: virtual disk list (List<VirtualDisk>). attribute format: [{
+                      vdisks: virtual disk list (List<VirtualDisk>). parameter format: [{
                           id: vdisk id (string, 1~64 characters),
                           name: vdisk name (string, 1~128 characters),
                       }, ...],
@@ -1011,7 +1027,7 @@ topics:
                       name: zone name (Required, string, 1~64 characters, regex ^[A-Za-z][A-Za-z0-9_^$\-]*$),
                       vsan_wwn: VSAN WWN (Optional, string, 1~32 characters). Conditionally required: must pass when creating ZONE in VSAN,
                       wwn_members: WWN member list (Optional, List<string>, max array members: 100),
-                      port_members: port member list (Optional, List<PortMemberRequest>, max array members: 100). attribute format: [{
+                      port_members: port member list (Optional, List<PortMemberRequest>, max array members: 100). parameter format: [{
                           domain_id: domain ID (Optional, int32, 0~65535),
                           port_index: port number (conditionally required, int32, 0~65535), set for Brocade switches,
                           port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set for Cisco switches,
@@ -6671,7 +6687,21 @@ topics:
               hostgroup_id: Physical host group ID (Required)
           
           Returns:
-              Physical host group detailed info
+              {
+                  id: Physical host group ID (string, 1~64 characters),
+                  name: Physical host group name (string, 1~255 characters),
+                  description: Physical host group description (string, 0~255 characters),
+                  host_count: Number of hosts in the physical host group (int32),
+                  source_type: Source type of the physical host group. valid values: COMMON, ESXI_CLUSTER, STORAGE_EXCLUSIVE (string),
+                  managed_status: Management status of the physical host group. valid values: UNKNOWN (unknown), NORMAL (normal), TAKE_OVERING (being managed), TAKE_ERROR (error), TAKE_OVER_ALARM (management alarm) (string, 1~255 characters),
+                  takeover_failed_reason: Reason for takeover failure (TakeoverFailedReason). attribute format: {
+                      error_code: Takeover failure error code (string, 1~255 characters),
+                      error_msg: Description of the takeover failure reason (string, 0~255 characters),
+                      error_args: Parameters of the takeover failure reason (List<string>),
+                  },
+                  project_id: ID of the business group it belongs to (string, 1~64 characters),
+                  az_ids: Available zone list (List<string>),
+              }
       physical_host_group_create:
         docstring: |
           Create a physical host group
@@ -6687,7 +6717,11 @@ topics:
               description: Physical host group description info (Optional, 0~63 characters)
           
           Returns:
-              Created physical host group info
+              {
+                  id: Physical host group ID (string, 1~64 characters),
+                  name: Physical host group name (string, 1~255 characters),
+                  description: Physical host group description (string, 0~63 characters),
+              }
       physical_host_group_modify:
         docstring: |
           Modify physical host group basic info

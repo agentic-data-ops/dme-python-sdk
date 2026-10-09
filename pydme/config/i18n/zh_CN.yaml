@@ -247,7 +247,14 @@ topics:
               obj_type_id: 监控对象类型标识(必填)
           
           Returns:
-              监控指标信息,包含 indicator_ids 列表
+              {
+                  status_code: 状态码 (int32),
+                  error_code: 错误码 (int32),
+                  error_msg: 错误消息 (string),
+                  data: 监控指标信息 (IndicatorIdBody)。属性格式如下：{
+                      indicator_ids: 指标编号列表 (List<int64>),
+                  },
+              }
       performance_list_object_types:
         docstring: |
           获取所有监控对象类型
@@ -462,28 +469,28 @@ topics:
                   fabrics: Fabric 列表 (List<HostToStoragePoolFabric>)。参数格式如下：[{
                       id: Fabric id (string, 1~64个字符),
                       name: Fabric 名称 (string, 1~128个字符),
-                      switches: 交换机列表 (List<SwitchItem>)。属性格式如下：[{
+                      switches: 交换机列表 (List<SwitchItem>)。参数格式如下：[{
                           id: 交换机节点 id (string, 1~64个字符),
                           name: 交换机节点名称 (string, 1~128个字符),
-                          ports: 交换机端口列表 (List<SwitchPortItem>)。属性格式如下：[{
+                          ports: 交换机端口列表 (List<SwitchPortItem>)。参数格式如下：[{
                               id: 交换机端口节点 id (string, 1~64个字符),
                               name: 交换机端口节点名称 (string, 1~128个字符),
                               status: 交换机端口状态 (string)。可选值：normal（正常），abnormal（故障），unknown（未知）,
                           }, ...],
                       }, ...],
-                      port_links: 交换机端口链路列表 (List<PortLinkItem>)。属性格式如下：[{
+                      port_links: 交换机端口链路列表 (List<PortLinkItem>)。参数格式如下：[{
                           left_port: 左端口 (PortNodeItem)。属性格式如下：{
                               id: 端口 Id (string, 1~64个字符),
                               type: 端口类型 (string)。可选值：host_port, switch_port, storage_port,
                           },
                           right_port: 右端口 (PortNodeItem),
                       }, ...],
-                      switch_links: 交换机连接关系列表 (List<SwitchLinkItem>)。属性格式如下：[{
+                      switch_links: 交换机连接关系列表 (List<SwitchLinkItem>)。参数格式如下：[{
                           host_to_switch_id: 主机连接的交换机 ID (string, 1~64个字符),
                           storage_to_switch_id: 存储连接的交换机 ID (string, 1~64个字符),
                       }, ...],
                   }, ...],
-                  hosts: 主机列表 (List<HostToStoragePoolHost>)。属性格式如下：[{
+                  hosts: 主机列表 (List<HostToStoragePoolHost>)。参数格式如下：[{
                       id: 主机 id (string, 1~64个字符),
                       name: 主机名称 (string, 1~256个字符),
                       access_mode: 接入模式 (string)。可选值：vcenter, none,
@@ -492,7 +499,7 @@ topics:
                       deployment_type: 部署类型 (string)。可选值：BMS（裸金属服务器），ECS（ECS主机）,
                       direct_storage_ids: 主机直连的存储设备 ID 列表 (List<string>),
                   }, ...],
-                  storages: 存储列表 (List<HostToStoragePoolStorage>)。属性格式如下：[{
+                  storages: 存储列表 (List<HostToStoragePoolStorage>)。参数格式如下：[{
                       id: 存储 id (string, 1~64个字符),
                       name: 存储名称 (string, 1~128个字符),
                       product_model: 存储设备类型 (string),
@@ -510,8 +517,17 @@ topics:
               }
               当 san_type=None 时：
               {
-                  ip_san: { IP_SAN 返回数据 },
-                  fc_san: { FC_SAN 返回数据 },
+                  ip_san: IP_SAN 返回数据。属性格式如下：{
+                      switches: 交换机列表 (List<SwitchItem>),
+                      hosts: 主机列表 (List<HostToStoragePoolHost>),
+                      storages: 存储列表 (List<HostToStoragePoolStorage>),
+                      switch_links: 交换机连接关系列表 (List<SwitchLinkItem>),
+                  },
+                  fc_san: FC_SAN 返回数据。属性格式如下：{
+                      fabrics: Fabric 列表 (List<HostToStoragePoolFabric>),
+                      hosts: 主机列表 (List<HostToStoragePoolHost>),
+                      storages: 存储列表 (List<HostToStoragePoolStorage>),
+                  },
               }
       topology_query_luns:
         docstring: |
@@ -537,7 +553,7 @@ topics:
                   luns: LUN 查询结果列表 (List<LunObject>)。参数格式如下：[{
                       id: LUN id (string, 1~128个字符),
                       name: LUN 名称 (string, 1~256个字符),
-                      datastore: LUN 对应数据存储列表 (List<LunsQueryDataStoreItem>)。属性格式如下：[{
+                      datastore: LUN 对应数据存储列表 (List<LunsQueryDataStoreItem>)。参数格式如下：[{
                           id: 数据存储 id (string, 1~128个字符),
                           name: 数据存储名称 (string, 1~256个字符),
                           storage_type: 存储类型 (string)。可选值：vmfs（虚拟机文件系统）,
@@ -576,7 +592,7 @@ topics:
                       ip: vm ip (string, 1~3072个字符),
                       host_id: 物理主机 ID (string, 1~64个字符),
                       vr_type: 虚拟化类型 (string)。可选值：vmware, hcs,
-                      vdisks: 虚拟盘列表 (List<VirtualDisk>)。属性格式如下：[{
+                      vdisks: 虚拟盘列表 (List<VirtualDisk>)。参数格式如下：[{
                           id: vdisk id (string, 1~64个字符),
                           name: vdisk 名称 (string, 1~128个字符),
                       }, ...],
@@ -1003,7 +1019,7 @@ topics:
                       name: Zone 名称（必选，string，1~64 个字符，正则 ^[A-Za-z][A-Za-z0-9_^$\-]*$）,
                       vsan_wwn: VSAN WWN（可选，string，1~32 个字符）。条件必选：VSAN 创建 ZONE 时需要传递,
                       wwn_members: WWN 成员列表（可选，List<string>，数组最大成员个数: 100）,
-                      port_members: 端口成员列表（可选，List<PortMemberRequest>，数组最大成员个数: 100）。属性格式如下：[{
+                      port_members: 端口成员列表（可选，List<PortMemberRequest>，数组最大成员个数: 100）。参数格式如下：[{
                           domain_id: 域 ID (可选, int32, 0~65535),
                           port_index: 端口号 (条件必选, int32, 0~65535)，博科交换机时设置,
                           port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机时设置,
@@ -6825,7 +6841,21 @@ topics:
               hostgroup_id: 物理主机组 ID（必选）
           
           Returns:
-              物理主机组详细信息
+              {
+                  id: 物理主机组id (string, 1~64个字符),
+                  name: 物理主机组名称 (string, 1~255个字符),
+                  description: 物理主机组描述信息 (string, 0~255个字符),
+                  host_count: 物理主机组中主机的个数 (int32),
+                  source_type: 物理主机组来源类型，取值范围：COMMON, ESXI_CLUSTER, STORAGE_EXCLUSIVE (string),
+                  managed_status: 物理主机组纳管状态，取值范围：UNKNOWN（未知），NORMAL（正常），TAKE_OVERING（纳管中），TAKE_ERROR（错误），TAKE_OVER_ALARM（纳管告警） (string, 1~255个字符),
+                  takeover_failed_reason: 纳管失败原因 (TakeoverFailedReason)。属性格式如下：{
+                      error_code: 纳管失败错误码 (string, 1~255个字符),
+                      error_msg: 纳管失败原因描述 (string, 0~255个字符),
+                      error_args: 纳管失败原因参数 (List<string>),
+                  },
+                  project_id: 所属业务群组id (string, 1~64个字符),
+                  az_ids: 所属可用分区列表 (List<string>),
+              }
       physical_host_group_create:
         docstring: |
           创建物理主机组
@@ -6841,7 +6871,11 @@ topics:
               description: 物理主机组描述信息 (可选, 0~63个字符)
           
           Returns:
-              创建的物理主机组信息
+              {
+                  id: 物理主机组id (string, 1~64个字符),
+                  name: 物理主机组名称 (string, 1~255个字符),
+                  description: 物理主机组描述信息 (string, 0~63个字符),
+              }
       physical_host_group_modify:
         docstring: |
           修改物理主机组基本信息
