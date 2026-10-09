@@ -1,5 +1,5 @@
 """
-IP 交换机 (IPSwitch) 管理相关操作
+IP switch (IPSwitch) management related operations
 """
 
 import sys
@@ -9,25 +9,6 @@ from pydme.client import DMEAPIClient
 
 
 def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询以太网交换机列表信息
-    
-    Args:
-        client: DME API 客户端
-        name: 交换机名称（可选，支持模糊查询）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (integer),
-            data_list: 交换机列表。参数格式如下：[{
-                id: 交换机ID (string),
-                name: 交换机名称 (string),
-                status: 状态 (string),
-            }, ...],
-        }
-    """
     url = "/rest/switchmgmt/v1/switchs/query"
     
     payload = {
@@ -43,21 +24,6 @@ def list(client: DMEAPIClient, name: str = None, page_no: int = 1, page_size: in
 
 
 def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询 IP 交换机机框列表信息
-    
-    Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            frames: 机框列表 (List),
-        }
-    """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/frames/query"
     
     payload = {
@@ -71,21 +37,6 @@ def frame_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 
 def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询 IP 交换机单板列表信息
-    
-    Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            boards: 单板列表 (List),
-        }
-    """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/boards/query"
     
     payload = {
@@ -99,21 +50,6 @@ def board_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 
 def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询 IP 交换机子卡列表信息
-    
-    Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            subcards: 子卡列表 (List),
-        }
-    """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/subcards/query"
     
     payload = {
@@ -127,21 +63,6 @@ def subcard_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_
 
 
 def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询 IP 交换机电源列表信息
-    
-    Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            powers: 电源列表 (List),
-        }
-    """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/powers/query"
     
     payload = {
@@ -155,21 +76,6 @@ def power_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_si
 
 
 def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询 IP 交换机风扇列表信息
-    
-    Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            fans: 风扇列表 (List),
-        }
-    """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/fans/query"
     
     payload = {
@@ -183,21 +89,6 @@ def fan_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size
 
 
 def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_size: int = 20) -> dict:
-    """
-    查询 IP 交换机端口列表信息
-    
-    Args:
-        client: DME API 客户端
-        ipswitch_id: IP 交换机 ID（必选）
-        page_no: 分页查询的页码，默认 1
-        page_size: 每页数量，1~1000，默认 20
-    
-    Returns:
-        {
-            total: 总数量 (int),
-            ports: 端口列表 (List),
-        }
-    """
     url = "/rest/switchmgmt/switchmgmtservice/v1/switchs/ports/query"
     
     payload = {
@@ -210,47 +101,40 @@ def port_list(client: DMEAPIClient, ipswitch_id: str, page_no: int = 1, page_siz
     return response
 
 
-# ACTIONS 字典，定义所有可用动作
+# ACTIONS dict defining all available actions
 ACTIONS = {
     'list': {
         'func': list,
-        'description': '查询以太网交换机列表信息',
         'params': ['name', 'page_no', 'page_size'],
         'subtopic': None
     },
     'frame_list': {
         'func': frame_list,
-        'description': '查询 IP 交换机机框列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'frame'
     },
     'board_list': {
         'func': board_list,
-        'description': '查询 IP 交换机单板列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'board'
     },
     'subcard_list': {
         'func': subcard_list,
-        'description': '查询 IP 交换机子卡列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'subcard'
     },
     'power_list': {
         'func': power_list,
-        'description': '查询 IP 交换机电源列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'power'
     },
     'fan_list': {
         'func': fan_list,
-        'description': '查询 IP 交换机风扇列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'fan'
     },
     'port_list': {
         'func': port_list,
-        'description': '查询 IP 交换机端口列表信息',
         'params': ['ipswitch_id', 'page_no', 'page_size'],
         'subtopic': 'port'
     },
