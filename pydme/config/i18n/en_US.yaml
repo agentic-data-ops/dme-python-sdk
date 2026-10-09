@@ -3811,9 +3811,7 @@ topics:
               description: protection group description
           
           Returns:
-              {
-                  No return data. HTTP 200 indicates success.
-              }
+              No return data. HTTP 200 indicates success.
       group_delete:
         docstring: |
           Batch delete protection groups
@@ -4171,9 +4169,7 @@ topics:
               isolation_threshold_time: isolation threshold (milliseconds), required when service_assurance_policy is service_continuity_preferred
           
           Returns:
-              {
-                  task_id: task ID (string, 1~64 characters),
-              }
+              No return data. HTTP 200 indicates that the modification is successful.
       hypermetro_pair_delete:
         docstring: |
           Batch delete hypermetro Pairs

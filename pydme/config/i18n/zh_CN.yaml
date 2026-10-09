@@ -3803,9 +3803,7 @@ topics:
               description: 保护组的描述
           
           Returns:
-              {
-                  无返回数据。HTTP 200 表示修改成功。
-              }
+              无返回数据。HTTP 200 表示修改成功。
       group_delete:
         docstring: |
           批量删除保护组
@@ -4189,9 +4187,7 @@ topics:
               isolation_threshold_time: 隔离阈值（毫秒），当 service_assurance_policy 为 service_continuity_preferred 时必选
           
           Returns:
-              {
-                  无返回数据。HTTP 200 表示修改成功。
-              }
+              无返回数据。HTTP 200 表示修改成功。
       hypermetro_pair_delete:
         docstring: |
           批量删除双活 Pair
