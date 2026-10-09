@@ -3810,7 +3810,7 @@ topics:
         docstring: |
           批量删除保护组
           
-          >![](public_sys-resources/icon-notice.gif) **须知：**
+          >**须知：**
           >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4196,7 +4196,7 @@ topics:
         docstring: |
           批量删除双活 Pair
           
-          >![](public_sys-resources/icon-notice.gif) **须知：**
+          >**须知：**
           >该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4456,7 +4456,7 @@ topics:
         docstring: |
           批量同步远程复制一致性组
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4471,7 +4471,7 @@ topics:
         docstring: |
           批量分裂远程复制一致性组
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4486,7 +4486,7 @@ topics:
         docstring: |
           远程复制一致性组批量主从切换
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4668,7 +4668,7 @@ topics:
         docstring: |
           批量同步远程复制 Pair
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4695,7 +4695,7 @@ topics:
         docstring: |
           远程复制 Pair 批量主从切换
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4852,7 +4852,7 @@ topics:
         docstring: |
           批量回滚 LUN 快照
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4868,7 +4868,7 @@ topics:
         docstring: |
           批量删除 LUN 快照
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4900,7 +4900,7 @@ topics:
         docstring: |
           批量删除快照一致性组
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4934,7 +4934,7 @@ topics:
         docstring: |
           批量取消激活快照一致性组
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -4949,7 +4949,7 @@ topics:
         docstring: |
           回滚快照一致性组
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5014,7 +5014,7 @@ topics:
         docstring: |
           批量删除克隆一致性组
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5079,7 +5079,7 @@ topics:
         docstring: |
           创建文件系统双活Pair
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5207,7 +5207,7 @@ topics:
         docstring: |
           强制启动文件系统双活域。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5222,7 +5222,7 @@ topics:
         docstring: |
           优先站点切换文件系统双活域。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5237,7 +5237,7 @@ topics:
         docstring: |
           恢复文件系统双活域。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5252,7 +5252,7 @@ topics:
         docstring: |
           分裂文件系统双活域。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5268,7 +5268,7 @@ topics:
         docstring: |
           主从切换文件系统双活域。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5306,7 +5306,7 @@ topics:
         docstring: |
           批量强制启动双活租户Pair。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5375,7 +5375,7 @@ topics:
         docstring: |
           批量主从切换双活租户Pair。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
@@ -5391,7 +5391,7 @@ topics:
         docstring: |
           批量删除双活租户Pair。
           
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > **须知：**
           > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:

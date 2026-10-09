@@ -3818,7 +3818,7 @@ topics:
         docstring: |
           Batch delete protection groups
           
-          >![](public_sys-resources/icon-notice.gif) **Notice: **
+          >**Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
           
           Args:
@@ -4406,7 +4406,7 @@ topics:
         docstring: |
           Batch sync remote replication consistency groups
           
-          >![](public_sys-resources/icon-notice.gif) **Notice: **
+          >**Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
           
           Args:
@@ -4421,7 +4421,7 @@ topics:
         docstring: |
           Batch split remote replication consistency groups
           
-          >![](public_sys-resources/icon-notice.gif) **Notice: **
+          >**Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
           
           Args:
@@ -4436,7 +4436,7 @@ topics:
         docstring: |
           Batch primary-secondary switch for remote replication consistency groups
           
-          >![](public_sys-resources/icon-notice.gif) **Notice: **
+          >**Notice: **
           >This API may directly or indirectly affect running services, cause service interruption, key data loss, etc., please operate with caution. 
           
           Args:
