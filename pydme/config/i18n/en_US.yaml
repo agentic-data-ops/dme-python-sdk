@@ -4425,11 +4425,24 @@ topics:
               remote_resource_name_rule: remote resource naming strategy, valid values: same_as_local, prefix_and_suffix, prefix_and_num
               name_prefix: remote resource name prefix
               name_suffix: remote resource name suffix
+              replication_mode: Replication mode. valid values: synchronous (synchronous), asynchronous (asynchronous, default)
+              sync_type: Sync type of the replication Pair. valid values: manual (manual), wait_after_sync_begins (timing after sync begins), wait_after_sync_ends (timing after sync ends), specified_time_policy (specified time)
+              timing_val: Timing duration (int32, 10~86400 seconds). Required when sync_type is wait_after_sync_begins/ends
               sync_schedule: Timing schedule (CustomSyncSchedule). Required when sync_type is specified_time_policy. attribute format: {
                   week: Trigger synchronization on a weekly cycle, defining the specific date and time in a week (CustomWeek对象, 无),
                   day: Trigger synchronization on a daily cycle (string, 最多32个字符),
                   hour: Trigger synchronization on an hourly cycle (string, 最多32个字符),
               },
+              is_backup: Whether to generate a backup replication Pair (bool). Used in ring 3DC scenarios, default false
+              speed: Sync speed. valid values: low (low), medium (medium, default), high (high), highest (highest), custom (custom)
+              bandwidth: Custom sync speed (int32, 1~1024 MB/s). Required when speed is custom
+              recovery_policy: Recovery policy. valid values: automatic (automatic, default), manual (manual)
+              first_sync_policy: Initial sync policy. valid values: auto_sync (auto sync, default), manual_sync (manual sync), not_sync (no sync)
+              enable_compress: Link compression (bool). Effective in async mode, default false
+              rep_io_timeout: Remote IO timeout (int32, 10~255 seconds). Effective in sync mode
+              sync_snap_policy: User snapshot sync policy. valid values: not_sync_snap (no sync), same_as_source (same as primary), user_snap_retention_num (retain specified count), snap_tag_based. Effective in async mode
+              user_snap_retention_num: Retention count of the secondary user snapshots (int32, 1~512). Required on Dorado V6 in async mode when sync_snap_policy is user_snap_retention_num
+              is_auto_sync: Whether to auto-sync the consistency group (bool). Default true
           
           Returns:
               {
