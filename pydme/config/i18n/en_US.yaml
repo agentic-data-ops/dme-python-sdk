@@ -3555,105 +3555,6 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               } (async task ID)
-      dpc_list:
-        docstring: |
-          Batch query DPC list
-          
-          Args:
-              client: DME API client
-              ids: DPC ID list(Optional), List<string> type, max array members 100, exact query
-              hostname: Host name of the compute node(Optional), 1~256 characters, fuzzy query
-              ip: Management IP of the DPC's compute node(Optional), 1~256 characters, fuzzy query
-              mgmt_status: Management status list(Optional), List<string> type, exact query; valid values: normal (normal), abnormal (abnormal), unready (unready, client configuration status abnormal), subhealth (sub-health), pre_registered (pre-registered), unknown (unknown)
-              status: Service status list(Optional), List<string> type, exact query; valid values: normal (normal), abnormal (abnormal), subhealth (sub-health), unknown (unknown)
-              sn: Hardware SN of the DPC's compute node(Optional), 1~256 characters, fuzzy query
-              storage_id: Storage device ID(Optional), 1~256 characters, exact query
-              dpc_om_id: DPC O&M ID(Optional), 1~256 characters, exact query
-              dpc_type: DPC type list(Optional), List<string> type
-              client_version: DPC version number(Optional), up to 256 characters, exact query
-              page_no: Page number(Optional), 1~10000000, default 1
-              page_size: Records per page(Optional), 1~1000, default 20
-          
-          Returns:
-              {
-                  total: DPC total (integer),
-                  dpcs: DPC list (List<DpcInfo>). parameter format: [{
-                      id: DPC ID (string),
-                      hostname: host name (string),
-                      ip: management IP (string),
-                      status: service status (string),
-                      mgmt_status: management status (string),
-                  }, ...],
-              }
-      dpc_show:
-        docstring: |
-          Query DPC details
-          
-          Args:
-              client: DME API client
-              dpc_id: DPC ID (Required, string)
-          
-          Returns:
-              {
-                  id: DPC ID (string),
-                  hostname: host name (string),
-                  ip: management IP (string),
-                  status: service status (string),
-                  mgmt_status: management status (string),
-              }
-      list:
-        docstring: |
-          Batch query DPC clients
-          
-          Args:
-              client: DME API client
-              storage_id: Storage ID (Optional, string, 1~64 characters)
-              process_id: DPC client process ID (Optional, string, 1~64 characters)
-              name: DPC client name, supports fuzzy search (Optional, string, 1~256 characters)
-              manage_ip: DPC client node management IP, supports fuzzy search (Optional, string, 1~256 characters)
-              version: DPC client version, supports fuzzy search (Optional, string, 1~256 characters)
-              status: DPC client status (Optional, string). valid values: normal (normal), abnormal (abnormal), disabled (disabled)
-              switch_status: Node FSA switch status (Optional, string). valid values: on (true), off (false)
-              upgrade_flag: Upgrade flag (Optional, string). valid values: required (upgrade required), not_required (no upgrade required)
-              sort_key: Sort field (Optional, string). valid values: manage_ip (node management IP), dpc_mem (DPC client node memory)
-              sort_dir: Sort direction (Optional, string). valid values: asc (ascending), desc (descending)
-              page_no: Page number (Optional, int32, 1~10000000). default value: 1
-              page_size: Records per page (Optional, int32, 1~1000). default value: 10
-          
-          Returns:
-              {
-                  total: total (integer),
-                  data: DPC client data (List<DpcClient>). parameter format: [{
-                      id: ID (string),
-                      storage_id: storage ID (string),
-                      process_id: DPC client process ID (string),
-                      name: DPC client name (string),
-                      manage_ip: DPC client node management IP (string),
-                      version: DPC client version (string),
-                      status: DPC client status (string),
-                      switch_status: node FSA switch status (string),
-                      upgrade_flag: upgrade flag (string),
-                      dpc_mem: DPC client node memory (int64),
-                  }, ...],
-              }
-      show:
-        docstring: |
-          Query DPC client details
-          
-          Args:
-              client: DME API client
-              id: Query DPC client ID (Required, string, 1~64 characters)
-          
-          Returns:
-              {
-                  id: ID (string),
-                  storage_id: storage ID (string),
-                  process_id: DPC client process ID (string),
-                  name: DPC client name (string),
-                  manage_ip: DPC client node management IP (string),
-                  version: DPC client version (string),
-                  status: DPC client status (string),
-              }
       kvcache_list:
         docstring: |
           Query KV Cache store
@@ -3732,6 +3633,105 @@ topics:
           
           Returns:
               operation result
+      dataturbo_dpc_list:
+        docstring: |
+          Batch query DPC list
+          
+          Args:
+              client: DME API client
+              ids: DPC ID list(Optional), List<string> type, max array members 100, exact query
+              hostname: Host name of the compute node(Optional), 1~256 characters, fuzzy query
+              ip: Management IP of the DPC's compute node(Optional), 1~256 characters, fuzzy query
+              mgmt_status: Management status list(Optional), List<string> type, exact query; valid values: normal (normal), abnormal (abnormal), unready (unready, client configuration status abnormal), subhealth (sub-health), pre_registered (pre-registered), unknown (unknown)
+              status: Service status list(Optional), List<string> type, exact query; valid values: normal (normal), abnormal (abnormal), subhealth (sub-health), unknown (unknown)
+              sn: Hardware SN of the DPC's compute node(Optional), 1~256 characters, fuzzy query
+              storage_id: Storage device ID(Optional), 1~256 characters, exact query
+              dpc_om_id: DPC O&M ID(Optional), 1~256 characters, exact query
+              dpc_type: DPC type list(Optional), List<string> type
+              client_version: DPC version number(Optional), up to 256 characters, exact query
+              page_no: Page number(Optional), 1~10000000, default 1
+              page_size: Records per page(Optional), 1~1000, default 20
+          
+          Returns:
+              {
+                  total: DPC total (integer),
+                  dpcs: DPC list (List<DpcInfo>). parameter format: [{
+                      id: DPC ID (string),
+                      hostname: host name (string),
+                      ip: management IP (string),
+                      status: service status (string),
+                      mgmt_status: management status (string),
+                  }, ...],
+              }
+      dataturbo_dpc_show:
+        docstring: |
+          Query DPC details
+          
+          Args:
+              client: DME API client
+              dpc_id: DPC ID (Required, string)
+          
+          Returns:
+              {
+                  id: DPC ID (string),
+                  hostname: host name (string),
+                  ip: management IP (string),
+                  status: service status (string),
+                  mgmt_status: management status (string),
+              }
+      dpc_list:
+        docstring: |
+          Batch query DPC clients
+          
+          Args:
+              client: DME API client
+              storage_id: Storage ID (Optional, string, 1~64 characters)
+              process_id: DPC client process ID (Optional, string, 1~64 characters)
+              name: DPC client name, supports fuzzy search (Optional, string, 1~256 characters)
+              manage_ip: DPC client node management IP, supports fuzzy search (Optional, string, 1~256 characters)
+              version: DPC client version, supports fuzzy search (Optional, string, 1~256 characters)
+              status: DPC client status (Optional, string). valid values: normal (normal), abnormal (abnormal), disabled (disabled)
+              switch_status: Node FSA switch status (Optional, string). valid values: on (true), off (false)
+              upgrade_flag: Upgrade flag (Optional, string). valid values: required (upgrade required), not_required (no upgrade required)
+              sort_key: Sort field (Optional, string). valid values: manage_ip (node management IP), dpc_mem (DPC client node memory)
+              sort_dir: Sort direction (Optional, string). valid values: asc (ascending), desc (descending)
+              page_no: Page number (Optional, int32, 1~10000000). default value: 1
+              page_size: Records per page (Optional, int32, 1~1000). default value: 10
+          
+          Returns:
+              {
+                  total: total (integer),
+                  data: DPC client data (List<DpcClient>). parameter format: [{
+                      id: ID (string),
+                      storage_id: storage ID (string),
+                      process_id: DPC client process ID (string),
+                      name: DPC client name (string),
+                      manage_ip: DPC client node management IP (string),
+                      version: DPC client version (string),
+                      status: DPC client status (string),
+                      switch_status: node FSA switch status (string),
+                      upgrade_flag: upgrade flag (string),
+                      dpc_mem: DPC client node memory (int64),
+                  }, ...],
+              }
+      dpc_show:
+        docstring: |
+          Query DPC client details
+          
+          Args:
+              client: DME API client
+              id: Query DPC client ID (Required, string, 1~64 characters)
+          
+          Returns:
+              {
+                  id: ID (string),
+                  storage_id: storage ID (string),
+                  process_id: DPC client process ID (string),
+                  name: DPC client name (string),
+                  manage_ip: DPC client node management IP (string),
+                  version: DPC client version (string),
+                  status: DPC client status (string),
+              }
 
   protect:
     description: 'Protection related operations'
@@ -4923,7 +4923,55 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      create:
+      fs_snapshot_create:
+        docstring: |
+          create Filesystem snapshot. 
+          
+          Args:
+              client: DME API client
+              vstore_pair_id: Filesystem hypermetro tenant Pair ID (Required, string)
+              fs_pairs: snapshot parameter list (Required, List)
+          
+          Returns:
+              {
+                  task_id: task ID (string, 1~64 characters),
+              }
+      fs_snapshot_list:
+        docstring: |
+          Batch query Filesystem snapshots. 
+          
+          Args:
+              client: DME API client
+              fs_pair_id: hypermetro Pair ID (Optional, string)
+              name: snapshot name (Optional, string, supports fuzzy search)
+              status: snapshot status (Optional, string)
+              local_fs_name: local Filesystem name (Optional, string)
+              local_fs_id: local Filesystem ID (Optional, string)
+              page_no: pagination page number (Optional, int32)
+              page_size: items per page (Optional, int32)
+          
+          Returns:
+              {
+                  total: total Filesystem snapshots (int32),
+                  snapshots: Filesystem snapshot list (List<FsSnapshotInfo>). parameter format: [{
+                      id: snapshot ID (string),
+                      name: snapshot name (string),
+                      status: status (string),
+                  }, ...],
+              }
+      fs_snapshot_delete:
+        docstring: |
+          Batch delete Filesystem snapshots. 
+          
+          Args:
+              client: DME API client
+              ids: snapshot ID list (Required, List[string])
+          
+          Returns:
+              {
+                  task_id: task ID (string, 1~64 characters),
+              }
+      fs_hypermetro_pair_create:
         docstring: |
           create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution. 
           
@@ -4941,7 +4989,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      list:
+      fs_hypermetro_pair_list:
         docstring: |
           Query Filesystem hypermetro Pair list. 
           
@@ -4995,7 +5043,7 @@ topics:
                       vstore_pair_id: tenant Pair ID (string),
                   }, ...],
               }
-      pause:
+      fs_hypermetro_pair_pause:
         docstring: |
           Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
           
@@ -5007,7 +5055,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      sync:
+      fs_hypermetro_pair_sync:
         docstring: |
           Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
           
@@ -5019,7 +5067,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      delete:
+      fs_hypermetro_pair_delete:
         docstring: |
           Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
           
@@ -5033,55 +5081,83 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      fs_snapshot_create:
+      fs_hypermetro_domain_force_start:
         docstring: |
-          create Filesystem snapshot. 
+          Force start Filesystem hypermetro domain. 
           
           Args:
               client: DME API client
-              vstore_pair_id: Filesystem hypermetro tenant Pair ID (Required, string)
-              fs_pairs: snapshot parameter list (Required, List)
+              id: hypermetro domain ID (Required, string)
           
           Returns:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      fs_snapshot_list:
+      fs_hypermetro_domain_switch_site:
         docstring: |
-          Batch query Filesystem snapshots. 
+          Switch priority site for Filesystem hypermetro domain. 
           
           Args:
               client: DME API client
-              fs_pair_id: hypermetro Pair ID (Optional, string)
-              name: snapshot name (Optional, string, supports fuzzy search)
-              status: snapshot status (Optional, string)
-              local_fs_name: local Filesystem name (Optional, string)
-              local_fs_id: local Filesystem ID (Optional, string)
-              page_no: pagination page number (Optional, int32)
-              page_size: items per page (Optional, int32)
+              id: hypermetro domain ID (Required, string)
           
           Returns:
               {
-                  total: total Filesystem snapshots (int32),
-                  snapshots: Filesystem snapshot list (List<FsSnapshotInfo>). parameter format: [{
-                      id: snapshot ID (string),
-                      name: snapshot name (string),
-                      status: status (string),
+                  task_id: task ID (string, 1~64 characters),
+              }
+      fs_hypermetro_domain_recover:
+        docstring: |
+          Recover Filesystem hypermetro domain. 
+          
+          Args:
+              client: DME API client
+              id: hypermetro domain ID (Required, string)
+          
+          Returns:
+              {
+                  task_id: task ID (string, 1~64 characters),
+              }
+      fs_hypermetro_domain_split:
+        docstring: |
+          Split Filesystem hypermetro domain. 
+          
+          Args:
+              client: DME API client
+              id: hypermetro domain ID (Required, string)
+          
+          Returns:
+              {
+                  task_id: task ID (string, 1~64 characters),
+              }
+      fs_hypermetro_domain_swap_role:
+        docstring: |
+          Swap primary-secondary role for Filesystem hypermetro domain. 
+          
+          Args:
+              client: DME API client
+              id: hypermetro domain ID (Required, string)
+          
+          Returns:
+              {
+                  task_id: task ID (string, 1~64 characters),
+              }
+      hypermetro_pair_query_available_luns:
+        docstring: |
+          Query target LUNs available for creating hypermetro Pair. 
+          
+          Args:
+              client: DME API client
+              source_lun_id: source LUN ID (Required, string)
+          
+          Returns:
+              {
+                  optional_target_luns: optional target LUN list. parameter format: [{
+                      lun_id: LUN ID (string),
+                      lun_name: LUN name (string),
+                      capacity: capacity (integer),
                   }, ...],
               }
-      fs_snapshot_delete:
-        docstring: |
-          Batch delete Filesystem snapshots. 
-          
-          Args:
-              client: DME API client
-              ids: snapshot ID list (Required, List[string])
-          
-          Returns:
-              {
-                  task_id: task ID (string, 1~64 characters),
-              }
-      vstore_pair_force_start:
+      vstore_hypermetro_pair_force_start:
         docstring: |
           Batch force start hypermetro tenant Pairs. 
           
@@ -5093,7 +5169,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      vstore_pair_create:
+      vstore_hypermetro_pair_create:
         docstring: |
           create hypermetro tenant Pair. 
           
@@ -5109,7 +5185,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      vstore_pair_list:
+      vstore_hypermetro_pair_list:
         docstring: |
           Query hypermetro tenant Pair list. 
           
@@ -5147,7 +5223,7 @@ topics:
                       active_status: activation state. valid values: active, passive,
                   }, ...],
               }
-      vstore_pair_switch:
+      vstore_hypermetro_pair_switch:
         docstring: |
           Batch primary-secondary switch for hypermetro tenant Pairs. 
           
@@ -5159,7 +5235,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      vstore_pair_delete:
+      vstore_hypermetro_pair_delete:
         docstring: |
           Batch delete hypermetro tenant Pairs. 
           
@@ -5171,7 +5247,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }
-      vstore_pair_modify:
+      vstore_hypermetro_pair_modify:
         docstring: |
           modify specified hypermetro tenant pair. 
           
@@ -5183,82 +5259,6 @@ topics:
           Returns:
               {
                   task_id: task ID (string, 1~64 characters),
-              }
-      force_start:
-        docstring: |
-          Force start Filesystem hypermetro domain. 
-          
-          Args:
-              client: DME API client
-              id: hypermetro domain ID (Required, string)
-          
-          Returns:
-              {
-                  task_id: task ID (string, 1~64 characters),
-              }
-      switch_site:
-        docstring: |
-          Switch priority site for Filesystem hypermetro domain. 
-          
-          Args:
-              client: DME API client
-              id: hypermetro domain ID (Required, string)
-          
-          Returns:
-              {
-                  task_id: task ID (string, 1~64 characters),
-              }
-      recover:
-        docstring: |
-          Recover Filesystem hypermetro domain. 
-          
-          Args:
-              client: DME API client
-              id: hypermetro domain ID (Required, string)
-          
-          Returns:
-              {
-                  task_id: task ID (string, 1~64 characters),
-              }
-      split:
-        docstring: |
-          Split Filesystem hypermetro domain. 
-          
-          Args:
-              client: DME API client
-              id: hypermetro domain ID (Required, string)
-          
-          Returns:
-              {
-                  task_id: task ID (string, 1~64 characters),
-              }
-      swap_role:
-        docstring: |
-          Swap primary-secondary role for Filesystem hypermetro domain. 
-          
-          Args:
-              client: DME API client
-              id: hypermetro domain ID (Required, string)
-          
-          Returns:
-              {
-                  task_id: task ID (string, 1~64 characters),
-              }
-      query_available_luns:
-        docstring: |
-          Query target LUNs available for creating hypermetro Pair. 
-          
-          Args:
-              client: DME API client
-              source_lun_id: source LUN ID (Required, string)
-          
-          Returns:
-              {
-                  optional_target_luns: optional target LUN list. parameter format: [{
-                      lun_id: LUN ID (string),
-                      lun_name: LUN name (string),
-                      capacity: capacity (integer),
-                  }, ...],
               }
 
   san:
@@ -6804,7 +6804,7 @@ topics:
               {
                   task_id: task ID (string, 1~64 characters),
               }, includes mapping view list
-      show_related:
+      physical_host_group_show_related:
         docstring: |
           Query the Storage host group list associated with a physical host group
           
@@ -6821,7 +6821,7 @@ topics:
                       host_group_id: Storage host group ID (string),
                   }, ...],
               }
-      query_host_to_lun:
+      mapping_view_query_host_to_lun:
         docstring: |
           Query Storage host and LUN mapping relations
           

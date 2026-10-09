@@ -945,7 +945,11 @@ def main():
             # Check whether the client already has a token; log in otherwise
             if not client.headers.get("X-Auth-Token"):
                 print(f"Connecting to DME: {endpoint}")
-                client.login()
+                try:
+                    client.login()
+                except Exception as e:
+                    print(f"Login failed: {e}")
+                    sys.exit(1)
 
             cli.client = client
 
@@ -1093,7 +1097,11 @@ def main():
         # Check whether the client already has a token; log in otherwise
         if not client.headers.get("X-Auth-Token"):
             print(f"Connecting to DME: {endpoint}")
-            client.login()
+            try:
+                client.login()
+            except Exception as e:
+                print(f"Login failed: {e}")
+                sys.exit(1)
 
         cli.client = client
 

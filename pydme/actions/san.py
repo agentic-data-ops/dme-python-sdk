@@ -2060,12 +2060,12 @@ ACTIONS = {
         'params': ['host_group_id', 'storage_id'],
         'subtopic': 'physical_host_group'
     },
-    'show_related': {
+    'physical_host_group_show_related': {
         'func': physical_host_group_show_related,
         'params': ['hostgroup_id', 'storage_ip', 'storage_name'],
         'subtopic': 'physical_host_group'
     },
-    'query_host_to_lun': {
+    'mapping_view_query_host_to_lun': {
         'func': mapping_view_query_host_to_lun,
         'params': ['storage_id', 'name', 'mapping_type', 'host_info', 'lun_info', 'sort_key', 'sort_dir', 'page_size', 'page_no'],
         'subtopic': 'mapping_view'

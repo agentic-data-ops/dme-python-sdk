@@ -2186,27 +2186,27 @@ ACTIONS = {
         'subtopic': 'clone_group'
     },
     # fs_hypermetro_pair subtopic actions
-    'create': {
+    'fs_hypermetro_pair_create': {
         'func': fs_hypermetro_pair_create,
         'params': ['vstore_pair_id', 'create_mode', 'fs_pairs', 'speed', 'bandwidth', 'service_assurance_policy', 'isolation_threshold_time', 'recovery_policy', 'first_sync_policy'],
         'subtopic': 'fs_hypermetro_pair'
     },
-    'list': {
+    'fs_hypermetro_pair_list': {
         'func': fs_hypermetro_pair_list,
         'params': ['ids', 'name', 'status', 'storage_id', 'vstore_pair_id', 'local_fs_name', 'local_fs_id', 'health_status', 'running_status', 'sort_key', 'sort_dir', 'page_no', 'page_size', 'pair_raw_id', 'local_filesystem_raw_id', 'remote_filesystem_raw_id', 'remote_filesystem_name', 'is_primary', 'local_host_access_state', 'remote_host_access_state', 'recovery_policy', 'link_status', 'sync_direction'],
         'subtopic': 'fs_hypermetro_pair'
     },
-    'pause': {
+    'fs_hypermetro_pair_pause': {
         'func': fs_hypermetro_pair_pause,
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
-    'sync': {
+    'fs_hypermetro_pair_sync': {
         'func': fs_hypermetro_pair_sync,
         'params': ['fs_pair_ids'],
         'subtopic': 'fs_hypermetro_pair'
     },
-    'delete': {
+    'fs_hypermetro_pair_delete': {
         'func': fs_hypermetro_pair_delete,
         'params': ['ids', 'is_local_delete', 'is_online_delete'],
         'subtopic': 'fs_hypermetro_pair'
@@ -2228,65 +2228,65 @@ ACTIONS = {
         'subtopic': 'fs_snapshot'
     },
     # vstore_hypermetro_pair subtopic actions
-    'vstore_pair_force_start': {
+    'vstore_hypermetro_pair_force_start': {
         'func': vstore_pair_force_start,
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
-    'vstore_pair_create': {
+    'vstore_hypermetro_pair_create': {
         'func': vstore_pair_create,
         'params': ['domain_id', 'local_vstore_id', 'remote_vstore_id', 'preferred_mode', 'preferred_site'],
         'subtopic': 'vstore_hypermetro_pair'
     },
-    'vstore_pair_list': {
+    'vstore_hypermetro_pair_list': {
         'func': vstore_pair_list,
         'params': ['ids', 'name', 'status', 'local_storage_id', 'remote_storage_id', 'health_status', 'running_status', 'page_no', 'page_size', 'raw_id', 'local_vstore_name', 'local_vstore_raw_id', 'remote_vstore_name', 'remote_vstore_raw_id', 'domain_id', 'domain_name', 'config_status', 'link_status', 'role', 'active_status', 'sort_key', 'sort_dir'],
         'subtopic': 'vstore_hypermetro_pair'
     },
-    'vstore_pair_switch': {
+    'vstore_hypermetro_pair_switch': {
         'func': vstore_pair_switch,
         'params': ['ids', 'is_force'],
         'subtopic': 'vstore_hypermetro_pair'
     },
-    'vstore_pair_delete': {
+    'vstore_hypermetro_pair_delete': {
         'func': vstore_pair_delete,
         'params': ['ids'],
         'subtopic': 'vstore_hypermetro_pair'
     },
-    'vstore_pair_modify': {
+    'vstore_hypermetro_pair_modify': {
         'func': vstore_pair_modify,
         'params': ['id', 'preferred_mode', 'preferred_site'],
         'subtopic': 'vstore_hypermetro_pair'
     },
     # hypermetro_domain subtopic actions
     # fs_hypermetro_domain subtopic (filesystem hypermetro domain specific operations)
-    'force_start': {
+    'fs_hypermetro_domain_force_start': {
         'func': fs_domain_force_start,
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
-    'switch_site': {
+    'fs_hypermetro_domain_switch_site': {
         'func': fs_domain_switch_site,
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
-    'recover': {
+    'fs_hypermetro_domain_recover': {
         'func': fs_domain_recover,
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
-    'split': {
+    'fs_hypermetro_domain_split': {
         'func': fs_domain_split,
         'params': ['id', 'stop_role'],
         'subtopic': 'fs_hypermetro_domain'
     },
-    'swap_role': {
+    'fs_hypermetro_domain_swap_role': {
         'func': fs_domain_swap_role,
         'params': ['id'],
         'subtopic': 'fs_hypermetro_domain'
     },
     # hypermetro_pair subtopic actions
-    'query_available_luns': {
+    'hypermetro_pair_query_available_luns': {
         'func': hypermetro_pair_query_available_luns,
         'params': ['source_lun_id', 'remote_storage_id', 'name', 'vstore_id', 'vstore_raw_id', 'remote_lun_group_id', 'page_no', 'page_size'],
         'subtopic': 'hypermetro_pair'

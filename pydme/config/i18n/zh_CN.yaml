@@ -3547,105 +3547,6 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }（异步任务 ID）
-      dpc_list:
-        docstring: |
-          批量查询并行客户端列表
-          
-          Args:
-              client: DME API 客户端
-              ids: 并行客户端 ID 列表（可选），List<string> 类型，数组最大成员个数 100，精确查询
-              hostname: 计算节点的主机名称（可选），1~256 个字符，模糊查询
-              ip: 并行客户端所在计算节点的管理 IP（可选），1~256 个字符，模糊查询
-              mgmt_status: 管理状态列表（可选），List<string> 类型，精确查询；可选值：normal（正常）、abnormal（异常）、unready（未就绪，客户端配置状态异常）、subhealth（亚健康）、pre_registered（预注册）、unknown（未知）
-              status: 业务状态列表（可选），List<string> 类型，精确查询；可选值：normal（正常）、abnormal（异常）、subhealth（亚健康）、unknown（未知）
-              sn: 并行客户端所在计算节点的硬件 SN（可选），1~256 个字符，模糊查询
-              storage_id: 存储设备 ID（可选），1~256 个字符，精确查询
-              dpc_om_id: 并行客户端 O&M ID（可选），1~256 个字符，精确查询
-              dpc_type: DPC 类型列表（可选），List<string> 类型
-              client_version: 并行客户端版本号（可选），最多 256 个字符，精确查询
-              page_no: 分页页码（可选），1~10000000，默认 1
-              page_size: 每页数据条数（可选），1~1000，默认 20
-          
-          Returns:
-              {
-                  total: 并行客户端总数 (integer),
-                  dpcs: 并行客户端列表 (List<DpcInfo>)。参数格式如下：[{
-                      id: 并行客户端ID (string),
-                      hostname: 主机名称 (string),
-                      ip: 管理IP (string),
-                      status: 业务状态 (string),
-                      mgmt_status: 管理状态 (string),
-                  }, ...],
-              }
-      dpc_show:
-        docstring: |
-          查询并行客户端详情。
-          
-          Args:
-              client: DME API 客户端
-              dpc_id: 并行客户端 ID (必选, string)
-          
-          Returns:
-              {
-                  id: 并行客户端ID (string),
-                  hostname: 主机名称 (string),
-                  ip: 管理IP (string),
-                  status: 业务状态 (string),
-                  mgmt_status: 管理状态 (string),
-              }
-      list:
-        docstring: |
-          批量查询DPC客户端。
-          
-          Args:
-              client: DME API 客户端
-              storage_id: 存储ID (可选, string, 1~64个字符)
-              process_id: DPC客户端进程ID (可选, string, 1~64个字符)
-              name: DPC客户端名称，支持模糊搜索 (可选, string, 1~256个字符)
-              manage_ip: DPC客户端节点管理IP，支持模糊搜索 (可选, string, 1~256个字符)
-              version: DPC客户端版本，支持模糊搜索 (可选, string, 1~256个字符)
-              status: DPC客户端状态 (可选, string)。可选值：normal (正常), abnormal (异常), disabled (未启用)
-              switch_status: 节点FSA开关状态 (可选, string)。可选值：on (开启), off (关闭)
-              upgrade_flag: 升级标记 (可选, string)。可选值：required (需要升级), not_required (无需升级)
-              sort_key: 排序字段 (可选, string)。可选值：manage_ip (节点管理IP), dpc_mem (DPC客户端节点内存)
-              sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)
-              page_no: 分页页码 (可选, int32, 1~10000000)。默认值：1
-              page_size: 每页数据条数 (可选, int32, 1~1000)。默认值：10
-          
-          Returns:
-              {
-                  total: 总数 (integer),
-                  data: DPC客户端数据 (List<DpcClient>)。参数格式如下：[{
-                      id: ID (string),
-                      storage_id: 存储ID (string),
-                      process_id: DPC客户端进程ID (string),
-                      name: DPC客户端名称 (string),
-                      manage_ip: DPC客户端节点管理IP (string),
-                      version: DPC客户端版本 (string),
-                      status: DPC客户端状态 (string),
-                      switch_status: 节点FSA开关状态 (string),
-                      upgrade_flag: 升级标记 (string),
-                      dpc_mem: DPC客户端节点内存 (int64),
-                  }, ...],
-              }
-      show:
-        docstring: |
-          查询DPC客户端详情。
-          
-          Args:
-              client: DME API 客户端
-              id: 查询DPC客户端ID (必选, string, 1~64个字符)
-          
-          Returns:
-              {
-                  id: ID (string),
-                  storage_id: 存储ID (string),
-                  process_id: DPC客户端进程ID (string),
-                  name: DPC客户端名称 (string),
-                  manage_ip: DPC客户端节点管理IP (string),
-                  version: DPC客户端版本 (string),
-                  status: DPC客户端状态 (string),
-              }
       kvcache_list:
         docstring: |
           查询 KV Cache 库
@@ -3724,6 +3625,105 @@ topics:
           
           Returns:
               操作结果
+      dataturbo_dpc_list:
+        docstring: |
+          批量查询并行客户端列表
+          
+          Args:
+              client: DME API 客户端
+              ids: 并行客户端 ID 列表（可选），List<string> 类型，数组最大成员个数 100，精确查询
+              hostname: 计算节点的主机名称（可选），1~256 个字符，模糊查询
+              ip: 并行客户端所在计算节点的管理 IP（可选），1~256 个字符，模糊查询
+              mgmt_status: 管理状态列表（可选），List<string> 类型，精确查询；可选值：normal（正常）、abnormal（异常）、unready（未就绪，客户端配置状态异常）、subhealth（亚健康）、pre_registered（预注册）、unknown（未知）
+              status: 业务状态列表（可选），List<string> 类型，精确查询；可选值：normal（正常）、abnormal（异常）、subhealth（亚健康）、unknown（未知）
+              sn: 并行客户端所在计算节点的硬件 SN（可选），1~256 个字符，模糊查询
+              storage_id: 存储设备 ID（可选），1~256 个字符，精确查询
+              dpc_om_id: 并行客户端 O&M ID（可选），1~256 个字符，精确查询
+              dpc_type: DPC 类型列表（可选），List<string> 类型
+              client_version: 并行客户端版本号（可选），最多 256 个字符，精确查询
+              page_no: 分页页码（可选），1~10000000，默认 1
+              page_size: 每页数据条数（可选），1~1000，默认 20
+          
+          Returns:
+              {
+                  total: 并行客户端总数 (integer),
+                  dpcs: 并行客户端列表 (List<DpcInfo>)。参数格式如下：[{
+                      id: 并行客户端ID (string),
+                      hostname: 主机名称 (string),
+                      ip: 管理IP (string),
+                      status: 业务状态 (string),
+                      mgmt_status: 管理状态 (string),
+                  }, ...],
+              }
+      dataturbo_dpc_show:
+        docstring: |
+          查询并行客户端详情。
+          
+          Args:
+              client: DME API 客户端
+              dpc_id: 并行客户端 ID (必选, string)
+          
+          Returns:
+              {
+                  id: 并行客户端ID (string),
+                  hostname: 主机名称 (string),
+                  ip: 管理IP (string),
+                  status: 业务状态 (string),
+                  mgmt_status: 管理状态 (string),
+              }
+      dpc_list:
+        docstring: |
+          批量查询DPC客户端。
+          
+          Args:
+              client: DME API 客户端
+              storage_id: 存储ID (可选, string, 1~64个字符)
+              process_id: DPC客户端进程ID (可选, string, 1~64个字符)
+              name: DPC客户端名称，支持模糊搜索 (可选, string, 1~256个字符)
+              manage_ip: DPC客户端节点管理IP，支持模糊搜索 (可选, string, 1~256个字符)
+              version: DPC客户端版本，支持模糊搜索 (可选, string, 1~256个字符)
+              status: DPC客户端状态 (可选, string)。可选值：normal (正常), abnormal (异常), disabled (未启用)
+              switch_status: 节点FSA开关状态 (可选, string)。可选值：on (开启), off (关闭)
+              upgrade_flag: 升级标记 (可选, string)。可选值：required (需要升级), not_required (无需升级)
+              sort_key: 排序字段 (可选, string)。可选值：manage_ip (节点管理IP), dpc_mem (DPC客户端节点内存)
+              sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)
+              page_no: 分页页码 (可选, int32, 1~10000000)。默认值：1
+              page_size: 每页数据条数 (可选, int32, 1~1000)。默认值：10
+          
+          Returns:
+              {
+                  total: 总数 (integer),
+                  data: DPC客户端数据 (List<DpcClient>)。参数格式如下：[{
+                      id: ID (string),
+                      storage_id: 存储ID (string),
+                      process_id: DPC客户端进程ID (string),
+                      name: DPC客户端名称 (string),
+                      manage_ip: DPC客户端节点管理IP (string),
+                      version: DPC客户端版本 (string),
+                      status: DPC客户端状态 (string),
+                      switch_status: 节点FSA开关状态 (string),
+                      upgrade_flag: 升级标记 (string),
+                      dpc_mem: DPC客户端节点内存 (int64),
+                  }, ...],
+              }
+      dpc_show:
+        docstring: |
+          查询DPC客户端详情。
+          
+          Args:
+              client: DME API 客户端
+              id: 查询DPC客户端ID (必选, string, 1~64个字符)
+          
+          Returns:
+              {
+                  id: ID (string),
+                  storage_id: 存储ID (string),
+                  process_id: DPC客户端进程ID (string),
+                  name: DPC客户端名称 (string),
+                  manage_ip: DPC客户端节点管理IP (string),
+                  version: DPC客户端版本 (string),
+                  status: DPC客户端状态 (string),
+              }
 
   protect:
     description: '保护 (Protection) 相关操作'
@@ -5027,7 +5027,55 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      create:
+      fs_snapshot_create:
+        docstring: |
+          创建文件系统快照。
+          
+          Args:
+              client: DME API 客户端
+              vstore_pair_id: 文件名系统所属双活租户Pair的ID (必选, string)
+              fs_pairs: 快照参数列表 (必选, List)
+          
+          Returns:
+              {
+                  task_id: 任务ID (string, 1~64个字符),
+              }
+      fs_snapshot_list:
+        docstring: |
+          批量查询文件系统快照。
+          
+          Args:
+              client: DME API 客户端
+              fs_pair_id: 双活Pair ID (可选, string)
+              name: 快照名称 (可选, string, 支持模糊搜索)
+              status: 快照状态 (可选, string)
+              local_fs_name: 本端文件系统名称 (可选, string)
+              local_fs_id: 本端文件系统ID (可选, string)
+              page_no: 分页页码 (可选, int32)
+              page_size: 每页数量 (可选, int32)
+          
+          Returns:
+              {
+                  total: 文件系统快照总数 (int32),
+                  snapshots: 文件系统快照列表 (List<FsSnapshotInfo>)。参数格式如下：[{
+                      id: 快照ID (string),
+                      name: 快照名称 (string),
+                      status: 状态 (string),
+                  }, ...],
+              }
+      fs_snapshot_delete:
+        docstring: |
+          批量删除文件系统快照。
+          
+          Args:
+              client: DME API 客户端
+              ids: 快照ID列表 (必选, List[string])
+          
+          Returns:
+              {
+                  task_id: 任务ID (string, 1~64个字符),
+              }
+      fs_hypermetro_pair_create:
         docstring: |
           创建文件系统双活Pair
           
@@ -5053,7 +5101,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      list:
+      fs_hypermetro_pair_list:
         docstring: |
           查询文件系统双活Pair列表。
           
@@ -5117,7 +5165,7 @@ topics:
                       vstore_pair_id: 所属租户Pair的ID (string),
                   }, ...],
               }
-      pause:
+      fs_hypermetro_pair_pause:
         docstring: |
           批量暂停文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
           
@@ -5129,7 +5177,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      sync:
+      fs_hypermetro_pair_sync:
         docstring: |
           批量同步文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
           
@@ -5141,7 +5189,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      delete:
+      fs_hypermetro_pair_delete:
         docstring: |
           批量删除文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
           
@@ -5155,55 +5203,106 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      fs_snapshot_create:
+      fs_hypermetro_domain_force_start:
         docstring: |
-          创建文件系统快照。
+          强制启动文件系统双活域。
+          
+          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
               client: DME API 客户端
-              vstore_pair_id: 文件名系统所属双活租户Pair的ID (必选, string)
-              fs_pairs: 快照参数列表 (必选, List)
+              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
           
           Returns:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      fs_snapshot_list:
+      fs_hypermetro_domain_switch_site:
         docstring: |
-          批量查询文件系统快照。
+          优先站点切换文件系统双活域。
+          
+          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
           
           Args:
               client: DME API 客户端
-              fs_pair_id: 双活Pair ID (可选, string)
-              name: 快照名称 (可选, string, 支持模糊搜索)
-              status: 快照状态 (可选, string)
-              local_fs_name: 本端文件系统名称 (可选, string)
-              local_fs_id: 本端文件系统ID (可选, string)
-              page_no: 分页页码 (可选, int32)
-              page_size: 每页数量 (可选, int32)
+              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
           
           Returns:
               {
-                  total: 文件系统快照总数 (int32),
-                  snapshots: 文件系统快照列表 (List<FsSnapshotInfo>)。参数格式如下：[{
-                      id: 快照ID (string),
-                      name: 快照名称 (string),
-                      status: 状态 (string),
+                  task_id: 任务ID (string, 1~64个字符),
+              }
+      fs_hypermetro_domain_recover:
+        docstring: |
+          恢复文件系统双活域。
+          
+          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+          
+          Args:
+              client: DME API 客户端
+              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
+          
+          Returns:
+              {
+                  task_id: 任务ID (string, 1~64个字符),
+              }
+      fs_hypermetro_domain_split:
+        docstring: |
+          分裂文件系统双活域。
+          
+          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+          
+          Args:
+              client: DME API 客户端
+              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
+              stop_role: 停止业务站点 (string)。条件必选：AA模式时必选。可选值：preferred（优先站点）, non_preferred（非优先站点）
+          
+          Returns:
+              {
+                  task_id: 任务ID (string, 1~64个字符),
+              }
+      fs_hypermetro_domain_swap_role:
+        docstring: |
+          主从切换文件系统双活域。
+          
+          > ![](public_sys-resources/icon-notice.gif) **须知：**
+          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
+          
+          Args:
+              client: DME API 客户端
+              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
+          
+          Returns:
+              {
+                  task_id: 任务ID (string, 1~64个字符),
+              }
+      hypermetro_pair_query_available_luns:
+        docstring: |
+          查询可创建双活Pair的目标LUN。
+          
+          Args:
+              client: DME API 客户端
+              source_lun_id: 源LUN的ID (必选, string, 1~32个字符, ^[A-F0-9]+$)
+              remote_storage_id: 远端存储设备ID (必选, string)
+              name: 目标LUN名称，支持模糊搜索 (string, 1~255个字符)
+              vstore_id: 所属租户的ID (string, 1~64个字符)。与 vstore_raw_id 互斥
+              vstore_raw_id: 所属租户在设备上的ID (string, 1~64个字符)。与 vstore_id 互斥
+              remote_lun_group_id: 远端LUN组的ID (string, 1~32个字符, ^[A-F0-9]+$)。保护组为LUN组时使用
+              page_no: 分页查询页码 (int32, 1~65535, 默认 1)
+              page_size: 每页显示的数量 (int32, 1~100, 默认 20)
+          
+          Returns:
+              {
+                  optional_target_luns: 可选目标LUN列表。参数格式如下：[{
+                      lun_id: LUN ID (string),
+                      lun_name: LUN名称 (string),
+                      capacity: 容量 (integer),
                   }, ...],
               }
-      fs_snapshot_delete:
-        docstring: |
-          批量删除文件系统快照。
-          
-          Args:
-              client: DME API 客户端
-              ids: 快照ID列表 (必选, List[string])
-          
-          Returns:
-              {
-                  task_id: 任务ID (string, 1~64个字符),
-              }
-      vstore_pair_force_start:
+      vstore_hypermetro_pair_force_start:
         docstring: |
           批量强制启动双活租户Pair。
           
@@ -5218,7 +5317,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      vstore_pair_create:
+      vstore_hypermetro_pair_create:
         docstring: |
           创建双活租户Pair。
           
@@ -5234,7 +5333,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      vstore_pair_list:
+      vstore_hypermetro_pair_list:
         docstring: |
           查询双活租户Pair列表。
           
@@ -5272,7 +5371,7 @@ topics:
                       active_status: 激活状态。可选值：active (激活), passive (未激活),
                   }, ...],
               }
-      vstore_pair_switch:
+      vstore_hypermetro_pair_switch:
         docstring: |
           批量主从切换双活租户Pair。
           
@@ -5288,7 +5387,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      vstore_pair_delete:
+      vstore_hypermetro_pair_delete:
         docstring: |
           批量删除双活租户Pair。
           
@@ -5303,7 +5402,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }
-      vstore_pair_modify:
+      vstore_hypermetro_pair_modify:
         docstring: |
           修改指定双活租户pair。
           
@@ -5316,105 +5415,6 @@ topics:
           Returns:
               {
                   task_id: 任务ID (string, 1~64个字符),
-              }
-      force_start:
-        docstring: |
-          强制启动文件系统双活域。
-          
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
-          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-          
-          Args:
-              client: DME API 客户端
-              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
-          
-          Returns:
-              {
-                  task_id: 任务ID (string, 1~64个字符),
-              }
-      switch_site:
-        docstring: |
-          优先站点切换文件系统双活域。
-          
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
-          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-          
-          Args:
-              client: DME API 客户端
-              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
-          
-          Returns:
-              {
-                  task_id: 任务ID (string, 1~64个字符),
-              }
-      recover:
-        docstring: |
-          恢复文件系统双活域。
-          
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
-          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-          
-          Args:
-              client: DME API 客户端
-              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
-          
-          Returns:
-              {
-                  task_id: 任务ID (string, 1~64个字符),
-              }
-      split:
-        docstring: |
-          分裂文件系统双活域。
-          
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
-          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-          
-          Args:
-              client: DME API 客户端
-              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
-              stop_role: 停止业务站点 (string)。条件必选：AA模式时必选。可选值：preferred（优先站点）, non_preferred（非优先站点）
-          
-          Returns:
-              {
-                  task_id: 任务ID (string, 1~64个字符),
-              }
-      swap_role:
-        docstring: |
-          主从切换文件系统双活域。
-          
-          > ![](public_sys-resources/icon-notice.gif) **须知：**
-          > 该 API 可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
-          
-          Args:
-              client: DME API 客户端
-              id: 双活域ID (必选, string, 1~32个字符, ^[a-fA-F0-9]+$)
-          
-          Returns:
-              {
-                  task_id: 任务ID (string, 1~64个字符),
-              }
-      query_available_luns:
-        docstring: |
-          查询可创建双活Pair的目标LUN。
-          
-          Args:
-              client: DME API 客户端
-              source_lun_id: 源LUN的ID (必选, string, 1~32个字符, ^[A-F0-9]+$)
-              remote_storage_id: 远端存储设备ID (必选, string)
-              name: 目标LUN名称，支持模糊搜索 (string, 1~255个字符)
-              vstore_id: 所属租户的ID (string, 1~64个字符)。与 vstore_raw_id 互斥
-              vstore_raw_id: 所属租户在设备上的ID (string, 1~64个字符)。与 vstore_id 互斥
-              remote_lun_group_id: 远端LUN组的ID (string, 1~32个字符, ^[A-F0-9]+$)。保护组为LUN组时使用
-              page_no: 分页查询页码 (int32, 1~65535, 默认 1)
-              page_size: 每页显示的数量 (int32, 1~100, 默认 20)
-          
-          Returns:
-              {
-                  optional_target_luns: 可选目标LUN列表。参数格式如下：[{
-                      lun_id: LUN ID (string),
-                      lun_name: LUN名称 (string),
-                      capacity: 容量 (integer),
-                  }, ...],
               }
 
   san:
@@ -6957,7 +6957,7 @@ topics:
               {
                   task_id: 任务ID (string, 1~64个字符),
               }，包含映射视图列表
-      show_related:
+      physical_host_group_show_related:
         docstring: |
           查询物理主机组关联的存储主机组列表。
           
@@ -6974,7 +6974,7 @@ topics:
                       host_group_id: 存储主机组ID (string),
                   }, ...],
               }
-      query_host_to_lun:
+      mapping_view_query_host_to_lun:
         docstring: |
           查询存储主机和LUN映射关系。
           

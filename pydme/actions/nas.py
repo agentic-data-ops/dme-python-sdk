@@ -2255,23 +2255,23 @@ ACTIONS = {
         'subtopic': 'namespace'
     },
     # dataturbo subtopic actions (renamed from the dpc subtopic)
-    'dpc_list': {
+    'dataturbo_dpc_list': {
         'func': dpc_list,
         'params': ['ids', 'hostname', 'ip', 'mgmt_status', 'status', 'sn', 'storage_id', 'dpc_om_id', 'dpc_type', 'client_version', 'page_no', 'page_size'],
         'subtopic': 'dataturbo'
     },
-    'dpc_show': {
+    'dataturbo_dpc_show': {
         'func': dpc_show,
         'params': ['dpc_id'],
         'subtopic': 'dataturbo'
     },
     # dpc subtopic actions (DPC clients)
-    'list': {
+    'dpc_list': {
         'func': dpc_client_list,
         'params': ['storage_id', 'process_id', 'name', 'manage_ip', 'version', 'status', 'switch_status', 'upgrade_flag', 'sort_key', 'sort_dir', 'page_no', 'page_size'],
         'subtopic': 'dpc'
     },
-    'show': {
+    'dpc_show': {
         'func': dpc_client_show,
         'params': ['id'],
         'subtopic': 'dpc'
