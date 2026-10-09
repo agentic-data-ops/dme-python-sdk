@@ -334,6 +334,18 @@ topics:
 
 已逐个核对清单中 25 个对象类型（HostToStoragePoolFabric、SwitchItem、SwitchLinkItem、PortLinkItem、HostToStoragePoolHost/Storage/Controller/DiskDisks/HostGroup/Pool/Port、PortNodeItem、SwitchPortItem、HistoryPerfData、SimpleIndicator、HostInfoRespParam、LunInfoRespParam、LunToHostQueryParam、HostToLunQueryParam、PortMemberRequest、CustomSyncSchedule、RepConsistencyGroup、snapTagDetail、TargetSnapshotObject、LunSnapshotRollbackResource）在 `.reasonix/reference/dme-api-reference.md` 中**均有定义**（`Xxx对象包含如下属性` 章节）。**无动作需要从清单移除**，12 个 action 全部保留（展开依据齐全）。
 
+### en_US 参数缺失差异（2026-10-08，展开时发现）
+
+zh_CN 存在但 en_US **缺失的参数行**（en 翻译版本参数不完整，本次未补全，待人工确认）：
+
+| 动作 | 缺失参数行（zh 有 en 无） |
+|------|--------------------------|
+| `protect.replication_group_create` | `sync_schedule`（一致性组同步计划 CustomSyncSchedule） |
+| `protect.replication_pair_create` | `consistency_group_info`（RepConsistencyGroup）、`snap_tag_list`（List<snapTagDetail>） |
+| `protect.replication_pair_modify` | `snap_tag_list`（List<snapTagDetail>） |
+
+修复时需从 zh_CN 对应 docstring 翻译补全到 en_US。
+
 ### 说明
 
 - 已排除：基础类型（string/int32/…）、`List<string>` 等、枚举"可选值"列表、已带展开标记的字段（含 `参数格式如下：{` 单对象形式）。

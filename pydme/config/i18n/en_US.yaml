@@ -221,7 +221,12 @@ topics:
                   status_code: status code (int32),
                   error_code: error code (int32),
                   error_msg: error message (string),
-                  data: performance data (Map<object, Map<object, HistoryPerfData>>),
+                  data: performance data (Map<object, Map<object, HistoryPerfData>>). attribute format: {
+                      series: Historical data value sequence that meets the conditions, in ascending time order. For aggregated data, values come from the average aggregation table (List<Map<object, string>>, 无),
+                      min: Minimum value in the historical data value sequence (Map<object, string>, 无),
+                      max: Maximum value in the historical data value sequence (Map<object, string>, 无),
+                      avg: Average value of the historical data value sequence (Map<object, string>, 无),
+                  },
               }
       performance_show_indicators:
         docstring: |
@@ -237,7 +242,20 @@ topics:
                   status_code: status code (int32),
                   error_code: error code (int32),
                   error_msg: error message (string),
-                  data: monitoring indicator mapping (Map<object, SimpleIndicator>),
+                  data: monitoring indicator mapping (Map<object, SimpleIndicator>). attribute format: {
+                      kpi: Whether it is a KPI indicator: 0 means non-KPI; 1 means KPI (int32, 无),
+                      data_type: Data type (string, 最多32个字符),
+                      data_unit: Data unit (string, 最多32个字符),
+                      en_us: English name of the indicator (string, 最多128个字符),
+                      zh_cn: Chinese name of the indicator (string, 最多128个字符),
+                      group_en_us: English name of the indicator group (string, 最多128个字符),
+                      group_zh_cn: Chinese name of the indicator group (string, 最多128个字符),
+                      tag: Indicator tag, used for indicator classification (string, 最多128个字符),
+                      alarm_id: Alarm ID (string, 最多128个字符),
+                      alarm_desc_en_us: English name of the threshold alarm (string, 最多128个字符),
+                      alarm_desc_zh_cn: Chinese name of the threshold alarm (string, 最多128个字符),
+                      indicator_name: Indicator identifier (string, 最多128个字符),
+                  },
               }
       performance_list_indicators:
         docstring: |
@@ -491,7 +509,10 @@ topics:
                               id: port Id (string, 1~64 characters),
                               type: port type (string). valid values: host_port, switch_port, storage_port,
                           },
-                          right_port: right port (PortNodeItem),
+                          right_port: right port (PortNodeItem). attribute format: {
+                              id: Port ID (string, 1~64个字符),
+                              type: Port type. valid values: host_port (host port), switch_port (switch port), storage_port (storage port) (string, host_port switch_port storage_port),
+                          },
                       }, ...],
                       switch_links: switch connection list (List<SwitchLinkItem>). parameter format: [{
                           host_to_switch_id: host-connected switch ID (string, 1~64 characters),
@@ -502,8 +523,18 @@ topics:
                       id: host id (string, 1~64 characters),
                       name: host name (string, 1~256 characters),
                       access_mode: access mode (string). valid values: vcenter, none,
-                      host_groups: host group list (List<HostToStoragePoolHostGroup>),
-                      ports: host port list (List<HostToStoragePoolPort>),
+                      host_groups: host group list (List<HostToStoragePoolHostGroup>). parameter format: [{
+                          id: Host group ID (string, 1~64个字符),
+                          name: Host group name (string, 1~256个字符),
+                      }, ...],
+                      ports: host port list (List<HostToStoragePoolPort>). parameter format: [{
+                          id: Host port ID (string, 1~64个字符),
+                          name: Host port name (string, 1~256个字符),
+                          status: Host port status. valid values: normal (normal), abnormal (fault), unknown (unknown) (string, normal abnormal unknown),
+                          linked_switch_port_id: ID of the switch port the host port is connected to (string, 1~64个字符),
+                          linked_storage_port_ids: IDs of the storage ports linked to the host port (List<string>, 无),
+                          port_mac: Host port MAC address (string, 1~768个字符),
+                      }, ...],
                       deployment_type: deployment type (string). valid values: BMS (bare metal server), ECS (ECS host),
                       direct_storage_ids: storage device ID list directly connected to host (List<string>),
                   }, ...],
@@ -511,30 +542,105 @@ topics:
                       id: storage id (string, 1~64 characters),
                       name: storage name (string, 1~128 characters),
                       product_model: storage device type (string),
-                      controllers: Controller list (List<HostToStoragePoolController>),
-                      pools: Storage pool list (List<HostToStoragePoolPool>),
-                      disks: storage disk list (List<HostToStorageDiskDisks>),
+                      controllers: Controller list (List<HostToStoragePoolController>). parameter format: [{
+                          id: Controller ID (string, 1~64个字符),
+                          name: Controller name (string, 1~128个字符),
+                          storage_ports: Storage port list (List<HostToStoragePoolStoragePort>, 无),
+                      }, ...],
+                      pools: Storage pool list (List<HostToStoragePoolPool>). parameter format: [{
+                          id: Storage pool ID (string, 1~64个字符),
+                          name: Storage pool name (string, 1~128个字符),
+                      }, ...],
+                      disks: storage disk list (List<HostToStorageDiskDisks>). parameter format: [{
+                          id: Disk ID (string, 无),
+                          name: Disk name (string, 无),
+                      }, ...],
                   }, ...],
               }
               When san_type=ip_san (IP_SAN): 
               {
-                  switches: switch list (List<SwitchItem>),
-                  hosts: host list (List<HostToStoragePoolHost>),
-                  storages: storage list (List<HostToStoragePoolStorage>),
-                  switch_links: switch connection list (List<SwitchLinkItem>),
+                  switches: switch list (List<SwitchItem>). parameter format: [{
+                      id: Switch node ID (string, 1~64个字符),
+                      name: Switch node name (string, 1~128个字符),
+                      ports: Switch port list (List<SwitchPortItem>, 无),
+                  }, ...],
+                  hosts: host list (List<HostToStoragePoolHost>). parameter format: [{
+                      id: Host ID (string, 1~64个字符),
+                      name: Host name (string, 1~256个字符),
+                      access_mode: Access mode. valid values: vcenter (virtual center), none (none) (string, vcenter none),
+                      host_groups: Host group list (List<HostToStoragePoolHostGroup>, 无),
+                      ports: Host port list (List<HostToStoragePoolPort>, 无),
+                      deployment_type: Deployment type. valid values: BMS (bare metal server), ECS (ECS host) (string, 1~768个字符),
+                      direct_storage_ids: IDs of the storage devices directly connected to the host (List<string>, 无),
+                  }, ...],
+                  storages: storage list (List<HostToStoragePoolStorage>). parameter format: [{
+                      id: Storage ID (string, 1~64个字符),
+                      name: Storage name (string, 1~128个字符),
+                      product_model: Storage device type (string, 无),
+                      controllers: Controller list (List<HostToStoragePoolController>, 无),
+                      pools: Storage pool list (List<HostToStoragePoolPool>, 无),
+                      disks: Storage disk list (List<HostToStorageDiskDisks>, 无),
+                  }, ...],
+                  switch_links: switch connection list (List<SwitchLinkItem>). parameter format: [{
+                      host_to_switch_id: ID of the switch the host connects to (string, 1~64个字符),
+                      storage_to_switch_id: ID of the switch the storage connects to (string, 1~64个字符),
+                  }, ...],
               }
               When san_type=None:
               {
                   ip_san: IP_SAN return data. attribute format: {
-                      switches: Switch list (List<SwitchItem>),
-                      hosts: Host list (List<HostToStoragePoolHost>),
-                      storages: Storage list (List<HostToStoragePoolStorage>),
-                      switch_links: Switch connection relationship list (List<SwitchLinkItem>),
+                      switches: Switch list (List<SwitchItem>). parameter format: [{
+                          id: Switch node ID (string, 1~64个字符),
+                          name: Switch node name (string, 1~128个字符),
+                          ports: Switch port list (List<SwitchPortItem>, 无),
+                      }, ...],
+                      hosts: Host list (List<HostToStoragePoolHost>). parameter format: [{
+                          id: Host ID (string, 1~64个字符),
+                          name: Host name (string, 1~256个字符),
+                          access_mode: Access mode. valid values: vcenter (virtual center), none (none) (string, vcenter none),
+                          host_groups: Host group list (List<HostToStoragePoolHostGroup>, 无),
+                          ports: Host port list (List<HostToStoragePoolPort>, 无),
+                          deployment_type: Deployment type. valid values: BMS (bare metal server), ECS (ECS host) (string, 1~768个字符),
+                          direct_storage_ids: IDs of the storage devices directly connected to the host (List<string>, 无),
+                      }, ...],
+                      storages: Storage list (List<HostToStoragePoolStorage>). parameter format: [{
+                          id: Storage ID (string, 1~64个字符),
+                          name: Storage name (string, 1~128个字符),
+                          product_model: Storage device type (string, 无),
+                          controllers: Controller list (List<HostToStoragePoolController>, 无),
+                          pools: Storage pool list (List<HostToStoragePoolPool>, 无),
+                          disks: Storage disk list (List<HostToStorageDiskDisks>, 无),
+                      }, ...],
+                      switch_links: Switch connection relationship list (List<SwitchLinkItem>). parameter format: [{
+                          host_to_switch_id: ID of the switch the host connects to (string, 1~64个字符),
+                          storage_to_switch_id: ID of the switch the storage connects to (string, 1~64个字符),
+                      }, ...],
                   },
                   fc_san: FC_SAN return data. attribute format: {
-                      fabrics: Fabric list (List<HostToStoragePoolFabric>),
-                      hosts: Host list (List<HostToStoragePoolHost>),
-                      storages: Storage list (List<HostToStoragePoolStorage>),
+                      fabrics: Fabric list (List<HostToStoragePoolFabric>). parameter format: [{
+                          id: Fabric ID (string, 1~64个字符),
+                          name: Fabric name (string, 1~128个字符),
+                          switches: Switch list (List<SwitchItem>, 无),
+                          port_links: Switch port link list (List<PortLinkItem>, 无),
+                          switch_links: Switch connection relationship list (List<SwitchLinkItem>, 无),
+                      }, ...],
+                      hosts: Host list (List<HostToStoragePoolHost>). parameter format: [{
+                          id: Host ID (string, 1~64个字符),
+                          name: Host name (string, 1~256个字符),
+                          access_mode: Access mode. valid values: vcenter (virtual center), none (none) (string, vcenter none),
+                          host_groups: Host group list (List<HostToStoragePoolHostGroup>, 无),
+                          ports: Host port list (List<HostToStoragePoolPort>, 无),
+                          deployment_type: Deployment type. valid values: BMS (bare metal server), ECS (ECS host) (string, 1~768个字符),
+                          direct_storage_ids: IDs of the storage devices directly connected to the host (List<string>, 无),
+                      }, ...],
+                      storages: Storage list (List<HostToStoragePoolStorage>). parameter format: [{
+                          id: Storage ID (string, 1~64个字符),
+                          name: Storage name (string, 1~128个字符),
+                          product_model: Storage device type (string, 无),
+                          controllers: Controller list (List<HostToStoragePoolController>, 无),
+                          pools: Storage pool list (List<HostToStoragePoolPool>, 无),
+                          disks: Storage disk list (List<HostToStorageDiskDisks>, 无),
+                      }, ...],
                   },
               }
       topology_query_luns:
@@ -979,7 +1085,11 @@ topics:
                           port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set for Cisco switches,
                           switch_wwn: switch WWN (Optional, string, 1~32 characters),
                       },
-                      removed_members: port members to remove (Optional, List<PortMemberRequest>, max array members: 100),
+                      removed_members: port members to remove (Optional, List<PortMemberRequest>, max array members: 100). parameter format: [{
+                          domain_id: Domain ID (int32, 0~65535),
+                          port_index: Port number. Required when configuring a port member for a Brocade switch ZONE (int32, 0~65535),
+                          port_name: Switch port. Required when configuring a port member for a Cisco switch ZONE (string, 1~32个字符，且满足正则表达^[a-fA-F0-9/]+$),
+                      }, ...],
                   }
               alias_members: alias member modification (Optional, ModifyAliasMembersRequest object). parameter format: {
                       added_members: alias members to add (Optional, List<string>, max array members: 100),
@@ -1161,7 +1271,11 @@ topics:
                           port_name: switch port (conditionally required, string, 1~32 characters, regex ^[a-fA-F0-9/]+$), set for Cisco switches,
                           switch_wwn: switch WWN (Optional, string, 1~32 characters),
                       },
-                      removed_members: port members to remove (Optional, List<PortMemberRequest>, max array members: 100),
+                      removed_members: port members to remove (Optional, List<PortMemberRequest>, max array members: 100). parameter format: [{
+                          domain_id: Domain ID (int32, 0~65535),
+                          port_index: Port number. Required when configuring a port member for a Brocade switch ZONE (int32, 0~65535),
+                          port_name: Switch port. Required when configuring a port member for a Cisco switch ZONE (string, 1~32个字符，且满足正则表达^[a-fA-F0-9/]+$),
+                      }, ...],
                   }
               fcid_members: FCID member modification (Optional, FcidMembersRequest object). parameter format: {
                       added_members: FCID members to add (Optional, List<string>, max array members: 100),
@@ -4364,7 +4478,11 @@ topics:
               enable_compress: link compression, required when replication mode is async
               sync_type: sync type, valid values: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
               timing_value_in_sec: timing duration (seconds), required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-              sync_schedule: timing schedule, required when sync_type is specified_time_policy
+              sync_schedule: timing schedule, required when sync_type is specified_time_policy. attribute format: {
+                  week: Trigger synchronization on a weekly cycle, defining the specific date and time in a week (CustomWeek对象, 无),
+                  day: Trigger synchronization on a daily cycle. Range: "00:00"-"23:59". Defines the specific time of day, e.g. "10:11" means 10:11 AM (string, 最多32个字符),
+                  hour: Trigger synchronization on an hourly cycle. Defines the specific minute of each hour. Range: [0-59], in minutes (string, 最多32个字符),
+              },
               rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
               sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
               user_snap_retention_num: secondary user snapshot retention count
@@ -4555,7 +4673,11 @@ topics:
               recovery_policy: recovery policy, valid values: automatic, manual
               sync_type: sync type, valid values: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
               timing_value_in_sec: timing duration (seconds), required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-              sync_schedule: timing schedule, required when sync_type is specified_time_policy
+              sync_schedule: timing schedule, required when sync_type is specified_time_policy. attribute format: {
+                  week: Trigger synchronization on a weekly cycle, defining the specific date and time in a week (CustomWeek对象, 无),
+                  day: Trigger synchronization on a daily cycle. Range: "00:00"-"23:59". Defines the specific time of day, e.g. "10:11" means 10:11 AM (string, 最多32个字符),
+                  hour: Trigger synchronization on an hourly cycle. Defines the specific minute of each hour. Range: [0-59], in minutes (string, 最多32个字符),
+              },
               rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
               sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
               user_snap_retention_num: secondary user snapshot retention count
@@ -4579,7 +4701,11 @@ topics:
               enable_compress: link compression, required when replication mode is async
               sync_type: sync type, valid values: manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy
               timing_value_in_sec: timing duration (seconds), required when sync_type is wait_after_sync_begins or wait_after_sync_ends
-              sync_schedule: timing schedule, required when sync_type is specified_time_policy
+              sync_schedule: timing schedule, required when sync_type is specified_time_policy. attribute format: {
+                  week: Trigger synchronization on a weekly cycle, defining the specific date and time in a week (CustomWeek对象, 无),
+                  day: Trigger synchronization on a daily cycle. Range: "00:00"-"23:59". Defines the specific time of day, e.g. "10:11" means 10:11 AM (string, 最多32个字符),
+                  hour: Trigger synchronization on an hourly cycle. Defines the specific minute of each hour. Range: [0-59], in minutes (string, 最多32个字符),
+              },
               rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
               sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
               user_snap_retention_num: secondary user snapshot retention count
@@ -4781,7 +4907,11 @@ topics:
           Args:
               client: DME API client
               rollback_speed: rollback speed, valid values: low, medium, high, highest
-              rollback_snapshots: snapshot rollback resource info list, each item contains snapshot_id, target_type, target_id
+              rollback_snapshots: snapshot rollback resource info list, each item contains snapshot_id, target_type, target_id. parameter format: [{
+                  snapshot_id: Snapshot ID (string, 1~64个字符),
+                  target_type: Type of the rollback target object. lun: LUN; snapshot: snapshot (string, lun snapshot),
+                  target_id: ID of the rollback target object (string, 1~64个字符),
+              }, ...],
           
           Returns:
               {
@@ -4871,7 +5001,10 @@ topics:
               name_rule: snapshot naming rule, valid values: prefix_and_suffix, prefix_and_num
               name_prefix: snapshot name prefix
               name_suffix: snapshot name suffix
-              target_snapshot_objects: target snapshot object list
+              target_snapshot_objects: target snapshot object list. parameter format: [{
+                  parent_id: Parent object ID, the ID of the parent object of the snapshot (string, 1~32个字符，且满足正则表达^[a-fA-F0-9]+$),
+                  snapshot_id: Snapshot ID (string, 1~32个字符，且满足正则表达^[a-fA-F0-9]+$),
+              }, ...],
           
           Returns:
               {
@@ -6860,8 +6993,19 @@ topics:
               storage_id: storage device ID (Required, string, 1~64 characters)
               name: Mapping view name, supports fuzzy search (Optional, string, 0~256 characters)
               mapping_type: Host mapping query type (Optional, string). valid values: all (Storage hosts with mapping relation to LUNs, including direct and indirect mapping), match_mapping_view (Storage hosts directly mapped to LUNs)
-              host_info: Storage host info (Optional, LunToHostQueryParam object)
-              lun_info: LUN info (Optional, HostToLunQueryParam object)
+              host_info: Storage host info (Optional, LunToHostQueryParam object). attribute format: {
+                  id: Storage host ID, mutually exclusive with raw_id and name (string, 1~64个字符),
+                  raw_id: Storage host ID allocated on the device side, mutually exclusive with id and name (string, 1~64个字符),
+                  name: Storage host name, supports fuzzy search, mutually exclusive with id and raw_id (string, 0~256个字符),
+                  health_status: Health status of the storage host. valid values: normal, no_redundant_link, offline, degraded, fault (string, normal no_redundant_link offline degraded fault),
+                  ipAddress: IP of the storage host (string, 0~64个字符),
+              },
+              lun_info: LUN info (Optional, HostToLunQueryParam object). attribute format: {
+                  raw_ids: LUN ID list allocated on the device side, mutually exclusive with name (List<string>, 数组最大成员个数：4095 数组最小成员个数：0),
+                  name: LUN name, supports fuzzy query, mutually exclusive with raw_id (string, 1~256个字符),
+                  health_status: LUN health status. valid values: normal (normal), faulty (fault), write_protected (write protected) (string, normal faulty write_protected),
+                  function_type: LUN type. valid values: lun (normal LUN), snapshot (snapshot), clone (clone) (string, lun snapshot clone),
+              },
               sort_key: Sort field (Optional, string). valid values: host_name (storage host name), lun_name (LUN name), capacity_usage, lun_raw_id, host_raw_id
               sort_dir: Sort direction (Optional, string). valid values: asc, desc
               page_size: Number of paginated mapping view query results (Optional, int32, 0~1000). default: 100
@@ -6873,8 +7017,23 @@ topics:
                   mapping_views: Mapping view list (List<HostToLunMappingView>). parameter format: [{
                       id: Mapping view ID (string),
                       name: Mapping view name (string),
-                      host_info: Storage host info (HostInfoRespParam object),
-                      lun_info: LUN info (LunInfoRespParam object),
+                      host_info: Storage host info (HostInfoRespParam object). attribute format: {
+                          id: Storage host ID (string, 无),
+                          raw_id: Storage host ID allocated on the device side (string, 无),
+                          name: Storage host name (string, 无),
+                          ipAddress: IP of the storage host (string, 0~64个字符),
+                          health_status: Health status of the storage host. valid values: normal (normal), no_redundant_link (no redundant path), offline (offline), degraded (degraded), fault (fault) (string, normal no_redundant_link offline degraded fault),
+                      },
+                      lun_info: LUN info (LunInfoRespParam object). attribute format: {
+                          id: Unique ID of the LUN (string, 无),
+                          raw_id: ID of the LUN on the storage device (string, 无),
+                          name: LUN name (string, 1~255个字符),
+                          health_status: LUN health status. valid values: normal (normal), faulty (fault), write_protected (write protected) (string, normal faulty write_protected),
+                          wwn: LUN WWN (string, 1~64个字符),
+                          capacity: Capacity, in GB (int64, 无),
+                          capacity_usage: Capacity usage, only provided for ThinLUNs, range: 0~100 (string, 无),
+                          function_type: LUN type. valid values: lun (normal LUN), snapshot (snapshot), clone (clone) (string, lun snapshot clone),
+                      },
                   }, ...],
               }
 

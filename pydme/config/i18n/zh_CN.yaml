@@ -220,7 +220,12 @@ topics:
                   status_code: 状态码 (int32),
                   error_code: 错误码 (int32),
                   error_msg: 错误消息 (string),
-                  data: 性能数据 (Map<object, Map<object, HistoryPerfData>>),
+                  data: 性能数据 (Map<object, Map<object, HistoryPerfData>>)。属性格式如下：{
+                      series: 满足条件的历史数据值序列，按时间升序排列 (List&lt;Map&lt;object, string&gt;&gt;, 无),
+                      min: 满足条件的历史数据值序列中最小值 (Map&lt;object, string&gt;, 无),
+                      max: 满足条件的历史数据值序列中最大值 (Map&lt;object, string&gt;, 无),
+                      avg: 满足条件的历史数据值序列平均值 (Map&lt;object, string&gt;, 无),
+                  },
               }
       performance_show_indicators:
         docstring: |
@@ -236,7 +241,20 @@ topics:
                   status_code: 状态码 (int32),
                   error_code: 错误码 (int32),
                   error_msg: 错误消息 (string),
-                  data: 监控指标映射 (Map<object, SimpleIndicator>),
+                  data: 监控指标映射 (Map<object, SimpleIndicator>)。属性格式如下：{
+                      kpi: 是否KPI指标：0表示非KPI指标 (int32, 无),
+                      data_type: 数据类型 (string, 最多32个字符),
+                      data_unit: 数据单位 (string, 最多32个字符),
+                      en_us: 指标英文名称 (string, 最多128个字符),
+                      zh_cn: 指标中文名称 (string, 最多128个字符),
+                      group_en_us: 指标组英文名称 (string, 最多128个字符),
+                      group_zh_cn: 指标组中文名称 (string, 最多128个字符),
+                      tag: 指标TAG，用于指标分类 (string, 最多128个字符),
+                      alarm_id: 告警标识 (string, 最多128个字符),
+                      alarm_desc_en_us: 阈值告警英文名称 (string, 最多128个字符),
+                      alarm_desc_zh_cn: 阈值告警中文名称 (string, 最多128个字符),
+                      indicator_name: 指标标识 (string, 最多128个字符),
+                  },
               }
       performance_list_indicators:
         docstring: |
@@ -483,7 +501,10 @@ topics:
                               id: 端口 Id (string, 1~64个字符),
                               type: 端口类型 (string)。可选值：host_port, switch_port, storage_port,
                           },
-                          right_port: 右端口 (PortNodeItem),
+                          right_port: 右端口 (PortNodeItem)。属性格式如下：{
+                              id: 端口Id (string, 1~64个字符),
+                              type: 端口类型 (string, host_port switch_port storage_port),
+                          },
                       }, ...],
                       switch_links: 交换机连接关系列表 (List<SwitchLinkItem>)。参数格式如下：[{
                           host_to_switch_id: 主机连接的交换机 ID (string, 1~64个字符),
@@ -494,8 +515,18 @@ topics:
                       id: 主机 id (string, 1~64个字符),
                       name: 主机名称 (string, 1~256个字符),
                       access_mode: 接入模式 (string)。可选值：vcenter, none,
-                      host_groups: 主机组列表 (List<HostToStoragePoolHostGroup>),
-                      ports: 主机端口列表 (List<HostToStoragePoolPort>),
+                      host_groups: 主机组列表 (List<HostToStoragePoolHostGroup>)。参数格式如下：[{
+                          id: 主机组id (string, 1~64个字符),
+                          name: 主机组名称 (string, 1~256个字符),
+                      }, ...],
+                      ports: 主机端口列表 (List<HostToStoragePoolPort>)。参数格式如下：[{
+                          id: 主机端口id (string, 1~64个字符),
+                          name: 主机端口名称 (string, 1~256个字符),
+                          status: 主机端口状态 (string, normal abnormal unknown),
+                          linked_switch_port_id: 主机端口连接的交换机端口id (string, 1~64个字符),
+                          linked_storage_port_ids: 主机端口链接存储端口id列表 (List&lt;string&gt;, 无),
+                          port_mac: 主机端口MAC地址 (string, 1~768个字符),
+                      }, ...],
                       deployment_type: 部署类型 (string)。可选值：BMS（裸金属服务器），ECS（ECS主机）,
                       direct_storage_ids: 主机直连的存储设备 ID 列表 (List<string>),
                   }, ...],
@@ -503,30 +534,105 @@ topics:
                       id: 存储 id (string, 1~64个字符),
                       name: 存储名称 (string, 1~128个字符),
                       product_model: 存储设备类型 (string),
-                      controllers: 控制器列表 (List<HostToStoragePoolController>),
-                      pools: 存储池列表 (List<HostToStoragePoolPool>),
-                      disks: 存储磁盘列表 (List<HostToStorageDiskDisks>),
+                      controllers: 控制器列表 (List<HostToStoragePoolController>)。参数格式如下：[{
+                          id: 控制器id (string, 1~64个字符),
+                          name: 控制器名称 (string, 1~128个字符),
+                          storage_ports: 存储端口列表 (List&lt;HostToStoragePoolStoragePort&gt;, 无),
+                      }, ...],
+                      pools: 存储池列表 (List<HostToStoragePoolPool>)。参数格式如下：[{
+                          id: 存储池id (string, 1~64个字符),
+                          name: 存储池名称 (string, 1~128个字符),
+                      }, ...],
+                      disks: 存储磁盘列表 (List<HostToStorageDiskDisks>)。参数格式如下：[{
+                          id: 磁盘id (string, 无),
+                          name: 磁盘名称 (string, 无),
+                      }, ...],
                   }, ...],
               }
               当 san_type=ip_san 时（IP_SAN）：
               {
-                  switches: 交换机列表 (List<SwitchItem>),
-                  hosts: 主机列表 (List<HostToStoragePoolHost>),
-                  storages: 存储列表 (List<HostToStoragePoolStorage>),
-                  switch_links: 交换机连接关系列表 (List<SwitchLinkItem>),
+                  switches: 交换机列表 (List<SwitchItem>)。参数格式如下：[{
+                      id: 交换机节点id (string, 1~64个字符),
+                      name: 交换机节点名称 (string, 1~128个字符),
+                      ports: 交换机端口列表 (List&lt;SwitchPortItem&gt;, 无),
+                  }, ...],
+                  hosts: 主机列表 (List<HostToStoragePoolHost>)。参数格式如下：[{
+                      id: 主机id (string, 1~64个字符),
+                      name: 主机名称 (string, 1~256个字符),
+                      access_mode: 接入模式 (string, vcenter none),
+                      host_groups: 主机组列表 (List&lt;HostToStoragePoolHostGroup&gt;, 无),
+                      ports: 主机端口列表 (List&lt;HostToStoragePoolPort&gt;, 无),
+                      deployment_type: 部署类型 (string, 1~768个字符),
+                      direct_storage_ids: 主机直连的存储设备ID列表 (List&lt;string&gt;, 无),
+                  }, ...],
+                  storages: 存储列表 (List<HostToStoragePoolStorage>)。参数格式如下：[{
+                      id: 存储id (string, 1~64个字符),
+                      name: 存储名称 (string, 1~128个字符),
+                      product_model: 存储设备类型 (string, 无),
+                      controllers: 控制器列表 (List&lt;HostToStoragePoolController&gt;, 无),
+                      pools: 存储池列表 (List&lt;HostToStoragePoolPool&gt;, 无),
+                      disks: 存储磁盘列表 (List&lt;HostToStorageDiskDisks&gt;, 无),
+                  }, ...],
+                  switch_links: 交换机连接关系列表 (List<SwitchLinkItem>)。参数格式如下：[{
+                      host_to_switch_id: 主机连接的交换机ID (string, 1~64个字符),
+                      storage_to_switch_id: 存储连接的交换机ID (string, 1~64个字符),
+                  }, ...],
               }
               当 san_type=None 时：
               {
                   ip_san: IP_SAN 返回数据。属性格式如下：{
-                      switches: 交换机列表 (List<SwitchItem>),
-                      hosts: 主机列表 (List<HostToStoragePoolHost>),
-                      storages: 存储列表 (List<HostToStoragePoolStorage>),
-                      switch_links: 交换机连接关系列表 (List<SwitchLinkItem>),
+                      switches: 交换机列表 (List<SwitchItem>)。参数格式如下：[{
+                          id: 交换机节点id (string, 1~64个字符),
+                          name: 交换机节点名称 (string, 1~128个字符),
+                          ports: 交换机端口列表 (List&lt;SwitchPortItem&gt;, 无),
+                      }, ...],
+                      hosts: 主机列表 (List<HostToStoragePoolHost>)。参数格式如下：[{
+                          id: 主机id (string, 1~64个字符),
+                          name: 主机名称 (string, 1~256个字符),
+                          access_mode: 接入模式 (string, vcenter none),
+                          host_groups: 主机组列表 (List&lt;HostToStoragePoolHostGroup&gt;, 无),
+                          ports: 主机端口列表 (List&lt;HostToStoragePoolPort&gt;, 无),
+                          deployment_type: 部署类型 (string, 1~768个字符),
+                          direct_storage_ids: 主机直连的存储设备ID列表 (List&lt;string&gt;, 无),
+                      }, ...],
+                      storages: 存储列表 (List<HostToStoragePoolStorage>)。参数格式如下：[{
+                          id: 存储id (string, 1~64个字符),
+                          name: 存储名称 (string, 1~128个字符),
+                          product_model: 存储设备类型 (string, 无),
+                          controllers: 控制器列表 (List&lt;HostToStoragePoolController&gt;, 无),
+                          pools: 存储池列表 (List&lt;HostToStoragePoolPool&gt;, 无),
+                          disks: 存储磁盘列表 (List&lt;HostToStorageDiskDisks&gt;, 无),
+                      }, ...],
+                      switch_links: 交换机连接关系列表 (List<SwitchLinkItem>)。参数格式如下：[{
+                          host_to_switch_id: 主机连接的交换机ID (string, 1~64个字符),
+                          storage_to_switch_id: 存储连接的交换机ID (string, 1~64个字符),
+                      }, ...],
                   },
                   fc_san: FC_SAN 返回数据。属性格式如下：{
-                      fabrics: Fabric 列表 (List<HostToStoragePoolFabric>),
-                      hosts: 主机列表 (List<HostToStoragePoolHost>),
-                      storages: 存储列表 (List<HostToStoragePoolStorage>),
+                      fabrics: Fabric 列表 (List<HostToStoragePoolFabric>)。参数格式如下：[{
+                          id: Fabric id (string, 1~64个字符),
+                          name: Fabric名称 (string, 1~128个字符),
+                          switches: 交换机列表 (List&lt;SwitchItem&gt;, 无),
+                          port_links: 交换机端口链路列表 (List&lt;PortLinkItem&gt;, 无),
+                          switch_links: 交换机连接关系列表 (List&lt;SwitchLinkItem&gt;, 无),
+                      }, ...],
+                      hosts: 主机列表 (List<HostToStoragePoolHost>)。参数格式如下：[{
+                          id: 主机id (string, 1~64个字符),
+                          name: 主机名称 (string, 1~256个字符),
+                          access_mode: 接入模式 (string, vcenter none),
+                          host_groups: 主机组列表 (List&lt;HostToStoragePoolHostGroup&gt;, 无),
+                          ports: 主机端口列表 (List&lt;HostToStoragePoolPort&gt;, 无),
+                          deployment_type: 部署类型 (string, 1~768个字符),
+                          direct_storage_ids: 主机直连的存储设备ID列表 (List&lt;string&gt;, 无),
+                      }, ...],
+                      storages: 存储列表 (List<HostToStoragePoolStorage>)。参数格式如下：[{
+                          id: 存储id (string, 1~64个字符),
+                          name: 存储名称 (string, 1~128个字符),
+                          product_model: 存储设备类型 (string, 无),
+                          controllers: 控制器列表 (List&lt;HostToStoragePoolController&gt;, 无),
+                          pools: 存储池列表 (List&lt;HostToStoragePoolPool&gt;, 无),
+                          disks: 存储磁盘列表 (List&lt;HostToStorageDiskDisks&gt;, 无),
+                      }, ...],
                   },
               }
       topology_query_luns:
@@ -971,7 +1077,11 @@ topics:
                           port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机时设置,
                           switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
                       },
-                      removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100),
+                      removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100)。参数格式如下：[{
+                          domain_id: 域ID (int32, 0~65535),
+                          port_index: 端口号，条件必选：当为博科交换机的ZONE配置端口成员时设置该参数 (int32, 0~65535),
+                          port_name: 交换机端口，条件必选：当为思科交换机的ZONE配置端口成员时设置该参数 (string, 1~32个字符，且满足正则表达^[a-fA-F0-9/]+$),
+                      }, ...],
                   }
               alias_members: 别名成员修改（可选，ModifyAliasMembersRequest 对象）。参数格式如下：{
                       added_members: 增加的别名成员 (可选, List<string>, 数组最大成员个数: 100),
@@ -1153,7 +1263,11 @@ topics:
                           port_name: 交换机端口 (条件必选, string, 1~32个字符，正则 ^[a-fA-F0-9/]+$)，思科交换机时设置,
                           switch_wwn: 交换机 WWN (可选, string, 1~32个字符),
                       },
-                      removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100),
+                      removed_members: 移除的端口成员 (可选, List<PortMemberRequest>, 数组最大成员个数: 100)。参数格式如下：[{
+                          domain_id: 域ID (int32, 0~65535),
+                          port_index: 端口号，条件必选：当为博科交换机的ZONE配置端口成员时设置该参数 (int32, 0~65535),
+                          port_name: 交换机端口，条件必选：当为思科交换机的ZONE配置端口成员时设置该参数 (string, 1~32个字符，且满足正则表达^[a-fA-F0-9/]+$),
+                      }, ...],
                   }
               fcid_members: FCID 成员修改（可选，FcidMembersRequest 对象）。参数格式如下：{
                       added_members: 增加的 FCID 成员 (可选, List<string>, 数组最大成员个数: 100),
@@ -4335,7 +4449,11 @@ topics:
               replication_mode: 复制模式。可选值：synchronous（同步）, asynchronous（异步，默认）
               sync_type: 复制 Pair 的同步类型。可选值：manual（手动）, wait_after_sync_begins（开始后定时）, wait_after_sync_ends（结束后定时）, specified_time_policy（指定时间）
               timing_val: 定时时长 (int32, 10~86400 秒)。当 sync_type 为 wait_after_sync_begins/ends 时必选
-              sync_schedule: 一致性组同步计划 (CustomSyncSchedule)。当 sync_type 为 specified_time_policy 时必选
+              sync_schedule: 一致性组同步计划 (CustomSyncSchedule)。当 sync_type 为 specified_time_policy 时必选。属性格式如下：{
+                  week: 按周为周期触发同步，定义一周中触发同步的具体日期和时间 (CustomWeek对象, 无),
+                  day: 按天为周期触发同步 (string, 最多32个字符),
+                  hour: 按小时为周期触发同步 (string, 最多32个字符),
+              },
               is_backup: 是否生成备用的远程复制 Pair (bool)。用于环形3DC场景，默认 false
               speed: 同步速率。可选值：low（低）, medium（中，默认）, high（高）, highest（最高）, custom（自定义）
               bandwidth: 自定义同步速率 (int32, 1~1024 MB/s)。当 speed 为 custom 时必选
@@ -4399,7 +4517,11 @@ topics:
               enable_compress: 链路压缩 (bool)。异步模式下必选
               sync_type: 同步类型。可选值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy。异步模式有效
               timing_value_in_sec: 定时时长 (int32, 10~86400 秒)。当 sync_type 为 wait_after_sync_begins/ends 时必选
-              sync_schedule: 定时规则 (CustomSyncSchedule)。当 sync_type 为 specified_time_policy 时必选
+              sync_schedule: 定时规则 (CustomSyncSchedule)。当 sync_type 为 specified_time_policy 时必选。属性格式如下：{
+                  week: 按周为周期触发同步，定义一周中触发同步的具体日期和时间 (CustomWeek对象, 无),
+                  day: 按天为周期触发同步 (string, 最多32个字符),
+                  hour: 按小时为周期触发同步 (string, 最多32个字符),
+              },
               rep_io_timeout: 远端 IO 超时时间 (int32, 10~255 秒)。同步模式有效
               sync_snap_policy: 用户快照同步策略。可选值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based。Dorado V6 异步模式有效
               user_snap_retention_num: 从端用户快照保留数量 (int32, 1~512)。Dorado V6 异步模式下当 sync_snap_policy 为 user_snap_retention_num 时必选
@@ -4617,15 +4739,27 @@ topics:
               first_sync_policy: 初始同步策略 (string)。可选值：auto_sync（自动同步，默认）, manual_sync（手动同步）, not_sync（不同步）
               sync_type: 同步类型 (string)。可选值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy。异步模式有效
               timing_val: 定时时长 (int32, 1~86400 秒)。sync_type 为 wait_after_sync_begins/ends 时必选
-              sync_schedule: 自定义同步时间策略 (CustomSyncSchedule)。sync_type 为 specified_time_policy 时必选
+              sync_schedule: 自定义同步时间策略 (CustomSyncSchedule)。sync_type 为 specified_time_policy 时必选。属性格式如下：{
+                  week: 按周为周期触发同步，定义一周中触发同步的具体日期和时间 (CustomWeek对象, 无),
+                  day: 按天为周期触发同步 (string, 最多32个字符),
+                  hour: 按小时为周期触发同步 (string, 最多32个字符),
+              },
               rep_io_timeout: 从 LUN I/O 超时时间 (int32, 10~255 秒)。资源类型为 LUN 且同步模式时有效
               sync_snap_policy: 用户快照同步策略 (string)。可选值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based。V6/Dorado V6 异步模式有效
               user_snap_retention_num: 从端用户快照保留数量 (int32, LUN: 0~512, 文件系统: 0~1024)。sync_snap_policy 为 user_snap_retention_num 时必选
-              snap_tag_list: 保留的用户快照标签列表 (List<snapTagDetail>, 最大10)。sync_snap_policy 为 snap_tag_based 时必选
+              snap_tag_list: 保留的用户快照标签列表 (List<snapTagDetail>, 最大10)。sync_snap_policy 为 snap_tag_based 时必选。参数格式如下：[{
+                  snap_tag_name: 从端资源所属存储设备上保留的用户快照的标签名称 (string, 1~32个字符，且满足正则表达^[a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,31}$),
+                  snap_tag_retention_num: 从端资源支持保留的带标签的快照个数 (int32, 1~4065),
+              }, ...],
               enable_compress: 链路压缩 (bool)。true：压缩；false：不压缩。异步模式有效
               is_backup: 是否生成备用的远程复制 Pair (bool)。用于环形3DC场景，默认 false
               switch_to_async: 同步复制自动转换为异步复制的开关 (bool)。V6 6.1.0+ 资源类型为 LUN 且同步模式有效
-              consistency_group_info: 需要添加到的一致性组信息 (RepConsistencyGroup)。V3/V5 资源类型为 LUN 有效
+              consistency_group_info: 需要添加到的一致性组信息 (RepConsistencyGroup)。V3/V5 资源类型为 LUN 有效。属性格式如下：{
+                  consistency_group_id: 一致性组的ID (string, 1~32个字符，且满足正则表达^[a-fA-F0-9]+$),
+                  is_adapt_group_status: 是否自适应远程复制一致性组状态 (boolean, true,false),
+                  name: 一致性组名称 (string, 0~31个字符，且满足正则表达^(?![-._])[A-Za-z0-9\u4e00-\u9fa5\u3002\uff1f\uff01\uff0c\u3001\uff1b\uff1a\u201c\u201d\u2018\u2019\uff08\uff09\u300a\u300b\u3008\u3009\u3010\u3011\u300e\u300f\u300c\u300d\ufe43\ufe44\u3014\u3015\u2026\u2014\uff5e\ufe4f\uffe5\-._&middot;]+$),
+                  description: 一致性组描述信息 (string, 0~127个字符),
+              },
           
           Returns:
               {
@@ -4645,11 +4779,18 @@ topics:
               secondary_res_protection: 从资源保护状态 (string)。可选值：read_only（只读）, writable（可读写）。仅 V3/V5 LUN 有效
               sync_type: 同步类型 (string)。可选值：manual, wait_after_sync_begins, wait_after_sync_ends, specified_time_policy。异步模式有效
               timing_val: 定时时长 (int32, 1~86400 秒)。sync_type 为 wait_after_sync_begins/ends 时必选
-              sync_schedule: 同步时间策略 (CustomSyncSchedule)。sync_type 为 specified_time_policy 时必选
+              sync_schedule: 同步时间策略 (CustomSyncSchedule)。sync_type 为 specified_time_policy 时必选。属性格式如下：{
+                  week: 按周为周期触发同步，定义一周中触发同步的具体日期和时间 (CustomWeek对象, 无),
+                  day: 按天为周期触发同步 (string, 最多32个字符),
+                  hour: 按小时为周期触发同步 (string, 最多32个字符),
+              },
               rep_io_timeout: 从 LUN I/O 超时时间 (int32, 10~255 秒)。LUN 同步模式有效
               sync_snap_policy: 用户快照同步策略 (string)。可选值：not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based。V6/Dorado V6 异步模式有效
               user_snap_retention_num: 从端用户快照保留数量 (int32, LUN: 1~512, 文件系统: 1~1024)
-              snap_tag_list: 保留的用户快照标签列表 (List<snapTagDetail>, 最大10)。sync_snap_policy 为 snap_tag_based 时必选
+              snap_tag_list: 保留的用户快照标签列表 (List<snapTagDetail>, 最大10)。sync_snap_policy 为 snap_tag_based 时必选。参数格式如下：[{
+                  snap_tag_name: 从端资源所属存储设备上保留的用户快照的标签名称 (string, 1~32个字符，且满足正则表达^[a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,31}$),
+                  snap_tag_retention_num: 从端资源支持保留的带标签的快照个数 (int32, 1~4065),
+              }, ...],
               switch_to_async: 同步复制自动转换为异步复制的开关 (bool)。V6 6.1.0+ LUN 同步模式有效
               switch_to_sync: 异步复制自动恢复为同步复制的开关 (bool)。V6 6.1.0+ LUN 有效
               sync_to_async_bandwidth: 同步转异步的主机带宽 (int32, 0~10485760 KB/s)。switch_to_async 为 true 时有效
@@ -4870,7 +5011,11 @@ topics:
           Args:
               client: DME API 客户端
               rollback_speed: 回滚速率 (必选, string)。可选值：low（低）, medium（中）, high（高）, highest（最高）
-              rollback_snapshots: 快照回滚的资源信息列表 (必选, List<LunSnapshotRollbackResource>, 数组最小成员个数: 1, 数组最大成员个数: 2048)。每项包含 snapshot_id（必选）, target_type（必选, lun/snapshot）, target_id（必选）
+              rollback_snapshots: 快照回滚的资源信息列表 (必选, List<LunSnapshotRollbackResource>, 数组最小成员个数: 1, 数组最大成员个数: 2048)。每项包含 snapshot_id（必选）, target_type（必选, lun/snapshot）, target_id（必选）。参数格式如下：[{
+                  snapshot_id: 快照ID (string, 1~64个字符),
+                  target_type: 回滚目标对象类型 (string, lun snapshot),
+                  target_id: 回滚目标对象ID (string, 1~64个字符),
+              }, ...],
           
           Returns:
               {
@@ -4972,7 +5117,10 @@ topics:
               name_rule: 快照名称命名规则 (string)。可选值：prefix_and_suffix, prefix_and_num
               name_prefix: 快照名称前缀 (string, 0~251个字符)
               name_suffix: 快照名称后缀 (string, 0~16个字符)
-              target_snapshot_objects: 目标快照对象列表 (List<TargetSnapshotObject>, 最大100)。manual模式时必选
+              target_snapshot_objects: 目标快照对象列表 (List<TargetSnapshotObject>, 最大100)。manual模式时必选。参数格式如下：[{
+                  parent_id: 父对象ID，快照对应的父对象ID (string, 1~32个字符，且满足正则表达^[a-fA-F0-9]+$),
+                  snapshot_id: 快照ID (string, 1~32个字符，且满足正则表达^[a-fA-F0-9]+$),
+              }, ...],
           
           Returns:
               {
@@ -7013,8 +7161,19 @@ topics:
               storage_id: 存储设备ID (必选, string, 1~64个字符)
               name: 映射视图名称，支持模糊搜索 (可选, string, 0~256个字符)
               mapping_type: 查询主机映射类型 (可选, string)。可选值：all (和LUN存在映射关系的存储主机，包括直接映射和间接映射), match_mapping_view (与LUN直接映射的存储主机)
-              host_info: 存储主机信息 (可选, LunToHostQueryParam对象)
-              lun_info: LUN信息 (可选, HostToLunQueryParam对象)
+              host_info: 存储主机信息 (可选, LunToHostQueryParam对象)。属性格式如下：{
+                  id: 存储主机ID，和raw_id、name参数互斥 (string, 1~64个字符),
+                  raw_id: 设备侧分配的存储主机ID，和id、name参数互斥 (string, 1~64个字符),
+                  name: 存储主机名称，支持模糊搜索，和id、raw_id参数互斥 (string, 0~256个字符),
+                  health_status: 存储主机健康状态 (string, normal no_redundant_link offline degraded fault),
+                  ipAddress: 存储主机的IP (string, 0~64个字符),
+              },
+              lun_info: LUN信息 (可选, HostToLunQueryParam对象)。属性格式如下：{
+                  raw_ids: 设备侧分配的LUN ID列表，和name参数互斥 (List&lt;string&gt;, 数组最大成员个数：4095 数组最小成员个数：0),
+                  name: LUN名称，支持模糊查询，和raw_id参数互斥 (string, 1~256个字符),
+                  health_status: LUN健康状态 (string, normal faulty write_protected),
+                  function_type: LUN类型 (string, lun snapshot clone),
+              },
               sort_key: 排序字段 (可选, string)。可选值：host_name (存储主机名称), lun_name (LUN名称), capacity_usage (容量使用率), lun_raw_id, host_raw_id
               sort_dir: 排序方向 (可选, string)。可选值：asc (升序), desc (降序)
               page_size: 分页查询映射视图的个数 (可选, int32, 0~1000)。默认值：100
@@ -7026,8 +7185,23 @@ topics:
                   mapping_views: 映射视图列表 (List<HostToLunMappingView>)。参数格式如下：[{
                       id: 映射视图ID (string),
                       name: 映射视图名称 (string),
-                      host_info: 存储主机信息 (HostInfoRespParam对象),
-                      lun_info: LUN信息 (LunInfoRespParam对象),
+                      host_info: 存储主机信息 (HostInfoRespParam对象)。属性格式如下：{
+                          id: 存储主机ID (string, 无),
+                          raw_id: 设备侧分配存储主机ID (string, 无),
+                          name: 存储主机名称 (string, 无),
+                          ipAddress: 存储主机的IP (string, 0~64个字符),
+                          health_status: 存储主机健康状态 (string, normal no_redundant_link offline degraded fault),
+                      },
+                      lun_info: LUN信息 (LunInfoRespParam对象)。属性格式如下：{
+                          id: LUN的唯一标识 (string, 无),
+                          raw_id: LUN在存储设备上的ID (string, 无),
+                          name: LUN名称 (string, 1~255个字符),
+                          health_status: LUN健康状态 (string, normal faulty write_protected),
+                          wwn: LUN wwn (string, 1~64个字符),
+                          capacity: 容量，单位GB (int64, 无),
+                          capacity_usage: 容量利用率，仅ThinLUN提供，取值范围：0~100 (string, 无),
+                          function_type: LUN类型 (string, lun snapshot clone),
+                      },
                   }, ...],
               }
 
