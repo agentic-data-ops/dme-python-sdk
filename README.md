@@ -12,8 +12,15 @@
 ```
 .
 ├── pydme/                  # Python package
+│   ├── __init__.py
 │   ├── client.py           # DME API client
 │   ├── cli.py              # CLI entry point
+│   ├── i18n.py             # i18n comment loader (DME_LANG / --lang)
+│   ├── config/             # Configuration resources
+│   │   ├── blacklist.json  # High-risk operation blacklist
+│   │   └── i18n/           # Per-language comment resources
+│   │       ├── zh_CN.yaml  # Chinese comments
+│   │       └── en_US.yaml  # English comments
 │   └── actions/            # Action modules (one file per topic, 427 actions)
 │       ├── aiops.py         # AIOps intelligent operations
 │       ├── backup.py         # Backup management
@@ -32,7 +39,8 @@
 │       ├── virt.py           # Virtualization services
 │       └── workflow.py       # Workflow management
 ├── pyproject.toml
-└── README.md
+├── README.md
+└── README_zh.md
 ```
 
 ## How to Use
@@ -70,6 +78,22 @@ DME_API_PASSWORD=your-password
 
 # Or use an auth token instead of username/password:
 # DME_API_AUTH_TOKEN=your-token
+```
+
+
+### Set Comment Language
+
+The CLI supports bilingual comments. Set the language via the DME_LANG environment variable or the --lang argument:
+
+```bash
+# Chinese (default)
+export DME_LANG=zh_CN
+
+# English
+export DME_LANG=en_US
+
+# Or pass --lang per invocation (takes precedence over the environment variable)
+pydme --lang en_US storage list --help
 ```
 
 

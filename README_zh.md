@@ -12,8 +12,15 @@
 ```
 .
 ├── pydme/                  # Python 包
+│   ├── __init__.py
 │   ├── client.py           # DME API 客户端
 │   ├── cli.py              # 命令行接口
+│   ├── i18n.py             # 国际化注释加载（DME_LANG / --lang）
+│   ├── config/             # 配置资源
+│   │   ├── blacklist.json  # 高风险操作黑名单
+│   │   └── i18n/           # 按语言的注释资源
+│   │       ├── zh_CN.yaml  # 中文注释
+│   │       └── en_US.yaml  # 英文注释
 │   └── actions/            # 动作模块（每个主题一个文件，427 个动作）
 │       ├── aiops.py         # AIOps 智能运维
 │       ├── backup.py         # 数据备份管理
@@ -32,7 +39,8 @@
 │       ├── virt.py           # 虚拟化服务
 │       └── workflow.py       # 工作流管理
 ├── pyproject.toml
-└── README.md
+├── README.md
+└── README_zh.md
 ```
 
 ## 如何使用
@@ -70,6 +78,22 @@ DME_API_PASSWORD=your-password
 
 # 或使用认证令牌代替用户名/密码：
 # DME_API_AUTH_TOKEN=your-token
+```
+
+
+### 设置注释语言
+
+CLI 支持中英文双语注释，可通过环境变量或命令行参数设置语言：
+
+```bash
+# 中文（默认）
+export DME_LANG=zh_CN
+
+# 英文
+export DME_LANG=en_US
+
+# 或在命令行使用 --lang 参数（优先级高于环境变量）
+pydme --lang en_US storage list --help
 ```
 
 
