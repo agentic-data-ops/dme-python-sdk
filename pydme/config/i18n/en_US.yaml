@@ -8056,6 +8056,46 @@ topics:
           Args:
               client: DME API client
               qos_policy_id: QoS policy ID(Required)
+          
+          Returns:
+              {
+                  name: QoS policy name, 1~31 characters, consisting of letters, digits, "_", "-", "." (string, 1~31 characters),
+                  description: Description (string, 1~255 characters),
+                  id: QoS policy ID (string, 1~32 characters),
+                  raw_id: QoS policy ID on the device side (string, 1~64 characters),
+                  enable_status: Activation status of the QoS policy (boolean),
+                  running_status: Running status of the QoS policy. valid values: running (activated), inactive (not activated), waiting (waiting) (string),
+                  storage_id: ID of the storage device it belongs to (string, 1~64 characters),
+                  storage_name: Name of the storage device it belongs to (string, 1~256 characters),
+                  storage_ip: IP address of the storage device it belongs to (string, 1~45 characters),
+                  zone_id: ID of the ZONE it belongs to (string, 1~64 characters),
+                  zone_name: Name of the ZONE it belongs to (string, 1~256 characters),
+                  zone_ip: IP address of the ZONE it belongs to (string, 1~45 characters),
+                  resource_type: Controlled resource type. valid values: file_system (filesystem), vstore (tenant), none (not associated) (string),
+                  vstore_id: ID of the tenant it belongs to (string, 1~64 characters),
+                  vstore_raw_id: ID of the tenant on the storage device (string, 1~256 characters),
+                  vstore_name: Name of the tenant it belongs to (string, 1~256 characters),
+                  io_param: QoS policy related IO parameters (QosIoParam). attribute format: {
+                      io_policy_type: IO policy type. valid values: total_perf_upper_limit (by performance upper limit), read_or_write_upper_limit (by read/write upper limit) (string),
+                      min_bandwidth: Minimum bandwidth (int32, 1~999999999),
+                      max_bandwidth: Maximum bandwidth (int32, 1~999999999),
+                      burst_bandwidth: Burst bandwidth (int32, 1~999999999),
+                      min_iops: Minimum IOPS (int32, 100~999999999),
+                      max_iops: Maximum IOPS (int32, 100~999999999),
+                      burst_iops: Burst IOPS (int32, 100~999999999),
+                      burst_time: Maximum burst duration (int32, 1~999999999),
+                      latency: IO latency (integer, 500 1500),
+                      max_read_bandwidth: Maximum read bandwidth (int32, 1~999999999),
+                      max_write_bandwidth: Maximum write bandwidth (int32, 1~999999999),
+                      burst_read_bandwidth: Burst read bandwidth (int32, 1~999999999),
+                      burst_write_bandwidth: Burst write bandwidth (int32, 1~999999999),
+                      max_read_iops: Maximum read IOPS (int32, 100~999999999),
+                      max_write_iops: Maximum write IOPS (int32, 100~999999999),
+                      burst_read_iops: Burst read IOPS (int32, 100~999999999),
+                      burst_write_iops: Burst write IOPS (int32, 100~999999999),
+                  },
+                  resource_count: Number of controlled resources (int32, 1~512),
+              }
       qos_create:
         docstring: |
           Create a QoS policy
@@ -8098,6 +8138,9 @@ topics:
               start_time: Effective start time (Optional, hh:mm)
               duration: Effective duration in seconds (Optional, 1800~86400)
               weekly_days: Weekly schedule days (Optional, [0-6] for Sunday to Saturday)
+          
+          Returns:
+              Task ID.
       qos_modify:
         docstring: |
           Modify a QoS policy
@@ -8130,6 +8173,9 @@ topics:
               alarm_level: severity(Optional)
               alarm_threshold: Alarm threshold %(Optional)
               resume_threshold: Resume threshold %(Optional)
+          
+          Returns:
+              Task ID.
       qos_delete:
         docstring: |
           Delete QoS policies
@@ -8139,6 +8185,9 @@ topics:
           Args:
               client: DME API client
               qos_policy_ids: List of QoS policy IDs (Required, 1~100)
+          
+          Returns:
+              Task ID.
       qos_activate:
         docstring: |
           Batch activate QoS policies
@@ -8148,6 +8197,9 @@ topics:
           Args:
               client: DME API client
               qos_policy_ids: List of QoS policy IDs(Required)
+          
+          Returns:
+              Task ID.
       qos_deactivate:
         docstring: |
           Batch deactivate QoS policies
@@ -8157,6 +8209,9 @@ topics:
           Args:
               client: DME API client
               qos_policy_ids: List of QoS policy IDs(Required)
+          
+          Returns:
+              Task ID.
       qos_associate:
         docstring: |
           Associate QoS policy with controlled resources
@@ -8168,6 +8223,9 @@ topics:
               qos_policy_id: QoS policy ID(Required)
               resource_ids: List of resource IDs(Required)
               resource_type: resource type (Required, file_system/vstore)
+          
+          Returns:
+              Task ID.
       qos_unassociate:
         docstring: |
           Disassociate QoS policy from controlled resources
@@ -8179,6 +8237,9 @@ topics:
               qos_policy_id: QoS policy ID(Required)
               resource_ids: List of resource IDs(Required)
               resource_type: resource type(Required)
+          
+          Returns:
+              Task ID.
       logic_port_list:
         docstring: |
           Query the Logic port list of a Storage device

@@ -8207,6 +8207,46 @@ topics:
           Args:
               client: DME API 客户端
               qos_policy_id: QoS 策略 ID（必选）
+          
+          Returns:
+              {
+                  name: QoS策略名称，1~31位字符，包含字母、数字、下划线、中划线、点 (string, 1~31个字符),
+                  description: 描述 (string, 1~255个字符),
+                  id: QoS策略ID (string, 1~32个字符),
+                  raw_id: QoS策略在设备侧的ID (string, 1~64个字符),
+                  enable_status: QoS策略的激活状态 (boolean),
+                  running_status: QoS策略的运行状态，取值范围：running（已激活），inactive（未激活），waiting（等待） (string),
+                  storage_id: 所属存储设备ID (string, 1~64个字符),
+                  storage_name: 所属存储设备名称 (string, 1~256个字符),
+                  storage_ip: 所属存储设备IP地址 (string, 1~45个字符),
+                  zone_id: 所属ZONE的ID (string, 1~64个字符),
+                  zone_name: 所属ZONE名称 (string, 1~256个字符),
+                  zone_ip: 所属ZONE IP地址 (string, 1~45个字符),
+                  resource_type: 控制的资源类型，取值范围：file_system（文件系统），vstore（租户），none（未关联） (string),
+                  vstore_id: 所属租户ID (string, 1~64个字符),
+                  vstore_raw_id: 所属租户在存储设备上的ID (string, 1~256个字符),
+                  vstore_name: 所属租户名称 (string, 1~256个字符),
+                  io_param: QoS策略相关IO参数 (QosIoParam)。属性格式如下：{
+                      io_policy_type: IO策略类型，取值范围：total_perf_upper_limit（按性能上限），read_or_write_upper_limit（按读/写上限） (string),
+                      min_bandwidth: 最小带宽 (int32, 1~999999999),
+                      max_bandwidth: 最大带宽 (int32, 1~999999999),
+                      burst_bandwidth: 突发带宽 (int32, 1~999999999),
+                      min_iops: 最小IOPS (int32, 100~999999999),
+                      max_iops: 最大IOPS (int32, 100~999999999),
+                      burst_iops: 突发IOPS (int32, 100~999999999),
+                      burst_time: 最大突发持续时间 (int32, 1~999999999),
+                      latency: IO时延指标 (integer, 500 1500),
+                      max_read_bandwidth: 最大读带宽 (int32, 1~999999999),
+                      max_write_bandwidth: 最大写带宽 (int32, 1~999999999),
+                      burst_read_bandwidth: 突发读带宽 (int32, 1~999999999),
+                      burst_write_bandwidth: 突发写带宽 (int32, 1~999999999),
+                      max_read_iops: 最大读IOPS (int32, 100~999999999),
+                      max_write_iops: 最大写IOPS (int32, 100~999999999),
+                      burst_read_iops: 突发读IOPS (int32, 100~999999999),
+                      burst_write_iops: 突发写IOPS (int32, 100~999999999),
+                  },
+                  resource_count: 控制的资源数量 (int32, 1~512),
+              }
       qos_create:
         docstring: |
           创建 QoS 策略
@@ -8249,6 +8289,9 @@ topics:
               start_time: 生效开始时间（可选，hh:mm）
               duration: 生效持续时间秒（可选，1800~86400）
               weekly_days: 周调度策略（可选，[0-6] 对应周日到周六）
+          
+          Returns:
+              任务 ID。
       qos_modify:
         docstring: |
           修改 QoS 策略
@@ -8281,6 +8324,9 @@ topics:
               alarm_level: 告警级别（可选）
               alarm_threshold: 告警阈值%（可选）
               resume_threshold: 恢复阈值%（可选）
+          
+          Returns:
+              任务 ID。
       qos_delete:
         docstring: |
           删除 QoS 策略
@@ -8290,6 +8336,9 @@ topics:
           Args:
               client: DME API 客户端
               qos_policy_ids: QoS 策略 ID 列表（必选，1~100 个）
+          
+          Returns:
+              任务 ID。
       qos_activate:
         docstring: |
           批量激活 QoS 策略
@@ -8299,6 +8348,9 @@ topics:
           Args:
               client: DME API 客户端
               qos_policy_ids: QoS 策略 ID 列表（必选）
+          
+          Returns:
+              任务 ID。
       qos_deactivate:
         docstring: |
           批量取消激活 QoS 策略
@@ -8308,6 +8360,9 @@ topics:
           Args:
               client: DME API 客户端
               qos_policy_ids: QoS 策略 ID 列表（必选）
+          
+          Returns:
+              任务 ID。
       qos_associate:
         docstring: |
           QoS 策略关联控制资源
@@ -8319,6 +8374,9 @@ topics:
               qos_policy_id: QoS 策略 ID（必选）
               resource_ids: 资源 ID 列表（必选）
               resource_type: 资源类型（必选，file_system/vstore）
+          
+          Returns:
+              任务 ID。
       qos_unassociate:
         docstring: |
           QoS 策略解关联控制资源
@@ -8330,6 +8388,9 @@ topics:
               qos_policy_id: QoS 策略 ID（必选）
               resource_ids: 资源 ID 列表（必选）
               resource_type: 资源类型（必选）
+          
+          Returns:
+              任务 ID。
       logic_port_list:
         docstring: |
           查询存储设备的逻辑端口列表
