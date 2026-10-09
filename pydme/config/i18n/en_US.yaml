@@ -4425,6 +4425,11 @@ topics:
               remote_resource_name_rule: remote resource naming strategy, valid values: same_as_local, prefix_and_suffix, prefix_and_num
               name_prefix: remote resource name prefix
               name_suffix: remote resource name suffix
+              sync_schedule: Timing schedule (CustomSyncSchedule). Required when sync_type is specified_time_policy. attribute format: {
+                  week: Trigger synchronization on a weekly cycle, defining the specific date and time in a week (CustomWeek对象, 无),
+                  day: Trigger synchronization on a daily cycle (string, 最多32个字符),
+                  hour: Trigger synchronization on an hourly cycle (string, 最多32个字符),
+              },
           
           Returns:
               {
@@ -4681,8 +4686,18 @@ topics:
               rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
               sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
               user_snap_retention_num: secondary user snapshot retention count
+              snap_tag_list: User snapshot tag list to retain (List<snapTagDetail>, max 10). Required when sync_snap_policy is snap_tag_based. parameter format: [{
+                  snap_tag_name: Tag name of the user snapshot to be retained on the storage device of the secondary resource (string, 1~32个字符，且满足正则表达^[a-zA-Z0-9][a-zA-Z0-9\-_\\.]{0,31}$),
+                  snap_tag_retention_num: Number of tagged snapshots that can be retained on the secondary resource (int32, 1~4065),
+              }, ...],
               switch_to_async: switch for automatic conversion from sync to async remote replication
               enable_compress: link compression, required when replication mode is async
+              consistency_group_info: Consistency group information to add (RepConsistencyGroup). Valid for V3/V5 resources of type LUN. attribute format: {
+                  consistency_group_id: ID of the consistency group (string, 1~32个字符，且满足正则表达^[a-fA-F0-9]+$),
+                  is_adapt_group_status: Whether to adapt the status of the remote replication consistency group (boolean, true,false),
+                  name: Consistency group name (string, 0~31个字符，且满足正则表达^(?![-._])[A-Za-z0-9\u4e00-\u9fa5\u3002\uff1f\uff01\uff0c\u3001\uff1b\uff1a\u201c\u201d\u2018\u2019\uff08\uff09\u300a\u300b\u3008\u3009\u3010\u3011\u300e\u300f\u300c\u300d\ufe43\ufe44\u3014\u3015\u2026\u2014\uff5e\ufe4f\uffe5\-. _&middot;]+$),
+                  description: Description of the consistency group (string, 0~127个字符),
+              },
           
           Returns:
               {
@@ -4709,6 +4724,10 @@ topics:
               rep_io_timeout: remote IO timeout (seconds), valid when replication mode is synchronous
               sync_snap_policy: user snapshot sync policy, valid values: not_sync_snap, same_as_source, user_snap_retention_num, snap_tag_based
               user_snap_retention_num: secondary user snapshot retention count
+              snap_tag_list: User snapshot tag list to retain (List<snapTagDetail>, max 10). Required when sync_snap_policy is snap_tag_based. parameter format: [{
+                  snap_tag_name: Tag name of the user snapshot to be retained on the storage device of the secondary resource (string, 1~32个字符，且满足正则表达^[a-zA-Z0-9][a-zA-Z0-9\-_\\.]{0,31}$),
+                  snap_tag_retention_num: Number of tagged snapshots that can be retained on the secondary resource (int32, 1~4065),
+              }, ...],
               switch_to_async: switch for automatic conversion from sync to async remote replication
           
           Returns:
