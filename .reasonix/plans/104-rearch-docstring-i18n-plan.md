@@ -302,3 +302,36 @@ topics:
 - 67 个文本描述大多符合规范 2/3（如"操作结果""任务 ID""无。"）；
 - 多情况描述（规范 4）：`topology_query_san_path` 前两段、`tenant.lun_change_tier` 格式正确；
 - `tenant.lun_bind_project` / `lun_unbind_project`："无返回数据。HTTP 200 ..." 符合规范 3。
+
+---
+
+## 待确认清单：未展开的结构体（2026-10-08 二次审计）
+
+对全部 427 个动作的 **Args 与 Returns 段**再次审计（zh_CN 源，en_US 同步），发现 **34 条对象类型字段无展开标记**（`属性格式如下：{` / `参数格式如下：{` / `parameter format: {` 等），涉及 **12 个 action**。状态：**待手工确认是否修复**（展开需查 `.reasonix/reference/dme-api-reference.md` 对应对象定义；深层嵌套如 topology_query_san_path 是否展开多层由人工决定）。
+
+### Returns 段（5 个 action，21 条）
+
+| 动作 | 字段 | 未展开类型 |
+|------|------|-----------|
+| `aiops.topology_query_san_path` | fabrics / switches(2) / switch_links(2) / hosts(3) / storages(3) / controllers / disks / host_groups / pools / ports / right_port | `List<HostToStoragePoolFabric>`、`List<SwitchItem>`、`List<SwitchLinkItem>`、`List<HostToStoragePoolHost>`、`List<HostToStoragePoolStorage>`、`List<HostToStoragePoolController>`、`List<HostToStorageDiskDisks>`、`List<HostToStoragePoolHostGroup>`、`List<HostToStoragePoolPool>`、`List<HostToStoragePoolPort>`、`PortNodeItem` |
+| `aiops.performance_query` | data | `Map<object, Map<object, HistoryPerfData>>` |
+| `aiops.performance_show_indicators` | data | `Map<object, SimpleIndicator>` |
+| `san.mapping_view_query_host_to_lun` | host_info / lun_info | `HostInfoRespParam对象` / `LunInfoRespParam对象` |
+
+### Args 段（7 个 action，13 条）
+
+| 动作 | 字段 | 未展开类型 |
+|------|------|-----------|
+| `fcswitch.alias_modify` / `fcswitch.zone_modify` | removed_members | `List<PortMemberRequest>` |
+| `protect.replication_group_create` / `replication_group_modify` | sync_schedule | `CustomSyncSchedule` |
+| `protect.replication_pair_create` | consistency_group_info / snap_tag_list / sync_schedule | `RepConsistencyGroup` / `List<snapTagDetail>` / `CustomSyncSchedule` |
+| `protect.replication_pair_modify` | snap_tag_list / sync_schedule | `List<snapTagDetail>` / `CustomSyncSchedule` |
+| `protect.snapshot_group_rollback` | target_snapshot_objects | `List<TargetSnapshotObject>` / `TargetSnapshot对象` |
+| `protect.snapshot_rollback` | rollback_snapshots | `List<LunSnapshotRollbackResource>` |
+| `san.mapping_view_query_host_to_lun` | host_info / lun_info | `LunToHostQueryParam对象` / `HostToLunQueryParam对象` |
+
+### 说明
+
+- 已排除：基础类型（string/int32/…）、`List<string>` 等、枚举"可选值"列表、已带展开标记的字段（含 `参数格式如下：{` 单对象形式）。
+- `topology_query_san_path` 为深层嵌套拓扑结构（fabrics 已展开 3 层），其余引用对象是否逐层展开由人工决定。
+- 修复时 zh_CN/en_US 同步，展开后需通过 round-trip 校验与全量 help 回归。
