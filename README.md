@@ -1,61 +1,57 @@
 # DME Python SDK
 
-## 简介
-- 提供 Python 客户端（`pydme/client.py`）访问 DME RESTful API
-- 支持通过 DME 获取的令牌自动登录华为闪存存储，无需记忆每台存储的用户名和密码
-- 提供 DME RESTful API 的动作模块
+[English](./README.md) | [简体中文](./README_zh.md)
 
-## 项目结构
+## Introduction
+- Python client (`pydme/client.py`) for accessing DME RESTful API
+- Auto-login to Huawei flash storage using DME tokens, no need to remember per-storage credentials
+- Action modules for DME RESTful API
+
+## Project Structure
 
 ```
 .
-├── pydme/                  # Python 包
-│   ├── client.py           # DME API 客户端
-│   ├── cli.py              # 命令行接口
-│   └── actions/            # 动作模块（每个主题一个文件，427 个动作）
-│       ├── aiops.py         # AIOps 智能运维
-│       ├── backup.py         # 数据备份管理
-│       ├── fcswitch.py       # FC 光纤交换机
-│       ├── gfs.py            # 全局文件系统
-│       ├── integrate.py      # 三方系统集成(CMDB)
-│       ├── ipswitch.py       # IP 交换机
-│       ├── kube.py           # Kubernetes 容器
-│       ├── nas.py            # NAS 文件存储
-│       ├── protect.py        # 数据保护
-│       ├── san.py            # SAN 块存储
-│       ├── server.py         # 服务器管理
-│       ├── storage.py        # 存储设备管理
-│       ├── system.py         # 系统管理
-│       ├── tenant.py         # 租户自助服务
-│       ├── virt.py           # 虚拟化服务
-│       └── workflow.py       # 工作流管理
+├── pydme/                  # Python package
+│   ├── client.py           # DME API client
+│   ├── cli.py              # CLI entry point
+│   └── actions/            # Action modules (one file per topic, 427 actions)
+│       ├── aiops.py         # AIOps intelligent operations
+│       ├── backup.py         # Backup management
+│       ├── fcswitch.py       # FC switch management
+│       ├── gfs.py            # Global file system
+│       ├── integrate.py      # Third-party integration (CMDB)
+│       ├── ipswitch.py       # IP switch management
+│       ├── kube.py           # Kubernetes management
+│       ├── nas.py            # NAS file storage
+│       ├── protect.py        # Data protection
+│       ├── san.py            # SAN block storage
+│       ├── server.py         # Server management
+│       ├── storage.py        # Storage device management
+│       ├── system.py         # System management
+│       ├── tenant.py         # Tenant self-service
+│       ├── virt.py           # Virtualization services
+│       └── workflow.py       # Workflow management
 ├── pyproject.toml
 └── README.md
 ```
 
-## 如何使用
+## How to Use
 
-### 安装
+### Installation
 
-从默认分支安装（稳定版，中文注释）：
+Install from default branch (stable):
 
 ```bash
 pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git
 ```
 
-从开发分支安装（最新功能，中文注释）：
+Install from dev branch (latest features):
 
 ```bash
 pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@dev
 ```
 
-Or install from english branch (stable, english comments):
-
-```bash
-pip install git+https://github.com/agentic-data-ops/dme-python-sdk.git@main-en
-```
-
-或以可编辑模式安装用于开发：
+Or install in editable mode for development:
 
 ```bash
 git clone https://github.com/agentic-data-ops/dme-python-sdk.git
@@ -64,110 +60,109 @@ pip install -e .
 ```
 
 
-### 环境配置
+### Environment Configuration
 
 ```
-# 在 DME 上创建"第三方系统接入"用户并添加"北向用户组"角色
+# Create a "third-party system access" user in DME with "northbound user group" role
 DME_API_ENDPOINT=https://dme-float-ip:26335
 DME_API_USERNAME=your-username
 DME_API_PASSWORD=your-password
 
-# 或使用认证令牌代替用户名/密码：
+# Or use an auth token instead of username/password:
 # DME_API_AUTH_TOKEN=your-token
 ```
 
 
-### 使用命令行
+### Using the CLI
 
-安装后，`pydme` 命令全局可用：
+After installation, the `pydme` command is available globally:
 
 ```bash
-# 查看所有可用主题和动作
+# View all available topics and actions
 pydme --list-topics
 
-# 查看指定主题的帮助
+# View help for a specific topic
 pydme storage --help
 
-# 查看指定子主题的帮助
+# View help for a specific subtopic
 pydme storage disk --help
 
-# 查看指定动作的帮助
+# View help for a specific action
 pydme storage disk list --help
 
-# 执行动作
+# Execute an action
 pydme storage list --limit 20
 
-# 执行子主题动作
+# Execute a subtopic action
 pydme storage disk list --storage_id <id>
 ```
 
-可用主题（427 个动作，98.4% 已测试覆盖）：
+Available topics (427 actions, 98.4% test coverage):
 
-| 主题 | 描述 | 动作数 |
-|------|------|:------:|
-| `protect` | 数据保护（保护组/双活/复制/快照/克隆） | 77 |
-| `san` | SAN 块存储（LUN/映射视图/主机/端口组） | 66 |
-| `storage` | 存储设备管理（租户/磁盘/池/端口/控制器） | 62 |
-| `nas` | NAS 文件存储（NFS/CIFS/文件系统/配额/DTree） | 61 |
-| `system` | 系统管理（用户/标签/任务/Region/证书） | 40 |
-| `aiops` | AIOps 智能运维（告警/性能/健康度/拓扑） | 26 |
-| `fcswitch` | FC 光纤交换机管理 | 19 |
-| `gfs` | 全局文件系统 | 14 |
-| `virt` | 虚拟化服务（VM/集群/数据存储） | 14 |
-| `server` | 服务器管理（CPU/内存/RAID） | 10 |
-| `tenant` | 租户自助服务（服务化LUN/业务群组） | 10 |
-| `ipswitch` | IP 交换机管理 | 7 |
-| `workflow` | 工作流管理 | 7 |
-| `kube` | Kubernetes 容器管理 | 6 |
-| `integrate` | 三方系统集成（CMDB） | 5 |
-| `backup` | 数据备份管理 | 3 |
+| Topic | Description | Actions |
+|-------|-------------|:-------:|
+| `protect` | Data protection (protection groups/active-active/replication/snapshots/clones) | 77 |
+| `san` | SAN block storage (LUNs/mapping views/hosts/port groups) | 66 |
+| `storage` | Storage device management (tenants/disks/pools/ports/controllers) | 62 |
+| `nas` | NAS file storage (NFS/CIFS/filesystems/quotas/DTrees) | 61 |
+| `system` | System management (users/tags/tasks/regions/certificates) | 40 |
+| `aiops` | AIOps (alerts/performance/health/topology) | 26 |
+| `fcswitch` | FC switch management | 19 |
+| `gfs` | Global file system | 14 |
+| `virt` | Virtualization services (VMs/clusters/datastores) | 14 |
+| `server` | Server management (CPU/memory/RAID) | 10 |
+| `tenant` | Tenant self-service (service LUNs/project groups) | 10 |
+| `ipswitch` | IP switch management | 7 |
+| `workflow` | Workflow management | 7 |
+| `kube` | Kubernetes management | 6 |
+| `integrate` | Third-party integration (CMDB) | 5 |
+| `backup` | Backup management | 3 |
 
-DME 连接信息也可通过命令行参数传递：
+DME connection info can also be passed via CLI arguments:
 
 ```bash
 pydme --endpoint https://dme-float-ip:26335 --user admin --password pass storage list
 ```
 
 
-## 高风险操作控制
+## High-Risk Operation Control
 
-为防止误操作导致数据丢失或服务中断，CLI 内置了**高风险操作黑名单**机制。
+To prevent accidental data loss or service interruption, the CLI has a built-in **high-risk operation blacklist** mechanism.
 
-### 工作机制
+### How It Works
 
-高风险操作包括：`delete`（删除）、`modify`（修改）、`remove`（移除）、`unmap`（解除映射）、`split`（分裂）、`stop`（停止）、`rollback`（回滚）、`switch`（切换）等。
+High-risk operations include: `delete` (delete), `modify` (modify), `remove` (remove), `unmap` (unmap), `split` (split), `stop` (stop), `rollback` (rollback), `switch` (switch), etc.
 
-执行高风险命令时，CLI 会拦截并提示确认：
+When a risky command is detected, the CLI intercepts and prompts for confirmation:
 
 ```
-⚠️  风险操作警告："san lun delete" 是高风险操作（可能造成数据丢失或服务中断）
-   ❌ 已拒绝执行。如确认要继续，请添加 --accept-risk 参数
-      或设置环境变量 DME_ACCEPT_RISK=true
+⚠️  Risk operation warning: "san lun delete" is a high-risk operation (may cause data loss or service interruption)
+   ❌ Execution refused. To proceed, add --accept-risk or set DME_ACCEPT_RISK=true
 ```
 
-### 接受风险的方式
+### How to Accept Risk
 
-**方式一：命令行参数**（单次生效）
+**Option 1: CLI flag** (single invocation)
 
 ```bash
 pydme san lun delete --id <lun_id> --accept-risk
 ```
 
-**方式二：环境变量**（会话内生效）
+**Option 2: Environment variable** (session-wide)
 
 ```bash
 export DME_ACCEPT_RISK=true
 pydme san lun delete --id <lun_id>
 ```
 
-### 黑名单配置文件
+### Blacklist Configuration File
 
-首次执行风险操作时，CLI 会自动在用户目录生成黑名单文件：
+On first risky command execution, the CLI automatically generates a blacklist file:
 
 - **Linux**: `~/.config/pydme/blacklist.json`
-- **Windows**: `C:\Users\<用户名>\.config\pydme\blacklist.json`
+- **Windows**: `C:\Users\<username>\.config\pydme\blacklist.json`
 
-你可以编辑此文件以自定义风险策略：
+You can edit this file to customize the risk policy:
 
 ```json
 {
@@ -176,14 +171,14 @@ pydme san lun delete --id <lun_id>
 }
 ```
 
-> **提示**：如果想完全禁用风险检查，可将配置文件内容清空为 `{}`。不推荐在生产环境中禁用。
+> **Tip**: To completely disable risk checks, set the file content to `{}`. Not recommended in production.
 
-### 当前覆盖的风险动作
+### Covered Risk Actions
 
-覆盖 **10 个主题、122 个高风险动作**，包括：
+Covers **10 topics, 122 high-risk actions**:
 
-| 主题 | 风险动作数 | 示例 |
-|------|-----------|------|
+| Topic | Risky Actions | Examples |
+|-------|---------------|----------|
 | `san` | 22 | `lun_delete`, `lun_expand`, `storage_host_unmap_luns` |
 | `protect` | 40 | `snapshot_rollback`, `hypermetro_domain_split`, `replication_group_switch` |
 | `nas` | 22 | `cifs_share_delete`, `filesystem_modify`, `quota_delete` |
@@ -196,11 +191,11 @@ pydme san lun delete --id <lun_id>
 | `workflow` | 1 | `instance_stop` |
 
 
-### 使用动作模块
+### Using Action Modules
 
-每个动作模块提供主题相关的函数，这些函数以已认证的 `DMEAPIClient` 实例作为第一个参数。
+Each action module provides topic-specific functions. These functions take an authenticated `DMEAPIClient` instance as the first parameter.
 
-#### 导入所有模块
+#### Import all modules
 
 ```python
 from pydme.actions import *
@@ -208,13 +203,13 @@ from pydme.actions import *
 client = DMEAPIClient()
 client.login()
 
-# 通过模块名调用函数
+# Call functions by module name
 disks = storage.disk_list(client, storage_id="your-storage-id")
 alarms = aiops.alarm_list(client)
 luns = san.lun_list(client)
 ```
 
-#### 导入指定模块
+#### Import specific modules
 
 ```python
 from pydme.actions import storage, aiops, san
@@ -222,20 +217,20 @@ from pydme.actions import storage, aiops, san
 client = DMEAPIClient()
 client.login()
 
-# 查询存储设备磁盘
+# Query storage device disks
 disks = storage.disk_list(client, storage_id="your-storage-id")
 print(disks)
 
-# 查询告警
+# Query alarms
 alarms = aiops.alarm_list(client)
 print(alarms)
 
-# 查询 SAN LUN
+# Query SAN LUNs
 luns = san.lun_list(client, limit=20)
 print(luns)
 ```
 
-#### 导入单个函数
+#### Import a single function
 
 ```python
 from pydme.actions.storage import disk_list
@@ -245,23 +240,23 @@ disks = disk_list(client, storage_id="your-storage-id")
 alarms = alarm_list(client)
 ```
 
-所有动作函数遵循相同模式：
+All action functions follow the same pattern:
 
-- **第一个参数**：已认证的 `DMEAPIClient` 实例
-- **关键字参数**：动作特定参数（详见函数文档）
-- **返回值**：包含 API 响应的 `dict`
+- **First parameter**: An authenticated `DMEAPIClient` instance
+- **Keyword arguments**: Action-specific parameters (see function documentation)
+- **Return value**: A `dict` containing the API response
 
-通过 CLI 浏览可用动作：
+Browse available actions via CLI:
 
 ```bash
-pydme --list-topics                    # 列出所有主题
-pydme <topic> --help                   # 查看主题下的动作
+pydme --list-topics                    # List all topics
+pydme <topic> --help                   # View actions under a topic
 ```
 
 
-### 使用 Python 客户端
+### Using the Python Client
 
-#### 初始化客户端
+#### Initializing the Client
 
 ```python
 from pydme.client import DMEAPIClient
@@ -270,16 +265,16 @@ client = DMEAPIClient()
 client.login()
 ```
 
-#### 查询并分类存储设备
+#### Query and classify storage devices
 
 ```python
 import json
 
-# 查询存储设备列表
+# Query storage device list
 storage_list = client.get("/rest/storagemgmt/v1/storages").get("datas", [])
 print(json.dumps(storage_list, indent=2))
 
-# 按类型分类
+# Classify by type
 dorado_storage_list = [
     storage for storage in storage_list if storage.get("owning_ne_type") == "dorado"
 ]
@@ -288,7 +283,7 @@ pacific_storage_list = [
 ]
 ```
 
-#### 查询存储设备详情
+#### Query storage device details
 
 ```python
 storage_id = dorado_storage_list[0].get("id")
@@ -299,10 +294,10 @@ storage_detail = client.get(
 print(json.dumps(storage_detail, indent=2))
 ```
 
-#### 调用存储设备原生 API
+#### Call storage device native API
 
 ```python
-# 获取指定存储设备的令牌认证客户端
+# Get a token-authenticated client for a specific storage device
 storage_client = client.get_storage_client(storage_id)
 lun_list = storage_client.get("/lun", params={"filter": "NAME:lun"}).get("data", [])
 print(json.dumps(lun_list, indent=2))
@@ -310,8 +305,8 @@ print(json.dumps(lun_list, indent=2))
 
 ---
 
-## 免责声明
+## Disclaimer
 
-1. **非官方项目**：本项目非华为 DME 官方提供，由个人维护，仅提供参考样例，不提供技术支持。
+1. **Unofficial project**: This project is not officially provided by Huawei DME. It is maintained by individuals, provides reference samples only, and offers no technical support.
 
-2. **AI 生成代码**：本项目代码完全由 AI 编码工具开发和测试，仍存在少部分动作因缺乏环境未进行实际测试（动作实现与 API 是一致的），请谨慎评估后使用。
+2. **AI-generated code**: The code in this project is fully developed and tested by AI coding tools. A small number of actions have not been tested against a real environment (the implementations are consistent with the API). Please evaluate carefully before use.
