@@ -248,3 +248,57 @@ topics:
 | V3 | 默认 zh_CN 全量 427 个 `--help` 与 v2 改造前逐字一致 |
 | V4 | `--list-topics` 输出与 v2 改造前一致（topic 描述与 action 描述内容不变） |
 | V5 | `ACTIONS` dict 无 `description` 字段残留；en_US 全量 help 无缺失警告；wheel 打包正常 |
+
+---
+
+## 待修复清单：Returns 规范审计（2026-10-08）
+
+对全部 427 个动作的 `Returns` 段按以下规范审计（zh_CN 源，en_US 需同步修改）：
+
+1. 返回结构体 → 用 `{}` 包裹描述结构体内的字段；
+2. 返回单个值 → 直接描述返回值含义；
+3. 返回为空 → 直接说明无返回；
+4. 根据不同条件返回多种格式的结构体 → 分情况描述结构体内的字段。
+
+共发现 **17 个不符合项**（A/B/C/D/E 五类），状态：**待手动审计如何修复**（用户逐项决定修复方式后实施，zh_CN/en_US 两文件同步，结构体展开以 `.reasonix/reference/dme-api-reference.md` 为准）。
+
+### A. 无 Returns 段（8 个）
+
+| 动作 | 问题 | 建议方向 |
+|------|------|---------|
+| `storage.qos_show` | 无 Returns；API 返回 `total` + `datas`（List\<qosDetailResponse\>）结构体 | 展开结构体 |
+| `storage.qos_create` / `qos_modify` / `qos_delete` / `qos_activate` / `qos_deactivate` / `qos_associate` / `qos_unassociate` | 无 Returns | 补"无"或返回的任务 ID（按 API 确认） |
+
+### B. 空返回用 `{}` 包裹（2 个）
+
+| 动作 | 问题 | 建议方向 |
+|------|------|---------|
+| `protect.group_modify` | `{ 无返回数据。HTTP 200 表示修改成功。 }` | 改直接文本（规范 3） |
+| `protect.hypermetro_pair_modify` | 同 | 同 |
+
+### C. 返回结构体但仅文本描述（3 个，已对照 API 参考确认）
+
+| 动作 | 现状 | API 实际返回 | 建议方向 |
+|------|------|-------------|---------|
+| `san.physical_host_group_show` | "物理主机组详细信息" | summary：id/name/description/host_count/source_type/managed_status/takeover_failed_reason/project_id/az_ids（+ TakeoverFailedReason 嵌套） | 展开结构体 |
+| `san.physical_host_group_create` | "创建的物理主机组信息" | id/name/description | 展开结构体 |
+| `aiops.performance_list_indicators` | "监控指标信息,包含 indicator_ids 列表" | status_code/error_code/error_msg/data（IndicatorIdBody：indicator_ids） | 展开结构体 |
+
+### D. 结构体含占位符未展开（1 个）
+
+| 动作 | 问题 | 建议方向 |
+|------|------|---------|
+| `aiops.topology_query_san_path` | `san_type=None` 分情况中 `ip_san: { IP_SAN 返回数据 }`、`fc_san: { FC_SAN 返回数据 }` 为占位符 | 展开 ip_san/fc_san 字段（按 API 参考）或按规范简化 |
+
+### E. 嵌套标记混用（3 个，格式小瑕疵）
+
+| 动作 | 问题 | 建议方向 |
+|------|------|---------|
+| `aiops.topology_query_san_path` / `topology_query_luns` / `topology_query_vms` | `属性格式如下：[{`（列表对象展开标记混用） | 统一为 `参数格式如下：[{` |
+
+### 合规情况（无需处理）
+
+- 其余 352 个结构体：括号平衡、字段行逗号齐全；
+- 67 个文本描述大多符合规范 2/3（如"操作结果""任务 ID""无。"）；
+- 多情况描述（规范 4）：`topology_query_san_path` 前两段、`tenant.lun_change_tier` 格式正确；
+- `tenant.lun_bind_project` / `lun_unbind_project`："无返回数据。HTTP 200 ..." 符合规范 3。
