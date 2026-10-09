@@ -304,10 +304,16 @@ def performance_create_collect_task(client: DMEAPIClient, begin_time: int, end_t
     return response
 
 
-def performance_download_collect_result(client: DMEAPIClient, task_id: str) -> dict:
+def performance_download_collect_result(client: DMEAPIClient, task_id: str, save_to: str = None):
     url = "/rest/pmmgmt/v1/performance-data/download/{task_id}"
 
     response = client.get(url, params={"task_id": task_id})
+
+    # If save_to is specified, persist the file content to disk
+    if save_to is not None and isinstance(response, bytes):
+        with open(save_to, "wb") as f:
+            f.write(response)
+
     return response
 
 
@@ -770,7 +776,7 @@ ACTIONS = {
     },
     'performance_download_collect_result': {
         'func': performance_download_collect_result,
-        'params': ['task_id'],
+        'params': ['task_id', 'save_to'],
         'subtopic': 'performance'
     },
     'performance_query': {
