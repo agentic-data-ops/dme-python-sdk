@@ -171,9 +171,10 @@ topics:
           Args:
               client: DME API 客户端
               task_id: 任务 ID(必填)
+              save_to: 保存路径(可选),指定后文件内容将写入该路径
           
           Returns:
-              性能文件下载链接或文件内容
+              文件内容(bytes),若指定 save_to 则同时写入本地文件
       performance_query:
         docstring: |
           查询历史性能数据

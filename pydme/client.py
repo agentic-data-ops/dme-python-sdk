@@ -46,16 +46,16 @@ class BaseClient:
         """Set base_url and headers after login"""
         pass
 
-    def get(self, path: str, params: dict = None) -> dict | str:
+    def get(self, path: str, params: dict = None):
         return self.request("GET", path, params)
 
-    def post(self, path: str, params: dict = None, body: dict = None) -> dict | str:
+    def post(self, path: str, params: dict = None, body=None):
         return self.request("POST", path, params, body)
 
-    def put(self, path: str, params: dict = None, body: dict = None) -> dict | str:
+    def put(self, path: str, params: dict = None, body=None):
         return self.request("PUT", path, params, body)
 
-    def delete(self, path: str, params: dict = None) -> dict | str:
+    def delete(self, path: str, params: dict = None):
         return self.request("DELETE", path, params)
 
     def request(
@@ -63,8 +63,8 @@ class BaseClient:
         method: str,
         path: str,
         params: dict = None,
-        body: dict = None,
-    ) -> dict | str:
+        body=None,
+    ):
         if time.time() - self.last_accessed > self.session_timeout:
             if self.enable_log:
                 LOG.info(f"Session timed out, re-logging in: {self.endpoint}")
@@ -106,6 +106,11 @@ class BaseClient:
                     method,
                     f"{self.base_url}{path.format(**path_params)}",
                 )
+        content_type = resp.headers.get("Content-Type", "").lower()
+        # Non-JSON responses (e.g. file downloads) return raw bytes for the caller to persist
+        if content_type and "json" not in content_type:
+            return raw
+
         try:
             data = json.loads(raw)
         except (json.JSONDecodeError, TypeError, UnicodeDecodeError):

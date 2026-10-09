@@ -171,9 +171,10 @@ topics:
           Args:
               client: DME API client
               task_id: task ID (Required)
+              save_to: save path (Optional), file content is written to this path when specified
           
           Returns:
-              performance file download link or file content
+              file content (bytes); also written to the local file when save_to is specified
       performance_query:
         docstring: |
           Query historical performance data
