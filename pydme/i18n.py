@@ -12,7 +12,7 @@ repo's self-produced format):
           <action-func>:
             docstring: |    # the full function docstring, verbatim
 
-Language selection: CLI argument --lang > environment variable DME_LANG >
+Language selection: CLI argument --lang > environment variable DME_CLI_LANG >
 default zh_CN.
 """
 import os
@@ -86,9 +86,9 @@ def parse_yaml(text: str) -> dict:
 
 
 def resolve_lang(cli_lang=None) -> str:
-    """CLI argument > DME_LANG env var > default zh_CN; an invalid value falls
+    """CLI argument > DME_CLI_LANG env var > default zh_CN; an invalid value falls
     back to the default with a warning."""
-    lang = cli_lang or os.environ.get('DME_LANG') or DEFAULT_LANG
+    lang = cli_lang or os.environ.get('DME_CLI_LANG') or DEFAULT_LANG
     if lang not in SUPPORTED_LANGS:
         print(f"Warning: unknown language '{lang}', falling back to {DEFAULT_LANG}", file=sys.stderr)
         lang = DEFAULT_LANG

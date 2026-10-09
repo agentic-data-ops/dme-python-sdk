@@ -15,7 +15,7 @@
 │   ├── __init__.py
 │   ├── client.py           # DME API 客户端
 │   ├── cli.py              # 命令行接口
-│   ├── i18n.py             # 国际化注释加载（DME_LANG / --lang）
+│   ├── i18n.py             # 国际化注释加载（DME_CLI_LANG / --lang）
 │   ├── config/             # 配置资源
 │   │   ├── blacklist.json  # 高风险操作黑名单
 │   │   └── i18n/           # 按语言的注释资源
@@ -87,10 +87,10 @@ CLI 支持中英文双语注释，可通过环境变量或命令行参数设置�
 
 ```bash
 # 中文（默认）
-export DME_LANG=zh_CN
+export DME_CLI_LANG=zh_CN
 
 # 英文
-export DME_LANG=en_US
+export DME_CLI_LANG=en_US
 
 # 或在命令行使用 --lang 参数（优先级高于环境变量）
 pydme --lang en_US storage list --help

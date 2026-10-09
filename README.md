@@ -15,7 +15,7 @@
 │   ├── __init__.py
 │   ├── client.py           # DME API client
 │   ├── cli.py              # CLI entry point
-│   ├── i18n.py             # i18n comment loader (DME_LANG / --lang)
+│   ├── i18n.py             # i18n comment loader (DME_CLI_LANG / --lang)
 │   ├── config/             # Configuration resources
 │   │   ├── blacklist.json  # High-risk operation blacklist
 │   │   └── i18n/           # Per-language comment resources
@@ -83,14 +83,14 @@ DME_API_PASSWORD=your-password
 
 ### Set Comment Language
 
-The CLI supports bilingual comments. Set the language via the DME_LANG environment variable or the --lang argument:
+The CLI supports bilingual comments. Set the language via the DME_CLI_LANG environment variable or the --lang argument:
 
 ```bash
 # Chinese (default)
-export DME_LANG=zh_CN
+export DME_CLI_LANG=zh_CN
 
 # English
-export DME_LANG=en_US
+export DME_CLI_LANG=en_US
 
 # Or pass --lang per invocation (takes precedence over the environment variable)
 pydme --lang en_US storage list --help

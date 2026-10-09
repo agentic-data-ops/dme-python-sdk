@@ -105,7 +105,7 @@ class DMECLI:
     def __init__(self):
         self.client: Optional[DMEAPIClient] = None
         self.actions_module = None
-        self.lang = DEFAULT_LANG  # comment language (--lang / DME_LANG), resolved in main()
+        self.lang = DEFAULT_LANG  # comment language (--lang / DME_CLI_LANG), resolved in main()
 
     def _doc_for(self, topic: str, action_key: str, func) -> str:
         """Get the action comment text in the current language.
@@ -742,7 +742,7 @@ Format:
     parser.add_argument('--list-topics', action='store_true',
                         help='list all available topics')
     parser.add_argument('--lang', choices=['zh_CN', 'en_US'], default=None,
-                        help='comment language: zh_CN (default) or en_US; can also be set via the DME_LANG environment variable')
+                        help='comment language: zh_CN (default) or en_US; can also be set via the DME_CLI_LANG environment variable')
 
     # Topic parameters
     parser.add_argument('topic', nargs='?', help='action topic')
@@ -763,7 +763,7 @@ def main():
     # Use parse_known_args to capture unknown arguments (action parameters)
     args, unknown = parser.parse_known_args()
 
-    # Comment language: --lang first, then DME_LANG, default zh_CN
+    # Comment language: --lang first, then DME_CLI_LANG, default zh_CN
     cli.lang = resolve_lang(args.lang)
 
     # Parse unknown arguments as action parameters
