@@ -330,6 +330,10 @@ topics:
 | `protect.snapshot_rollback` | rollback_snapshots | `List<LunSnapshotRollbackResource>` |
 | `san.mapping_view_query_host_to_lun` | host_info / lun_info | `LunToHostQueryParam对象` / `HostToLunQueryParam对象` |
 
+### API 参考核对（2026-10-08）
+
+已逐个核对清单中 25 个对象类型（HostToStoragePoolFabric、SwitchItem、SwitchLinkItem、PortLinkItem、HostToStoragePoolHost/Storage/Controller/DiskDisks/HostGroup/Pool/Port、PortNodeItem、SwitchPortItem、HistoryPerfData、SimpleIndicator、HostInfoRespParam、LunInfoRespParam、LunToHostQueryParam、HostToLunQueryParam、PortMemberRequest、CustomSyncSchedule、RepConsistencyGroup、snapTagDetail、TargetSnapshotObject、LunSnapshotRollbackResource）在 `.reasonix/reference/dme-api-reference.md` 中**均有定义**（`Xxx对象包含如下属性` 章节）。**无动作需要从清单移除**，12 个 action 全部保留（展开依据齐全）。
+
 ### 说明
 
 - 已排除：基础类型（string/int32/…）、`List<string>` 等、枚举"可选值"列表、已带展开标记的字段（含 `参数格式如下：{` 单对象形式）。
