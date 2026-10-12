@@ -15,12 +15,14 @@
 │   ├── __init__.py
 │   ├── client.py           # DME API 客户端
 │   ├── cli.py              # 命令行接口
-│   ├── i18n.py             # 国际化注释加载（DME_CLI_LANG / --lang）
+│   ├── i18n.py             # 国际化加载与动作注册表（DME_CLI_LANG / --lang）
 │   ├── config/             # 配置资源
 │   │   ├── blacklist.json  # 高风险操作黑名单
-│   │   └── i18n/           # 按语言的注释资源
-│   │       ├── zh_CN.yaml  # 中文注释
-│   │       └── en_US.yaml  # 英文注释
+│   │   └── i18n/           # 按语言的结构化资源（主题树 + docstring）
+│   │       ├── actions_zh_CN.yaml  # 主题树：描述/func/params/subtopics
+│   │       ├── actions_en_US.yaml  # 结构同上，英文描述
+│   │       ├── funcs_zh_CN.yaml    # 完整函数 docstring
+│   │       └── funcs_en_US.yaml    # 结构同上，英文 docstring
 │   └── actions/            # 动作模块（每个主题一个文件，427 个动作）
 │       ├── aiops.py         # AIOps 智能运维
 │       ├── backup.py         # 数据备份管理
@@ -102,7 +104,7 @@ pydme --lang en_US storage list --help
 安装后，`pydme` 命令全局可用：
 
 ```bash
-# 查看所有可用主题和动作
+# 查看所有可用主题和子主题（含描述）
 pydme --list-topics
 
 # 查看指定主题的帮助
@@ -274,7 +276,7 @@ alarms = alarm_list(client)
 通过 CLI 浏览可用动作：
 
 ```bash
-pydme --list-topics                    # 列出所有主题
+pydme --list-topics                    # 列出所有主题和子主题
 pydme <topic> --help                   # 查看主题下的动作
 ```
 
