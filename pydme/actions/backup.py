@@ -38,24 +38,3 @@ def cluster_quota(client: DMEAPIClient, cluster_id: str,
     
     response = client.post(url, body=payload, params={"cluster_id": cluster_id})
     return response
-
-
-# Action list for CLI help
-ACTIONS = {
-    # Subtopic actions - cluster (three-level structure: backup cluster list/capacity/quota)
-    'cluster_list': {
-        'func': cluster_list,
-        'params': ['page_no', 'page_size'],
-        'subtopic': 'cluster'
-    },
-    'cluster_capacity': {
-        'func': cluster_capacity,
-        'params': ['cluster_id'],
-        'subtopic': 'cluster'
-    },
-    'cluster_quota': {
-        'func': cluster_quota,
-        'params': ['cluster_id', 'page_no', 'page_size'],
-        'subtopic': 'cluster'
-    },
-}

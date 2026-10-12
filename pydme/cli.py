@@ -8,8 +8,6 @@ import argparse
 import json
 import os
 import sys
-import importlib
-import pkgutil
 import re
 import inspect
 from pathlib import Path
@@ -20,7 +18,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pydme.client import DMEAPIClient
 from pydme.i18n import (resolve_lang, DEFAULT_LANG, get_action_description,
-                        get_action_doc, get_topic_description)
+                        get_action_doc, get_topic_description,
+                        get_subtopic_description, load_actions,
+                        load_actions_registry)
 
 
 def load_blacklist() -> Dict[str, list]:
@@ -104,7 +104,6 @@ class DMECLI:
 
     def __init__(self):
         self.client: Optional[DMEAPIClient] = None
-        self.actions_module = None
         self.lang = DEFAULT_LANG  # comment language (--lang / DME_CLI_LANG), resolved in main()
 
     def _doc_for(self, topic: str, action_key: str, func) -> str:
@@ -123,94 +122,27 @@ class DMECLI:
                   file=sys.stderr)
         return fallback
 
-    def load_actions(self):
-        """Load all actions in the actions module"""
-        if self.actions_module is None:
-            from pydme import actions
-            self.actions_module = actions
-
     def get_available_topics(self) -> Dict[str, Dict[str, List[str]]]:
         """
-        Get all available topics, subtopics and actions
+        Get all available topics, subtopics and actions (from the i18n registry)
 
         Returns:
             A mapping of topic -> subtopic -> action list
         """
+        registry = load_actions_registry(self.lang)
         topics = {}
-        self.load_actions()
-
-        if self.actions_module is None:
-            return topics
-
-        actions_path = os.path.join(os.path.dirname(__file__), 'actions')
-        if not os.path.exists(actions_path):
-            return topics
-
-        for importer, modname, ispkg in pkgutil.iter_modules([actions_path]):
-            if modname.startswith('_'):
-                continue
-            topic = modname
+        for topic in sorted(registry):
             topics[topic] = {'_direct': [], '_subtopics': {}}
-
-            try:
-                module = importlib.import_module(f'pydme.actions.{modname}')
-                
-                if hasattr(module, 'ACTIONS'):
-                    for action_key, action_info in module.ACTIONS.items():
-                        subtopic = action_info.get('subtopic')
-                        action_name = action_key
-                        
-                        # A 'module' field means a subtopic declaration (not directly executable), skip it
-                        if 'module' in action_info:
-                            # Register the subtopic
-                            if subtopic not in topics[topic]['_subtopics']:
-                                topics[topic]['_subtopics'][subtopic] = []
-                            # Get the action list from the specified module
-                            try:
-                                sub_module = importlib.import_module(action_info['module'])
-                                if hasattr(sub_module, 'ACTIONS'):
-                                    for sub_action_key, sub_action_info in sub_module.ACTIONS.items():
-                                        sub_subtopic = sub_action_info.get('subtopic')
-                                        if sub_subtopic == subtopic or sub_subtopic == action_key:
-                                            sub_action_name = sub_action_key
-                                            prefix_space = f"{subtopic} "
-                                            prefix_underscore = f"{subtopic}_"
-                                            prefix_action_space = f"{action_key} "
-                                            prefix_action_underscore = f"{action_key}_"
-                                            if sub_action_key.startswith(prefix_space):
-                                                sub_action_name = sub_action_key[len(prefix_space):]
-                                            elif sub_action_key.startswith(prefix_underscore):
-                                                sub_action_name = sub_action_key[len(prefix_underscore):]
-                                            elif sub_action_key.startswith(prefix_action_space):
-                                                sub_action_name = sub_action_key[len(prefix_action_space):]
-                                            elif sub_action_key.startswith(prefix_action_underscore):
-                                                sub_action_name = sub_action_key[len(prefix_action_underscore):]
-                                            if sub_action_name not in topics[topic]['_subtopics'][subtopic]:
-                                                topics[topic]['_subtopics'][subtopic].append(sub_action_name)
-                            except ImportError:
-                                pass
-                            continue
-                        
-                        if subtopic:
-                            # Subtopic action (three-level structure)
-                            if subtopic not in topics[topic]['_subtopics']:
-                                topics[topic]['_subtopics'][subtopic] = []
-                            # Extract the action name (strip the subtopic prefix, separated by space or underscore)
-                            action_name = action_key
-                            prefix_space = f"{subtopic} "
-                            prefix_underscore = f"{subtopic}_"
-                            if action_key.startswith(prefix_space):
-                                action_name = action_key[len(prefix_space):]
-                            elif action_key.startswith(prefix_underscore):
-                                action_name = action_key[len(prefix_underscore):]
-                            topics[topic]['_subtopics'][subtopic].append(action_name)
-                        else:
-                            # Direct action (two-level structure)
-                            topics[topic]['_direct'].append(action_key)
-                            
-            except ImportError as e:
-                print(f"Warning: unable to import actions.{modname}: {e}")
-
+            for action_key, info in registry[topic].items():
+                subtopic = info['subtopic']
+                if subtopic:
+                    topics[topic]['_subtopics'].setdefault(subtopic, [])
+                    # Extract the short action name (strip the subtopic prefix)
+                    action_name = action_key[len(subtopic) + 1:] if action_key.startswith(f"{subtopic}_") else action_key
+                    if action_name not in topics[topic]['_subtopics'][subtopic]:
+                        topics[topic]['_subtopics'][subtopic].append(action_name)
+                else:
+                    topics[topic]['_direct'].append(action_key)
         return topics
 
     def parse_docstring(self, doc: str) -> Dict[str, str]:
@@ -340,7 +272,7 @@ class DMECLI:
 
     def get_topic_actions(self, topic: str) -> Optional[Dict[str, Dict]]:
         """
-        Get the information for all actions of the specified topic
+        Get the information for all actions of the specified topic (from the i18n registry)
 
         Args:
             topic: the topic name
@@ -348,59 +280,16 @@ class DMECLI:
         Returns:
             A mapping from action keys to detailed information
         """
-        self.load_actions()
-
-        if self.actions_module is None:
-            return None
-
-        try:
-            module = importlib.import_module(f'pydme.actions.{topic}')
-        except ImportError:
-            return None
-
-        if not hasattr(module, 'ACTIONS'):
+        registry = load_actions_registry(self.lang)
+        if topic not in registry:
             return None
 
         actions_info = {}
-        for action_key, action_data in module.ACTIONS.items():
+        for action_key, action_data in registry[topic].items():
             func = action_data.get('func')
-            
-            # A 'module' field means a subtopic declaration, skip it
-            if 'module' in action_data:
-                # Load actions from the submodule
-                subtopic = action_data.get('subtopic')
-                try:
-                    sub_module = importlib.import_module(action_data['module'])
-                    if hasattr(sub_module, 'ACTIONS'):
-                        for sub_action_key, sub_action_data in sub_module.ACTIONS.items():
-                            sub_subtopic = sub_action_data.get('subtopic')
-                            if sub_subtopic == subtopic or sub_subtopic == action_key:
-                                sub_func = sub_action_data.get('func')
-                                if sub_func:
-                                    sub_doc = self._doc_for(topic, sub_action_key, sub_func)
-                                    sub_parsed = self.parse_docstring(sub_doc)
-                                    # Use the original action_key as the key (e.g. lun_list)
-                                    actions_info[sub_action_key] = {
-                                        'description': (get_action_description(topic, sub_action_key, self.lang)
-                                                        or sub_action_data.get('description', '')),
-                                        'params': sub_action_data.get('params', []),
-                                        'parsed': sub_parsed,
-                                        'subtopic': subtopic,
-                                        'func': sub_func
-                                    }
-                except ImportError:
-                    pass
-                continue
-            
-            # Support func being a string (unresolved) or a function object (resolved)
             if func:
-                # If func is a string, keep the original value and parse it later
-                if isinstance(func, str):
-                    doc = ""
-                else:
-                    doc = self._doc_for(topic, action_key, func)
+                doc = self._doc_for(topic, action_key, func)
                 parsed = self.parse_docstring(doc)
-
                 actions_info[action_key] = {
                     'description': (get_action_description(topic, action_key, self.lang)
                                     or action_data.get('description', '')),
@@ -409,24 +298,7 @@ class DMECLI:
                     'subtopic': action_data.get('subtopic'),
                     'func': func
                 }
-
         return actions_info
-
-    def get_module_doc(self, topic: str) -> Optional[str]:
-        """
-        Get the overall description of the topic module
-
-        Args:
-            topic: the topic name
-
-        Returns:
-            The module docstring
-        """
-        try:
-            module = importlib.import_module(f'pydme.actions.{topic}')
-            return module.__doc__ or ""
-        except ImportError:
-            return None
 
     def execute_action(self, topic: str, action_key: str, params: Dict[str, Any]) -> bool:
         """
@@ -440,42 +312,12 @@ class DMECLI:
         Returns:
             The execution result
         """
-        self.load_actions()
-
-        if self.actions_module is None:
-            print(f"Error: unable to load the actions module")
-            return False
-
-        try:
-            module = importlib.import_module(f'pydme.actions.{topic}')
-        except ImportError:
-            print(f"Error: topic '{topic}' not found")
-            return False
-
-        if not hasattr(module, 'ACTIONS') or action_key not in module.ACTIONS:
+        registry = load_actions_registry(self.lang)
+        if topic not in registry or action_key not in registry[topic]:
             print(f"Error: action '{action_key}' not found in topic '{topic}'")
             return False
 
-        action_info = module.ACTIONS[action_key]
-        func = action_info.get('func')
-        
-        # If func is empty, it may be a subtopic declaration; load from the submodule
-        if not func and 'module' in action_info:
-            subtopic = action_info.get('subtopic')
-            # Try to get the action from the submodule
-            try:
-                sub_module = importlib.import_module(action_info['module'])
-                if hasattr(sub_module, 'ACTIONS'):
-                    for sub_action_key, sub_action_data in sub_module.ACTIONS.items():
-                        sub_subtopic = sub_action_data.get('subtopic')
-                        if sub_subtopic == subtopic or sub_subtopic == action_key:
-                            if sub_action_key == action_key or sub_action_key.endswith(f"_{action_key}"):
-                                func = sub_action_data.get('func')
-                                if func:
-                                    break
-            except ImportError:
-                pass
-        
+        func = registry[topic][action_key].get('func')
         if not func:
             print(f"Error: action '{action_key}' not found in topic '{topic}'")
             return False
@@ -502,14 +344,14 @@ def print_topic_help(cli: DMECLI, topic: str):
         topic: the topic name
     """
     actions_info = cli.get_topic_actions(topic)
-    module_doc = cli.get_module_doc(topic)
+    topic_desc = get_topic_description(topic, cli.lang)
 
     print(f"\n{'='*60}")
     print(f"Topic: {topic}")
     print(f"{'='*60}")
 
-    if module_doc:
-        print(f"\n{module_doc.strip()}")
+    if topic_desc:
+        print(f"\n{topic_desc}")
 
     if actions_info:
         # Separate direct actions and subtopic actions
@@ -539,7 +381,9 @@ def print_topic_help(cli: DMECLI, topic: str):
 
         # Show subtopic actions (three-level structure)
         for subtopic in sorted(subtopics.keys()):
-            print(f"\nSubtopic: {subtopic} (<topic> <action>)")
+            sdesc = get_subtopic_description(topic, subtopic, cli.lang)
+            header = f"Subtopic: {subtopic}" + (f" - {sdesc}" if sdesc else "")
+            print(f"\n{header} (<topic> <subtopic> <action>)")
             print(f"{'-'*60}")
             for action_name in sorted(subtopics[subtopic].keys()):
                 info = subtopics[subtopic][action_name]
@@ -565,12 +409,6 @@ def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
         topic: the topic name
         subtopic: the subtopic name
     """
-    import importlib
-    try:
-        module = importlib.import_module(f'pydme.actions.{topic}')
-    except ImportError:
-        pass
-
     actions_info = cli.get_topic_actions(topic)
 
     if not actions_info:
@@ -580,6 +418,10 @@ def print_subtopic_help(cli: DMECLI, topic: str, subtopic: str):
     print(f"\n{'='*60}")
     print(f"Topic: {topic}  Subtopic: {subtopic}")
     print(f"{'='*60}")
+
+    sdesc = get_subtopic_description(topic, subtopic, cli.lang)
+    if sdesc:
+        print(f"\n{sdesc}")
 
     # Find all actions under this subtopic
     subtopic_actions = {}
@@ -818,14 +660,14 @@ def main():
 
     # Handle global options
     if args.list_topics:
-        topics = cli.get_available_topics()
+        # Read the topic tree from actions_<lang>.yaml (tree view: topics + subtopics descriptions only)
+        tree = load_actions(cli.lang)['topics']
         print("\nAvailable action topics (tree view):")
         print(f"{'='*70}")
 
-        for topic in sorted(topics.keys()):
-            topic_info = topics[topic]
-            # Module description is read from the i18n resource (same source as the module docstring first line)
-            topic_desc = get_topic_description(topic, cli.lang)
+        for topic in sorted(tree):
+            data = tree[topic]
+            topic_desc = data['description']
 
             # Show the topic name and description
             if topic_desc:
@@ -833,49 +675,18 @@ def main():
             else:
                 print(f"\n📁 {topic}")
 
-            # Show direct actions
-            direct_actions = topic_info.get('_direct', [])
-            if direct_actions:
-                print(f"  ├── Direct actions:")
-                for action_key in sorted(direct_actions):
-                    # Action description is read from the i18n resource (list view shows only the first line)
-                    action_desc = get_action_description(topic, action_key, cli.lang).split('\n')[0]
-
-                    if action_desc:
-                        print(f"  │     ├── {action_key} - {action_desc}")
-                    else:
-                        print(f"  │     ├── {action_key}")
-
-            # Show subtopics and their actions
-            subtopics = topic_info.get('_subtopics', {})
-            for subtopic in sorted(subtopics.keys()):
-                actions_list = subtopics[subtopic]
-                print(f"  ├── 📂 {subtopic}")
-
-                for action_name in sorted(actions_list):
-                    # Build the full action key, supporting space- and underscore-separated forms
-                    # e.g. subtopic="cluster", action_name="list" -> "cluster_list" or "cluster list"
-                    full_action_key_space = f"{subtopic} {action_name}"
-                    full_action_key_underscore = f"{subtopic}_{action_name}"
-
-                    # Action description is read from the i18n resource (list view shows only the first line)
-                    action_desc = ""
-                    for key_format in [full_action_key_space, full_action_key_underscore]:
-                        action_desc = get_action_description(topic, key_format, cli.lang).split('\n')[0]
-                        if action_desc:
-                            break
-
-                    if action_desc:
-                        print(f"  │       ├─── {action_name} - {action_desc}")
-                    else:
-                        print(f"  │       ├─── {action_name}")
+            # Show subtopics with their descriptions
+            for subtopic in sorted(data['subtopics']):
+                sdesc = data['subtopics'][subtopic]['description']
+                if sdesc:
+                    print(f"  ├── 📂 {subtopic} - {sdesc}")
+                else:
+                    print(f"  ├── 📂 {subtopic}")
 
         print(f"\n{'='*70}")
         print("\nLegend:")
         print("  📁 topic - topic description")
-        print("  │     ├── direct action - action description")
-        print("  ├── 📂 subtopic")
-        print("  │       ├── action - action description")
+        print("  ├── 📂 subtopic - subtopic description")
         print(f"{'='*70}\n")
         return
 
