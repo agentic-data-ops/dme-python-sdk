@@ -1,0 +1,2121 @@
+topics:
+    - name: aiops
+      description: 'AIOps intelligent operations'
+      actions:
+      subtopics:
+        - name: alarm
+          description: 'Alarm query, acknowledge, unacknowledge and clear'
+          actions:
+            - name: list
+              description: 'Query alarm info'
+              func: alarm_list
+              params: [alarm_id, severity, mo_dn, alarm_group_id, dc_id, product_name, alarm_name, occur_utc_start, occur_utc_end, fields, page_no, page_size, cleared, size, iterator, include_history]
+            - name: ack
+              description: 'Acknowledge alarm'
+              func: alarm_ack
+              params: [csns]
+            - name: unack
+              description: 'Un-acknowledge alarm'
+              func: alarm_unack
+              params: [csns]
+            - name: clear
+              description: 'Clear alarm'
+              func: alarm_clear
+              params: [csns]
+        - name: diagnose_task
+          description: 'Intelligent diagnosis task create and status query'
+          actions:
+            - name: create
+              description: 'Create intelligent analysis task'
+              func: diagnose_task_create
+              params: [object_ids, object_type, begin_time, end_time, analysis_types]
+            - name: status
+              description: 'Query performance diagnosis task status'
+              func: diagnose_task_status
+              params: [task_id]
+        - name: performance
+          description: 'Historical performance query, indicator query and collection'
+          actions:
+            - name: create_collect_task
+              description: 'Create performance file collection task'
+              func: performance_create_collect_task
+              params: [begin_time, end_time, object_type_id, object_ids, indicator_ids]
+            - name: download_collect_result
+              description: 'Download performance file'
+              func: performance_download_collect_result
+              params: [task_id, save_to]
+            - name: query
+              description: 'Query historical performance data'
+              func: performance_query
+              params: [obj_type_id, indicator_ids, obj_ids, obj_type, indicators, ext_dimensions, interval, range, begin_time, end_time]
+            - name: show_indicators
+              description: 'Show monitoring indicator details'
+              func: performance_show_indicators
+              params: [indicators]
+            - name: list_indicators
+              description: 'List monitoring indicators supported by the monitoring object type'
+              func: performance_list_indicators
+              params: [obj_type_id]
+            - name: list_object_types
+              description: 'Get all monitoring object types'
+              func: performance_list_object_types
+              params: [filter]
+        - name: check_result
+          description: 'Policy check result list and detail query'
+          actions:
+            - name: list
+              description: 'Query check policy abnormal check result list'
+              func: check_result_list
+              params: [object_name, level, object_ids, object_native_id, object_type, policy_id, policy_name, policy_types, cause, alarm_type, first_occur_time, last_occur_time, page_no, page_size, sort_key, sort_dir]
+            - name: show
+              description: 'Query check policy abnormal check result details'
+              func: check_result_show
+              params: [check_result_id]
+        - name: check_policy
+          description: 'Check policy query, execute, enable, disable and delete'
+          actions:
+            - name: list
+              description: 'Query check policy list'
+              func: check_policy_list
+              params: [policy_name, exact_query, status, policy_type, policy_source, alarm_type, object_type, page_no, page_size, sort_key, sort_dir, administrative_status, policy_category, object_category]
+            - name: execute
+              description: 'Execute check policy'
+              func: check_policy_execute
+              params: [policy_id]
+            - name: enable
+              description: 'Enable check policy'
+              func: check_policy_enable
+              params: [policy_id]
+            - name: disable
+              description: 'Disable check policy'
+              func: check_policy_disable
+              params: [policy_id]
+            - name: delete
+              description: 'Delete check policy'
+              func: check_policy_delete
+              params: [policy_id]
+        - name: topology
+          description: 'SAN path, LUN, VM and topology graph query'
+          actions:
+            - name: query_san_path
+              description: 'Query SAN path topology structure'
+              func: topology_query_san_path
+              params: [entry_objects, san_type]
+            - name: query_luns
+              description: 'Query topology LUN list'
+              func: topology_query_luns
+              params: [entry_objects, storage_pool_id, lun_name, san_type, page_size, page_no]
+            - name: query_vms
+              description: 'Query topology virtual machines and virtual disk list, or query BMS physical disk list'
+              func: topology_query_vms
+              params: [entry_objects, host_id, vm_name, page_size, page_no]
+            - name: query_graph_path
+              description: 'Query topology graph info'
+              func: topology_query_graph_path
+              params: [entry_res_type, entry_res_id, type, filter]
+        - name: health
+          description: 'Object health score and deduction detail query'
+          actions:
+            - name: query_data
+              description: 'Query health related data'
+              func: health_query_data
+              params: [type, object_id, begin_time, end_time, object_type, indicator]
+            - name: show_score
+              description: 'Query object health score'
+              func: health_show_score
+              params: [object_type, object_name, object_ids, page_no, page_size, sort_key, sort_dir]
+            - name: show_detail
+              description: 'Query deduction details of health dimensions'
+              func: health_show_detail
+              params: [object_id, object_type, health_dimension]
+    - name: backup
+      description: 'Backup management operations'
+      actions:
+      subtopics:
+        - name: cluster
+          description: 'Backup cluster list, capacity and tenant quota query'
+          actions:
+            - name: list
+              description: 'Query backup cluster list'
+              func: cluster_list
+              params: [page_no, page_size]
+            - name: capacity
+              description: 'Query backup cluster capacity'
+              func: cluster_capacity
+              params: [cluster_id]
+            - name: quota
+              description: 'Query backup cluster tenant quota list'
+              func: cluster_quota
+              params: [cluster_id, page_no, page_size]
+    - name: fcswitch
+      description: 'FC Switch related operations'
+      actions:
+          - name: list
+            description: 'Batch query switches'
+            func: list
+            params: [name, page_no, page_size]
+          - name: sync
+            description: 'Sync specified switch'
+            func: sync
+            params: [switch_id]
+      subtopics:
+        - name: port
+          description: 'FC switch port query'
+          actions:
+            - name: list
+              description: 'Batch query switch ports'
+              func: port_list
+              params: [switch_id, port_name, page_no, page_size]
+        - name: controller
+          description: 'FC switch controller query'
+          actions:
+            - name: list
+              description: 'Batch query switch control processors'
+              func: controller_list
+              params: [switch_id, page_no, page_size]
+        - name: fabric
+          description: 'Fabric query and configuration file backup'
+          actions:
+            - name: list
+              description: 'Batch query fabrics'
+              func: fabric_list
+              params: [name, page_no, page_size]
+            - name: show_ports
+              description: 'Query port list of specified fabric'
+              func: fabric_show_ports
+              params: [fabric_id, page_no, page_size]
+            - name: backup
+              description: 'Execute fabric configuration file backup'
+              func: fabric_backup
+              params: [fabric_id, backup_server_id, backup_type]
+        - name: vsan
+          description: 'VSAN list query'
+          actions:
+            - name: list
+              description: 'Query VSAN list'
+              func: vsan_list
+              params: [page_no, page_size]
+        - name: zone
+          description: 'Zone query, create, modify, delete and member query'
+          actions:
+            - name: list
+              description: 'Batch query zone'
+              func: zone_list
+              params: [zone_name, page_no, page_size]
+            - name: create
+              description: 'Create zone'
+              func: zone_create
+              params: [name, fabric_wwn, vsan_wwn, wwn_members, port_members, fwwn_members, fcid_members, device_alias_members]
+            - name: modify
+              description: 'Modify zone'
+              func: zone_modify
+              params: [zone_id, zone_name, wwn_members, fwwn_members, port_members, fcid_members, device_alias_members]
+            - name: delete
+              description: 'Delete zone'
+              func: zone_delete
+              params: [zone_id]
+            - name: batch_create
+              description: 'Batch create zones'
+              func: zone_batch_create
+              params: [is_active_zone, zones]
+            - name: show_members
+              description: 'Query zone members'
+              func: zone_show_members
+              params: [zone_id, type]
+        - name: alias
+          description: 'Alias query, create, modify, delete and member query'
+          actions:
+            - name: list
+              description: 'Batch query aliases'
+              func: alias_list
+              params: [fabric_wwn, page_no, page_size]
+            - name: create
+              description: 'Create alias'
+              func: alias_create
+              params: [name, fabric_wwn, vsan_wwn, wwn_members, port_members, fwwn_members, fcid_members, device_alias_members]
+            - name: modify
+              description: 'Modify alias'
+              func: alias_modify
+              params: [alias_id, name, wwn_members, fwwn_members, port_members, fcid_members, device_alias_members]
+            - name: delete
+              description: 'Delete alias'
+              func: alias_delete
+              params: [alias_id]
+            - name: show_members
+              description: 'Query alias members'
+              func: alias_show_members
+              params: [alias_id, type]
+    - name: gfs
+      description: 'GFS (Global File System) related operations'
+      actions:
+      subtopics:
+        - name: dataspace
+          description: 'Omni-Dataverse dataspace and data service site query'
+          actions:
+            - name: list
+              description: 'Batch query Omni-Dataverse'
+              func: dataspace_list
+              params: [name, id, raw_id, max_site_num, page_no, page_size]
+            - name: show
+              description: 'Query capacity statistics info of the specified Omni-Dataverse'
+              func: dataspace_show
+              params: [id, name]
+            - name: site_list
+              description: 'Query Omni-Dataverse data service sites'
+              func: dataspace_site_list
+              params: [raw_id, site_role, gfs_group_id, storage_name, storage_pool_name, account_name, page_no, page_size]
+        - name: namespace
+          description: 'Global namespace query, create, modify and delete'
+          actions:
+            - name: list
+              description: 'Batch query global Namespace'
+              func: namespace_list
+              params: [name, gfs_group_name, gfs_group_id, gfs_type, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: 'Query global Namespace details'
+              func: namespace_show
+              params: [id, name_locator]
+            - name: create
+              description: 'Create global Namespace'
+              func: namespace_create
+              params: [name, gfs_group_id, gfs_group_name, gfs_mode, single_write_switch, smart_share_members]
+            - name: modify
+              description: 'Modify the specified global Namespace'
+              func: namespace_modify
+              params: [id, name_locator, smart_share_members]
+            - name: delete
+              description: 'Delete the specified global Namespace'
+              func: namespace_delete
+              params: [id, name_locator, is_delete_child]
+        - name: migration_task
+          description: 'Omni-Dataverse migration task create, query, modify, operate and delete'
+          actions:
+            - name: list
+              description: 'Batch query Omni-Dataverse data migration tasks'
+              func: migration_task_list
+              params: [gfs_id, task_name, task_id, target_storage_name, namespace_name, namespace_id, namespace_raw_id, local_path, status, task_mode, execute_mode, page_no, page_size, sort_dir, sort_key]
+            - name: show
+              description: 'Query Omni-Dataverse data migration task details'
+              func: migration_task_show
+              params: [id]
+            - name: create
+              description: 'Create Omni-Dataverse data migration task'
+              func: migration_task_create
+              params: [gfs_id, task_mode, start_mode, max_bandwidth, target_namespace_id, task_name, execute_mode, execute_time, execute_time_unit, start_time, period_start_day, period_end_day, period_time, period_max_bandwidth, local_path, src_namespace_ids, atime_operator, atime, atime_unit, mtime_operator, mtime, mtime_unit, ctime_operator, ctime, ctime_unit, crtime_operator, crtime, crtime_unit, name_operator, name_filter, size_operator, file_size, tag, file_paths, authentication_type, user_operator, user_name, group_operator, group_name, files_filter]
+            - name: modify
+              description: 'Modify Omni-Dataverse data migration task'
+              func: migration_task_modify
+              params: [id, task_name, start_mode, start_time, execute_time, execute_time_unit, max_bandwidth, period_start_day, period_end_day, period_time, period_max_bandwidth]
+            - name: delete
+              description: 'Batch delete Omni-Dataverse data migration tasks'
+              func: migration_task_delete
+              params: [ids]
+            - name: operate
+              description: 'Batch pause or start Omni-Dataverse data migration tasks'
+              func: migration_task_operate
+              params: [ids, operate_type]
+    - name: integrate
+      description: 'Third-party system integration related operations'
+      actions:
+      subtopics:
+        - name: cmdb
+          description: 'CMDB system, host and application query; host lookup by initiators'
+          actions:
+            - name: system_list
+              description: 'Query CMDB system list.'
+              func: cmdb_system_list
+              params: [name, page_no, page_size]
+            - name: host_list
+              description: 'Query host list in CMDB system.'
+              func: cmdb_host_list
+              params: [system_id, name, ip, page_no, page_size]
+            - name: host_show
+              description: 'Query specified CMDB host details.'
+              func: cmdb_host_show
+              params: [cmdb_host_id]
+            - name: app_list
+              description: 'Query application list in CMDB system.'
+              func: cmdb_app_list
+              params: [system_id, name, page_no, page_size]
+            - name: host_query_by_initiators
+              description: 'Query CMDB host list by initiator list.'
+              func: cmdb_host_query_by_initiators
+              params: [initiators]
+    - name: ipswitch
+      description: 'IP Switch management related operations'
+      actions:
+          - name: list
+            description: 'Query Ethernet switch list info'
+            func: list
+            params: [name, page_no, page_size]
+      subtopics:
+        - name: frame
+          description: 'IP switch frame query'
+          actions:
+            - name: list
+              description: 'Query IP switch chassis list info'
+              func: frame_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: board
+          description: 'IP switch board query'
+          actions:
+            - name: list
+              description: 'Query IP switch board list info'
+              func: board_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: subcard
+          description: 'IP switch subcard query'
+          actions:
+            - name: list
+              description: 'Query IP switch subcard list info'
+              func: subcard_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: power
+          description: 'IP switch power query'
+          actions:
+            - name: list
+              description: 'Query IP switch power supply list info'
+              func: power_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: fan
+          description: 'IP switch fan query'
+          actions:
+            - name: list
+              description: 'Query IP switch fan list info'
+              func: fan_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: port
+          description: 'IP switch port query'
+          actions:
+            - name: list
+              description: 'Query IP switch port list info'
+              func: port_list
+              params: [ipswitch_id, page_no, page_size]
+    - name: kube
+      description: 'Kubernetes operations'
+      actions:
+      subtopics:
+        - name: cluster
+          description: 'Container cluster list query'
+          actions:
+            - name: list
+              description: 'Query container cluster list'
+              func: cluster_list
+              params: [id, name, version, ip_address, status, sync_status, platform_id, platform_name, sort_key, sort_dir, page_no, page_size]
+        - name: node
+          description: 'Container node list query'
+          actions:
+            - name: list
+              description: 'Query container node list'
+              func: node_list
+              params: [id, name, cluster_id, pool_id, ip_address, ready_status, scheduling_status, pool_name, sort_key, sort_dir, page_no, page_size]
+        - name: pod
+          description: 'Container pod list query'
+          actions:
+            - name: list
+              description: 'Query container pod list'
+              func: pod_list
+              params: [id, name, workload_id, node_id, namespace_name, cluster_name, cluster_id, platform_id, platform_name, namespace_id, ip_address, node_name, running_status, controller, sort_key, sort_dir, page_no, page_size]
+        - name: namespace
+          description: 'Container namespace list query'
+          actions:
+            - name: list
+              description: 'Query container Namespace list'
+              func: namespace_list
+              params: [name, cluster_id, status, sort_key, sort_dir, page_no, page_size]
+        - name: pvc
+          description: 'Container persistent volume claim (PVC) list query'
+          actions:
+            - name: list
+              description: 'Query container persistent volume claim list'
+              func: pvc_list
+              params: [name, namespace_name, cluster_name, cluster_id, platform_id, platform_name, namespace_id, status, access_mode, storage_class_name, sort_key, sort_dir, page_no, page_size]
+        - name: pv
+          description: 'Container persistent volume (PV) list query'
+          actions:
+            - name: list
+              description: 'Query container persistent volume list'
+              func: pv_list
+              params: [id, name, cluster_name, cluster_id, platform_id, platform_name, status, access_mode, storage_class_name, sort_key, sort_dir, page_no, page_size]
+    - name: nas
+      description: 'NAS related operations'
+      actions:
+      subtopics:
+        - name: account
+          description: 'DataTurbo admin and UNIX authentication user/user group management'
+          actions:
+            - name: dataturbo_admin_list
+              description: 'Batch query DataTurbo administrators'
+              func: account_dataturbo_admin_list
+              params: [storage_id, vstore_id, vstore_name, zone_id, name, online_status, lock_status, account_state, sort_key, sort_dir, page_no, page_size]
+            - name: unix_user_create
+              description: 'Create UNIX user'
+              func: account_unix_user_create
+              params: [storage_id, name, vstore_raw_id, raw_id, description, primary_group_raw_id, primary_group_name, zone_id, status, secondary_group_name_list]
+            - name: unix_user_add_group
+              description: 'Add UNIX user secondary group'
+              func: account_unix_user_add_group
+              params: [user_id, secondary_group_name_list]
+            - name: unix_user_list
+              description: 'Query UNIX authentication user list'
+              func: account_unix_user_list
+              params: [storage_id, storage_name, vstore_raw_id, vstore_name, name, primary_group_name, raw_id, zone_id, user_status, sort_key, sort_dir, page_no, page_size]
+            - name: unix_user_show
+              description: 'Query UNIX authentication user details'
+              func: account_unix_user_show
+              params: [id]
+            - name: unix_user_remove_group
+              description: 'Remove UNIX user secondary group'
+              func: account_unix_user_remove_group
+              params: [user_id, secondary_group_name_list]
+            - name: unix_user_modify
+              description: 'Modify UNIX user'
+              func: account_unix_user_modify
+              params: [id, raw_id, description, primary_group_name, primary_group_raw_id, status_enable]
+            - name: unix_user_batch_delete
+              description: 'Delete UNIX user'
+              func: account_unix_user_batch_delete
+              params: [ids]
+            - name: unix_user_group_create
+              description: 'Create UNIX user group'
+              func: account_unix_user_group_create
+              params: [storage_id, name, vstore_raw_id, raw_id, description, zone_id]
+            - name: unix_user_group_list
+              description: 'Query UNIX authentication user group list'
+              func: account_unix_user_group_list
+              params: [storage_id, storage_name, vstore_raw_id, vstore_name, name, raw_id, zone_id, sort_key, sort_dir, page_no, page_size]
+            - name: unix_user_group_show
+              description: 'Query UNIX user group details'
+              func: account_unix_user_group_show
+              params: [id]
+            - name: unix_user_group_modify
+              description: 'Modify UNIX user group'
+              func: account_unix_user_group_modify
+              params: [id, raw_id, description]
+            - name: unix_user_group_batch_delete
+              description: 'Delete UNIX user group'
+              func: account_unix_user_group_batch_delete
+              params: [ids]
+        - name: dtree
+          description: 'Dtree query, create, modify and delete'
+          actions:
+            - name: list
+              description: 'Query Dtree list'
+              func: dtree_list
+              params: [id_in_storage, name, device_name, storage_id, zone_id, manufacturer, tier_name, fs_name, fs_id, namespace_name, namespace_id, quota_switch, security_mode, nas_locking_policy, sort_key, sort_dir, page_no, page_size, dc_id, dc_name]
+            - name: show
+              description: 'Query specified Dtree details'
+              func: dtree_show
+              params: [dtree_id]
+            - name: create
+              description: 'Create and share Dtree'
+              func: dtree_create
+              params: [storage_id, create_dtrees_param, fs_id, namespace_id, zone_id, parent_dir, quota_switch, security_mode, nas_locking_policy, create_nfs_share_param, create_cifs_share_param, dataturbo_share, create_worm_param, unix_permissions, task_remarks]
+            - name: delete
+              description: 'Batch delete Dtree'
+              func: dtree_delete
+              params: [dtree_ids, task_remarks]
+            - name: modify
+              description: 'Modify specified Dtree'
+              func: dtree_modify
+              params: [dtree_id, name, quota_switch, security_mode, nas_locking_policy, unix_permissions, task_remarks]
+        - name: nfs_share
+          description: 'NFS share create, query, modify, delete and client access list'
+          actions:
+            - name: list
+              description: 'Query NFS share list'
+              func: nfs_share_list
+              params: [id_in_storage, name, share_path, exact_share_path, device_name, storage_id, tier_name, owning_dtree_name, fs_name, fs_id, owning_dtree_id, vstore_name, page_no, page_size, sort_key, sort_dir, support_provisioning, namespace_id, namespace_name, dc_id, dc_name, zone_id, zone_name, zone_ip]
+            - name: show
+              description: 'Query specified NFS share details'
+              func: nfs_share_show
+              params: [nfs_share_id]
+            - name: create
+              description: 'Create NFS share'
+              func: nfs_share_create
+              params: [create_nfs_share_param, task_remarks]
+            - name: modify
+              description: 'Modify specified NFS share'
+              func: nfs_share_modify
+              params: [nfs_share_id, description, character_encoding, audit_items, show_snapshot_enable, nfs_share_client_addition, nfs_share_client_modification, nfs_share_client_deletion, file_name_ex_filters, task_remarks]
+            - name: delete
+              description: 'Batch delete NFS shares'
+              func: nfs_share_delete
+              params: [nfs_share_ids, task_remarks]
+            - name: show_clients
+              description: 'Query client access list under NFS share'
+              func: nfs_share_show_clients
+              params: [page_no, page_size, nfs_share_id, storage_id, vstore_id_in_storage, name, client_id_in_storage, sort_key, sort_dir]
+        - name: cifs_share
+          description: 'CIFS share create, query, modify, delete and permissions'
+          actions:
+            - name: list
+              description: 'Batch query CIFS shares'
+              func: cifs_share_list
+              params: [raw_id, name, share_path, exact_share_path, fs_id, fs_name, dtree_id, dtree_name, storage_id, storage_name, vstore_raw_id, vstore_name, manufacturer, op_lock_enabled, notify_enabled, offline_file_modes, file_extension_filter_enabled, abe_enabled, page_no, page_size, sort_key, sort_dir, namespace_id, namespace_name, support_provisioning, dc_id, dc_name]
+            - name: show
+              description: 'Query specified CIFS share details'
+              func: cifs_share_show
+              params: [cifs_share_id]
+            - name: create
+              description: 'Create a single CIFS share'
+              func: cifs_share_create
+              params: [create_cifs_param, fs_id, namespace_id, task_remarks]
+            - name: modify
+              description: 'Modify specified CIFS share'
+              func: cifs_share_modify
+              params: [cifs_share_id, description, op_lock_enabled, notify_enabled, ca_enabled, offline_file_mode, ip_control_enabled, abe_enabled, audititem_list, apply_default_acl, file_extension_filter_enabled, show_previous_versions_enabled, show_snapshot_enabled, user_and_user_group_info, ip_and_segments, file_name_ex_filters, task_remarks, smb3_encryption_enable, unencrypted_access, enable_lease]
+            - name: delete
+              description: 'Batch delete CIFS shares'
+              func: cifs_share_delete
+              params: [cifs_share_ids, task_remarks]
+            - name: show_permissions
+              description: 'Query permissions list of a single CIFS share'
+              func: cifs_share_show_permissions
+              params: [cifs_share_id, type, user_filter, ip_filter, file_filter, sort_key, sort_dir, page_no, page_size]
+        - name: dataturbo_share
+          description: 'DataTurbo share create, query, modify, delete and admin permissions'
+          actions:
+            - name: list
+              description: 'Query DataTurbo share list'
+              func: dataturbo_share_list
+              params: [page_no, page_size, raw_id, share_path, fs_id, fs_name, dtree_id, dtree_name, vstore_id, vstore_raw_id, vstore_name, storage_id, storage_name, zone_id, zone_name, scope, sort_key, sort_dir]
+            - name: show
+              description: 'Query specified DataTurbo share details'
+              func: dataturbo_share_show
+              params: [dataturbo_share_id]
+            - name: create
+              description: 'Create DataTurbo share'
+              func: dataturbo_share_create
+              params: [charset, fs_id, dtree_id, description, dataturbo_share_auth, task_remarks]
+            - name: modify
+              description: 'Modify specified DataTurbo share'
+              func: dataturbo_share_modify
+              params: [dataturbo_share_id, description, dataturbo_share_auth_addition, dataturbo_share_auth_deletion, task_remarks]
+            - name: delete
+              description: 'Batch delete DataTurbo shares'
+              func: dataturbo_share_delete
+              params: [dataturbo_share_ids, task_remarks]
+            - name: show_permissions
+              description: 'Query DataTurbo share administrator permission list'
+              func: dataturbo_share_show_permissions
+              params: [dataturbo_share_id, page_no, page_size, user_id, user_name, permission]
+        - name: quota
+          description: 'File system quota query, create, modify and delete'
+          actions:
+            - name: list
+              description: 'Query quota list'
+              func: quota_list
+              params: [page_no, page_size, ids, raw_ids, quota_type, parent_type, parent_raw_id, owner_name, vstore_id, vstore_raw_id, storage_id, sort_key, sort_dir, zone_id]
+            - name: show
+              description: 'Query specified quota details'
+              func: quota_show
+              params: [quota_id]
+            - name: create
+              description: 'Create quota'
+              func: quota_create
+              params: [parent_id, parent_type, quota_type, space_soft_quota, space_hard_quota, space_advisory_quota, file_soft_quota, file_hard_quota, file_advisory_quota, snap_space_switch, soft_grace_time, quota_owner, dir_quota_target, task_remarks]
+            - name: modify
+              description: 'Update specified quota'
+              func: quota_modify
+              params: [quota_id, space_soft_quota, space_hard_quota, space_advisory_quota, file_soft_quota, file_hard_quota, file_advisory_quota, snap_space_switch, soft_grace_time, task_remarks]
+            - name: delete
+              description: 'Batch delete quotas'
+              func: quota_delete
+              params: [quota_ids, task_remarks]
+        - name: filesystem
+          description: 'File system create, query, modify and delete'
+          actions:
+            - name: list
+              description: 'Batch query Filesystem'
+              func: filesystem_list
+              params: [page_no, page_size, sort_dir, sort_key, name, fs_raw_id, storage_id]
+            - name: show
+              description: 'Query specified Filesystem details'
+              func: filesystem_show
+              params: [filesystem_id]
+            - name: delete
+              description: 'Batch delete Filesystem'
+              func: filesystem_delete
+              params: [filesystem_ids, task_remarks]
+            - name: batch_modify
+              description: 'Batch modify Filesystem'
+              func: filesystem_batch_modify
+              params: [filesystems, task_remarks]
+            - name: create
+              description: 'Custom create Filesystem'
+              func: filesystem_create
+              params: [storage_id, pool_raw_id, filesystem_specs, vstore_id, zone_id, task_remarks, gfs_group_id, automatic_update_time, atime_update_mode, schedule_name, quota_switch, vaai_switch, initial_distribute_policy, capacity_threshold]
+            - name: query_available
+              description: 'Query available Filesystems'
+              func: filesystem_query_available
+              params: [feature_type, local_storage_id, remote_storage_id, name, page_no, page_size, sort_key, sort_dir]
+            - name: modify
+              description: 'Modify specified Filesystem'
+              func: filesystem_modify
+              params: [file_system_id, name, description, capacity, capacity_threshold, initial_distribute_policy, automatic_update_time, atime_update_mode, quota_switch, vaai_switch, owning_controller, task_remarks]
+        - name: namespace
+          description: 'File system namespace query, create, modify and delete'
+          actions:
+            - name: list
+              description: 'Batch query Namespace'
+              func: namespace_list
+              params: [page_no, page_size, sort_dir, sort_key, name, vstore_name, vstore_raw_id, vstore_id, raw_id, pool_name, storage_id, enable_encrypt, support_provisioning, gfs_id, gfs_name, has_gfs]
+            - name: show
+              description: 'Query specified Namespace details'
+              func: namespace_show
+              params: [namespace_id]
+            - name: create
+              description: 'Batch create Namespace'
+              func: namespace_create
+              params: [storage_id, pool_raw_id, namespace_specs, enable_update_atime, trash_visible, trash_enable, interval_trash, dps_switch, forbidden_dpc, audit_log_switch, audit_log_rule, atime_update_mode, acl_policy_type, enable_encrypt, crypt_alg, case_sensitive, show_snap_dir, rdc, worm, qos_policy, public_network_qos_policy, private_network_qos_policy, create_s3_param, application_type, task_remarks]
+            - name: modify
+              description: 'Modify specified Namespace'
+              func: namespace_modify
+              params: [namespace_id, enable_update_atime, show_snap_dir, trash_visible, trash_enable, interval_trash, dps_switch, forbidden_dpc, audit_log_switch, audit_log_rule, atime_update_mode, acl_policy_type, enable_encrypt, qos_policy, public_network_qos_policy, private_network_qos_policy, application_type, task_remarks]
+            - name: delete
+              description: 'Batch delete Namespace'
+              func: namespace_delete
+              params: [namespace_ids, task_remarks]
+        - name: dataturbo
+          description: 'DataTurbo parallel client list and detail query'
+          actions:
+            - name: dpc_list
+              description: 'Batch query DPC list'
+              func: dpc_list
+              params: [ids, hostname, ip, mgmt_status, status, sn, storage_id, dpc_om_id, dpc_type, client_version, page_no, page_size]
+            - name: dpc_show
+              description: 'Query DPC details'
+              func: dpc_show
+              params: [dpc_id]
+        - name: dpc
+          description: 'DPC client list and detail query'
+          actions:
+            - name: list
+              description: 'Batch query DPC clients'
+              func: dpc_client_list
+              params: [storage_id, process_id, name, manage_ip, version, status, switch_status, upgrade_flag, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: 'Query DPC client details'
+              func: dpc_client_show
+              params: [id]
+        - name: kvcache
+          description: 'KV Cache library query, create, modify and delete'
+          actions:
+            - name: list
+              description: 'Query KV Cache store'
+              func: kvcache_list
+              params: [storage_id, id, raw_id, name, zone_id, pool_raw_id, vstore_id, vstore_name, fs_id, fs_name, data_cleanup_switch, page_no, page_size, sort_dir, sort_key]
+            - name: batch_create
+              description: 'Batch create KV Cache store'
+              func: kvcache_batch_create
+              params: [storage_id, zone_id, pool_raw_id, vstore_id, kv_cache_stores, data_cleanup_switch, max_survival_time]
+            - name: modify
+              description: 'Modify KV Cache store'
+              func: kvcache_modify
+              params: [kv_cache_stores_id, name, description, data_cleanup_switch, max_survival_time]
+            - name: batch_delete
+              description: 'Batch delete KV Cache store'
+              func: kvcache_batch_delete
+              params: [ids]
+    - name: protect
+      description: 'Protection related operations'
+      actions:
+      subtopics:
+        - name: group
+          description: 'Protection group create, query, modify and LUN membership'
+          actions:
+            - name: list
+              description: 'Batch query protection groups'
+              func: group_list
+              params: [name, project_id, storage_name, storage_id, raw_id, lun_group_raw_id, vstore_id, vstore_raw_id, sort_key, sort_dir, page_no, page_size]
+            - name: create
+              description: 'create protection group, supports creation based on LUN or LUN group'
+              func: group_create
+              params: [name, storage_id, lun_ids, lun_group_id, description]
+            - name: modify
+              description: 'modify protection group'
+              func: group_modify
+              params: [pg_id, name, description]
+            - name: delete
+              description: 'Batch delete protection groups'
+              func: group_delete
+              params: [pg_ids]
+            - name: add_luns
+              description: 'Add member LUNs to protection group'
+              func: group_add_luns
+              params: [pg_id, lun_ids, hyper_metro, rem_reps]
+            - name: remove_luns
+              description: 'Remove member LUNs from protection group'
+              func: group_remove_luns
+              params: [pg_id, lun_ids, is_delay]
+        - name: hypermetro_group
+          description: 'HyperMetro consistency group create, query, sync, pause and site switch'
+          actions:
+            - name: list
+              description: 'Batch query hypermetro consistency groups'
+              func: hypermetro_group_list
+              params: [page_no, page_size, name, raw_id, protect_group_id, storage_id, storage_name, local_vstore_id, local_vstore_raw_id, remote_vstore_id, remote_vstore_raw_id, domain_name, health_status, running_status, priority_station_type]
+            - name: create
+              description: 'create hypermetro consistency group'
+              func: hypermetro_group_create
+              params: [domain_id, name, local_storage_id, local_pg_id, description, create_mode, remote_vstore_id, remote_storage_pool_id, lun_ids, remote_resource_name_rule, name_prefix, name_suffix, service_assurance_policy, recovery_policy, speed, bandwidth, first_sync_policy, remote_lun_group_id, lun_pairs, existed_pair_ids, is_auto_pause, is_auto_sync, isolation_threshold_time]
+            - name: modify
+              description: 'modify hypermetro consistency group'
+              func: hypermetro_group_modify
+              params: [group_id, name, description, recovery_policy, service_assurance_policy, speed, bandwidth, isolation_threshold_time]
+            - name: delete
+              description: 'Batch delete hypermetro consistency groups'
+              func: hypermetro_group_delete
+              params: [ids, is_self_adapt, delete_mode]
+            - name: add_pairs
+              description: 'Add member Pairs to hypermetro consistency group'
+              func: hypermetro_group_add_pairs
+              params: [group_id, pair_ids, is_self_adapt]
+            - name: remove_pairs
+              description: 'Remove member Pairs from hypermetro consistency group (async task interface)'
+              func: hypermetro_group_remove_pairs
+              params: [group_id, pair_ids]
+            - name: pause
+              description: 'Pause hypermetro consistency group'
+              func: hypermetro_group_pause
+              params: [ids, priority_station_type]
+            - name: force_startup
+              description: 'Force start hypermetro consistency group'
+              func: hypermetro_group_force_startup
+              params: [ids, priority_station_type]
+            - name: switch_priority
+              description: 'Switch priority site for hypermetro consistency group'
+              func: hypermetro_group_switch_priority
+              params: [ids]
+            - name: sync
+              description: 'Sync hypermetro consistency group'
+              func: hypermetro_group_sync
+              params: [ids]
+        - name: hypermetro_pair
+          description: 'LUN HyperMetro pair create, query, sync, pause and role switch'
+          actions:
+            - name: list
+              description: 'Batch query LUN hypermetro Pairs'
+              func: hypermetro_pair_list
+              params: [page_no, page_size, group_id, group_name, group_raw_id, pair_raw_id, local_storage_id, local_storage_name, local_vstore_id, local_vstore_raw_id, local_volume_name, local_host_access_state, remote_vstore_id, remote_vstore_raw_id, remote_volume_name]
+            - name: create
+              description: 'create hypermetro Pair'
+              func: hypermetro_pair_create
+              params: [create_mode, lun_pairs, lun_ids, remote_storage_pool_id, remote_vstore_id, remote_resource_name_rule, name_prefix, name_suffix, local_storage_id, domain_id, speed, bandwidth, service_assurance_policy, isolation_threshold_time, recovery_policy]
+            - name: modify
+              description: 'modify hypermetro Pair'
+              func: hypermetro_pair_modify
+              params: [pair_id, speed, bandwidth, recovery_policy, service_assurance_policy, isolation_threshold_time]
+            - name: delete
+              description: 'Batch delete hypermetro Pairs'
+              func: hypermetro_pair_delete
+              params: [ids, delete_mode, is_lun_service_interrupt]
+            - name: sync
+              description: 'Batch sync hypermetro Pairs'
+              func: hypermetro_pair_sync
+              params: [ids]
+            - name: pause
+              description: 'Pause hypermetro Pair'
+              func: hypermetro_pair_pause
+              params: [ids, priority_station_type]
+            - name: force_startup
+              description: 'Force start hypermetro Pair'
+              func: hypermetro_pair_force_startup
+              params: [ids, priority_station_type]
+            - name: switch_priority
+              description: 'Switch priority site for hypermetro Pair'
+              func: hypermetro_pair_switch_priority
+              params: [ids]
+            - name: query_available_luns
+              description: 'Query target LUNs available for creating hypermetro Pair.'
+              func: hypermetro_pair_query_available_luns
+              params: [source_lun_id, remote_storage_id, name, vstore_id, vstore_raw_id, remote_lun_group_id, page_no, page_size]
+        - name: hypermetro_domain
+          description: 'HyperMetro domain list query'
+          actions:
+            - name: list
+              description: 'Batch query hypermetro domains'
+              func: hypermetro_domain_list
+              params: [storage_id, types]
+        - name: replication_group
+          description: 'Remote replication consistency group create, query, sync, split and role switch'
+          actions:
+            - name: create
+              description: 'create remote replication consistency group'
+              func: replication_group_create
+              params: [cg_name, remote_storage_id, local_pg_id, description, remote_lun_group_id, local_storage_id, create_mode, existed_pair_ids, lun_pairs, lun_ids, remote_storage_pool_id, remote_vstore_id, remote_resource_name_rule, name_prefix, name_suffix, replication_mode, sync_type, timing_val, sync_schedule, is_backup, speed, bandwidth, recovery_policy, first_sync_policy, enable_compress, rep_io_timeout, sync_snap_policy, user_snap_retention_num, is_auto_sync]
+            - name: list
+              description: 'Batch query replication consistency groups'
+              func: replication_group_list
+              params: [page_no, page_size, protect_group_id, name, raw_id, running_status, health_status, storage_name, storage_id, replication_mode]
+            - name: modify
+              description: 'modify remote replication consistency group'
+              func: replication_group_modify
+              params: [replication_group_id, name, description, speed, bandwidth, recovery_policy, enable_compress, sync_type, timing_value_in_sec, sync_schedule, rep_io_timeout, sync_snap_policy, user_snap_retention_num, switch_to_async, switch_to_sync, async_to_sync_bandwidth, async_to_sync_latency, sync_to_async_bandwidth, sync_to_async_latency, transfer_cycle]
+            - name: delete
+              description: 'Batch delete remote replication consistency groups'
+              func: replication_group_delete
+              params: [ids, is_self_adapt, delete_mode]
+            - name: add_pairs
+              description: 'Add member Pairs to remote replication consistency group (Not supported below OceanStor Dorado V6 6.1.3, requires group health status normal and running status normal or split)'
+              func: replication_group_add_pairs
+              params: [group_id, pair_ids]
+            - name: remove_pairs
+              description: 'Remove member Pairs from remote replication consistency group'
+              func: replication_group_remove_pairs
+              params: [group_id, pair_ids]
+            - name: sync
+              description: 'Batch sync remote replication consistency groups'
+              func: replication_group_sync
+              params: [ids]
+            - name: split
+              description: 'Batch split remote replication consistency groups'
+              func: replication_group_split
+              params: [ids]
+            - name: switch
+              description: 'Batch primary-secondary switch for remote replication consistency groups'
+              func: replication_group_switch
+              params: [ids]
+            - name: switch_write_protection
+              description: 'Switch write protection state for remote replication consistency group secondary resource'
+              func: replication_group_switch_write_protection
+              params: [id, operation_type]
+        - name: replication_pair
+          description: 'Remote replication pair create, query, sync, split and role switch'
+          actions:
+            - name: list
+              description: 'Batch query replication Pairs'
+              func: replication_pair_list
+              params: [page_no, page_size, raw_id, local_resource_types, local_vstore_raw_id, group_id, group_name, group_raw_id, local_resource_raw_id, local_resource_raw_ids, local_resource_name, remote_resource_name, local_storage_id, local_storage_name, health_status, running_status, recovery_policy, sort_key, sort_dir]
+            - name: create
+              description: 'create remote replication Pair'
+              func: replication_pair_create
+              params: [local_storage_id, remote_storage_id, create_mode, replication_mode, resource_pairs, remote_storage_pool_id, remote_vstore_id, remote_resource_name_rule, name_prefix, name_suffix, speed, bandwidth, recovery_policy, first_sync_policy, sync_type, timing_val, sync_schedule, rep_io_timeout, sync_snap_policy, user_snap_retention_num, snap_tag_list, enable_compress, is_backup, switch_to_async, consistency_group_info]
+            - name: modify
+              description: 'modify replication Pair'
+              func: replication_pair_modify
+              params: [pair_id, speed, bandwidth, recovery_policy, enable_compress, secondary_res_protection, sync_type, timing_val, sync_schedule, rep_io_timeout, sync_snap_policy, user_snap_retention_num, snap_tag_list, switch_to_async, switch_to_sync, sync_to_async_bandwidth, sync_to_async_latency, async_to_sync_bandwidth, async_to_sync_latency, transfer_cycle]
+            - name: delete
+              description: 'Batch delete remote replication Pairs'
+              func: replication_pair_delete
+              params: [ids, delete_mode, is_enforce_secondary_data]
+            - name: sync
+              description: 'Batch sync remote replication Pairs'
+              func: replication_pair_sync
+              params: [ids]
+            - name: split
+              description: 'Batch split remote replication Pairs'
+              func: replication_pair_split
+              params: [ids]
+            - name: switch
+              description: 'Batch primary-secondary switch for remote replication Pairs'
+              func: replication_pair_switch
+              params: [ids]
+            - name: switch_write_protection
+              description: 'Switch write protection state for remote replication Pair secondary resource'
+              func: replication_pair_switch_write_protection
+              params: [id, operation_type]
+        - name: device_pair
+          description: 'Device pair list query'
+          actions:
+            - name: list
+              description: 'Query device Pairs'
+              func: device_pair_list
+              params: [storage_id, local_storage_name, remote_storage_name, health_status, running_status, page_no, page_size]
+        - name: replication_link
+          description: 'Replication link list query'
+          actions:
+            - name: list
+              description: 'Query replication links'
+              func: replication_link_list
+              params: [local_storage_id, page_no, page_size, health_status, running_status, link_type]
+        - name: snapshot
+          description: 'LUN snapshot create, query, rollback and delete'
+          actions:
+            - name: list
+              description: 'Batch query LUN snapshots'
+              func: snapshot_list
+              params: [snapshot_ids, storage_id, raw_id, name, health_status, running_status, source_lun_name, parent_name, activated_time_from, activated_time_to, page_no, page_size]
+            - name: create
+              description: 'Batch create LUN snapshots'
+              func: snapshot_create
+              params: [snapshots_info, is_consist_activate]
+            - name: rollback
+              description: 'Batch rollback LUN snapshots'
+              func: snapshot_rollback
+              params: [rollback_speed, rollback_snapshots]
+            - name: delete
+              description: 'Batch delete LUN snapshots'
+              func: snapshot_delete
+              params: [snapshot_ids, is_delete_target_lun, is_auto_deactivate]
+        - name: snapshot_group
+          description: 'Snapshot consistency group create, activate, rollback and delete'
+          actions:
+            - name: create
+              description: 'create snapshot consistency group'
+              func: snapshot_group_create
+              params: [name, protect_group_id, description, creation_mode]
+            - name: delete
+              description: 'Batch delete snapshot consistency groups'
+              func: snapshot_group_delete
+              params: [snapshot_cg_ids, is_delete_target_lun]
+            - name: activate
+              description: 'Activate snapshot consistency group'
+              func: snapshot_group_activate
+              params: [snapshot_cg_id, object_type, snapshot_create_mode, name_rule, name_prefix, name_suffix, target_snapshot_objects]
+            - name: deactivate
+              description: 'Batch deactivate snapshot consistency groups'
+              func: snapshot_group_deactivate
+              params: [snapshot_cg_ids]
+            - name: rollback
+              description: 'Rollback snapshot consistency group'
+              func: snapshot_group_rollback
+              params: [snapshot_cg_id, rollback_speed, snapshot_create_mode, name_rule, name_prefix, name_suffix, target_snapshot_objects]
+        - name: clone_group
+          description: 'Clone consistency group create, sync and delete'
+          actions:
+            - name: create
+              description: 'create clone consistency group'
+              func: clone_group_create
+              params: [name, protect_group_id, create_mode, description, name_rule, name_prefix, name_suffix, copy_rate, is_sync, clone_pairs]
+            - name: sync
+              description: 'Sync clone consistency group'
+              func: clone_group_sync
+              params: [clone_cg_id, create_mode, name_rule, name_prefix, name_suffix, clone_pairs]
+            - name: delete
+              description: 'Batch delete clone consistency groups'
+              func: clone_group_delete
+              params: [ids, is_delete_dst_lun, is_recycle_dst_lun_data]
+        - name: fs_hypermetro_pair
+          description: 'File system HyperMetro pair create, query, pause, sync and delete'
+          actions:
+            - name: create
+              description: 'create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution.'
+              func: fs_hypermetro_pair_create
+              params: [vstore_pair_id, create_mode, fs_pairs, speed, bandwidth, service_assurance_policy, isolation_threshold_time, recovery_policy, first_sync_policy]
+            - name: list
+              description: 'Query Filesystem hypermetro Pair list.'
+              func: fs_hypermetro_pair_list
+              params: [ids, name, status, storage_id, vstore_pair_id, local_fs_name, local_fs_id, health_status, running_status, sort_key, sort_dir, page_no, page_size, pair_raw_id, local_filesystem_raw_id, remote_filesystem_raw_id, remote_filesystem_name, is_primary, local_host_access_state, remote_host_access_state, recovery_policy, link_status, sync_direction]
+            - name: pause
+              description: 'Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution.'
+              func: fs_hypermetro_pair_pause
+              params: [fs_pair_ids]
+            - name: sync
+              description: 'Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution.'
+              func: fs_hypermetro_pair_sync
+              params: [fs_pair_ids]
+            - name: delete
+              description: 'Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution.'
+              func: fs_hypermetro_pair_delete
+              params: [ids, is_local_delete, is_online_delete]
+        - name: fs_snapshot
+          description: 'File system snapshot create, query and delete'
+          actions:
+            - name: create
+              description: 'create Filesystem snapshot.'
+              func: fs_snapshot_create
+              params: [vstore_pair_id, fs_pairs]
+            - name: list
+              description: 'Batch query Filesystem snapshots.'
+              func: fs_snapshot_list
+              params: [fs_pair_id, name, status, local_fs_name, local_fs_id, page_no, page_size]
+            - name: delete
+              description: 'Batch delete Filesystem snapshots.'
+              func: fs_snapshot_delete
+              params: [ids]
+        - name: vstore_hypermetro_pair
+          description: 'vStore HyperMetro pair create, query, switch, modify and force start'
+          actions:
+            - name: force_start
+              description: 'Batch force start hypermetro tenant Pairs.'
+              func: vstore_pair_force_start
+              params: [ids]
+            - name: create
+              description: 'create hypermetro tenant Pair.'
+              func: vstore_pair_create
+              params: [domain_id, local_vstore_id, remote_vstore_id, preferred_mode, preferred_site]
+            - name: list
+              description: 'Query hypermetro tenant Pair list.'
+              func: vstore_pair_list
+              params: [ids, name, status, local_storage_id, remote_storage_id, health_status, running_status, page_no, page_size, raw_id, local_vstore_name, local_vstore_raw_id, remote_vstore_name, remote_vstore_raw_id, domain_id, domain_name, config_status, link_status, role, active_status, sort_key, sort_dir]
+            - name: switch
+              description: 'Batch primary-secondary switch for hypermetro tenant Pairs.'
+              func: vstore_pair_switch
+              params: [ids, is_force]
+            - name: delete
+              description: 'Batch delete hypermetro tenant Pairs.'
+              func: vstore_pair_delete
+              params: [ids]
+            - name: modify
+              description: 'modify specified hypermetro tenant pair.'
+              func: vstore_pair_modify
+              params: [id, preferred_mode, preferred_site]
+        - name: fs_hypermetro_domain
+          description: 'File system HyperMetro domain force start, site switch, recover, split and role swap'
+          actions:
+            - name: force_start
+              description: 'Force start Filesystem hypermetro domain.'
+              func: fs_domain_force_start
+              params: [id]
+            - name: switch_site
+              description: 'Switch priority site for Filesystem hypermetro domain.'
+              func: fs_domain_switch_site
+              params: [id]
+            - name: recover
+              description: 'Recover Filesystem hypermetro domain.'
+              func: fs_domain_recover
+              params: [id]
+            - name: split
+              description: 'Split Filesystem hypermetro domain.'
+              func: fs_domain_split
+              params: [id, stop_role]
+            - name: swap_role
+              description: 'Swap primary-secondary role for Filesystem hypermetro domain.'
+              func: fs_domain_swap_role
+              params: [id]
+    - name: san
+      description: 'SAN (Storage Area Network) operations'
+      actions:
+      subtopics:
+        - name: lun
+          description: 'LUN create, query, expand, rename, modify and delete'
+          actions:
+            - name: list
+              description: 'Batch query LUNs'
+              func: lun_list
+              params: [limit, offset, sort_dir, sort_key, name, vstore_raw_id, vstore_name, status, health_status, service_level_id, volume_wwn, storage_id, pool_raw_id, host_id, hostgroup_id, unmapped_host_id, unmapped_hostgroup_id, project_id, allocate_type, attached, query_mode, protected, pg_id, usage_type, support_provisioning]
+            - name: show
+              description: 'Query a specific LUN'
+              func: lun_show
+              params: [volume_id]
+            - name: create
+              description: 'Custom create LUN'
+              func: lun_create
+              params: [storage_id, lun_specs, lun_specs_pass_through, pool_id, vstore_id, owner_controller, initial_distribute_policy, prefetch_policy, prefetch_value, tuning, mapping, task_remarks]
+            - name: delete
+              description: 'Batch delete LUNs'
+              func: lun_delete
+              params: [volume_ids, task_remarks]
+            - name: modify
+              description: 'Modify a specific LUN'
+              func: lun_modify
+              params: [volume_id, name, description, owner_controller, prefetch_policy, prefetch_value, tuning, task_remarks]
+            - name: modify_name
+              description: 'Batch modify LUN names'
+              func: lun_modify_name
+              params: [volumes]
+            - name: expand
+              description: 'Batch expand LUN capacity'
+              func: lun_expand
+              params: [volumes, task_remarks]
+            - name: connection
+              description: 'Query connection info for specified LUN IDs'
+              func: lun_connection
+              params: [volume_ids]
+        - name: lun_group
+          description: 'LUN group create, query, delete and LUN membership'
+          actions:
+            - name: list
+              description: 'Batch query LUN groups'
+              func: lun_group_list
+              params: [page_size, page_no, sort_dir, sort_key, name, vstore_raw_id, vstore_name, storage_id, storage_name, raw_id, attached, protection_group_raw_id, avaiable_mapping_for_host_id, avaiable_mapping_for_host_group_id, support_provisioning]
+            - name: show
+              description: 'Query details of a specific LUN group'
+              func: lun_group_show
+              params: [group_id, storage_id]
+            - name: create
+              description: 'Create LUN group'
+              func: lun_group_create
+              params: [storage_id, name, description, existing_lun_ids, customize_volumes, task_remarks, vstore_id, zoning_info, mapping_view]
+            - name: delete
+              description: 'Batch delete LUN groups'
+              func: lun_group_delete
+              params: [lun_group_ids, task_remarks]
+            - name: add_luns
+              description: 'Add LUNs to a LUN group'
+              func: lun_group_add_luns
+              params: [group_id, existing_lun_ids, customize_volumes, host_lun_id_infos, host_lun_id_verify, task_remarks]
+            - name: remove_luns
+              description: 'Remove LUNs from a LUN group'
+              func: lun_group_remove_luns
+              params: [group_id, lun_ids, task_remarks]
+            - name: show_luns
+              description: 'Query LUNs in a LUN group'
+              func: lun_group_show_luns
+              params: [group_id, page_size, page_no, health_status]
+        - name: mapping_view
+          description: 'Mapping view create, delete and host-LUN mapping query'
+          actions:
+            - name: create
+              description: 'Create mapping view'
+              func: mapping_view_create
+              params: [storage_id, name, port_group_id, start_host_lun_id, host, vbs, host_group, lun_group, luns, task_remarks]
+            - name: delete
+              description: 'Batch delete mapping views'
+              func: mapping_view_delete
+              params: [mapping_view_ids]
+            - name: list
+              description: 'Batch query mapping view list'
+              func: mapping_view_list
+              params: [page_size, page_no, name, raw_id, storage_id, lun_id, lun_name, lun_group_id, lun_group_raw_id, lun_group_name, storage_host_id, storage_host_name, storage_host_group_id, storage_host_group_name, storage_host_group_raw_id, port_group_id, port_group_raw_id, port_group_name, sort_key, sort_dir]
+            - name: query_host_to_lun
+              description: 'Query Storage host and LUN mapping relations'
+              func: mapping_view_query_host_to_lun
+              params: [storage_id, name, mapping_type, host_info, lun_info, sort_key, sort_dir, page_size, page_no]
+        - name: storage_host
+          description: 'Storage host create, query, modify, delete and LUN mapping'
+          actions:
+            - name: create
+              description: 'Create Storage host'
+              func: storage_host_create
+              params: [storage_id, host_info, task_remarks, vstore_id]
+            - name: batch_query
+              description: 'Batch query storage hosts by storage host ID list'
+              func: storage_host_batch_query
+              params: [ids]
+            - name: list
+              description: 'Batch query storage hosts'
+              func: storage_host_list
+              params: [page_size, page_no, sort_key, sort_dir, name, raw_id, host_group_id, avaliable_add_to_host_group_id, host_group_name, ip, health_status, os_type, storage_id, avaiable_mapping_for_lun_group_id, avaiable_mapping_for_lun_id, support_provisioning, manufacturer, vstore_raw_id, vstore_name]
+            - name: modify
+              description: 'Modify Storage host'
+              func: storage_host_modify
+              params: [storage_host_id, storage_host_name, storage_host_description, storage_host_ip, storage_host_os_type, add_initiators, remove_initiators, multipath, access_mode, hyper_metro_path_optimized, task_remarks]
+            - name: delete
+              description: 'Batch delete storage hosts'
+              func: storage_host_delete
+              params: [host_ids]
+            - name: show_paths
+              description: 'Batch query storage host path info'
+              func: storage_host_show_paths
+              params: [page_no, page_size, storage_id, storage_host_ids, storage_host_raw_ids, health_status, running_status, initiator_type]
+            - name: show_luns
+              description: 'Query LUN info list mapped to a Storage host'
+              func: storage_host_show_luns
+              params: [storage_host_id, name, page_size, page_no, sort_key, sort_dir]
+            - name: unmap_luns
+              description: 'Unmap LUNs from storage host'
+              func: storage_host_unmap_luns
+              params: [volume_ids, host_id, task_remarks]
+        - name: storage_host_group
+          description: 'Storage host group create, query, delete, host membership and mapping'
+          actions:
+            - name: create
+              description: 'Create Storage host group'
+              func: storage_host_group_create
+              params: [storage_id, name, description, exist_host_ids, create_storage_host_params, task_remarks, vstore_id]
+            - name: list
+              description: 'Batch query storage host groups'
+              func: storage_host_group_list
+              params: [storage_id, name, raw_id, vstore_id, vstore_name, page_no, page_size, sort_key, sort_dir, avaiable_mapping_for_lun_group_id, avaiable_mapping_for_lun_id, support_provisioning]
+            - name: add_hosts
+              description: 'Add Storage hosts to a Storage host group'
+              func: storage_host_group_add_hosts
+              params: [storage_host_group_id, storage_host_id_ids, create_storage_host_params, task_remarks]
+            - name: remove_hosts
+              description: 'Remove hosts from a Storage host group'
+              func: storage_host_group_remove_hosts
+              params: [storage_host_group_id, storage_host_ids, task_remarks]
+            - name: delete
+              description: 'Batch delete storage host groups'
+              func: storage_host_group_delete
+              params: [host_group_ids, task_remarks]
+            - name: show_luns
+              description: 'Query LUN info list mapped to a Storage host group'
+              func: storage_host_group_show_luns
+              params: [storage_host_group_id, name, page_size, page_no, sort_key, sort_dir]
+            - name: unmap_luns
+              description: 'Unmap LUNs from storage host group'
+              func: storage_host_group_unmap_luns
+              params: [volume_ids, hostgroup_id, task_remarks]
+        - name: port_group
+          description: 'Port group create, query and port relations'
+          actions:
+            - name: list
+              description: 'Batch query port groups'
+              func: port_group_list
+              params: [storage_id, page_no, page_size]
+            - name: create
+              description: 'Create port group'
+              func: port_group_create
+              params: [storage_id, name, description, port_ids]
+            - name: show_ports
+              description: 'Batch query ports of a specified port group'
+              func: port_group_show_ports
+              params: [port_group_id, type, page_no, page_size]
+            - name: show_relations
+              description: 'Batch query port group and port association relations'
+              func: port_group_show_relations
+              params: [page_no, page_size]
+        - name: physical_host
+          description: 'Physical host add, query, modify, delete, initiators and LUN mapping'
+          actions:
+            - name: list
+              description: 'Batch query physical hosts'
+              func: physical_host_list
+              params: [limit, start, sort_key, sort_dir, name, host_group_name, ip, display_status, managed_status, os_type, access_mode, az_id, az_ids, project_id]
+            - name: show
+              description: 'Query a specific physical host'
+              func: physical_host_show
+              params: [host_id]
+            - name: create
+              description: 'Onboard a physical host'
+              func: physical_host_create
+              params: [access_mode, type, host_name, ip, port, username, password, description, initiator, azs, project_id, sync_to_storage, multipath_type, path_type, failover_mode, special_mode_type, save_public_key]
+            - name: modify
+              description: 'Modify physical host basic info'
+              func: physical_host_modify
+              params: [host_id, ip, host_name, os_type, azs, project_id]
+            - name: modify_access_info
+              description: 'Modify physical host access info'
+              func: physical_host_modify_access_info
+              params: [host_id, ip, port, username, password, project_id, azs, sync_to_storage, description, multipath_type, path_type, failover_mode, special_mode_type]
+            - name: delete
+              description: 'Remove a physical host'
+              func: physical_host_delete
+              params: [host_id, sync_to_storage]
+            - name: add_initiators
+              description: 'Add initiators to a physical host'
+              func: physical_host_add_initiators
+              params: [host_id, initiators]
+            - name: remove_initiators
+              description: 'Remove initiators from a physical host'
+              func: physical_host_remove_initiators
+              params: [host_id, initiators]
+            - name: show_initiators
+              description: 'Query initiators of a specified physical host'
+              func: physical_host_show_initiators
+              params: [host_id, port_name, protocol, status]
+            - name: test
+              description: 'Test connectivity between storage device and physical host'
+              func: physical_host_test
+              params: [storage_id, host_ids, hostgroup_id, auto_zoning, target_fcports, target_fcportgroups]
+            - name: query_sshkey
+              description: 'Query the SSH public key of a specified physical host'
+              func: physical_host_query_sshkey
+              params: [ip, port]
+            - name: save_sshkey
+              description: 'Save the SSH public key of a specified physical host'
+              func: physical_host_save_sshkey
+              params: [ip, key, port]
+            - name: query_by_initiator
+              description: 'Query associated physical host by initiator'
+              func: physical_host_query_by_initiator
+              params: [initiator_id, raw_id, protocol]
+            - name: map_luns
+              description: 'Map LUNs to a physical host'
+              func: physical_host_map_luns
+              params: [volume_ids, host_id, mapping_policy, task_remarks]
+            - name: unmap_luns
+              description: 'Unmap LUNs from host'
+              func: physical_host_unmap_luns
+              params: [volume_ids, host_id, task_remarks]
+            - name: show_mapping_views
+              description: 'Query mapping relations associated with a physical host'
+              func: physical_host_show_mapping_views
+              params: [host_id, storage_id]
+        - name: physical_host_group
+          description: 'Physical host group create, query, modify, delete and LUN mapping'
+          actions:
+            - name: list
+              description: 'Batch query physical host groups'
+              func: physical_host_group_list
+              params: [limit, start, sort_dir, sort_key, name, project_id, az_ids, managed_status]
+            - name: show_hosts
+              description: 'Query physical hosts in a physical host group'
+              func: physical_host_group_show_hosts
+              params: [hostgroup_id, name, ip, display_status, managed_status, os_type, sort_key, sort_dir, page_size, page_no]
+            - name: show
+              description: 'Query a specific physical host group'
+              func: physical_host_group_show
+              params: [hostgroup_id]
+            - name: create
+              description: 'Create a physical host group'
+              func: physical_host_group_create
+              params: [name, host_ids, azs, project_id, description]
+            - name: modify
+              description: 'Modify physical host group basic info'
+              func: physical_host_group_modify
+              params: [hostgroup_id, name, description, azs, project_id]
+            - name: delete
+              description: 'Delete a specific physical host group'
+              func: physical_host_group_delete
+              params: [hostgroup_id, sync_to_storage]
+            - name: add_hosts
+              description: 'Add physical hosts to a physical host group'
+              func: physical_host_group_add_hosts
+              params: [hostgroup_id, host_ids, sync_to_storage]
+            - name: remove_hosts
+              description: 'Remove physical hosts from a physical host group'
+              func: physical_host_group_remove_hosts
+              params: [hostgroup_id, host_ids, sync_to_storage]
+            - name: map_luns
+              description: 'Map LUNs to a physical host group'
+              func: physical_host_group_map_luns
+              params: [volume_ids, hostgroup_id, mapping_policy, task_remarks]
+            - name: unmap_luns
+              description: 'Unmap LUNs from host group'
+              func: physical_host_group_unmap_luns
+              params: [volume_ids, hostgroup_id, task_remarks]
+            - name: show_mapping_views
+              description: 'Query mapping relations associated with a physical host group'
+              func: physical_host_group_show_mapping_views
+              params: [host_group_id, storage_id]
+            - name: show_related
+              description: 'Query the Storage host group list associated with a physical host group'
+              func: physical_host_group_show_related
+              params: [hostgroup_id, storage_ip, storage_name]
+    - name: server
+      description: 'Server management related operations'
+      actions:
+          - name: list
+            description: 'Query server list'
+            func: list
+            params: [start, limit, name, server_type]
+          - name: show
+            description: 'Query overview info of a specified server'
+            func: show
+            params: [server_id]
+      subtopics:
+        - name: cpu
+          description: 'Server CPU list query'
+          actions:
+            - name: list
+              description: 'Query all CPU list on a server'
+              func: cpu_list
+              params: [server_id, start, limit]
+        - name: memory
+          description: 'Server memory query'
+          actions:
+            - name: list
+              description: 'Query memory on a server'
+              func: memory_list
+              params: [server_id, start, limit]
+        - name: disk
+          description: 'Server disk query'
+          actions:
+            - name: list
+              description: 'Query disk collection on a server'
+              func: disk_list
+              params: [server_id, start, limit]
+        - name: nic
+          description: 'Server NIC query'
+          actions:
+            - name: list
+              description: 'Query NIC collection on a server'
+              func: nic_list
+              params: [server_id, page_no, page_size]
+        - name: fan
+          description: 'Server fan query'
+          actions:
+            - name: list
+              description: 'Query fans on a server'
+              func: fan_list
+              params: [server_id, start, limit]
+        - name: power
+          description: 'Server power query'
+          actions:
+            - name: list
+              description: 'Query power supplies on a server'
+              func: power_list
+              params: [server_id, start, limit]
+        - name: raid_card
+          description: 'Server RAID card query'
+          actions:
+            - name: list
+              description: 'Query RAID card details on a server'
+              func: raid_card_list
+              params: [server_id, start, limit]
+        - name: pcie_card
+          description: 'Server PCIe card query'
+          actions:
+            - name: list
+              description: 'Query PCIe card info on a server'
+              func: pcie_card_list
+              params: [server_id, start, limit]
+    - name: storage
+      description: 'Storage device related operations'
+      actions:
+          - name: list
+            description: 'Batch query Storage devices: supports paginated query and filtering.'
+            func: list
+            params: [az, source, dc_id, tag_ids, start, limit, ext_attrs]
+          - name: show
+            description: 'Query the specified Storage device.'
+            func: show
+            params: [storage_id]
+          - name: add
+            description: 'Add a Storage device (only supports recording offline Storage device info)'
+            func: add
+            params: [name, sn, ip, vendor, model, version, patch_version, dc_id, az, location, maintenance_start, maintenance_overtime, total_capacity, total_effective_capacity, total_pool_capacity, used_capacity, free_capacity, subscription_capacity, tag_ids]
+          - name: remove
+            description: 'Batch remove Storage devices.'
+            func: remove
+            params: [storage_ids]
+          - name: sync
+            description: 'Sync Storage device info. This interface is an asynchronous message.'
+            func: sync
+            params: [storage_id]
+          - name: modify
+            description: 'Modify a Storage device (only supports modifying recorded offline Storage device info)'
+            func: modify
+            params: [storage_id, name, location, ext_attrs]
+          - name: get_passphrase
+            description: 'Get the access token for a Storage device'
+            func: get_passphrase
+            params: [storage_id]
+          - name: query_power_data
+            description: 'Query Storage device power data'
+            func: query_power_data
+            params: [start_time, end_time, storage_ids, time_granularity]
+      subtopics:
+        - name: bbu
+          description: 'Storage device BBU query'
+          actions:
+            - name: list
+              description: 'Query the BBU info list of a Storage device'
+              func: bbu_list
+              params: [storage_id, health_status, running_status, enclosure_name, location, zone_id, page_no, page_size]
+        - name: fan
+          description: 'Storage device fan query'
+          actions:
+            - name: list
+              description: 'Query the fan info of a Storage device'
+              func: fan_list
+              params: [storage_id, health_status, running_status, run_level, enclosure_name, location, zone_id, page_no, page_size]
+        - name: disk
+          description: 'Storage device disk query'
+          actions:
+            - name: list
+              description: 'Query the disk info list of a Storage device'
+              func: disk_list
+              params: [storage_id]
+        - name: pool
+          description: 'Storage pool query'
+          actions:
+            - name: list
+              description: 'Query Storage device Storage pool list'
+              func: pool_list
+              params: [storage_id, raw_id, zone_id, page_no, page_size, sort_key, sort_dir]
+        - name: hyperscale_pool
+          description: 'HyperScale storage pool query'
+          actions:
+            - name: list
+              description: 'Query HyperScale Storage pool list'
+              func: hyperscale_pool_list
+              params: [raw_id, name, local_pool_id, health_status, running_status, storage_id, description, page_no, page_size, sort_key, sort_dir]
+        - name: node
+          description: 'Storage device node query'
+          actions:
+            - name: list
+              description: 'Query the node list of a Storage device'
+              func: node_list
+              params: [storage_id, raw_id, storage_name, name, ids, mgmt_ip, frame_number, slot_number, status, roles, page_no, page_size, sort_key, sort_dir]
+        - name: psu
+          description: 'Storage device power supply unit (PSU) query'
+          actions:
+            - name: list
+              description: 'Query Storage device power supply details info, only supported by OceanStor A800 storage.'
+              func: psu_list
+              params: [storage_id, health_status, running_status, power_type, power_mode, location, model, sn, enclosure_name, zone_id, page_no, page_size]
+        - name: app_type
+          description: 'Storage device application type query'
+          actions:
+            - name: list
+              description: 'Query the application types of a specified Storage device'
+              func: app_type_list
+              params: [storage_id]
+        - name: controller
+          description: 'Storage device controller query'
+          actions:
+            - name: list
+              description: 'Query the Controller info of a specified Storage device'
+              func: controller_list
+              params: [storage_id]
+        - name: disk_domain
+          description: 'Disk domain query'
+          actions:
+            - name: list
+              description: 'Batch query disk domains'
+              func: disk_domain_list
+              params: [storage_id, page_no, page_size]
+        - name: disk_pool
+          description: 'Distributed storage disk pool query'
+          actions:
+            - name: list
+              description: 'Batch query disk pools of distributed Storage devices. Only supported by OceanStor Pacific and OceanStor A310 storage.'
+              func: disk_pool_list
+              params: [storage_id, page_no, page_size]
+        - name: enclosure
+          description: 'Storage enclosure query'
+          actions:
+            - name: list
+              description: 'Batch query enclosure info'
+              func: enclosure_list
+              params: [page_no, page_size, storage_id, name, location, health_status, zone_name, zone_id, running_status, power_mode, esn, mac, sort_key, sort_dir]
+        - name: vstore
+          description: 'vStore (tenant) query, create, modify and delete'
+          actions:
+            - name: list
+              description: 'Batch query Storage device tenant info.'
+              func: vstore_list
+              params: [storage_id, name, page_no, page_size]
+            - name: show
+              description: 'Query tenant details.'
+              func: vstore_show
+              params: [vstore_id]
+            - name: create
+              description: 'Create tenant. OceanStor Dorado v3 devices do not support this feature.'
+              func: vstore_create
+              params: [name, storage_id, san_capacity_quota, nas_capacity_quota, description, nas_capacity_quota_alarm_switch, nas_capacity_quota_alarm_threshold, associate_pool_ids]
+            - name: modify
+              description: 'Modify the specified tenant. This operation will modify the specified tenant on the Storage device.'
+              func: vstore_modify
+              params: [vstore_id, name, san_capacity_quota, nas_capacity_quota, description, nas_capacity_quota_alarm_switch, nas_capacity_quota_alarm_threshold]
+            - name: delete
+              description: 'Batch delete tenants. This operation will delete the specified tenants on the Storage device.'
+              func: vstore_delete
+              params: [vstore_ids]
+        - name: initiator
+          description: 'Initiator query, modify and delete'
+          actions:
+            - name: list
+              description: 'Batch query storage-side initiator objects'
+              func: initiator_list
+              params: [page_size, page_no, raw_id, alias, status, associated_host_name, associated_host_id, multipath_type, protocol, support_provisioning, vstore_raw_id, vstore_name, storage_id]
+            - name: delete
+              description: 'Batch delete initiator objects from a Storage device'
+              func: initiator_delete
+              params: [initiator_ids, task_remarks]
+            - name: modify
+              description: 'Modify the storage-side initiator object'
+              func: initiator_modify
+              params: [initiator_id, vstore_id, alias, multi_path]
+        - name: account
+          description: 'Local/UNIX/Windows authentication user and group management'
+          actions:
+            - name: show_local_users
+              description: 'Query the info of local authentication users on a specified Storage device'
+              func: account_show_local_users
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: create_local_user
+              description: 'Create a local authentication user'
+              func: account_create_local_user
+              params: [storage_id, name, account_password, primary_group_raw_id, description, group_names, vstore_id]
+            - name: create_unix_user
+              description: 'Create a UNIX authentication user on a specified Storage device'
+              func: account_create_unix_user
+              params: [storage_id, name, primary_group_raw_id, raw_id, description, password, status_enabled, vstore_raw_id]
+            - name: create_windows_user
+              description: 'Create a Windows authentication user on a specified Storage device'
+              func: account_create_windows_user
+              params: [storage_id, name, password, raw_id, description, status_enabled, vstore_raw_id]
+            - name: show_unix_users
+              description: 'Query the info of UNIX authentication users on a specified Storage device'
+              func: account_show_unix_users
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_windows_users
+              description: 'Query the info of Windows authentication users on a specified Storage device'
+              func: account_show_windows_users
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_local_user_groups
+              description: 'Query the info of local authentication user groups on a specified Storage device'
+              func: account_show_local_user_groups
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_unix_user_groups
+              description: 'Query the info of UNIX authentication user groups on a specified Storage device'
+              func: account_show_unix_user_groups
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_windows_user_groups
+              description: 'Query the info of Windows authentication user groups on a specified Storage device'
+              func: account_show_windows_user_groups
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+        - name: qos
+          description: 'QoS policy query, create, modify, delete and resource association'
+          actions:
+            - name: list
+              description: 'Batch query QoS policies'
+              func: qos_list
+              params: [storage_id, name, raw_id, enable_status, running_status, zone_id, resource_type_list, vstore_id, vstore_name, alarm_status, io_policy_type, page_no, page_size, sort_key, sort_dir]
+            - name: show
+              description: 'Query the details of a specified QoS policy'
+              func: qos_show
+              params: [qos_policy_id]
+            - name: create
+              description: 'Create a QoS policy'
+              func: qos_create
+              params: [name, storage_id, resource_type, resource_ids, description, zone_id, vstore_id, enable_status, io_policy_type, min_bandwidth, max_bandwidth, burst_bandwidth, min_iops, max_iops, burst_iops, burst_time, latency, max_read_bandwidth, max_write_bandwidth, burst_read_bandwidth, burst_write_bandwidth, max_read_iops, max_write_iops, burst_read_iops, burst_write_iops, alarm_switch, alarm_level, alarm_threshold, resume_threshold, schedule_policy, schedule_start_date, start_time, duration, weekly_days]
+            - name: modify
+              description: 'Modify a QoS policy'
+              func: qos_modify
+              params: [qos_policy_id, name, description, io_policy_type, min_bandwidth, max_bandwidth, burst_bandwidth, min_iops, max_iops, burst_iops, burst_time, latency, max_read_bandwidth, max_write_bandwidth, burst_read_bandwidth, burst_write_bandwidth, max_read_iops, max_write_iops, burst_read_iops, burst_write_iops, alarm_switch, alarm_level, alarm_threshold, resume_threshold]
+            - name: delete
+              description: 'Delete QoS policies'
+              func: qos_delete
+              params: [qos_policy_ids]
+            - name: activate
+              description: 'Batch activate QoS policies'
+              func: qos_activate
+              params: [qos_policy_ids]
+            - name: deactivate
+              description: 'Batch deactivate QoS policies'
+              func: qos_deactivate
+              params: [qos_policy_ids]
+            - name: associate
+              description: 'Associate QoS policy with controlled resources'
+              func: qos_associate
+              params: [qos_policy_id, resource_ids, resource_type]
+            - name: unassociate
+              description: 'Disassociate QoS policy from controlled resources'
+              func: qos_unassociate
+              params: [qos_policy_id, resource_ids, resource_type]
+        - name: logic_port
+          description: 'Logic port query, create, update, delete and failback'
+          actions:
+            - name: list
+              description: 'Query the Logic port list of a Storage device'
+              func: logic_port_list
+              params: [storage_id, vstore_raw_id, zone_raw_id, scope, page_no, page_size]
+            - name: show
+              description: 'Query the Logic port details of a Storage device'
+              func: logic_port_show
+              params: [logic_port_id]
+            - name: create
+              description: 'Create a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
+              func: logic_port_create
+              params: [storage_id, name, address_family, home_port_type, zone_raw_id, scope, mgmt_ip, ipv4_mask, ipv4_gateway, mgmt_ipv6, ipv6_mask, ipv6_gateway, home_port_raw_id, support_protocol, operational_status, home_controller_id, failover_group_raw_id, vstore_raw_id, role, dns_zone_name, listen_dns_query_enabled, can_failover, failback_mode]
+            - name: update
+              description: 'Modify a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
+              func: logic_port_update
+              params: [logic_port_id, name, address_family, mgmt_ip, ipv4_mask, ipv4_gateway, mgmt_ipv6, ipv6_mask, ipv6_gateway, home_port_raw_id, home_port_type, operational_status, failover_group_raw_id, dns_zone_name, listen_dns_query_enabled, can_failover, failback_mode]
+            - name: delete
+              description: 'Delete Logic ports from a Storage device (only supported by OceanStor A800 series storage)'
+              func: logic_port_delete
+              params: [ids]
+            - name: failback
+              description: 'Failback a Logic port on a Storage device (only supported by OceanStor A800 series storage)'
+              func: logic_port_failback
+              params: [id]
+        - name: port
+          description: 'Storage port query (ETH/FC/IB/Bond/SAS)'
+          actions:
+            - name: list
+              description: 'Query Storage device port info, supports ETH, FC, IB, Bond, SAS five types'
+              func: port_list
+              params: [storage_id, port_type, location, ipv4, ipv6, port_name, zone_id, page_no, page_size]
+            - name: show_bond_members
+              description: 'Query the member list info of a specified bond port'
+              func: port_show_bond_members
+              params: [bond_port_id]
+        - name: vlan
+          description: 'VLAN query, create, modify and delete'
+          actions:
+            - name: list
+              description: 'Batch query VLAN list'
+              func: vlan_list
+              params: [name, storage_id, page_no, page_size]
+            - name: create
+              description: 'Create a VLAN'
+              func: vlan_create
+              params: [name, vlan_id, storage_id, description]
+            - name: delete
+              description: 'Delete a VLAN'
+              func: vlan_delete
+              params: [vlan_id]
+            - name: modify
+              description: 'Modify a VLAN'
+              func: vlan_modify
+              params: [vlan_id, name, description]
+        - name: failover_group
+          description: 'Failover group with port and VLAN query'
+          actions:
+            - name: list
+              description: 'Query failover group list'
+              func: failover_group_list
+              params: [storage_id, failover_group_type, zone_id, failover_group_service_type]
+            - name: show_ports
+              description: 'Query ports under a failover group (supports bond, eth, ib three types)'
+              func: failover_group_show_ports
+              params: [failover_group_id, port_type]
+            - name: show_vlans
+              description: 'Query VLANs under a failover group'
+              func: failover_group_show_vlans
+              params: [failover_group_id]
+        - name: zone
+          description: 'OceanStor A800 cluster zone query'
+          actions:
+            - name: list
+              description: 'Query zone info in an OceanStor A800 cluster'
+              func: zone_list
+              params: [name, ip, status, sync_status, sn, storage_ids]
+    - name: system
+      description: 'System management related operations'
+      actions:
+          - name: login
+            description: 'Authenticate user login'
+            func: login
+            params: [username, password, grant_type]
+          - name: logout
+            description: 'Log out the currently logged-in third-party session or normal session.'
+            func: logout
+            params: []
+          - name: show
+            description: 'Query product system information.'
+            func: show
+            params: []
+          - name: certificate
+            description: 'Get DME certificate.'
+            func: certificate
+            params: []
+          - name: reset_password
+            description: 'Reset the password of the specified user by username. Resetting does not'
+            func: reset_password
+            params: [user_name, new_value, is_initial_password]
+      subtopics:
+        - name: user
+          description: 'System user query, create and delete'
+          actions:
+            - name: list
+              description: 'Batch query user information.'
+              func: user_list
+              params: [page_no, page_size, name]
+            - name: show
+              description: 'Query the specified user information.'
+              func: user_show
+              params: [user_id]
+            - name: create
+              description: 'Create user.'
+              func: user_create
+              params: [name, type, value, description, roles]
+            - name: delete
+              description: 'Delete user. This API may directly or indirectly affect live network'
+              func: user_delete
+              params: [user_id]
+        - name: role
+          description: 'System role query'
+          actions:
+            - name: list
+              description: 'Batch query role information.'
+              func: role_list
+              params: [page_no, page_size, name]
+        - name: backup_server
+          description: 'Backup server query'
+          actions:
+            - name: list
+              description: 'Batch query backup servers.'
+              func: backup_server_list
+              params: [address, name, page_no, page_size]
+        - name: todo_task_group
+          description: 'Todo task group query, execute and confirm'
+          actions:
+            - name: list
+              description: 'Query todo task group list'
+              func: todo_task_group_list
+              params: [group_id, name, creator_name, is_finished, is_group, start, limit, status, todo_item_status, start_time_from, start_time_to, end_time_from, end_time_to, sort_key, sort_dir]
+            - name: execute
+              description: 'Execute todo task group'
+              func: todo_task_group_execute
+              params: [group_id]
+            - name: confirm
+              description: 'Confirm execution of scheduled todo task group'
+              func: todo_task_group_confirm
+              params: [group_id]
+        - name: todo_task
+          description: 'Todo task query, execute, audit, revoke and close'
+          actions:
+            - name: list
+              description: 'Batch query todo task details'
+              func: todo_task_list
+              params: [service_type, status, page_no, page_size]
+            - name: show
+              description: 'Query todo item details info'
+              func: todo_task_show
+              params: [item_id]
+            - name: execute
+              description: 'Execute todo task'
+              func: todo_task_execute
+              params: [item_id]
+            - name: audit
+              description: 'Audit todo task'
+              func: todo_task_audit
+              params: [item_id, is_approval, suggestion]
+            - name: revoke
+              description: 'Revoke audit for todo item'
+              func: todo_task_revoke
+              params: [item_id]
+            - name: close
+              description: 'Close todo task'
+              func: todo_task_close
+              params: [item_id, reason]
+        - name: task
+          description: 'Task query, retry and wait'
+          actions:
+            - name: show
+              description: 'Query specified task details'
+              func: task_show
+              params: [task_id]
+            - name: list
+              description: 'Batch query tasks'
+              func: task_list
+              params: [start, limit, task_name, status, owner_id, create_time_from, create_time_to]
+            - name: retry
+              description: 'Retry task'
+              func: task_retry
+              params: [task_id]
+            - name: wait
+              description: 'Wait for task completion'
+              func: task_wait
+              params: [task_id, timeout, poll_interval]
+        - name: tag_type
+          description: 'Tag type create, query, modify and delete'
+          actions:
+            - name: create
+              description: 'Create tag type'
+              func: tag_type_create
+              params: [name, description]
+            - name: list
+              description: 'Batch query tag types'
+              func: tag_type_list
+              params: [start, limit, name]
+            - name: modify
+              description: 'Modify tag type'
+              func: tag_type_modify
+              params: [tag_type_id, name, description]
+            - name: delete
+              description: 'Batch delete tag types'
+              func: tag_type_delete
+              params: [tag_type_ids]
+        - name: tag
+          description: 'Tag create, query, modify, delete and resource binding'
+          actions:
+            - name: create
+              description: 'Create tag'
+              func: tag_create
+              params: [name, tag_type_id, tag_type_name, description, color]
+            - name: list
+              description: 'Batch query tags'
+              func: tag_list
+              params: [start, limit, name, tag_type_id]
+            - name: modify
+              description: 'Modify tag'
+              func: tag_modify
+              params: [tag_id, name, description, color]
+            - name: delete
+              description: 'Batch delete tags'
+              func: tag_delete
+              params: [tag_ids]
+            - name: bind
+              description: 'Associate resources with tag'
+              func: tag_bind
+              params: [tag_id, resources]
+            - name: unbind
+              description: 'Disassociate resources from tag'
+              func: tag_unbind
+              params: [tag_id, resources]
+        - name: az
+          description: 'Availability zone (AZ) query'
+          actions:
+            - name: list
+              description: 'Batch query availability zones.'
+              func: az_list
+              params: [az_name, operate_status, start, limit, is_sc]
+        - name: dc
+          description: 'Data center list, detail and device query'
+          actions:
+            - name: list
+              description: 'Get data center list'
+              func: dc_list
+              params: [name, page_no, page_size]
+            - name: show
+              description: 'Get data center details'
+              func: dc_show
+              params: [dc_id]
+            - name: show_devices
+              description: 'Query device list info of the specified data center'
+              func: dc_show_devices
+              params: [dc_id, device_type, page_no, page_size]
+        - name: region
+          description: 'Region and sub-resource query'
+          actions:
+            - name: list
+              description: 'Batch query Regions.'
+              func: region_list
+              params: [ids, name, active_ip_address, standby_ip_address, sync_status, role, sort_key, sort_dir, page_no, page_size]
+            - name: query
+              description: 'Query child Region resource info.'
+              func: region_query
+              params: [region_id, request_url, request_method, request_body]
+    - name: tenant
+      description: 'Tenant Self Service related operations'
+      actions:
+      subtopics:
+        - name: tier
+          description: 'Service tier query and project association'
+          actions:
+            - name: list
+              description: 'Batch query service levels'
+              func: tier_list
+              params: [name, project_id, available_zone_id, storage_array_id, start, limit, sort_key, sort_dir, type]
+            - name: show_projects
+              description: 'Batch query business group and service level associations'
+              func: tier_show_projects
+              params: [tier_id, page_no, page_size]
+        - name: project
+          description: 'Project (business group) query and tier association'
+          actions:
+            - name: list
+              description: 'Batch query business groups'
+              func: project_list
+              params: [name, start, limit]
+            - name: show_tiers
+              description: 'Batch query business group and service level associations'
+              func: project_show_tiers
+              params: [project_id, page_no, page_size]
+        - name: lun
+          description: 'Service-oriented LUN create and tier/project binding'
+          actions:
+            - name: create
+              description: 'Service-oriented batch create LUN'
+              func: lun_create
+              params: [volumes, service_level_id, task_remarks, project_id, availability_zone, scheduler_hints, mapping]
+            - name: change_tier
+              description: 'Batch update LUN service level'
+              func: lun_change_tier
+              params: [volume_ids, tier_id]
+            - name: bind_tier
+              description: 'LUN associate service level'
+              func: lun_bind_tier
+              params: [volume_id, tier_id]
+            - name: unbind_tier
+              description: 'Remove LUN from service level association'
+              func: lun_unbind_tier
+              params: [volume_id]
+            - name: bind_project
+              description: 'LUN associate business group'
+              func: lun_bind_project
+              params: [volume_id, business_group_id]
+            - name: unbind_project
+              description: 'Remove LUN from business group association'
+              func: lun_unbind_project
+              params: [volume_id, business_group_id]
+    - name: virt
+      description: 'Virtualization service related operations'
+      actions:
+      subtopics:
+        - name: vm
+          description: 'Virtual machine list and detail query'
+          actions:
+            - name: list
+              description: 'Query virtual machine list'
+              func: vm_list
+              params: [site_id, cluster_id, dc_id, cluster_name, host_id, host_name, name, ip_address, status, is_template, os_type, vr_type, datacenter_id, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: 'Query specified VM details'
+              func: vm_show
+              params: [vm_id, vr_type]
+        - name: datastore
+          description: 'Datastore list and detail query'
+          actions:
+            - name: list
+              description: 'Query data store list'
+              func: datastore_list
+              params: [site_id, cluster_id, host_id, dc_id, name, status, storage_type, allocate_type, vr_type, datacenter_id, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: 'Query specified data store details'
+              func: datastore_show
+              params: [datastore_id, vr_type]
+        - name: host
+          description: 'Host list, detail and storage adapter query'
+          actions:
+            - name: list
+              description: 'Query host list'
+              func: host_list
+              params: [site_id, cluster_id, dc_id, host_name, ip_address, status, vr_type, page_no, page_size]
+            - name: show
+              description: 'Query specified host details'
+              func: host_show
+              params: [host_id, vr_type]
+            - name: adapter_list
+              description: 'Query specified host storage adapter list'
+              func: host_adapter_list
+              params: [host_id]
+        - name: cluster
+          description: 'Cluster list and detail query'
+          actions:
+            - name: list
+              description: 'Query cluster list'
+              func: cluster_list
+              params: [site_id, dc_id, name, vr_type, page_no, page_size]
+            - name: show
+              description: 'Query specified cluster details'
+              func: cluster_show
+              params: [cluster_id, vr_type]
+        - name: site
+          description: 'Site list and detail query'
+          actions:
+            - name: list
+              description: 'Query site list'
+              func: site_list
+              params: []
+            - name: show
+              description: 'Query specified site details'
+              func: site_show
+              params: [site_id]
+        - name: disk
+          description: 'Physical disk query'
+          actions:
+            - name: list
+              description: 'Query physical disk info'
+              func: disk_list
+              params: [site_id, host_id, name, disk_type, status, page_no, page_size]
+        - name: vdisk
+          description: 'Virtual disk list and detail query'
+          actions:
+            - name: list
+              description: 'Query virtual disk info list'
+              func: vdisk_list
+              params: [site_id, vm_id, name, disk_type, status, page_no, page_size]
+            - name: show
+              description: 'Query specified virtual disk info'
+              func: vdisk_show
+              params: [virtual_disk_id]
+    - name: workflow
+      description: 'Workflow related operations'
+      actions:
+      subtopics:
+        - name: template
+          description: 'Workflow template groups and detail query'
+          actions:
+            - name: list
+              description: 'Paginated query template list'
+              func: template_list
+              params: [page_no, page_size, directory_id, group, name]
+            - name: groups
+              description: 'Query all template groups'
+              func: template_groups
+              params: []
+            - name: show
+              description: 'Query template detailed info'
+              func: template_show
+              params: [template_id, template_version_id]
+        - name: instance
+          description: 'Workflow instance create, execute, stop and step log query'
+          actions:
+            - name: stop
+              description: 'Stop instance'
+              func: instance_stop
+              params: [instance_id]
+            - name: show
+              description: 'Query instance details'
+              func: instance_show
+              params: [instance_id]
+            - name: create
+              description: 'Create and execute instance'
+              func: instance_create
+              params: [template_id, template_version_id, instance_id, params]
+            - name: step_log
+              description: 'Query step log'
+              func: instance_step_log
+              params: [instance_id, step_id]

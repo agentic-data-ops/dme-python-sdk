@@ -1,0 +1,2121 @@
+topics:
+    - name: aiops
+      description: 'AIOps 智能运维相关操作'
+      actions:
+      subtopics:
+        - name: alarm
+          description: '告警查询、确认、取消确认与清除'
+          actions:
+            - name: list
+              description: '查询告警信息'
+              func: alarm_list
+              params: [alarm_id, severity, mo_dn, alarm_group_id, dc_id, product_name, alarm_name, occur_utc_start, occur_utc_end, fields, page_no, page_size, cleared, size, iterator, include_history]
+            - name: ack
+              description: '确认告警'
+              func: alarm_ack
+              params: [csns]
+            - name: unack
+              description: '取消确认告警'
+              func: alarm_unack
+              params: [csns]
+            - name: clear
+              description: '清除告警'
+              func: alarm_clear
+              params: [csns]
+        - name: diagnose_task
+          description: '智能性能诊断任务的创建与状态查询'
+          actions:
+            - name: create
+              description: '创建智能分析任务'
+              func: diagnose_task_create
+              params: [object_ids, object_type, begin_time, end_time, analysis_types]
+            - name: status
+              description: '查询性能诊断任务状态'
+              func: diagnose_task_status
+              params: [task_id]
+        - name: performance
+          description: '历史性能数据查询、监控指标查询与性能文件收集'
+          actions:
+            - name: create_collect_task
+              description: '创建性能文件收集任务'
+              func: performance_create_collect_task
+              params: [begin_time, end_time, object_type_id, object_ids, indicator_ids]
+            - name: download_collect_result
+              description: '下载性能文件'
+              func: performance_download_collect_result
+              params: [task_id, save_to]
+            - name: query
+              description: '查询历史性能数据'
+              func: performance_query
+              params: [obj_type_id, indicator_ids, obj_ids, obj_type, indicators, ext_dimensions, interval, range, begin_time, end_time]
+            - name: show_indicators
+              description: '显示监控指标详细信息'
+              func: performance_show_indicators
+              params: [indicators]
+            - name: list_indicators
+              description: '列出监控对象类型支持的监控指标'
+              func: performance_list_indicators
+              params: [obj_type_id]
+            - name: list_object_types
+              description: '获取所有监控对象类型'
+              func: performance_list_object_types
+              params: [filter]
+        - name: check_result
+          description: '检查策略异常检查结果的列表与详情查询'
+          actions:
+            - name: list
+              description: '查询检查策略异常检查结果列表'
+              func: check_result_list
+              params: [object_name, level, object_ids, object_native_id, object_type, policy_id, policy_name, policy_types, cause, alarm_type, first_occur_time, last_occur_time, page_no, page_size, sort_key, sort_dir]
+            - name: show
+              description: '查询检查策略异常检查结果详情'
+              func: check_result_show
+              params: [check_result_id]
+        - name: check_policy
+          description: '检查策略的查询、执行、启用、禁用与删除'
+          actions:
+            - name: list
+              description: '查询检查策略列表'
+              func: check_policy_list
+              params: [policy_name, exact_query, status, policy_type, policy_source, alarm_type, object_type, page_no, page_size, sort_key, sort_dir, administrative_status, policy_category, object_category]
+            - name: execute
+              description: '执行检查策略'
+              func: check_policy_execute
+              params: [policy_id]
+            - name: enable
+              description: '启用检查策略'
+              func: check_policy_enable
+              params: [policy_id]
+            - name: disable
+              description: '禁用检查策略'
+              func: check_policy_disable
+              params: [policy_id]
+            - name: delete
+              description: '删除检查策略'
+              func: check_policy_delete
+              params: [policy_id]
+        - name: topology
+          description: 'SAN 路径、LUN、虚拟机及拓扑图库信息查询'
+          actions:
+            - name: query_san_path
+              description: '查询 SAN 路径拓扑结构'
+              func: topology_query_san_path
+              params: [entry_objects, san_type]
+            - name: query_luns
+              description: '查询拓扑图 LUN 列表'
+              func: topology_query_luns
+              params: [entry_objects, storage_pool_id, lun_name, san_type, page_size, page_no]
+            - name: query_vms
+              description: '查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表'
+              func: topology_query_vms
+              params: [entry_objects, host_id, vm_name, page_size, page_no]
+            - name: query_graph_path
+              description: '查询拓扑图库信息'
+              func: topology_query_graph_path
+              params: [entry_res_type, entry_res_id, type, filter]
+        - name: health
+          description: '对象健康度、健康得分与扣分详情查询'
+          actions:
+            - name: query_data
+              description: '查询健康度相关数据'
+              func: health_query_data
+              params: [type, object_id, begin_time, end_time, object_type, indicator]
+            - name: show_score
+              description: '查询对象健康度'
+              func: health_show_score
+              params: [object_type, object_name, object_ids, page_no, page_size, sort_key, sort_dir]
+            - name: show_detail
+              description: '查询健康维度的扣分详情'
+              func: health_show_detail
+              params: [object_id, object_type, health_dimension]
+    - name: backup
+      description: '数据备份管理 (Backup) 相关操作'
+      actions:
+      subtopics:
+        - name: cluster
+          description: '备份集群列表、容量与租户配额查询'
+          actions:
+            - name: list
+              description: '查询备份集群列表'
+              func: cluster_list
+              params: [page_no, page_size]
+            - name: capacity
+              description: '查询备份集群容量'
+              func: cluster_capacity
+              params: [cluster_id]
+            - name: quota
+              description: '查询备份集群租户配额列表'
+              func: cluster_quota
+              params: [cluster_id, page_no, page_size]
+    - name: fcswitch
+      description: 'FC Switch (光纤交换机) 相关操作'
+      actions:
+          - name: list
+            description: '批量查询交换机'
+            func: list
+            params: [name, page_no, page_size]
+          - name: sync
+            description: '同步指定交换机'
+            func: sync
+            params: [switch_id]
+      subtopics:
+        - name: port
+          description: 'FC 交换机端口查询'
+          actions:
+            - name: list
+              description: '批量查询交换机端口'
+              func: port_list
+              params: [switch_id, port_name, page_no, page_size]
+        - name: controller
+          description: 'FC 交换机控制处理器查询'
+          actions:
+            - name: list
+              description: '批量查询交换机控制处理器'
+              func: controller_list
+              params: [switch_id, page_no, page_size]
+        - name: fabric
+          description: '光纤网络查询与配置文件备份'
+          actions:
+            - name: list
+              description: '批量查询光纤网络'
+              func: fabric_list
+              params: [name, page_no, page_size]
+            - name: show_ports
+              description: '查询指定光纤网络的端口列表'
+              func: fabric_show_ports
+              params: [fabric_id, page_no, page_size]
+            - name: backup
+              description: '执行光纤网络配置文件备份'
+              func: fabric_backup
+              params: [fabric_id, backup_server_id, backup_type]
+        - name: vsan
+          description: 'VSAN 列表查询'
+          actions:
+            - name: list
+              description: '查询 VSAN 列表'
+              func: vsan_list
+              params: [page_no, page_size]
+        - name: zone
+          description: 'zone 的查询、创建、修改、删除与成员查询'
+          actions:
+            - name: list
+              description: '批量查询 zone'
+              func: zone_list
+              params: [zone_name, page_no, page_size]
+            - name: create
+              description: '创建 zone'
+              func: zone_create
+              params: [name, fabric_wwn, vsan_wwn, wwn_members, port_members, fwwn_members, fcid_members, device_alias_members]
+            - name: modify
+              description: '修改 zone'
+              func: zone_modify
+              params: [zone_id, zone_name, wwn_members, fwwn_members, port_members, fcid_members, device_alias_members]
+            - name: delete
+              description: '删除 zone'
+              func: zone_delete
+              params: [zone_id]
+            - name: batch_create
+              description: '批量创建 zone'
+              func: zone_batch_create
+              params: [is_active_zone, zones]
+            - name: show_members
+              description: '查询 zone 的成员'
+              func: zone_show_members
+              params: [zone_id, type]
+        - name: alias
+          description: '别名的查询、创建、修改、删除与成员查询'
+          actions:
+            - name: list
+              description: '批量查询别名'
+              func: alias_list
+              params: [fabric_wwn, page_no, page_size]
+            - name: create
+              description: '创建别名'
+              func: alias_create
+              params: [name, fabric_wwn, vsan_wwn, wwn_members, port_members, fwwn_members, fcid_members, device_alias_members]
+            - name: modify
+              description: '修改别名'
+              func: alias_modify
+              params: [alias_id, name, wwn_members, fwwn_members, port_members, fcid_members, device_alias_members]
+            - name: delete
+              description: '删除别名'
+              func: alias_delete
+              params: [alias_id]
+            - name: show_members
+              description: '查询别名的成员'
+              func: alias_show_members
+              params: [alias_id, type]
+    - name: gfs
+      description: 'GFS (Global File System) 相关操作'
+      actions:
+      subtopics:
+        - name: dataspace
+          description: 'Omni-Dataverse 数据空间与数据服务站点查询'
+          actions:
+            - name: list
+              description: '批量查询 Omni-Dataverse'
+              func: dataspace_list
+              params: [name, id, raw_id, max_site_num, page_no, page_size]
+            - name: show
+              description: '查询指定 Omni-Dataverse 的容量统计信息'
+              func: dataspace_show
+              params: [id, name]
+            - name: site_list
+              description: '查询 Omni-Dataverse 数据服务站点'
+              func: dataspace_site_list
+              params: [raw_id, site_role, gfs_group_id, storage_name, storage_pool_name, account_name, page_no, page_size]
+        - name: namespace
+          description: '全局命名空间的查询、创建、修改与删除'
+          actions:
+            - name: list
+              description: '批量查询全局命名空间'
+              func: namespace_list
+              params: [name, gfs_group_name, gfs_group_id, gfs_type, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: '查询全局命名空间详情'
+              func: namespace_show
+              params: [id, name_locator]
+            - name: create
+              description: '创建全局命名空间'
+              func: namespace_create
+              params: [name, gfs_group_id, gfs_group_name, gfs_mode, single_write_switch, smart_share_members]
+            - name: modify
+              description: '修改指定全局命名空间'
+              func: namespace_modify
+              params: [id, name_locator, smart_share_members]
+            - name: delete
+              description: '删除指定的全局命名空间'
+              func: namespace_delete
+              params: [id, name_locator, is_delete_child]
+        - name: migration_task
+          description: 'Omni-Dataverse 数据迁移任务的创建、查询、修改、启停与删除'
+          actions:
+            - name: list
+              description: '批量查询 Omni-Dataverse 数据迁移任务'
+              func: migration_task_list
+              params: [gfs_id, task_name, task_id, target_storage_name, namespace_name, namespace_id, namespace_raw_id, local_path, status, task_mode, execute_mode, page_no, page_size, sort_dir, sort_key]
+            - name: show
+              description: '查询 Omni-Dataverse 数据迁移任务详情'
+              func: migration_task_show
+              params: [id]
+            - name: create
+              description: '创建 Omni-Dataverse 数据迁移任务'
+              func: migration_task_create
+              params: [gfs_id, task_mode, start_mode, max_bandwidth, target_namespace_id, task_name, execute_mode, execute_time, execute_time_unit, start_time, period_start_day, period_end_day, period_time, period_max_bandwidth, local_path, src_namespace_ids, atime_operator, atime, atime_unit, mtime_operator, mtime, mtime_unit, ctime_operator, ctime, ctime_unit, crtime_operator, crtime, crtime_unit, name_operator, name_filter, size_operator, file_size, tag, file_paths, authentication_type, user_operator, user_name, group_operator, group_name, files_filter]
+            - name: modify
+              description: '修改 Omni-Dataverse 数据迁移任务'
+              func: migration_task_modify
+              params: [id, task_name, start_mode, start_time, execute_time, execute_time_unit, max_bandwidth, period_start_day, period_end_day, period_time, period_max_bandwidth]
+            - name: delete
+              description: '批量删除 Omni-Dataverse 数据迁移任务'
+              func: migration_task_delete
+              params: [ids]
+            - name: operate
+              description: '批量暂停或者启动 Omni-Dataverse 数据迁移任务'
+              func: migration_task_operate
+              params: [ids, operate_type]
+    - name: integrate
+      description: '三方系统集成 (Integrate) 相关操作'
+      actions:
+      subtopics:
+        - name: cmdb
+          description: 'CMDB 系统、主机、应用查询及按启动器关联主机'
+          actions:
+            - name: system_list
+              description: '查询CMDB系统列表。'
+              func: cmdb_system_list
+              params: [name, page_no, page_size]
+            - name: host_list
+              description: '查询CMDB系统中的主机列表。'
+              func: cmdb_host_list
+              params: [system_id, name, ip, page_no, page_size]
+            - name: host_show
+              description: '查询指定CMDB主机详情。'
+              func: cmdb_host_show
+              params: [cmdb_host_id]
+            - name: app_list
+              description: '查询CMDB系统中的应用列表。'
+              func: cmdb_app_list
+              params: [system_id, name, page_no, page_size]
+            - name: host_query_by_initiators
+              description: '根据启动器列表查询CMDB主机列表。'
+              func: cmdb_host_query_by_initiators
+              params: [initiators]
+    - name: ipswitch
+      description: 'IP 交换机 (IPSwitch) 管理相关操作'
+      actions:
+          - name: list
+            description: '查询以太网交换机列表信息'
+            func: list
+            params: [name, page_no, page_size]
+      subtopics:
+        - name: frame
+          description: 'IP 交换机机框查询'
+          actions:
+            - name: list
+              description: '查询 IP 交换机机框列表信息'
+              func: frame_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: board
+          description: 'IP 交换机单板查询'
+          actions:
+            - name: list
+              description: '查询 IP 交换机单板列表信息'
+              func: board_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: subcard
+          description: 'IP 交换机子卡查询'
+          actions:
+            - name: list
+              description: '查询 IP 交换机子卡列表信息'
+              func: subcard_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: power
+          description: 'IP 交换机电源查询'
+          actions:
+            - name: list
+              description: '查询 IP 交换机电源列表信息'
+              func: power_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: fan
+          description: 'IP 交换机风扇查询'
+          actions:
+            - name: list
+              description: '查询 IP 交换机风扇列表信息'
+              func: fan_list
+              params: [ipswitch_id, page_no, page_size]
+        - name: port
+          description: 'IP 交换机端口查询'
+          actions:
+            - name: list
+              description: '查询 IP 交换机端口列表信息'
+              func: port_list
+              params: [ipswitch_id, page_no, page_size]
+    - name: kube
+      description: 'Kubernetes 相关操作'
+      actions:
+      subtopics:
+        - name: cluster
+          description: '容器集群列表查询'
+          actions:
+            - name: list
+              description: '查询容器集群列表'
+              func: cluster_list
+              params: [id, name, version, ip_address, status, sync_status, platform_id, platform_name, sort_key, sort_dir, page_no, page_size]
+        - name: node
+          description: '容器节点列表查询'
+          actions:
+            - name: list
+              description: '查询容器节点列表'
+              func: node_list
+              params: [id, name, cluster_id, pool_id, ip_address, ready_status, scheduling_status, pool_name, sort_key, sort_dir, page_no, page_size]
+        - name: pod
+          description: '容器组（Pod）列表查询'
+          actions:
+            - name: list
+              description: '查询容器组列表'
+              func: pod_list
+              params: [id, name, workload_id, node_id, namespace_name, cluster_name, cluster_id, platform_id, platform_name, namespace_id, ip_address, node_name, running_status, controller, sort_key, sort_dir, page_no, page_size]
+        - name: namespace
+          description: '容器命名空间列表查询'
+          actions:
+            - name: list
+              description: '查询容器命名空间列表'
+              func: namespace_list
+              params: [name, cluster_id, status, sort_key, sort_dir, page_no, page_size]
+        - name: pvc
+          description: '容器持久卷声明（PVC）列表查询'
+          actions:
+            - name: list
+              description: '查询容器持久卷声明列表'
+              func: pvc_list
+              params: [name, namespace_name, cluster_name, cluster_id, platform_id, platform_name, namespace_id, status, access_mode, storage_class_name, sort_key, sort_dir, page_no, page_size]
+        - name: pv
+          description: '容器持久卷（PV）列表查询'
+          actions:
+            - name: list
+              description: '查询容器持久卷列表'
+              func: pv_list
+              params: [id, name, cluster_name, cluster_id, platform_id, platform_name, status, access_mode, storage_class_name, sort_key, sort_dir, page_no, page_size]
+    - name: nas
+      description: 'NAS 相关操作'
+      actions:
+      subtopics:
+        - name: account
+          description: 'DataTurbo 管理员与 UNIX 认证用户、用户组管理'
+          actions:
+            - name: dataturbo_admin_list
+              description: '批量查询 DataTurbo 管理员'
+              func: account_dataturbo_admin_list
+              params: [storage_id, vstore_id, vstore_name, zone_id, name, online_status, lock_status, account_state, sort_key, sort_dir, page_no, page_size]
+            - name: unix_user_create
+              description: '创建 UNIX 用户'
+              func: account_unix_user_create
+              params: [storage_id, name, vstore_raw_id, raw_id, description, primary_group_raw_id, primary_group_name, zone_id, status, secondary_group_name_list]
+            - name: unix_user_add_group
+              description: '添加 UNIX 用户附属组'
+              func: account_unix_user_add_group
+              params: [user_id, secondary_group_name_list]
+            - name: unix_user_list
+              description: '查询 UNIX 认证用户列表'
+              func: account_unix_user_list
+              params: [storage_id, storage_name, vstore_raw_id, vstore_name, name, primary_group_name, raw_id, zone_id, user_status, sort_key, sort_dir, page_no, page_size]
+            - name: unix_user_show
+              description: '查询 UNIX 认证用户详情'
+              func: account_unix_user_show
+              params: [id]
+            - name: unix_user_remove_group
+              description: '移除 UNIX 用户附属组'
+              func: account_unix_user_remove_group
+              params: [user_id, secondary_group_name_list]
+            - name: unix_user_modify
+              description: '修改 UNIX 用户'
+              func: account_unix_user_modify
+              params: [id, raw_id, description, primary_group_name, primary_group_raw_id, status_enable]
+            - name: unix_user_batch_delete
+              description: '删除 UNIX 用户'
+              func: account_unix_user_batch_delete
+              params: [ids]
+            - name: unix_user_group_create
+              description: '创建 UNIX 用户组'
+              func: account_unix_user_group_create
+              params: [storage_id, name, vstore_raw_id, raw_id, description, zone_id]
+            - name: unix_user_group_list
+              description: '查询 UNIX 认证用户组列表'
+              func: account_unix_user_group_list
+              params: [storage_id, storage_name, vstore_raw_id, vstore_name, name, raw_id, zone_id, sort_key, sort_dir, page_no, page_size]
+            - name: unix_user_group_show
+              description: '查询 UNIX 用户组详情'
+              func: account_unix_user_group_show
+              params: [id]
+            - name: unix_user_group_modify
+              description: '修改 UNIX 用户组'
+              func: account_unix_user_group_modify
+              params: [id, raw_id, description]
+            - name: unix_user_group_batch_delete
+              description: '删除 UNIX 用户组'
+              func: account_unix_user_group_batch_delete
+              params: [ids]
+        - name: dtree
+          description: 'Dtree 的查询、创建、修改与删除'
+          actions:
+            - name: list
+              description: '查询 Dtree 列表'
+              func: dtree_list
+              params: [id_in_storage, name, device_name, storage_id, zone_id, manufacturer, tier_name, fs_name, fs_id, namespace_name, namespace_id, quota_switch, security_mode, nas_locking_policy, sort_key, sort_dir, page_no, page_size, dc_id, dc_name]
+            - name: show
+              description: '查询指定 Dtree 详情。'
+              func: dtree_show
+              params: [dtree_id]
+            - name: create
+              description: '创建并共享 Dtree'
+              func: dtree_create
+              params: [storage_id, create_dtrees_param, fs_id, namespace_id, zone_id, parent_dir, quota_switch, security_mode, nas_locking_policy, create_nfs_share_param, create_cifs_share_param, dataturbo_share, create_worm_param, unix_permissions, task_remarks]
+            - name: delete
+              description: '批量删除 Dtree。'
+              func: dtree_delete
+              params: [dtree_ids, task_remarks]
+            - name: modify
+              description: '修改指定 Dtree'
+              func: dtree_modify
+              params: [dtree_id, name, quota_switch, security_mode, nas_locking_policy, unix_permissions, task_remarks]
+        - name: nfs_share
+          description: 'NFS 共享的增删改查与客户端访问列表'
+          actions:
+            - name: list
+              description: '查询 NFS 共享列表'
+              func: nfs_share_list
+              params: [id_in_storage, name, share_path, exact_share_path, device_name, storage_id, tier_name, owning_dtree_name, fs_name, fs_id, owning_dtree_id, vstore_name, page_no, page_size, sort_key, sort_dir, support_provisioning, namespace_id, namespace_name, dc_id, dc_name, zone_id, zone_name, zone_ip]
+            - name: show
+              description: '查询指定 NFS 共享详情'
+              func: nfs_share_show
+              params: [nfs_share_id]
+            - name: create
+              description: '创建 NFS 共享'
+              func: nfs_share_create
+              params: [create_nfs_share_param, task_remarks]
+            - name: modify
+              description: '修改指定 NFS 共享'
+              func: nfs_share_modify
+              params: [nfs_share_id, description, character_encoding, audit_items, show_snapshot_enable, nfs_share_client_addition, nfs_share_client_modification, nfs_share_client_deletion, file_name_ex_filters, task_remarks]
+            - name: delete
+              description: '批量删除 NFS 共享'
+              func: nfs_share_delete
+              params: [nfs_share_ids, task_remarks]
+            - name: show_clients
+              description: '查询 NFS 共享下的客户端访问列表'
+              func: nfs_share_show_clients
+              params: [page_no, page_size, nfs_share_id, storage_id, vstore_id_in_storage, name, client_id_in_storage, sort_key, sort_dir]
+        - name: cifs_share
+          description: 'CIFS 共享的增删改查与权限列表'
+          actions:
+            - name: list
+              description: '批量查询 CIFS 共享'
+              func: cifs_share_list
+              params: [raw_id, name, share_path, exact_share_path, fs_id, fs_name, dtree_id, dtree_name, storage_id, storage_name, vstore_raw_id, vstore_name, manufacturer, op_lock_enabled, notify_enabled, offline_file_modes, file_extension_filter_enabled, abe_enabled, page_no, page_size, sort_key, sort_dir, namespace_id, namespace_name, support_provisioning, dc_id, dc_name]
+            - name: show
+              description: '查询指定 CIFS 共享详情'
+              func: cifs_share_show
+              params: [cifs_share_id]
+            - name: create
+              description: '创建单个 CIFS 共享'
+              func: cifs_share_create
+              params: [create_cifs_param, fs_id, namespace_id, task_remarks]
+            - name: modify
+              description: '修改指定 CIFS 共享'
+              func: cifs_share_modify
+              params: [cifs_share_id, description, op_lock_enabled, notify_enabled, ca_enabled, offline_file_mode, ip_control_enabled, abe_enabled, audititem_list, apply_default_acl, file_extension_filter_enabled, show_previous_versions_enabled, show_snapshot_enabled, user_and_user_group_info, ip_and_segments, file_name_ex_filters, task_remarks, smb3_encryption_enable, unencrypted_access, enable_lease]
+            - name: delete
+              description: '批量删除 CIFS 共享'
+              func: cifs_share_delete
+              params: [cifs_share_ids, task_remarks]
+            - name: show_permissions
+              description: '查询单个 CIFS 共享的权限列表'
+              func: cifs_share_show_permissions
+              params: [cifs_share_id, type, user_filter, ip_filter, file_filter, sort_key, sort_dir, page_no, page_size]
+        - name: dataturbo_share
+          description: 'DataTurbo 共享的增删改查与管理员权限'
+          actions:
+            - name: list
+              description: '查询 DataTurbo 共享列表'
+              func: dataturbo_share_list
+              params: [page_no, page_size, raw_id, share_path, fs_id, fs_name, dtree_id, dtree_name, vstore_id, vstore_raw_id, vstore_name, storage_id, storage_name, zone_id, zone_name, scope, sort_key, sort_dir]
+            - name: show
+              description: '查询指定 DataTurbo 共享详情'
+              func: dataturbo_share_show
+              params: [dataturbo_share_id]
+            - name: create
+              description: '创建 DataTurbo 共享'
+              func: dataturbo_share_create
+              params: [charset, fs_id, dtree_id, description, dataturbo_share_auth, task_remarks]
+            - name: modify
+              description: '修改指定 DataTurbo 共享'
+              func: dataturbo_share_modify
+              params: [dataturbo_share_id, description, dataturbo_share_auth_addition, dataturbo_share_auth_deletion, task_remarks]
+            - name: delete
+              description: '批量删除 DataTurbo 共享'
+              func: dataturbo_share_delete
+              params: [dataturbo_share_ids, task_remarks]
+            - name: show_permissions
+              description: '查询 DataTurbo 共享管理员权限列表'
+              func: dataturbo_share_show_permissions
+              params: [dataturbo_share_id, page_no, page_size, user_id, user_name, permission]
+        - name: quota
+          description: '文件系统配额的查询、创建、修改与删除'
+          actions:
+            - name: list
+              description: '查询配额列表'
+              func: quota_list
+              params: [page_no, page_size, ids, raw_ids, quota_type, parent_type, parent_raw_id, owner_name, vstore_id, vstore_raw_id, storage_id, sort_key, sort_dir, zone_id]
+            - name: show
+              description: '查询指定配额详情'
+              func: quota_show
+              params: [quota_id]
+            - name: create
+              description: '创建配额'
+              func: quota_create
+              params: [parent_id, parent_type, quota_type, space_soft_quota, space_hard_quota, space_advisory_quota, file_soft_quota, file_hard_quota, file_advisory_quota, snap_space_switch, soft_grace_time, quota_owner, dir_quota_target, task_remarks]
+            - name: modify
+              description: '更新指定配额'
+              func: quota_modify
+              params: [quota_id, space_soft_quota, space_hard_quota, space_advisory_quota, file_soft_quota, file_hard_quota, file_advisory_quota, snap_space_switch, soft_grace_time, task_remarks]
+            - name: delete
+              description: '批量删除配额'
+              func: quota_delete
+              params: [quota_ids, task_remarks]
+        - name: filesystem
+          description: '文件系统的创建、查询、修改与删除'
+          actions:
+            - name: list
+              description: '批量查询文件系统'
+              func: filesystem_list
+              params: [page_no, page_size, sort_dir, sort_key, name, fs_raw_id, storage_id]
+            - name: show
+              description: '查询指定文件系统详情'
+              func: filesystem_show
+              params: [filesystem_id]
+            - name: delete
+              description: '批量删除文件系统'
+              func: filesystem_delete
+              params: [filesystem_ids, task_remarks]
+            - name: batch_modify
+              description: '批量修改文件系统'
+              func: filesystem_batch_modify
+              params: [filesystems, task_remarks]
+            - name: create
+              description: '自定义创建文件系统'
+              func: filesystem_create
+              params: [storage_id, pool_raw_id, filesystem_specs, vstore_id, zone_id, task_remarks, gfs_group_id, automatic_update_time, atime_update_mode, schedule_name, quota_switch, vaai_switch, initial_distribute_policy, capacity_threshold]
+            - name: query_available
+              description: '查询可用的文件系统'
+              func: filesystem_query_available
+              params: [feature_type, local_storage_id, remote_storage_id, name, page_no, page_size, sort_key, sort_dir]
+            - name: modify
+              description: '修改指定文件系统'
+              func: filesystem_modify
+              params: [file_system_id, name, description, capacity, capacity_threshold, initial_distribute_policy, automatic_update_time, atime_update_mode, quota_switch, vaai_switch, owning_controller, task_remarks]
+        - name: namespace
+          description: '文件系统命名空间的查询、创建、修改与删除'
+          actions:
+            - name: list
+              description: '批量查询命名空间'
+              func: namespace_list
+              params: [page_no, page_size, sort_dir, sort_key, name, vstore_name, vstore_raw_id, vstore_id, raw_id, pool_name, storage_id, enable_encrypt, support_provisioning, gfs_id, gfs_name, has_gfs]
+            - name: show
+              description: '查询指定命名空间详情'
+              func: namespace_show
+              params: [namespace_id]
+            - name: create
+              description: '批量创建命名空间'
+              func: namespace_create
+              params: [storage_id, pool_raw_id, namespace_specs, enable_update_atime, trash_visible, trash_enable, interval_trash, dps_switch, forbidden_dpc, audit_log_switch, audit_log_rule, atime_update_mode, acl_policy_type, enable_encrypt, crypt_alg, case_sensitive, show_snap_dir, rdc, worm, qos_policy, public_network_qos_policy, private_network_qos_policy, create_s3_param, application_type, task_remarks]
+            - name: modify
+              description: '修改指定命名空间'
+              func: namespace_modify
+              params: [namespace_id, enable_update_atime, show_snap_dir, trash_visible, trash_enable, interval_trash, dps_switch, forbidden_dpc, audit_log_switch, audit_log_rule, atime_update_mode, acl_policy_type, enable_encrypt, qos_policy, public_network_qos_policy, private_network_qos_policy, application_type, task_remarks]
+            - name: delete
+              description: '批量删除命名空间'
+              func: namespace_delete
+              params: [namespace_ids, task_remarks]
+        - name: dataturbo
+          description: 'DataTurbo 并行客户端列表与详情查询'
+          actions:
+            - name: dpc_list
+              description: '批量查询并行客户端列表'
+              func: dpc_list
+              params: [ids, hostname, ip, mgmt_status, status, sn, storage_id, dpc_om_id, dpc_type, client_version, page_no, page_size]
+            - name: dpc_show
+              description: '查询并行客户端详情。'
+              func: dpc_show
+              params: [dpc_id]
+        - name: dpc
+          description: 'DPC 客户端列表与详情查询'
+          actions:
+            - name: list
+              description: '批量查询DPC客户端。'
+              func: dpc_client_list
+              params: [storage_id, process_id, name, manage_ip, version, status, switch_status, upgrade_flag, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: '查询DPC客户端详情。'
+              func: dpc_client_show
+              params: [id]
+        - name: kvcache
+          description: 'KV Cache 库的查询、创建、修改与删除'
+          actions:
+            - name: list
+              description: '查询 KV Cache 库'
+              func: kvcache_list
+              params: [storage_id, id, raw_id, name, zone_id, pool_raw_id, vstore_id, vstore_name, fs_id, fs_name, data_cleanup_switch, page_no, page_size, sort_dir, sort_key]
+            - name: batch_create
+              description: '批量创建 KV Cache 库'
+              func: kvcache_batch_create
+              params: [storage_id, zone_id, pool_raw_id, vstore_id, kv_cache_stores, data_cleanup_switch, max_survival_time]
+            - name: modify
+              description: '修改 KV Cache 库'
+              func: kvcache_modify
+              params: [kv_cache_stores_id, name, description, data_cleanup_switch, max_survival_time]
+            - name: batch_delete
+              description: '批量删除 KV Cache 库'
+              func: kvcache_batch_delete
+              params: [ids]
+    - name: protect
+      description: '保护 (Protection) 相关操作'
+      actions:
+      subtopics:
+        - name: group
+          description: '保护组的创建、查询、修改与 LUN 成员管理'
+          actions:
+            - name: list
+              description: '批量查询保护组'
+              func: group_list
+              params: [name, project_id, storage_name, storage_id, raw_id, lun_group_raw_id, vstore_id, vstore_raw_id, sort_key, sort_dir, page_no, page_size]
+            - name: create
+              description: '创建保护组，支持基于LUN或者LUN组创建'
+              func: group_create
+              params: [name, storage_id, lun_ids, lun_group_id, description]
+            - name: modify
+              description: '修改保护组'
+              func: group_modify
+              params: [pg_id, name, description]
+            - name: delete
+              description: '批量删除保护组'
+              func: group_delete
+              params: [pg_ids]
+            - name: add_luns
+              description: '保护组中添加成员 LUN'
+              func: group_add_luns
+              params: [pg_id, lun_ids, hyper_metro, rem_reps]
+            - name: remove_luns
+              description: '移除保护组中的成员 LUN'
+              func: group_remove_luns
+              params: [pg_id, lun_ids, is_delay]
+        - name: hypermetro_group
+          description: '双活一致性组的创建、查询、同步、暂停与站点切换'
+          actions:
+            - name: list
+              description: '批量查询双活一致性组'
+              func: hypermetro_group_list
+              params: [page_no, page_size, name, raw_id, protect_group_id, storage_id, storage_name, local_vstore_id, local_vstore_raw_id, remote_vstore_id, remote_vstore_raw_id, domain_name, health_status, running_status, priority_station_type]
+            - name: create
+              description: '创建双活一致性组'
+              func: hypermetro_group_create
+              params: [domain_id, name, local_storage_id, local_pg_id, description, create_mode, remote_vstore_id, remote_storage_pool_id, lun_ids, remote_resource_name_rule, name_prefix, name_suffix, service_assurance_policy, recovery_policy, speed, bandwidth, first_sync_policy, remote_lun_group_id, lun_pairs, existed_pair_ids, is_auto_pause, is_auto_sync, isolation_threshold_time]
+            - name: modify
+              description: '修改双活一致性组'
+              func: hypermetro_group_modify
+              params: [group_id, name, description, recovery_policy, service_assurance_policy, speed, bandwidth, isolation_threshold_time]
+            - name: delete
+              description: '批量删除双活一致性组'
+              func: hypermetro_group_delete
+              params: [ids, is_self_adapt, delete_mode]
+            - name: add_pairs
+              description: '双活一致性组添加成员 Pair（异步任务接口）'
+              func: hypermetro_group_add_pairs
+              params: [group_id, pair_ids, is_self_adapt]
+            - name: remove_pairs
+              description: '双活一致性组移除成员 Pair（异步任务接口）'
+              func: hypermetro_group_remove_pairs
+              params: [group_id, pair_ids]
+            - name: pause
+              description: '暂停双活一致性组'
+              func: hypermetro_group_pause
+              params: [ids, priority_station_type]
+            - name: force_startup
+              description: '强制启动双活一致性组'
+              func: hypermetro_group_force_startup
+              params: [ids, priority_station_type]
+            - name: switch_priority
+              description: '双活一致性组优先站点切换'
+              func: hypermetro_group_switch_priority
+              params: [ids]
+            - name: sync
+              description: '同步双活一致性组'
+              func: hypermetro_group_sync
+              params: [ids]
+        - name: hypermetro_pair
+          description: 'LUN 双活 Pair 的创建、查询、同步、暂停与主从切换'
+          actions:
+            - name: list
+              description: '批量查询 LUN 双活 Pair'
+              func: hypermetro_pair_list
+              params: [page_no, page_size, group_id, group_name, group_raw_id, pair_raw_id, local_storage_id, local_storage_name, local_vstore_id, local_vstore_raw_id, local_volume_name, local_host_access_state, remote_vstore_id, remote_vstore_raw_id, remote_volume_name]
+            - name: create
+              description: '创建双活 Pair'
+              func: hypermetro_pair_create
+              params: [create_mode, lun_pairs, lun_ids, remote_storage_pool_id, remote_vstore_id, remote_resource_name_rule, name_prefix, name_suffix, local_storage_id, domain_id, speed, bandwidth, service_assurance_policy, isolation_threshold_time, recovery_policy]
+            - name: modify
+              description: '修改双活 Pair'
+              func: hypermetro_pair_modify
+              params: [pair_id, speed, bandwidth, recovery_policy, service_assurance_policy, isolation_threshold_time]
+            - name: delete
+              description: '批量删除双活 Pair'
+              func: hypermetro_pair_delete
+              params: [ids, delete_mode, is_lun_service_interrupt]
+            - name: sync
+              description: '同步双活 Pair'
+              func: hypermetro_pair_sync
+              params: [ids]
+            - name: pause
+              description: '暂停双活 Pair'
+              func: hypermetro_pair_pause
+              params: [ids, priority_station_type]
+            - name: force_startup
+              description: '强制启动双活 Pair'
+              func: hypermetro_pair_force_startup
+              params: [ids, priority_station_type]
+            - name: switch_priority
+              description: '双活 Pair 优先站点切换'
+              func: hypermetro_pair_switch_priority
+              params: [ids]
+            - name: query_available_luns
+              description: '查询可创建双活Pair的目标LUN。'
+              func: hypermetro_pair_query_available_luns
+              params: [source_lun_id, remote_storage_id, name, vstore_id, vstore_raw_id, remote_lun_group_id, page_no, page_size]
+        - name: hypermetro_domain
+          description: '双活域列表查询'
+          actions:
+            - name: list
+              description: '批量查询双活域'
+              func: hypermetro_domain_list
+              params: [storage_id, types]
+        - name: replication_group
+          description: '远程复制一致性组的创建、查询、同步、分裂与主从切换'
+          actions:
+            - name: create
+              description: '创建远程复制一致性组'
+              func: replication_group_create
+              params: [cg_name, remote_storage_id, local_pg_id, description, remote_lun_group_id, local_storage_id, create_mode, existed_pair_ids, lun_pairs, lun_ids, remote_storage_pool_id, remote_vstore_id, remote_resource_name_rule, name_prefix, name_suffix, replication_mode, sync_type, timing_val, sync_schedule, is_backup, speed, bandwidth, recovery_policy, first_sync_policy, enable_compress, rep_io_timeout, sync_snap_policy, user_snap_retention_num, is_auto_sync]
+            - name: list
+              description: '批量查询复制一致性组'
+              func: replication_group_list
+              params: [page_no, page_size, protect_group_id, name, raw_id, running_status, health_status, storage_name, storage_id, replication_mode]
+            - name: modify
+              description: '修改远程复制一致性组'
+              func: replication_group_modify
+              params: [replication_group_id, name, description, speed, bandwidth, recovery_policy, enable_compress, sync_type, timing_value_in_sec, sync_schedule, rep_io_timeout, sync_snap_policy, user_snap_retention_num, switch_to_async, switch_to_sync, async_to_sync_bandwidth, async_to_sync_latency, sync_to_async_bandwidth, sync_to_async_latency, transfer_cycle]
+            - name: delete
+              description: '批量删除远程复制一致性组'
+              func: replication_group_delete
+              params: [ids, is_self_adapt, delete_mode]
+            - name: add_pairs
+              description: '远程复制一致性组添加成员 Pair'
+              func: replication_group_add_pairs
+              params: [group_id, pair_ids]
+            - name: remove_pairs
+              description: '远程复制一致性组移除成员 Pair'
+              func: replication_group_remove_pairs
+              params: [group_id, pair_ids]
+            - name: sync
+              description: '批量同步远程复制一致性组'
+              func: replication_group_sync
+              params: [ids]
+            - name: split
+              description: '批量分裂远程复制一致性组'
+              func: replication_group_split
+              params: [ids]
+            - name: switch
+              description: '远程复制一致性组批量主从切换'
+              func: replication_group_switch
+              params: [ids]
+            - name: switch_write_protection
+              description: '远程复制一致性组从资源写保护状态切换'
+              func: replication_group_switch_write_protection
+              params: [id, operation_type]
+        - name: replication_pair
+          description: '远程复制 Pair 的创建、查询、同步、分裂与主从切换'
+          actions:
+            - name: list
+              description: '批量查询复制 Pair'
+              func: replication_pair_list
+              params: [page_no, page_size, raw_id, local_resource_types, local_vstore_raw_id, group_id, group_name, group_raw_id, local_resource_raw_id, local_resource_raw_ids, local_resource_name, remote_resource_name, local_storage_id, local_storage_name, health_status, running_status, recovery_policy, sort_key, sort_dir]
+            - name: create
+              description: '创建远程复制 Pair'
+              func: replication_pair_create
+              params: [local_storage_id, remote_storage_id, create_mode, replication_mode, resource_pairs, remote_storage_pool_id, remote_vstore_id, remote_resource_name_rule, name_prefix, name_suffix, speed, bandwidth, recovery_policy, first_sync_policy, sync_type, timing_val, sync_schedule, rep_io_timeout, sync_snap_policy, user_snap_retention_num, snap_tag_list, enable_compress, is_backup, switch_to_async, consistency_group_info]
+            - name: modify
+              description: '修改复制 Pair'
+              func: replication_pair_modify
+              params: [pair_id, speed, bandwidth, recovery_policy, enable_compress, secondary_res_protection, sync_type, timing_val, sync_schedule, rep_io_timeout, sync_snap_policy, user_snap_retention_num, snap_tag_list, switch_to_async, switch_to_sync, sync_to_async_bandwidth, sync_to_async_latency, async_to_sync_bandwidth, async_to_sync_latency, transfer_cycle]
+            - name: delete
+              description: '批量删除远程复制 Pair'
+              func: replication_pair_delete
+              params: [ids, delete_mode, is_enforce_secondary_data]
+            - name: sync
+              description: '批量同步远程复制 Pair'
+              func: replication_pair_sync
+              params: [ids]
+            - name: split
+              description: '批量分裂远程复制 Pair'
+              func: replication_pair_split
+              params: [ids]
+            - name: switch
+              description: '远程复制 Pair 批量主从切换'
+              func: replication_pair_switch
+              params: [ids]
+            - name: switch_write_protection
+              description: '远程复制 Pair 从资源保护状态切换'
+              func: replication_pair_switch_write_protection
+              params: [id, operation_type]
+        - name: device_pair
+          description: '设备 Pair 列表查询'
+          actions:
+            - name: list
+              description: '查询设备 Pairs'
+              func: device_pair_list
+              params: [storage_id, local_storage_name, remote_storage_name, health_status, running_status, page_no, page_size]
+        - name: replication_link
+          description: '复制链路列表查询'
+          actions:
+            - name: list
+              description: '查询复制链路'
+              func: replication_link_list
+              params: [local_storage_id, page_no, page_size, health_status, running_status, link_type]
+        - name: snapshot
+          description: 'LUN 快照的创建、查询、回滚与删除'
+          actions:
+            - name: list
+              description: '批量查询 LUN 快照'
+              func: snapshot_list
+              params: [snapshot_ids, storage_id, raw_id, name, health_status, running_status, source_lun_name, parent_name, activated_time_from, activated_time_to, page_no, page_size]
+            - name: create
+              description: '批量创建 LUN 快照'
+              func: snapshot_create
+              params: [snapshots_info, is_consist_activate]
+            - name: rollback
+              description: '批量回滚 LUN 快照'
+              func: snapshot_rollback
+              params: [rollback_speed, rollback_snapshots]
+            - name: delete
+              description: '批量删除 LUN 快照'
+              func: snapshot_delete
+              params: [snapshot_ids, is_delete_target_lun, is_auto_deactivate]
+        - name: snapshot_group
+          description: '快照一致性组的创建、激活、回滚与删除'
+          actions:
+            - name: create
+              description: '创建快照一致性组'
+              func: snapshot_group_create
+              params: [name, protect_group_id, description, creation_mode]
+            - name: delete
+              description: '批量删除快照一致性组'
+              func: snapshot_group_delete
+              params: [snapshot_cg_ids, is_delete_target_lun]
+            - name: activate
+              description: '激活快照一致性组'
+              func: snapshot_group_activate
+              params: [snapshot_cg_id, object_type, snapshot_create_mode, name_rule, name_prefix, name_suffix, target_snapshot_objects]
+            - name: deactivate
+              description: '批量取消激活快照一致性组'
+              func: snapshot_group_deactivate
+              params: [snapshot_cg_ids]
+            - name: rollback
+              description: '回滚快照一致性组'
+              func: snapshot_group_rollback
+              params: [snapshot_cg_id, rollback_speed, snapshot_create_mode, name_rule, name_prefix, name_suffix, target_snapshot_objects]
+        - name: clone_group
+          description: '克隆一致性组的创建、同步与删除'
+          actions:
+            - name: create
+              description: '创建克隆一致性组'
+              func: clone_group_create
+              params: [name, protect_group_id, create_mode, description, name_rule, name_prefix, name_suffix, copy_rate, is_sync, clone_pairs]
+            - name: sync
+              description: '同步克隆一致性组'
+              func: clone_group_sync
+              params: [clone_cg_id, create_mode, name_rule, name_prefix, name_suffix, clone_pairs]
+            - name: delete
+              description: '批量删除克隆一致性组'
+              func: clone_group_delete
+              params: [ids, is_delete_dst_lun, is_recycle_dst_lun_data]
+        - name: fs_hypermetro_pair
+          description: '文件系统双活 Pair 的创建、查询、暂停、同步与删除'
+          actions:
+            - name: create
+              description: '创建文件系统双活Pair'
+              func: fs_hypermetro_pair_create
+              params: [vstore_pair_id, create_mode, fs_pairs, speed, bandwidth, service_assurance_policy, isolation_threshold_time, recovery_policy, first_sync_policy]
+            - name: list
+              description: '查询文件系统双活Pair列表。'
+              func: fs_hypermetro_pair_list
+              params: [ids, name, status, storage_id, vstore_pair_id, local_fs_name, local_fs_id, health_status, running_status, sort_key, sort_dir, page_no, page_size, pair_raw_id, local_filesystem_raw_id, remote_filesystem_raw_id, remote_filesystem_name, is_primary, local_host_access_state, remote_host_access_state, recovery_policy, link_status, sync_direction]
+            - name: pause
+              description: '批量暂停文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。'
+              func: fs_hypermetro_pair_pause
+              params: [fs_pair_ids]
+            - name: sync
+              description: '批量同步文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。'
+              func: fs_hypermetro_pair_sync
+              params: [fs_pair_ids]
+            - name: delete
+              description: '批量删除文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。'
+              func: fs_hypermetro_pair_delete
+              params: [ids, is_local_delete, is_online_delete]
+        - name: fs_snapshot
+          description: '文件系统快照的创建、查询与删除'
+          actions:
+            - name: create
+              description: '创建文件系统快照。'
+              func: fs_snapshot_create
+              params: [vstore_pair_id, fs_pairs]
+            - name: list
+              description: '批量查询文件系统快照。'
+              func: fs_snapshot_list
+              params: [fs_pair_id, name, status, local_fs_name, local_fs_id, page_no, page_size]
+            - name: delete
+              description: '批量删除文件系统快照。'
+              func: fs_snapshot_delete
+              params: [ids]
+        - name: vstore_hypermetro_pair
+          description: '双活租户 Pair 的创建、查询、切换、修改与强制启动'
+          actions:
+            - name: force_start
+              description: '批量强制启动双活租户Pair。'
+              func: vstore_pair_force_start
+              params: [ids]
+            - name: create
+              description: '创建双活租户Pair。'
+              func: vstore_pair_create
+              params: [domain_id, local_vstore_id, remote_vstore_id, preferred_mode, preferred_site]
+            - name: list
+              description: '查询双活租户Pair列表。'
+              func: vstore_pair_list
+              params: [ids, name, status, local_storage_id, remote_storage_id, health_status, running_status, page_no, page_size, raw_id, local_vstore_name, local_vstore_raw_id, remote_vstore_name, remote_vstore_raw_id, domain_id, domain_name, config_status, link_status, role, active_status, sort_key, sort_dir]
+            - name: switch
+              description: '批量主从切换双活租户Pair。'
+              func: vstore_pair_switch
+              params: [ids, is_force]
+            - name: delete
+              description: '批量删除双活租户Pair。'
+              func: vstore_pair_delete
+              params: [ids]
+            - name: modify
+              description: '修改指定双活租户pair。'
+              func: vstore_pair_modify
+              params: [id, preferred_mode, preferred_site]
+        - name: fs_hypermetro_domain
+          description: '文件系统双活域的强制启动、站点切换、恢复、分裂与主从切换'
+          actions:
+            - name: force_start
+              description: '强制启动文件系统双活域。'
+              func: fs_domain_force_start
+              params: [id]
+            - name: switch_site
+              description: '优先站点切换文件系统双活域。'
+              func: fs_domain_switch_site
+              params: [id]
+            - name: recover
+              description: '恢复文件系统双活域。'
+              func: fs_domain_recover
+              params: [id]
+            - name: split
+              description: '分裂文件系统双活域。'
+              func: fs_domain_split
+              params: [id, stop_role]
+            - name: swap_role
+              description: '主从切换文件系统双活域。'
+              func: fs_domain_swap_role
+              params: [id]
+    - name: san
+      description: 'SAN (Storage Area Network) 相关操作'
+      actions:
+      subtopics:
+        - name: lun
+          description: 'LUN 的创建、查询、扩容、改名、修改与删除'
+          actions:
+            - name: list
+              description: '批量查询 LUN'
+              func: lun_list
+              params: [limit, offset, sort_dir, sort_key, name, vstore_raw_id, vstore_name, status, health_status, service_level_id, volume_wwn, storage_id, pool_raw_id, host_id, hostgroup_id, unmapped_host_id, unmapped_hostgroup_id, project_id, allocate_type, attached, query_mode, protected, pg_id, usage_type, support_provisioning]
+            - name: show
+              description: '查询指定 LUN。'
+              func: lun_show
+              params: [volume_id]
+            - name: create
+              description: '自定义创建 LUN'
+              func: lun_create
+              params: [storage_id, lun_specs, lun_specs_pass_through, pool_id, vstore_id, owner_controller, initial_distribute_policy, prefetch_policy, prefetch_value, tuning, mapping, task_remarks]
+            - name: delete
+              description: '批量删除 LUN。'
+              func: lun_delete
+              params: [volume_ids, task_remarks]
+            - name: modify
+              description: '修改指定 LUN'
+              func: lun_modify
+              params: [volume_id, name, description, owner_controller, prefetch_policy, prefetch_value, tuning, task_remarks]
+            - name: modify_name
+              description: '批量修改 LUN 名称'
+              func: lun_modify_name
+              params: [volumes]
+            - name: expand
+              description: '批量扩容 LUN'
+              func: lun_expand
+              params: [volumes, task_remarks]
+            - name: connection
+              description: '查询指定 LUN ID 的连接信息。'
+              func: lun_connection
+              params: [volume_ids]
+        - name: lun_group
+          description: 'LUN 组的创建、查询、删除与 LUN 成员管理'
+          actions:
+            - name: list
+              description: '批量查询 LUN 组'
+              func: lun_group_list
+              params: [page_size, page_no, sort_dir, sort_key, name, vstore_raw_id, vstore_name, storage_id, storage_name, raw_id, attached, protection_group_raw_id, avaiable_mapping_for_host_id, avaiable_mapping_for_host_group_id, support_provisioning]
+            - name: show
+              description: '查询指定 LUN 组详情。'
+              func: lun_group_show
+              params: [group_id, storage_id]
+            - name: create
+              description: '创建 LUN 组'
+              func: lun_group_create
+              params: [storage_id, name, description, existing_lun_ids, customize_volumes, task_remarks, vstore_id, zoning_info, mapping_view]
+            - name: delete
+              description: '批量删除 LUN 组'
+              func: lun_group_delete
+              params: [lun_group_ids, task_remarks]
+            - name: add_luns
+              description: '向 LUN 组添加 LUN'
+              func: lun_group_add_luns
+              params: [group_id, existing_lun_ids, customize_volumes, host_lun_id_infos, host_lun_id_verify, task_remarks]
+            - name: remove_luns
+              description: '从 LUN 组移除 LUN'
+              func: lun_group_remove_luns
+              params: [group_id, lun_ids, task_remarks]
+            - name: show_luns
+              description: '查询 LUN 组中的 LUN'
+              func: lun_group_show_luns
+              params: [group_id, page_size, page_no, health_status]
+        - name: mapping_view
+          description: '映射视图的创建、删除与主机 LUN 映射关系查询'
+          actions:
+            - name: create
+              description: '创建映射视图'
+              func: mapping_view_create
+              params: [storage_id, name, port_group_id, start_host_lun_id, host, vbs, host_group, lun_group, luns, task_remarks]
+            - name: delete
+              description: '批量删除映射视图。'
+              func: mapping_view_delete
+              params: [mapping_view_ids]
+            - name: list
+              description: '批量查询映射视图列表'
+              func: mapping_view_list
+              params: [page_size, page_no, name, raw_id, storage_id, lun_id, lun_name, lun_group_id, lun_group_raw_id, lun_group_name, storage_host_id, storage_host_name, storage_host_group_id, storage_host_group_name, storage_host_group_raw_id, port_group_id, port_group_raw_id, port_group_name, sort_key, sort_dir]
+            - name: query_host_to_lun
+              description: '查询存储主机和LUN映射关系。'
+              func: mapping_view_query_host_to_lun
+              params: [storage_id, name, mapping_type, host_info, lun_info, sort_key, sort_dir, page_size, page_no]
+        - name: storage_host
+          description: '存储主机的创建、查询、修改、删除与 LUN 映射管理'
+          actions:
+            - name: create
+              description: '创建存储主机'
+              func: storage_host_create
+              params: [storage_id, host_info, task_remarks, vstore_id]
+            - name: batch_query
+              description: '根据存储主机 ID 列表批量查询存储主机'
+              func: storage_host_batch_query
+              params: [ids]
+            - name: list
+              description: '批量查询存储主机'
+              func: storage_host_list
+              params: [page_size, page_no, sort_key, sort_dir, name, raw_id, host_group_id, avaliable_add_to_host_group_id, host_group_name, ip, health_status, os_type, storage_id, avaiable_mapping_for_lun_group_id, avaiable_mapping_for_lun_id, support_provisioning, manufacturer, vstore_raw_id, vstore_name]
+            - name: modify
+              description: '修改存储主机'
+              func: storage_host_modify
+              params: [storage_host_id, storage_host_name, storage_host_description, storage_host_ip, storage_host_os_type, add_initiators, remove_initiators, multipath, access_mode, hyper_metro_path_optimized, task_remarks]
+            - name: delete
+              description: '批量删除存储主机'
+              func: storage_host_delete
+              params: [host_ids]
+            - name: show_paths
+              description: '批量查询存储主机的路径信息'
+              func: storage_host_show_paths
+              params: [page_no, page_size, storage_id, storage_host_ids, storage_host_raw_ids, health_status, running_status, initiator_type]
+            - name: show_luns
+              description: '查询存储主机映射的 LUN 信息列表'
+              func: storage_host_show_luns
+              params: [storage_host_id, name, page_size, page_no, sort_key, sort_dir]
+            - name: unmap_luns
+              description: '解除存储主机映射'
+              func: storage_host_unmap_luns
+              params: [volume_ids, host_id, task_remarks]
+        - name: storage_host_group
+          description: '存储主机组的创建、查询、删除与主机成员及映射管理'
+          actions:
+            - name: create
+              description: '创建存储主机组'
+              func: storage_host_group_create
+              params: [storage_id, name, description, exist_host_ids, create_storage_host_params, task_remarks, vstore_id]
+            - name: list
+              description: '批量查询存储主机组'
+              func: storage_host_group_list
+              params: [storage_id, name, raw_id, vstore_id, vstore_name, page_no, page_size, sort_key, sort_dir, avaiable_mapping_for_lun_group_id, avaiable_mapping_for_lun_id, support_provisioning]
+            - name: add_hosts
+              description: '添加存储主机到存储主机组'
+              func: storage_host_group_add_hosts
+              params: [storage_host_group_id, storage_host_id_ids, create_storage_host_params, task_remarks]
+            - name: remove_hosts
+              description: '从存储主机组中移除主机'
+              func: storage_host_group_remove_hosts
+              params: [storage_host_group_id, storage_host_ids, task_remarks]
+            - name: delete
+              description: '批量删除存储主机组'
+              func: storage_host_group_delete
+              params: [host_group_ids, task_remarks]
+            - name: show_luns
+              description: '查询存储主机组映射的 LUN 信息列表'
+              func: storage_host_group_show_luns
+              params: [storage_host_group_id, name, page_size, page_no, sort_key, sort_dir]
+            - name: unmap_luns
+              description: '解除存储主机组映射'
+              func: storage_host_group_unmap_luns
+              params: [volume_ids, hostgroup_id, task_remarks]
+        - name: port_group
+          description: '端口组的创建、查询与端口关联关系'
+          actions:
+            - name: list
+              description: '批量查询端口组'
+              func: port_group_list
+              params: [storage_id, page_no, page_size]
+            - name: create
+              description: '创建端口组'
+              func: port_group_create
+              params: [storage_id, name, description, port_ids]
+            - name: show_ports
+              description: '批量查询指定端口组的端口'
+              func: port_group_show_ports
+              params: [port_group_id, type, page_no, page_size]
+            - name: show_relations
+              description: '批量查询端口组与端口关联关系'
+              func: port_group_show_relations
+              params: [page_no, page_size]
+        - name: physical_host
+          description: '物理主机的接入、查询、修改、删除与启动器、LUN 映射管理'
+          actions:
+            - name: list
+              description: '批量查询物理主机'
+              func: physical_host_list
+              params: [limit, start, sort_key, sort_dir, name, host_group_name, ip, display_status, managed_status, os_type, access_mode, az_id, az_ids, project_id]
+            - name: show
+              description: '查询指定物理主机'
+              func: physical_host_show
+              params: [host_id]
+            - name: create
+              description: '接入物理主机'
+              func: physical_host_create
+              params: [access_mode, type, host_name, ip, port, username, password, description, initiator, azs, project_id, sync_to_storage, multipath_type, path_type, failover_mode, special_mode_type, save_public_key]
+            - name: modify
+              description: '修改物理主机基本信息'
+              func: physical_host_modify
+              params: [host_id, ip, host_name, os_type, azs, project_id]
+            - name: modify_access_info
+              description: '修改物理主机接入信息'
+              func: physical_host_modify_access_info
+              params: [host_id, ip, port, username, password, project_id, azs, sync_to_storage, description, multipath_type, path_type, failover_mode, special_mode_type]
+            - name: delete
+              description: '移除物理主机'
+              func: physical_host_delete
+              params: [host_id, sync_to_storage]
+            - name: add_initiators
+              description: '为物理主机添加启动器'
+              func: physical_host_add_initiators
+              params: [host_id, initiators]
+            - name: remove_initiators
+              description: '从物理主机移除启动器'
+              func: physical_host_remove_initiators
+              params: [host_id, initiators]
+            - name: show_initiators
+              description: '查询指定物理主机的启动器'
+              func: physical_host_show_initiators
+              params: [host_id, port_name, protocol, status]
+            - name: test
+              description: '检测存储设备和物理主机连通性'
+              func: physical_host_test
+              params: [storage_id, host_ids, hostgroup_id, auto_zoning, target_fcports, target_fcportgroups]
+            - name: query_sshkey
+              description: '查询指定物理主机 SSH 公钥'
+              func: physical_host_query_sshkey
+              params: [ip, port]
+            - name: save_sshkey
+              description: '保存指定物理主机 SSH 公钥'
+              func: physical_host_save_sshkey
+              params: [ip, key, port]
+            - name: query_by_initiator
+              description: '根据启动器查询关联的物理主机'
+              func: physical_host_query_by_initiator
+              params: [initiator_id, raw_id, protocol]
+            - name: map_luns
+              description: 'LUN 映射给物理主机'
+              func: physical_host_map_luns
+              params: [volume_ids, host_id, mapping_policy, task_remarks]
+            - name: unmap_luns
+              description: '解除主机映射'
+              func: physical_host_unmap_luns
+              params: [volume_ids, host_id, task_remarks]
+            - name: show_mapping_views
+              description: '查询物理主机关联的映射关系'
+              func: physical_host_show_mapping_views
+              params: [host_id, storage_id]
+        - name: physical_host_group
+          description: '物理主机组的创建、查询、修改、删除与 LUN 映射管理'
+          actions:
+            - name: list
+              description: '批量查询物理主机组'
+              func: physical_host_group_list
+              params: [limit, start, sort_dir, sort_key, name, project_id, az_ids, managed_status]
+            - name: show_hosts
+              description: '查询物理主机组中的物理主机'
+              func: physical_host_group_show_hosts
+              params: [hostgroup_id, name, ip, display_status, managed_status, os_type, sort_key, sort_dir, page_size, page_no]
+            - name: show
+              description: '查询指定物理主机组'
+              func: physical_host_group_show
+              params: [hostgroup_id]
+            - name: create
+              description: '创建物理主机组'
+              func: physical_host_group_create
+              params: [name, host_ids, azs, project_id, description]
+            - name: modify
+              description: '修改物理主机组基本信息'
+              func: physical_host_group_modify
+              params: [hostgroup_id, name, description, azs, project_id]
+            - name: delete
+              description: '删除指定物理主机组'
+              func: physical_host_group_delete
+              params: [hostgroup_id, sync_to_storage]
+            - name: add_hosts
+              description: '向物理主机组中增加物理主机'
+              func: physical_host_group_add_hosts
+              params: [hostgroup_id, host_ids, sync_to_storage]
+            - name: remove_hosts
+              description: '物理主机组移除物理主机'
+              func: physical_host_group_remove_hosts
+              params: [hostgroup_id, host_ids, sync_to_storage]
+            - name: map_luns
+              description: 'LUN 映射给物理主机组'
+              func: physical_host_group_map_luns
+              params: [volume_ids, hostgroup_id, mapping_policy, task_remarks]
+            - name: unmap_luns
+              description: '解除主机组映射'
+              func: physical_host_group_unmap_luns
+              params: [volume_ids, hostgroup_id, task_remarks]
+            - name: show_mapping_views
+              description: '查询物理主机组关联的映射关系'
+              func: physical_host_group_show_mapping_views
+              params: [host_group_id, storage_id]
+            - name: show_related
+              description: '查询物理主机组关联的存储主机组列表。'
+              func: physical_host_group_show_related
+              params: [hostgroup_id, storage_ip, storage_name]
+    - name: server
+      description: '服务器管理 (Server) 相关操作'
+      actions:
+          - name: list
+            description: '查询服务器列表'
+            func: list
+            params: [start, limit, name, server_type]
+          - name: show
+            description: '查询指定服务器的概览信息'
+            func: show
+            params: [server_id]
+      subtopics:
+        - name: cpu
+          description: '服务器 CPU 列表查询'
+          actions:
+            - name: list
+              description: '查询服务器上的所有 CPU 列表'
+              func: cpu_list
+              params: [server_id, start, limit]
+        - name: memory
+          description: '服务器内存查询'
+          actions:
+            - name: list
+              description: '查询服务器上的内存'
+              func: memory_list
+              params: [server_id, start, limit]
+        - name: disk
+          description: '服务器硬盘查询'
+          actions:
+            - name: list
+              description: '查询服务器上的硬盘集合'
+              func: disk_list
+              params: [server_id, start, limit]
+        - name: nic
+          description: '服务器网卡查询'
+          actions:
+            - name: list
+              description: '查询服务器上的网卡集合'
+              func: nic_list
+              params: [server_id, page_no, page_size]
+        - name: fan
+          description: '服务器风扇查询'
+          actions:
+            - name: list
+              description: '查询服务器上的风扇'
+              func: fan_list
+              params: [server_id, start, limit]
+        - name: power
+          description: '服务器电源查询'
+          actions:
+            - name: list
+              description: '查询服务器上的电源'
+              func: power_list
+              params: [server_id, start, limit]
+        - name: raid_card
+          description: '服务器 RAID 卡查询'
+          actions:
+            - name: list
+              description: '查询服务器上的 RAID 卡详情'
+              func: raid_card_list
+              params: [server_id, start, limit]
+        - name: pcie_card
+          description: '服务器 PCIe 卡查询'
+          actions:
+            - name: list
+              description: '查询服务器上的 PCIe 卡信息'
+              func: pcie_card_list
+              params: [server_id, start, limit]
+    - name: storage
+      description: '存储设备 (Storage) 相关操作'
+      actions:
+          - name: list
+            description: '批量查询存储设备：支持分页查询，过滤。'
+            func: list
+            params: [az, source, dc_id, tag_ids, start, limit, ext_attrs]
+          - name: show
+            description: '查询指定存储设备。'
+            func: show
+            params: [storage_id]
+          - name: add
+            description: '添加存储设备（仅支持录入离线存储设备信息）'
+            func: add
+            params: [name, sn, ip, vendor, model, version, patch_version, dc_id, az, location, maintenance_start, maintenance_overtime, total_capacity, total_effective_capacity, total_pool_capacity, used_capacity, free_capacity, subscription_capacity, tag_ids]
+          - name: remove
+            description: '批量移除存储设备。'
+            func: remove
+            params: [storage_ids]
+          - name: sync
+            description: '同步存储设备信息，该接口为异步消息。'
+            func: sync
+            params: [storage_id]
+          - name: modify
+            description: '修改存储设备（仅支持修改录入的离线存储设备信息）'
+            func: modify
+            params: [storage_id, name, location, ext_attrs]
+          - name: get_passphrase
+            description: '获取存储设备访问的令牌'
+            func: get_passphrase
+            params: [storage_id]
+          - name: query_power_data
+            description: '查询存储设备功率数据'
+            func: query_power_data
+            params: [start_time, end_time, storage_ids, time_granularity]
+      subtopics:
+        - name: bbu
+          description: '存储设备 BBU 信息查询'
+          actions:
+            - name: list
+              description: '查询存储设备的 BBU 信息列表'
+              func: bbu_list
+              params: [storage_id, health_status, running_status, enclosure_name, location, zone_id, page_no, page_size]
+        - name: fan
+          description: '存储设备风扇查询'
+          actions:
+            - name: list
+              description: '查询存储设备的风扇信息'
+              func: fan_list
+              params: [storage_id, health_status, running_status, run_level, enclosure_name, location, zone_id, page_no, page_size]
+        - name: disk
+          description: '存储设备硬盘信息查询'
+          actions:
+            - name: list
+              description: '查询存储设备的硬盘信息列表'
+              func: disk_list
+              params: [storage_id]
+        - name: pool
+          description: '存储设备存储池查询'
+          actions:
+            - name: list
+              description: '查询存储设备存储池列表'
+              func: pool_list
+              params: [storage_id, raw_id, zone_id, page_no, page_size, sort_key, sort_dir]
+        - name: hyperscale_pool
+          description: 'HyperScale 存储池查询'
+          actions:
+            - name: list
+              description: '查询 HyperScale 存储池列表'
+              func: hyperscale_pool_list
+              params: [raw_id, name, local_pool_id, health_status, running_status, storage_id, description, page_no, page_size, sort_key, sort_dir]
+        - name: node
+          description: '存储设备节点查询'
+          actions:
+            - name: list
+              description: '查询存储设备的节点列表'
+              func: node_list
+              params: [storage_id, raw_id, storage_name, name, ids, mgmt_ip, frame_number, slot_number, status, roles, page_no, page_size, sort_key, sort_dir]
+        - name: psu
+          description: '存储设备电源（PSU）查询'
+          actions:
+            - name: list
+              description: '查询存储设备电源详情信息，仅支持OceanStor A800存储。'
+              func: psu_list
+              params: [storage_id, health_status, running_status, power_type, power_mode, location, model, sn, enclosure_name, zone_id, page_no, page_size]
+        - name: app_type
+          description: '存储设备应用类型查询'
+          actions:
+            - name: list
+              description: '查询指定存储设备的应用类型'
+              func: app_type_list
+              params: [storage_id]
+        - name: controller
+          description: '存储设备控制器查询'
+          actions:
+            - name: list
+              description: '查询指定存储设备的控制器信息'
+              func: controller_list
+              params: [storage_id]
+        - name: disk_domain
+          description: '硬盘域批量查询'
+          actions:
+            - name: list
+              description: '批量查询硬盘域'
+              func: disk_domain_list
+              params: [storage_id, page_no, page_size]
+        - name: disk_pool
+          description: '分布式存储硬盘池查询'
+          actions:
+            - name: list
+              description: '批量查询分布式存储设备的硬盘池。仅支持OceanStor Pacific和OceanStor A310存储。'
+              func: disk_pool_list
+              params: [storage_id, page_no, page_size]
+        - name: enclosure
+          description: '存储机框批量查询'
+          actions:
+            - name: list
+              description: '批量查询机框信息'
+              func: enclosure_list
+              params: [page_no, page_size, storage_id, name, location, health_status, zone_name, zone_id, running_status, power_mode, esn, mac, sort_key, sort_dir]
+        - name: vstore
+          description: '存储设备租户的查询、创建、修改与删除'
+          actions:
+            - name: list
+              description: '批量查询存储设备租户信息。'
+              func: vstore_list
+              params: [storage_id, name, page_no, page_size]
+            - name: show
+              description: '查询租户详情。'
+              func: vstore_show
+              params: [vstore_id]
+            - name: create
+              description: '创建租户。OceanStor Dorado v3设备不支持该功能。'
+              func: vstore_create
+              params: [name, storage_id, san_capacity_quota, nas_capacity_quota, description, nas_capacity_quota_alarm_switch, nas_capacity_quota_alarm_threshold, associate_pool_ids]
+            - name: modify
+              description: '修改指定租户，该操作会修改存储设备上指定的租户。'
+              func: vstore_modify
+              params: [vstore_id, name, san_capacity_quota, nas_capacity_quota, description, nas_capacity_quota_alarm_switch, nas_capacity_quota_alarm_threshold]
+            - name: delete
+              description: '批量删除租户，该操作会删除存储设备上指定的租户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。'
+              func: vstore_delete
+              params: [vstore_ids]
+        - name: initiator
+          description: '存储侧启动器对象的查询、修改与删除'
+          actions:
+            - name: list
+              description: '批量查询存储侧启动器对象'
+              func: initiator_list
+              params: [page_size, page_no, raw_id, alias, status, associated_host_name, associated_host_id, multipath_type, protocol, support_provisioning, vstore_raw_id, vstore_name, storage_id]
+            - name: delete
+              description: '批量删除存储设备的启动器对象'
+              func: initiator_delete
+              params: [initiator_ids, task_remarks]
+            - name: modify
+              description: '修改存储侧启动器对象'
+              func: initiator_modify
+              params: [initiator_id, vstore_id, alias, multi_path]
+        - name: account
+          description: '本地/UNIX/Windows 认证用户与用户组查询管理'
+          actions:
+            - name: show_local_users
+              description: '查询指定存储设备本地认证用户的信息'
+              func: account_show_local_users
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: create_local_user
+              description: '创建本地认证用户'
+              func: account_create_local_user
+              params: [storage_id, name, account_password, primary_group_raw_id, description, group_names, vstore_id]
+            - name: create_unix_user
+              description: '创建指定存储设备 UNIX 认证用户'
+              func: account_create_unix_user
+              params: [storage_id, name, primary_group_raw_id, raw_id, description, password, status_enabled, vstore_raw_id]
+            - name: create_windows_user
+              description: '创建指定存储设备 Windows 认证用户'
+              func: account_create_windows_user
+              params: [storage_id, name, password, raw_id, description, status_enabled, vstore_raw_id]
+            - name: show_unix_users
+              description: '查询指定存储设备 UNIX 认证用户的信息'
+              func: account_show_unix_users
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_windows_users
+              description: '查询指定存储设备 Windows 认证用户的信息'
+              func: account_show_windows_users
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_local_user_groups
+              description: '查询指定存储设备本地认证用户组的信息'
+              func: account_show_local_user_groups
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_unix_user_groups
+              description: '查询指定存储设备 UNIX 认证用户组的信息'
+              func: account_show_unix_user_groups
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+            - name: show_windows_user_groups
+              description: '查询指定存储设备 Windows 认证用户组的信息'
+              func: account_show_windows_user_groups
+              params: [storage_id, vstore_raw_id, name, page_no, page_size]
+        - name: qos
+          description: 'QoS 策略的查询、创建、修改、删除与资源关联'
+          actions:
+            - name: list
+              description: '批量查询 QoS 策略'
+              func: qos_list
+              params: [storage_id, name, raw_id, enable_status, running_status, zone_id, resource_type_list, vstore_id, vstore_name, alarm_status, io_policy_type, page_no, page_size, sort_key, sort_dir]
+            - name: show
+              description: '查询指定 QoS 策略详情'
+              func: qos_show
+              params: [qos_policy_id]
+            - name: create
+              description: '创建 QoS 策略'
+              func: qos_create
+              params: [name, storage_id, resource_type, resource_ids, description, zone_id, vstore_id, enable_status, io_policy_type, min_bandwidth, max_bandwidth, burst_bandwidth, min_iops, max_iops, burst_iops, burst_time, latency, max_read_bandwidth, max_write_bandwidth, burst_read_bandwidth, burst_write_bandwidth, max_read_iops, max_write_iops, burst_read_iops, burst_write_iops, alarm_switch, alarm_level, alarm_threshold, resume_threshold, schedule_policy, schedule_start_date, start_time, duration, weekly_days]
+            - name: modify
+              description: '修改 QoS 策略'
+              func: qos_modify
+              params: [qos_policy_id, name, description, io_policy_type, min_bandwidth, max_bandwidth, burst_bandwidth, min_iops, max_iops, burst_iops, burst_time, latency, max_read_bandwidth, max_write_bandwidth, burst_read_bandwidth, burst_write_bandwidth, max_read_iops, max_write_iops, burst_read_iops, burst_write_iops, alarm_switch, alarm_level, alarm_threshold, resume_threshold]
+            - name: delete
+              description: '删除 QoS 策略'
+              func: qos_delete
+              params: [qos_policy_ids]
+            - name: activate
+              description: '批量激活 QoS 策略'
+              func: qos_activate
+              params: [qos_policy_ids]
+            - name: deactivate
+              description: '批量取消激活 QoS 策略'
+              func: qos_deactivate
+              params: [qos_policy_ids]
+            - name: associate
+              description: 'QoS 策略关联控制资源'
+              func: qos_associate
+              params: [qos_policy_id, resource_ids, resource_type]
+            - name: unassociate
+              description: 'QoS 策略解关联控制资源'
+              func: qos_unassociate
+              params: [qos_policy_id, resource_ids, resource_type]
+        - name: logic_port
+          description: '逻辑端口的查询、创建、修改、删除与回切'
+          actions:
+            - name: list
+              description: '查询存储设备的逻辑端口列表'
+              func: logic_port_list
+              params: [storage_id, vstore_raw_id, zone_raw_id, scope, page_no, page_size]
+            - name: show
+              description: '查询存储设备的逻辑端口详情'
+              func: logic_port_show
+              params: [logic_port_id]
+            - name: create
+              description: '创建存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
+              func: logic_port_create
+              params: [storage_id, name, address_family, home_port_type, zone_raw_id, scope, mgmt_ip, ipv4_mask, ipv4_gateway, mgmt_ipv6, ipv6_mask, ipv6_gateway, home_port_raw_id, support_protocol, operational_status, home_controller_id, failover_group_raw_id, vstore_raw_id, role, dns_zone_name, listen_dns_query_enabled, can_failover, failback_mode]
+            - name: update
+              description: '修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
+              func: logic_port_update
+              params: [logic_port_id, name, address_family, mgmt_ip, ipv4_mask, ipv4_gateway, mgmt_ipv6, ipv6_mask, ipv6_gateway, home_port_raw_id, home_port_type, operational_status, failover_group_raw_id, dns_zone_name, listen_dns_query_enabled, can_failover, failback_mode]
+            - name: delete
+              description: '删除存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
+              func: logic_port_delete
+              params: [ids]
+            - name: failback
+              description: '回切存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）'
+              func: logic_port_failback
+              params: [id]
+        - name: port
+          description: '存储设备端口信息查询（ETH/FC/IB/Bond/SAS）'
+          actions:
+            - name: list
+              description: '查询存储设备端口信息，支持 ETH、FC、IB、Bond、SAS 五种类型'
+              func: port_list
+              params: [storage_id, port_type, location, ipv4, ipv6, port_name, zone_id, page_no, page_size]
+            - name: show_bond_members
+              description: '查询指定绑定端口的成员列表信息'
+              func: port_show_bond_members
+              params: [bond_port_id]
+        - name: vlan
+          description: 'VLAN 的查询、创建、修改与删除'
+          actions:
+            - name: list
+              description: '批量查询 VLAN 列表'
+              func: vlan_list
+              params: [name, storage_id, page_no, page_size]
+            - name: create
+              description: '创建 VLAN'
+              func: vlan_create
+              params: [name, vlan_id, storage_id, description]
+            - name: delete
+              description: '删除 VLAN'
+              func: vlan_delete
+              params: [vlan_id]
+            - name: modify
+              description: '修改 VLAN'
+              func: vlan_modify
+              params: [vlan_id, name, description]
+        - name: failover_group
+          description: '漂移组及其端口、VLAN 查询'
+          actions:
+            - name: list
+              description: '查询漂移组列表'
+              func: failover_group_list
+              params: [storage_id, failover_group_type, zone_id, failover_group_service_type]
+            - name: show_ports
+              description: '查询漂移组下的端口（支持 bond、eth、ib 三种类型）'
+              func: failover_group_show_ports
+              params: [failover_group_id, port_type]
+            - name: show_vlans
+              description: '查询漂移组下的 VLAN'
+              func: failover_group_show_vlans
+              params: [failover_group_id]
+        - name: zone
+          description: 'OceanStor A800 集群 zone 查询'
+          actions:
+            - name: list
+              description: '查询OceanStor A800集群中zone信息'
+              func: zone_list
+              params: [name, ip, status, sync_status, sn, storage_ids]
+    - name: system
+      description: '系统管理 (System) 相关操作'
+      actions:
+          - name: login
+            description: '认证用户登录'
+            func: login
+            params: [username, password, grant_type]
+          - name: logout
+            description: '注销当前已经登录的三方会话或普通会话。'
+            func: logout
+            params: []
+          - name: show
+            description: '查询产品系统信息。'
+            func: show
+            params: []
+          - name: certificate
+            description: '获取DME证书。'
+            func: certificate
+            params: []
+          - name: reset_password
+            description: '根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。'
+            func: reset_password
+            params: [user_name, new_value, is_initial_password]
+      subtopics:
+        - name: user
+          description: '系统用户的查询、创建与删除'
+          actions:
+            - name: list
+              description: '批量查询用户信息。'
+              func: user_list
+              params: [page_no, page_size, name]
+            - name: show
+              description: '查询指定用户信息。'
+              func: user_show
+              params: [user_id]
+            - name: create
+              description: '创建用户。'
+              func: user_create
+              params: [name, type, value, description, roles]
+            - name: delete
+              description: '删除用户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。'
+              func: user_delete
+              params: [user_id]
+        - name: role
+          description: '系统角色批量查询'
+          actions:
+            - name: list
+              description: '批量查询角色信息。'
+              func: role_list
+              params: [page_no, page_size, name]
+        - name: backup_server
+          description: '备份服务器批量查询'
+          actions:
+            - name: list
+              description: '批量查询备份服务器。'
+              func: backup_server_list
+              params: [address, name, page_no, page_size]
+        - name: todo_task_group
+          description: '待办任务组的查询、执行与确认'
+          actions:
+            - name: list
+              description: '查询待办任务组列表'
+              func: todo_task_group_list
+              params: [group_id, name, creator_name, is_finished, is_group, start, limit, status, todo_item_status, start_time_from, start_time_to, end_time_from, end_time_to, sort_key, sort_dir]
+            - name: execute
+              description: '执行待办任务组'
+              func: todo_task_group_execute
+              params: [group_id]
+            - name: confirm
+              description: '确认执行定时待办任务组'
+              func: todo_task_group_confirm
+              params: [group_id]
+        - name: todo_task
+          description: '待办任务的查询、执行、审核、撤销与关闭'
+          actions:
+            - name: list
+              description: '批量查询待办任务详情'
+              func: todo_task_list
+              params: [service_type, status, page_no, page_size]
+            - name: show
+              description: '查询待办项详情信息'
+              func: todo_task_show
+              params: [item_id]
+            - name: execute
+              description: '执行待办任务'
+              func: todo_task_execute
+              params: [item_id]
+            - name: audit
+              description: '审核待办任务'
+              func: todo_task_audit
+              params: [item_id, is_approval, suggestion]
+            - name: revoke
+              description: '撤销审核待办项'
+              func: todo_task_revoke
+              params: [item_id]
+            - name: close
+              description: '关闭待办任务'
+              func: todo_task_close
+              params: [item_id, reason]
+        - name: task
+          description: '任务的查询、重试与等待'
+          actions:
+            - name: show
+              description: '查询指定任务详情'
+              func: task_show
+              params: [task_id]
+            - name: list
+              description: '批量查询任务'
+              func: task_list
+              params: [start, limit, task_name, status, owner_id, create_time_from, create_time_to]
+            - name: retry
+              description: '重试任务'
+              func: task_retry
+              params: [task_id]
+            - name: wait
+              description: '等待任务完成'
+              func: task_wait
+              params: [task_id, timeout, poll_interval]
+        - name: tag_type
+          description: '标签类型的创建、查询、修改与删除'
+          actions:
+            - name: create
+              description: '创建标签类型'
+              func: tag_type_create
+              params: [name, description]
+            - name: list
+              description: '批量查询标签类型'
+              func: tag_type_list
+              params: [start, limit, name]
+            - name: modify
+              description: '修改标签类型'
+              func: tag_type_modify
+              params: [tag_type_id, name, description]
+            - name: delete
+              description: '批量删除标签类型'
+              func: tag_type_delete
+              params: [tag_type_ids]
+        - name: tag
+          description: '标签的创建、查询、修改、删除与资源绑定'
+          actions:
+            - name: create
+              description: '创建标签'
+              func: tag_create
+              params: [name, tag_type_id, tag_type_name, description, color]
+            - name: list
+              description: '批量查询标签'
+              func: tag_list
+              params: [start, limit, name, tag_type_id]
+            - name: modify
+              description: '修改标签'
+              func: tag_modify
+              params: [tag_id, name, description, color]
+            - name: delete
+              description: '批量删除标签'
+              func: tag_delete
+              params: [tag_ids]
+            - name: bind
+              description: '标签关联资源'
+              func: tag_bind
+              params: [tag_id, resources]
+            - name: unbind
+              description: '标签取消关联资源'
+              func: tag_unbind
+              params: [tag_id, resources]
+        - name: az
+          description: '可用分区（AZ）批量查询'
+          actions:
+            - name: list
+              description: '批量查询可用分区。'
+              func: az_list
+              params: [az_name, operate_status, start, limit, is_sc]
+        - name: dc
+          description: '数据中心列表、详情与设备查询'
+          actions:
+            - name: list
+              description: '获取数据中心列表'
+              func: dc_list
+              params: [name, page_no, page_size]
+            - name: show
+              description: '获取数据中心详情'
+              func: dc_show
+              params: [dc_id]
+            - name: show_devices
+              description: '查询指定数据中心的设备列表信息'
+              func: dc_show_devices
+              params: [dc_id, device_type, page_no, page_size]
+        - name: region
+          description: 'Region 及下级资源查询'
+          actions:
+            - name: list
+              description: '批量查询Region。'
+              func: region_list
+              params: [ids, name, active_ip_address, standby_ip_address, sync_status, role, sort_key, sort_dir, page_no, page_size]
+            - name: query
+              description: '查询下级Region资源信息。'
+              func: region_query
+              params: [region_id, request_url, request_method, request_body]
+    - name: tenant
+      description: '租户自助服务 (Self Service) 相关操作'
+      actions:
+      subtopics:
+        - name: tier
+          description: '服务等级查询及其与业务群组关联关系'
+          actions:
+            - name: list
+              description: '批量查询服务等级'
+              func: tier_list
+              params: [name, project_id, available_zone_id, storage_array_id, start, limit, sort_key, sort_dir, type]
+            - name: show_projects
+              description: '批量查询业务群组与服务等级关联关系'
+              func: tier_show_projects
+              params: [tier_id, page_no, page_size]
+        - name: project
+          description: '业务群组查询及其与服务等级关联关系'
+          actions:
+            - name: list
+              description: '批量查询业务群组'
+              func: project_list
+              params: [name, start, limit]
+            - name: show_tiers
+              description: '批量查询业务群组与服务等级关联关系'
+              func: project_show_tiers
+              params: [project_id, page_no, page_size]
+        - name: lun
+          description: 'LUN 服务化创建与服务等级、业务群组绑定'
+          actions:
+            - name: create
+              description: '服务化批量创建 LUN'
+              func: lun_create
+              params: [volumes, service_level_id, task_remarks, project_id, availability_zone, scheduler_hints, mapping]
+            - name: change_tier
+              description: '批量更新 LUN 的服务等级'
+              func: lun_change_tier
+              params: [volume_ids, tier_id]
+            - name: bind_tier
+              description: 'LUN 关联服务等级'
+              func: lun_bind_tier
+              params: [volume_id, tier_id]
+            - name: unbind_tier
+              description: '解除 LUN 与服务等级关联'
+              func: lun_unbind_tier
+              params: [volume_id]
+            - name: bind_project
+              description: 'LUN 关联业务群组'
+              func: lun_bind_project
+              params: [volume_id, business_group_id]
+            - name: unbind_project
+              description: '解除 LUN 与业务群组间关联'
+              func: lun_unbind_project
+              params: [volume_id, business_group_id]
+    - name: virt
+      description: '虚拟化服务 (Virtualization) 相关操作'
+      actions:
+      subtopics:
+        - name: vm
+          description: '虚拟机列表与详情查询'
+          actions:
+            - name: list
+              description: '查询虚拟机列表'
+              func: vm_list
+              params: [site_id, cluster_id, dc_id, cluster_name, host_id, host_name, name, ip_address, status, is_template, os_type, vr_type, datacenter_id, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: '查询指定虚拟机详情'
+              func: vm_show
+              params: [vm_id, vr_type]
+        - name: datastore
+          description: '数据存储列表与详情查询'
+          actions:
+            - name: list
+              description: '查询数据存储列表'
+              func: datastore_list
+              params: [site_id, cluster_id, host_id, dc_id, name, status, storage_type, allocate_type, vr_type, datacenter_id, sort_key, sort_dir, page_no, page_size]
+            - name: show
+              description: '查询指定数据存储详情'
+              func: datastore_show
+              params: [datastore_id, vr_type]
+        - name: host
+          description: '主机列表、详情与存储适配器查询'
+          actions:
+            - name: list
+              description: '查询主机列表'
+              func: host_list
+              params: [site_id, cluster_id, dc_id, host_name, ip_address, status, vr_type, page_no, page_size]
+            - name: show
+              description: '查询指定主机详情'
+              func: host_show
+              params: [host_id, vr_type]
+            - name: adapter_list
+              description: '查询指定主机存储适配器列表'
+              func: host_adapter_list
+              params: [host_id]
+        - name: cluster
+          description: '集群列表与详情查询'
+          actions:
+            - name: list
+              description: '查询集群列表'
+              func: cluster_list
+              params: [site_id, dc_id, name, vr_type, page_no, page_size]
+            - name: show
+              description: '查询指定集群详情'
+              func: cluster_show
+              params: [cluster_id, vr_type]
+        - name: site
+          description: '站点列表与详情查询'
+          actions:
+            - name: list
+              description: '查询站点列表'
+              func: site_list
+              params: []
+            - name: show
+              description: '查询指定站点详情'
+              func: site_show
+              params: [site_id]
+        - name: disk
+          description: '物理盘信息查询'
+          actions:
+            - name: list
+              description: '查询物理盘信息'
+              func: disk_list
+              params: [site_id, host_id, name, disk_type, status, page_no, page_size]
+        - name: vdisk
+          description: '虚拟磁盘列表与详情查询'
+          actions:
+            - name: list
+              description: '查询虚拟磁盘信息列表'
+              func: vdisk_list
+              params: [site_id, vm_id, name, disk_type, status, page_no, page_size]
+            - name: show
+              description: '查询指定虚拟磁盘信息'
+              func: vdisk_show
+              params: [virtual_disk_id]
+    - name: workflow
+      description: '工作流 (Workflow) 相关操作'
+      actions:
+      subtopics:
+        - name: template
+          description: '工作流模板分组与详情查询'
+          actions:
+            - name: list
+              description: '分页查询模板列表'
+              func: template_list
+              params: [page_no, page_size, directory_id, group, name]
+            - name: groups
+              description: '查询所有模板分组'
+              func: template_groups
+              params: []
+            - name: show
+              description: '查询模板详细信息'
+              func: template_show
+              params: [template_id, template_version_id]
+        - name: instance
+          description: '工作流实例的创建、执行、停止与步骤日志查询'
+          actions:
+            - name: stop
+              description: '停止实例'
+              func: instance_stop
+              params: [instance_id]
+            - name: show
+              description: '查询实例详情'
+              func: instance_show
+              params: [instance_id]
+            - name: create
+              description: '创建并执行实例'
+              func: instance_create
+              params: [template_id, template_version_id, instance_id, params]
+            - name: step_log
+              description: '查询步骤日志'
+              func: instance_step_log
+              params: [instance_id, step_id]

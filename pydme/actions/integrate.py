@@ -82,33 +82,3 @@ def cmdb_host_query_by_initiators(client: DMEAPIClient, initiators: list) -> dic
 
     response = client.post(url, body=payload)
     return response
-
-
-ACTIONS = {
-    # cmdb subtopic actions
-    'cmdb_system_list': {
-        'func': cmdb_system_list,
-        'params': ['name', 'page_no', 'page_size'],
-        'subtopic': 'cmdb'
-    },
-    'cmdb_host_list': {
-        'func': cmdb_host_list,
-        'params': ['system_id', 'name', 'ip', 'page_no', 'page_size'],
-        'subtopic': 'cmdb'
-    },
-    'cmdb_host_show': {
-        'func': cmdb_host_show,
-        'params': ['cmdb_host_id'],
-        'subtopic': 'cmdb'
-    },
-    'cmdb_app_list': {
-        'func': cmdb_app_list,
-        'params': ['system_id', 'name', 'page_no', 'page_size'],
-        'subtopic': 'cmdb'
-    },
-    'cmdb_host_query_by_initiators': {
-        'func': cmdb_host_query_by_initiators,
-        'params': ['initiators'],
-        'subtopic': 'cmdb'
-    },
-}
