@@ -15,12 +15,14 @@
 │   ├── __init__.py
 │   ├── client.py           # DME API client
 │   ├── cli.py              # CLI entry point
-│   ├── i18n.py             # i18n comment loader (DME_CLI_LANG / --lang)
+│   ├── i18n.py             # i18n loader + action registry (DME_CLI_LANG / --lang)
 │   ├── config/             # Configuration resources
 │   │   ├── blacklist.json  # High-risk operation blacklist
-│   │   └── i18n/           # Per-language comment resources
-│   │       ├── zh_CN.yaml  # Chinese comments
-│   │       └── en_US.yaml  # English comments
+│   │   └── i18n/           # Per-language resources (topic tree + docstrings)
+│   │       ├── actions_zh_CN.yaml  # Topic tree: descriptions/func/params/subtopics
+│   │       ├── actions_en_US.yaml  # (same structure, English descriptions)
+│   │       ├── funcs_zh_CN.yaml    # Full function docstrings
+│   │       └── funcs_en_US.yaml    # (same structure, English docstrings)
 │   └── actions/            # Action modules (one file per topic, 427 actions)
 │       ├── aiops.py         # AIOps intelligent operations
 │       ├── backup.py         # Backup management
@@ -102,7 +104,7 @@ pydme --lang en_US storage list --help
 After installation, the `pydme` command is available globally:
 
 ```bash
-# View all available topics and actions
+# View all available topics and subtopics (with descriptions)
 pydme --list-topics
 
 # View help for a specific topic
@@ -273,7 +275,7 @@ All action functions follow the same pattern:
 Browse available actions via CLI:
 
 ```bash
-pydme --list-topics                    # List all topics
+pydme --list-topics                    # List all topics and subtopics
 pydme <topic> --help                   # View actions under a topic
 ```
 
