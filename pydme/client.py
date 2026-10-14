@@ -126,9 +126,7 @@ class BaseClient:
             LOG.info(f"{method} {request_url}, code: {code}")
 
         if code == 401 and isinstance(data, dict) and data.get("code") == "4012":
-            raise TokenExpiredError(
-                "Token expired, please re-login（Token 已过期，请重新登录）"
-            )
+            raise TokenExpiredError("Token expired, please re-login")
 
         return data
 
