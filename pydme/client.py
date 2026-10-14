@@ -19,6 +19,10 @@ logging.basicConfig(
 LOG = logging.getLogger(__name__)
 
 
+class TokenExpiredError(Exception):
+    """Raised when the auth token has expired (HTTP 401, error code 4012)."""
+
+
 class BaseClient:
 
     def __init__(
@@ -120,6 +124,11 @@ class BaseClient:
         request_url = f"{self.base_url}{formatted_path}"
         if self.enable_log:
             LOG.info(f"{method} {request_url}, code: {code}")
+
+        if code == 401 and isinstance(data, dict) and data.get("code") == "4012":
+            raise TokenExpiredError(
+                "Token expired, please re-login（Token 已过期，请重新登录）"
+            )
 
         return data
 
