@@ -478,6 +478,10 @@ def print_action_help(cli: DMECLI, topic: str, action_key: str, subtopic: str = 
     print(f"Action: {display_cmd}")
     print(f"{'='*60}")
 
+    blacklist = load_blacklist()
+    risk_level = "High" if topic in blacklist and action_key in blacklist[topic] else "Low"
+    print(f"\nRisk Level: {risk_level}")
+
     if info['parsed']['description']:
         print(f"\nDescription:")
         for line in info['parsed']['description'].split('\n'):
