@@ -283,7 +283,7 @@ class DMEAPIClient(BaseClient):
             params={"storage_id": storage_id},
         )
         storage_client = StorageAPIClient(
-            endpoint=f"https://{storage_info["ip"]}:{storage_info["port"]}",
+            endpoint=f"https://{storage_info['ip']}:{storage_info['port']}",
             passphrase=storage_info["passphrase"],
         )
         self.storage_clients[storage_id] = storage_client
