@@ -365,21 +365,12 @@ def lun_group_add_luns(client: DMEAPIClient, group_id: str,
         body_params['customize_volumes'] = customize_volumes
     if host_lun_id_infos is not None:
         body_params['host_lun_id_infos'] = host_lun_id_infos
-
-    body_params = {}
-
-    if existing_lun_ids is not None:
-        body_params['existing_lun_ids'] = existing_lun_ids
-    if customize_volumes is not None:
-        body_params['customize_volumes'] = customize_volumes
-    if host_lun_id_infos is not None:
-        body_params['host_lun_id_infos'] = host_lun_id_infos
     if host_lun_id_verify is not False:
         body_params['host_lun_id_verify'] = host_lun_id_verify
     if task_remarks is not None:
         body_params['task_remarks'] = task_remarks
 
-    response = client.post(url, body=body_params)
+    response = client.post(url, body=body_params, params={"group_id": group_id})
     return response
 
 
@@ -411,16 +402,7 @@ def lun_group_show_luns(client: DMEAPIClient, group_id: str,
     if health_status is not None:
         body_params['health_status'] = health_status
 
-
-    body_params = {
-        'page_size': page_size,
-        'page_no': page_no
-    }
-
-    if health_status is not None:
-        body_params['health_status'] = health_status
-
-    response = client.post(url, body=body_params)
+    response = client.post(url, body=body_params, params={"group_id": group_id})
     return response
 
 

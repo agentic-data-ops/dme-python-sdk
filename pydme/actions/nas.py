@@ -851,7 +851,7 @@ def dataturbo_share_show_permissions(client: DMEAPIClient, dataturbo_share_id: s
     if permission is not None:
         payload['permission'] = permission
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"dataturbo_share_id": dataturbo_share_id})
     return response
 
 
