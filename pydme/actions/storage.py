@@ -874,7 +874,7 @@ def account_create_windows_user(client: DMEAPIClient, storage_id: str, name: str
     if vstore_raw_id is not None:
         payload['vstore_raw_id'] = vstore_raw_id
 
-    response = client.post(url, body=payload)
+    response = client.post(url, body=payload, params={"storage_id": storage_id})
     return response
 
 
