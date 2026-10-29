@@ -314,6 +314,30 @@ topics:
               description: '批量暂停或者启动 Omni-Dataverse 数据迁移任务'
               func: migration_task_operate
               params: [ids, operate_type]
+    - name: hci
+      description: '超融合 (HCI) 相关操作'
+      actions:
+          - name: list
+            description: '查询超融合列表'
+            func: list
+            params: [hci_id_list, name, ip_address, sync_status, model, version, sort_dir, sort_key, page_no, page_size, dc_id, is_support_market_place]
+          - name: show
+            description: '查询指定超融合设备详情'
+            func: show
+            params: [hci_id]
+          - name: cluster_list
+            description: '查询指定超融合下虚拟化集群列表'
+            func: cluster_list
+            params: [hci_id, sort_dir, sort_key, page_no, page_size]
+          - name: vswitch_list
+            description: '查询指定超融合下虚拟化分布式交换机列表'
+            func: vswitch_list
+            params: [hci_id, sort_dir, sort_key, page_no, page_size]
+          - name: storage_list
+            description: '查询指定超融合下的存储设备列表'
+            func: storage_list
+            params: [hci_id]
+      subtopics:
     - name: integrate
       description: '三方系统集成 (Integrate) 相关操作'
       actions:
@@ -2005,7 +2029,7 @@ topics:
       actions:
       subtopics:
         - name: vm
-          description: '虚拟机列表与详情查询'
+          description: '虚拟机生命周期管理（创建、克隆、电源、迁移、快照、网卡）'
           actions:
             - name: list
               description: '查询虚拟机列表'
@@ -2015,8 +2039,112 @@ topics:
               description: '查询指定虚拟机详情'
               func: vm_show
               params: [vm_id, vr_type]
+            - name: create
+              description: '自定义创建虚拟机'
+              func: vm_create
+              params: [name, location, auto_boot, os_options, vm_config, externalUuid, floppy_file, floppy_protocol, description, is_binding_host, tag_ids, group_id]
+            - name: clone
+              description: '克隆虚拟机或按虚拟机模板创建虚拟机'
+              func: vm_clone
+              params: [vm_id, name, location, description, is_binding_host, vm_num, name_postfix_index, is_auto_boot, os_options, guest_customization, guest_customizations, vm_config]
+            - name: modify
+              description: '修改虚拟机或虚拟机模板属性'
+              func: vm_modify
+              params: [vm_id, name, description, cpu, memory, os_options]
+            - name: power_on
+              description: '批量打开虚拟机电源'
+              func: vm_power_on
+              params: [vm_ids]
+            - name: power_off
+              description: '批量关闭虚拟机'
+              func: vm_power_off
+              params: [vm_ids, mode]
+            - name: hibernate
+              description: '批量休眠虚拟机'
+              func: vm_hibernate
+              params: [vm_ids]
+            - name: reboot
+              description: '批量重启虚拟机'
+              func: vm_reboot
+              params: [vm_ids, mode]
+            - name: delete
+              description: '批量删除虚拟机'
+              func: vm_delete
+              params: [vm_ids, hold_time]
+            - name: vnc_info
+              description: '查询指定虚拟机 VNC 访问信息'
+              func: vm_vnc_info
+              params: [vm_id]
+            - name: mount_tools
+              description: '挂载指定虚拟机 Tools'
+              func: vm_mount_tools
+              params: [vm_id]
+            - name: umount_tools
+              description: '卸载指定虚拟机 Tools'
+              func: vm_umount_tools
+              params: [vm_id]
+            - name: migrate
+              description: '整机迁移虚拟机（主机与存储）'
+              func: vm_migrate
+              params: [vm_id, location, speed, disks, remote_site_urn, des_cluster_urn, is_binding_host, migrate_vm_time_out, is_frequency_reduce, nics, migrate_transmit_policy]
+            - name: migrate_host
+              description: '迁移虚拟机主机'
+              func: vm_migrate_host
+              params: [vm_id, location, is_binding_host, migrate_vm_time_out, is_frequency_reduce, migrate_transmit_policy, nics]
+            - name: migrate_storage
+              description: '迁移虚拟机的数据存储'
+              func: vm_migrate_storage
+              params: [vm_id, speed, disks]
+            - name: import
+              description: '导入虚拟机模板'
+              func: vm_import
+              params: [name, url, os_options, res_config, arch, description, file_items, protocol, username, password, guest_customization, is_template, tag_ids, image_format]
+            - name: nic_list
+              description: '查询指定虚拟机下网卡列表'
+              func: vm_nic_list
+              params: [vm_id]
+            - name: nic_modify
+              description: '修改指定虚拟机下指定网卡信息'
+              func: vm_nic_modify
+              params: [vm_id, nic_id, mac, vringbuf, queues]
+            - name: nic_change_portgroup
+              description: '修改指定虚拟机下网卡所属端口组'
+              func: vm_nic_change_portgroup
+              params: [vm_id, nic_id, port_group_urn]
+            - name: nic_add
+              description: '指定虚拟机添加网卡'
+              func: vm_nic_add
+              params: [vm_id, port_group_urn, type, virt_io, vringbuf, queues, enable_security_group, security_group_id, connect_at_power_on, link_status]
+            - name: nic_delete
+              description: '删除指定虚拟机下指定网卡'
+              func: vm_nic_delete
+              params: [vm_id, nic_id]
+            - name: nic_change_linkstatus
+              description: '配置指定虚拟机下网卡网络连接'
+              func: vm_nic_change_linkstatus
+              params: [vm_id, nic_ids, connect_at_power_on, link_status]
+            - name: snapshot_list
+              description: '查询指定虚拟机的快照列表'
+              func: vm_snapshot_list
+              params: [vm_id]
+            - name: snapshot_show
+              description: '查询指定虚拟机的指定快照'
+              func: vm_snapshot_show
+              params: [vm_id, snapshot_id, is_refresh]
+            - name: snapshot_create
+              description: '创建虚拟机快照'
+              func: vm_snapshot_create
+              params: [vm_id, name, description, type, need_memory_shot, is_consistent, protect_period, is_support_auto_delete]
+            - name: snapshot_delete
+              description: '删除指定虚拟机下的指定快照'
+              func: vm_snapshot_delete
+              params: [vm_id, snapshot_id, speed]
+            - name: snapshot_recover
+              description: '通过快照恢复虚拟机'
+              func: vm_snapshot_recover
+              params: [vm_id, snapshot_id]
         - name: datastore
-          description: '数据存储列表与详情查询'
+          description: '数据存储列表、详情与宿主机关系查询'
           actions:
             - name: list
               description: '查询数据存储列表'
@@ -2026,8 +2154,12 @@ topics:
               description: '查询指定数据存储详情'
               func: datastore_show
               params: [datastore_id, vr_type]
+            - name: host_relations
+              description: '查询数据存储与宿主机的关系'
+              func: datastore_host_relations
+              params: [ds_id, host_id, page_no, page_size]
         - name: host
-          description: '主机列表、详情与存储适配器查询'
+          description: '主机列表、详情、网口与存储适配器查询'
           actions:
             - name: list
               description: '查询主机列表'
@@ -2040,6 +2172,18 @@ topics:
             - name: adapter_list
               description: '查询指定主机存储适配器列表'
               func: host_adapter_list
+              params: [host_id]
+            - name: port_list
+              description: '查询指定主机下物理网口列表'
+              func: host_port_list
+              params: [host_id, uplinkportaggrs_id]
+            - name: aggr_port_list
+              description: '查询指定主机下聚合网口列表'
+              func: host_aggr_port_list
+              params: [host_id]
+            - name: logic_port_list
+              description: '查询指定主机下逻辑网口列表'
+              func: host_logic_port_list
               params: [host_id]
         - name: cluster
           description: '集群列表与详情查询'
@@ -2071,7 +2215,7 @@ topics:
               func: disk_list
               params: [site_id, host_id, name, disk_type, status, page_no, page_size]
         - name: vdisk
-          description: '虚拟磁盘列表与详情查询'
+          description: '虚拟磁盘生命周期管理（创建挂载、卸载、修改、扩容、删除）'
           actions:
             - name: list
               description: '查询虚拟磁盘信息列表'
@@ -2081,6 +2225,71 @@ topics:
               description: '查询指定虚拟磁盘信息'
               func: vdisk_show
               params: [virtual_disk_id]
+            - name: create_attach
+              description: '创建虚拟磁盘并挂载到指定虚拟机'
+              func: vdisk_create_attach
+              params: [vm_id, datastore_id, capacity, share_type, pci_type, scsi_command_passthrough, io_mode, name, is_thin, allocate_type, is_indep_disk, is_persistent_disk, metadata_preallocate]
+            - name: attach
+              description: '挂载虚拟磁盘到虚拟机'
+              func: vdisk_attach
+              params: [vm_id, vdisk_id, pci_type, scsi_command_passthrough, io_mode]
+            - name: detach
+              description: '卸载虚拟机磁盘'
+              func: vdisk_detach
+              params: [vm_id, vdisk_id]
+            - name: modify
+              description: '修改指定虚拟磁盘属性'
+              func: vdisk_modify
+              params: [virtual_disk_id, name, is_indep_disk, is_persistent_disk]
+            - name: expand
+              description: '扩容虚拟机磁盘'
+              func: vdisk_expand
+              params: [vm_id, vdisk_id, capacity]
+            - name: delete
+              description: '删除指定虚拟磁盘'
+              func: vdisk_delete
+              params: [virtual_disk_id]
+        - name: vswitch
+          description: '虚拟分布式交换机与端口组管理'
+          actions:
+            - name: list
+              description: '查询虚拟化分布式交换机列表'
+              func: vswitch_list
+              params: [host_id, site_id, site_ip, cluster_id, dc_id, name, type, sort_dir, sort_key, page_no, page_size]
+            - name: show
+              description: '查询指定虚拟化分布式交换机信息'
+              func: vswitch_show
+              params: [dvswitch_id]
+            - name: portgroup_list
+              description: '查询指定分布式交换机下的端口组列表'
+              func: vswitch_portgroup_list
+              params: [dvswitch_id, name, port_type, sort_dir, sort_key, page_no, page_size]
+            - name: portgroup_create
+              description: '创建端口组'
+              func: vswitch_portgroup_create
+              params: [dvswitch_id, name, port_type, vlan_id, vlan_range, description, is_ip_mac_bind, is_dhcp_isolation, is_calc_tcp_check_sum, ip_bcst_suppress, tx_limit, tx_peak_limit, tx_burst_size, priority, rx_limit, rx_peak_limit, rx_burst_size]
+            - name: portgroup_modify
+              description: '修改端口组'
+              func: vswitch_portgroup_modify
+              params: [dvswitch_id, portgroup_id, name, port_type, vlan_id, vlan_range, description, is_ip_mac_bind, is_dhcp_isolation, is_calc_tcp_check_sum, ip_bcst_suppress, tx_limit, tx_peak_limit, tx_burst_size, priority, rx_limit, rx_peak_limit, rx_burst_size]
+            - name: portgroup_delete
+              description: '删除端口组'
+              func: vswitch_portgroup_delete
+              params: [dvswitch_id, portgroup_id]
+        - name: secgroup
+          description: '安全组查询'
+          actions:
+            - name: list
+              description: '查询安全组列表'
+              func: secgroup_list
+              params: [dc_id, page_size, page_no]
+        - name: gpu
+          description: 'GPU 查询'
+          actions:
+            - name: list
+              description: '查询主机 GPU 列表'
+              func: gpu_list
+              params: [site_id, vendor_name, product_name, host_id, vm_id, page_no, page_size, sort_dir, sort_key]
     - name: workflow
       description: '工作流 (Workflow) 相关操作'
       actions:

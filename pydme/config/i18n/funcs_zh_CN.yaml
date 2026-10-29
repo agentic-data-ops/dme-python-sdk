@@ -32,6 +32,7 @@ aiops.alarm_list: |
             }, ...],
             total: 告警总数 (integer),
         }
+
 aiops.alarm_ack: |
     确认告警
 
@@ -43,6 +44,7 @@ aiops.alarm_ack: |
 
     Returns:
         操作结果
+
 aiops.alarm_unack: |
     取消确认告警
 
@@ -54,6 +56,7 @@ aiops.alarm_unack: |
 
     Returns:
         操作结果
+
 aiops.alarm_clear: |
     清除告警
 
@@ -65,6 +68,7 @@ aiops.alarm_clear: |
 
     Returns:
         操作结果
+
 aiops.diagnose_task_create: |
     创建智能分析任务
 
@@ -110,6 +114,7 @@ aiops.diagnose_task_create: |
                     is_succeed: 是否创建成功 (boolean)。可选值：true (创建成功), false (创建失败),
                  }, ...],
         }
+
 aiops.diagnose_task_status: |
     查询性能诊断任务状态
 
@@ -137,6 +142,7 @@ aiops.diagnose_task_status: |
             - event: 事件
         - total_step_count: 总步骤数
         - finish_step_count: 已完成步骤数
+
 aiops.performance_create_collect_task: |
     创建性能文件收集任务
 
@@ -153,6 +159,7 @@ aiops.performance_create_collect_task: |
 
     Returns:
         任务 ID
+
 aiops.performance_download_collect_result: |
     下载性能文件
 
@@ -163,6 +170,7 @@ aiops.performance_download_collect_result: |
 
     Returns:
         文件内容(bytes),若指定 save_to 则同时写入本地文件
+
 aiops.performance_query: |
     查询历史性能数据
 
@@ -215,6 +223,7 @@ aiops.performance_query: |
                 avg: 满足条件的历史数据值序列平均值 (Map&lt;object, string&gt;, 无),
             },
         }
+
 aiops.performance_show_indicators: |
     显示监控指标详细信息
 
@@ -243,6 +252,7 @@ aiops.performance_show_indicators: |
                 indicator_name: 指标标识 (string, 最多128个字符),
             },
         }
+
 aiops.performance_list_indicators: |
     列出监控对象类型支持的监控指标
 
@@ -259,6 +269,7 @@ aiops.performance_list_indicators: |
                 indicator_ids: 指标编号列表 (List<int64>),
             },
         }
+
 aiops.performance_list_object_types: |
     获取所有监控对象类型
 
@@ -282,6 +293,7 @@ aiops.performance_list_object_types: |
             }, ...],
         }
         resource_provider, en_us, zh_cn, group_en_us, group_zh_cn 等字段
+
 aiops.check_result_list: |
     查询检查策略异常检查结果列表
 
@@ -328,6 +340,7 @@ aiops.check_result_list: |
                     abnormal_reasons: 异常原因列表 (List<string>, 数组最大成员个数: 100),
                  }, ...],
         }
+
 aiops.check_result_show: |
     查询检查策略异常检查结果详情
 
@@ -356,6 +369,7 @@ aiops.check_result_show: |
             location_info: 定位信息 (string, 0~3000个字符),
             abnormal_reasons: 异常原因列表 (List<string>, 数组最大成员个数: 100),
         }
+
 aiops.check_policy_list: |
     查询检查策略列表
 
@@ -386,6 +400,7 @@ aiops.check_policy_list: |
             total: 总数量 (int),
             policies: 策略列表 (List),
         }
+
 aiops.check_policy_execute: |
     执行检查策略
 
@@ -399,6 +414,7 @@ aiops.check_policy_execute: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 aiops.check_policy_enable: |
     启用检查策略
 
@@ -412,6 +428,7 @@ aiops.check_policy_enable: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 aiops.check_policy_disable: |
     禁用检查策略
 
@@ -425,6 +442,7 @@ aiops.check_policy_disable: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 aiops.check_policy_delete: |
     删除检查策略
 
@@ -438,6 +456,7 @@ aiops.check_policy_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 aiops.topology_query_san_path: |
     查询 SAN 路径拓扑结构
 
@@ -612,6 +631,7 @@ aiops.topology_query_san_path: |
                 }, ...],
             },
         }
+
 aiops.topology_query_luns: |
     查询拓扑图 LUN 列表
 
@@ -648,6 +668,7 @@ aiops.topology_query_luns: |
                 storage_pool_id: 存储池 ID (string, 1~140个字符)。格式为 {storageId}STORAGE_POOL{poolId},
             }, ...],
         }
+
 aiops.topology_query_vms: |
     查询拓扑图虚拟机和虚拟磁盘列表，或查询 BMS 下物理磁盘列表
 
@@ -684,6 +705,7 @@ aiops.topology_query_vms: |
                 name: disk 名称 (string, 1~768个字符),
             }, ...],
         }
+
 aiops.topology_query_graph_path: |
     查询拓扑图库信息
 
@@ -715,6 +737,7 @@ aiops.topology_query_graph_path: |
                 edge_type: 边类型 (string)。可选值：edge_k8s_node_to_k8s_pod, edge_storage_pool_to_storage_disk, edge_filesystem_to_storage_pool, edge_storage_disk_to_storage_device, edge_k8s_pvc_to_k8s_pv, edge_k8s_pod_to_k8s_pvc, edge_dtree_to_filesystem, edge_lun_storage_pool, edge_k8s_cluster_to_k8s_node, edge_k8s_pv_to_lun, edge_k8s_pv_to_dtree, edge_nas_client_to_logic_port, edge_logic_port_to_ethernet_port, edge_ethernet_port_to_controller, edge_controller_to_filesystem, edge_data_turbo_client_to_logic_port, edge_controller_to_ethernet_port, edge_data_turbo_client_to_service_network, edge_ethernet_port_to_eth_switch_port, edge_service_network_to_logic_port, edge_a800_enclosures_to_storage_zone, edge_controller_to_enclosures, edge_storage_zone_to_filesystem, edge_eth_switch_port_to_eth_switch_port, edge_enclosures_to_controller, edge_controller_to_storage_port, edge_eth_switch_to_eth_switch_port, edge_storage_port_to_eth_switch_port, edge_filesystem_to_hyper_scale_pool, edge_hyper_scale_pool_to_storage_pool, edge_eth_switch_port_to_eth_switch, edge_k8s_pod_to_k8s_node, edge_k8s_podgroup_to_k8s_pod, edge_k8s_vcjob_to_k8s_podgroup, edge_lun_to_controller, edge_host_to_service_network, edge_host_to_host_port, edge_host_port_to_service_network, edge_service_network_to_lun, edge_service_network_to_storage_port, edge_db_instance_to_db_node, edge_db_node_to_host,
             }, ...],
         }
+
 aiops.health_query_data: |
     查询健康度相关数据
 
@@ -733,6 +756,7 @@ aiops.health_query_data: |
         {
             data: 查询结果数据 (dict)，包含 history/forecast 等字段,
         }
+
 aiops.health_show_score: |
     查询对象健康度
 
@@ -758,6 +782,7 @@ aiops.health_show_score: |
             total: 总数量 (int),
             objects: 健康度对象列表 (List),
         }
+
 aiops.health_show_detail: |
     查询健康维度的扣分详情
 
@@ -779,6 +804,7 @@ aiops.health_show_detail: |
         {
             indicators: 指标扣分列表 (List),
         }
+
 backup.cluster_list: |
     查询备份集群列表
 
@@ -796,6 +822,7 @@ backup.cluster_list: |
                 cluster_ip: IP地址 (string),
             }, ...],
         }
+
 backup.cluster_capacity: |
     查询备份集群容量
 
@@ -811,6 +838,7 @@ backup.cluster_capacity: |
             total_capacity: 总容量 (double, GB),
             used_capacity: 已用容量 (double, GB),
         }
+
 backup.cluster_quota: |
     查询备份集群租户配额列表
 
@@ -832,6 +860,7 @@ backup.cluster_quota: |
                 tenant_used_capacity: 租户已使用备份配额容量 (double, GB),
             }, ...],
         }
+
 fcswitch.list: |
     批量查询交换机
 
@@ -850,6 +879,7 @@ fcswitch.list: |
                 status: 运行状态 (string),
             }, ...],
         }
+
 fcswitch.sync: |
     同步指定交换机
 
@@ -861,6 +891,7 @@ fcswitch.sync: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 fcswitch.port_list: |
     批量查询交换机端口
 
@@ -876,6 +907,7 @@ fcswitch.port_list: |
             total: 总数量 (int),
             ports: 交换机端口列表 (List),
         }
+
 fcswitch.controller_list: |
     批量查询交换机控制处理器
 
@@ -890,6 +922,7 @@ fcswitch.controller_list: |
             total: 总数量 (int),
             controllers: 控制处理器列表 (List),
         }
+
 fcswitch.fabric_list: |
     批量查询光纤网络
 
@@ -904,6 +937,7 @@ fcswitch.fabric_list: |
             total: 总数量 (int),
             fabrics: 光纤网络列表 (List),
         }
+
 fcswitch.fabric_show_ports: |
     查询指定光纤网络的端口列表
 
@@ -918,6 +952,7 @@ fcswitch.fabric_show_ports: |
             total: 总数量 (int),
             ports: 端口列表 (List),
         }
+
 fcswitch.fabric_backup: |
     执行光纤网络配置文件备份
 
@@ -931,6 +966,7 @@ fcswitch.fabric_backup: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 fcswitch.vsan_list: |
     查询 VSAN 列表
 
@@ -944,6 +980,7 @@ fcswitch.vsan_list: |
             total: 总数量 (int),
             vsans: VSAN 列表 (List),
         }
+
 fcswitch.zone_list: |
     批量查询 zone
 
@@ -977,6 +1014,7 @@ fcswitch.zone_list: |
                 zone_type: Zone 类型 (string)。可选值：regular（常规 Zone），user_specified_peer_zone（用户创建的对等 Zone），target_driven_peer_zone（目标驱动的对等 Zone）,
             }, ...],
         }
+
 fcswitch.zone_create: |
     创建 zone
     在光纤网络中创建一个 zone 实例，必须包含 WWN 成员、端口成员、别名成员中的一种。
@@ -1005,6 +1043,7 @@ fcswitch.zone_create: |
             id: Zone id (string, 1~64个字符),
             zone_name: Zone name (string, 1~64个字符),
         }
+
 fcswitch.zone_modify: |
     修改 zone
     修改 zone 名称或变更成员。该操作会修改指定交换机上的 zone 名称或变更成员。
@@ -1051,6 +1090,7 @@ fcswitch.zone_modify: |
 
     Returns:
         无。
+
 fcswitch.zone_delete: |
     删除 zone
     该操作会删除指定交换机上的 zone。
@@ -1063,6 +1103,7 @@ fcswitch.zone_delete: |
 
     Returns:
         无。
+
 fcswitch.zone_batch_create: |
     批量创建 zone
 
@@ -1090,6 +1131,7 @@ fcswitch.zone_batch_create: |
 
     Returns:
         无。
+
 fcswitch.zone_show_members: |
     查询 zone 的成员
     查询 Zone 中包含的成员，支持端口成员、WWN 成员和别名成员。
@@ -1128,6 +1170,7 @@ fcswitch.zone_show_members: |
             }, ...],
             members: 所有成员列表 (List, 不指定 type 时),
         }
+
 fcswitch.alias_list: |
     批量查询别名
 
@@ -1155,6 +1198,7 @@ fcswitch.alias_list: |
                 modifiable: 当前别名是否可以操作 (boolean, true/false),
             }, ...],
         }
+
 fcswitch.alias_create: |
     创建别名
     该操作会在指定交换机上创建别名。
@@ -1181,6 +1225,7 @@ fcswitch.alias_create: |
         {
             id: 别名 id (string, 1~64个字符),
         }
+
 fcswitch.alias_modify: |
     修改别名
     变更别名成员。博科交换机支持 WWN 成员、端口成员修改；思科交换机支持 PWWN、FWWN、端口、FCID、设备别名成员修改。
@@ -1223,6 +1268,7 @@ fcswitch.alias_modify: |
 
     Returns:
         无。
+
 fcswitch.alias_delete: |
     删除别名
     该操作会删除指定交换机上的别名。
@@ -1235,6 +1281,7 @@ fcswitch.alias_delete: |
 
     Returns:
         无。
+
 fcswitch.alias_show_members: |
     查询别名的成员
     查询 Alias 中包含的成员，支持查询端口成员和 WWN 成员。
@@ -1262,6 +1309,7 @@ fcswitch.alias_show_members: |
             }, ...],
             members: 所有成员列表 (List, 不指定 type 时),
         }
+
 gfs.dataspace_list: |
     批量查询 Omni-Dataverse
 
@@ -1283,6 +1331,7 @@ gfs.dataspace_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 gfs.dataspace_show: |
     查询指定 Omni-Dataverse 的容量统计信息
 
@@ -1298,6 +1347,7 @@ gfs.dataspace_show: |
             available_capacity: 可用容量 (string),
             file_count: 文件数量 (int64),
         }
+
 gfs.dataspace_site_list: |
     查询 Omni-Dataverse 数据服务站点
 
@@ -1321,6 +1371,7 @@ gfs.dataspace_site_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 gfs.namespace_list: |
     批量查询全局命名空间
 
@@ -1344,6 +1395,7 @@ gfs.namespace_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 gfs.namespace_show: |
     查询全局命名空间详情
 
@@ -1360,6 +1412,7 @@ gfs.namespace_show: |
             status: 状态 (string),
             storage_id: 存储设备ID (string),
         }
+
 gfs.namespace_create: |
     创建全局命名空间
 
@@ -1382,6 +1435,7 @@ gfs.namespace_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 gfs.namespace_modify: |
     修改指定全局命名空间
 
@@ -1400,6 +1454,7 @@ gfs.namespace_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 gfs.namespace_delete: |
     删除指定的全局命名空间
 
@@ -1413,6 +1468,7 @@ gfs.namespace_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 gfs.migration_task_list: |
     批量查询 Omni-Dataverse 数据迁移任务
 
@@ -1443,6 +1499,7 @@ gfs.migration_task_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 gfs.migration_task_show: |
     查询 Omni-Dataverse 数据迁移任务详情
 
@@ -1459,6 +1516,7 @@ gfs.migration_task_show: |
             source: 源端信息 (string),
             target: 目标端信息 (string),
         }
+
 gfs.migration_task_create: |
     创建 Omni-Dataverse 数据迁移任务
 
@@ -1512,6 +1570,7 @@ gfs.migration_task_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 gfs.migration_task_modify: |
     修改 Omni-Dataverse 数据迁移任务
 
@@ -1533,6 +1592,7 @@ gfs.migration_task_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 gfs.migration_task_delete: |
     批量删除 Omni-Dataverse 数据迁移任务
 
@@ -1544,6 +1604,7 @@ gfs.migration_task_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 gfs.migration_task_operate: |
     批量暂停或者启动 Omni-Dataverse 数据迁移任务
 
@@ -1556,6 +1617,232 @@ gfs.migration_task_operate: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
+hci.list: |
+    查询超融合列表
+
+    查询 DME 管理的超融合（HCI）设备列表，支持按名称、IP、同步状态、型号、版本等条件过滤，并支持分页与排序。
+
+    Args:
+        client: DME API 客户端
+        hci_id_list: 超融合设备 ID 列表（数组最大成员个数：100）
+        name: 超融合名称，支持模糊搜索
+        ip_address: 超融合 IP 地址，支持模糊搜索
+        sync_status: 超融合同步状态列表。可选值：1（未同步），2（同步中），3（已同步），4（部分已同步），5（同步失败）
+        model: 超融合型号列表
+        version: 超融合版本号列表
+        sort_dir: 排序方式（asc, desc），默认 desc
+        sort_key: 排序字段（allocated_cpu, total_cpu, allocated_memory, total_memory, free_capacity, total_capacity, last_modified），默认 last_modified
+        page_no: 分页查询的起始页码，默认 1
+        page_size: 每页查询的个数，1~1000，默认 1000
+        dc_id: 所属数据中心 ID
+        is_support_market_place: 是否支持应用市场（true, false）
+
+    Returns:
+        {
+            total: 查询数据总数量 (integer),
+            cubes: 超融合列表 (List<QueryCubeResponse>)。参数格式如下：[{
+                id: 超融合ID (string),
+                instance_id: 对接实例ID (string),
+                name: 超融合系统名称 (string),
+                ip_address: 超融合IP地址 (string),
+                port: 对接超融合端口号 (integer),
+                user_name: 用户名 (string),
+                connection_status: 连接状态（0正常，1异常，3未知） (string),
+                sync_status: 同步状态 (string),
+                model: 设备型号 (string),
+                version: 超融合软件版本 (string),
+                allocated_cpu: CPU已使用容量，单位MHz (number),
+                total_cpu: CPU总容量，单位MHz (number),
+                allocated_memory: 内存已使用容量，单位MB (number),
+                total_memory: 内存总容量，单位MB (number),
+                free_capacity: 空闲容量，单位GB (number),
+                total_capacity: 总容量，单位GB (number),
+                dc_id: 所属数据中心ID (string),
+                dc_name: 所属数据中心名称 (string),
+                projects: 项目列表 (string),
+            }, ...],
+        }
+
+hci.show: |
+    查询指定超融合设备详情
+
+    查询指定超融合设备的详细信息，包括连接状态、同步状态、容量信息、SNMP 对接信息及关联的服务器、交换机、存储设备列表。
+
+    Args:
+        client: DME API 客户端
+        hci_id: 超融合设备 ID（1~256 个字符）
+
+    Returns:
+        {
+            id: 超融合ID (string),
+            instance_id: 对接实例ID (string),
+            name: 超融合系统名称 (string),
+            ip_address: 超融合IP地址 (string),
+            port: 对接超融合端口号 (integer),
+            user_name: 用户名 (string),
+            connection_status: DME和超融合连接状态（0正常，1异常，3未知） (string),
+            sync_status: DME和超融合同步状态 (string),
+            model: 设备型号 (string),
+            version: 超融合软件版本 (string),
+            allocated_cpu: CPU已使用容量，单位MHz (number),
+            total_cpu: CPU总容量，单位MHz (number),
+            allocated_memory: 内存已使用容量，单位MB (number),
+            total_memory: 内存总容量，单位MB (number),
+            free_capacity: 空闲容量，单位GB (number),
+            total_capacity: 总容量，单位GB (number),
+            snmp_info: SNMP对接系统信息 (SNMPBasic对象)。属性格式如下：{
+                id: SNMP的ID (string),
+                protocol_version: 版本（SNMPv3, SNMPv2C） (string),
+                user_name: 用户名 (string),
+                auth_type: 授权认证协议（SHA, SHA2-256） (string),
+                encrpt_type: 数据加密协议（AES-128, AES-256） (string),
+                read_community: 读团体字 (string),
+                write_community: 写团体字 (string),
+                port: 端口号 (integer),
+                timeout: 超时时间，单位毫秒 (integer),
+            },
+            dc_id: 所属数据中心ID (string),
+            dc_name: 所属数据中心名称 (string),
+            virtual_site_id: 虚拟化站点ID (string),
+            server_ids: 服务器ID列表 (List<string>),
+            switch_ids: 以太网交换机ID列表 (List<string>),
+            storage_ids: 存储设备ID列表 (List<string>),
+        }
+
+hci.cluster_list: |
+    查询指定超融合下虚拟化集群列表
+
+    查询指定超融合设备下的虚拟化集群列表，支持分页与排序。
+
+    Args:
+        client: DME API 客户端
+        hci_id: 超融合 ID（1~64 个字符，必填）
+        sort_dir: 排序方式（asc, desc），默认 asc
+        sort_key: 排序字段（name, host_num, vm_num, cpu_usage, memory_usage, site_ip）
+        page_no: 分页查询的起始页码，默认 1
+        page_size: 每页查询的个数，1~1000，默认 20
+
+    Returns:
+        {
+            total: 总数量 (integer),
+            clusters: 集群列表 (List<Cluster>)。参数格式如下：[{
+                id: 集群ID (string),
+                pid: 数据标识，用于查询统计数据 (string),
+                site_id: 集群所在站点ID (string),
+                site_ip: 集群所在站点IP (string),
+                name: 集群名称 (string),
+                az_id: 可用分区id，仅FusionCompute场景支持 (string),
+                az_name: 可用分区名称，仅FusionCompute场景支持 (string),
+                description: 集群描述 (string),
+                total_cpu: 总CPU大小，单位MHz (integer),
+                free_cpu: 剩余CPU大小，单位MHz (integer),
+                allocated_cpu: 已分配CPU大小，单位MHz (integer),
+                cpu_usage: CPU预留率，单位% (number),
+                total_memory: 总内存大小，单位MB (integer),
+                allocated_memory: 已分配内存大小，单位MB (integer),
+                free_memory: 剩余内存大小，单位MB (integer),
+                memory_usage: 内存预留率，单位% (number),
+                total_capacity: 集群存储空间，单位GB，仅VMware场景支持 (number),
+                free_capacity: 集群剩余存储空间，单位GB，仅VMware场景支持 (number),
+                allocated_capacity: 集群已分配存储空间，单位GB，仅VMware场景支持 (number),
+                capacity_usage: 存储空间分配率，单位%，仅VMware场景支持 (number),
+                datastore_num: 集群拥有数据存储数量 (integer),
+                vm_num: 集群拥有虚拟机数量 (integer),
+                host_num: 集群拥有主机数量 (integer),
+                arch: 架构类型（x86, arm），HCS场景不支持 (string),
+                vr_type: 虚拟化平台类型（FUSIONCOMPUTE, VMWARE, HCS） (string),
+                datacenter_id: 集群所属数据中心ID，仅VMware场景支持 (string),
+            }, ...],
+        }
+
+hci.vswitch_list: |
+    查询指定超融合下虚拟化分布式交换机列表
+
+    查询指定超融合设备下的虚拟化分布式交换机列表，支持分页与排序。
+
+    Args:
+        client: DME API 客户端
+        hci_id: 超融合 ID（1~128 个字符，必填）
+        sort_dir: 排序方式（asc, desc），默认 asc
+        sort_key: 排序字段（name, host_count, vm_count, create_time）
+        page_no: 分页查询的起始页码，默认 1
+        page_size: 每页查询的个数，1~1000，默认 20
+
+    Returns:
+        {
+            total: 总数量 (integer),
+            dvSwitchesList: 分布式交换机列表 (List<DvSwitch>)。参数格式如下：[{
+                id: 分布式交换机ID (string),
+                name: 分布式交换机名称 (string),
+                description: 分布式交换机描述 (string),
+                type: 分布式交换机类型（0普通模式，2直通模式，4用户态交换模式） (integer),
+                is_igmp_snooping: 是否启用IGMP Snooping (boolean),
+                mtu: 分布式交换机的大帧数值，1500~9000 (integer),
+                vm_num: 关联的虚拟机数量 (integer),
+                host_num: 关联的主机数量 (integer),
+                site_ip: 所属站点IP (string),
+                site_id: 所属站点ID (string),
+                dc_id: 所属数据中心ID (string),
+                dc_name: 所属数据中心名称 (string),
+            }, ...],
+        }
+
+hci.storage_list: |
+    查询指定超融合下的存储设备列表
+
+    查询指定超融合设备下的存储设备列表，包括容量、状态、网元类型等详细信息。
+
+    Args:
+        client: DME API 客户端
+        hci_id: 超融合 ID（1~64 个字符，必填）
+
+    Returns:
+        {
+            total: 存储设备总数 (integer),
+            datas: 存储设备列表 (List<HCIStorageSummaryInfoV2>)。参数格式如下：[{
+                id: 存储设备ID (string),
+                name: 存储设备名称 (string),
+                ip: IP地址 (string),
+                status: 状态（OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL） (string),
+                sync_status: 同步状态（UNSYNC, SYNC, NORMAL, FAILED） (string),
+                sn: 设备序列号 (string),
+                vendor: 厂商 (string),
+                model: 产品型号 (string),
+                total_capacity: 总容量（物理容量，单位GB） (number),
+                total_pool_capacity: 可用容量（所有存储池容量之和，单位GB） (number),
+                used_capacity: 已用容量（单位GB） (number),
+                consumed_capacity_percentage: 已用容量百分比（%） (number),
+                free_capacity: 空闲容量（单位GB） (number),
+                subscription_capacity: 订阅容量（单位GB） (number),
+                total_effective_capacity: 总可得容量（单位GB） (number),
+                used_effective_capacity: 已用可得容量（单位GB） (number),
+                free_effective_capacity: 空闲可得容量（单位GB） (number),
+                subscribed_capacity_percentage: 容量订阅百分比（%） (number),
+                location: 设备位置信息 (string),
+                version: 版本信息 (string),
+                patch_version: 补丁版本信息 (string),
+                maintenance_start: 维护开始时间，UTC时间戳（毫秒） (string),
+                maintenance_overtime: 维护过保时间，UTC时间戳（毫秒） (string),
+                add_time: 接入设备时间，UTC时间戳（毫秒） (string),
+                last_sync_time: 上一次同步时间，UTC时间戳（毫秒） (string),
+                owning_ne_type: 存储设备网元类型 (string),
+                az_names: 所属可用分区名称列表 (List<string>),
+                dc_id: 数据中心ID (string),
+                dc_name: 数据中心名称 (string),
+                hci_id: 所属超融合ID (string),
+                sync_process: 同步进度 (integer),
+                source: 设备来源（add接入, record录入） (string),
+                online_time: 上线时间，UTC时间戳（毫秒） (integer),
+                alarm_num: 告警数量 (number),
+                cpu_usage: CPU利用率（%） (number),
+                response_time: 平均I/O响应时间（ms） (number),
+                throughput: IOPS（IO/S） (number),
+                file_ops: OPS（O/S） (number),
+                bandwidth: 带宽（MB/s） (number),
+            }, ...],
+        }
+
 integrate.cmdb_system_list: |
     查询CMDB系统列表。
 
@@ -1574,6 +1861,7 @@ integrate.cmdb_system_list: |
                 ip: IP地址 (string),
             }, ...],
         }
+
 integrate.cmdb_host_list: |
     查询CMDB系统中的主机列表。
 
@@ -1594,6 +1882,7 @@ integrate.cmdb_host_list: |
                 ip: IP地址 (string),
             }, ...],
         }
+
 integrate.cmdb_host_show: |
     查询指定CMDB主机详情。
 
@@ -1607,6 +1896,7 @@ integrate.cmdb_host_show: |
             name: 主机名称 (string),
             ip: IP地址 (string),
         }
+
 integrate.cmdb_app_list: |
     查询CMDB系统中的应用列表。
 
@@ -1625,6 +1915,7 @@ integrate.cmdb_app_list: |
                 name: 应用名称 (string),
             }, ...],
         }
+
 integrate.cmdb_host_query_by_initiators: |
     根据启动器列表查询CMDB主机列表。
 
@@ -1639,6 +1930,7 @@ integrate.cmdb_host_query_by_initiators: |
                 name: 主机名称 (string),
             }, ...],
         }
+
 ipswitch.list: |
     查询以太网交换机列表信息
 
@@ -1657,6 +1949,7 @@ ipswitch.list: |
                 status: 状态 (string),
             }, ...],
         }
+
 ipswitch.frame_list: |
     查询 IP 交换机机框列表信息
 
@@ -1671,6 +1964,7 @@ ipswitch.frame_list: |
             total: 总数量 (int),
             frames: 机框列表 (List),
         }
+
 ipswitch.board_list: |
     查询 IP 交换机单板列表信息
 
@@ -1685,6 +1979,7 @@ ipswitch.board_list: |
             total: 总数量 (int),
             boards: 单板列表 (List),
         }
+
 ipswitch.subcard_list: |
     查询 IP 交换机子卡列表信息
 
@@ -1699,6 +1994,7 @@ ipswitch.subcard_list: |
             total: 总数量 (int),
             subcards: 子卡列表 (List),
         }
+
 ipswitch.power_list: |
     查询 IP 交换机电源列表信息
 
@@ -1713,6 +2009,7 @@ ipswitch.power_list: |
             total: 总数量 (int),
             powers: 电源列表 (List),
         }
+
 ipswitch.fan_list: |
     查询 IP 交换机风扇列表信息
 
@@ -1727,6 +2024,7 @@ ipswitch.fan_list: |
             total: 总数量 (int),
             fans: 风扇列表 (List),
         }
+
 ipswitch.port_list: |
     查询 IP 交换机端口列表信息
 
@@ -1741,6 +2039,7 @@ ipswitch.port_list: |
             total: 总数量 (int),
             ports: 端口列表 (List),
         }
+
 kube.cluster_list: |
     查询容器集群列表
 
@@ -1759,6 +2058,7 @@ kube.cluster_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 kube.node_list: |
     查询容器节点列表
 
@@ -1777,6 +2077,7 @@ kube.node_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 kube.pod_list: |
     查询容器组列表
 
@@ -1798,6 +2099,7 @@ kube.pod_list: |
                 node: 所在节点 (string),
             }, ...],
         }
+
 kube.namespace_list: |
     查询容器命名空间列表
 
@@ -1812,6 +2114,7 @@ kube.namespace_list: |
         {
             namespaces: 命名空间列表 (List<string>),
         }
+
 kube.pvc_list: |
     查询容器持久卷声明列表
 
@@ -1831,6 +2134,7 @@ kube.pvc_list: |
                 capacity: 容量 (string),
             }, ...],
         }
+
 kube.pv_list: |
     查询容器持久卷列表
 
@@ -1851,6 +2155,7 @@ kube.pv_list: |
                 capacity: 容量 (string),
             }, ...],
         }
+
 nas.account_dataturbo_admin_list: |
     批量查询 DataTurbo 管理员
 
@@ -1880,6 +2185,7 @@ nas.account_dataturbo_admin_list: |
                 type: 管理员类型 (string),
             }, ...],
         }
+
 nas.account_unix_user_create: |
     创建 UNIX 用户
 
@@ -1898,6 +2204,7 @@ nas.account_unix_user_create: |
 
     Returns:
         创建结果
+
 nas.account_unix_user_add_group: |
     添加 UNIX 用户附属组
 
@@ -1908,6 +2215,7 @@ nas.account_unix_user_add_group: |
 
     Returns:
         操作结果
+
 nas.account_unix_user_list: |
     查询 UNIX 认证用户列表
 
@@ -1937,6 +2245,7 @@ nas.account_unix_user_list: |
                 primary_group_name: 主组名称 (string),
             }, ...],
         }
+
 nas.account_unix_user_show: |
     查询 UNIX 认证用户详情
 
@@ -1952,6 +2261,7 @@ nas.account_unix_user_show: |
             primary_group_name: 主组名称 (string),
             description: 描述 (string),
         }
+
 nas.account_unix_user_remove_group: |
     移除 UNIX 用户附属组
 
@@ -1962,6 +2272,7 @@ nas.account_unix_user_remove_group: |
 
     Returns:
         操作结果
+
 nas.account_unix_user_modify: |
     修改 UNIX 用户
 
@@ -1976,6 +2287,7 @@ nas.account_unix_user_modify: |
 
     Returns:
         修改结果
+
 nas.account_unix_user_batch_delete: |
     删除 UNIX 用户
 
@@ -1985,6 +2297,7 @@ nas.account_unix_user_batch_delete: |
 
     Returns:
         操作结果
+
 nas.account_unix_user_group_create: |
     创建 UNIX 用户组
 
@@ -1999,6 +2312,7 @@ nas.account_unix_user_group_create: |
 
     Returns:
         创建结果
+
 nas.account_unix_user_group_list: |
     查询 UNIX 认证用户组列表
 
@@ -2025,6 +2339,7 @@ nas.account_unix_user_group_list: |
                 gid: 组GID (int32),
             }, ...],
         }
+
 nas.account_unix_user_group_show: |
     查询 UNIX 用户组详情
 
@@ -2039,6 +2354,7 @@ nas.account_unix_user_group_show: |
             gid: 组GID (int32),
             description: 描述 (string),
         }
+
 nas.account_unix_user_group_modify: |
     修改 UNIX 用户组
 
@@ -2050,6 +2366,7 @@ nas.account_unix_user_group_modify: |
 
     Returns:
         修改结果
+
 nas.account_unix_user_group_batch_delete: |
     删除 UNIX 用户组
 
@@ -2059,6 +2376,7 @@ nas.account_unix_user_group_batch_delete: |
 
     Returns:
         操作结果
+
 nas.dtree_list: |
     查询 Dtree 列表
 
@@ -2095,6 +2413,7 @@ nas.dtree_list: |
                 fs_id: 文件系统ID (string),
             }, ...],
         }
+
 nas.dtree_show: |
     查询指定 Dtree 详情。
 
@@ -2109,6 +2428,7 @@ nas.dtree_show: |
             path: 路径 (string),
             fs_id: 文件系统ID (string),
         }
+
 nas.dtree_create: |
     创建并共享 Dtree
 
@@ -2158,6 +2478,7 @@ nas.dtree_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.dtree_delete: |
     批量删除 Dtree。
 
@@ -2170,6 +2491,7 @@ nas.dtree_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.dtree_modify: |
     修改指定 Dtree
 
@@ -2187,6 +2509,7 @@ nas.dtree_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.nfs_share_list: |
     查询 NFS 共享列表
 
@@ -2229,6 +2552,7 @@ nas.nfs_share_list: |
                 fs_id: 文件系统ID (string),
             }, ...],
         }
+
 nas.nfs_share_show: |
     查询指定 NFS 共享详情
 
@@ -2244,6 +2568,7 @@ nas.nfs_share_show: |
             fs_id: 文件系统ID (string),
             export_ip: 导出IP (string),
         }
+
 nas.nfs_share_create: |
     创建 NFS 共享
 
@@ -2286,6 +2611,7 @@ nas.nfs_share_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.nfs_share_modify: |
     修改指定 NFS 共享
 
@@ -2341,6 +2667,7 @@ nas.nfs_share_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.nfs_share_delete: |
     批量删除 NFS 共享
 
@@ -2353,6 +2680,7 @@ nas.nfs_share_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.nfs_share_show_clients: |
     查询 NFS 共享下的客户端访问列表
 
@@ -2381,6 +2709,7 @@ nas.nfs_share_show_clients: |
                 accesskrb5: Kerberos认证 (string),
             }, ...],
         }
+
 nas.cifs_share_list: |
     批量查询 CIFS 共享
 
@@ -2438,6 +2767,7 @@ nas.cifs_share_list: |
                 ca_enabled: 是否开启CA。可选值：true, false,
             }, ...],
         }
+
 nas.cifs_share_show: |
     查询指定 CIFS 共享详情
 
@@ -2466,6 +2796,7 @@ nas.cifs_share_show: |
             abe_enabled: 是否开启ABE。可选值：true, false,
             show_snapshot_enabled: 是否显示快照目录。可选值：true, false,
         }
+
 nas.cifs_share_create: |
     创建单个 CIFS 共享
 
@@ -2516,6 +2847,7 @@ nas.cifs_share_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.cifs_share_modify: |
     修改指定 CIFS 共享
 
@@ -2570,6 +2902,7 @@ nas.cifs_share_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.cifs_share_delete: |
     批量删除 CIFS 共享
 
@@ -2582,6 +2915,7 @@ nas.cifs_share_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.cifs_share_show_permissions: |
     查询单个 CIFS 共享的权限列表
 
@@ -2626,6 +2960,7 @@ nas.cifs_share_show_permissions: |
                 rules: 规则列表 (List),
             }, ...],
         }
+
 nas.dataturbo_share_list: |
     查询 DataTurbo 共享列表
 
@@ -2667,6 +3002,7 @@ nas.dataturbo_share_list: |
                 charset: 字符集 (string),
             }, ...],
         }
+
 nas.dataturbo_share_show: |
     查询指定 DataTurbo 共享详情
 
@@ -2694,6 +3030,7 @@ nas.dataturbo_share_show: |
             zone_ip: 区域IP (string),
             scope: 范围 (string),
         }
+
 nas.dataturbo_share_create: |
     创建 DataTurbo 共享
 
@@ -2713,6 +3050,7 @@ nas.dataturbo_share_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.dataturbo_share_modify: |
     修改指定 DataTurbo 共享
 
@@ -2731,6 +3069,7 @@ nas.dataturbo_share_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.dataturbo_share_delete: |
     批量删除 DataTurbo 共享
 
@@ -2743,6 +3082,7 @@ nas.dataturbo_share_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.dataturbo_share_show_permissions: |
     查询 DataTurbo 共享管理员权限列表
 
@@ -2764,6 +3104,7 @@ nas.dataturbo_share_show_permissions: |
                 permission: 权限 (string),
             }, ...],
         }
+
 nas.quota_list: |
     查询配额列表
 
@@ -2800,6 +3141,7 @@ nas.quota_list: |
                 file_hard_used: 文件数已使用 (string),
             }, ...],
         }
+
 nas.quota_show: |
     查询指定配额详情
 
@@ -2819,6 +3161,7 @@ nas.quota_show: |
             file_hard_quota: 文件数硬配额 (string),
             file_hard_used: 文件数已使用 (string),
         }
+
 nas.quota_create: |
     创建配额
 
@@ -2847,6 +3190,7 @@ nas.quota_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.quota_modify: |
     更新指定配额
 
@@ -2867,6 +3211,7 @@ nas.quota_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.quota_delete: |
     批量删除配额
 
@@ -2879,6 +3224,7 @@ nas.quota_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.filesystem_list: |
     批量查询文件系统
 
@@ -2953,6 +3299,7 @@ nas.filesystem_list: |
                 storage_ip: 存储设备IP (string),
             }, ...],
         }
+
 nas.filesystem_show: |
     查询指定文件系统详情
 
@@ -2984,6 +3331,7 @@ nas.filesystem_show: |
             storage_ip: 存储设备IP (string),
             storage_type: 存储设备类型 (string),
         }
+
 nas.filesystem_delete: |
     批量删除文件系统
 
@@ -2996,6 +3344,7 @@ nas.filesystem_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }（异步任务）
+
 nas.filesystem_batch_modify: |
     批量修改文件系统
 
@@ -3013,6 +3362,7 @@ nas.filesystem_batch_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.filesystem_create: |
     自定义创建文件系统
 
@@ -3128,6 +3478,7 @@ nas.filesystem_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.filesystem_query_available: |
     查询可用的文件系统
 
@@ -3153,6 +3504,7 @@ nas.filesystem_query_available: |
                 capacity: 容量 (string),
             }, ...],
         }
+
 nas.filesystem_modify: |
     修改指定文件系统
 
@@ -3251,6 +3603,7 @@ nas.filesystem_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 nas.namespace_list: |
     批量查询命名空间
 
@@ -3279,6 +3632,7 @@ nas.namespace_list: |
         }，包含：
         - total: 命名空间数量
         - namespace_list: 命名空间列表，包含 id, raw_id, name, storage_id, vstore_id 等信息
+
 nas.namespace_show: |
     查询指定命名空间详情
 
@@ -3310,6 +3664,7 @@ nas.namespace_show: |
         - qos_policy: QoS 策略
         - worm: WORM 参数
         等详细信息
+
 nas.namespace_create: |
     批量创建命名空间
 
@@ -3417,6 +3772,7 @@ nas.namespace_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }（异步任务 ID）
+
 nas.namespace_modify: |
     修改指定命名空间
 
@@ -3501,6 +3857,7 @@ nas.namespace_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }（异步任务 ID）
+
 nas.namespace_delete: |
     批量删除命名空间
 
@@ -3513,6 +3870,7 @@ nas.namespace_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }（异步任务 ID）
+
 nas.dpc_list: |
     批量查询并行客户端列表
 
@@ -3542,6 +3900,7 @@ nas.dpc_list: |
                 mgmt_status: 管理状态 (string),
             }, ...],
         }
+
 nas.dpc_show: |
     查询并行客户端详情。
 
@@ -3557,6 +3916,7 @@ nas.dpc_show: |
             status: 业务状态 (string),
             mgmt_status: 管理状态 (string),
         }
+
 nas.dpc_client_list: |
     批量查询DPC客户端。
 
@@ -3591,6 +3951,7 @@ nas.dpc_client_list: |
                 dpc_mem: DPC客户端节点内存 (int64),
             }, ...],
         }
+
 nas.dpc_client_show: |
     查询DPC客户端详情。
 
@@ -3608,6 +3969,7 @@ nas.dpc_client_show: |
             version: DPC客户端版本 (string),
             status: DPC客户端状态 (string),
         }
+
 nas.kvcache_list: |
     查询 KV Cache 库
 
@@ -3639,6 +4001,7 @@ nas.kvcache_list: |
                 capacity: 容量 (string),
             }, ...],
         }
+
 nas.kvcache_batch_create: |
     批量创建 KV Cache 库
 
@@ -3660,6 +4023,7 @@ nas.kvcache_batch_create: |
 
     Returns:
         创建结果
+
 nas.kvcache_modify: |
     修改 KV Cache 库
 
@@ -3673,6 +4037,7 @@ nas.kvcache_modify: |
 
     Returns:
         修改结果
+
 nas.kvcache_batch_delete: |
     批量删除 KV Cache 库
 
@@ -3682,6 +4047,7 @@ nas.kvcache_batch_delete: |
 
     Returns:
         操作结果
+
 protect.group_list: |
     批量查询保护组
 
@@ -3729,6 +4095,7 @@ protect.group_list: |
                 vstore_name: 所属租户名称 (string),
             }, ...],
         }
+
 protect.group_create: |
     创建保护组，支持基于LUN或者LUN组创建
 
@@ -3744,6 +4111,7 @@ protect.group_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.group_modify: |
     修改保护组
 
@@ -3755,6 +4123,7 @@ protect.group_modify: |
 
     Returns:
         无返回数据。HTTP 200 表示修改成功。
+
 protect.group_delete: |
     批量删除保护组
 
@@ -3769,6 +4138,7 @@ protect.group_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.group_add_luns: |
     保护组中添加成员 LUN
 
@@ -3808,6 +4178,7 @@ protect.group_add_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.group_remove_luns: |
     移除保护组中的成员 LUN
 
@@ -3823,6 +4194,7 @@ protect.group_remove_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_list: |
     批量查询双活一致性组
 
@@ -3877,6 +4249,7 @@ protect.hypermetro_group_list: |
                 isolation_threshold_time: 隔离阈值 (int32, 10~30000ms),
             }, ...],
         }
+
 protect.hypermetro_group_create: |
     创建双活一致性组
 
@@ -3913,6 +4286,7 @@ protect.hypermetro_group_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_modify: |
     修改双活一致性组
 
@@ -3931,6 +4305,7 @@ protect.hypermetro_group_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_delete: |
     批量删除双活一致性组
 
@@ -3944,6 +4319,7 @@ protect.hypermetro_group_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_add_pairs: |
     双活一致性组添加成员 Pair（异步任务接口）
 
@@ -3957,6 +4333,7 @@ protect.hypermetro_group_add_pairs: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_remove_pairs: |
     双活一致性组移除成员 Pair（异步任务接口）
 
@@ -3969,6 +4346,7 @@ protect.hypermetro_group_remove_pairs: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_pause: |
     暂停双活一致性组
 
@@ -3981,6 +4359,7 @@ protect.hypermetro_group_pause: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_force_startup: |
     强制启动双活一致性组
 
@@ -3993,6 +4372,7 @@ protect.hypermetro_group_force_startup: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_switch_priority: |
     双活一致性组优先站点切换
 
@@ -4004,6 +4384,7 @@ protect.hypermetro_group_switch_priority: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_group_sync: |
     同步双活一致性组
 
@@ -4015,6 +4396,7 @@ protect.hypermetro_group_sync: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_pair_list: |
     批量查询 LUN 双活 Pair
 
@@ -4081,6 +4463,7 @@ protect.hypermetro_pair_list: |
                 activation_state: 激活状态。可选值：active (激活), passive (未激活),
             }, ...],
         }
+
 protect.hypermetro_pair_create: |
     创建双活 Pair
 
@@ -4109,6 +4492,7 @@ protect.hypermetro_pair_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_pair_modify: |
     修改双活 Pair
 
@@ -4123,6 +4507,7 @@ protect.hypermetro_pair_modify: |
 
     Returns:
         无返回数据。HTTP 200 表示修改成功。
+
 protect.hypermetro_pair_delete: |
     批量删除双活 Pair
 
@@ -4139,6 +4524,7 @@ protect.hypermetro_pair_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_pair_sync: |
     同步双活 Pair
 
@@ -4150,6 +4536,7 @@ protect.hypermetro_pair_sync: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_pair_pause: |
     暂停双活 Pair
 
@@ -4162,6 +4549,7 @@ protect.hypermetro_pair_pause: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_pair_force_startup: |
     强制启动双活 Pair
 
@@ -4174,6 +4562,7 @@ protect.hypermetro_pair_force_startup: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_pair_switch_priority: |
     双活 Pair 优先站点切换
 
@@ -4185,6 +4574,7 @@ protect.hypermetro_pair_switch_priority: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_domain_list: |
     批量查询双活域
 
@@ -4221,6 +4611,7 @@ protect.hypermetro_domain_list: |
                 config_role: 配置角色。可选值：active_site, standby_site,
             }, ...],
         }
+
 protect.replication_group_create: |
     创建远程复制一致性组
 
@@ -4267,6 +4658,7 @@ protect.replication_group_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_list: |
     批量查询复制一致性组
 
@@ -4299,6 +4691,7 @@ protect.replication_group_list: |
                 protect_group_name: 保护组名称 (string, 0~255个字符),
             }, ...],
         }
+
 protect.replication_group_modify: |
     修改远程复制一致性组
 
@@ -4333,6 +4726,7 @@ protect.replication_group_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_delete: |
     批量删除远程复制一致性组
 
@@ -4346,6 +4740,7 @@ protect.replication_group_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_add_pairs: |
     远程复制一致性组添加成员 Pair
 
@@ -4363,6 +4758,7 @@ protect.replication_group_add_pairs: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_remove_pairs: |
     远程复制一致性组移除成员 Pair
 
@@ -4379,6 +4775,7 @@ protect.replication_group_remove_pairs: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_sync: |
     批量同步远程复制一致性组
 
@@ -4393,6 +4790,7 @@ protect.replication_group_sync: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_split: |
     批量分裂远程复制一致性组
 
@@ -4407,6 +4805,7 @@ protect.replication_group_split: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_switch: |
     远程复制一致性组批量主从切换
 
@@ -4421,6 +4820,7 @@ protect.replication_group_switch: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_group_switch_write_protection: |
     远程复制一致性组从资源写保护状态切换
 
@@ -4433,6 +4833,7 @@ protect.replication_group_switch_write_protection: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_pair_list: |
     批量查询复制 Pair
 
@@ -4502,6 +4903,7 @@ protect.replication_pair_list: |
                 progress: 同步进度 (int32, -1~100),
             }, ...],
         }
+
 protect.replication_pair_create: |
     创建远程复制 Pair
 
@@ -4552,6 +4954,7 @@ protect.replication_pair_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_pair_modify: |
     修改复制 Pair
 
@@ -4589,6 +4992,7 @@ protect.replication_pair_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_pair_delete: |
     批量删除远程复制 Pair
 
@@ -4602,6 +5006,7 @@ protect.replication_pair_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_pair_sync: |
     批量同步远程复制 Pair
 
@@ -4616,6 +5021,7 @@ protect.replication_pair_sync: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_pair_split: |
     批量分裂远程复制 Pair
 
@@ -4627,6 +5033,7 @@ protect.replication_pair_split: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_pair_switch: |
     远程复制 Pair 批量主从切换
 
@@ -4641,6 +5048,7 @@ protect.replication_pair_switch: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.replication_pair_switch_write_protection: |
     远程复制 Pair 从资源保护状态切换
 
@@ -4653,6 +5061,7 @@ protect.replication_pair_switch_write_protection: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.device_pair_list: |
     查询设备 Pairs
 
@@ -4691,6 +5100,7 @@ protect.device_pair_list: |
                 compress_algorithm: 数据压缩策略。可选值：depth_compression, fast_compression, invalid, fault,
             }, ...],
         }
+
 protect.replication_link_list: |
     查询复制链路
 
@@ -4714,6 +5124,7 @@ protect.replication_link_list: |
                 running_status: 运行状态。可选值：link_up (已连接), link_down (未连接), disabled (已禁用), connecting (正在连接), air_gap_link_down (Air Gap断开),
             }, ...],
         }
+
 protect.snapshot_list: |
     批量查询 LUN 快照
 
@@ -4762,6 +5173,7 @@ protect.snapshot_list: |
                 storage_id: 存储设备ID (string, 1~64个字符),
             }, ...],
         }
+
 protect.snapshot_create: |
     批量创建 LUN 快照
 
@@ -4778,6 +5190,7 @@ protect.snapshot_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.snapshot_rollback: |
     批量回滚 LUN 快照
 
@@ -4797,6 +5210,7 @@ protect.snapshot_rollback: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.snapshot_delete: |
     批量删除 LUN 快照
 
@@ -4813,6 +5227,7 @@ protect.snapshot_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.snapshot_group_create: |
     创建快照一致性组
 
@@ -4827,6 +5242,7 @@ protect.snapshot_group_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.snapshot_group_delete: |
     批量删除快照一致性组
 
@@ -4842,6 +5258,7 @@ protect.snapshot_group_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.snapshot_group_activate: |
     激活快照一致性组
 
@@ -4859,6 +5276,7 @@ protect.snapshot_group_activate: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.snapshot_group_deactivate: |
     批量取消激活快照一致性组
 
@@ -4873,6 +5291,7 @@ protect.snapshot_group_deactivate: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.snapshot_group_rollback: |
     回滚快照一致性组
 
@@ -4896,6 +5315,7 @@ protect.snapshot_group_rollback: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.clone_group_create: |
     创建克隆一致性组
 
@@ -4919,6 +5339,7 @@ protect.clone_group_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.clone_group_sync: |
     同步克隆一致性组
 
@@ -4938,6 +5359,7 @@ protect.clone_group_sync: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.clone_group_delete: |
     批量删除克隆一致性组
 
@@ -4954,6 +5376,7 @@ protect.clone_group_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_hypermetro_pair_create: |
     创建文件系统双活Pair
 
@@ -4979,6 +5402,7 @@ protect.fs_hypermetro_pair_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_hypermetro_pair_list: |
     查询文件系统双活Pair列表。
 
@@ -5042,6 +5466,7 @@ protect.fs_hypermetro_pair_list: |
                 vstore_pair_id: 所属租户Pair的ID (string),
             }, ...],
         }
+
 protect.fs_hypermetro_pair_pause: |
     批量暂停文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
 
@@ -5053,6 +5478,7 @@ protect.fs_hypermetro_pair_pause: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_hypermetro_pair_sync: |
     批量同步文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
 
@@ -5064,6 +5490,7 @@ protect.fs_hypermetro_pair_sync: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_hypermetro_pair_delete: |
     批量删除文件系统双活Pair。该API可能会直接或间接影响现网业务运行，请谨慎操作。
 
@@ -5077,6 +5504,7 @@ protect.fs_hypermetro_pair_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_snapshot_create: |
     创建文件系统快照。
 
@@ -5089,6 +5517,7 @@ protect.fs_snapshot_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_snapshot_list: |
     批量查询文件系统快照。
 
@@ -5111,6 +5540,7 @@ protect.fs_snapshot_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 protect.fs_snapshot_delete: |
     批量删除文件系统快照。
 
@@ -5122,6 +5552,7 @@ protect.fs_snapshot_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.vstore_pair_force_start: |
     批量强制启动双活租户Pair。
 
@@ -5136,6 +5567,7 @@ protect.vstore_pair_force_start: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.vstore_pair_create: |
     创建双活租户Pair。
 
@@ -5151,6 +5583,7 @@ protect.vstore_pair_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.vstore_pair_list: |
     查询双活租户Pair列表。
 
@@ -5188,6 +5621,7 @@ protect.vstore_pair_list: |
                 active_status: 激活状态。可选值：active (激活), passive (未激活),
             }, ...],
         }
+
 protect.vstore_pair_switch: |
     批量主从切换双活租户Pair。
 
@@ -5203,6 +5637,7 @@ protect.vstore_pair_switch: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.vstore_pair_delete: |
     批量删除双活租户Pair。
 
@@ -5217,6 +5652,7 @@ protect.vstore_pair_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.vstore_pair_modify: |
     修改指定双活租户pair。
 
@@ -5230,6 +5666,7 @@ protect.vstore_pair_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_domain_force_start: |
     强制启动文件系统双活域。
 
@@ -5244,6 +5681,7 @@ protect.fs_domain_force_start: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_domain_switch_site: |
     优先站点切换文件系统双活域。
 
@@ -5258,6 +5696,7 @@ protect.fs_domain_switch_site: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_domain_recover: |
     恢复文件系统双活域。
 
@@ -5272,6 +5711,7 @@ protect.fs_domain_recover: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_domain_split: |
     分裂文件系统双活域。
 
@@ -5287,6 +5727,7 @@ protect.fs_domain_split: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.fs_domain_swap_role: |
     主从切换文件系统双活域。
 
@@ -5301,6 +5742,7 @@ protect.fs_domain_swap_role: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 protect.hypermetro_pair_query_available_luns: |
     查询可创建双活Pair的目标LUN。
 
@@ -5323,6 +5765,7 @@ protect.hypermetro_pair_query_available_luns: |
                 capacity: 容量 (integer),
             }, ...],
         }
+
 san.lun_list: |
     批量查询 LUN
 
@@ -5396,6 +5839,7 @@ san.lun_list: |
                 take_over_lun_wwn: 接管LUN的WWN (string),
             }, ...],
         }
+
 san.lun_show: |
     查询指定 LUN。
 
@@ -5419,6 +5863,7 @@ san.lun_show: |
                 volume_wwn: LUN在存储设备上的wwn (string, 1~64个字符),
             },
         }
+
 san.lun_create: |
     自定义创建 LUN
 
@@ -5486,6 +5931,7 @@ san.lun_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_delete: |
     批量删除 LUN。
 
@@ -5498,6 +5944,7 @@ san.lun_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_modify: |
     修改指定 LUN
 
@@ -5528,6 +5975,7 @@ san.lun_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_modify_name: |
     批量修改 LUN 名称
 
@@ -5542,6 +5990,7 @@ san.lun_modify_name: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_expand: |
     批量扩容 LUN
 
@@ -5557,6 +6006,7 @@ san.lun_expand: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_connection: |
     查询指定 LUN ID 的连接信息。
 
@@ -5571,6 +6021,7 @@ san.lun_connection: |
             iscsi_targets: iSCSI 目标列表 (List),
             fc_targets: FC 目标列表 (List),
         }
+
 san.lun_group_list: |
     批量查询 LUN 组
 
@@ -5605,6 +6056,7 @@ san.lun_group_list: |
                 attached: 映射状态 (boolean),
             }, ...],
         }
+
 san.lun_group_show: |
     查询指定 LUN 组详情。
 
@@ -5621,6 +6073,7 @@ san.lun_group_show: |
             lun_count: LUN数量 (integer),
             description: 描述 (string),
         }
+
 san.lun_group_create: |
     创建 LUN 组
 
@@ -5689,6 +6142,7 @@ san.lun_group_create: |
         {
             id: LUN组ID (string, 1~64个字符),
         }
+
 san.lun_group_delete: |
     批量删除 LUN 组
 
@@ -5701,6 +6155,7 @@ san.lun_group_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_group_add_luns: |
     向 LUN 组添加 LUN
 
@@ -5753,6 +6208,7 @@ san.lun_group_add_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_group_remove_luns: |
     从 LUN 组移除 LUN
 
@@ -5766,6 +6222,7 @@ san.lun_group_remove_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.lun_group_show_luns: |
     查询 LUN 组中的 LUN
 
@@ -5780,6 +6237,7 @@ san.lun_group_show_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含 LUN 列表
+
 san.mapping_view_create: |
     创建映射视图
 
@@ -5813,6 +6271,7 @@ san.mapping_view_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.mapping_view_delete: |
     批量删除映射视图。
 
@@ -5824,6 +6283,7 @@ san.mapping_view_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.mapping_view_list: |
     批量查询映射视图列表
 
@@ -5861,6 +6321,7 @@ san.mapping_view_list: |
                 storage_id: 存储设备ID (string),
             }, ...],
         }
+
 san.storage_host_create: |
     创建存储主机
 
@@ -5893,6 +6354,7 @@ san.storage_host_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.storage_host_batch_query: |
     根据存储主机 ID 列表批量查询存储主机
 
@@ -5935,6 +6397,7 @@ san.storage_host_batch_query: |
                 },
             }, ...],
         }
+
 san.storage_host_list: |
     批量查询存储主机
 
@@ -5995,6 +6458,7 @@ san.storage_host_list: |
                 },
             }, ...],
         }
+
 san.storage_host_modify: |
     修改存储主机
 
@@ -6023,6 +6487,7 @@ san.storage_host_modify: |
 
     Returns:
         修改结果
+
 san.storage_host_delete: |
     批量删除存储主机
 
@@ -6034,6 +6499,7 @@ san.storage_host_delete: |
 
     Returns:
         删除结果
+
 san.storage_host_show_paths: |
     批量查询存储主机的路径信息
 
@@ -6065,6 +6531,7 @@ san.storage_host_show_paths: |
                 vstore_raw_id: 租户在设备上的ID (string),
             }, ...],
         }
+
 san.storage_host_show_luns: |
     查询存储主机映射的 LUN 信息列表
 
@@ -6083,6 +6550,7 @@ san.storage_host_show_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含 total 和 lun_mapping_list
+
 san.storage_host_unmap_luns: |
     解除存储主机映射
 
@@ -6098,6 +6566,7 @@ san.storage_host_unmap_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.storage_host_group_create: |
     创建存储主机组
 
@@ -6131,6 +6600,7 @@ san.storage_host_group_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.storage_host_group_list: |
     批量查询存储主机组
 
@@ -6153,6 +6623,7 @@ san.storage_host_group_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含存储主机组列表和总数
+
 san.storage_host_group_add_hosts: |
     添加存储主机到存储主机组
 
@@ -6185,6 +6656,7 @@ san.storage_host_group_add_hosts: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.storage_host_group_remove_hosts: |
     从存储主机组中移除主机
 
@@ -6200,6 +6672,7 @@ san.storage_host_group_remove_hosts: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.storage_host_group_delete: |
     批量删除存储主机组
 
@@ -6212,6 +6685,7 @@ san.storage_host_group_delete: |
 
     Returns:
         删除结果
+
 san.storage_host_group_show_luns: |
     查询存储主机组映射的 LUN 信息列表
 
@@ -6230,6 +6704,7 @@ san.storage_host_group_show_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含 total 和 lun_mapping_list
+
 san.storage_host_group_unmap_luns: |
     解除存储主机组映射
 
@@ -6245,6 +6720,7 @@ san.storage_host_group_unmap_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.port_group_list: |
     批量查询端口组
 
@@ -6258,6 +6734,7 @@ san.port_group_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含端口组列表
+
 san.port_group_create: |
     创建端口组
 
@@ -6274,6 +6751,7 @@ san.port_group_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.port_group_show_ports: |
     批量查询指定端口组的端口
 
@@ -6288,6 +6766,7 @@ san.port_group_show_ports: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含端口列表
+
 san.port_group_show_relations: |
     批量查询端口组与端口关联关系
 
@@ -6300,6 +6779,7 @@ san.port_group_show_relations: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含关联关系列表
+
 san.physical_host_list: |
     批量查询物理主机
 
@@ -6324,6 +6804,7 @@ san.physical_host_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含物理主机列表和总数
+
 san.physical_host_show: |
     查询指定物理主机
 
@@ -6361,6 +6842,7 @@ san.physical_host_show: |
             }, ...],
             azs: 可用区列表 (List<string>),
         }
+
 san.physical_host_create: |
     接入物理主机
 
@@ -6391,6 +6873,7 @@ san.physical_host_create: |
         {
             id: 物理主机ID (string, 1~64个字符),
         }
+
 san.physical_host_modify: |
     修改物理主机基本信息
 
@@ -6405,6 +6888,7 @@ san.physical_host_modify: |
 
     Returns:
         修改结果
+
 san.physical_host_modify_access_info: |
     修改物理主机接入信息
 
@@ -6426,6 +6910,7 @@ san.physical_host_modify_access_info: |
 
     Returns:
         修改结果
+
 san.physical_host_delete: |
     移除物理主机
 
@@ -6438,6 +6923,7 @@ san.physical_host_delete: |
 
     Returns:
         删除结果
+
 san.physical_host_add_initiators: |
     为物理主机添加启动器
 
@@ -6451,6 +6937,7 @@ san.physical_host_add_initiators: |
 
     Returns:
         添加结果
+
 san.physical_host_remove_initiators: |
     从物理主机移除启动器
 
@@ -6461,6 +6948,7 @@ san.physical_host_remove_initiators: |
 
     Returns:
         移除结果
+
 san.physical_host_show_initiators: |
     查询指定物理主机的启动器
 
@@ -6485,6 +6973,7 @@ san.physical_host_show_initiators: |
                 },
             }, ...],
         }
+
 san.physical_host_test: |
     检测存储设备和物理主机连通性
 
@@ -6499,6 +6988,7 @@ san.physical_host_test: |
 
     Returns:
         连通性检测结果
+
 san.physical_host_query_sshkey: |
     查询指定物理主机 SSH 公钥
 
@@ -6509,6 +6999,7 @@ san.physical_host_query_sshkey: |
 
     Returns:
         SSH 公钥信息
+
 san.physical_host_save_sshkey: |
     保存指定物理主机 SSH 公钥
 
@@ -6522,6 +7013,7 @@ san.physical_host_save_sshkey: |
 
     Returns:
         保存结果
+
 san.physical_host_query_by_initiator: |
     根据启动器查询关联的物理主机
 
@@ -6558,6 +7050,7 @@ san.physical_host_query_by_initiator: |
             failover_mode: 故障切换模式 (string),
             special_mode_type: 特殊模式类型 (string),
         }
+
 san.physical_host_map_luns: |
     LUN 映射给物理主机
 
@@ -6588,6 +7081,7 @@ san.physical_host_map_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.physical_host_unmap_luns: |
     解除主机映射
 
@@ -6603,6 +7097,7 @@ san.physical_host_unmap_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.physical_host_show_mapping_views: |
     查询物理主机关联的映射关系
 
@@ -6615,6 +7110,7 @@ san.physical_host_show_mapping_views: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含映射视图列表
+
 san.physical_host_group_list: |
     批量查询物理主机组
 
@@ -6633,6 +7129,7 @@ san.physical_host_group_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含物理主机组列表和总数
+
 san.physical_host_group_show_hosts: |
     查询物理主机组中的物理主机
 
@@ -6668,6 +7165,7 @@ san.physical_host_group_show_hosts: |
                 model: 型号 (string),
             }, ...],
         }
+
 san.physical_host_group_show: |
     查询指定物理主机组
 
@@ -6691,6 +7189,7 @@ san.physical_host_group_show: |
             project_id: 所属业务群组id (string, 1~64个字符),
             az_ids: 所属可用分区列表 (List<string>),
         }
+
 san.physical_host_group_create: |
     创建物理主机组
 
@@ -6710,6 +7209,7 @@ san.physical_host_group_create: |
             name: 物理主机组名称 (string, 1~255个字符),
             description: 物理主机组描述信息 (string, 0~63个字符),
         }
+
 san.physical_host_group_modify: |
     修改物理主机组基本信息
 
@@ -6723,6 +7223,7 @@ san.physical_host_group_modify: |
 
     Returns:
         修改结果
+
 san.physical_host_group_delete: |
     删除指定物理主机组
 
@@ -6733,6 +7234,7 @@ san.physical_host_group_delete: |
 
     Returns:
         删除结果
+
 san.physical_host_group_add_hosts: |
     向物理主机组中增加物理主机
 
@@ -6744,6 +7246,7 @@ san.physical_host_group_add_hosts: |
 
     Returns:
         添加结果
+
 san.physical_host_group_remove_hosts: |
     物理主机组移除物理主机
 
@@ -6757,6 +7260,7 @@ san.physical_host_group_remove_hosts: |
 
     Returns:
         移除结果
+
 san.physical_host_group_map_luns: |
     LUN 映射给物理主机组
 
@@ -6787,6 +7291,7 @@ san.physical_host_group_map_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.physical_host_group_unmap_luns: |
     解除主机组映射
 
@@ -6802,6 +7307,7 @@ san.physical_host_group_unmap_luns: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 san.physical_host_group_show_mapping_views: |
     查询物理主机组关联的映射关系
 
@@ -6814,6 +7320,7 @@ san.physical_host_group_show_mapping_views: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含映射视图列表
+
 san.physical_host_group_show_related: |
     查询物理主机组关联的存储主机组列表。
 
@@ -6830,6 +7337,7 @@ san.physical_host_group_show_related: |
                 host_group_id: 存储主机组ID (string),
             }, ...],
         }
+
 san.mapping_view_query_host_to_lun: |
     查询存储主机和LUN映射关系。
 
@@ -6881,6 +7389,7 @@ san.mapping_view_query_host_to_lun: |
                 },
             }, ...],
         }
+
 server.list: |
     查询服务器列表
 
@@ -6901,6 +7410,7 @@ server.list: |
                 status: 状态 (string),
             }, ...],
         }
+
 server.show: |
     查询指定服务器的概览信息
 
@@ -6915,6 +7425,7 @@ server.show: |
             status: 状态 (string),
             type: 服务器类型 (string),
         }
+
 server.cpu_list: |
     查询服务器上的所有 CPU 列表
 
@@ -6934,6 +7445,7 @@ server.cpu_list: |
                 frequency: 频率 (string),
             }, ...],
         }
+
 server.memory_list: |
     查询服务器上的内存
 
@@ -6952,6 +7464,7 @@ server.memory_list: |
                 capacity: 容量 (string),
             }, ...],
         }
+
 server.disk_list: |
     查询服务器上的硬盘集合
 
@@ -6971,6 +7484,7 @@ server.disk_list: |
                 health_status: 健康状态 (string),
             }, ...],
         }
+
 server.nic_list: |
     查询服务器上的网卡集合
 
@@ -6990,6 +7504,7 @@ server.nic_list: |
                 speed: 速率 (string),
             }, ...],
         }
+
 server.fan_list: |
     查询服务器上的风扇
 
@@ -7009,6 +7524,7 @@ server.fan_list: |
                 health_status: 健康状态 (string),
             }, ...],
         }
+
 server.power_list: |
     查询服务器上的电源
 
@@ -7028,6 +7544,7 @@ server.power_list: |
                 health_status: 健康状态 (string),
             }, ...],
         }
+
 server.raid_card_list: |
     查询服务器上的 RAID 卡详情
 
@@ -7046,6 +7563,7 @@ server.raid_card_list: |
                 model: 型号 (string),
             }, ...],
         }
+
 server.pcie_card_list: |
     查询服务器上的 PCIe 卡信息
 
@@ -7064,6 +7582,7 @@ server.pcie_card_list: |
                 type: 类型 (string),
             }, ...],
         }
+
 storage.list: |
     批量查询存储设备：支持分页查询，过滤。
 
@@ -7132,6 +7651,7 @@ storage.list: |
                 }, ...],
             }, ...],
         }
+
 storage.show: |
     查询指定存储设备。
 
@@ -7149,6 +7669,7 @@ storage.show: |
             vendor: 厂商 (string),
             model: 产品型号 (string),
         }
+
 storage.add: |
     添加存储设备（仅支持录入离线存储设备信息）
 
@@ -7180,6 +7701,7 @@ storage.add: |
         {
             id: 存储设备ID (string, 1~64个字符),
         }
+
 storage.remove: |
     批量移除存储设备。
 
@@ -7191,6 +7713,7 @@ storage.remove: |
         {
             task_id: 任务Id (string, 1~64个字符),
         }
+
 storage.sync: |
     同步存储设备信息，该接口为异步消息。
 
@@ -7200,6 +7723,7 @@ storage.sync: |
 
     Returns:
         无
+
 storage.modify: |
     修改存储设备（仅支持修改录入的离线存储设备信息）
 
@@ -7225,6 +7749,7 @@ storage.modify: |
 
     Returns:
         无
+
 storage.bbu_list: |
     查询存储设备的 BBU 信息列表
 
@@ -7257,6 +7782,7 @@ storage.bbu_list: |
             }, ...],
             total: BBU的数量 (int32),
         }
+
 storage.get_passphrase: |
     获取存储设备访问的令牌
 
@@ -7270,6 +7796,7 @@ storage.get_passphrase: |
             passphrase: 访问存储设备的令牌,
             port: 访问存储设备的端口 (int32),
         }
+
 storage.fan_list: |
     查询存储设备的风扇信息
 
@@ -7301,6 +7828,7 @@ storage.fan_list: |
                 zone_name: 所属Zone名称 (1~255个字符)，仅OceanStor A800系列存储支持,
             }, ...],
         }
+
 storage.disk_list: |
     查询存储设备的硬盘信息列表
 
@@ -7346,6 +7874,7 @@ storage.disk_list: |
                 sn: 硬盘序列号 (string),
             }, ...],
         }
+
 storage.pool_list: |
     查询存储设备存储池列表
 
@@ -7395,6 +7924,7 @@ storage.pool_list: |
                 media_type: 存储池主存类型。可选值：sas_disk (SAS盘), sata_disk (SATA盘), ssd_card (SSD卡&NVMe SSD), ssd_disk (SSD盘)。仅OceanStor Pacific、OceanStor A310、OceanStor 100D设备支持,
             }, ...]
         }
+
 storage.hyperscale_pool_list: |
     查询 HyperScale 存储池列表
 
@@ -7435,6 +7965,7 @@ storage.hyperscale_pool_list: |
                 redundancy_strategy: 冗余策略。可选值：disk (盘级冗余), distributed_ec (分布式EC),
             }, ...]
         }
+
 storage.node_list: |
     查询存储设备的节点列表
 
@@ -7479,6 +8010,7 @@ storage.node_list: |
                 }, ...],
             }, ...]
         }
+
 storage.psu_list: |
     查询存储设备电源详情信息，仅支持OceanStor A800存储。
 
@@ -7523,6 +8055,7 @@ storage.psu_list: |
                 storage_sn: 所属存储设备序列号 (1~64个字符),
             }, ...],
         }
+
 storage.query_power_data: |
     查询存储设备功率数据
 
@@ -7540,6 +8073,7 @@ storage.query_power_data: |
                 power: 存储功率，单位千瓦 (number),
             }, ...],
         }
+
 storage.app_type_list: |
     查询指定存储设备的应用类型
 
@@ -7561,6 +8095,7 @@ storage.app_type_list: |
             }, ...],
         } 
         enable_compress, enable_dedup, create_type 等字段
+
 storage.controller_list: |
     查询指定存储设备的控制器信息
 
@@ -7576,6 +8111,7 @@ storage.controller_list: |
         }，包含 total 和 controllers 字段
         - total: 控制器总数
         - controllers: 控制器列表，包含 id, name, status, type 等信息
+
 storage.disk_domain_list: |
     批量查询硬盘域
 
@@ -7602,6 +8138,7 @@ storage.disk_domain_list: |
                     storage_id: 所属存储设备id (1~64个字符),
                  }, ...]
         }
+
 storage.disk_pool_list: |
     批量查询分布式存储设备的硬盘池。仅支持OceanStor Pacific和OceanStor A310存储。
 
@@ -7620,6 +8157,7 @@ storage.disk_pool_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 storage.enclosure_list: |
     批量查询机框信息
 
@@ -7670,6 +8208,7 @@ storage.enclosure_list: |
                     temperature: 温度，单位°C (0~128个字符),
                  }, ...]
         }
+
 storage.vstore_list: |
     批量查询存储设备租户信息。
 
@@ -7709,6 +8248,7 @@ storage.vstore_list: |
                 encrypt_option: 所属租户的加密选项 (boolean, true,false),
             }, ...]
         }
+
 storage.vstore_show: |
     查询租户详情。
 
@@ -7725,6 +8265,7 @@ storage.vstore_show: |
             status: 所属租户状态 (string)。可选值：active (已激活), inactive (未激活),
             running_status: 运行状态 (string)。可选值：normal (正常), initializing (初始化),
         }
+
 storage.vstore_create: |
     创建租户。OceanStor Dorado v3设备不支持该功能。
 
@@ -7743,6 +8284,7 @@ storage.vstore_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.vstore_modify: |
     修改指定租户，该操作会修改存储设备上指定的租户。
 
@@ -7760,6 +8302,7 @@ storage.vstore_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.vstore_delete: |
     批量删除租户，该操作会删除存储设备上指定的租户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
@@ -7771,6 +8314,7 @@ storage.vstore_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.initiator_list: |
     批量查询存储侧启动器对象
 
@@ -7801,6 +8345,7 @@ storage.initiator_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 storage.initiator_delete: |
     批量删除存储设备的启动器对象
 
@@ -7811,6 +8356,7 @@ storage.initiator_delete: |
 
     Returns:
         任务 ID
+
 storage.initiator_modify: |
     修改存储侧启动器对象
 
@@ -7830,6 +8376,7 @@ storage.initiator_modify: |
 
     Returns:
         任务 ID
+
 storage.account_show_local_users: |
     查询指定存储设备本地认证用户的信息
 
@@ -7850,6 +8397,7 @@ storage.account_show_local_users: |
                 type: 用户类型 (string),
             }, ...],
         }
+
 storage.account_create_local_user: |
     创建本地认证用户
 
@@ -7865,6 +8413,7 @@ storage.account_create_local_user: |
 
     Returns:
         创建结果
+
 storage.account_create_unix_user: |
     创建指定存储设备 UNIX 认证用户
 
@@ -7881,6 +8430,7 @@ storage.account_create_unix_user: |
 
     Returns:
         创建结果
+
 storage.account_create_windows_user: |
     创建指定存储设备 Windows 认证用户
 
@@ -7896,6 +8446,7 @@ storage.account_create_windows_user: |
 
     Returns:
         创建结果
+
 storage.account_show_unix_users: |
     查询指定存储设备 UNIX 认证用户的信息
 
@@ -7916,6 +8467,7 @@ storage.account_show_unix_users: |
                 uid: UID (int32),
             }, ...],
         }
+
 storage.account_show_windows_users: |
     查询指定存储设备 Windows 认证用户的信息
 
@@ -7935,6 +8487,7 @@ storage.account_show_windows_users: |
                 name: 用户名 (string),
             }, ...],
         }
+
 storage.account_show_local_user_groups: |
     查询指定存储设备本地认证用户组的信息
 
@@ -7954,6 +8507,7 @@ storage.account_show_local_user_groups: |
                 name: 用户组名 (string),
             }, ...],
         }
+
 storage.account_show_unix_user_groups: |
     查询指定存储设备 UNIX 认证用户组的信息
 
@@ -7974,6 +8528,7 @@ storage.account_show_unix_user_groups: |
                 gid: GID (int32),
             }, ...],
         }
+
 storage.account_show_windows_user_groups: |
     查询指定存储设备 Windows 认证用户组的信息
 
@@ -7993,6 +8548,7 @@ storage.account_show_windows_user_groups: |
                 name: 用户组名 (string),
             }, ...],
         }
+
 storage.qos_list: |
     批量查询 QoS 策略
 
@@ -8025,6 +8581,7 @@ storage.qos_list: |
                 enable_status: 激活状态。可选值：true, false,
             }, ...],
         }
+
 storage.qos_show: |
     查询指定 QoS 策略详情
 
@@ -8071,6 +8628,7 @@ storage.qos_show: |
             },
             resource_count: 控制的资源数量 (int32, 1~512),
         }
+
 storage.qos_create: |
     创建 QoS 策略
 
@@ -8115,6 +8673,7 @@ storage.qos_create: |
 
     Returns:
         任务 ID。
+
 storage.qos_modify: |
     修改 QoS 策略
 
@@ -8149,6 +8708,7 @@ storage.qos_modify: |
 
     Returns:
         任务 ID。
+
 storage.qos_delete: |
     删除 QoS 策略
 
@@ -8160,6 +8720,7 @@ storage.qos_delete: |
 
     Returns:
         任务 ID。
+
 storage.qos_activate: |
     批量激活 QoS 策略
 
@@ -8171,6 +8732,7 @@ storage.qos_activate: |
 
     Returns:
         任务 ID。
+
 storage.qos_deactivate: |
     批量取消激活 QoS 策略
 
@@ -8182,6 +8744,7 @@ storage.qos_deactivate: |
 
     Returns:
         任务 ID。
+
 storage.qos_associate: |
     QoS 策略关联控制资源
 
@@ -8195,6 +8758,7 @@ storage.qos_associate: |
 
     Returns:
         任务 ID。
+
 storage.qos_unassociate: |
     QoS 策略解关联控制资源
 
@@ -8208,6 +8772,7 @@ storage.qos_unassociate: |
 
     Returns:
         任务 ID。
+
 storage.logic_port_list: |
     查询存储设备的逻辑端口列表
 
@@ -8272,6 +8837,7 @@ storage.logic_port_list: |
                 storage_model: 型号 (1~64个字符),
             }, ...]
         }
+
 storage.logic_port_show: |
     查询存储设备的逻辑端口详情
 
@@ -8328,6 +8894,7 @@ storage.logic_port_show: |
             manufacturer: 厂商 (1~32个字符),
             storage_model: 型号 (1~64个字符),
         }
+
 storage.logic_port_create: |
     创建存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
 
@@ -8361,6 +8928,7 @@ storage.logic_port_create: |
         {
             task_id: 任务Id (1~64个字符),
         }
+
 storage.logic_port_update: |
     修改存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
 
@@ -8388,6 +8956,7 @@ storage.logic_port_update: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.logic_port_delete: |
     删除存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
 
@@ -8399,6 +8968,7 @@ storage.logic_port_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.logic_port_failback: |
     回切存储设备的逻辑端口（仅 OceanStor A800 系列存储支持）
 
@@ -8410,6 +8980,7 @@ storage.logic_port_failback: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.port_list: |
     查询存储设备端口信息，支持 ETH、FC、IB、Bond、SAS 五种类型
 
@@ -8429,6 +9000,7 @@ storage.port_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.port_show_bond_members: |
     查询指定绑定端口的成员列表信息
 
@@ -8440,6 +9012,7 @@ storage.port_show_bond_members: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含 total 和 eth_ports 字段
+
 storage.vlan_list: |
     批量查询 VLAN 列表
 
@@ -8454,6 +9027,7 @@ storage.vlan_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含 VLAN 列表
+
 storage.vlan_create: |
     创建 VLAN
 
@@ -8470,6 +9044,7 @@ storage.vlan_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含新创建的 VLAN ID
+
 storage.vlan_delete: |
     删除 VLAN
 
@@ -8483,6 +9058,7 @@ storage.vlan_delete: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.vlan_modify: |
     修改 VLAN
 
@@ -8498,6 +9074,7 @@ storage.vlan_modify: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 storage.failover_group_list: |
     查询漂移组列表
 
@@ -8522,6 +9099,7 @@ storage.failover_group_list: |
                 failover_group_service_type: 漂移组业务类型。可选值：NAS (用于关联NFS、CIFS、NFS and OBJECT协议类型逻辑端口的漂移组), BGP (用于关联VIP类型逻辑端口的漂移组), RDMA (用于关联NFS over RDMA、NFS、OBJECT协议逻辑端口的漂移组), IB (用于关联NAS over IB协议类型逻辑端口的漂移组), KB (用于关联KnowledgeBase over TCP协议类型逻辑端口的漂移组),
             }, ...]
         }
+
 storage.failover_group_show_ports: |
     查询漂移组下的端口（支持 bond、eth、ib 三种类型）
 
@@ -8534,6 +9112,7 @@ storage.failover_group_show_ports: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，结构一致：{"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
+
 storage.failover_group_show_vlans: |
     查询漂移组下的 VLAN
 
@@ -8545,6 +9124,7 @@ storage.failover_group_show_vlans: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含 vlans 字段
+
 storage.zone_list: |
     查询OceanStor A800集群中zone信息
 
@@ -8584,6 +9164,7 @@ storage.zone_list: |
                 is_core_zone: 是否是核心控制节点所在的zone (boolean)。可选值：true, false,
             }, ...]
         }
+
 system.login: |
     认证用户登录
 
@@ -8597,6 +9178,7 @@ system.login: |
         {
             accessSession: 会话 token (string)，用于后续请求的 X-Auth-Token header,
         }
+
 system.logout: |
     注销当前已经登录的三方会话或普通会话。
 
@@ -8605,6 +9187,7 @@ system.logout: |
 
     Returns:
         无
+
 system.show: |
     查询产品系统信息。
 
@@ -8616,6 +9199,7 @@ system.show: |
             version: DME产品版本信息 (string, 最多128个字符),
             sn: DME产品SN号 (string, 最多64个字符),
         }
+
 system.certificate: |
     获取DME证书。
 
@@ -8627,6 +9211,7 @@ system.certificate: |
         {
             cert: 证书文件Base64编码字符串 (string),
         }
+
 system.reset_password: |
     根据指定用户名重置指定用户的密码，重置不需要原始密码，因此，执行该接口的三方用户角色权限必须是安全管理员角色。
 
@@ -8638,6 +9223,7 @@ system.reset_password: |
 
     Returns:
         无
+
 system.user_list: |
     批量查询用户信息。
 
@@ -8658,6 +9244,7 @@ system.user_list: |
                 roles: 角色ID列表 (List<integer>, 数组最大成员个数：50),
             }, ...]
         }
+
 system.user_show: |
     查询指定用户信息。
 
@@ -8673,6 +9260,7 @@ system.user_show: |
             description: 描述 (string, 最多127个字符),
             roles: 用户所属角色 (List<integer>, 数组最大成员个数：50),
         }
+
 system.user_create: |
     创建用户。
 
@@ -8686,6 +9274,7 @@ system.user_create: |
 
     Returns:
         无
+
 system.user_delete: |
     删除用户。该API可能会直接或间接影响现网业务运行，导致业务中断、关键数据丢失等，请谨慎操作。
 
@@ -8695,6 +9284,7 @@ system.user_delete: |
 
     Returns:
         无
+
 system.role_list: |
     批量查询角色信息。
 
@@ -8713,6 +9303,7 @@ system.role_list: |
                 description: 描述 (string, 最多127个字符),
             }, ...]
         }
+
 system.backup_server_list: |
     批量查询备份服务器。
 
@@ -8730,6 +9321,7 @@ system.backup_server_list: |
                 id: 备份服务器id (string, 1~64个字符),
             }, ...]
         }
+
 system.todo_task_group_list: |
     查询待办任务组列表
 
@@ -8755,6 +9347,7 @@ system.todo_task_group_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含待办任务组列表和总数
+
 system.todo_task_group_execute: |
     执行待办任务组
 
@@ -8766,6 +9359,7 @@ system.todo_task_group_execute: |
 
     Returns:
         执行结果，包含 task_id
+
 system.todo_task_group_confirm: |
     确认执行定时待办任务组
 
@@ -8775,6 +9369,7 @@ system.todo_task_group_confirm: |
 
     Returns:
         确认结果
+
 system.todo_task_list: |
     批量查询待办任务详情
 
@@ -8796,6 +9391,7 @@ system.todo_task_list: |
                 context: 待办任务上下文体 (string, 1~2097152个字符),
             }, ...],
         }
+
 system.todo_task_show: |
     查询待办项详情信息
 
@@ -8821,6 +9417,7 @@ system.todo_task_show: |
             close_reason: 关闭原因 (string),
             suggestion: 审批意见 (string),
         }
+
 system.todo_task_execute: |
     执行待办任务
 
@@ -8832,6 +9429,7 @@ system.todo_task_execute: |
 
     Returns:
         执行结果，包含 task_id
+
 system.todo_task_audit: |
     审核待办任务
 
@@ -8845,6 +9443,7 @@ system.todo_task_audit: |
 
     Returns:
         审核结果
+
 system.todo_task_revoke: |
     撤销审核待办项
 
@@ -8856,6 +9455,7 @@ system.todo_task_revoke: |
 
     Returns:
         撤销结果
+
 system.todo_task_close: |
     关闭待办任务
 
@@ -8868,6 +9468,7 @@ system.todo_task_close: |
 
     Returns:
         关闭结果
+
 system.task_show: |
     查询指定任务详情
 
@@ -8904,6 +9505,7 @@ system.task_show: |
                 name: 资源名称 (string),
             }, ...],
         }
+
 system.task_list: |
     批量查询任务
 
@@ -8931,6 +9533,7 @@ system.task_list: |
                 end_time: 结束时间 (string),
             }, ...],
         }
+
 system.task_retry: |
     重试任务
 
@@ -8942,6 +9545,7 @@ system.task_retry: |
 
     Returns:
         重试结果
+
 system.task_wait: |
     等待任务完成
 
@@ -8971,6 +9575,7 @@ system.task_wait: |
 
     Raises:
         Exception: 任务查询超时（超过轮询次数仍未完成）
+
 system.tag_type_create: |
     创建标签类型
 
@@ -8984,6 +9589,7 @@ system.tag_type_create: |
             id: 标签类型ID (string),
             name: 标签类型名称 (string),
         }
+
 system.tag_type_list: |
     批量查询标签类型
 
@@ -9001,6 +9607,7 @@ system.tag_type_list: |
                 name: 标签类型名称 (string),
             }, ...],
         }
+
 system.tag_type_modify: |
     修改标签类型
 
@@ -9015,6 +9622,7 @@ system.tag_type_modify: |
             id: 标签类型ID (string),
             name: 标签类型名称 (string),
         }
+
 system.tag_type_delete: |
     批量删除标签类型
 
@@ -9024,6 +9632,7 @@ system.tag_type_delete: |
 
     Returns:
         批量删除结果
+
 system.tag_create: |
     创建标签
 
@@ -9039,6 +9648,7 @@ system.tag_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 system.tag_list: |
     批量查询标签
 
@@ -9058,6 +9668,7 @@ system.tag_list: |
                 tag_type_name: 标签类型名称 (string),
             }, ...],
         }
+
 system.tag_modify: |
     修改标签
 
@@ -9073,6 +9684,7 @@ system.tag_modify: |
             id: 标签ID (string),
             name: 标签名称 (string),
         }
+
 system.tag_delete: |
     批量删除标签
 
@@ -9082,6 +9694,7 @@ system.tag_delete: |
 
     Returns:
         批量删除结果
+
 system.tag_bind: |
     标签关联资源
 
@@ -9095,6 +9708,7 @@ system.tag_bind: |
 
     Returns:
         创建异步任务成功，返回任务 ID。
+
 system.tag_unbind: |
     标签取消关联资源
 
@@ -9108,6 +9722,7 @@ system.tag_unbind: |
 
     Returns:
         创建异步任务成功，返回任务 ID。
+
 system.az_list: |
     批量查询可用分区。
 
@@ -9130,6 +9745,7 @@ system.az_list: |
                 site_urn: 站点urn (string, 1~64个字符),
             }, ...]
         }
+
 system.dc_list: |
     获取数据中心列表
 
@@ -9145,6 +9761,7 @@ system.dc_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含 total 和 datacenters 字段
+
 system.dc_show: |
     获取数据中心详情
 
@@ -9173,6 +9790,7 @@ system.dc_show: |
             storage_total_usable_capacity: 存储总可用容量 (int64),
             storage_total_used_capacity: 存储已用容量 (int64),
         }
+
 system.dc_show_devices: |
     查询指定数据中心的设备列表信息
 
@@ -9189,6 +9807,7 @@ system.dc_show_devices: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含设备列表
+
 system.region_list: |
     批量查询Region。
 
@@ -9215,6 +9834,7 @@ system.region_list: |
                 sync_status: 同步状态 (string),
             }, ...],
         }
+
 system.region_query: |
     查询下级Region资源信息。
 
@@ -9227,6 +9847,7 @@ system.region_query: |
 
     Returns:
         无
+
 tenant.tier_list: |
     批量查询服务等级
 
@@ -9248,6 +9869,7 @@ tenant.tier_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含服务等级列表
+
 tenant.tier_show_projects: |
     批量查询业务群组与服务等级关联关系
 
@@ -9263,6 +9885,7 @@ tenant.tier_show_projects: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含关联关系列表
+
 tenant.project_list: |
     批量查询业务群组
 
@@ -9278,6 +9901,7 @@ tenant.project_list: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含业务群组列表
+
 tenant.project_show_tiers: |
     批量查询业务群组与服务等级关联关系
 
@@ -9293,6 +9917,7 @@ tenant.project_show_tiers: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }，包含关联关系列表
+
 tenant.lun_create: |
     服务化批量创建 LUN
 
@@ -9323,6 +9948,7 @@ tenant.lun_create: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }
+
 tenant.lun_change_tier: |
     批量更新 LUN 的服务等级
 
@@ -9340,6 +9966,7 @@ tenant.lun_change_tier: |
         {
             task_id: 任务ID (string, 0~64个字符),
         }
+
 tenant.lun_bind_tier: |
     LUN 关联服务等级
 
@@ -9353,6 +9980,7 @@ tenant.lun_bind_tier: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }（异步任务）
+
 tenant.lun_unbind_tier: |
     解除 LUN 与服务等级关联
 
@@ -9364,6 +9992,7 @@ tenant.lun_unbind_tier: |
         {
             task_id: 任务ID (string, 1~64个字符),
         }（异步任务）
+
 tenant.lun_bind_project: |
     LUN 关联业务群组
 
@@ -9376,6 +10005,7 @@ tenant.lun_bind_project: |
 
     Returns:
         无返回数据。HTTP 200 表示关联成功。
+
 tenant.lun_unbind_project: |
     解除 LUN 与业务群组间关联
 
@@ -9388,6 +10018,7 @@ tenant.lun_unbind_project: |
 
     Returns:
         无返回数据。HTTP 200 表示解除关联成功。
+
 virt.vm_list: |
     查询虚拟机列表
 
@@ -9427,6 +10058,7 @@ virt.vm_list: |
                 memory: 内存大小 (integer),
             }, ...],
         }
+
 virt.vm_show: |
     查询指定虚拟机详情
 
@@ -9458,6 +10090,7 @@ virt.vm_show: |
                 capacity: 容量 (int64, GB),
             }, ...],
         }
+
 virt.datastore_list: |
     查询数据存储列表
 
@@ -9487,6 +10120,7 @@ virt.datastore_list: |
             total: 总数量 (int),
             datastores: 数据存储列表 (List),
         }
+
 virt.datastore_show: |
     查询指定数据存储详情
 
@@ -9506,6 +10140,7 @@ virt.datastore_show: |
             free_capacity: 空闲容量 (int64),
             status: 状态 (string),
         }
+
 virt.host_list: |
     查询主机列表
 
@@ -9528,6 +10163,7 @@ virt.host_list: |
             total: 总数量 (int),
             hosts: 主机列表 (List),
         }
+
 virt.host_show: |
     查询指定主机详情
 
@@ -9548,6 +10184,7 @@ virt.host_show: |
             memory: 内存大小 (int64, MB),
             os_type: 操作系统类型 (string),
         }
+
 virt.host_adapter_list: |
     查询指定主机存储适配器列表
 
@@ -9567,6 +10204,7 @@ virt.host_adapter_list: |
                 wwn: WWN (string),
             }, ...],
         }
+
 virt.cluster_list: |
     查询集群列表
 
@@ -9584,6 +10222,7 @@ virt.cluster_list: |
             total: 总数量 (int),
             clusters: 集群列表 (List),
         }
+
 virt.cluster_show: |
     查询指定集群详情
 
@@ -9602,6 +10241,7 @@ virt.cluster_show: |
             host_count: 主机数量 (int32),
             status: 状态 (string),
         }
+
 virt.site_list: |
     查询站点列表
 
@@ -9615,6 +10255,7 @@ virt.site_list: |
             total: 总数量 (int),
             sites: 站点列表 (List),
         }
+
 virt.site_show: |
     查询指定站点详情
 
@@ -9630,6 +10271,7 @@ virt.site_show: |
             name: 名称 (string),
             status: 状态 (string),
         }
+
 virt.disk_list: |
     查询物理盘信息
 
@@ -9655,6 +10297,7 @@ virt.disk_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 virt.vdisk_list: |
     查询虚拟磁盘信息列表
 
@@ -9680,6 +10323,7 @@ virt.vdisk_list: |
                 status: 状态 (string),
             }, ...],
         }
+
 virt.vdisk_show: |
     查询指定虚拟磁盘信息
 
@@ -9697,6 +10341,977 @@ virt.vdisk_show: |
             status: 状态 (string),
             datastore_id: 所属数据存储ID (string),
         }
+
+virt.datastore_host_relations: |
+    查询数据存储与宿主机的关系
+
+    查询指定数据存储与宿主机的关联关系，可按数据存储 ID 或宿主机 ID 过滤。
+
+    Args:
+        client: DME API 客户端
+        ds_id: 数据存储 ID
+        host_id: 物理主机 ID
+        page_no: 分页查询的起始页码，默认 1
+        page_size: 每页查询的个数，1~1000，默认 20
+
+    Returns:
+        {
+            total: 总数量 (integer),
+            dataStoreAndHostRelList: 数据存储与宿主机关系列表 (List<DataStoreAndHostRel>)。参数格式如下：[{
+                id: 关系id (string),
+                ds_id: 数据存储ID (string),
+                ds_name: 数据存储名称 (string),
+                host_id: 宿主机id (string),
+                host_name: 宿主机名称 (string),
+            }, ...],
+        }
+
+virt.host_port_list: |
+    查询指定主机下物理网口列表
+
+    查询指定物理主机下的物理网口列表，可按聚合网口过滤。
+
+    Args:
+        client: DME API 客户端
+        host_id: 主机 ID（1~128 个字符，必填）
+        uplinkportaggrs_id: 聚合网口 ID
+
+    Returns:
+        {
+            total: 查询物理端口总数量 (integer),
+            nics: 物理端口数据集 (List<PortsResponse>)。参数格式如下：[{
+                id: 物理网口ID (string),
+                res_id: 资源ID (string),
+                name: 物理端口名称 (string),
+                speed: 速率，单位Mb/s (string),
+                nic_speed: 规格速率，单位Mb/s (string),
+                mac_address: mac地址 (string),
+                enable_lldp: LLDP状态 (boolean),
+                nic_mode: 交换类型（0普通，2直通，4用户态） (string),
+                driver_mode: 驱动模式（dpdk, kernel） (string),
+                status: 状态（linkup, linkdown） (string),
+                used_status: 使用状态（used, unused） (string),
+                numa_node: NUMA NODE信息 (string),
+                pci: pci编码 (string),
+                workmode: 双工模式（FULL, HAFL, UNKNOWN） (string),
+                nic_type: 网口类型（aggregation, normal） (string),
+            }, ...],
+        }
+
+virt.host_aggr_port_list: |
+    查询指定主机下聚合网口列表
+
+    查询指定物理主机下的聚合（绑定）网口列表。
+
+    Args:
+        client: DME API 客户端
+        host_id: 主机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            total: 总数 (integer),
+            uplinkportaggrs: 聚合网口数据集 (List<UplinkportaggrsResponse>)。参数格式如下：[{
+                id: 聚合网口ID (string),
+                name: 物理端口名称 (string),
+                speed: 迁移速率，单位Mb/s (integer),
+                nic_speed: 规格速率，单位Mb/s (integer),
+                strategy: 绑定模式 (integer),
+                status: 状态（linkup, linkdown） (string),
+            }, ...],
+        }
+
+virt.host_logic_port_list: |
+    查询指定主机下逻辑网口列表
+
+    查询指定物理主机下的逻辑网口（系统接口）列表。
+
+    Args:
+        client: DME API 客户端
+        host_id: 主机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            total: 总数 (integer),
+            systemintfs: 逻辑接口数据集 (List<SystemintfsResponse>)。参数格式如下：[{
+                name: 逻辑接口名称 (string),
+                type: 类型（0管理接口，1存储接口，2业务管理接口） (string),
+                ipv4: IPv4地址 (string),
+                net_mask: IPv4掩码 (integer),
+                ipv6: IPv6地址 (string),
+                vlan_id: VLAN ID (string),
+                option: 业务管理接口开关（migrate, ha, dr, vims） (List<string>),
+                port_name: 网口名称 (string),
+                port_id: 网口ID (string),
+                systemintf_id: 逻辑接口ID (string),
+                description: 逻辑接口描述 (string),
+                switch_type: 交换模式（0 OVS转发模式，1 Linux子接口模式） (integer),
+                route_info: 路由信息 (List<routeInfoResponse>),
+                enable_roce: Roce开关（1打开，0关闭） (integer),
+                mtu: 最大传输单元 (integer),
+            }, ...],
+        }
+
+virt.vdisk_create_attach: |
+    创建虚拟磁盘并挂载到指定虚拟机
+
+    在指定数据存储上创建虚拟磁盘并挂载到指定虚拟机，支持精简分配、磁盘模式、IO 模式等配置。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        datastore_id: 数据存储 ID（必填）
+        capacity: 磁盘容量，单位 GB，1~4294967295（必填）
+        share_type: 磁盘共享类型（normal 普通卷，share 共享卷，必填）
+        pci_type: 磁盘挂载的总线类型（IDE, SCSI, VIRTIO），默认 VIRTIO
+        scsi_command_passthrough: SCSI 命令是否透传（true, false），默认 false，仅 SCSI 总线有效
+        io_mode: 磁盘 IO 模式（threads, native, dataplane），默认 threads
+        name: 磁盘名称
+        is_thin: 是否精简分配（true, false），默认 false
+        allocate_type: 磁盘分配类型（0 普通卷，1 延迟置零卷，2 精简卷），默认 0，is_thin 为 true 时失效
+        is_indep_disk: 磁盘模式（true 独立，false 从属），默认 true
+        is_persistent_disk: 是否持久化磁盘（true, false），默认 true
+        metadata_preallocate: 元数据预分配开关（true 开启，false 未开启），FusionCompute 8.10.0 及以上支持
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vdisk_attach: |
+    挂载虚拟磁盘到虚拟机
+
+    将已存在的虚拟磁盘挂载到指定虚拟机，可配置总线类型与 IO 模式。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        vdisk_id: 虚拟磁盘 ID（必填）
+        pci_type: 磁盘挂载的总线类型（IDE, SCSI, VIRTIO），默认 VIRTIO
+        scsi_command_passthrough: SCSI 命令是否透传（true, false），默认 true，仅 SCSI 总线有效
+        io_mode: 磁盘 IO 模式（threads, native, dataplane）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vdisk_detach: |
+    卸载虚拟机磁盘
+
+    从指定虚拟机上卸载指定的虚拟磁盘。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        vdisk_id: 虚拟磁盘 ID（必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vdisk_modify: |
+    修改指定虚拟磁盘属性
+
+    修改指定虚拟磁盘的名称、磁盘模式与持久化属性。
+
+    Args:
+        client: DME API 客户端
+        virtual_disk_id: 虚拟磁盘 ID（1~128 个字符，必填）
+        name: 虚拟磁盘名称
+        is_indep_disk: 虚拟磁盘模式（true 独立，false 从属），默认 true
+        is_persistent_disk: 是否持久化磁盘（true, false），默认 false
+
+    Returns:
+        无响应字段（HTTP 200 表示修改成功）
+
+virt.vdisk_expand: |
+    扩容虚拟机磁盘
+
+    扩容指定虚拟机的虚拟磁盘，扩容后的总容量不能小于原容量。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        vdisk_id: 虚拟磁盘 ID（必填）
+        capacity: 扩容后的虚拟磁盘总容量，单位 GB，1~2147483647（必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vdisk_delete: |
+    删除指定虚拟磁盘
+
+    删除指定虚拟磁盘，删除后数据不可恢复。
+
+    Args:
+        client: DME API 客户端
+        virtual_disk_id: 虚拟磁盘 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_create: |
+    自定义创建虚拟机
+
+    在指定集群或主机上创建空虚拟机，可配置操作系统信息与虚拟机配置（CPU、内存、磁盘、网卡等）。
+
+    Args:
+        client: DME API 客户端
+        name: 虚拟机名称（1~256 个字符，必填）
+        location: 虚拟机所属集群或主机的 Urn（必填），若为 hostUrn 则创建后将在该主机上启动
+        auto_boot: 是否自动启动（true, false，必填）
+        os_options: 虚拟机操作系统信息（OsOptions 对象，必填）。属性格式如下：{
+            os_version: 操作系统版本号 (string),
+            os_type: 操作系统类型（Windows, Linux, Other） (string),
+            guest_os_name: guestOS名称，os version 为其他系统时生效 (string),
+        }
+        vm_config: 虚拟机配置（VmConfig 对象，必填），包含 CPU、内存、磁盘、网卡等资源配置，字段定义请参考 DME 文档
+        externalUuid: 外部虚拟机 UUID 标识（1~36 个字符，由-、小写字母、数字组成）
+        floppy_file: 软驱文件（仅 Windows 支持）
+        floppy_protocol: 软驱挂载方式（automatch, select, unMount），默认 unMount
+        description: 虚拟机描述
+        is_binding_host: 是否与主机绑定（true, false），默认 false，当 location 为 hostUrn 时有效
+        tag_ids: 标签 ID 列表（数组最大成员个数：10）
+        group_id: 虚拟机文件夹 ID
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_clone: |
+    克隆虚拟机或按虚拟机模板创建虚拟机
+
+    从指定虚拟机克隆出新虚拟机，或使用虚拟机模板创建虚拟机。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID 或虚拟机模板 ID（1~128 个字符，必填），克隆时为虚拟机 ID，按模板创建时为模板 ID
+        name: 虚拟机名称（1~256 个字符，必填）
+        location: 虚拟机所属集群或主机，取值为 cluster_id 或 host_id（必填）
+        description: 虚拟机描述
+        is_binding_host: 是否绑定主机（true, false），默认 false
+        vm_num: 虚拟机数量，1~50，默认 1
+        name_postfix_index: 虚拟机名称后缀起始编号，0~99999，默认 0，虚拟机数量大于 1 时生效
+        is_auto_boot: 虚拟机是否自启动（true, false），默认 false
+        os_options: 操作系统信息（OsOptions 对象）
+        guest_customization: 客户机操作系统信息（GuestOSCustomization 对象）
+        guest_customizations: 客户机操作系统信息列表（数组最大成员个数：50），FusionCompute 8.6.0 以上版本支持
+        vm_config: 虚拟机配置（VmSimpleConfig 对象）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_modify: |
+    修改虚拟机或虚拟机模板属性
+
+    修改指定虚拟机或虚拟机模板的名称、描述、CPU、内存与操作系统信息。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID 或虚拟机模板 ID（1~128 个字符，必填）
+        name: 虚拟机或虚拟机模板名称
+        description: 虚拟机或虚拟机模板描述
+        cpu: CPU 规格（VMCpu 对象）。属性格式如下：{
+            core: CPU核数 (integer),
+            reserved: 预留CPU，单位MHz (integer),
+            shares: CPU份额 (integer),
+            max: CPU上限 (integer),
+            min: CPU下限 (integer),
+        }
+        memory: 内存规格（VMMemory 对象）。属性格式如下：{
+            size: 内存大小，单位MB (integer),
+            reserved: 预留内存，单位MB (integer),
+            shares: 内存份额 (integer),
+            max: 内存上限，单位MB (integer),
+            min: 内存下限，单位MB (integer),
+        }
+        os_options: 操作系统信息（OsOptions 对象）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_power_on: |
+    批量打开虚拟机电源
+
+    批量打开虚拟机电源，支持最多 100 台虚拟机。
+
+    Args:
+        client: DME API 客户端
+        vm_ids: 虚拟机 ID 列表（数组最大成员个数：100，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_power_off: |
+    批量关闭虚拟机
+
+    批量关闭虚拟机电源，支持安全停止或强制停止。
+
+    Args:
+        client: DME API 客户端
+        vm_ids: 虚拟机 ID 列表（数组最大成员个数：100，必填）
+        mode: 停止方式（safe 安全，force 强制），默认 safe。虚拟机运行中且 Tools 正常时支持安全停止
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_hibernate: |
+    批量休眠虚拟机
+
+    批量休眠虚拟机，支持最多 100 台虚拟机。
+
+    Args:
+        client: DME API 客户端
+        vm_ids: 虚拟机 ID 列表（数组最大成员个数：100，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_reboot: |
+    批量重启虚拟机
+
+    批量重启虚拟机，支持安全重启或强制重启。
+
+    Args:
+        client: DME API 客户端
+        vm_ids: 虚拟机 ID 列表（数组最大成员个数：100，必填）
+        mode: 虚拟机重启模式（safe 安全，force 强制）。虚拟机运行中且 Tools 正常时支持安全重启
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_delete: |
+    批量删除虚拟机
+
+    批量删除虚拟机，支持最多 100 台虚拟机，删除后不可恢复。
+
+    Args:
+        client: DME API 客户端
+        vm_ids: 虚拟机 ID 列表（数组最大成员个数：100，必填）
+        hold_time: 保留时长，单位小时，0~1440（0 表示立即删除，1440 表示 60 天后删除），仅 FusionCompute 8.6.0 及以上支持
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_vnc_info: |
+    查询指定虚拟机 VNC 访问信息
+
+    查询指定虚拟机的 VNC 连接信息，包括主机 IP、端口与密码。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            host_ip: 虚拟机所在主机IP地址 (string),
+            vnc_port: 虚拟机VNC端口，-1为非法值 (integer),
+            vnc_user_name: 虚拟机VNC用户名，仅ARM场景使用 (string),
+            vnc_password: 虚拟机VNC密码，一个小时更新一次 (string),
+            vnc_old_password: 当前虚拟机VNC密码，修改VNC密码时有效 (string),
+        }
+
+virt.vm_mount_tools: |
+    挂载指定虚拟机 Tools
+
+    为指定虚拟机挂载 Tools（virtio 驱动）。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_umount_tools: |
+    卸载指定虚拟机 Tools
+
+    从指定虚拟机卸载 Tools。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_migrate: |
+    整机迁移虚拟机（主机与存储）
+
+    将虚拟机迁移到目的主机，可同时迁移存储（跨站点或集群迁移）。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        location: 迁移目的主机对应的 id（必填）
+        speed: 迁移速率（medium 适中 30MB/S，fast 快速 60MB/S，unlimited 不限速 12500MB/S，必填）
+        disks: 待迁移虚拟机磁盘列表信息（数组最大成员个数：128，必填）
+        remote_site_urn: 迁移目标站点对应的 urn
+        des_cluster_urn: 迁移目标集群对应的 urn
+        is_binding_host: 是否与目的主机绑定（true, false），默认 false
+        migrate_vm_time_out: 迁移超时时间，单位分钟，0 或 5~35791394，默认 0 即不超时
+        is_frequency_reduce: 是否启用降频迁移（true, false），默认 false
+        nics: 待迁移虚拟机网卡信息（数组最大成员个数：16）。跨站点迁移时必填，FusionCompute 8.8.0 及以上支持
+        migrate_transmit_policy: 虚拟机热迁移传输通道安全策略（TLSv1_3, NONE），FusionCompute 8.5.0 及以上支持，默认 NONE
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_migrate_host: |
+    迁移虚拟机主机
+
+    仅迁移虚拟机的主机，不迁移存储。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        location: 迁移的目的主机对应的 id（必填）
+        is_binding_host: 是否与目的主机绑定（true, false），默认 false
+        migrate_vm_time_out: 迁移超时时间，单位分钟，0 或 5~35791394，默认 0 即不超时
+        is_frequency_reduce: 是否启用降频迁移（true, false），默认 false
+        migrate_transmit_policy: 虚拟机热迁移传输通道安全策略（TLSv1_3, NONE），FusionCompute 8.5.0 及以上支持，默认 NONE
+        nics: 待迁移虚拟机网卡信息（数组最大成员个数：16），FusionCompute 8.9.0 及以上支持
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_migrate_storage: |
+    迁移虚拟机的数据存储
+
+    仅迁移虚拟机的数据存储，不迁移主机。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        speed: 迁移速率，1~12500 MB/S（必填）
+        disks: 待迁移虚拟机的磁盘信息（数组最大成员个数：128，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_import: |
+    导入虚拟机模板
+
+    从共享目录导入虚拟机模板，支持一套模板批量导入到多个站点。
+
+    Args:
+        client: DME API 客户端
+        name: 虚拟机名称（1~256 个字符，必填）
+        url: 模板的 URL（必填），如 //127.0.0.1/share/name
+        os_options: 模板操作系统信息（OsOptionsOfImport 对象，必填）
+        res_config: 资源配置信息列表（数组最大成员个数：30，最小 1，必填）
+        arch: 架构类型（x86, arm），默认 x86
+        description: 虚拟机描述信息
+        file_items: 文件信息（数组最大成员个数：60），当前只支持 disk 文件
+        protocol: 协议类型（cifs, nfs），默认 cifs
+        username: 共享目录的用户名
+        password: 共享目录的密码
+        guest_customization: 客户机操作系统信息（GuestCustomizationOfImport 对象）
+        is_template: 导入为模板或虚拟机（true 模板，false 虚拟机），默认 false
+        tag_ids: 标签 ID 列表（数组最大成员个数：10）
+        image_format: 镜像格式（zvhd, qcow2, vmdk）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_nic_list: |
+    查询指定虚拟机下网卡列表
+
+    查询指定虚拟机的虚拟网卡列表，包括 MAC、IP、端口组、分布式交换机等关联信息。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            total: 总数量 (integer),
+            vm_nics: 虚拟网卡数据集 (List<VmNicDetail>)。参数格式如下：[{
+                id: 虚拟网卡唯一标识ID (string),
+                name: 虚拟网卡名称 (string),
+                pid: 主键ID，查询性能数据用 (string),
+                type: 虚拟网卡类型（1 virtio，2 e1000，3 rtl8139，4 vhost-user，5 sriov） (integer),
+                vringbuf: IO环大小，单位个 (integer),
+                queues: 虚拟机网卡的IO队列数 (integer),
+                vm_id: 虚拟机ID (string),
+                vm_name: 虚拟机名称 (string),
+                mac_address: MAC地址 (string),
+                ip_address: IP地址 (string),
+                port_group_id: 网卡所属端口组ID (string),
+                port_group_name: 网卡所属端口组名称 (string),
+                dvs_id: 网卡所属分布式交换机ID (string),
+                dvs_name: 网卡所属分布式交换机名称 (string),
+                dvs_type: 网卡所属分布式交换机类型（VSWITCH, SRIOV, USERMODE） (string),
+                boot_order: 网卡启动顺序，-1 表示不设置 (integer),
+                site_id: 虚拟机所属站点ID (string),
+                vsp_id: 网卡限速配置的ID (string),
+                enable_security_group: 是否开启安全组 (boolean),
+                security_group_id: 安全组ID (integer),
+                security_group_name: 安全组名称 (string),
+                nic_type: 网卡的硬件类型（0普通，1inic，2sriov） (integer),
+            }, ...],
+        }
+
+virt.vm_nic_modify: |
+    修改指定虚拟机下指定网卡信息
+
+    修改指定虚拟机网卡的 MAC 地址、IO 环大小与 IO 队列数。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        nic_id: 网卡 ID（1~128 个字符，必填）
+        mac: MAC 地址，格式 00-00-00-00-00-00，长度 17 个字符
+        vringbuf: IO 环大小，单位个（256, 512, 1024, 2048, 4096）
+        queues: 虚拟机网卡的 IO 队列数，1~8
+
+    Returns:
+        无响应字段（HTTP 200 表示修改成功）
+
+virt.vm_nic_change_portgroup: |
+    修改指定虚拟机下网卡所属端口组
+
+    将指定虚拟机网卡迁移到新的端口组。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        nic_id: 网卡 ID（1~128 个字符，必填）
+        port_group_urn: 网卡所属端口组 ID（必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_nic_add: |
+    指定虚拟机添加网卡
+
+    为指定虚拟机添加虚拟网卡，可配置网卡类型、IO 队列、安全组与连接状态。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        port_group_urn: 网卡所属端口组 ID（必填）
+        type: （已废弃）虚拟网卡类型（1 virtio，2 e1000，3 rtl8139，4 vhost-user，5 sriov）
+        virt_io: 虚拟网卡类型（1 virtio，2 e1000，3 rtl8139，4 vhost-user），默认 1
+        vringbuf: IO 环大小，单位个（256, 512, 1024, 2048, 4096）
+        queues: 虚拟机网卡的 IO 队列数，1~8
+        enable_security_group: 是否开启安全组（true, false），默认 false
+        security_group_id: 安全组 ID
+        connect_at_power_on: 打开电源时连接（true, false），默认 true
+        link_status: 连接状态（connected, disconnected）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_nic_delete: |
+    删除指定虚拟机下指定网卡
+
+    从指定虚拟机删除指定网卡。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        nic_id: 网卡 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_nic_change_linkstatus: |
+    配置指定虚拟机下网卡网络连接
+
+    批量配置指定虚拟机网卡的连接状态与开机连接策略。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        nic_ids: 虚拟网卡 ID 列表（数组最大成员个数：1000，必填）
+        connect_at_power_on: 虚拟机打开电源时连接（true, false），默认 true
+        link_status: 连接状态（connected, disconnected）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_snapshot_list: |
+    查询指定虚拟机的快照列表
+
+    查询指定虚拟机的快照树，包括当前快照与快照节点信息。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            current_snapshot: 当前快照信息 (VmSnapshot对象)。属性格式如下：{
+                id: 虚拟机快照ID (string),
+                name: 虚拟机快照的名称 (string),
+                description: 虚拟机快照的描述 (string),
+                create_time: 虚拟机快照的创建时间 (string),
+                type: 虚拟机快照类型（normal, backup, CBTbackup, secure） (string),
+                status: 虚拟机快照状态（creating, resuming, ready, deleting, failed） (string),
+                child_snapshots: 子快照 (List<VmSnapshot>),
+            },
+            root_snapshots: 快照节点信息 (List<VmSnapshot>),
+        }
+
+virt.vm_snapshot_show: |
+    查询指定虚拟机的指定快照
+
+    查询指定虚拟机的指定快照详情，包括快照容量、内存快照、虚拟磁盘快照等信息。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        snapshot_id: 快照 ID（1~128 个字符，必填）
+        is_refresh: 是否实时刷新快照信息（true, false），默认 true
+
+    Returns:
+        {
+            id: 虚拟机快照ID (string),
+            name: 虚拟机快照的名称 (string),
+            description: 虚拟机快照的描述 (string),
+            create_time: 创建虚拟机快照的时间 (string),
+            type: 虚拟机快照类型（normal, backup, CBTbackup, secure） (string),
+            status: 虚拟机快照状态（creating, resuming, ready, deleting, failed） (string),
+            snapshot_capacity: 快照占用的空间，单位MB (integer),
+            cpu_core_num: 虚拟机的CPU总核数 (integer),
+            total_memory: 虚拟机内存总大小，单位MB (integer),
+            disk_total_capacity: 虚拟机磁盘总大小，单位MB (integer),
+            including_memory_snapshot: 是否包含内存快照 (boolean),
+            enable_consistent: 是否是一致性快照 (boolean),
+            volsnapshots: 虚拟磁盘快照列表 (List<VolsnapshotInfo>)。参数格式如下：[{
+                vdisk_id: 虚拟磁盘ID (string),
+                storage_type: 存储类型 (string),
+                datastore_id: 虚拟磁盘快照关联的数据存储ID (string),
+                id: 虚拟磁盘快照ID (string),
+                name: 虚拟磁盘快照名称 (string),
+            }, ...],
+        }
+
+virt.vm_snapshot_create: |
+    创建虚拟机快照
+
+    为指定虚拟机创建快照，可配置快照类型、内存快照、一致性快照与保护期。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        name: 快照名称（1~256 个字符，必填）
+        description: 快照描述
+        type: 虚拟机快照类型（normal, backup, CBTbackup, secure），默认 normal
+        need_memory_shot: 是否制作内存快照（true, false），默认 false
+        is_consistent: 是否一致性快照（true, false），默认 false
+        protect_period: 安全快照的保护期，单位天，1~7300，type 为 secure 时必填
+        is_support_auto_delete: 是否支持自动删除（true, false），type 为 secure 时生效
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_snapshot_delete: |
+    删除指定虚拟机下的指定快照
+
+    删除指定虚拟机的指定快照，需指定删除速率。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        snapshot_id: 快照 ID（1~128 个字符，必填）
+        speed: 快照删除速率，单位 MB/s，10~500（必填）。速率越高对存储上正在运行的虚拟机性能影响越大
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vm_snapshot_recover: |
+    通过快照恢复虚拟机
+
+    使用指定快照将虚拟机恢复到快照创建时的状态，恢复后快照之后的数据变更将丢失。
+
+    Args:
+        client: DME API 客户端
+        vm_id: 虚拟机 ID（1~128 个字符，必填）
+        snapshot_id: 虚拟机快照 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vswitch_list: |
+    查询虚拟化分布式交换机列表
+
+    查询虚拟化分布式交换机列表，支持按主机、站点、集群、类型等条件过滤。
+
+    Args:
+        client: DME API 客户端
+        host_id: 分布式交换机关联的主机 ID
+        site_id: 分布式交换机所在站点 ID
+        site_ip: 分布式交换机所在站点 IP，支持模糊搜索
+        cluster_id: 分布式交换机关联的集群 ID
+        dc_id: 分布式交换机所属数据中心 ID
+        name: 分布式交换机名称，支持模糊搜索
+        type: 分布式交换机类型列表（0 普通模式，2 直通模式，4 用户态交换模式）
+        sort_dir: 排序方式（asc, desc），默认 asc
+        sort_key: 排序字段（name, host_count, vm_count, create_time），默认 create_time
+        page_no: 分页查询的起始页码，默认 1
+        page_size: 每页查询的个数，1~1000，默认 20
+
+    Returns:
+        {
+            total: 总数量 (integer),
+            dvSwitchesList: 分布式交换机列表 (List<DvSwitch>)。参数格式如下：[{
+                id: 分布式交换机ID (string),
+                name: 分布式交换机名称 (string),
+                description: 分布式交换机描述 (string),
+                type: 分布式交换机类型（0普通，2直通，4用户态） (integer),
+                is_igmp_snooping: 是否启用IGMP Snooping (boolean),
+                mtu: 大帧数值，1500~9000 (integer),
+                vm_num: 关联的虚拟机数量 (integer),
+                host_num: 关联的主机数量 (integer),
+                site_ip: 所属站点IP (string),
+                site_id: 所属站点ID (string),
+                dc_id: 所属数据中心ID (string),
+                dc_name: 所属数据中心名称 (string),
+            }, ...],
+        }
+
+virt.vswitch_show: |
+    查询指定虚拟化分布式交换机信息
+
+    查询指定分布式交换机的详细信息，包括 VLAN 池、关联的虚拟机/主机/端口组/上行链路数量。
+
+    Args:
+        client: DME API 客户端
+        dvswitch_id: 分布式交换机 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            id: 分布式交换机ID (string),
+            name: 分布式交换机名称 (string),
+            type: 分布式交换机类型（0普通，2直通，4用户态） (integer),
+            description: 描述 (string),
+            is_igmp_snooping: 是否启用IGMP Snooping (string),
+            mtu: 大帧数值，1500~9000 (integer),
+            site_ip: 所属站点IP (string),
+            site_id: 所属站点ID (string),
+            vlan: VLAN池信息 (string),
+            vm_num: 关联的虚拟机数量 (integer),
+            host_num: 关联的主机数量 (integer),
+            port_group_num: 关联的端口组数量 (integer),
+            uplink_port_num: 关联的上行链路组数量 (integer),
+        }
+
+virt.vswitch_portgroup_list: |
+    查询指定分布式交换机下的端口组列表
+
+    查询指定分布式交换机下的端口组列表，支持按名称与端口类型过滤。
+
+    Args:
+        client: DME API 客户端
+        dvswitch_id: 分布式交换机 ID（1~128 个字符，必填）
+        name: 端口组名称，支持模糊查询
+        port_type: 端口类型列表（0 普通端口组，1 中继端口组）
+        sort_dir: 排序方式（asc, desc），默认 asc
+        sort_key: 排序字段（name），默认 name
+        page_no: 分页查询的起始页码，默认 1
+        page_size: 每页查询的个数，1~1000，默认 1000
+
+    Returns:
+        {
+            total: 总数量 (integer),
+            portgroups: 端口组列表信息 (List<PortGroup>)。参数格式如下：[{
+                id: 端口组ID (string),
+                name: 端口组名称 (string),
+                port_type: 端口类型（0普通，1中继） (integer),
+                vlan_id: 端口所关联的VLAN ID，0表示未关联 (integer),
+                vlan_range: 中继端口组的VLAN范围 (string),
+                description: 描述 (string),
+            }, ...],
+        }
+
+virt.vswitch_portgroup_create: |
+    创建端口组
+
+    在指定分布式交换机上创建端口组，支持配置 VLAN、带宽控制与网络特性。
+
+    Args:
+        client: DME API 客户端
+        dvswitch_id: 分布式交换机 ID（1~128 个字符，必填）
+        name: 端口组名称（1~256 个字符，必填），不能包含特殊字符 & ; $ ` < > \ !
+        port_type: 端口组类型（0 普通端口组，1 中继端口组，必填）
+        vlan_id: 普通端口组的 VLAN，0~4094，port_type 为 0 时必填
+        vlan_range: 中继端口组的 VLAN 范围，port_type 为 1 时必填
+        description: 端口组描述信息
+        is_ip_mac_bind: 是否设置 IP 地址与 MAC 地址绑定（true, false），SRIOV、用户态模式不支持
+        is_dhcp_isolation: 是否设置 DHCP 隔离（true, false），SRIOV 模式不支持
+        is_calc_tcp_check_sum: 是否开启填充 TCP 校验和（true, false），SRIOV、用户态模式不支持
+        ip_bcst_suppress: 是否开启广播抑制带宽（true, false），SRIOV 模式不支持
+        tx_limit: 发送平均带宽，单位 Mbps，1~100000
+        tx_peak_limit: 发送带宽峰值，单位 Mbps，只有选择 tx_limit 后才能选择，默认取 tx_limit 的值
+        tx_burst_size: 发送突发大小，单位 Mbits，只有选择 tx_limit 后才能选择
+        priority: 发送优先级，2~7，默认 7
+        rx_limit: 接收平均带宽，单位 Mbps，1~32000，SRIOV 模式不支持
+        rx_peak_limit: 接收带宽峰值，单位 Mbps，只有选择 rx_limit 后才能选择
+        rx_burst_size: 接收突发大小，单位 Mbits，只有选择 rx_limit 后才能选择
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vswitch_portgroup_modify: |
+    修改端口组
+
+    修改指定分布式交换机上的端口组配置。
+
+    Args:
+        client: DME API 客户端
+        dvswitch_id: 分布式交换机 ID（1~128 个字符，必填）
+        portgroup_id: 端口组 ID（1~128 个字符，必填）
+        name: 端口组名称（1~256 个字符，必填），不能包含特殊字符 & ; $ ` < > \ !
+        port_type: 端口组类型（0 普通端口组，1 中继端口组，必填）
+        vlan_id: 普通端口组的 VLAN，0~4094，port_type 为 0 时必填
+        vlan_range: 中继端口组的 VLAN 范围，port_type 为 1 时必填
+        description: 端口组描述信息
+        is_ip_mac_bind: 是否设置 IP 地址与 MAC 地址绑定（true, false），SRIOV、用户态模式不支持
+        is_dhcp_isolation: 是否设置 DHCP 隔离（true, false），SRIOV 模式不支持
+        is_calc_tcp_check_sum: 是否开启填充 TCP 校验和（true, false），SRIOV、用户态模式不支持
+        ip_bcst_suppress: 是否开启广播抑制带宽（true, false），SRIOV 模式不支持
+        tx_limit: 发送平均带宽，单位 Mbps，1~100000
+        tx_peak_limit: 发送带宽峰值，单位 Mbps，只有选择 tx_limit 后才能选择，默认取 tx_limit 的值
+        tx_burst_size: 发送突发大小，单位 Mbits，只有选择 tx_limit 后才能选择
+        priority: 发送优先级，2~7，默认 7
+        rx_limit: 接收平均带宽，单位 Mbps，1~32000，SRIOV 模式不支持
+        rx_peak_limit: 接收带宽峰值，单位 Mbps，只有选择 rx_limit 后才能选择
+        rx_burst_size: 接收突发大小，单位 Mbits，只有选择 rx_limit 后才能选择
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.vswitch_portgroup_delete: |
+    删除端口组
+
+    删除指定分布式交换机上的端口组，删除后不可恢复。
+
+    Args:
+        client: DME API 客户端
+        dvswitch_id: 分布式交换机 ID（1~128 个字符，必填）
+        portgroup_id: 端口组 ID（1~128 个字符，必填）
+
+    Returns:
+        {
+            task_id: 任务 ID (string),
+        }
+
+virt.secgroup_list: |
+    查询安全组列表
+
+    查询指定数据中心下的安全组列表。
+
+    Args:
+        client: DME API 客户端
+        dc_id: 数据中心 ID（必填）
+        page_size: 每页查询的数量，1~1000，默认 20
+        page_no: 分页查询起始页，1~1000，默认 1
+
+    Returns:
+        {
+            total: 总数量 (integer),
+            security_groups: 安全组列表 (List<SecGroups>)。参数格式如下：[{
+                sg_id: 安全组ID (integer),
+                site_sg_id: 站点安全组关联id (string),
+                sg_name: 安全组名称 (string),
+                sg_desc: 安全组描述 (string),
+                rules: 安全组中规则总数 (string),
+                vm_num: 安全组中虚拟机数目 (string),
+                sg_type: 安全组类型（0白名单，1黑名单） (integer),
+                sg_ip_stack_type: IP栈类型（0 IPv4，1 IPv6，2 双栈） (integer),
+                is_created_by_tenant: 是否为租户创建 (boolean),
+                dc_id: 数据中心ID (string),
+            }, ...],
+        }
+
+virt.gpu_list: |
+    查询主机 GPU 列表
+
+    查询 GPU 列表，支持按站点、厂商、型号、主机、虚拟机等条件过滤。
+
+    Args:
+        client: DME API 客户端
+        site_id: GPU 所属 VRM 站点 ID
+        vendor_name: GPU 厂商，支持模糊查询
+        product_name: GPU 型号，支持模糊查询
+        host_id: GPU 所属主机 ID
+        vm_id: GPU 直通方式绑定的虚拟机 ID
+        page_no: 分页查询的起始页码，默认 1
+        page_size: 每页查询的个数，1~1000，默认 20
+        sort_dir: 排序方式（asc, desc），默认 asc
+        sort_key: 排序字段（pci_address, vendor_name, product_name, vm_name, host_name），默认 pci_address
+
+    Returns:
+        {
+            total: 查询数据总数量 (integer),
+            gpus: GPU列表 (List<HostGpu>)。参数格式如下：[{
+                id: ID (string),
+                urn: GPU urn (string),
+                pci_address: GPU PCI地址 (string),
+                product_name: 型号 (string),
+                vendor_name: 厂商 (string),
+                vm_id: GPU直通方式绑定的虚拟机ID (string),
+                vm_name: GPU直通方式绑定的虚拟机名称 (string),
+                host_id: GPU所属主机ID (string),
+                host_name: GPU所属主机名称 (string),
+                site_id: GPU所属VRM站点ID (string),
+                site_name: GPU所属VRM站点名称 (string),
+                status: 使用状态（idle空闲, working使用中） (string),
+            }, ...],
+        }
+
 workflow.template_list: |
     分页查询模板列表
 
@@ -9719,6 +11334,7 @@ workflow.template_list: |
                 description: 描述 (string),
             }, ...],
         }
+
 workflow.template_groups: |
     查询所有模板分组
 
@@ -9731,6 +11347,7 @@ workflow.template_groups: |
         {
             groups: 模板分组列表 (List)，包含 name（模板分组名称）,
         }
+
 workflow.template_show: |
     查询模板详细信息
 
@@ -9746,6 +11363,7 @@ workflow.template_show: |
             task_id: 任务ID (string, 1~64个字符),
         }，包含：
         - template_version_id: 模板版本 id
+
 workflow.instance_stop: |
     停止实例
 
@@ -9757,6 +11375,7 @@ workflow.instance_stop: |
 
     Returns:
         操作结果
+
 workflow.instance_show: |
     查询实例详情
 
@@ -9780,6 +11399,7 @@ workflow.instance_show: |
         - end_time: 实例执行的结束时间（毫秒）
         - instance_type: 实例类型（PRECHECK/EXECUTION）
         - template_version_id: 实例对应的模板版本 id
+
 workflow.instance_create: |
     创建并执行实例
 
@@ -9797,6 +11417,7 @@ workflow.instance_create: |
         {
             instance_id: 实例 ID (string),
         }
+
 workflow.instance_step_log: |
     查询步骤日志
 

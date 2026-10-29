@@ -314,6 +314,30 @@ topics:
               description: 'Batch pause or start Omni-Dataverse data migration tasks'
               func: migration_task_operate
               params: [ids, operate_type]
+    - name: hci
+      description: 'Hyper-converged infrastructure (HCI) related operations'
+      actions:
+          - name: list
+            description: 'Query HCI list'
+            func: list
+            params: [hci_id_list, name, ip_address, sync_status, model, version, sort_dir, sort_key, page_no, page_size, dc_id, is_support_market_place]
+          - name: show
+            description: 'Query HCI detail'
+            func: show
+            params: [hci_id]
+          - name: cluster_list
+            description: 'Query a HCI's virtual cluster list'
+            func: cluster_list
+            params: [hci_id, sort_dir, sort_key, page_no, page_size]
+          - name: vswitch_list
+            description: 'Query a HCI's virtual switch list'
+            func: vswitch_list
+            params: [hci_id, sort_dir, sort_key, page_no, page_size]
+          - name: storage_list
+            description: 'Query a HCI's storage device list'
+            func: storage_list
+            params: [hci_id]
+      subtopics:
     - name: integrate
       description: 'Third-party system integration related operations'
       actions:
@@ -2005,7 +2029,7 @@ topics:
       actions:
       subtopics:
         - name: vm
-          description: 'Virtual machine list and detail query'
+          description: 'VM lifecycle management (create/clone/power/migrate/snapshot/NIC)'
           actions:
             - name: list
               description: 'Query virtual machine list'
@@ -2015,8 +2039,112 @@ topics:
               description: 'Query specified VM details'
               func: vm_show
               params: [vm_id, vr_type]
+            - name: create
+              description: 'Create an empty VM'
+              func: vm_create
+              params: [name, location, auto_boot, os_options, vm_config, externalUuid, floppy_file, floppy_protocol, description, is_binding_host, tag_ids, group_id]
+            - name: clone
+              description: 'Clone VM or create VM from template'
+              func: vm_clone
+              params: [vm_id, name, location, description, is_binding_host, vm_num, name_postfix_index, is_auto_boot, os_options, guest_customization, guest_customizations, vm_config]
+            - name: modify
+              description: 'Modify VM or VM template'
+              func: vm_modify
+              params: [vm_id, name, description, cpu, memory, os_options]
+            - name: power_on
+              description: 'Batch power on VMs'
+              func: vm_power_on
+              params: [vm_ids]
+            - name: power_off
+              description: 'Batch power off VMs'
+              func: vm_power_off
+              params: [vm_ids, mode]
+            - name: hibernate
+              description: 'Batch hibernate VMs'
+              func: vm_hibernate
+              params: [vm_ids]
+            - name: reboot
+              description: 'Batch reboot VMs'
+              func: vm_reboot
+              params: [vm_ids, mode]
+            - name: delete
+              description: 'Batch delete VMs'
+              func: vm_delete
+              params: [vm_ids, hold_time]
+            - name: vnc_info
+              description: 'Get the VNC connection information of a VM'
+              func: vm_vnc_info
+              params: [vm_id]
+            - name: mount_tools
+              description: 'Mount VM Tools to a VM'
+              func: vm_mount_tools
+              params: [vm_id]
+            - name: umount_tools
+              description: 'Unmount VM Tools from a VM'
+              func: vm_umount_tools
+              params: [vm_id]
+            - name: migrate
+              description: 'Migrate VMs host and storage'
+              func: vm_migrate
+              params: [vm_id, location, speed, disks, remote_site_urn, des_cluster_urn, is_binding_host, migrate_vm_time_out, is_frequency_reduce, nics, migrate_transmit_policy]
+            - name: migrate_host
+              description: 'Migrate VMs host'
+              func: vm_migrate_host
+              params: [vm_id, location, is_binding_host, migrate_vm_time_out, is_frequency_reduce, migrate_transmit_policy, nics]
+            - name: migrate_storage
+              description: 'Migrate VMs storage'
+              func: vm_migrate_storage
+              params: [vm_id, speed, disks]
+            - name: import
+              description: 'Import VM template'
+              func: vm_import
+              params: [name, url, os_options, res_config, arch, description, file_items, protocol, username, password, guest_customization, is_template, tag_ids, image_format]
+            - name: nic_list
+              description: 'Query a VM's nic list'
+              func: vm_nic_list
+              params: [vm_id]
+            - name: nic_modify
+              description: 'Modify a VM nic'
+              func: vm_nic_modify
+              params: [vm_id, nic_id, mac, vringbuf, queues]
+            - name: nic_change_portgroup
+              description: 'Change a VM nic's port group'
+              func: vm_nic_change_portgroup
+              params: [vm_id, nic_id, port_group_urn]
+            - name: nic_add
+              description: 'Add a nic to a VM'
+              func: vm_nic_add
+              params: [vm_id, port_group_urn, type, virt_io, vringbuf, queues, enable_security_group, security_group_id, connect_at_power_on, link_status]
+            - name: nic_delete
+              description: 'Delete a nic from a VM'
+              func: vm_nic_delete
+              params: [vm_id, nic_id]
+            - name: nic_change_linkstatus
+              description: 'Change a VM nic's link status'
+              func: vm_nic_change_linkstatus
+              params: [vm_id, nic_ids, connect_at_power_on, link_status]
+            - name: snapshot_list
+              description: 'Query a VM's snapshot list'
+              func: vm_snapshot_list
+              params: [vm_id]
+            - name: snapshot_show
+              description: 'Query a VM's snapshot details'
+              func: vm_snapshot_show
+              params: [vm_id, snapshot_id, is_refresh]
+            - name: snapshot_create
+              description: 'Create a snapshot for a VM'
+              func: vm_snapshot_create
+              params: [vm_id, name, description, type, need_memory_shot, is_consistent, protect_period, is_support_auto_delete]
+            - name: snapshot_delete
+              description: 'Delete a VM's snapshot'
+              func: vm_snapshot_delete
+              params: [vm_id, snapshot_id, speed]
+            - name: snapshot_recover
+              description: 'Recover a VM from snapshot'
+              func: vm_snapshot_recover
+              params: [vm_id, snapshot_id]
         - name: datastore
-          description: 'Datastore list and detail query'
+          description: 'Datastore list, detail and host relation query'
           actions:
             - name: list
               description: 'Query data store list'
@@ -2026,8 +2154,12 @@ topics:
               description: 'Query specified data store details'
               func: datastore_show
               params: [datastore_id, vr_type]
+            - name: host_relations
+              description: 'Query datastore and host relations'
+              func: datastore_host_relations
+              params: [ds_id, host_id, page_no, page_size]
         - name: host
-          description: 'Host list, detail and storage adapter query'
+          description: 'Host list, detail, ports and storage adapter query'
           actions:
             - name: list
               description: 'Query host list'
@@ -2040,6 +2172,18 @@ topics:
             - name: adapter_list
               description: 'Query specified host storage adapter list'
               func: host_adapter_list
+              params: [host_id]
+            - name: port_list
+              description: 'Query specified host ethernet port list'
+              func: host_port_list
+              params: [host_id, uplinkportaggrs_id]
+            - name: aggr_port_list
+              description: 'Query specified host aggregated port list'
+              func: host_aggr_port_list
+              params: [host_id]
+            - name: logic_port_list
+              description: 'Query specified host logical port list'
+              func: host_logic_port_list
               params: [host_id]
         - name: cluster
           description: 'Cluster list and detail query'
@@ -2071,7 +2215,7 @@ topics:
               func: disk_list
               params: [site_id, host_id, name, disk_type, status, page_no, page_size]
         - name: vdisk
-          description: 'Virtual disk list and detail query'
+          description: 'Virtual disk lifecycle management (create-attach/detach/modify/expand/delete)'
           actions:
             - name: list
               description: 'Query virtual disk info list'
@@ -2081,6 +2225,71 @@ topics:
               description: 'Query specified virtual disk info'
               func: vdisk_show
               params: [virtual_disk_id]
+            - name: create_attach
+              description: 'Create a virtual disk and attach to a VM'
+              func: vdisk_create_attach
+              params: [vm_id, datastore_id, capacity, share_type, pci_type, scsi_command_passthrough, io_mode, name, is_thin, allocate_type, is_indep_disk, is_persistent_disk, metadata_preallocate]
+            - name: attach
+              description: 'Attach a virtual disk to a VM'
+              func: vdisk_attach
+              params: [vm_id, vdisk_id, pci_type, scsi_command_passthrough, io_mode]
+            - name: detach
+              description: 'Detach a virtual disk from a VM'
+              func: vdisk_detach
+              params: [vm_id, vdisk_id]
+            - name: modify
+              description: 'Modify a virtual disk'
+              func: vdisk_modify
+              params: [virtual_disk_id, name, is_indep_disk, is_persistent_disk]
+            - name: expand
+              description: 'Expand a virtual disk'
+              func: vdisk_expand
+              params: [vm_id, vdisk_id, capacity]
+            - name: delete
+              description: 'Delete a virtual disk'
+              func: vdisk_delete
+              params: [virtual_disk_id]
+        - name: vswitch
+          description: 'Virtual distributed switch and port group management'
+          actions:
+            - name: list
+              description: 'Query virtual switch list'
+              func: vswitch_list
+              params: [host_id, site_id, site_ip, cluster_id, dc_id, name, type, sort_dir, sort_key, page_no, page_size]
+            - name: show
+              description: 'Query virtual switch details'
+              func: vswitch_show
+              params: [dvswitch_id]
+            - name: portgroup_list
+              description: 'Query port group list of specified virtual switch'
+              func: vswitch_portgroup_list
+              params: [dvswitch_id, name, port_type, sort_dir, sort_key, page_no, page_size]
+            - name: portgroup_create
+              description: 'Create port group'
+              func: vswitch_portgroup_create
+              params: [dvswitch_id, name, port_type, vlan_id, vlan_range, description, is_ip_mac_bind, is_dhcp_isolation, is_calc_tcp_check_sum, ip_bcst_suppress, tx_limit, tx_peak_limit, tx_burst_size, priority, rx_limit, rx_peak_limit, rx_burst_size]
+            - name: portgroup_modify
+              description: 'Modify port group'
+              func: vswitch_portgroup_modify
+              params: [dvswitch_id, portgroup_id, name, port_type, vlan_id, vlan_range, description, is_ip_mac_bind, is_dhcp_isolation, is_calc_tcp_check_sum, ip_bcst_suppress, tx_limit, tx_peak_limit, tx_burst_size, priority, rx_limit, rx_peak_limit, rx_burst_size]
+            - name: portgroup_delete
+              description: 'Delete port group'
+              func: vswitch_portgroup_delete
+              params: [dvswitch_id, portgroup_id]
+        - name: secgroup
+          description: 'Security group query'
+          actions:
+            - name: list
+              description: 'Query security group list'
+              func: secgroup_list
+              params: [dc_id, page_size, page_no]
+        - name: gpu
+          description: 'GPU query'
+          actions:
+            - name: list
+              description: 'Query host GPU list'
+              func: gpu_list
+              params: [site_id, vendor_name, product_name, host_id, vm_id, page_no, page_size, sort_dir, sort_key]
     - name: workflow
       description: 'Workflow related operations'
       actions:

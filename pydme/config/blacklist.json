@@ -136,6 +136,29 @@
     "lun_unbind_project",
     "lun_unbind_tier"
   ],
+  "virt": [
+    "vdisk_modify",
+    "vdisk_expand",
+    "vdisk_delete",
+    "vdisk_detach",
+    "vm_modify",
+    "vm_delete",
+    "vm_power_off",
+    "vm_hibernate",
+    "vm_reboot",
+    "vm_migrate",
+    "vm_migrate_host",
+    "vm_migrate_storage",
+    "vm_umount_tools",
+    "vm_nic_modify",
+    "vm_nic_change_portgroup",
+    "vm_nic_delete",
+    "vm_nic_change_linkstatus",
+    "vm_snapshot_delete",
+    "vm_snapshot_recover",
+    "vswitch_portgroup_modify",
+    "vswitch_portgroup_delete"
+  ],
   "workflow": [
     "instance_stop"
   ]
