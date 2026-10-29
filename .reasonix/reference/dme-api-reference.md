@@ -30078,3 +30078,3926 @@ LUN解除主机映射。
 - 总 API 数: 517
 - 跳过过期接口: 6
 - 跳过非 API 接口: 1
+
+# 虚拟化服务
+
+## 站点管理
+
+### 查询虚拟化站点列表
+
+**名称**
+查询虚拟化站点列表
+
+**描述**
+查询虚拟化站点列表。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/sites/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string|0~128个字符|站点别名，支持模糊查询。<br/>|
+|vr_type|否|string|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/>datacenter_nums<br/>cluster_nums<br/>host_nums<br/>vm_nums<br/>datastore_nums<br/>cpu_usage<br/>memory_usage<br/>ip_address<br/><br/><br/>默认值：name|排序字段。取值范围：name（名称），datacenter_nums（数据中心数量），cluster_nums（集群数量），host_nums（主机数量），vm_nums（虚拟机数量），datastore_nums（数据存储数量），cpu_usage（CPU预留率），memory_usage（内存预留率），ip_address（IP地址）。备注：华为云平台场景（vr_type为HCS）仅支持name，host_nums，vm_nums，ip_address字段排序。默认值：name。<br/>|
+|page_no|否|int32|1~2147483647<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|分页查询的个数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|无|总数量<br/>|
+|sites|否|List<Site><br/>|无|站点列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|最多128个字符|站点ID。<br/>|
+|name|否|string<br/>|最多128个字符|站点名称。<br/>|
+|ip_address|否|string<br/>|最多128个字符|站点的IP地址。<br/>|
+|version|否|string<br/>|最多128个字符|虚拟化平台版本。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|total_cpu|否|int64<br/>|无|总CPU大小，单位：MHz。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|free_cpu|否|int64<br/>|无|未分配CPU大小，单位：MHz。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|allocated_cpu|否|int64<br/>|无|已分配CPU大小，单位：MHz。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|cpu_usage|否|double<br/>|无|CPU预留率，单位：%。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|total_memory|否|int64<br/>|无|总内存大小，单位：MB。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|allocated_memory|否|int64<br/>|无|已分配内存大小，单位：MB。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|free_memory|否|int64<br/>|无|未使用内存大小，单位：MB。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|memory_usage|否|double<br/>|无|内存预留率，单位：%。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|total_capacity|否|double<br/>|默认值：0|总存储容量，单位：GB。当且仅当vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|free_capacity|否|double<br/>|默认值：0|剩余存储容量，单位：GB。当且仅当vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|datacenter_num|否|integer<br/>|无|数据中心数量。当且仅当vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|cluster_num|否|integer<br/>|无|站点下的集群数量。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|host_num|否|integer<br/>|无|站点下的主机数量。<br/>|
+|vm_num|否|integer<br/>|无|站点下的虚拟机数量。<br/>|
+|datastore_num|否|integer<br/>|无|站点下的数据存储数量。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|dv_switch_num|否|integer<br/>|无|站点下的分布式交换机数量。当且仅当FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|az_ids|否|List<string><br/>|无|和该FusionCompute相关的AZ信息。当且仅当FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询虚拟化站点列表成功。<br/>|
+
+### 查询指定虚拟化站点
+
+**名称**
+查询指定虚拟化站点
+
+**描述**
+查询指定虚拟化站点
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/sites/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|站点ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|最多128个字符|站点ID。<br/>|
+|name|否|string<br/>|最多128个字符|站点名称。<br/>|
+|ip_address|否|string<br/>|最多128个字符|站点的IP地址。<br/>|
+|version|否|string<br/>|最多128个字符|虚拟化平台版本。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|total_cpu|否|int64<br/>|无|总CPU大小，单位：MHz。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|free_cpu|否|int64<br/>|无|未分配CPU大小，单位：MHz。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|allocated_cpu|否|int64<br/>|无|已分配CPU大小，单位：MHz。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|cpu_usage|否|double<br/>|无|CPU预留率，单位：%。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|total_memory|否|int64<br/>|无|总内存大小，单位：MB。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|allocated_memory|否|int64<br/>|无|已分配内存大小，单位：MB。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|free_memory|否|int64<br/>|无|未使用内存大小，单位：MB。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|memory_usage|否|double<br/>|无|内存预留率，单位：%。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|total_capacity|否|double<br/>|默认值：0|总存储容量，单位：GB。当且仅当vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|free_capacity|否|double<br/>|默认值：0|剩余存储容量，单位：GB。当且仅当vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|datacenter_num|否|integer<br/>|无|数据中心数量。当且仅当vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|cluster_num|否|integer<br/>|无|站点下的集群数量。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|host_num|否|integer<br/>|无|站点下的主机数量。<br/>|
+|vm_num|否|integer<br/>|无|站点下的虚拟机数量。<br/>|
+|datastore_num|否|integer<br/>|无|站点下的数据存储数量。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|dv_switch_num|否|integer<br/>|无|站点下的分布式交换机数量。当且仅当FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|az_ids|否|List<string><br/>|无|和该FusionCompute相关的AZ信息。当且仅当FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定站点成功<br/>|
+
+### 查询系统支持的操作系统版本
+
+**名称**
+查询系统支持的操作系统版本
+
+**描述**
+查询系统支持的操作系统版本。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/sites/\{id\}/osversions
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~64个字符，且满足正则表达^[_A-Za-z0-9\-:|]+$|站点ID。取值说明：包含下划线、字母、数字、横线、冒号、竖线。<br/>|
+
+**查询参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|arch|否|string|<br/>arm<br/>x86<br/><br/><br/>0~32个字符|系统架构。取值说明：取值范围为arm和x86，默认为x86。<br/>|
+|clusterId|否|string|0~32个字符，且满足正则表达^$|^[_A-Za-z0-9\-]+$|集群ID。取值说明：包含字母、数字、下划线、连字符。<br/>|
+|hostId|否|string|0~32个字符，且满足正则表达^$|^[_A-Za-z0-9\-]+$|主机ID。取值说明：字母、数字、下划线、连字符。<br/>|
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|linux|否|List<OsVersion><br/>|无|Windows虚拟机支持的操作系统信息。<br/>|
+|windows|否|List<OsVersion><br/>|无|Linux虚拟机支持的操作系统信息。<br/>|
+|other|否|List<OsVersion><br/>|无|用户自定义虚拟机支持的操作系统信息。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|integer<br/>|无|操作系统标识。<br/>|
+|version_des|否|string<br/>|无|操作系统描述。<br/>|
+|os_bit|否|integer<br/>|无|操作系统位数。<br/>|
+|support_virtio_blk|否|string<br/>|无|是否支持virtio-blk磁盘。取值说明：“true”（支持），“false”（不支持）。<br/>|
+|support_virtio_scsi|否|string<br/>|无|是否支持virtio-scsi磁盘。取值说明：“true”（支持），“false”（不支持）。<br/>|
+|cpu_quantity_limit|否|integer<br/>|无|该操作系统支持的最大CPU核数。<br/>|
+|cpu_socket_limit|否|integer<br/>|最小值：0|该操作系统支持的最大CPU插槽数。<br/>|
+|mem_quantity_limit|否|integer<br/>|最小值：0|该操作系统支持的最大内存容量，单位为MB。<br/>|
+|support_cpu_hot_plug|否|boolean<br/>|true,false|是否支持CPU热插。取值说明：true（支持），false（不支持）。<br/>|
+|support_mem_hot_plug|否|boolean<br/>|true,false|是否支持内存热插。取值说明：true（支持），false（不支持）。<br/>|
+|support_hibernate_and_wake_up|否|boolean<br/>|true,false|是否支持休眠唤醒。取值说明：true（支持），false（不支持）。<br/>|
+|support_uefi_firm_ware|否|boolean<br/>|true,false|是否支持UEFI引导固件。取值说明：true（支持），false（不支持）。<br/>|
+|support_disk_hot_plug|否|boolean<br/>|true,false|是否支持在线添加磁盘。取值说明：true（支持），false（不支持）。<br/>|
+|support_disk_hot_unplug|否|boolean<br/>|true,false|是否支持在线卸载磁盘。取值说明：true（支持），false（不支持）。<br/>|
+|support_nic_hot_plug|否|boolean<br/>|true,false|是否支持在线添加网卡。取值说明：true（支持），false（不支持）。<br/>|
+|support_nic_hot_unplug|否|boolean<br/>|true,false|是否支持在线卸载网卡。取值说明：true（支持），false（不支持）。<br/>|
+|support_memory_snapshot|否|boolean<br/>|true,false|是否内存快照。取值说明：true（支持），false（不支持）。<br/>|
+|support_storage_snapshot|否|boolean<br/>|true,false|是否支持存储快照。取值说明：true（支持），false（不支持）。<br/>|
+|support_usb_pass_through|否|boolean<br/>|true,false|是否支持USB直通。取值说明：true（支持），false（不支持）。<br/>|
+|support_sriov|否|boolean<br/>|true,false|是否支持SR-IOV直通。取值说明：true（支持），false（不支持）。<br/>|
+|support_disk_expand|否|boolean<br/>|true,false|是否支持磁盘扩容。取值说明：true（支持），false（不支持）。<br/>|
+|support_disk_shrink|否|boolean<br/>|true,false|是否支持磁盘减容。取值说明：true（支持），false（不支持）。<br/>|
+|gpu_pass_through_supported|否|boolean<br/>|true,false|是否支持GPU直通。取值说明：true（支持），false（不支持）。<br/>|
+|gpu_virtualization_supported|否|boolean<br/>|true,false|是否支持GPU虚化。取值说明：true（支持），false（不支持）。<br/>|
+|support_ib|否|boolean<br/>|true,false|是否支持IB卡。取值说明：true（支持），false（不支持）。<br/>|
+|support_guest_numa|否|boolean<br/>|true,false|是否支持guest numa。取值说明：true（支持），false（不支持）。<br/>|
+|custom_support_ipv4|否|boolean<br/>|true,false|是否支持自定义ipv4。取值说明：true（支持），false（不支持）。<br/>|
+|custom_support_ipv6|否|boolean<br/>|true,false|是否支持自定义ipv6。取值说明：true（支持），false（不支持）。<br/>|
+|support_nic_pass_through|否|boolean<br/>|true,false|是否支持网络直通。取值说明：true（支持），false（不支持）。<br/>|
+|support_vtpm|否|boolean<br/>|true,false|是否支持vTPM。取值说明：true（支持），false（不支持）。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询操作系统成功。<br/>|
+
+### 查询软驱文件
+
+**名称**
+查询软驱文件
+
+**描述**
+查询系统提供的软驱vfd文件列。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/sites/\{id\}/vfd-files
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|站点id。取值说明：包含字母、数字、冒号、-。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vfd_files|是|List<string><br/>|无|软驱vfd文件列表。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询系统提供的软驱vfd文件列表成功。<br/>|
+
+## 集群管理
+
+### 查询虚拟化集群列表
+
+**名称**
+查询虚拟化集群列表
+
+**描述**
+查询虚拟化集群列表，华为云平台场景（vr\_type为HCS）不支持此接口。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/clusters/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|site_id|否|string|0~128个字符|集群所属的站点ID。<br/>|
+|site_ip|否|string|0~16个字符|集群所属的站点IP地址，支持模糊搜索。<br/>|
+|name|否|string|0~256个字符|集群名称，支持模糊搜索。<br/>|
+|az_id|否|string|1~64个字符，且满足正则表达^[A-Za-z0-9]+$|可用分区ID。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|vr_type|否|string|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|datacenter_id|否|string|0~128个字符|集群所属的数据中心ID，仅VMware场景（vr_type为VMWARE）支持此字段效<br/>|
+|sort_key|否|string|<br/>name<br/>host_nums<br/>vm_nums<br/>cpu_usage<br/>memory_usage<br/>site_ip<br/><br/>|排序字段。取值范围：name（名称），host_nums（主机数量），vm_nums（虚拟机数量），cpu_usage（CPU预留率），memory_usage（内存预留率），site_ip（站点IP地址）。默认值：name。<br/>|
+|page_no|否|int32|1~2147483647<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|每页查询的数量。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|无|总数量。<br/>|
+|clusters|否|List<Cluster><br/>|无|集群列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|集群ID。<br/>|
+|pid|否|string<br/>|0~128个字符|数据标识，该ID用于查询集群对应的统计数据，如历史性能数据、容量趋势与预测数据等。<br/>|
+|site_id|否|string<br/>|0~128个字符|集群所在站点ID。<br/>|
+|site_ip|否|string<br/>|0~128个字符|集群所在站点IP。<br/>|
+|name|否|string<br/>|0~256个字符|集群名称。集群名称长度如果超过78个字符，超过部分会被三个英文句号代替。<br/>|
+|az_id|否|string<br/>|0~256个字符|可用分区id。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|az_name|否|string<br/>|0~256个字符|可用分区名称。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|description|否|string<br/>|0~128个字符|集群描述。<br/>|
+|total_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|总CPU大小，单位：MHz。<br/>|
+|free_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|剩余CPU大小，单位：MHz。<br/>|
+|allocated_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|已分配CPU大小，单位：MHz。<br/>|
+|cpu_usage|否|double<br/>|最小值：0<br/>默认值：0|CPU预留率，单位：%。<br/>|
+|total_memory|否|int64<br/>|最少1个字符<br/>默认值：0|总内存大小，单位：MB。<br/>|
+|allocated_memory|否|int64<br/>|最少1个字符<br/>默认值：0|已分配内存大小，单位：MB。<br/>|
+|free_memory|否|int64<br/>|最少1个字符<br/>默认值：0|剩余内存大小，单位：MB。<br/>|
+|memory_usage|否|double<br/>|最小值：0<br/>默认值：0|内存预留率，单位：%。<br/>|
+|total_capacity|否|double<br/>|默认值：0|集群存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|free_capacity|否|double<br/>|默认值：0|集群剩余存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|allocated_capacity|否|double<br/>|默认值：0|集群已分配存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|capacity_usage|否|double<br/>|最少1个字符|存储空间分配率，单位：%。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|datastore_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有数据存储数量。<br/>|
+|vm_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有虚拟机数量。<br/>|
+|host_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有主机数量。<br/>|
+|arch|否|string<br/>|<br/>x86<br/>arm<br/><br/>|架构类型。取值范围：x86，arm，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|集群所属数据中心ID。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询虚拟化集群列表成功。<br/>|
+
+### 查询指定虚拟化集群信息
+
+**名称**
+查询指定虚拟化集群信息
+
+**描述**
+查询指定虚拟化集群信息，华为云平台场景（vr\_type为HCS）不支持此接口。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/clusters/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|集群ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|集群ID。<br/>|
+|pid|否|string<br/>|0~128个字符|数据标识，该ID用于查询集群对应的统计数据，如历史性能数据、容量趋势与预测数据等。<br/>|
+|site_id|否|string<br/>|0~128个字符|集群所在站点ID。<br/>|
+|site_ip|否|string<br/>|0~128个字符|集群所在站点IP。<br/>|
+|name|否|string<br/>|0~256个字符|集群名称。集群名称长度如果超过78个字符，超过部分会被三个英文句号代替。<br/>|
+|az_id|否|string<br/>|0~256个字符|可用分区id。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|az_name|否|string<br/>|0~256个字符|可用分区名称。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|description|否|string<br/>|0~128个字符|集群描述。<br/>|
+|total_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|总CPU大小，单位：MHz。<br/>|
+|free_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|剩余CPU大小，单位：MHz。<br/>|
+|allocated_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|已分配CPU大小，单位：MHz。<br/>|
+|cpu_usage|否|double<br/>|最小值：0<br/>默认值：0|CPU预留率，单位：%。<br/>|
+|total_memory|否|int64<br/>|最少1个字符<br/>默认值：0|总内存大小，单位：MB。<br/>|
+|allocated_memory|否|int64<br/>|最少1个字符<br/>默认值：0|已分配内存大小，单位：MB。<br/>|
+|free_memory|否|int64<br/>|最少1个字符<br/>默认值：0|剩余内存大小，单位：MB。<br/>|
+|memory_usage|否|double<br/>|最小值：0<br/>默认值：0|内存预留率，单位：%。<br/>|
+|total_capacity|否|double<br/>|默认值：0|集群存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|free_capacity|否|double<br/>|默认值：0|集群剩余存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|allocated_capacity|否|double<br/>|默认值：0|集群已分配存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|capacity_usage|否|double<br/>|最少1个字符|存储空间分配率，单位：%。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|datastore_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有数据存储数量。<br/>|
+|vm_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有虚拟机数量。<br/>|
+|host_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有主机数量。<br/>|
+|arch|否|string<br/>|<br/>x86<br/>arm<br/><br/>|架构类型。取值范围：x86，arm，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|集群所属数据中心ID。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定虚拟化集群信息成功。<br/>|
+
+## 主机管理
+
+### 查询指定虚拟化宿主机信息
+
+**名称**
+查询指定虚拟化宿主机信息
+
+**描述**
+查询指定虚拟化宿主机信息
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/hosts/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|主机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~128个字符|主机ID。<br/>|
+|pid|否|string<br/>|0~128个字符|数据标识，该ID用于查询主机对应的统计数据，如历史性能数据、容量趋势与预测数据等。<br/>|
+|name|否|string<br/>|1~128个字符|主机名称。<br/>|
+|sn|否|string<br/>|1~256个字符|序列号。<br/>|
+|description|否|string<br/>|1~128个字符|主机描述。<br/>|
+|status|否|string<br/>|<br/>rebooting<br/>normal<br/>fault<br/>initial<br/>unknown<br/>poweroff<br/>booting<br/>shutdowning<br/>not_responding<br/>disconnected<br/>deactivated<br/>recycling<br/>saving<br/>deleted<br/>other<br/>uploading<br/>queued<br/>stopped<br/>importing<br/>killed<br/>creating<br/><br/>|主机状态。rebooting（重启中），normal（正常），fault（故障），initial（初始化），unknown（未知），poweroff（离线：离线状态仅表示vrm已对主机下发关机命令，并且与主机的心跳中断，不确认主机真正下电），booting（上电中），shutdowning（下电中），not-responding（未响应）， disconnected（已断开连接），deactivated（未激活），recycling（循环中）， saving（存储中）， deleted（已删除）， other（其它）， uploading（正在上传）， pending_delete（等待删除）， queued（队列中）， stopped（已停止）， importing（正在导入）， killed（已结束）， creating（创建中）。 仅华为云平台场景（vr_type为hcs）支持 deactivated，recycling, saving, deleted, other, uploading, pending_delete, queued, stopped, importing, killed, creating。<br/>|
+|ip_address|否|string<br/>|1~128个字符|主机IP。<br/>|
+|bmc_ip|否|string<br/>|1~128个字符|BMC IP地址。<br/>|
+|total_cpu|否|int64<br/>|最小值：0|CPU总大小，单位：MHz。<br/>|
+|free_cpu|否|int64<br/>|最小值：0|剩余CPU大小，单位：MHz。<br/>|
+|cpu_usage|否|double<br/>|最小值：0|CPU预留率，单位：%。<br/>|
+|allocated_cpu|否|int64<br/>|最小值：0|已分配CPU大小，单位：MHz。<br/>|
+|allocated_memory|否|int64<br/>|最小值：0|已分配内存，单位：MB。<br/>|
+|total_memory|否|int64<br/>|最小值：0|总内存，单位：MB。<br/>|
+|free_memory|否|int64<br/>|最小值：0|剩余内存,单位:MB。<br/>|
+|memory_usage|否|double<br/>|最小值：0|内存预留率，单位：%。<br/>|
+|total_capacity|否|double<br/>|最小值：0<br/>默认值：0|主机存储空间总量，单位：GB，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|free_capacity|否|double<br/>|最小值：0<br/>默认值：0|主机剩余存储空间，单位：GB，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|allocated_capacity|否|double<br/>|最小值：0<br/>默认值：0|已分配存储空间，单位：GB，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|capacity_usage|否|double<br/>|最小值：0<br/>1~128个字符|存储容量使用率，单位：%，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|cluster_id|否|string<br/>|0~128个字符|主机所在的集群ID。<br/>|
+|cluster_name|否|string<br/>|0~128个字符|主机所在的集群名称，集群名称长度如果超过78个字符，超过部分会被优化成省略号。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|主机所属的数据中心 ID，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|site_id|否|string<br/>|0~128个字符|主机所在的站点ID。<br/>|
+|deployment_type|否|string<br/>|<br/>ECS<br/>BMS<br/><br/>|主机部署类型。取值范围：ECS（宿主机），BMS（裸金属服务器）。仅华为云平台支持该字段（vr_type为HCS）。<br/>|
+|site_ip|否|string<br/>|0~32个字符|主机所在的站点IP。<br/>|
+|dc_id|否|string<br/>|0~128个字符|宿主机所属数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~32个字符|宿主机所属数据中心名称。<br/>|
+|arch|否|string<br/>|<br/>x86<br/>arm<br/><br/>|架构类型。取值范围：x86，arm，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|vm_num|否|int32<br/>|最小值：0|主机关联的虚拟机数量。<br/>|
+|datastore_num|否|int32<br/>|最小值：0|主机关联的数据存储数量。<br/>|
+|dvs_num|否|int32<br/>|最小值：0|主机关联的分布式交换机数量。<br/>|
+|phsical_disk_num|否|integer<br/>|最小值：0|主机关联物理盘数量。<br/>|
+|cpu_frequency|否|integer<br/>|最小值：0|主机的CPU主频大小（单位：MHz）。<br/>|
+|cpu_quantity|否|integer<br/>|最小值：0|主机上的虚拟CPU数量（单位：个）。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定主机成功。<br/>|
+
+### 查询虚拟化宿主机列表
+
+**名称**
+查询虚拟化宿主机列表
+
+**描述**
+查询虚拟化宿主机列表
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/hosts/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string|0~256个字符|主机名称，支持模糊查询。<br/>|
+|ip_address|否|string|0~256个字符|主机IP地址，支持模糊查询。<br/>|
+|sn|否|string|0~256个字符|主机序列号，支持模糊查询。<br/>|
+|status|否|List<string>|数组最大成员个数：30|主机状态。取值范围：rebooting（重启中），normal（正常），fault（故障），initial（初始化），unknown（未知），poweroff（离线：离线状态仅表示vrm已对主机下发关机命令，并且与主机的心跳中断，不确认主机真正下电），booting（上电中），shutdowning（下电中），not-responding（未响应）， disconnected（已断开连接），deactivated（未激活），recycling（循环中）， saving（存储中）， deleted（已删除）， other（其它）， uploading（正在上传）， pending_delete（等待删除）， queued（队列中）， stopped（已停止）， importing（正在导入）， killed（已结束）， creating（创建中）。 仅华为云平台场景（vr_type为hcs）支持 deactivated，recycling, saving, deleted, other, uploading, pending_delete, queued, stopped, importing, killed, creating。<br/>|
+|vr_type|否|string|0~256个字符|虚拟化平台类型。取值范围（忽略大小写）：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datastore_id|否|string|0~128个字符|主机关联的数据存储ID。不能和dvs_switch_id,datacenter_id,dc_id联合查询。<br/>|
+|dvs_switch_id|否|string|0~128个字符|主机关联的分布式交换机ID。不能和datastore_id,datacenter_id,dc_id联合查询。<br/>|
+|datacenter_id|否|string|0~128个字符|主机所属的vCenter的数据中心 ID，仅在VMware场景下有效。不能和datastore_id,dvs_switch_id联合查询。<br/>|
+|dc_id|否|string|0~128个字符|主机所属的数据中心ID。不能和datastore_id,dvs_switch_id联合查询。<br/>|
+|cluster_id|否|string|0~128个字符|主机所在的集群ID。<br/>|
+|cluster_name|否|string|0~256个字符|主机所在的集群名称，集群名称长度如果超过78个字符，超过部分会被优化成省略号，支持模糊查询。<br/>|
+|deployment_type|否|string|<br/>ECS<br/>BMS<br/><br/>|主机部署类型。取值范围：ECS（宿主机），BMS（裸金属服务器）。仅华为云平台支持该字段（vr_type为HCS）。<br/>|
+|site_id|否|string|0~128个字符|主机所在的站点ID。<br/>|
+|site_ip|否|string|0~256个字符|主机所在的站点IP。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/>ip_address<br/>vm_num<br/>cpu_usage<br/>memory_usage<br/>cluster_name<br/>site_ip<br/><br/><br/>默认值：site_ip|排序字段。取值范围：name，ip_address，vm_num，cpu_usage，memory_usage，cluster_name，site_ip。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|分页查询的个数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|最小值：0|总数量。<br/>|
+|hosts|否|List<Host><br/>|数组最大成员个数：1000|主机列表<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~128个字符|主机ID。<br/>|
+|pid|否|string<br/>|0~128个字符|数据标识，该ID用于查询主机对应的统计数据，如历史性能数据、容量趋势与预测数据等。<br/>|
+|name|否|string<br/>|1~128个字符|主机名称。<br/>|
+|sn|否|string<br/>|1~256个字符|序列号。<br/>|
+|description|否|string<br/>|1~128个字符|主机描述。<br/>|
+|status|否|string<br/>|<br/>rebooting<br/>normal<br/>fault<br/>initial<br/>unknown<br/>poweroff<br/>booting<br/>shutdowning<br/>not_responding<br/>disconnected<br/>deactivated<br/>recycling<br/>saving<br/>deleted<br/>other<br/>uploading<br/>queued<br/>stopped<br/>importing<br/>killed<br/>creating<br/><br/>|主机状态。rebooting（重启中），normal（正常），fault（故障），initial（初始化），unknown（未知），poweroff（离线：离线状态仅表示vrm已对主机下发关机命令，并且与主机的心跳中断，不确认主机真正下电），booting（上电中），shutdowning（下电中），not-responding（未响应）， disconnected（已断开连接），deactivated（未激活），recycling（循环中）， saving（存储中）， deleted（已删除）， other（其它）， uploading（正在上传）， pending_delete（等待删除）， queued（队列中）， stopped（已停止）， importing（正在导入）， killed（已结束）， creating（创建中）。 仅华为云平台场景（vr_type为hcs）支持 deactivated，recycling, saving, deleted, other, uploading, pending_delete, queued, stopped, importing, killed, creating。<br/>|
+|ip_address|否|string<br/>|1~128个字符|主机IP。<br/>|
+|bmc_ip|否|string<br/>|1~128个字符|BMC IP地址。<br/>|
+|total_cpu|否|int64<br/>|最小值：0|CPU总大小，单位：MHz。<br/>|
+|free_cpu|否|int64<br/>|最小值：0|剩余CPU大小，单位：MHz。<br/>|
+|cpu_usage|否|double<br/>|最小值：0|CPU预留率，单位：%。<br/>|
+|allocated_cpu|否|int64<br/>|最小值：0|已分配CPU大小，单位：MHz。<br/>|
+|allocated_memory|否|int64<br/>|最小值：0|已分配内存，单位：MB。<br/>|
+|total_memory|否|int64<br/>|最小值：0|总内存，单位：MB。<br/>|
+|free_memory|否|int64<br/>|最小值：0|剩余内存,单位:MB。<br/>|
+|memory_usage|否|double<br/>|最小值：0|内存预留率，单位：%。<br/>|
+|total_capacity|否|double<br/>|最小值：0<br/>默认值：0|主机存储空间总量，单位：GB，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|free_capacity|否|double<br/>|最小值：0<br/>默认值：0|主机剩余存储空间，单位：GB，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|allocated_capacity|否|double<br/>|最小值：0<br/>默认值：0|已分配存储空间，单位：GB，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|capacity_usage|否|double<br/>|最小值：0<br/>1~128个字符|存储容量使用率，单位：%，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|cluster_id|否|string<br/>|0~128个字符|主机所在的集群ID。<br/>|
+|cluster_name|否|string<br/>|0~128个字符|主机所在的集群名称，集群名称长度如果超过78个字符，超过部分会被优化成省略号。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|主机所属的数据中心 ID，只有在VMware场景的资源池（vr_type为vmware）才有数据。<br/>|
+|site_id|否|string<br/>|0~128个字符|主机所在的站点ID。<br/>|
+|deployment_type|否|string<br/>|<br/>ECS<br/>BMS<br/><br/>|主机部署类型。取值范围：ECS（宿主机），BMS（裸金属服务器）。仅华为云平台支持该字段（vr_type为HCS）。<br/>|
+|site_ip|否|string<br/>|0~32个字符|主机所在的站点IP。<br/>|
+|dc_id|否|string<br/>|0~128个字符|宿主机所属数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~32个字符|宿主机所属数据中心名称。<br/>|
+|arch|否|string<br/>|<br/>x86<br/>arm<br/><br/>|架构类型。取值范围：x86，arm，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|vm_num|否|int32<br/>|最小值：0|主机关联的虚拟机数量。<br/>|
+|datastore_num|否|int32<br/>|最小值：0|主机关联的数据存储数量。<br/>|
+|dvs_num|否|int32<br/>|最小值：0|主机关联的分布式交换机数量。<br/>|
+|phsical_disk_num|否|integer<br/>|最小值：0|主机关联物理盘数量。<br/>|
+|cpu_frequency|否|integer<br/>|最小值：0|主机的CPU主频大小（单位：MHz）。<br/>|
+|cpu_quantity|否|integer<br/>|最小值：0|主机上的虚拟CPU数量（单位：个）。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询虚拟化宿主机列表。<br/>|
+
+### 查询指定主机下物理网口列表
+
+**名称**
+查询指定主机下物理网口列表
+
+**描述**
+查询指定主机下物理网口列表
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/hosts/\{id\}/ports
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|主机ID。<br/>|
+
+**查询参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|uplinkportaggrs_id|否|string|0~128个字符|聚合网口ID。<br/>|
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|0~128个字符|查询物理端口总数量。<br/>|
+|nics|否|List<PortsResponse><br/>|无|物理端口数据集。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|物理网口ID。<br/>|
+|res_id|否|string<br/>|0~128个字符|资源ID。<br/>|
+|name|否|string<br/>|1~128个字符|物理端口名称。<br/>|
+|speed|否|string<br/>|1~128个字符|速率,单位Mb/s。<br/>|
+|nic_speed|否|string<br/>|1~128个字符|规格速率,单位Mb/s。<br/>|
+|mac_address|否|string<br/>|1~128个字符|mac地址。<br/>|
+|enable_lldp|否|boolean<br/>|true,false|LLDP状态。<br/>|
+|nic_mode|否|string<br/>|1~128个字符|交换类型，与分布式交换机类型对应，过滤相应类型的网口。取值范围：0（vSwitch 普通模式）2（SR-IOV 直通模式），4（用户态交互模式）。<br/>|
+|driver_mode|否|string<br/>|1~128个字符|驱动模式，取值范围：dpdk(轮询驱动模式),kernel（内核启动模式）。<br/>|
+|status|否|string<br/>|<br/>linkup<br/>linkdown<br/><br/><br/>1~128个字符|状态,支持的排序字段。取值范围：linkup（已连接）,linkdown（未连接）。<br/>|
+|used_status|否|string<br/>|<br/>used<br/>unused<br/><br/><br/>1~128个字符|使用状态。取值范围：used（已使用）,unused（未使用）。<br/>|
+|numa_node|否|string<br/>|1~128个字符|NUMA NODE信息。<br/>|
+|pci|否|string<br/>|1~128个字符|pci编码。<br/>|
+|workmode|否|string<br/>|1~128个字符|双工模式。取值范围：FULL（全双工），HAFL（半双工），UNKNOWN（未知）。<br/>|
+|nic_type|否|string<br/>|<br/>aggregation<br/>normal<br/><br/>|网口类型。取值范围：aggregation（聚合网口），normal（通用网口）。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定主机下物理网口列表。<br/>|
+
+### 查询指定主机下聚合网口列表
+
+**名称**
+查询指定主机下聚合网口列表
+
+**描述**
+查询指定主机下聚合网口列表
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/hosts/\{id\}/uplink-port-aggrs
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|主机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|0~65536|总数。<br/>|
+|uplinkportaggrs|否|List<UplinkportaggrsResponse><br/>|无|聚合网口数据集。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~128个字符|聚合网口ID。<br/>|
+|name|否|string<br/>|1~128个字符|物理端口名称。<br/>|
+|speed|否|integer<br/>|0~65536|迁移速率,单位Mb/s。<br/>|
+|nic_speed|否|integer<br/>|0~65536|规格速率,单位Mb/s。<br/>|
+|strategy|否|integer<br/>|<br/>0<br/>1<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/><br/>|绑定模式。取值范围：0（基于源目的MAC的负荷分担）,1（主备）,6（基于轮询的负荷分担）,7（基于源目的IP和端口的负荷分）,8（基于源目的MAC的LACP）,9（基于源目的IP的LACP）,10（DPDK驱动的主备模式）,11（DPDK驱动的基于源目的MAC的LACP模式）,12（DPDK驱动的基于源目的IP和端口的LACP模式）,13（基于源目的IP和端口的LACP）。<br/>|
+|status|否|string<br/>|<br/>linkup<br/>linkdown<br/><br/>|状态。取值范围：linkup（已连接）,linkdown（未连接）。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定主机下聚合网口列表。<br/>|
+
+### 查询指定主机下逻辑网口列表
+
+**名称**
+查询指定主机下逻辑网口列表
+
+**描述**
+查询指定主机下逻辑网口列表
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/hosts/\{id\}/system-intfs
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|主机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|0~65536|总数。<br/>|
+|systemintfs|否|List<SystemintfsResponse><br/>|无|逻辑接口数据集。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string<br/>|1~256个字符|逻辑接口名称。<br/>|
+|type|否|string<br/>|<br/>0<br/>1<br/>2<br/><br/>|类型。取值范围：0（管理接口）,1（存储接口）,2（业务管理接口）。<br/>|
+|ipv4|否|string<br/>|1~128个字符|IPv4地址。<br/>|
+|net_mask|否|integer<br/>|1~31|IPv4掩码。<br/>|
+|ipv6|否|string<br/>|1~128个字符|IPv6地址。<br/>|
+|vlan_id|否|string<br/>|1~128个字符|VLAN ID。<br/>|
+|option|否|List<string><br/>|无|业务管理接口开关。取值范围：migrate（支持迁移）,ha（支持HA,KVM未支持）, dr（支持容灾,KVM未支持）,vims（支持vims）。<br/>|
+|port_name|否|string<br/>|1~256个字符|网口名称。<br/>|
+|port_id|否|string<br/>|1~128个字符|网口ID。<br/>|
+|systemintf_id|否|string<br/>|1~128个字符|逻辑接口ID。<br/>|
+|description|否|string<br/>|0~1024个字符|逻辑接口描述。<br/>|
+|switch_type|否|integer<br/>|0~1<br/><br/>0<br/>1<br/><br/>|交换模式。取值范围：0（OVS转发模式）,1（Linux子接口模式）。<br/>|
+|route_info|否|List<routeInfoResponse><br/>|无|路由信息。<br/>|
+|enable_roce|否|integer<br/>|0~1<br/><br/>0<br/>1<br/><br/>|Roce开关。取值范围：1（打开） 0（关闭）<br/>|
+|mtu|否|integer<br/>|1500~9000|最大传输单元<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|destination|否|string<br/>|1~128个字符|目的网络IP。<br/>|
+|genmask|否|integer<br/>|1~31|目的网络掩码。<br/>|
+|route_gateway|否|string<br/>|1~128个字符|路由网关。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定主机下逻辑网口列表<br/>|
+
+### 查询指定主机存储适配器列表
+
+**名称**
+查询指定主机存储适配器列表
+
+**描述**
+查询指定主机存储适配器列表
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/hosts/\{id\}/storage-adapters
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|主机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|0~256个字符|存储适配器总数量。<br/>|
+|storage_adapters|否|List<StorageAdapter><br/>|无|存储适配器数据集。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string<br/>|0~256个字符|存储适配器名称。<br/>|
+|type|否|string<br/>|<br/>ISCSI<br/>FC<br/>NVMe<br/><br/>|协议类型，取值范围： ISCSI（ISCSI协议）,FC（FC协议）,NVMe（NVMe协议）。<br/>|
+|wwn|否|string<br/>|0~256个字符|适配器wwn，可唯一标识适配器。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定主机存储适配器列表。<br/>|
+
+## 虚拟化分布式交换机管理
+
+### 查询虚拟化分布式交换机列表
+
+**名称**
+查询虚拟化分布式交换机列表
+
+**描述**
+查询虚拟化分布式交换机列表。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/dvswitchs/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|host_id|否|string|0~128个字符|分布式交换机关联的主机ID。<br/>|
+|site_id|否|string|0~128个字符|分布式交换机所在站点ID。<br/>|
+|site_ip|否|string|0~16个字符|分布式交换机所在站点IP，支持模糊搜索。<br/>|
+|cluster_id|否|string|0~128个字符|分布式交换机关联的集群ID。<br/>|
+|dc_id|否|string|0~128个字符|分布式交换机所属数据中心ID。<br/>|
+|name|否|string|0~256个字符|分布式交换机名称，支持模糊搜索。<br/>|
+|type|否|List<int32>|数组最大成员个数：10|分布式交换机类型。取值范围：0（普通模式：上行链路关联的主机物理网卡为普通网卡），2（直通模式：上行链路关联的主机物理网卡为SRIOV直通网卡），4（用户态交换模式：上行链路关联的主机物理网卡为驱动模式支持用户态驱动模式的网卡）。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/>host_count<br/>vm_count<br/>create_time<br/><br/>|排序字段。取值范围：name（名称），host_count（主机数量），vm_count（虚拟机数量），create_time（创建时间，仅支持本系统创建的分布式交换机）。默认值：create_time。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|每页查询的个数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|最小值：0|总数量。<br/>|
+|dvSwitchesList|否|List<DvSwitch><br/>|数组最大成员个数：1000|分布式交换机列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|分布式交换机ID。<br/>|
+|name|否|string<br/>|0~256个字符|分布式交换机名称。<br/>|
+|description|否|string<br/>|0~1024个字符|分布式交换机描述。<br/>|
+|type|否|integer<br/>|<br/>0<br/>2<br/>4<br/><br/>|分布式交换机类型。取值范围：0（普通模式：上行链路关联的主机物理网卡为普通网卡），2（直通模式：上行链路关联的主机物理网卡为SRIOV直通网卡），4（用户态交换模式：上行链路关联的主机物理网卡为驱动模式支持用户态驱动模式的网卡）。<br/>|
+|is_igmp_snooping|否|boolean<br/>|true,false|分布式交换机是否启用IGMP Snooping。取值范围：true（开启），false（关闭）。IGMP Snooping全称为Internet Group Management Protocol Snooping，是交换机的一种高级功能，交换机通过侦听组播协议报文来维护组播报文的出端口信息，从而管理和控制组播数据报文的转发。<br/>|
+|mtu|否|int32<br/>|1500~9000|分布式交换机的大帧数值。大帧全称为网络最大传输单元（Maximum Transmission Unit），缩写为MTU。<br/>|
+|vm_num|否|int32<br/>|最小值：0|分布式交换机关联的虚拟机数量。<br/>|
+|host_num|否|int32<br/>|最小值：0|分布式交换机关联的主机数量。<br/>|
+|site_ip|否|string<br/>|0~32个字符|分布式交换机所属站点IP。<br/>|
+|site_id|否|string<br/>|0~128个字符|分布式交换机所属站点ID。<br/>|
+|dc_id|否|string<br/>|0~128个字符|分布式交换机所属数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~128个字符|分布式交换机所属数据中心名称。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|批量查询分布式交换机成功。<br/>|
+
+### 查询指定虚拟化分布式交换机信息
+
+**名称**
+查询指定虚拟化分布式交换机信息
+
+**描述**
+查询指定虚拟化分布式交换机信息。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/dvswitchs/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|分布式交换机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|分布式交换机ID。<br/>|
+|name|否|string<br/>|0~256个字符|分布式交换机名称。<br/>|
+|type|否|integer<br/>|<br/>0<br/>2<br/>4<br/><br/>|分布式交换机类型。取值范围：0（普通模式：上行链路关联的主机物理网卡为普通网卡），2（直通模式：上行链路关联的主机物理网卡为SRIOV直通网卡），4（用户态交换模式：上行链路关联的主机物理网卡为驱动模式支持用户态驱动模式的网卡）。<br/>|
+|description|否|string<br/>|0~1024个字符|描述。<br/>|
+|is_igmp_snooping|否|string<br/>|无|分布式交换机是否启用IGMP Snooping。取值范围：true（开启），false（关闭）。IGMP Snooping全称为Internet Group Management Protocol Snooping，是交换机的一种高级功能，交换机通过侦听组播协议报文来维护组播报文的出端口信息，从而管理和控制组播数据报文的转发。<br/>|
+|mtu|否|int32<br/>|1500~9000|分布式交换机的大帧数值。大帧全称为网络最大传输单元（Maximum Transmission Unit），缩写为MTU。<br/>|
+|site_ip|否|string<br/>|0~32个字符|分布式交换机所属站点IP。<br/>|
+|site_id|否|string<br/>|0~128个字符|分布式交换机所属站点ID。<br/>|
+|vlan|否|string<br/>|0~1024个字符|VLAN池信息。<br/>|
+|vm_num|否|integer<br/>|最小值：0|分布式交换机关联的虚拟机数量。<br/>|
+|host_num|否|integer<br/>|最小值：0|分布式交换机关联的主机数量。<br/>|
+|port_group_num|否|integer<br/>|最小值：0|分布式交换机关联的端口组数量。<br/>|
+|uplink_port_num|否|integer<br/>|最小值：0|分布式交换机关联的上行链路组数量。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定分布式交换机成功。<br/>|
+
+### 查询指定分布式交换机下的端口组列表
+
+**名称**
+查询指定分布式交换机下的端口组列表
+
+**描述**
+查询分布式交换机下的端口组列表。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/dvswitchs/\{dvswitch\_id\}/portgroups/query
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|dvswitch_id|是|string|1~128个字符|分布式交换机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string|0~256个字符|端口组名称，支持模糊查询。<br/>|
+|port_type|否|List<int32>|数组最大成员个数：2|端口类型列表。端口类型：0（普通端口组），1（中继端口组）。接入类型的虚拟端口只能属于一个VLAN，中继类型的虚拟端口可以允许多个VLAN接收和发送报文。普通虚拟机选择接入类型的端口，虚拟机的网卡启用VLAN设备的情况下选择中继类型的端口，否则虚拟机的网络可能不通。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序）。默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/><br/>|排序字段。取值范围：name（名称）。默认值：name。<br/>|
+|page_no|否|int32|1~2147483647<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：1000|每页查询的数量。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|最大值：80000|总数量。<br/>|
+|portgroups|否|List<PortGroup><br/>|数组最大成员个数：1000|端口组列表信息。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~256个字符|端口组ID。<br/>|
+|name|否|string<br/>|0~256个字符|端口组名称。<br/>|
+|port_type|否|int32<br/>|0~1<br/>默认值：0|端口类型。取值范围：0（普通端口组），1（中继端口组）。接入类型的虚拟端口只能属于一个VLAN，中继类型的虚拟端口可以允许多个VLAN接收和发送报文。普通虚拟机选择接入类型的端口，虚拟机的网卡启用VLAN设备的情况下选择中继类型的端口，否则虚拟机的网络可能不通。<br/>|
+|vlan_id|否|int32<br/>|0~4094|端口所关联的VLAN ID（0表示端口未关联VLAN）。<br/>|
+|vlan_range|否|string<br/>|0~2047个字符，且满足正则表达^$|^[0-9\-,]+$|中继端口组的VLAN范围。<br/>|
+|description|否|string<br/>|0~1024个字符|描述。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定分布式交换机下的端口组列表成功。<br/>|
+
+### 创建端口组
+
+**名称**
+创建端口组
+
+**描述**
+创建 PortGroup。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/dvswitchs/\{dvswitch\_id\}/portgroups
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|dvswitch_id|是|string|1~128个字符，且满足正则表达^$|^[_A-Za-z0-9\-:\|]+$|分布式交换机ID。取值说明：包含下划线、字母、数字、横线、冒号、竖线。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|是|string|1~256个字符，且满足正则表达^[^&;$`&gt;&lt;\\!]+$|端口组名称。取值说明： 名称不能重复（区分大小写），且不能包含特殊字符"&", ";", "$", "`", "<", ">", "\", "!"。<br/>|
+|port_type|是|int32|0~1<br/>默认值：0|端口组类型。取值说明： 0（普通端口组），1（中继端口组）。<br/>|
+|vlan_id|否|int32|0~4094|普通端口组的VLAN。取值说明：port_type为0时，该字段必填。<br/>|
+|vlan_range|否|string|0~2047个字符，且满足正则表达^$|^[0-9\-,]+$|中继端口组的VLAN范围。取值说明：port_type为1时，该字段必填。VLAN范围也可以是单个vlan_id。VLAN范围用A–B表示，不同的范围用“,”分割，起始A的vlan_id要小于结束B的vlan_id。<br/>|
+|description|否|string|0~1024个字符|端口组描述信息。<br/>|
+|is_ip_mac_bind|否|boolean|true,false|是否设置该端口组内虚拟机的IP地址与MAC地址绑定。取值说明：true（设置IP地址与MAC地址绑定），false（不设置IP地址与MAC地址绑定）。分布式交换机模式为SRIOV、用户态时不支持该字段。<br/>|
+|is_dhcp_isolation|否|boolean|true,false|是否设置DHCP隔离。取值说明：true（开启DHCP隔离），false（不开启DHCP隔离）。分布式交换机模式为SRIOV时不支持该字段。<br/>|
+|is_calc_tcp_check_sum|否|boolean|true,false|是否开启填充TCP校验和。取值说明：true（开启填充TCP校验和），false（不开启填充TCP校验和）。分布式交换机模式为SRIOV、用户态交换模式场景不支持该字段。<br/>|
+|ip_bcst_suppress|否|boolean|true,false|是否开启广播抑制带宽，可选取值说明：true（开启），false（不开启）。分布式交换机模式为SRIOV时不支持该字段。<br/>|
+|tx_limit|否|int32|1~100000|发送平均带宽，单位Mbps。取值说明：如果已选择priority，则为必选。分布式交换机模式为SRIOV场景时可选。取值范围：11 ~ 网卡最大速率（100 * 1000）。<br/>|
+|tx_peak_limit|否|int32|1~100000|发送带宽峰值，单位Mbps。取值说明：（1）只有选择了tx_limit，才能选择tx_peak_limit字段。（2）tx_peak_limit默认取值是tx_limit的值。分布式交换机模式为SRIOV场景时不支持该字段。<br/>|
+|tx_burst_size|否|int32|1~100000|发送突发大小，单位Mbits。取值说明：（1）只有选择了tx_limit，才能选择tx_burst_size字段。（2）tx_burst_size默认取值是tx_peak_limit的值（如发送带宽峰值为100Mbps时，发送突发大小缺省为100Mbits）。分布式交换机模式为SRIOV场景时不支持该字段。<br/>|
+|priority|否|int32|2~7<br/>默认值：7|发送优先级。取值说明：优先级越小表示调度越快。（1）priority默认值为7。（2）只有选择tx_limit时，priority默认值才生效。分布式交换机模式为SRIOV、用户态交换模式场景时不支持该字段。<br/>|
+|rx_limit|否|int32|1~32000|接收平均带宽，单位Mbps。取值说明：分布式交换机模式为SRIOV场景不支持该字段。<br/>|
+|rx_peak_limit|否|int32|1~32000|带宽接收带宽峰值，单位Mbps。取值说明：（1）只有选择了rx_limit，才能选择rx_peak_limit字段。（2）rx_peak_limit默认取值是rx_limit的值。分布式交换机模式为SRIOV场景时不支持该字段。<br/>|
+|rx_burst_size|否|int32|1~32000|接收突发大小，单位Mbits。取值说明：（1）只有选择了rx_limit，才能选择rx_burst_size字段。（2）rx_burst_size默认取值是rx_peak_limit的值（例如：峰值带宽为100Mbps时，突发大小缺省为100Mbits），分布式交换机模式为SRIOV场景不支持该字段<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|是|string<br/>|无|任务ID。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|创建端口组异步任务下发成功。<br/>|
+
+### 修改端口组
+
+**名称**
+修改端口组
+
+**描述**
+修改 PortGroup。
+
+**基本信息**
+- **方法**: PUT
+- **URI**: /rest/vmmgmt/v1/dvswitchs/\{dvswitch\_id\}/portgroups/\{portgroup\_id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|dvswitch_id|是|string|1~128个字符，且满足正则表达^$|^[_A-Za-z0-9\-:\|]+$|分布式交换机ID。取值说明：包含下划线、字母、数字、横线、冒号、竖线。<br/>|
+|portgroup_id|是|string|1~128个字符，且满足正则表达^$|^[_A-Za-z0-9\-:\|]+$|端口组ID。取值说明：包含下划线、字母、数字、横线、冒号、竖线。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|是|string|1~256个字符，且满足正则表达^[^&;$`&gt;&lt;\\!]+$|端口组名称。取值说明： 名称不能重复（区分大小写），且不能包含特殊字符"&", ";", "$", "`", "<", ">", "\", "!"。<br/>|
+|port_type|是|int32|0~1<br/>默认值：0|端口组类型。取值说明： 0（普通端口组），1（中继端口组）。<br/>|
+|vlan_id|否|int32|0~4094|普通端口组的VLAN。取值说明：port_type为0时，该字段必填。<br/>|
+|vlan_range|否|string|0~2047个字符，且满足正则表达^$|^[0-9\-,]+$|中继端口组的VLAN范围。取值说明：port_type为1时，该字段必填。VLAN范围也可以是单个vlan_id。VLAN范围用A–B表示，不同的范围用“,”分割，起始A的vlan_id要小于结束B的vlan_id。<br/>|
+|description|否|string|0~1024个字符|端口组描述信息。<br/>|
+|is_ip_mac_bind|否|boolean|true,false|是否设置该端口组内虚拟机的IP地址与MAC地址绑定。取值说明：true（设置IP地址与MAC地址绑定），false（不设置IP地址与MAC地址绑定）。分布式交换机模式为SRIOV、用户态时不支持该字段。<br/>|
+|is_dhcp_isolation|否|boolean|true,false|是否设置DHCP隔离。取值说明：true（开启DHCP隔离），false（不开启DHCP隔离）。分布式交换机模式为SRIOV时不支持该字段。<br/>|
+|is_calc_tcp_check_sum|否|boolean|true,false|是否开启填充TCP校验和。取值说明：true（开启填充TCP校验和），false（不开启填充TCP校验和）。分布式交换机模式为SRIOV、用户态交换模式场景不支持该字段。<br/>|
+|ip_bcst_suppress|否|boolean|true,false|是否开启广播抑制带宽，可选取值说明：true（开启），false（不开启）。分布式交换机模式为SRIOV时不支持该字段。<br/>|
+|tx_limit|否|int32|1~100000|发送平均带宽，单位Mbps。取值说明：如果已选择priority，则为必选。分布式交换机模式为SRIOV场景时可选。取值范围：11 ~ 网卡最大速率（100 * 1000）。<br/>|
+|tx_peak_limit|否|int32|1~100000|发送带宽峰值，单位Mbps。取值说明：（1）只有选择了tx_limit，才能选择tx_peak_limit字段。（2）tx_peak_limit默认取值是tx_limit的值。分布式交换机模式为SRIOV场景时不支持该字段。<br/>|
+|tx_burst_size|否|int32|1~100000|发送突发大小，单位Mbits。取值说明：（1）只有选择了tx_limit，才能选择tx_burst_size字段。（2）tx_burst_size默认取值是tx_peak_limit的值（如发送带宽峰值为100Mbps时，发送突发大小缺省为100Mbits）。分布式交换机模式为SRIOV场景时不支持该字段。<br/>|
+|priority|否|int32|2~7<br/>默认值：7|发送优先级。取值说明：优先级越小表示调度越快。（1）priority默认值为7。（2）只有选择tx_limit时，priority默认值才生效。分布式交换机模式为SRIOV、用户态交换模式场景时不支持该字段。<br/>|
+|rx_limit|否|int32|1~32000|接收平均带宽，单位Mbps。取值说明：分布式交换机模式为SRIOV场景不支持该字段。<br/>|
+|rx_peak_limit|否|int32|1~32000|带宽接收带宽峰值，单位Mbps。取值说明：（1）只有选择了rx_limit，才能选择rx_peak_limit字段。（2）rx_peak_limit默认取值是rx_limit的值。分布式交换机模式为SRIOV场景时不支持该字段。<br/>|
+|rx_burst_size|否|int32|1~32000|接收突发大小，单位Mbits。取值说明：（1）只有选择了rx_limit，才能选择rx_burst_size字段。（2）rx_burst_size默认取值是rx_peak_limit的值（例如：峰值带宽为100Mbps时，突发大小缺省为100Mbits），分布式交换机模式为SRIOV场景不支持该字段<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|是|string<br/>|无|任务ID。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|修改端口组异步任务下发成功。<br/>|
+
+### 删除端口组
+
+**名称**
+删除端口组
+
+**描述**
+删除 PortGroup。
+
+**基本信息**
+- **方法**: DELETE
+- **URI**: /rest/vmmgmt/v1/dvswitchs/\{dvswitch\_id\}/portgroups/\{portgroup\_id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|dvswitch_id|是|string|1~128个字符，且满足正则表达^$|^[_A-Za-z0-9\-:\|]+$|分布式交换机ID。取值说明：包含下划线、字母、数字、横线、冒号、竖线。<br/>|
+|portgroup_id|是|string|1~128个字符，且满足正则表达^$|^[_A-Za-z0-9\-:\|]+$|端口组ID：取值说明：包含下划线、字母、数字、横线、冒号、竖线。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|是|string<br/>|无|任务ID。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|删除端口组异步任务下发成功。<br/>|
+
+## 数据存储管理
+
+### 查询数据存储列表
+
+**名称**
+查询数据存储列表
+
+**描述**
+查询数据存储列表，华为云平台场景（vr\_type为HCS）不支持此接口。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/datastores/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|site_id|否|string|0~128个字符|数据存储所在的站点ID。<br/>|
+|cluster_id|否|string|0~128个字符|数据存储所关联的集群ID。<br/>|
+|host_id|否|string|0~128个字符|数据存储所关联的主机ID。<br/>|
+|dc_id|否|string|0~128个字符|数据存储所在数据中心ID。<br/>|
+|name|否|string|0~256个字符|数据存储的名称，支持模糊查询。<br/>|
+|status|否|List<string>|数组最大成员个数：20|数据存储的状态。取值范围：NORMAL（可用），ABNORMAL（不可用），CREATING（创建中），DELETING（删除中），READONLY（只读），EXPANDING（扩容中），RESTORING（恢复中），WARNING（警告），ALERT（警示），UNKNOWN（未知）。<br/>|
+|storage_type|否|List<string>|数组最大成员个数：20|数据存储的类型列表。取值范围： LOCAL（本地硬盘），SAN（SAN存储），ADVANCESAN（Advanced SAN存储），DSWARE（FusionStorage Block），NAS（NAS存储）， LOCALPOME（虚拟化本地硬盘），LUNPOME（虚拟化SAN存储），LUN（裸设备共享存储），iotailor（本地内存盘），CIFS（CIFS协议存储），NFS（NFS协议存储），NFS41（NFS41协议存储）， PMEM（PMEM存储），VFFS（VFFS存储），VMFS（VMFS存储），VSAN（VSAN存储），VVOL（VVOL存储），OTHER（其他类型）。<br/>|
+|allocate_type|否|boolean|true,false<br/><br/>true<br/>false<br/><br/>|数据存储是否支持精简模式，取值范围：true（是），false（否）。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|vr_type|否|string|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string|0~128个字符|数据存储所属的vCenter数据中心ID，仅vCenter场景（vr_type为vmware）支持此字段。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/>host_num<br/>vm_num<br/>total_capacity<br/>used_size<br/>free_capacity<br/>lun_count<br/>used_rate<br/><br/>|排序字段。取值范围：name，host_num，vm_num，total_capacity，used_size，free_capacity，lun_count，used_rate。默认值：name。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|每页查询数据条数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|最小值：0|总数量。<br/>|
+|datastores|否|List<DataStoreListResponse><br/>|数组最大成员个数：1000|数据存储列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|数据存储ID。<br/>|
+|pid|否|string<br/>|0~128个字符|数据标识，该ID用于查询数据存储对应的数据统计，如历史性能数据、容量趋势与预测数据等。<br/>|
+|name|否|string<br/>|0~128个字符|数据存储的名称。<br/>|
+|status|否|string<br/>|<br/>NORMAL<br/>WARNING<br/>ALERT<br/>ABNORMAL<br/>CREATING<br/>DELETING<br/>READONLY<br/>EXPANDING<br/>RESTORING<br/>UNKNOWN<br/>WRITE_PROTECT<br/><br/>|数据存储的状态。取值范围：NORMAL（可用），ABNORMAL（不可用），CREATING（创建中），DELETING（删除中），READONLY（只读），EXPANDING（扩容中），RESTORING（恢复中），WARNING（警告），ALERT（警示），UNKNOWN（未知），WRITE_PROTECT（写保护）。<br/>|
+|storage_type|否|string<br/>|<br/>local<br/>san<br/>advancesan<br/>dsware<br/>nas<br/>localpome<br/>lun<br/>lunpome<br/>iotailor<br/>cifs<br/>nfs<br/>nfs41<br/>other<br/>pmem<br/>vffs<br/>vmfs<br/>vsan<br/>vvol<br/><br/>|数据存储的类型列表。取值范围： local（本地硬盘），san（SAN存储），advancesan（Advanced SAN存储）， dsware（FusionStorage Block），nas（NAS存储）， localpome（虚拟化本地硬盘），lunpome（虚拟化SAN存储），lun（裸设备共享存储），iotailor（本地内存盘），cifs（CIFS协议存储），nfs（NFS协议存储），nfs41（NFS41协议存储）， pmem(PMEM存储），vffs（VFFS存储），vmfs（VMFS存储），vsan（VSAN存储），vvol（VVOL存储），other（其他类型）。<br/>|
+|total_capacity|否|integer<br/>|最小值：0|数据存储的总容量大小，单位：GB。<br/>|
+|used_capacity|否|integer<br/>|最小值：0|数据存储已使用容量大小，单位：GB。<br/>|
+|free_capacity|否|integer<br/>|最小值：0|数据存储未使用容量大小，单位：GB。<br/>|
+|used_rate|否|double<br/>|最小值：0|数据存储的使用率，单位：%<br/>|
+|allocation_rate|否|double<br/>|最小值：0|数据存储的分配率，单位：%<br/>|
+|is_support_thin|否|boolean<br/>|true,false|数据存储是否支持精简。true：支持，false：不支持。<br/>|
+|site_id|否|string<br/>|0~128个字符|数据存储所关联的站点ID。<br/>|
+|vm_num|否|integer<br/>|最小值：0|数据存储关联的虚拟机数量。<br/>|
+|host_num|否|integer<br/>|最小值：0|数据存储关联的主机数量。<br/>|
+|description|否|string<br/>|0~128个字符|数据存储的描述。<br/>|
+|create_time|否|string<br/>|0~128个字符|数据存储的创建时间，毫秒时间戳（自1970年1月1日 00:00:00 UTC以来经过的毫秒数）。<br/>|
+|phsical_disk_num|否|integer<br/>|最小值：0|数据存储关联物理盘数量。<br/>|
+|vm_disk_num|否|integer<br/>|最小值：0|数据存储关联虚拟盘数量。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|数据存储所属的vcenter的数据中心ID。仅在VMware场景下有效。<br/>|
+|dc_id|否|string<br/>|0~128个字符|数据存储所在数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~128个字符|数据中心名称。<br/>|
+|lun_list|否|List<LunResponse><br/>|无|lun列表。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string<br/>|0~256个字符|lun名称。<br/>|
+|wwn|否|string<br/>|0~256个字符|lun WWN。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|数据存储列表查询成功<br/>|
+
+### 查询数据存储信息
+
+**名称**
+查询数据存储信息
+
+**描述**
+查询数据存储信息，华为云平台场景（vr\_type为HCS）不支持此接口。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/datastores/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|数据存储ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|数据存储ID。<br/>|
+|pid|否|string<br/>|0~128个字符|数据标识，该ID用于查询数据存储对应的数据统计，如历史性能数据、容量趋势与预测数据等。<br/>|
+|name|否|string<br/>|0~128个字符|数据存储的名称。<br/>|
+|status|否|string<br/>|<br/>NORMAL<br/>WARNING<br/>ALERT<br/>ABNORMAL<br/>CREATING<br/>DELETING<br/>READONLY<br/>EXPANDING<br/>RESTORING<br/>UNKNOWN<br/>WRITE_PROTECT<br/><br/>|数据存储的状态。取值范围：NORMAL（可用），ABNORMAL（不可用），CREATING（创建中），DELETING（删除中），READONLY（只读），EXPANDING（扩容中），RESTORING（恢复中），WARNING（警告），ALERT（警示），UNKNOWN（未知），WRITE_PROTECT（写保护）。<br/>|
+|storage_type|否|string<br/>|<br/>local<br/>san<br/>advancesan<br/>dsware<br/>nas<br/>localpome<br/>lun<br/>lunpome<br/>iotailor<br/>cifs<br/>nfs<br/>nfs41<br/>other<br/>pmem<br/>vffs<br/>vmfs<br/>vsan<br/>vvol<br/><br/>|数据存储的类型列表。取值范围： local（本地硬盘），san（SAN存储），advancesan（Advanced SAN存储）， dsware（FusionStorage Block），nas（NAS存储）， localpome（虚拟化本地硬盘），lunpome（虚拟化SAN存储），lun（裸设备共享存储），iotailor（本地内存盘），cifs（CIFS协议存储），nfs（NFS协议存储），nfs41（NFS41协议存储）， pmem(PMEM存储），vffs（VFFS存储），vmfs（VMFS存储），vsan（VSAN存储），vvol（VVOL存储），other（其他类型）。<br/>|
+|total_capacity|否|integer<br/>|最小值：0|数据存储的总容量大小，单位：GB。<br/>|
+|used_capacity|否|integer<br/>|最小值：0|数据存储已使用容量大小，单位：GB。<br/>|
+|free_capacity|否|integer<br/>|最小值：0|数据存储未使用容量大小，单位：GB。<br/>|
+|used_rate|否|double<br/>|最小值：0|数据存储的使用率，单位：%<br/>|
+|allocation_rate|否|double<br/>|最小值：0|数据存储的分配率，单位：%<br/>|
+|is_support_thin|否|boolean<br/>|true,false|数据存储是否支持精简。true：支持，false：不支持。<br/>|
+|site_id|否|string<br/>|0~128个字符|数据存储所关联的站点ID。<br/>|
+|vm_num|否|integer<br/>|最小值：0|数据存储关联的虚拟机数量。<br/>|
+|host_num|否|integer<br/>|最小值：0|数据存储关联的主机数量。<br/>|
+|description|否|string<br/>|0~128个字符|数据存储的描述。<br/>|
+|create_time|否|string<br/>|0~128个字符|数据存储的创建时间，毫秒时间戳（自1970年1月1日 00:00:00 UTC以来经过的毫秒数）。<br/>|
+|phsical_disk_num|否|integer<br/>|最小值：0|数据存储关联物理盘数量。<br/>|
+|vm_disk_num|否|integer<br/>|最小值：0|数据存储关联虚拟盘数量。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|数据存储所属的vcenter的数据中心ID。仅在VMware场景下有效。<br/>|
+|dc_id|否|string<br/>|0~128个字符|数据存储所在数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~128个字符|数据中心名称。<br/>|
+|lun_list|否|List<LunResponse><br/>|无|lun列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string<br/>|0~256个字符|lun名称。<br/>|
+|wwn|否|string<br/>|0~256个字符|lun WWN。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询数据存储信息成功。<br/>|
+
+### 查询指定数据存储与宿主机的关联关系
+
+**名称**
+查询指定数据存储与宿主机的关联关系
+
+**描述**
+查询数据存储与宿主机的关系
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/datastores/datastore-host-relations/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|ds_id|否|string|最多256个字符|数据存储ID。<br/>|
+|host_id|否|string|最多64个字符|物理主机ID。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|分页查询的个数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|无|总数量。<br/>|
+|dataStoreAndHostRelList|否|List<DataStoreAndHostRel><br/>|无|数据存储与宿主机关系列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|关系id。<br/>|
+|ds_id|否|string<br/>|0~256个字符|数据存储ID。<br/>|
+|ds_name|否|string<br/>|0~256个字符|数据存储名称。<br/>|
+|host_id|否|string<br/>|0~64个字符|宿主机id。<br/>|
+|host_name|否|string<br/>|0~255个字符|宿主机名称。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询数据存储与宿主机的关系成功。<br/>|
+
+### 查询物理盘信息
+
+**名称**
+查询物理盘信息
+
+**描述**
+查询物理盘信息。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vdisks/pdisks
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string|0~256个字符|物理盘名称，支持模糊查询。<br/>|
+|storage_resource_name|否|string|0~256个字符|所属存储资源名称，支持模糊查询。<br/>|
+|storage_resource_ip|否|string|0~256个字符|所属已接入系统的存储设备IP，支持模糊查询。<br/>|
+|vr_type|否|string|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|lun_name|否|string|0~256个字符|卷名称，支持模糊查询。<br/>|
+|wwn|否|string|0~256个字符|卷wwn，支持模糊查询。<br/>|
+|type|否|List<string>|数组最大成员个数：11|存储设备类型列表。取值范围: LOCAL（本地硬盘），DSWARE（DSWare的存储池），NAS（本地内存盘），IPSAN（IP协议对接存储设备创建的盘），FCSAN（FC SAN）， ADVANCESAN（eVol存储），FC_LUN（FC协议对接存储设备创建的盘），ISCSI_LUN（ISCSI协议对接存储设备创建的盘），OTHER（其他）， LOCAL_DISK（本地磁盘）， NVMESAN（NVMESAN）。备注：当vr_type为HCS时，不支持此字段；当vr_type为VMWARE时，该字段仅支持设置为FC_LUN，ISCSI_LUN，OTHER和LOCAL_DISK。<br/>|
+|support_adl|否|List<integer>|数组最大成员个数：3|硬件辅助锁筛选列表。取值范围：0（未知），1（不支持），2（支持）。备注：当且仅当vr_type为FUSIONCOMPUTE时，支持此字段。<br/>|
+|status|否|List<string>|数组最大成员个数：2|物理盘状态列表。取值范围：NORMAL（可用），ABNORMAL（异常）。<br/>|
+|host_id|否|string|0~128个字符|物理盘所属物理主机ID。<br/>|
+|datastore_id|否|string|0~128个字符|物理盘所属数据存储ID。<br/>|
+|cluster_id|否|string|0~128个字符|物理盘所属集群ID。<br/>|
+|use_state|否|string|<br/>unused<br/>unexpanded<br/>all<br/><br/>|使用状态。取值范围：unused（未使用的存储设备），unexpanded（未被扩容的存储设备），all（所有存储设备）。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序）。<br/>|
+|sort_key|否|string|<br/>capacity<br/>refresh_time<br/><br/><br/>默认值：capacity|排序字段。取值范围：capacity（容量），refresh_time（扫描时间）。<br/>|
+|page_no|否|int32|0~2147483647<br/>默认值：0|分页查询起始页。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：1000|每页最大数量。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|无|物理盘总数量。<br/>|
+|disks|否|List<DiskResponse><br/>|无|物理盘列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|物理盘ID。<br/>|
+|type|否|string<br/>|0~128个字符|存储设备类型列表。取值范围: LOCAL（本地硬盘），DSWARE（DSWare的存储池），NAS（本地内存盘），IPSAN（IP协议对接存储设备创建的盘），FCSAN（FC SAN）， ADVANCESAN（eVol存储），FC_LUN（FC协议对接存储设备创建的盘），ISCSI_LUN（ISCSI协议对接存储设备创建的盘），OTHER（其他）， LOCAL_DISK（本地磁盘），NVMESAN（NVMESAN）。备注：当vr_type为HCS时，不支持此字段；当vr_type为VMWARE时，该字段仅支持设置为FC_LUN，ISCSI_LUN，OTHER和LOCAL_DISK。<br/>|
+|capacity|否|int32<br/>|无|容量。单位：GB。<br/>|
+|refresh_time|否|string<br/>|0~128个字符|上次扫描时间。使用ISO-8601格式，如2000-01-01 00:00:00。备注：当且仅当vr_type为FUSIONCOMPUTE时，支持此字段。<br/>|
+|wwn|否|string<br/>|0~128个字符|SAN设备的LUN对应的wwn号。<br/>|
+|lun_name|否|string<br/>|0~128个字符|SAN设备对应的LUN名称。<br/>|
+|support_adl|否|int32<br/>|0~2|硬件辅助锁。取值范围：0（未知），1（不支持），2（支持）。当且仅当vr_type为FUSIONCOMPUTE时，支持此字段。<br/>|
+|name|否|string<br/>|0~128个字符|存储设备名称。<br/>|
+|status|否|string<br/>|<br/>NORMAL<br/>ABNORMAL<br/><br/>|存储设备状态。取值范围：NORMAL（可用），ABNORMAL（异常）。当且仅当vr_type为FUSIONCOMPUTE时，支持此字段。<br/>|
+|storage_resource_name|否|string<br/>|0~128个字符|所属存储资源名称。<br/>|
+|storage_resource_ip|否|string<br/>|0~128个字符|所属存储资源IP。<br/>|
+|pool_urn|否|string<br/>|0~128个字符|存储池URN。备注：当vr_type为FUSIONCOMPUTE，存储设备为eVol或DSWARE类型，且存储设备已被成功纳管时该字段有返回值。<br/>|
+|storage_device_id|否|string<br/>|0~128个字符|物理盘所属存储设备ID。备注：当且仅当存储设备已被成功纳管时该字段有返回值。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询物理盘信息成功。<br/>|
+
+## 虚拟机管理
+
+### 查询虚拟机列表
+
+**名称**
+查询虚拟机列表
+
+**描述**
+查询虚拟机列表，根据数据存储ID（datastore\_id）过滤时，其他根据ID过滤的功能将会失效
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|site_id|否|string|0~128个字符|虚拟机所属站点ID。<br/>|
+|cluster_id|否|string|0~128个字符|虚拟机所属集群ID。备注：当vr_type为HCS时不支持此字段。<br/>|
+|dc_id|否|string|0~128个字符|数据中心ID。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|cluster_name|否|string|0~256个字符|虚拟机所属集群的名称。备注：名称长度如果超过78个字符，超过部分会被优化成省略号，支持模糊搜索。另外，当vr_type为HCS时不支持此字段。<br/>|
+|host_id|否|string|0~128个字符|虚拟机所属物理主机唯一标识。<br/>|
+|host_name|否|string|0~256个字符|虚拟机所属主机名称，支持模糊搜索。<br/>|
+|name|否|string|0~256个字符|虚拟机的名称，支持模糊搜索。<br/>|
+|ip_address|否|string|0~64个字符|虚拟机的IP地址，支持模糊搜索。<br/>|
+|status|否|List<string>|数组最大成员个数：20|虚拟机的状态。取值范围：running（运行中），stopped（已停止），unknown（未知），hibernated（已休眠），creating（创建中或模板正在部署虚拟机或正在导入模板），shutting-down（删除中），migrating（迁移中），fault-resuming（故障恢复中），starting（启动中），stopping（停止中），hibernating（休眠中），pause（已暂停），recycling（回收中）。<br/>|
+|is_template|否|boolean|true,false|是否是模板。取值范围：true（是），false（否）。<br/>|
+|os_type|否|List<string>|数组最大成员个数：3|操作系统类型列表。取值范围：Windows，Linux，Other。<br/>|
+|vr_type|否|string|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string|0~128个字符，且满足正则表达^$|^[_A-Za-z0-9\-:\|]+$|数据存储所属的数据中心唯一标识，当且仅当vr_type为VMWARE时支持此字段。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/>cpu_core<br/>memory_size<br/>disk_total_size<br/>create_time<br/>delete_time<br/>ip_address<br/><br/>|排序字段。取值范围：name（虚拟机名称），cpu_core（虚拟机的cpu总核数，对应返回值中结构体cpu的quantity属性），memory_size（虚拟机内存总大小，对应返回值中结构体memory的quantity_size属性），disk_total_size（虚拟机磁盘容量总数），create_time（虚拟机创建时间），delete_time（延迟删除场景下，VM将被删除的时间），ip_address（虚拟机ip地址）。备注：当且仅当vr_type为HCS时，仅支持name，ip_address字段排序。默认值：create_time。<br/>|
+|page_no|否|int32|1~2147483647<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|每页最大数量。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|最小值：0|虚拟机总数量。<br/>|
+|vms|否|List<Vm><br/>|数组最大成员个数：1000|虚拟机列表信息。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|最多128个字符|虚拟机唯一标识。<br/>|
+|project_id|否|string<br/>|最多36个字符|资源集唯一标识。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|pid|否|string<br/>|最多128个字符|数据标识。备注：该标识用于查询虚拟机对应的统计数据，如历史性能数据、容量趋势与预测数据等，当vr_type为HCS时不支持此字段。<br/>|
+|name|否|string<br/>|最多256个字符|虚拟机名称。<br/>|
+|description|否|string<br/>|最多256个字符|虚拟机描述。当vr_type为HCS时不支持此字段。<br/>|
+|status|否|string<br/>|<br/>running<br/>stopped<br/>unknown<br/>hibernated<br/>creating<br/>shutting_down<br/>migrating<br/>fault_resuming<br/>starting<br/>stopping<br/>hibernating<br/>pause<br/>recycling<br/>deactivated<br/>active<br/>saving<br/>deleted<br/>other<br/>uploading<br/>pending_delete<br/>queued<br/>importing<br/>killed<br/>storage_migrating<br/>building<br/>error<br/><br/>|虚拟机状态，取值范围：running（运行中），stopped（已停止），unknown（不明确），hibernated（已休眠），creating（创建中或模板正在部署虚拟机或正在导入模板），shutting-down（删除中），migrating（迁移中），fault-resuming（故障恢复中），starting（启动中），stopping（停止中），hibernating（休眠中），pause（已暂停），recycling（回收中）deactivated（未激活），active（正常），saving（正在存储），deleted（已删除），other（其他），uploading（正在上传），pending_delete（等待删除），queued（队列中），importing（正在导入），killed（已结束）,storage_migrating（存储正在迁移）,building(正在构建)，error(异常)。<br/>|
+|ip_address|否|string<br/>|最多256个字符|虚拟机IP地址。<br/>|
+|site_id|否|string<br/>|最多128个字符|虚拟机所属站点ID。<br/>|
+|cluster_id|否|string<br/>|最多128个字符|虚拟机所属集群ID。备注：当vr_type为HCS时不支持此字段。<br/>|
+|cluster_name|否|string<br/>|最多128个字符|虚拟机所属集群名称。备注：集群名称长度如果超过78个字符，超过部分会被优化成省略号。另外，vr_type为HCS时不支持此字段。<br/>|
+|host_id|否|string<br/>|最多128个字符|虚拟机所属物理主机id。<br/>|
+|host_name|否|string<br/>|最多256个字符|虚拟机所属物理主机名称。<br/>|
+|create_time|否|string<br/>|最多128个字符|创建时间。备注：当vr_type为HCS时不支持此字段。<br/>|
+|delete_time|否|string<br/>|0~128个字符|删除时间。延迟删除场景下，VM将被删除的时间。<br/>|
+|disk_total_size|否|int64<br/>|最小值：0|分配磁盘总空间。单位：GB。备注：当vr_type为HCS时不支持此字段。<br/>|
+|disk_used_size|否|int64<br/>|最小值：0|已用磁盘空间。单位：GB。备注：当vr_type为HCS时不支持此字段。<br/>|
+|disk_num|否|integer<br/>|最小值：0|虚拟机磁盘数量。<br/>|
+|is_template|否|boolean<br/>|true,false|是否是模板。取值范围：true（是），false（否）。<br/>|
+|arch|否|string<br/>|<br/>x86<br/>arm<br/><br/>|架构类型。取值范围：x86，arm，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|虚拟机所属数据中心id。备注：当vr_type为HCS时不支持此字段。<br/>|
+|datacenter_name|否|string<br/>|1~128个字符|虚拟机所属数据中心名称。备注：当vr_type为HCS时不支持此字段。<br/>|
+|snapshot_num|否|int64<br/>|最小值：0|虚拟机快照数量。备注：当vr_type为HCS时不支持此字段。<br/>|
+|is_binding_host|否|boolean<br/>|true,false|是否绑定目的主机。取值范围：true（是），false（否）。备注：当vr_type为HCS时不支持此字段。<br/>|
+|cpu|否|VMCpu对象<br/>|无|虚拟机CPU信息。<br/>|
+|memory|否|VMMemory对象<br/>|无|虚拟机内存信息。<br/>|
+|vm_nics|否|List<VmNicDetail><br/>|无|虚拟网卡列表信息。<br/>|
+|vm_disks|否|List<VDisk><br/>|无|虚拟磁盘列表信息。<br/>|
+|pv_driver_status|否|string<br/>|<br/>starting<br/>notRunning<br/>running<br/><br/>|工具驱动状态，取值范围：starting（启动中），notRunning（未运行），running（正运行），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|os_options|否|OsOptions对象<br/>|无|操作系统信息。<br/>|
+|floppy_file|否|string<br/>|0~512个字符|软驱文件（仅windows支持）。<br/>|
+|floppy_status|否|floppy_status对象<br/>|无|软驱的挂载状态，当挂载成功时，设置其值为fill状态，当卸载成功时，设置其值为empty状态。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|quantity|否|integer<br/>|1~255|虚拟机的总核数。取值范围：1~255。<br/>|
+|cpu_hot_plug|否|integer<br/>|0~1<br/>默认值：1|CPU热插拔开关。取值范围：0（禁用CPU热插拔），1（启用CPU热插拔），默认值为1。备注：该字段仅适用查询虚拟机列表信息的接口响应，不支持通过该字段设置虚拟机CPU热插开关，其默认值根据虚拟机OS能力进行设置，并且当vr_type为HCS时不支持此字段。<br/>|
+|weight|否|integer<br/>|2~255000|CPU份额。备注：默认从原模板或虚拟机中获取该参数，并且当vr_type为HCS时不支持此字段。<br/>|
+|reservation|否|integer<br/>|0~83886080|虚拟机CPU的预留（单位为MHz），该参数值为空时默认从原模板或虚拟机中获取。该参数值不能超过quantity乘以站点下主机的最大CPU主频，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|limit|否|integer<br/>|0~83886080|虚拟机CPU上限（单位MHz），该参数值为空时默认从原模板或虚拟机中获取。该参数值不能超过quantity乘以站点下主机的最大CPU主频，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|quantity_size|否|integer<br/>|128~4194304|虚拟机内存总大小，单位：MB。对于不同的操作系统，所支持的最大内存不同。<br/>|
+|mem_hot_plug|否|integer<br/>|0~1<br/>默认值：1|内存热插拔开关。取值范围：0（禁用内存热插拔），1（启用内存热插拔），默认值为1。备注：该字段仅适用查询虚拟机信息接口响应，不支持通过该字段设置虚拟机内存热插开关，其默认值根据虚拟机OS能力进行设置，并且当vr_type为HCS时不支持此字段。<br/>|
+|reservation|否|integer<br/>|0~83886080|虚拟机内存预留（单位MB）。VMMemory对象为空时，默认从原模板或虚拟机中回填参数；VMMemory对象不为空时，其默认值从原模板或虚拟机取参数， 若该参数值<内存规格大小*0.7或该参数>内存规格，则将内存预留回填为：内存规格大小*0.7，否则直接回填为该参数，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|limit|否|integer<br/>|0~4194304|虚拟机内存上限（单位MB），该参数值为空时默认从原模板或虚拟机中获取。该参数值大于quantity_size时，系统内部自动处理为quantity_size，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|虚拟网卡唯一标识ID。<br/>|
+|name|否|string<br/>|0~256个字符|虚拟网卡名称，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|pid|否|string<br/>|0~64个字符|主键ID，查询性能数据用，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|type|否|integer<br/>|<br/>1<br/>2<br/>3<br/>4<br/>5<br/><br/>|虚拟网卡类型，华为云平台场景（vr_type为HCS）不支持此字段。取值范围：1（virtio），2（e1000，KVM未支持），3（rtl8139，KVM未支持），4（vhost-user），5（sriov）。<br/>|
+|vringbuf|否|integer<br/>|<br/>256<br/>512<br/>1024<br/>2048<br/>4096<br/><br/>|IO环大小，单位：个，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|queues|否|integer<br/>|最小值：0|虚拟机网卡的IO队列数，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|vm_id|否|string<br/>|0~256个字符|虚拟机ID<br/>|
+|vm_name|否|string<br/>|0~256个字符|虚拟机名称<br/>|
+|mac_address|否|string<br/>|0~17个字符|MAC地址，格式00-00-00-00-00-00，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|ip_address|否|string<br/>|0~256个字符|IP地址<br/>|
+|port_group_id|否|string<br/>|0~128个字符|网卡所属端口组ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|port_group_name|否|string<br/>|0~256个字符|网卡所属端口组名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_id|否|string<br/>|0~128个字符|网卡所属分布式交换机ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_name|否|string<br/>|0~256个字符|网卡所属分布式交换机名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_type|否|string<br/>|<br/>VSWITCH<br/>SRIOV<br/>USERMODE<br/><br/>|网卡所属分布式交换机类型。VSWITCH（vSwitch 普通模式），SR-IOV（SR-IOV 直通模式），USER-MODE（用户态交换模式），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|boot_order|否|integer<br/>|最小值：-1|网卡启动顺序，默认为-1，表示不设置启动顺序，从1开始，数值越大，优先级越低，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|site_id|否|string<br/>|0~128个字符|虚拟机所属站点ID<br/>|
+|vsp_id|否|string<br/>|0~128个字符|网卡限速配置的ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|enable_security_group|否|boolean<br/>|true,false<br/>默认值：false|是否开启安全组。true：开启，false：关闭，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|security_group_id|否|integer<br/>|最少0个字符|安全组ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|security_group_name|否|string<br/>|0~256个字符|安全组名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|nic_type|否|integer<br/>|<br/>0<br/>1<br/>2<br/><br/>|网卡的硬件类型。取值范围：0（普通网卡），1（inic网卡，KVM未支持），2（sriov，网卡仅在查询时有效），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|无|虚拟磁盘ID。<br/>|
+|pid|否|string<br/>|1~128个字符|数据标识。备注：该标识用于查询虚拟磁盘信息对应的统计数据，如历史性能数据、容量趋势与预测数据等，并且当vr_type为HCS不支持此字段。<br/>|
+|status|否|string<br/>|<br/>CREATING<br/>DELETING<br/>USE<br/>RESTORING<br/>RESTORED<br/>SNAPSHOTING<br/>FORMATING<br/>FORMATFAILED<br/>COPYING<br/>COPYFAILED<br/>MIGRATING<br/>RESIZING<br/>SHRINKING<br/>DELETEFAILED<br/><br/>|卷状态，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围： CREATING（创建中）， DELETING（删除中）， USE（可用的）， RESTORING（恢复中）， RESTORED（已恢复）， SNAPSHOTING（正在做快照）， FORMATING（正在格式化）， FORMATFAILED（格式化失败）， COPYING（拷贝中）， COPYFAILED（拷贝失败）， MIGRATING（迁移中）， RESIZING（扩容中）， SHRINKING（磁盘容量回收中）， DELETEFAILED（删除失败）。<br/>|
+|type|否|string<br/>|<br/>normal<br/>share<br/><br/>|卷类型。取值范围：normal（普通卷），share（共享卷）。备注：当vr_type为HCS时不支持此字段。<br/>|
+|name|否|string<br/>|无|虚拟磁盘名称。<br/>|
+|total_capacity|否|double<br/>|无|磁盘总容量，单位：GB。<br/>|
+|used_capacity|否|double<br/>|无|已使用磁盘容量，单位：GB。备注：当vr_type为VMWARE时不支持此字段。<br/>|
+|provision_capacity|否|double<br/>|无|已分配磁盘容量，单位：GB。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|vm_id|否|string<br/>|无|虚拟磁盘所关联的虚拟机ID。<br/>|
+|vm_name|否|string<br/>|无|虚拟磁盘所关联的虚拟机名称。<br/>|
+|pci_type|否|string<br/>|<br/>IDE<br/>SCSI<br/>VIRTIO<br/><br/>|总线类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：IDE，SCSI，VIRTIO。 VIRTIO/IDE/SCSI：在非裸设备映射的数据存储上创建的磁盘可以挂载在VIRTIO、IDE、SCSI总线上。 VIRTIO性能较好，IDE性能较差，仅用于虚拟机镜像制作及虚拟机光驱； VIRTIO/SCSI：在裸设备映射的存储上创建的磁盘只能挂载在VIRTIO或者SCSI总线上。<br/>|
+|scsi_command_passthrough|否|boolean<br/>|true,false|CSI命令是否透传，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段，且仅当pciType为SCSI时有效，虚拟化数据存储只支持不透传，非虚拟化存储均支持。 true：透传，虚拟机下发的SCSI命令直接透传给物理SCSI设备； false：不透传，虚拟化层模拟大部分SCSI命令，但对于需要操作物理硬件的SCSI指令无法支持。<br/>|
+|vdisk_settings_type|否|integer<br/>|<br/>0<br/>1<br/><br/>|配置模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：0（普通卷）1（普通延迟置零卷）。 普通：根据磁盘容量为磁盘分配空间，在创建过程中会将物理设备上保留的数据置零，建议系统盘使用该模式。 普通延迟置零：根据磁盘容量为磁盘分配空间，创建时不会擦除物理设备上保留的任何数据，但后续从虚拟机首次执行写操作时会按需要将其置零。<br/>|
+|is_system_vdisk|否|boolean<br/>|true,false|是否是系统卷，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：是，false：否。<br/>|
+|is_thin|否|boolean<br/>|true,false|是否是精简设备，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：精简，false：非精简。<br/>|
+|datastore_id|否|string<br/>|无|虚拟磁盘关联的数据存储ID，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|datastore_type|否|string<br/>|<br/>DSWARE<br/>NAS<br/>LOCALPOME<br/>LUNPOME<br/>LUN<br/>ADVANCESAN<br/><br/>|数据存储类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。 DSWARE（华为分布式存储系统 1-32768）， NAS（表示NAS存储 1-65536）， LOCALPOME（表示虚拟化的本地存储 1-16383）， LUNPOME（表示虚拟化的共享存储(大LUN) 1-65536）， LUN（只能用于裸设备映射的共享存储1-65536）, ADVANCESAN（表示共享存储(小lun)1-2048）。<br/>|
+|vm_num|否|integer<br/>|无|虚拟磁盘绑定的虚拟机数量。<br/>|
+|service_level_id|否|string<br/>|无|虚拟磁盘关联的服务等级ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|service_level_name|否|string<br/>|无|虚拟磁盘关联的服务等级名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|is_indep_disk|否|boolean<br/>|true,false|是否为独立磁盘，取值范围：false（从属），true（独立）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|is_persistent_disk|否|boolean<br/>|true,false|是否是持久化磁盘。取值范围：false（非持久化），true（持久化）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|io_mode|否|string<br/>|正则表达式为threads|native|dataplane|磁盘IO模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：threads，native，dataplane。 选择native模式后性能优先，可靠性有所下降。 选择threads模式通过起线程方式实现异步I/O，可靠性高。 选择dataplane模式开启单独的I/O线程，提升虚拟机多磁盘性能，但是会增加对宿主的资源占用。<br/>|
+|sequence_num|否|integer<br/>|无|槽位号，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|compatibility_mode|否|string<br/>|<br/>PHYSICAL_MODE<br/>VIRTUAL_MODE<br/><br/>|兼容模式。取值范围：PHYSICAL_MODE（物理模式），VIRTUAL_MODE（虚拟模式）。仅vCenter场景（vr_type为VMWARE）且磁盘是裸设备映射（disk_type为RDM）支持此字段。<br/>|
+|disk_type|否|string<br/>|<br/>RDM<br/>FLAT<br/><br/>|虚拟磁盘类型。取值范围：RDM（直通盘），FLAT（平面磁盘）。仅vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|metadata_preallocate|否|boolean<br/>|true,false|元数据预分配开关。true表示开启，false表示未开启。FusionCompute 8.10.0及以上版本支持此参数。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|os_version|否|string<br/>|0~64个字符，且满足正则表达^$|^[0-9]+$|操作系统版本号。创建虚拟机时必选。<br/>|
+|os_type|否|string<br/>|<br/>Windows<br/>Linux<br/>Other<br/><br/>|操作系统类型。<br/>|
+|guest_os_name|否|string<br/>|0~64个字符|guestOS名称，可选。长度[0,64]，在os_version为 201-其他Windows(32 bit)、202-其他Windows(64 bit)、 301-其他Linux(32 bit)、302-其他Linux(64 bit)、401-其他(32 bit)、402-其他(64 bit)时生效。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询虚拟列表机成功。<br/>|
+
+### 查询指定虚拟机
+
+**名称**
+查询指定虚拟机
+
+**描述**
+查询指定虚拟机
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|最多128个字符|虚拟机唯一标识。<br/>|
+|project_id|否|string<br/>|最多36个字符|资源集唯一标识。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|pid|否|string<br/>|最多128个字符|数据标识。备注：该标识用于查询虚拟机对应的统计数据，如历史性能数据、容量趋势与预测数据等，当vr_type为HCS时不支持此字段。<br/>|
+|name|否|string<br/>|最多256个字符|虚拟机名称。<br/>|
+|description|否|string<br/>|最多256个字符|虚拟机描述。当vr_type为HCS时不支持此字段。<br/>|
+|status|否|string<br/>|<br/>running<br/>stopped<br/>unknown<br/>hibernated<br/>creating<br/>shutting_down<br/>migrating<br/>fault_resuming<br/>starting<br/>stopping<br/>hibernating<br/>pause<br/>recycling<br/>deactivated<br/>active<br/>saving<br/>deleted<br/>other<br/>uploading<br/>pending_delete<br/>queued<br/>importing<br/>killed<br/>storage_migrating<br/>building<br/>error<br/><br/>|虚拟机状态，取值范围：running（运行中），stopped（已停止），unknown（不明确），hibernated（已休眠），creating（创建中或模板正在部署虚拟机或正在导入模板），shutting-down（删除中），migrating（迁移中），fault-resuming（故障恢复中），starting（启动中），stopping（停止中），hibernating（休眠中），pause（已暂停），recycling（回收中）deactivated（未激活），active（正常），saving（正在存储），deleted（已删除），other（其他），uploading（正在上传），pending_delete（等待删除），queued（队列中），importing（正在导入），killed（已结束）,storage_migrating（存储正在迁移）,building(正在构建)，error(异常)。<br/>|
+|ip_address|否|string<br/>|最多256个字符|虚拟机IP地址。<br/>|
+|site_id|否|string<br/>|最多128个字符|虚拟机所属站点ID。<br/>|
+|cluster_id|否|string<br/>|最多128个字符|虚拟机所属集群ID。备注：当vr_type为HCS时不支持此字段。<br/>|
+|cluster_name|否|string<br/>|最多128个字符|虚拟机所属集群名称。备注：集群名称长度如果超过78个字符，超过部分会被优化成省略号。另外，vr_type为HCS时不支持此字段。<br/>|
+|host_id|否|string<br/>|最多128个字符|虚拟机所属物理主机id。<br/>|
+|host_name|否|string<br/>|最多256个字符|虚拟机所属物理主机名称。<br/>|
+|create_time|否|string<br/>|最多128个字符|创建时间。备注：当vr_type为HCS时不支持此字段。<br/>|
+|delete_time|否|string<br/>|0~128个字符|删除时间。延迟删除场景下，VM将被删除的时间。<br/>|
+|disk_total_size|否|int64<br/>|最小值：0|分配磁盘总空间。单位：GB。备注：当vr_type为HCS时不支持此字段。<br/>|
+|disk_used_size|否|int64<br/>|最小值：0|已用磁盘空间。单位：GB。备注：当vr_type为HCS时不支持此字段。<br/>|
+|disk_num|否|integer<br/>|最小值：0|虚拟机磁盘数量。<br/>|
+|is_template|否|boolean<br/>|true,false|是否是模板。取值范围：true（是），false（否）。<br/>|
+|arch|否|string<br/>|<br/>x86<br/>arm<br/><br/>|架构类型。取值范围：x86，arm，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|虚拟机所属数据中心id。备注：当vr_type为HCS时不支持此字段。<br/>|
+|datacenter_name|否|string<br/>|1~128个字符|虚拟机所属数据中心名称。备注：当vr_type为HCS时不支持此字段。<br/>|
+|snapshot_num|否|int64<br/>|最小值：0|虚拟机快照数量。备注：当vr_type为HCS时不支持此字段。<br/>|
+|is_binding_host|否|boolean<br/>|true,false|是否绑定目的主机。取值范围：true（是），false（否）。备注：当vr_type为HCS时不支持此字段。<br/>|
+|cpu|否|VMCpu对象<br/>|无|虚拟机CPU信息。<br/>|
+|memory|否|VMMemory对象<br/>|无|虚拟机内存信息。<br/>|
+|vm_nics|否|List<VmNicDetail><br/>|无|虚拟网卡列表信息。<br/>|
+|vm_disks|否|List<VDisk><br/>|无|虚拟磁盘列表信息。<br/>|
+|pv_driver_status|否|string<br/>|<br/>starting<br/>notRunning<br/>running<br/><br/>|工具驱动状态，取值范围：starting（启动中），notRunning（未运行），running（正运行），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|os_options|否|OsOptions对象<br/>|无|操作系统信息。<br/>|
+|floppy_file|否|string<br/>|0~512个字符|软驱文件（仅windows支持）。<br/>|
+|floppy_status|否|floppy_status对象<br/>|无|软驱的挂载状态，当挂载成功时，设置其值为fill状态，当卸载成功时，设置其值为empty状态。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|quantity|否|integer<br/>|1~255|虚拟机的总核数。取值范围：1~255。<br/>|
+|cpu_hot_plug|否|integer<br/>|0~1<br/>默认值：1|CPU热插拔开关。取值范围：0（禁用CPU热插拔），1（启用CPU热插拔），默认值为1。备注：该字段仅适用查询虚拟机列表信息的接口响应，不支持通过该字段设置虚拟机CPU热插开关，其默认值根据虚拟机OS能力进行设置，并且当vr_type为HCS时不支持此字段。<br/>|
+|weight|否|integer<br/>|2~255000|CPU份额。备注：默认从原模板或虚拟机中获取该参数，并且当vr_type为HCS时不支持此字段。<br/>|
+|reservation|否|integer<br/>|0~83886080|虚拟机CPU的预留（单位为MHz），该参数值为空时默认从原模板或虚拟机中获取。该参数值不能超过quantity乘以站点下主机的最大CPU主频，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|limit|否|integer<br/>|0~83886080|虚拟机CPU上限（单位MHz），该参数值为空时默认从原模板或虚拟机中获取。该参数值不能超过quantity乘以站点下主机的最大CPU主频，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|quantity_size|否|integer<br/>|128~4194304|虚拟机内存总大小，单位：MB。对于不同的操作系统，所支持的最大内存不同。<br/>|
+|mem_hot_plug|否|integer<br/>|0~1<br/>默认值：1|内存热插拔开关。取值范围：0（禁用内存热插拔），1（启用内存热插拔），默认值为1。备注：该字段仅适用查询虚拟机信息接口响应，不支持通过该字段设置虚拟机内存热插开关，其默认值根据虚拟机OS能力进行设置，并且当vr_type为HCS时不支持此字段。<br/>|
+|reservation|否|integer<br/>|0~83886080|虚拟机内存预留（单位MB）。VMMemory对象为空时，默认从原模板或虚拟机中回填参数；VMMemory对象不为空时，其默认值从原模板或虚拟机取参数， 若该参数值<内存规格大小*0.7或该参数>内存规格，则将内存预留回填为：内存规格大小*0.7，否则直接回填为该参数，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|limit|否|integer<br/>|0~4194304|虚拟机内存上限（单位MB），该参数值为空时默认从原模板或虚拟机中获取。该参数值大于quantity_size时，系统内部自动处理为quantity_size，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|虚拟网卡唯一标识ID。<br/>|
+|name|否|string<br/>|0~256个字符|虚拟网卡名称，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|pid|否|string<br/>|0~64个字符|主键ID，查询性能数据用，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|type|否|integer<br/>|<br/>1<br/>2<br/>3<br/>4<br/>5<br/><br/>|虚拟网卡类型，华为云平台场景（vr_type为HCS）不支持此字段。取值范围：1（virtio），2（e1000，KVM未支持），3（rtl8139，KVM未支持），4（vhost-user），5（sriov）。<br/>|
+|vringbuf|否|integer<br/>|<br/>256<br/>512<br/>1024<br/>2048<br/>4096<br/><br/>|IO环大小，单位：个，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|queues|否|integer<br/>|最小值：0|虚拟机网卡的IO队列数，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|vm_id|否|string<br/>|0~256个字符|虚拟机ID<br/>|
+|vm_name|否|string<br/>|0~256个字符|虚拟机名称<br/>|
+|mac_address|否|string<br/>|0~17个字符|MAC地址，格式00-00-00-00-00-00，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|ip_address|否|string<br/>|0~256个字符|IP地址<br/>|
+|port_group_id|否|string<br/>|0~128个字符|网卡所属端口组ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|port_group_name|否|string<br/>|0~256个字符|网卡所属端口组名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_id|否|string<br/>|0~128个字符|网卡所属分布式交换机ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_name|否|string<br/>|0~256个字符|网卡所属分布式交换机名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_type|否|string<br/>|<br/>VSWITCH<br/>SRIOV<br/>USERMODE<br/><br/>|网卡所属分布式交换机类型。VSWITCH（vSwitch 普通模式），SR-IOV（SR-IOV 直通模式），USER-MODE（用户态交换模式），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|boot_order|否|integer<br/>|最小值：-1|网卡启动顺序，默认为-1，表示不设置启动顺序，从1开始，数值越大，优先级越低，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|site_id|否|string<br/>|0~128个字符|虚拟机所属站点ID<br/>|
+|vsp_id|否|string<br/>|0~128个字符|网卡限速配置的ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|enable_security_group|否|boolean<br/>|true,false<br/>默认值：false|是否开启安全组。true：开启，false：关闭，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|security_group_id|否|integer<br/>|最少0个字符|安全组ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|security_group_name|否|string<br/>|0~256个字符|安全组名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|nic_type|否|integer<br/>|<br/>0<br/>1<br/>2<br/><br/>|网卡的硬件类型。取值范围：0（普通网卡），1（inic网卡，KVM未支持），2（sriov，网卡仅在查询时有效），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|无|虚拟磁盘ID。<br/>|
+|pid|否|string<br/>|1~128个字符|数据标识。备注：该标识用于查询虚拟磁盘信息对应的统计数据，如历史性能数据、容量趋势与预测数据等，并且当vr_type为HCS不支持此字段。<br/>|
+|status|否|string<br/>|<br/>CREATING<br/>DELETING<br/>USE<br/>RESTORING<br/>RESTORED<br/>SNAPSHOTING<br/>FORMATING<br/>FORMATFAILED<br/>COPYING<br/>COPYFAILED<br/>MIGRATING<br/>RESIZING<br/>SHRINKING<br/>DELETEFAILED<br/><br/>|卷状态，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围： CREATING（创建中）， DELETING（删除中）， USE（可用的）， RESTORING（恢复中）， RESTORED（已恢复）， SNAPSHOTING（正在做快照）， FORMATING（正在格式化）， FORMATFAILED（格式化失败）， COPYING（拷贝中）， COPYFAILED（拷贝失败）， MIGRATING（迁移中）， RESIZING（扩容中）， SHRINKING（磁盘容量回收中）， DELETEFAILED（删除失败）。<br/>|
+|type|否|string<br/>|<br/>normal<br/>share<br/><br/>|卷类型。取值范围：normal（普通卷），share（共享卷）。备注：当vr_type为HCS时不支持此字段。<br/>|
+|name|否|string<br/>|无|虚拟磁盘名称。<br/>|
+|total_capacity|否|double<br/>|无|磁盘总容量，单位：GB。<br/>|
+|used_capacity|否|double<br/>|无|已使用磁盘容量，单位：GB。备注：当vr_type为VMWARE时不支持此字段。<br/>|
+|provision_capacity|否|double<br/>|无|已分配磁盘容量，单位：GB。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|vm_id|否|string<br/>|无|虚拟磁盘所关联的虚拟机ID。<br/>|
+|vm_name|否|string<br/>|无|虚拟磁盘所关联的虚拟机名称。<br/>|
+|pci_type|否|string<br/>|<br/>IDE<br/>SCSI<br/>VIRTIO<br/><br/>|总线类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：IDE，SCSI，VIRTIO。 VIRTIO/IDE/SCSI：在非裸设备映射的数据存储上创建的磁盘可以挂载在VIRTIO、IDE、SCSI总线上。 VIRTIO性能较好，IDE性能较差，仅用于虚拟机镜像制作及虚拟机光驱； VIRTIO/SCSI：在裸设备映射的存储上创建的磁盘只能挂载在VIRTIO或者SCSI总线上。<br/>|
+|scsi_command_passthrough|否|boolean<br/>|true,false|CSI命令是否透传，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段，且仅当pciType为SCSI时有效，虚拟化数据存储只支持不透传，非虚拟化存储均支持。 true：透传，虚拟机下发的SCSI命令直接透传给物理SCSI设备； false：不透传，虚拟化层模拟大部分SCSI命令，但对于需要操作物理硬件的SCSI指令无法支持。<br/>|
+|vdisk_settings_type|否|integer<br/>|<br/>0<br/>1<br/><br/>|配置模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：0（普通卷）1（普通延迟置零卷）。 普通：根据磁盘容量为磁盘分配空间，在创建过程中会将物理设备上保留的数据置零，建议系统盘使用该模式。 普通延迟置零：根据磁盘容量为磁盘分配空间，创建时不会擦除物理设备上保留的任何数据，但后续从虚拟机首次执行写操作时会按需要将其置零。<br/>|
+|is_system_vdisk|否|boolean<br/>|true,false|是否是系统卷，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：是，false：否。<br/>|
+|is_thin|否|boolean<br/>|true,false|是否是精简设备，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：精简，false：非精简。<br/>|
+|datastore_id|否|string<br/>|无|虚拟磁盘关联的数据存储ID，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|datastore_type|否|string<br/>|<br/>DSWARE<br/>NAS<br/>LOCALPOME<br/>LUNPOME<br/>LUN<br/>ADVANCESAN<br/><br/>|数据存储类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。 DSWARE（华为分布式存储系统 1-32768）， NAS（表示NAS存储 1-65536）， LOCALPOME（表示虚拟化的本地存储 1-16383）， LUNPOME（表示虚拟化的共享存储(大LUN) 1-65536）， LUN（只能用于裸设备映射的共享存储1-65536）, ADVANCESAN（表示共享存储(小lun)1-2048）。<br/>|
+|vm_num|否|integer<br/>|无|虚拟磁盘绑定的虚拟机数量。<br/>|
+|service_level_id|否|string<br/>|无|虚拟磁盘关联的服务等级ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|service_level_name|否|string<br/>|无|虚拟磁盘关联的服务等级名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|is_indep_disk|否|boolean<br/>|true,false|是否为独立磁盘，取值范围：false（从属），true（独立）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|is_persistent_disk|否|boolean<br/>|true,false|是否是持久化磁盘。取值范围：false（非持久化），true（持久化）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|io_mode|否|string<br/>|正则表达式为threads|native|dataplane|磁盘IO模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：threads，native，dataplane。 选择native模式后性能优先，可靠性有所下降。 选择threads模式通过起线程方式实现异步I/O，可靠性高。 选择dataplane模式开启单独的I/O线程，提升虚拟机多磁盘性能，但是会增加对宿主的资源占用。<br/>|
+|sequence_num|否|integer<br/>|无|槽位号，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|compatibility_mode|否|string<br/>|<br/>PHYSICAL_MODE<br/>VIRTUAL_MODE<br/><br/>|兼容模式。取值范围：PHYSICAL_MODE（物理模式），VIRTUAL_MODE（虚拟模式）。仅vCenter场景（vr_type为VMWARE）且磁盘是裸设备映射（disk_type为RDM）支持此字段。<br/>|
+|disk_type|否|string<br/>|<br/>RDM<br/>FLAT<br/><br/>|虚拟磁盘类型。取值范围：RDM（直通盘），FLAT（平面磁盘）。仅vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|metadata_preallocate|否|boolean<br/>|true,false|元数据预分配开关。true表示开启，false表示未开启。FusionCompute 8.10.0及以上版本支持此参数。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|os_version|否|string<br/>|0~64个字符，且满足正则表达^$|^[0-9]+$|操作系统版本号。创建虚拟机时必选。<br/>|
+|os_type|否|string<br/>|<br/>Windows<br/>Linux<br/>Other<br/><br/>|操作系统类型。<br/>|
+|guest_os_name|否|string<br/>|0~64个字符|guestOS名称，可选。长度[0,64]，在os_version为 201-其他Windows(32 bit)、202-其他Windows(64 bit)、 301-其他Linux(32 bit)、302-其他Linux(64 bit)、401-其他(32 bit)、402-其他(64 bit)时生效。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定虚拟机成功<br/>|
+
+### 克隆或按虚拟机模版创建虚拟机
+
+**名称**
+克隆或按虚拟机模版创建虚拟机
+
+**描述**
+克隆虚拟机或按虚拟机模版创建虚拟机。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/clone
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID或虚拟机模板ID，克隆时为虚拟机ID，按模板创建时为虚拟机模板ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|是|string|1~256个字符|虚拟机名称<br/>|
+|description|否|string|0~1024个字符|虚拟机描述<br/>|
+|location|是|string|0~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|虚拟机所属集群或主机，取值为cluster_id或host_id，若为host_id且需要启动，虚拟机将在此主机上启动。<br/>|
+|is_binding_host|否|boolean|true,false<br/>默认值：false|是否绑定主机<br/>|
+|vm_num|否|int32|1~50<br/>默认值：1|虚拟机数量<br/>|
+|name_postfix_index|否|int32|0~99999<br/>默认值：0|虚拟机名称后缀起始编号，[0-99999]，虚拟机数量大于1的时候起作用<br/>|
+|is_auto_boot|否|boolean|true,false<br/>默认值：false|虚拟机是否自启动<br/>|
+|os_options|否|OsOptions对象|无|操作系统信息<br/>|
+|guest_customization|否|GuestOSCustomization对象|无|客户机操作系统信息<br/>|
+|guest_customizations|否|List<GuestOSCustomization>|数组最大成员个数：50<br/>数组最小成员个数：0|客户机操作系统信息列表，FusionCompute 8.6.0以上版本支持该参数。<br/>|
+|vm_config|否|VmSimpleConfig对象|无|虚拟机配置<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|克隆或按虚拟机模版部署虚拟机成功。<br/>|
+
+### 修改指定虚拟机或模板属性
+
+**名称**
+修改指定虚拟机或模板属性
+
+**描述**
+修改指定虚拟机或模板属性。
+
+**基本信息**
+- **方法**: PUT
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID或虚拟机模板ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string|1~256个字符|虚拟机或虚拟机模板名称<br/>|
+|description|否|string|0~1024个字符|虚拟机或虚拟机模板描述<br/>|
+|cpu|否|VMCpu对象|无|cpu规格<br/>|
+|memory|否|VMMemory对象|无|内存规格<br/>|
+|os_options|否|OsOptions对象|无|操作系统信息<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|修改指定虚拟机或模板属性任务下发成功。<br/>|
+
+### 批量打开虚拟机
+
+**名称**
+批量打开虚拟机
+
+**描述**
+打开虚拟机电源,支持批量操作
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/batch-power-on
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vm_ids|是|List<string>|数组最大成员个数：100|虚拟机ID列表。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|打开虚拟机电源任务下发成功<br/>|
+
+### 批量关闭虚拟机
+
+**名称**
+批量关闭虚拟机
+
+**描述**
+关闭虚拟机,支持批量操作
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/batch-power-off
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vm_ids|是|List<string>|数组最大成员个数：100|虚拟机ID列表。<br/>|
+|mode|否|string|<br/>safe<br/>force<br/><br/>|安全停止或强制停止，可选。取值范围：safe（安全），force（强制）。备注：当虚拟机状态为运行态，且虚拟机的Tools运行正常时，支持安全停止。默认值：safe。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|关闭虚拟机任务下发成功<br/>|
+
+### 批量休眠虚拟机
+
+**名称**
+批量休眠虚拟机
+
+**描述**
+休眠虚拟机,支持批量操作
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/batch-hibernate
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vm_ids|是|List<string>|数组最大成员个数：100|虚拟机ID列表。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|休眠虚拟机任务下发成功<br/>|
+
+### 批量重启虚拟机
+
+**名称**
+批量重启虚拟机
+
+**描述**
+重启虚拟机,支持批量操作
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/batch-reboot
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vm_ids|是|List<string>|数组最大成员个数：100|虚拟机ID列表。<br/>|
+|mode|否|string|<br/>safe<br/>force<br/><br/>|虚拟机重启模式。取值范围：safe（安全重启），force（强制重启）。备注：当虚拟机状态为运行态，且虚拟机的Tools运行正常时，支持安全重启。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|重启虚拟机任务下发成功<br/>|
+
+### 批量删除虚拟机
+
+**名称**
+批量删除虚拟机
+
+**描述**
+批量删除虚拟机。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/batch-delete
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vm_ids|是|List<string>|数组最大成员个数：100|虚拟机ID列表。<br/>|
+|hold_time|否|integer|0~1440|保留时长，单位：小时。取值范围0~1440（0表示立即删除，1440表示60天后被删除）。仅FusionCompute 8.6.0及以上版本支持。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|批量删除虚拟机任务下发成功。<br/>|
+
+### 查询指定虚拟机VNC访问信息
+
+**名称**
+查询指定虚拟机VNC访问信息
+
+**描述**
+查询指定虚拟机VNC访问信息。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/vnc
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|host_ip|否|string<br/>|0~45个字符|虚拟机所在主机IP地址<br/>|
+|vnc_port|否|int32<br/>|-1~10000000|虚拟机VNC端口，-1为非法值，其他为合法值<br/>|
+|vnc_user_name|否|string<br/>|0~256个字符|虚拟机VNC用户名，仅使用于ARM场景<br/>|
+|vnc_password|否|password<br/>|0~128个字符|虚拟机VNC密码，一个小时更新一次<br/>|
+|vnc_old_password|否|password<br/>|0~128个字符|当前虚拟机VNC密码，修改VNC密码时有效<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询成功<br/>|
+
+### 挂载指定虚拟机Tools
+
+**名称**
+挂载指定虚拟机Tools
+
+**描述**
+挂载指定虚拟机Tools。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/install-tools
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|挂载指定虚拟机Tools任务下发成功。<br/>|
+
+### 卸载指定虚拟机Tools
+
+**名称**
+卸载指定虚拟机Tools
+
+**描述**
+卸载指定虚拟机Tools。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/uninstall-tools
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|卸载指定虚拟机Tools任务下发成功。<br/>|
+
+### 迁移虚拟机
+
+**名称**
+迁移虚拟机
+
+**描述**
+迁移虚拟机。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/migrate
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机唯一标识。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|location|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|迁移的目的主机对应的id<br/>|
+|is_binding_host|否|boolean|true,false<br/>默认值：false|是否与目的主机绑定,false:不与主机绑定，true:与主机绑定<br/>|
+|migrate_vm_time_out|否|integer|默认值：0|迁移超时时间,单位:分钟。取值范围0或[5, 35791394],默认0即不超时。<br/>|
+|is_frequency_reduce|否|boolean|true,false<br/>默认值：false|是否降频迁移,false:不启用降频迁移，true:启用降频迁移<br/>|
+|migrate_transmit_policy|否|string|<br/>TLSv1_3<br/>NONE<br/><br/>|虚拟机热迁移传输通道安全策略，TLSv1_3：TLS加密通道 NONE：非加密通道。仅FusionCompute 8.5.0及以上版本支持此参数，FusionCompute 8.5.0及以上版本默认为NONE。<br/>|
+|nics|否|List<NicDataInfo>|数组最大成员个数：16|待迁移虚拟机网卡信息。备注：仅FusionCompute 8.9.0及以上版本支持此参数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|迁移虚拟机任务启动成功。<br/>|
+
+### 整机迁移虚拟机
+
+**名称**
+整机迁移虚拟机
+
+**描述**
+整机迁移虚拟机
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/fullmigrate
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|location|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|迁移目的主机对应的id。<br/>|
+|remote_site_urn|否|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|迁移目标站点对应的urn。<br/>|
+|des_cluster_urn|否|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|迁移目标集群对应的urn。<br/>|
+|is_binding_host|否|boolean|true,false<br/>默认值：false|是否与目的主机绑定。取值范围：false（不与主机绑定），true（与主机绑定）。<br/>|
+|migrate_vm_time_out|否|integer|默认值：0|迁移超时时间，单位：分钟。取值范围：0或5~35791394分钟（0表示不超时）。<br/>|
+|is_frequency_reduce|否|boolean|true,false<br/>默认值：false|是否启用降频迁移。取值范围：false（不启用降频迁移），true（启用降频迁移）。<br/>|
+|speed|是|string|<br/>medium<br/>fast<br/>unlimited<br/><br/>|迁移速率。取值范围：medium（适中，迁移速度适中，节点上可并发执行任务多，实际速率上限30MB/S），fast（快速,迁移速度快，节点上可并发执行任务少，实际速率上限60MB/S），unlimited（不限速，实际速率上限12500MB/S）。<br/>|
+|disks|是|List<DiskInfo>|数组最大成员个数：128|待迁移虚拟机磁盘列表信息。<br/>|
+|nics|否|List<NicDataInfo>|数组最大成员个数：16|待迁移虚拟机网卡信息。备注：1. 跨站点迁移时参数必填，FusionCompute 8.8.0及以上版本支持此参数。2. 非跨站点迁移场景仅FusionCompute 8.9.0及以上版本支持此参数。<br/>|
+|migrate_transmit_policy|否|string|<br/>TLSv1_3<br/>NONE<br/><br/>|虚拟机热迁移传输通道安全策略。取值范围：TLSv1_3（TLS加密通道），NONE（非加密通道）。当且仅当FusionCompute 8.5.0及以上版本支持此参数，且参数默认取值为NONE。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|整机迁移成功<br/>|
+
+### 迁移虚拟机的数据存储
+
+**名称**
+迁移虚拟机的数据存储
+
+**描述**
+迁移虚拟机的数据存储。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/migratevol
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机唯一标识。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|speed|是|integer|1~12500|迁移速率，取值范围：1-12500MB/S。<br/>|
+|disks|是|List<DiskInfo>|数组最大成员个数：128|待迁移虚拟机的磁盘信息。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|迁移虚拟机的数据存储任务下发成功。<br/>|
+
+### 解析ovf文件，获取虚拟机配置信息
+
+**名称**
+解析ovf文件，获取虚拟机配置信息
+
+**描述**
+解析ovf文件，获取虚拟机配置信息。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/parsedescriptor
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|protocol|否|string|0~32个字符，且满足正则表达cifs|nfs<br/>默认值：cifs|协议类型：cifs，nfs。（提示：nfs为不安全协议）<br/>|
+|url|是|string|1~256个字符，且满足正则表达^[a-zA-Z0-9_\-\.\s\/\:]*$|模板的URL，长度为1-256, url中文件或目录的命名规则是字母、数字、中划线、下划线、空格、斜线、冒号和点。 CIFS协议时，url格式为：//192.168.0.0/share/template.ovf(ova) nfs协议时，url格式为：192.168.0.0:/opt/share/template.ovf(ova) 表示nfs服务器ip为192.168.0.0 /opt/share/template.ovf(ova) 分别为nfs服务器上允许目标节点访问的ip地址/域名和文件地址<br/>|
+|username|否|string|0~128个字符|共享目录的用户名<br/>|
+|password|否|password|0~128个字符|共享目录的密码<br/>|
+|location|是|string|1~128个字符|目标计算资源信息，取值为cluster_id或host_id<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|arch|否|string<br/>|0~128个字符|模板架构：x86场景为：x86，arm场景下为：arm，模板中不存在该字段时，默认返回：x86<br/>|
+|name|否|string<br/>|0~256个字符|模板名称，长度[0,256]<br/>|
+|vm_config|否|VmConfigParseOvf对象<br/>|无|模板配置<br/>|
+|os_options|否|OsOptions对象<br/>|无|模板操作系统信息<br/>|
+|image_format|否|string<br/>|0~32个字符|文件格式，如：zvhd、qcow2、vmdk<br/>|
+|file_items|否|List<FileItemParseOvf><br/>|无|文件信息，暂时只支持disk文件<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|cpu|否|CpuOfParseOvfResponse对象<br/>|无|cpu信息<br/>|
+|memory|否|MemoryOfParseOvfResponse对象<br/>|无|内存信息<br/>|
+|properties|否|PropertiesOfParseOvfResponse对象<br/>|无|选项配置<br/>|
+|graphics_card|否|GraphicsCardOfParseOvfResponse对象<br/>|无|虚拟机显卡类型<br/>|
+|disks|否|List<DisksOfParseOvfResponse><br/>|数组最大成员个数：128|磁盘信息<br/>|
+|nics|否|List<NicsOfParseOvfFile><br/>|数组最大成员个数：128|虚拟机网卡<br/>|
+|gpu_groups|否|List<GpuGroupsOfParseOvfResponse><br/>|数组最大成员个数：128|GPU资源组信息<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|quantity|否|integer<br/>|无|虚拟机的总核数，范围[1,255]<br/>|
+|cpu_policy|否|string<br/>|无|CPU绑定策略：shared：共享，允许该vCPU绑定的主机pCPU被其它vCPU使用；dedicated：独占，该vCPU绑定的主机pCPU不可被其它vCPU使用<br/>|
+|cpu_thread_policy|否|string<br/>|无|CPU自动绑定时的CPU线程绑定策略。prefer：如果主机开启超线程，优先选择同一物理核绑定<br/>|
+|cpu_hot_plug|否|integer<br/>|无|CPU热插拔开关，0：禁用CPU热插；1：启用CPU热插<br/>|
+|weight|否|integer<br/>|无|CPU份额<br/>|
+|reservation|否|integer<br/>|无|CPU预留，单位MHz<br/>|
+|limit|否|integer<br/>|无|虚拟机CPU上限，单位MHz<br/>|
+|cores_per_socket|否|integer<br/>|无|CPU插槽的CPU核数<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|quantity_size|否|integer<br/>|无|虚拟机内存总大小(单位MB)，对于不同的操作系统，所支持的最大内存不同<br/>|
+|mem_hot_plug|否|integer<br/>|无|内存热插拔开关<br/>|
+|reservation|否|integer<br/>|无|虚拟机内存预留（单位MB）<br/>|
+|weight|否|integer<br/>|无|默认quantity_size乘以10。虚拟机内存的份额，个数，无单位<br/>|
+|limit|否|integer<br/>|无|虚拟机内存上限（单位MB）<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|boot_firmware|否|string<br/>|无|启动引导固件：UEFI，BIOS<br/>|
+|boot_firmware_time|否|integer<br/>|无|启动引导延迟时间<br/>|
+|boot_option|否|string<br/>|无|虚拟机第一启动方式，可选：cdrom，disk，pxe，exact(exact表示精确指定虚拟机设备启动顺序)<br/>|
+|clock_mode|否|string<br/>|无|虚拟机的时钟模式<br/>|
+|is_hpet|否|boolean<br/>|true,false|是否开启高精度时钟<br/>|
+|realtime|否|boolean<br/>|true,false|高精度实时性虚拟机标识<br/>|
+|cd_rom_boot_order|否|integer<br/>|最大值：100<br/>默认值：-1|光驱启动顺序,-1：表示不设置启动顺序<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|type|否|string<br/>|无|显卡：x86场景下取值范围：vga、cirrus。arm场景下取值范围：virtio<br/>|
+|size|否|integer<br/>|无|显存大小，单位MB。 cirrus：4。 vga： 4、8、16、32、64、128、256。 arm场景下不支持设置显存大小<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|sequence_num|否|integer<br/>|无|槽位号<br/>|
+|quantity|否|integer<br/>|无|磁盘容量，单位GB，大小不能超过数据存储可用容量大小<br/>|
+|type|否|string<br/>|无|卷类型，取值为normal（普通卷）、share（共享卷）<br/>|
+|is_indep_disk|否|boolean<br/>|true,false|是否为独立磁盘，取值范围：false（从属），true（独立）<br/>|
+|is_persistent_disk|否|boolean<br/>|true,false|是否持久化磁盘，false：非持久化，true：持久化<br/>|
+|is_thin|否|boolean<br/>|true,false|是否精简制备。true：精简，false：非精简<br/>|
+|vol_type|否|integer<br/>|无|配置模式。取值范围：0（普通卷）1（普通延迟置零卷）。 普通：根据磁盘容量为磁盘分配空间，在创建过程中会将物理设备上保留的数据置零，建议系统盘使用该模式。 普通延迟置零：根据磁盘容量为磁盘分配空间，创建时不会擦除物理设备上保留的任何数据，但后续从虚拟机首次执行写操作时会按需要将其置零<br/>|
+|pci_type|否|string<br/>|无|磁盘挂载的总线类型，取值范围：IDE，SCSI，VIRTIO。 VIRTIO/IDE/SCSI：在非裸设备映射的数据存储上创建的磁盘可以挂载在VIRTIO、IDE、SCSI总线上。 VIRTIO性能较好，IDE性能较差，仅用于虚拟机镜像制作及虚拟机光驱； VIRTIO/SCSI：在裸设备映射的存储上创建的磁盘只能挂载在VIRTIO或者SCSI总线上<br/>|
+|boot_order|否|string<br/>|无|磁盘启动顺序，默认为-1，表示不设置启动顺序<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|connect_at_power_on|否|boolean<br/>|true,false<br/>默认值：true|可选，打开电源时连接， SRIOVR网卡和用户态网卡不支持设置为false。 true：虚拟机开机后，网卡网络连接正常 false：虚拟机开机后，网卡网络未连接<br/>|
+|port_group_urn|否|string<br/>|无|端口组ID<br/>|
+|boot_order|否|string<br/>|默认值：-1|可选。网卡启动顺序，默认为-1，表示不设置启动顺序<br/>|
+|enable_security_group|否|boolean<br/>|true,false<br/>默认值：false|是否开启安全组。true：开启，false：关闭<br/>|
+|security_group_id|否|integer<br/>|无|安全组ID，当enableSecurityGroup为true时有效<br/>|
+|nic_config|否|NicConfigOfParseOvfFile对象<br/>|无|网卡配置信息<br/>|
+|virt_io|否|integer<br/>|无|虚拟网卡类型 1：virtio（默认值） 2：e1000 (KVM未支持) 3：rtl8139 (KVM未支持) 4：vhost-user 5：sriov。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vringbuf|否|integer<br/>|无|IO环大小<br/>|
+|queues|否|integer<br/>|无|队列数<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|gpu_group_id|否|string<br/>|无|GPU资源组URN<br/>|
+|count|否|int32<br/>|无|绑定GPU资源组资源个数<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|os_version|否|string<br/>|0~64个字符，且满足正则表达^$|^[0-9]+$|操作系统版本号。创建虚拟机时必选。<br/>|
+|os_type|否|string<br/>|<br/>Windows<br/>Linux<br/>Other<br/><br/>|操作系统类型。<br/>|
+|guest_os_name|否|string<br/>|0~64个字符|guestOS名称，可选。长度[0,64]，在os_version为 201-其他Windows(32 bit)、202-其他Windows(64 bit)、 301-其他Linux(32 bit)、302-其他Linux(64 bit)、401-其他(32 bit)、402-其他(64 bit)时生效。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|device_id|否|string<br/>|无|设备标识<br/>|
+|path|否|string<br/>|无|文件相对路径<br/>|
+|size|否|integer<br/>|无|文件大小<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|成功解析ovf文件。<br/>|
+
+### 导入虚拟机模板
+
+**名称**
+导入虚拟机模板
+
+**描述**
+导入虚拟机模板，对象为共享目录中的虚拟机模板，支持一套模板批量导入到多个站点。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/import
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|arch|否|string|<br/>x86<br/>arm<br/><br/><br/>默认值：x86|架构类型，导入时根据模板中arch字段取值进行填充，该字段不存在时，填充为“x86”。<br/>|
+|name|是|string|1~256个字符|虚拟机名称。<br/>|
+|description|否|string|0~1024个字符|虚拟机描述信息。<br/>|
+|os_options|是|OsOptionsOfImport对象|无|模板操作系统信息。<br/>|
+|file_items|否|List<FileItemOfImport>|数组最大成员个数：60<br/>数组最小成员个数：0|文件信息，当前只支持disk文件。<br/>|
+|url|是|string|1~256个字符，且满足正则表达^[a-zA-Z0-9_\-\.\s\/\:]*$|模板的URL，url命名规则是字母、数字、中划线、下划线、空格、斜线、冒号和点。 例如：//127.0.0.1/share/name，其中share为共享路径，name为模板名称。 CIFS协议时，url格式为：//192.168.0.0/share/name ，其中share为共享路径，name为模板名称 Nfs协议时，url格式为：192.168.0.0:/opt/ share/name表示nfs服务器ip为192.168.0.0 和/opt/share/name 分别为nfs服务器上允许目标节点访问的ip地址/域名和文件地址。http协议是，url格式为：http://127.0.0.1/service/centosovf。<br/>|
+|protocol|否|string|正则表达式为cifs|nfs<br/>默认值：cifs|协议类型： cifs，nfs,可选，默认是cifs（提示：nfs为不安全协议）。<br/>|
+|username|否|string|0~128个字符|共享目录的用户名。<br/>|
+|password|否|password|0~128个字符|共享目录的密码。<br/>|
+|guest_customization|否|GuestCustomizationOfImport对象|无|客户机操作系统信息。<br/>|
+|is_template|否|boolean|true,false<br/>默认值：false|表示将外部模板文件导入为虚拟机或模板。true表示导入为模板，false表示导入为虚拟机。<br/>|
+|tag_ids|否|List<string>|数组最大成员个数：10<br/>数组最小成员个数：0|标签ID列表。<br/>|
+|res_config|是|List<ResConfigOfImport>|数组最大成员个数：30<br/>数组最小成员个数：1|资源配置信息列表。<br/>|
+|image_format|否|string|<br/>zvhd<br/>qcow2<br/>vmdk<br/><br/>|镜像格式， 可选：zvhd，qcow2，vmdk。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|导入虚拟机模板任务下发成功。<br/>|
+
+### 导出虚拟机模板至PC机上的共享目录
+
+**名称**
+导出虚拟机模板至PC机上的共享目录
+
+**描述**
+导出虚拟机模板至PC机上的共享目录。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/export
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|是|string|1~90个字符，且满足正则表达^(?!\s)([a-zA-Z0-9_\-\s\.]){0,89}[a-zA-Z0-9_\-]{1}$|模板名称,其中模板名称的命名规则是字母、数字、下划线、中划线、空格和点，且开头不能为空格，结尾不能为空格和点，长度不超过90个字符。<br/>|
+|format|是|string|正则表达式为ova|ovf|镜像格式，必选： ova     生成ova文件（只共享导出支持） ovf     生成目录。<br/>|
+|url|是|string|1~256个字符，且满足正则表达^[a-zA-Z0-9_\-\.\s\/\:]*$|模板的URL，url命名规则是字母、数字、中划线、下划线、空格、斜线、冒号和点 例如：//192.168.0.1/share/name，其中share为共享路径，name为模板名称。 CIFS协议时，url格式为：//192.168.0.0/share/name ，其中share为共享路径，name为模板名称 Nfs协议时，url格式为： 192.168.0.0:/opt/ share/name表示nfs服务器ip为192.168.0.0 和/opt/share/name 分别为nfs服务器上允许目标节点访问的ip地址/域名和文件地址。 http协议是，url格式为： http://127.0.0.1/service/centosovf<br/>|
+|protocol|否|string|正则表达式为cifs|nfs|协议类型：cifs，nfs（提示：nfs为不安全协议）<br/>|
+|username|否|string|0~128个字符|共享目录的用户名<br/>|
+|password|否|password|0~128个字符|共享目录的密码<br/>|
+|is_overwrite|否|boolean|true,false<br/>默认值：false|是否覆盖已有文件。 false:不覆盖 true：覆盖 可选，默认false。<br/>|
+|image_format|否|string|<br/>zvhd<br/>qcow2<br/><br/><br/>0~32个字符|镜像格式，可选“zvhd”，“qcow2”<br/>|
+|is_template|否|boolean|true,false<br/>默认值：false|是否是模板标识。true：是，false：否。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|成功导出模板。<br/>|
+
+### 自定义创建虚拟机
+
+**名称**
+自定义创建虚拟机
+
+**描述**
+自定义创建虚拟机。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|是|string|1~256个字符|虚拟机名称。<br/>|
+|externalUuid|否|string|1~36个字符，且满足正则表达^[A-Za-z0-9-]+$|外部虚拟机UUID标识。取值说明：包含-、小写字母、数字组成。例如：fe847f74-222e-4057-a321-5b9e8416c0d6。<br/>|
+|floppy_file|否|string|0~128个字符|软驱文件（仅windows支持）。<br/>|
+|floppy_protocol|否|string|0~9个字符，且满足正则表达^$|automatch|select|unMount<br/>默认值：unMount|软驱挂载的方式。取值说明：automatch（自动匹配），select（手动选择），unMount（不挂载），floppy_protocol为空时，软驱挂载方式为不挂载。<br/>|
+|location|是|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|虚拟机所属集群或主机的Urn。取值说明：包含字母、数字、冒、-。若为hostUrn则本次创建若需要启动的话将在该主机上启动。<br/>|
+|description|否|string|0~1024个字符|虚拟机描述。<br/>|
+|is_binding_host|否|boolean|true,false<br/>默认值：false|是否与主机绑定。取值说明：true（与主机绑定），false（不绑定主机），当location为hostUrn时该字段有效。若指定主机不位于集群下时系统自动将此属性处理为true；若主机位于集群下时默认取值为false。<br/>|
+|auto_boot|是|boolean|true,false|是否自动启动，默认取值为true。<br/>|
+|os_options|是|OsOptions对象|无|虚拟机操作系统信息，见下方OsOptions对象。<br/>|
+|vm_config|是|VmConfig对象|无|虚拟机配置，见下方VmConfig对象。<br/>|
+|tag_ids|否|List<string>|数组最大成员个数：10<br/>数组最小成员个数：0|标签ID列表。<br/>|
+|group_id|否|string|1~128个字符，且满足正则表达^[0-9]+$|虚拟机文件夹ID。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|自定义创建虚拟机异步任务下发成功。<br/>|
+
+### 挂载软驱
+
+**名称**
+挂载软驱
+
+**描述**
+虚拟机挂载软驱，提供virtio驱动，主要用于Windows系统安装时识别virtio磁盘。只有运行中或者已停止的虚拟机可以挂载软驱。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/action/attach-floppy
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机id。取值说明：包含字母、数字、冒号、-。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|device_path|否|string|0~128个字符|软驱文件。格式为.vfd结尾。软驱文件支持类型可通过“查询软驱文件接口”获取。<br/>|
+|protocol|是|string|<br/>automatch<br/>select<br/><br/>|软驱挂载方式。取值范围：automatch（自动匹配），select（手动指定）。该字段取值为select时device_path字段为必选。自动匹配支持的操作系统请参见《FusionCompute SIA 华为客户机操作系统兼容性指南（KVM）》中的内容。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|挂载软驱任务下发成功。<br/>|
+
+### 卸载软驱
+
+**名称**
+卸载软驱
+
+**描述**
+卸载软驱（运行中或者已停止的虚拟机才能卸载软驱），对于已经挂载软驱的操作系统，需要卸载软驱时，可执行此操作。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/action/detach-floppy
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机id。取值说明：包含字母、数字、冒号、-。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|卸载软驱任务下发成功。<br/>|
+
+## 虚拟机磁盘管理
+
+### 查询指定虚拟磁盘信息
+
+**名称**
+查询指定虚拟磁盘信息
+
+**描述**
+查询指定虚拟磁盘信息。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/vdisks/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟磁盘ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|无|虚拟磁盘ID。<br/>|
+|pid|否|string<br/>|1~128个字符|数据标识。备注：该标识用于查询虚拟磁盘信息对应的统计数据，如历史性能数据、容量趋势与预测数据等，并且当vr_type为HCS不支持此字段。<br/>|
+|status|否|string<br/>|<br/>CREATING<br/>DELETING<br/>USE<br/>RESTORING<br/>RESTORED<br/>SNAPSHOTING<br/>FORMATING<br/>FORMATFAILED<br/>COPYING<br/>COPYFAILED<br/>MIGRATING<br/>RESIZING<br/>SHRINKING<br/>DELETEFAILED<br/><br/>|卷状态，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围： CREATING（创建中）， DELETING（删除中）， USE（可用的）， RESTORING（恢复中）， RESTORED（已恢复）， SNAPSHOTING（正在做快照）， FORMATING（正在格式化）， FORMATFAILED（格式化失败）， COPYING（拷贝中）， COPYFAILED（拷贝失败）， MIGRATING（迁移中）， RESIZING（扩容中）， SHRINKING（磁盘容量回收中）， DELETEFAILED（删除失败）。<br/>|
+|type|否|string<br/>|<br/>normal<br/>share<br/><br/>|卷类型。取值范围：normal（普通卷），share（共享卷）。备注：当vr_type为HCS时不支持此字段。<br/>|
+|name|否|string<br/>|无|虚拟磁盘名称。<br/>|
+|total_capacity|否|double<br/>|无|磁盘总容量，单位：GB。<br/>|
+|used_capacity|否|double<br/>|无|已使用磁盘容量，单位：GB。备注：当vr_type为VMWARE时不支持此字段。<br/>|
+|provision_capacity|否|double<br/>|无|已分配磁盘容量，单位：GB。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|vm_id|否|string<br/>|无|虚拟磁盘所关联的虚拟机ID。<br/>|
+|vm_name|否|string<br/>|无|虚拟磁盘所关联的虚拟机名称。<br/>|
+|pci_type|否|string<br/>|<br/>IDE<br/>SCSI<br/>VIRTIO<br/><br/>|总线类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：IDE，SCSI，VIRTIO。 VIRTIO/IDE/SCSI：在非裸设备映射的数据存储上创建的磁盘可以挂载在VIRTIO、IDE、SCSI总线上。 VIRTIO性能较好，IDE性能较差，仅用于虚拟机镜像制作及虚拟机光驱； VIRTIO/SCSI：在裸设备映射的存储上创建的磁盘只能挂载在VIRTIO或者SCSI总线上。<br/>|
+|scsi_command_passthrough|否|boolean<br/>|true,false|CSI命令是否透传，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段，且仅当pciType为SCSI时有效，虚拟化数据存储只支持不透传，非虚拟化存储均支持。 true：透传，虚拟机下发的SCSI命令直接透传给物理SCSI设备； false：不透传，虚拟化层模拟大部分SCSI命令，但对于需要操作物理硬件的SCSI指令无法支持。<br/>|
+|vdisk_settings_type|否|integer<br/>|<br/>0<br/>1<br/><br/>|配置模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：0（普通卷）1（普通延迟置零卷）。 普通：根据磁盘容量为磁盘分配空间，在创建过程中会将物理设备上保留的数据置零，建议系统盘使用该模式。 普通延迟置零：根据磁盘容量为磁盘分配空间，创建时不会擦除物理设备上保留的任何数据，但后续从虚拟机首次执行写操作时会按需要将其置零。<br/>|
+|is_system_vdisk|否|boolean<br/>|true,false|是否是系统卷，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：是，false：否。<br/>|
+|is_thin|否|boolean<br/>|true,false|是否是精简设备，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：精简，false：非精简。<br/>|
+|datastore_id|否|string<br/>|无|虚拟磁盘关联的数据存储ID，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|datastore_type|否|string<br/>|<br/>DSWARE<br/>NAS<br/>LOCALPOME<br/>LUNPOME<br/>LUN<br/>ADVANCESAN<br/><br/>|数据存储类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。 DSWARE（华为分布式存储系统 1-32768）， NAS（表示NAS存储 1-65536）， LOCALPOME（表示虚拟化的本地存储 1-16383）， LUNPOME（表示虚拟化的共享存储(大LUN) 1-65536）， LUN（只能用于裸设备映射的共享存储1-65536）, ADVANCESAN（表示共享存储(小lun)1-2048）。<br/>|
+|vm_num|否|integer<br/>|无|虚拟磁盘绑定的虚拟机数量。<br/>|
+|service_level_id|否|string<br/>|无|虚拟磁盘关联的服务等级ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|service_level_name|否|string<br/>|无|虚拟磁盘关联的服务等级名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|is_indep_disk|否|boolean<br/>|true,false|是否为独立磁盘，取值范围：false（从属），true（独立）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|is_persistent_disk|否|boolean<br/>|true,false|是否是持久化磁盘。取值范围：false（非持久化），true（持久化）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|io_mode|否|string<br/>|正则表达式为threads|native|dataplane|磁盘IO模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：threads，native，dataplane。 选择native模式后性能优先，可靠性有所下降。 选择threads模式通过起线程方式实现异步I/O，可靠性高。 选择dataplane模式开启单独的I/O线程，提升虚拟机多磁盘性能，但是会增加对宿主的资源占用。<br/>|
+|sequence_num|否|integer<br/>|无|槽位号，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|compatibility_mode|否|string<br/>|<br/>PHYSICAL_MODE<br/>VIRTUAL_MODE<br/><br/>|兼容模式。取值范围：PHYSICAL_MODE（物理模式），VIRTUAL_MODE（虚拟模式）。仅vCenter场景（vr_type为VMWARE）且磁盘是裸设备映射（disk_type为RDM）支持此字段。<br/>|
+|disk_type|否|string<br/>|<br/>RDM<br/>FLAT<br/><br/>|虚拟磁盘类型。取值范围：RDM（直通盘），FLAT（平面磁盘）。仅vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|metadata_preallocate|否|boolean<br/>|true,false|元数据预分配开关。true表示开启，false表示未开启。FusionCompute 8.10.0及以上版本支持此参数。<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定虚拟磁盘信息成功。<br/>|
+
+### 查询虚拟磁盘信息列表
+
+**名称**
+查询虚拟磁盘信息列表
+
+**描述**
+支持按虚拟机维度或数据存储维度查看虚拟磁盘信息列表。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vdisks/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string|0~256个字符|虚拟磁盘名称，支持模糊查询。<br/>|
+|is_system_vdisk|否|List<boolean>|数组最大成员个数：2|是否为系统盘。取值范围：true（是），false（不是）。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|pci_type|否|List<string>|数组最大成员个数：3|总线类型。取值范围：IDE，SCSI，VIRTIO。 VIRTIO/IDE/SCSI：在非裸设备映射的数据存储上创建的磁盘可以挂载在VIRTIO、IDE、SCSI总线上。 VIRTIO性能较好，IDE性能较差，仅用于虚拟机镜像制作及虚拟机光驱； VIRTIO/SCSI：在裸设备映射的存储上创建的磁盘只能挂载在VIRTIO或者SCSI总线上。当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|io_mode|否|List<string>|数组最大成员个数：3|磁盘IO模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：threads，native，dataplane。 选择native模式后性能优先，可靠性有所下降。 选择threads模式通过起线程方式实现异步I/O，可靠性高。 选择dataplane模式开启单独的I/O线程，提升虚拟机多磁盘性能，但是会增加对宿主的资源占用。<br/>|
+|status|否|List<string>|数组最大成员个数：14|卷状态，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。CREATING：创建中， DELETING：删除中， USE：可用的， RESTORING：恢复中， RESTORED：已恢复， SNAPSHOTING：正在做快照， FORMATING：正在格式化， FORMATFAILED：格式化失败， COPYING：拷贝中， COPYFAILED：拷贝失败， MIGRATING：迁移中， RESIZING：扩容中， SHRINKING：磁盘容量回收中， DELETEFAILED：删除失败。<br/>|
+|type|否|List<string>|数组最大成员个数：2|卷类型。取值范围：normal（普通卷），share（共享卷）。备注：当vr_type为HCS时不支持此字段。<br/>|
+|vm_id|否|string|0~128个字符|虚拟磁盘所关联的虚拟机ID。<br/>|
+|datastore_id|否|string|0~128个字符|虚拟磁盘所关联的数据存储ID。备注：vr_type为HCS时不支持此字段。<br/>|
+|datastore_name|否|string|0~256个字符|虚拟磁盘所关联的数据存储名称。备注：vr_type为HCS时不支持此字段。<br/>|
+|is_indep_disk|否|boolean|true,false|是否为独立盘。取值范围：false（从属），true（独立）。备注：vr_type为HCS时不支持此字段。<br/>|
+|is_persistent_disk|否|boolean|true,false|是否为持久化盘。取值范围：false（非持久化），true（持久化）。备注：vr_type为HCS时不支持此字段。<br/>|
+|compatibility_mode|否|List<string>|数组最大成员个数：2|兼容模式。取值范围：PHYSICAL_MODE（物理模式），VIRTUAL_MODE（虚拟模式）。当且仅当vr_type为VMWARE且disk_type为RDM时支持此字段。<br/>|
+|disk_type|否|List<string>|数组最大成员个数：2|虚拟磁盘类型。取值范围：RDM（直通盘），FLAT（平面磁盘）。备注：当且仅当vr_type为VMWARE时支持此字段。<br/>|
+|vr_type|否|string|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|每页查询数据条数。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/>|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>total_capacity<br/>used_capacity<br/>name<br/><br/><br/>默认值：name|排序字段。取值范围：total_capacity（总容量），used_capacity（已使用容量），name（虚拟机名称）。备注：当vr_type为VMWARE时仅支持total_capacity和name字段排序。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|无|虚拟磁盘总数量。<br/>|
+|vmDisks|否|List<VDisk><br/>|无|虚拟磁盘列表信息。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|无|虚拟磁盘ID。<br/>|
+|pid|否|string<br/>|1~128个字符|数据标识。备注：该标识用于查询虚拟磁盘信息对应的统计数据，如历史性能数据、容量趋势与预测数据等，并且当vr_type为HCS不支持此字段。<br/>|
+|status|否|string<br/>|<br/>CREATING<br/>DELETING<br/>USE<br/>RESTORING<br/>RESTORED<br/>SNAPSHOTING<br/>FORMATING<br/>FORMATFAILED<br/>COPYING<br/>COPYFAILED<br/>MIGRATING<br/>RESIZING<br/>SHRINKING<br/>DELETEFAILED<br/><br/>|卷状态，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围： CREATING（创建中）， DELETING（删除中）， USE（可用的）， RESTORING（恢复中）， RESTORED（已恢复）， SNAPSHOTING（正在做快照）， FORMATING（正在格式化）， FORMATFAILED（格式化失败）， COPYING（拷贝中）， COPYFAILED（拷贝失败）， MIGRATING（迁移中）， RESIZING（扩容中）， SHRINKING（磁盘容量回收中）， DELETEFAILED（删除失败）。<br/>|
+|type|否|string<br/>|<br/>normal<br/>share<br/><br/>|卷类型。取值范围：normal（普通卷），share（共享卷）。备注：当vr_type为HCS时不支持此字段。<br/>|
+|name|否|string<br/>|无|虚拟磁盘名称。<br/>|
+|total_capacity|否|double<br/>|无|磁盘总容量，单位：GB。<br/>|
+|used_capacity|否|double<br/>|无|已使用磁盘容量，单位：GB。备注：当vr_type为VMWARE时不支持此字段。<br/>|
+|provision_capacity|否|double<br/>|无|已分配磁盘容量，单位：GB。备注：当且仅当vr_type为FUSIONCOMPUTE时支持此字段。<br/>|
+|vm_id|否|string<br/>|无|虚拟磁盘所关联的虚拟机ID。<br/>|
+|vm_name|否|string<br/>|无|虚拟磁盘所关联的虚拟机名称。<br/>|
+|pci_type|否|string<br/>|<br/>IDE<br/>SCSI<br/>VIRTIO<br/><br/>|总线类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：IDE，SCSI，VIRTIO。 VIRTIO/IDE/SCSI：在非裸设备映射的数据存储上创建的磁盘可以挂载在VIRTIO、IDE、SCSI总线上。 VIRTIO性能较好，IDE性能较差，仅用于虚拟机镜像制作及虚拟机光驱； VIRTIO/SCSI：在裸设备映射的存储上创建的磁盘只能挂载在VIRTIO或者SCSI总线上。<br/>|
+|scsi_command_passthrough|否|boolean<br/>|true,false|CSI命令是否透传，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段，且仅当pciType为SCSI时有效，虚拟化数据存储只支持不透传，非虚拟化存储均支持。 true：透传，虚拟机下发的SCSI命令直接透传给物理SCSI设备； false：不透传，虚拟化层模拟大部分SCSI命令，但对于需要操作物理硬件的SCSI指令无法支持。<br/>|
+|vdisk_settings_type|否|integer<br/>|<br/>0<br/>1<br/><br/>|配置模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：0（普通卷）1（普通延迟置零卷）。 普通：根据磁盘容量为磁盘分配空间，在创建过程中会将物理设备上保留的数据置零，建议系统盘使用该模式。 普通延迟置零：根据磁盘容量为磁盘分配空间，创建时不会擦除物理设备上保留的任何数据，但后续从虚拟机首次执行写操作时会按需要将其置零。<br/>|
+|is_system_vdisk|否|boolean<br/>|true,false|是否是系统卷，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：是，false：否。<br/>|
+|is_thin|否|boolean<br/>|true,false|是否是精简设备，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。true：精简，false：非精简。<br/>|
+|datastore_id|否|string<br/>|无|虚拟磁盘关联的数据存储ID，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|datastore_type|否|string<br/>|<br/>DSWARE<br/>NAS<br/>LOCALPOME<br/>LUNPOME<br/>LUN<br/>ADVANCESAN<br/><br/>|数据存储类型，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。 DSWARE（华为分布式存储系统 1-32768）， NAS（表示NAS存储 1-65536）， LOCALPOME（表示虚拟化的本地存储 1-16383）， LUNPOME（表示虚拟化的共享存储(大LUN) 1-65536）， LUN（只能用于裸设备映射的共享存储1-65536）, ADVANCESAN（表示共享存储(小lun)1-2048）。<br/>|
+|vm_num|否|integer<br/>|无|虚拟磁盘绑定的虚拟机数量。<br/>|
+|service_level_id|否|string<br/>|无|虚拟磁盘关联的服务等级ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|service_level_name|否|string<br/>|无|虚拟磁盘关联的服务等级名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|is_indep_disk|否|boolean<br/>|true,false|是否为独立磁盘，取值范围：false（从属），true（独立）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|is_persistent_disk|否|boolean<br/>|true,false|是否是持久化磁盘。取值范围：false（非持久化），true（持久化）。华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|io_mode|否|string<br/>|正则表达式为threads|native|dataplane|磁盘IO模式，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。取值范围：threads，native，dataplane。 选择native模式后性能优先，可靠性有所下降。 选择threads模式通过起线程方式实现异步I/O，可靠性高。 选择dataplane模式开启单独的I/O线程，提升虚拟机多磁盘性能，但是会增加对宿主的资源占用。<br/>|
+|sequence_num|否|integer<br/>|无|槽位号，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|compatibility_mode|否|string<br/>|<br/>PHYSICAL_MODE<br/>VIRTUAL_MODE<br/><br/>|兼容模式。取值范围：PHYSICAL_MODE（物理模式），VIRTUAL_MODE（虚拟模式）。仅vCenter场景（vr_type为VMWARE）且磁盘是裸设备映射（disk_type为RDM）支持此字段。<br/>|
+|disk_type|否|string<br/>|<br/>RDM<br/>FLAT<br/><br/>|虚拟磁盘类型。取值范围：RDM（直通盘），FLAT（平面磁盘）。仅vCenter场景（vr_type为VMWARE）支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|metadata_preallocate|否|boolean<br/>|true,false|元数据预分配开关。true表示开启，false表示未开启。FusionCompute 8.10.0及以上版本支持此参数。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询虚拟磁盘信息列表成功。<br/>|
+
+### 创建磁盘并挂载到指定虚拟机
+
+**名称**
+创建磁盘并挂载到指定虚拟机
+
+**描述**
+创建磁盘并挂载到指定虚拟机。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v2/vms/\{id\}/vdisk/create-and-attach
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|pci_type|否|string|<br/>IDE<br/>SCSI<br/>VIRTIO<br/><br/><br/>默认值：VIRTIO|磁盘挂载的总线类型。当前版本为：IDE，SCSI，VIRTIO；KVM平台：裸设备映射只能按照SCSI方式挂载，普通虚拟磁盘可以以三种方式挂载。取值范围：IDE（IDE总线），SCSI（SCSI总线），VIRTIO（VIRTIO总线），KVM（KVM总线）。<br/>|
+|scsi_command_passthrough|否|boolean|true,false<br/>默认值：false|SCSI命令是否透传。仅当pciType为SCSI时有效，虚拟化数据存储只支持不透传，非虚拟化存储均支持。true：透传，虚拟机下发的SCSI命令直接透传给物理SCSI设备；false：不透传，虚拟化层模拟大部分SCSI命令，但对于需要操作物理硬件的SCSI指令无法支持。<br/>|
+|io_mode|否|string|正则表达式为threads|native|dataplane<br/>默认值：threads|磁盘IO模式。取值范围：threads，native，dataplane。磁盘IO模式与PCI总线类型相关，IDE只能配置threads模式；VIRTIO支持threads、native、dataplane；SCSI支持threads、native。<br/>|
+|datastore_id|是|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|数据存储id<br/>|
+|name|否|string|1~256个字符|磁盘名称<br/>|
+|capacity|是|int64|1~4294967295|磁盘容量，单位：GB<br/>|
+|share_type|是|string|<br/>normal<br/>share<br/><br/>|磁盘共享类型。取值范围：normal（普通卷（非共享卷）），share（共享卷）。<br/>|
+|is_thin|否|boolean|true,false<br/>默认值：false|是否精简分配。true : 精简分配，false:非精简分配。<br/>|
+|allocate_type|否|int32|0~2<br/>默认值：0|磁盘分配类型。取值范围：0（普通卷），1（延迟置零卷），2（精简卷）。该字段在is_thin参数为false时生效，在is_thin参数为true时失效。<br/>|
+|is_indep_disk|否|boolean|true,false<br/>默认值：true|磁盘模式。true：独立模式，false：从属模式。<br/>|
+|is_persistent_disk|否|boolean|true,false<br/>默认值：true|是否持久化磁盘。true：持久化磁盘，false：不持久化磁盘。<br/>|
+|metadata_preallocate|否|boolean|true,false|元数据预分配开关。true表示开启，false表示未开启。FusionCompute 8.10.0及以上版本支持此参数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|创建磁盘并挂载给虚拟机任务下发成功。<br/>|
+
+### 创建新的磁盘并挂载给虚拟机（废弃）
+
+**名称**
+创建新的磁盘并挂载给虚拟机（废弃）
+
+**描述**
+创建新的磁盘并挂载给虚拟机，建议使用接口：/rest/vmmgmt/v2/vms/\{id\}/vdisk/create-and-attach。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/vdisk/create-and-attach
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|pci_type|否|string|<br/>IDE<br/>SCSI<br/>VIRTIO<br/><br/>|磁盘挂载的总线类型。取值范围：IDE，SCSI，VIRTIO。当前版本为：IDE，SCSI，VIRTIO；KVM平台：裸设备映射只能按照SCSI方式挂载，普通虚拟磁盘可以以三种方式挂载。<br/>|
+|scsi_command_passthrough|否|boolean|true,false<br/>默认值：false|SCSI命令是否透传。仅当pciType为SCSI时有效，虚拟化数据存储只支持不透传，非虚拟化存储均支持。true：透传，虚拟机下发的SCSI命令直接透传给物理SCSI设备；false：不透传，虚拟化层模拟大部分SCSI命令，但对于需要操作物理硬件的SCSI指令无法支持。<br/>|
+|io_mode|否|string|正则表达式为threads|native|dataplane<br/>默认值：threads|磁盘IO模式。取值范围：threads，native，dataplane。磁盘IO模式与PCI总线类型相关，IDE只能配置threads模式；VIRTIO支持threads、native、dataplane；SCSI支持threads、native。<br/>|
+|datastore_id|否|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|数据存储id<br/>|
+|name|否|string|1~256个字符|磁盘名称<br/>|
+|capacity|否|int64|1~4294967295|磁盘容量，单位：GB<br/>|
+|share_type|否|string|<br/>normal<br/>share<br/><br/>|磁盘共享类型。取值范围：normal（普通卷（非共享卷）），share（共享卷）。<br/>|
+|is_thin|否|boolean|true,false<br/>默认值：false|是否精简分配。true : 精简分配，false:非精简分配。<br/>|
+|allocate_type|否|integer|最大值：100<br/><br/>0<br/>1<br/>2<br/><br/>|磁盘分配类型。取值范围：0（普通卷），1（延迟置零卷），2（精减卷）。该字段在is_thin参数为false时生效，在is_thin参数为true时失效。<br/>|
+|is_indep_disk|否|boolean|true,false<br/>默认值：true|磁盘模式。true：独立模式，false：从属模式。<br/>|
+|is_persistent_disk|否|boolean|true,false<br/>默认值：true|是否持久化磁盘。true：持久化磁盘，false：不持久化磁盘。<br/>|
+|metadata_preallocate|否|boolean|true,false|元数据预分配开关。true表示开启，false表示未开启。FusionCompute 8.10.0及以上版本支持此参数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|创建新的磁盘并挂载给虚拟机任务下发成功<br/>|
+
+### 挂载虚拟机磁盘
+
+**名称**
+挂载虚拟机磁盘
+
+**描述**
+挂载虚拟机磁盘
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/vdisk/attach
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vdisk_id|是|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|虚拟磁盘ID<br/>|
+|pci_type|否|string|<br/>IDE<br/>SCSI<br/>VIRTIO<br/><br/><br/>默认值：VIRTIO|磁盘挂载的总线类型。当前版本为：IDE，SCSI，VIRTIO；KVM平台：裸设备映射和eVol只能按照VIRTIO和SCSI方式挂载，普通虚拟磁盘可以以三种方式挂载。默认值：VIRTIO。取值范围：IDE（IDE总线），SCSI（SCSI总线），VIRTIO（VIRTIO总线）。<br/>|
+|scsi_command_passthrough|否|boolean|true,false<br/>默认值：true|SCSI命令是否透传。仅当pci_type为SCSI时有效，虚拟化数据存储只支持不透传，非虚拟化存储均支持。true：透传，虚拟机下发的SCSI命令直接透传给物理SCSI设备；false：不透传，虚拟化层模拟大部分SCSI命令，但对于需要操作物理硬件的SCSI指令无法支持。<br/>|
+|io_mode|否|string|正则表达式为threads|native|dataplane|磁盘IO模式。取值范围：threads，native，dataplane。磁盘IO模式与PCI总线类型相关，IDE只能配置threads模式；VIRTIO支持threads、native、dataplane；SCSI支持threads、native。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|挂载虚拟机磁盘任务下发成功<br/>|
+
+### 修改指定虚拟磁盘属性
+
+**名称**
+修改指定虚拟磁盘属性
+
+**描述**
+修改指定虚拟磁盘属性。
+
+**基本信息**
+- **方法**: PUT
+- **URI**: /rest/vmmgmt/v1/vdisks/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟磁盘ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|否|string|1~256个字符|虚拟磁盘名称。<br/>|
+|is_indep_disk|否|boolean|true,false<br/>默认值：true|虚拟磁盘模式。取值范围：true（独立），false（从属）。<br/>|
+|is_persistent_disk|否|boolean|true,false<br/>默认值：false|是否持久化磁盘。取值范围：true（持久化），false（非持久化）。<br/>|
+
+**响应字段**
+无
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|修改指定虚拟磁盘属性成功。<br/>|
+
+### 扩容虚拟机磁盘
+
+**名称**
+扩容虚拟机磁盘
+
+**描述**
+扩容虚拟机磁盘
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/vdisk/expand
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vdisk_id|是|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|虚拟磁盘ID<br/>|
+|capacity|是|int32|1~2147483647|扩容后的虚拟磁盘总容量，单位：GB<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|扩容虚拟机磁盘任务下发成功<br/>|
+
+### 卸载虚拟机磁盘
+
+**名称**
+卸载虚拟机磁盘
+
+**描述**
+卸载虚拟机磁盘
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/vdisk/detach
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vdisk_id|是|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|虚拟磁盘ID<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|卸载虚拟机磁盘任务下发成功<br/>|
+
+### 删除指定虚拟磁盘
+
+**名称**
+删除指定虚拟磁盘
+
+**描述**
+删除指定虚拟磁盘。
+
+**基本信息**
+- **方法**: DELETE
+- **URI**: /rest/vmmgmt/v1/vdisks/\{id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~64个字符|磁盘id<br/>|
+
+**查询参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|is_format|否|integer|0~1<br/>默认值：0|是否安全删除磁盘参数，0:普通删除，1:安全删除<br/>|
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|删除指定磁盘命令下发成功<br/>|
+
+## 虚拟机网卡管理
+
+### 修改指定虚拟机下网卡所属端口组
+
+**名称**
+修改指定虚拟机下网卡所属端口组
+
+**描述**
+修改指定虚拟机下网卡所属端口组。
+
+**基本信息**
+- **方法**: PUT
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/nics/\{nic\_id\}/port-group
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机ID。<br/>|
+|nic_id|是|string|1~128个字符|网卡ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|port_group_urn|是|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|网卡所属端口组ID<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|修改指定虚拟机下网卡所属端口组任务下发成功。<br/>|
+
+### 修改指定虚拟机下指定网卡信息
+
+**名称**
+修改指定虚拟机下指定网卡信息
+
+**描述**
+修改指定虚拟机下指定网卡信息。
+
+**基本信息**
+- **方法**: PUT
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/nics/\{nic\_id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机ID<br/>|
+|nic_id|是|string|1~128个字符|网卡ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|mac|否|string|长度为17个字符|MAC地址，格式00-00-00-00-00-00<br/>|
+|vringbuf|否|integer|最大值：4096<br/><br/>256<br/>512<br/>1024<br/>2048<br/>4096<br/><br/>|IO环大小，单位：个<br/>|
+|queues|否|integer|1~8|虚拟机网卡的IO队列数<br/>|
+
+**响应字段**
+无
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|修改指定虚拟机下指定网卡信息成功。<br/>|
+
+### 指定虚拟机添加网卡
+
+**名称**
+指定虚拟机添加网卡
+
+**描述**
+指定虚拟机添加网卡。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/nics
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符|虚拟机ID。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|port_group_urn|是|string|1~128个字符，且满足正则表达^$|^[A-Za-z0-9-:]+$|网卡所属端口组ID。<br/>|
+|type|否|integer|最大值：5<br/><br/>1<br/>2<br/>3<br/>4<br/>5<br/><br/>|（已废弃）虚拟网卡类型。取值范围：1（virtio），2（e1000，KVM未支持），3（rtl8139，KVM未支持），4（vhost-user），5（sriov）。<br/>|
+|virt_io|否|string|<br/>1<br/>2<br/>3<br/>4<br/><br/><br/>最多1个字符<br/>默认值：1|虚拟网卡类型。取值范围：1（virtio），2（e1000，KVM未支持），3（rtl8139，KVM未支持），4（vhost-user）。<br/>|
+|vringbuf|否|integer|最大值：4096<br/><br/>256<br/>512<br/>1024<br/>2048<br/>4096<br/><br/>|IO环大小，单位：个。<br/>|
+|queues|否|integer|1~8|虚拟机网卡的IO队列数。<br/>|
+|enable_security_group|否|boolean|true,false<br/>默认值：false|是否开启安全组。true：开启，false：关闭。<br/>|
+|security_group_id|否|integer|最大值：2147483647|安全组ID。<br/>|
+|connect_at_power_on|否|boolean|true,false<br/>默认值：true|打开电源时连接， SRIOVR网卡和用户态网卡不支持设置为false。 取值范围：true（虚拟机开机后，网卡网络连接正常）， false（虚拟机开机后，网卡网络未连接）。<br/>|
+|link_status|否|string|<br/>connected<br/>disconnected<br/><br/>|连接状态。对于创建虚拟机、导入模板、模板部署虚拟机忽略。取值范围：connected（连接），disconnected（未连接）。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|指定虚拟机添加网卡任务下发成功。<br/>|
+
+### 查询指定虚拟机下网卡列表
+
+**名称**
+查询指定虚拟机下网卡列表
+
+**描述**
+查询指定虚拟机下网卡列表。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/vms/\{id\}/nics
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|无|总数量<br/>|
+|vm_nics|否|List<VmNicDetail><br/>|无|虚拟网卡数据集<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|虚拟网卡唯一标识ID。<br/>|
+|name|否|string<br/>|0~256个字符|虚拟网卡名称，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|pid|否|string<br/>|0~64个字符|主键ID，查询性能数据用，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|type|否|integer<br/>|<br/>1<br/>2<br/>3<br/>4<br/>5<br/><br/>|虚拟网卡类型，华为云平台场景（vr_type为HCS）不支持此字段。取值范围：1（virtio），2（e1000，KVM未支持），3（rtl8139，KVM未支持），4（vhost-user），5（sriov）。<br/>|
+|vringbuf|否|integer<br/>|<br/>256<br/>512<br/>1024<br/>2048<br/>4096<br/><br/>|IO环大小，单位：个，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|queues|否|integer<br/>|最小值：0|虚拟机网卡的IO队列数，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|vm_id|否|string<br/>|0~256个字符|虚拟机ID<br/>|
+|vm_name|否|string<br/>|0~256个字符|虚拟机名称<br/>|
+|mac_address|否|string<br/>|0~17个字符|MAC地址，格式00-00-00-00-00-00，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|ip_address|否|string<br/>|0~256个字符|IP地址<br/>|
+|port_group_id|否|string<br/>|0~128个字符|网卡所属端口组ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|port_group_name|否|string<br/>|0~256个字符|网卡所属端口组名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_id|否|string<br/>|0~128个字符|网卡所属分布式交换机ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_name|否|string<br/>|0~256个字符|网卡所属分布式交换机名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|dvs_type|否|string<br/>|<br/>VSWITCH<br/>SRIOV<br/>USERMODE<br/><br/>|网卡所属分布式交换机类型。VSWITCH（vSwitch 普通模式），SR-IOV（SR-IOV 直通模式），USER-MODE（用户态交换模式），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|boot_order|否|integer<br/>|最小值：-1|网卡启动顺序，默认为-1，表示不设置启动顺序，从1开始，数值越大，优先级越低，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|site_id|否|string<br/>|0~128个字符|虚拟机所属站点ID<br/>|
+|vsp_id|否|string<br/>|0~128个字符|网卡限速配置的ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|enable_security_group|否|boolean<br/>|true,false<br/>默认值：false|是否开启安全组。true：开启，false：关闭，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|security_group_id|否|integer<br/>|最少0个字符|安全组ID，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|security_group_name|否|string<br/>|0~256个字符|安全组名称，仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+|nic_type|否|integer<br/>|<br/>0<br/>1<br/>2<br/><br/>|网卡的硬件类型。取值范围：0（普通网卡），1（inic网卡，KVM未支持），2（sriov，网卡仅在查询时有效），仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定虚拟机下网卡列表成功<br/>|
+
+### 删除指定虚拟机下指定网卡
+
+**名称**
+删除指定虚拟机下指定网卡
+
+**描述**
+删除指定虚拟机下指定网卡。
+
+**基本信息**
+- **方法**: DELETE
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/nics/\{nic\_id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机ID<br/>|
+|nic_id|是|string|1~128个字符|网卡ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|删除指定虚拟机下指定网卡任务下发成功<br/>|
+
+### 配置指定虚拟机下网卡网络连接
+
+**名称**
+配置指定虚拟机下网卡网络连接
+
+**描述**
+配置指定虚拟机下网卡连接状态。
+
+**基本信息**
+- **方法**: PUT
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/nics-linkstatus
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符，且满足正则表达^[A-Za-z0-9-:]+$|虚拟机唯一标识。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|nic_ids|是|List<string>|数组最大成员个数：1000<br/>数组最小成员个数：1|虚拟网卡Id列表<br/>|
+|connect_at_power_on|否|boolean|true,false<br/>默认值：true|虚拟机打开电源时连接（SRIOVR网卡和用户态网卡不支持设置为false）。取值范围：true（虚拟机打开电源时连接到网络），false（虚拟机打开电源时不连接到网络），默认值为true。<br/>|
+|link_status|否|string|<br/>connected<br/>disconnected<br/><br/>|连接状态。对于创建虚拟机、导入模板、模板部署虚拟机忽略。取值范围：connected（已连接），disconnected（未连接），虚拟机状态为运行中时默认值为connected，其他情况下默认值为disconnected。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|配置指定虚拟机下网卡网络连接成功。<br/>|
+
+## 虚拟机快照管理
+
+### 查询指定虚拟机的快照列表
+
+**名称**
+查询指定虚拟机的快照列表
+
+**描述**
+查询指定虚拟机的快照列表
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/snapshots
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|current_snapshot|否|VmSnapshot对象<br/>|无|当前快照信息<br/>|
+|root_snapshots|否|List<VmSnapshot><br/>|无|快照节点信息<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128|虚拟机快照ID<br/>|
+|name|否|string<br/>|0~256|虚拟机快照的名称<br/>|
+|description|否|string<br/>|0~1024|虚拟机快照的描述<br/>|
+|create_time|否|string<br/>|0~128|虚拟机快照的创建时间<br/>|
+|type|否|string<br/>|<br/>normal<br/>backup<br/>CBTbackup<br/>secure<br/><br/>|虚拟机快照类型。取值范围: normal（普通快照），backup（备份点快照），CBTbackup（CBT快照），secure（安全快照）。创建虚拟机快照时默认类型为：normal<br/>|
+|status|否|string<br/>|<br/>creating<br/>resuming<br/>ready<br/>deleting<br/>failed<br/><br/>|虚拟机快照状态。取值范围：creating（创建中），resuming（恢复虚拟机中），ready（创建成功，可用于恢复虚拟机），deleting（删除中），failed（删除失败）。<br/>|
+|child_snapshots|否|List<VmSnapshot><br/>|无|子快照<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定虚拟机的快照列表成功<br/>|
+
+### 查询指定虚拟机的指定快照
+
+**名称**
+查询指定虚拟机的指定快照
+
+**描述**
+查询指定虚拟机的指定快照
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/snapshots/\{snapshot\_id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机ID<br/>|
+|snapshot_id|是|string|1~128个字符|快照ID<br/>|
+
+**查询参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|is_refresh|否|boolean|true, false<br/>默认值：true|是否实时刷新快照信息。true：刷新，false：不刷新。<br/>|
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128|虚拟机快照ID<br/>|
+|name|否|string<br/>|0~256|虚拟机快照的名称<br/>|
+|description|否|string<br/>|0~1024|虚拟机快照的描述<br/>|
+|create_time|否|string<br/>|0~128|创建虚拟机快照的时间<br/>|
+|type|否|string<br/>|<br/>normal<br/>backup<br/>CBTbackup<br/>secure<br/><br/>|虚拟机快照类型。取值范围: normal（普通快照），backup（备份点快照），CBTbackup（CBT快照），secure（安全快照）。创建虚拟机快照时默认类型为：normal<br/>|
+|status|否|string<br/>|<br/>creating<br/>resuming<br/>ready<br/>deleting<br/>failed<br/><br/>|虚拟机快照状态。取值范围：creating（创建中），resuming（恢复虚拟机中），ready（创建成功，可用于恢复虚拟机），deleting（删除中），failed（删除失败）。<br/>|
+|snapshot_capacity|否|int64<br/>|无|快照占用的空间，包括虚拟磁盘快照和内存快照的总大小，单位：MB。<br/>|
+|cpu_core_num|否|integer<br/>|无|虚拟机的CPU总核数<br/>|
+|total_memory|否|int32<br/>|无|虚拟机内存总大小，单位：MB<br/>|
+|disk_total_capacity|否|int64<br/>|无|虚拟机磁盘总大小，单位：MB<br/>|
+|including_memory_snapshot|否|boolean<br/>|true,false|是否包含内存快照。true：包含内存快照，false：不包含内存快照。<br/>|
+|enable_consistent|否|boolean<br/>|true,false|是否是一致性快照<br/>|
+|volsnapshots|否|List<VolsnapshotInfo><br/>|无|虚拟磁盘快照列表<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|vdisk_id|否|string<br/>|0~128|虚拟磁盘ID<br/>|
+|storage_type|否|string<br/>|<br/>local<br/>san<br/>advancesan<br/>dsware<br/>nas<br/>localpome<br/>lun<br/>lunpome<br/>iotailor<br/>cifs<br/>nfs<br/>nfs41<br/>other<br/>pmem<br/>vffs<br/>vmfs<br/>vsan<br/>vvol<br/><br/>|存储类型，数据存储类型分成5组，组内的虚拟机可以互相部署，组间不支持部署。取值范围：local（表示本地存储，KVM未支持），san（基本共享存储, KVM未支持），advancesan（共享存储，KVM未支持），dsware（华为分布式存储系统），nas（NAS存储），localpome（虚拟化的本地存储），lunpome（虚拟化的共享存储），lun（用于裸设备映射的共享存储），iotailor（本地内存盘，KVM未支持）， cifs（网络文件共享协议存储），nfs（网络文件系统协议存储），nfs41（NFS 4.1协议的增强版本存储），other（其他类型存储），pmem（非易失性内存存储），vffs（VMware 专有闪存文件系统存储），vmfs（VMware 专有集群文件系统存储），vsan（ESXi 主机的本地磁盘创建分布式共享存储），vvol（VMware 存储抽象层）。<br/>|
+|datastore_id|否|string<br/>|0~128|虚拟磁盘快照关联的数据存储ID<br/>|
+|id|否|string<br/>|0~128|虚拟磁盘快照ID<br/>|
+|name|否|string<br/>|0~128|虚拟磁盘快照名称<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定虚拟机的指定快照成功<br/>|
+
+### 创建虚拟机快照
+
+**名称**
+创建虚拟机快照
+
+**描述**
+虚拟机创建快照
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/snapshots
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|name|是|string|1~256个字符|快照名称<br/>|
+|description|否|string|0~1024个字符|快照描述<br/>|
+|type|否|string|<br/>normal<br/>backup<br/>CBTbackup<br/>secure<br/><br/>|虚拟机快照类型。取值范围: normal（普通快照），backup（备份点快照），CBTbackup（CBT快照），secure（安全快照）。创建虚拟机快照时默认类型为：normal<br/>|
+|need_memory_shot|否|boolean|true,false|是否制作内存快照，true：制作，false：不制作。默认值为：false<br/>|
+|is_consistent|否|boolean|true,false|是否一致性快照，true：保持一致性快照，false：不保持一致性快照。默认值为：false<br/>|
+|protect_period|否|integer|1~7300|安全快照的保护期，单位（天），type为secure时必填<br/>|
+|is_support_auto_delete|否|boolean|true,false|是否支持自动删除，type为secure时生效<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|虚拟机创建快照成功<br/>|
+
+### 删除指定虚拟机下的指定快照
+
+**名称**
+删除指定虚拟机下的指定快照
+
+**描述**
+删除指定虚拟机下的指定快照
+
+**基本信息**
+- **方法**: DELETE
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/snapshots/\{snapshot\_id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机ID<br/>|
+|snapshot_id|是|string|1~128个字符|快照ID<br/>|
+
+**查询参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|speed|是|integer|10~500|快照删除速率，单位：MB/s，会占用当前存储资源，即速率设置越高，对当前存储上正在运行的虚拟机性能影响越大。<br/>|
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|删除指定虚拟机下的指定快照任务下发成功<br/>|
+
+### 通过快照恢复虚拟机
+
+**名称**
+通过快照恢复虚拟机
+
+**描述**
+通过快照恢复虚拟机。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/vms/\{vm\_id\}/snapshots/resume-vm
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|vm_id|是|string|1~128个字符|虚拟机唯一标识。<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|snapshot_id|是|string|1~128个字符|虚拟机快照ID。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|task_id|否|string<br/>|无|任务ID<br/>|
+
+**响应引用对象**
+无
+
+**状态码**
+|状态码|说明|
+|--|--|
+|202|通过快照恢复虚拟机任务下发成功。<br/>|
+
+## 安全组
+
+### 查询安全组列表
+
+**名称**
+查询安全组列表
+
+**描述**
+查询安全组列表。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/secgroups/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|dc_id|是|string|0~128个字符|数据中心id。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|每页查询的数量。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询起始页。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|integer<br/>|最小值：0|总数量。<br/>|
+|security_groups|否|List<SecGroups><br/>|数组最大成员个数：1000|安全组列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|sg_id|否|integer<br/>|最小值：0|安全组ID。<br/>|
+|site_sg_id|否|string<br/>|0~128个字符|站点安全组关联id。<br/>|
+|sg_name|否|string<br/>|1~256个字符|安全组名称。<br/>|
+|sg_desc|否|string<br/>|0~1024个字符|安全组描述。<br/>|
+|rules|否|string<br/>|0~128个字符|安全组中规则总数。<br/>|
+|vm_num|否|string<br/>|0~128个字符|安全组中虚拟机数目。<br/>|
+|sg_type|否|integer<br/>|最小值：0|安全组类型。取值范围：0（白名单），1（黑名单）。<br/>|
+|sg_ip_stack_type|否|integer<br/>|最小值：0|IP栈类型。取值范围：0（IPv4），1（IPv6），2（双栈）。<br/>|
+|is_created_by_tenant|否|boolean<br/>|true,false|是否为租户创建。<br/>|
+|dc_id|否|string<br/>|0~128个字符|数据中心ID。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询安全组列表成功。<br/>|
+
+## GPU
+
+### 查询GPU列表
+
+**名称**
+查询GPU列表
+
+**描述**
+查询GPU列表。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/host-gpus/query
+- **危险级别**: Info
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|site_id|否|string|0~128个字符|GPU所属VRM站点ID。<br/>|
+|vendor_name|否|string|0~128个字符|GPU厂商，支持模糊查询。<br/>|
+|product_name|否|string|0~128个字符|GPU型号，支持模糊查询。<br/>|
+|host_id|否|string|0~128个字符|GPU所属主机ID。<br/>|
+|vm_id|否|string|0~128个字符|GPU直通方式绑定的虚拟机ID。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|分页查询的个数。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/><br/>默认值：asc|排序方式。取值范围：asc（升序），desc（降序）。<br/>|
+|sort_key|否|string|<br/>pci_address<br/>vendor_name<br/>product_name<br/>vm_name<br/>host_name<br/><br/><br/>默认值：pci_address|排序字段。取值范围：pci_address：GPU PCI地址，vendor_name：GPU厂商，product_name：GPU型号，vm_name：GPU绑定的虚拟机名称，host_name：GPU所在主机名称，默认值：pci_address。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|无|查询数据总数量。<br/>|
+|gpus|否|List<HostGpu><br/>|无|GPU列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|ID。<br/>|
+|urn|否|string<br/>|0~32个字符|GPU urn。<br/>|
+|pci_address|否|string<br/>|0~32个字符|GPU PCI地址。<br/>|
+|product_name|否|string<br/>|0~128个字符|型号。<br/>|
+|vendor_name|否|string<br/>|0~128个字符|厂商。<br/>|
+|vm_id|否|string<br/>|0~128个字符|GPU直通方式绑定的虚拟机ID。<br/>|
+|vm_name|否|string<br/>|0~128个字符|GPU直通方式绑定的虚拟机名称。<br/>|
+|host_id|否|string<br/>|0~128个字符|GPU所属主机ID。<br/>|
+|host_name|否|string<br/>|0~128个字符|GPU所属主机名称。<br/>|
+|site_id|否|string<br/>|0~128个字符|GPU所属VRM站点ID。<br/>|
+|site_name|否|string<br/>|0~128个字符|GPU所属VRM站点名称。<br/>|
+|status|否|string<br/>|<br/>idle<br/>working<br/><br/>|使用状态。取值范围：idle（空闲），working（使用中）。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询GPU列表成功。<br/>|
+
+
+# 超融合管理
+
+### 查询超融合列表
+
+**名称**
+查询超融合列表
+
+**描述**
+查询超融合列表。
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/hcimgmt/v1/hcis/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|hci_id_list|否|List<string>|数组最大成员个数：100|超融合设备ID列表。<br/>|
+|name|否|string|0~256个字符|超融合名称，支持模糊搜索。<br/>|
+|ip_address|否|string|0~1024个字符|超融合IP地址，支持模糊搜索。<br/>|
+|sync_status|否|List<string>|数组最大成员个数：10|超融合同步状态。取值范围：1（未同步），2（同步中），3（已同步），4（部分已同步），5（同步失败）。<br/>|
+|model|否|List<string>|数组最大成员个数：10|超融合型号。<br/>|
+|version|否|List<string>|数组最大成员个数：20|超融合版本号。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/><br/>默认值：desc|排序方式。取值范围：asc（升序），desc（降序）。<br/>|
+|sort_key|否|string|<br/>allocated_cpu<br/>total_cpu<br/>allocated_memory<br/>total_memory<br/>free_capacity<br/>total_capacity<br/>last_modified<br/><br/><br/>默认值：last_modified|支持的排序字段。取值范围：allocated_cpu（CPU已使用容量），total_cpu（CPU总容量），allocated_memory（内存已使用容量）， total_memory（内存总容量），free_capacity（可用存储容量），total_capacity（存储总容量），last_modified（最后修改时间）。<br/>|
+|page_no|否|int32|1~100000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：1000|分页查询的个数。<br/>|
+|dc_id|否|string|1~128个字符|所属数据中心ID。<br/>|
+|is_support_market_place|否|boolean|true,false|是否支持应用市场。取值范围：true（支持），false（不支持）。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|无|查询数据总数量。<br/>|
+|cubes|否|List<QueryCubeResponse><br/>|无|超融合列表<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~128个字符|超融合ID。<br/>|
+|instance_id|否|string<br/>|1~128个字符|对接实例ID，预留字段。<br/>|
+|name|否|string<br/>|0~256个字符|超融合系统名称。<br/>|
+|ip_address|否|string<br/>|0~32个字符|超融合IP地址。<br/>|
+|port|否|int32<br/>|最小值：0|对接超融合端口号。<br/>|
+|user_name|否|string<br/>|0~256个字符|用户名。<br/>|
+|connection_status|否|string<br/>|0~1个字符|超融合连接状态。取值范围:0（正常），1（异常），3（未知）。<br/>|
+|sync_status|否|string<br/>|0~1个字符|超融合同步状态。取值范围：1（未同步），2（同步中），3（已同步），4（部分已同步），5（同步失败）。<br/>|
+|model|否|string<br/>|0~128个字符|设备型号。<br/>|
+|version|否|string<br/>|0~128个字符|超融合软件版本。<br/>|
+|allocated_cpu|否|double<br/>|最小值：0|CPU已使用容量，单位：MHz。<br/>|
+|total_cpu|否|double<br/>|最小值：0|CPU总容量，单位：MHz。<br/>|
+|allocated_memory|否|double<br/>|最小值：0|内存已使用容量，单位：MB。<br/>|
+|total_memory|否|double<br/>|最小值：0|内存总容量，单位：MB。<br/>|
+|free_capacity|否|double<br/>|最小值：0|空闲容量，单位：GB。<br/>|
+|total_capacity|否|double<br/>|最小值：0|总容量，单位：GB。<br/>|
+|dc_id|否|string<br/>|0~128个字符|所属数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~32个字符|所属数据中心名称。<br/>|
+|projects|否|string<br/>|无|项目列表。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询超融合列表成功。<br/>|
+
+### 查询指定超融合设备详情
+
+**名称**
+查询指定超融合设备详情
+
+**描述**
+查询指定超融合设备详情。
+
+**基本信息**
+- **方法**: GET
+- **URI**: /rest/hcimgmt/v1/hcis/\{hci\_id\}
+- **危险级别**: Minor
+
+**路径参数**
+|参数|是否必选|类型|值域|描述|
+|--|--|--|--|--|
+|hci_id|是|string|1~256个字符|超融合设备ID<br/>|
+
+**查询参数**
+无
+
+**请求 Body 参数**
+无
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~128个字符|超融合ID。<br/>|
+|instance_id|否|string<br/>|1~128个字符|对接实例ID，预留字段。<br/>|
+|name|否|string<br/>|0~256个字符|超融合系统名称。<br/>|
+|ip_address|否|string<br/>|0~1024个字符|超融合IP地址。<br/>|
+|port|否|int32<br/>|最小值：0|对接超融合端口号。<br/>|
+|user_name|否|string<br/>|0~256个字符|用户名。<br/>|
+|connection_status|否|string<br/>|0~1个字符|DME和超融合连接状态。取值范围:0（正常），1（异常），3（未知）。<br/>|
+|sync_status|否|string<br/>|0~1个字符|DME和超融合同步状态。取值范围：1（未同步），2（同步中），3（已同步），4（部分已同步），5（同步失败）。<br/>|
+|model|否|string<br/>|0~128个字符|设备型号。<br/>|
+|version|否|string<br/>|0~128个字符|超融合软件版本。<br/>|
+|allocated_cpu|否|double<br/>|最小值：0|CPU已使用容量，单位：MHz。<br/>|
+|total_cpu|否|double<br/>|最小值：0|CPU总容量，单位：MHz。<br/>|
+|allocated_memory|否|double<br/>|最小值：0|内存已使用容量，单位：MB。<br/>|
+|total_memory|否|double<br/>|最小值：0|内存总容量，单位：MB。<br/>|
+|free_capacity|否|double<br/>|最小值：0|空闲容量，单位：GB。<br/>|
+|total_capacity|否|double<br/>|最小值：0|总容量，单位：GB。<br/>|
+|snmp_info|否|SNMPBasic对象<br/>|无|SNMP对接系统信息。<br/>|
+|dc_id|否|string<br/>|0~128个字符|所属数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~32个字符|所属数据中心名称。<br/>|
+|virtual_site_id|否|string<br/>|0~256个字符|虚拟化站点ID。<br/>|
+|server_ids|否|List<string><br/>|数组最大成员个数：20|服务器ID列表。<br/>|
+|switch_ids|否|List<string><br/>|数组最大成员个数：20|以太网交换机ID列表。<br/>|
+|storage_ids|否|List<string><br/>|数组最大成员个数：20|存储设备ID列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~128个字符|SNMP的ID。<br/>|
+|protocol_version|否|string<br/>|1~16个字符|版本。取值范围：SNMPv3（SNMPv3），SNMPv2C（SNMPv2C）。<br/>|
+|user_name|否|string<br/>|1~32个字符|用户名。<br/>|
+|auth_type|否|string<br/>|1~8个字符|授权认证协议。取值范围：SHA（SHA），SHA2-256（SHA2-256）。<br/>|
+|encrpt_type|否|string<br/>|1~8个字符|数据加密协议。取值范围：AES-128（AES-128），AES-256（AES-256）。<br/>|
+|read_community|否|string<br/>|8~128个字符|读团体字。<br/>|
+|write_community|否|string<br/>|8~128个字符|写团体字。<br/>|
+|port|否|int32<br/>|1~65535<br/>默认值：162|端口号。<br/>|
+|timeout|否|int32<br/>|1000~60000<br/>默认值：3000|超时时间，单位毫秒。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询指定超融合设备详情成功。<br/>|
+
+### 查询指定超融合下虚拟化集群列表
+
+**名称**
+查询指定超融合下虚拟化集群列表
+
+**描述**
+查询虚拟化集群列表
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/hci-vm-clusters/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|hci_id|是|string|1~64个字符|超融合ID<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/><br/>默认值：asc|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/>host_num<br/>vm_num<br/>cpu_usage<br/>memory_usage<br/>site_ip<br/><br/>|排序字段<br/>|
+|page_no|否|int32|1~2147483647<br/>默认值：1|分页查询的起始页码<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|分页查询的个数<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|无|总数量。<br/>|
+|clusters|否|List<Cluster><br/>|无|集群列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|集群ID。<br/>|
+|pid|否|string<br/>|0~128个字符|数据标识，该ID用于查询集群对应的统计数据，如历史性能数据、容量趋势与预测数据等。<br/>|
+|site_id|否|string<br/>|0~128个字符|集群所在站点ID。<br/>|
+|site_ip|否|string<br/>|0~128个字符|集群所在站点IP。<br/>|
+|name|否|string<br/>|0~256个字符|集群名称。集群名称长度如果超过78个字符，超过部分会被三个英文句号代替。<br/>|
+|az_id|否|string<br/>|0~256个字符|可用分区id。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|az_name|否|string<br/>|0~256个字符|可用分区名称。仅FusionCompute场景（vr_type为FUSIONCOMPUTE）支持此字段。<br/>|
+|description|否|string<br/>|0~128个字符|集群描述。<br/>|
+|total_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|总CPU大小，单位：MHz。<br/>|
+|free_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|剩余CPU大小，单位：MHz。<br/>|
+|allocated_cpu|否|int64<br/>|最少1个字符<br/>默认值：0|已分配CPU大小，单位：MHz。<br/>|
+|cpu_usage|否|double<br/>|最小值：0<br/>默认值：0|CPU预留率，单位：%。<br/>|
+|total_memory|否|int64<br/>|最少1个字符<br/>默认值：0|总内存大小，单位：MB。<br/>|
+|allocated_memory|否|int64<br/>|最少1个字符<br/>默认值：0|已分配内存大小，单位：MB。<br/>|
+|free_memory|否|int64<br/>|最少1个字符<br/>默认值：0|剩余内存大小，单位：MB。<br/>|
+|memory_usage|否|double<br/>|最小值：0<br/>默认值：0|内存预留率，单位：%。<br/>|
+|total_capacity|否|double<br/>|默认值：0|集群存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|free_capacity|否|double<br/>|默认值：0|集群剩余存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|allocated_capacity|否|double<br/>|默认值：0|集群已分配存储空间，单位：GB。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|capacity_usage|否|double<br/>|最少1个字符|存储空间分配率，单位：%。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+|datastore_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有数据存储数量。<br/>|
+|vm_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有虚拟机数量。<br/>|
+|host_num|否|integer<br/>|最小值：0<br/>默认值：0|集群拥有主机数量。<br/>|
+|arch|否|string<br/>|<br/>x86<br/>arm<br/><br/>|架构类型。取值范围：x86，arm，华为云平台场景（vr_type为HCS）不支持此字段。<br/>|
+|vr_type|否|string<br/>|<br/>FUSIONCOMPUTE<br/>VMWARE<br/>HCS<br/><br/>|虚拟化平台类型。取值范围：FUSIONCOMPUTE（FusionCompute），VMWARE（vCenter），HCS（华为云平台）。<br/>|
+|datacenter_id|否|string<br/>|0~128个字符|集群所属数据中心ID。当且仅当VMware场景（vr_type为VMWARE）支持该字段。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询虚拟化集群列表成功<br/>|
+
+### 查询指定超融合下虚拟化分布式交换机列表
+
+**名称**
+查询指定超融合下虚拟化分布式交换机列表
+
+**描述**
+查询指定超融合下虚拟化分布式交换机列表
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/vmmgmt/v1/hci-dvswitchs/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|hci_id|是|string|1~128个字符|超融合ID。<br/>|
+|sort_dir|否|string|<br/>asc<br/>desc<br/><br/><br/>默认值：asc|排序方式。取值范围：asc（升序），desc（降序），默认值：asc。<br/>|
+|sort_key|否|string|<br/>name<br/>host_count<br/>vm_count<br/>create_time<br/><br/>|排序字段。取值范围：name（名称），host_count（主机数量），vm_count（虚拟机数量），create_time（创建时间，仅支持本系统创建的分布式交换机）。<br/>|
+|page_no|否|int32|1~1000<br/>默认值：1|分页查询的起始页码。<br/>|
+|page_size|否|int32|1~1000<br/>默认值：20|分页查询的个数。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|最小值：0|总数量。<br/>|
+|dvSwitchesList|否|List<DvSwitch><br/>|数组最大成员个数：1000|分布式交换机列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|0~128个字符|分布式交换机ID。<br/>|
+|name|否|string<br/>|0~256个字符|分布式交换机名称。<br/>|
+|description|否|string<br/>|0~1024个字符|分布式交换机描述。<br/>|
+|type|否|integer<br/>|<br/>0<br/>2<br/>4<br/><br/>|分布式交换机类型。取值范围：0（普通模式：上行链路关联的主机物理网卡为普通网卡），2（直通模式：上行链路关联的主机物理网卡为SRIOV直通网卡），4（用户态交换模式：上行链路关联的主机物理网卡为驱动模式支持用户态驱动模式的网卡）。<br/>|
+|is_igmp_snooping|否|boolean<br/>|true,false|分布式交换机是否启用IGMP Snooping。取值范围：true（开启），false（关闭）。IGMP Snooping全称为Internet Group Management Protocol Snooping，是交换机的一种高级功能，交换机通过侦听组播协议报文来维护组播报文的出端口信息，从而管理和控制组播数据报文的转发。<br/>|
+|mtu|否|int32<br/>|1500~9000|分布式交换机的大帧数值。大帧全称为网络最大传输单元（Maximum Transmission Unit），缩写为MTU。<br/>|
+|vm_num|否|int32<br/>|最小值：0|分布式交换机关联的虚拟机数量。<br/>|
+|host_num|否|int32<br/>|最小值：0|分布式交换机关联的主机数量。<br/>|
+|site_ip|否|string<br/>|0~32个字符|分布式交换机所属站点IP。<br/>|
+|site_id|否|string<br/>|0~128个字符|分布式交换机所属站点ID。<br/>|
+|dc_id|否|string<br/>|0~128个字符|分布式交换机所属数据中心ID。<br/>|
+|dc_name|否|string<br/>|0~128个字符|分布式交换机所属数据中心名称。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|批量查询分布式交换机成功<br/>|
+
+### 查询指定超融合下的存储设备列表
+
+**名称**
+查询指定超融合下的存储设备列表
+
+**描述**
+查询指定超融合下的存储设备列表
+
+**基本信息**
+- **方法**: POST
+- **URI**: /rest/storagemgmt/v2/hci-storages/query
+- **危险级别**: Minor
+
+**路径参数**
+无
+
+**查询参数**
+无
+
+**请求 Body 参数**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|hci_id|是|string|1~64个字符|超融合ID。<br/>|
+
+**响应字段**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|total|否|int32<br/>|无|存储设备总数。<br/>|
+|datas|否|List<HCIStorageSummaryInfoV2><br/>|无|存储设备列表。<br/>|
+
+**响应引用对象**
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~64个字符|存储设备ID。<br/>|
+|name|否|string<br/>|1~128个字符|存储设备名称。<br/>|
+|ip|否|string<br/>|1~32个字符|IP 地址。<br/>|
+|status|否|string<br/>|<br/>OFFLINE<br/>NORMAL<br/>FAULT<br/>DEGRADED<br/>ABNORMAL<br/><br/>|状态。支持：离线（OFFLINE），正常（NORMAL），故障（FAULT），降级（DEGRADED），未管理（ABNORMAL）。<br/>|
+|sync_status|否|string<br/>|<br/>UNSYNC<br/>SYNC<br/>NORMAL<br/>FAILED<br/><br/>|同步状态。支持：未同步（UNSYNC），同步中（SYNC），同步完成（NORMAL），同步失败（FAILED）。<br/>|
+|sn|否|string<br/>|1~64个字符|设备序列号。<br/>|
+|vendor|否|string<br/>|1~32个字符|厂商。<br/>|
+|model|否|string<br/>|1~64个字符|产品型号。<br/>|
+|total_capacity|否|number<br/>|无|总容量（物理容量，单位：GB）。<br/>|
+|total_pool_capacity|否|number<br/>|无|可用容量（所有存储池的容量之和，单位：GB）<br/>|
+|used_capacity|否|number<br/>|无|已用容量（单位：GB）。<br/>|
+|consumed_capacity_percentage|否|number<br/>|无|已用容量百分比（%），例如 90 代表百分之九十。<br/>|
+|free_capacity|否|number<br/>|无|空闲容量（单位：GB）。<br/>|
+|subscription_capacity|否|number<br/>|无|订阅容量（所有pool的文件系统分配容量之和+所有pool的LUN分配容量之和，单位：GB）。<br/>|
+|total_effective_capacity|否|number<br/>|无|总可得容量（单位：GB）。<br/>|
+|used_effective_capacity|否|number<br/>|无|已用可得容量（单位：GB）。<br/>|
+|free_effective_capacity|否|number<br/>|无|空闲可得容量（单位：GB）。<br/>|
+|subscribed_capacity_percentage|否|number<br/>|无|容量订阅百分比（%），例如 90 代表百分之九十。<br/>|
+|location|否|string<br/>|0~512个字符|设备位置信息。<br/>|
+|version|否|string<br/>|0~64个字符|版本信息。<br/>|
+|patch_version|否|string<br/>|0~64个字符|补丁版本信息。<br/>|
+|maintenance_start|否|string<br/>|0~32个字符|维护开始时间，UTC时间戳（精确到毫秒）。<br/>|
+|maintenance_overtime|否|string<br/>|0~32个字符|维护过保时间，UTC时间戳（精确到毫秒）。<br/>|
+|add_time|否|string<br/>|0~32个字符|接入设备时间，UTC时间戳（精确到毫秒）。<br/>|
+|last_sync_time|否|string<br/>|0~32个字符|上一次同步时间，UTC时间戳（精确到毫秒）。<br/>|
+|owning_ne_type|否|string<br/>|<br/>dorado<br/>unified<br/>oceanStor<br/>protectA<br/>OceanProtectX<br/>OceanProtectA<br/>protect<br/>unity<br/>vmax<br/>powerstore<br/>vnx_block<br/>vplex<br/>eternus<br/>vsp<br/>hnas<br/>hpe_3par<br/>msa<br/>storwize_svc<br/>ds8k<br/>cmode<br/>flasharray<br/>thinksystem_dm<br/>fusionStorFile<br/>OceanStor9000<br/>fusionStorage<br/>fusionStorageObs<br/>fusionStorBlock<br/>OceanStorPacific<br/>OceanStor100D<br/>scaleio<br/>micro<br/>CyberEngine<br/>DataTurbo<br/>OceanStorA310<br/>OceanProtectE<br/>unistor_cf<br/>as5500<br/>macrosan<br/>OceanStorA800<br/><br/>|存储设备网元类型。取值范围：dorado（dorado系列存储），unified（融合存储V3/V5），oceanStor（融合存储V6），protectA（备份存储A系列），OceanProtectX（OceanProtectX系列），OceanProtectA（OceanProtectA系列），protect（备份存储），unity（Dell EMC Unity），vmax（Dell EMC VMAX），powerstore（Dell EMC PowerStore），vnx_block（Dell EMC VNX Block），vplex（Dell EMC VPLEX），eternus（Fujitsu ETERNUS），vsp（Hitachi VSP），hnas（Hitachi HNAS），hpe_3par（HPE 3PAR），msa（HPE MSA），storwize_svc（IBM SAN Volume Controller），ds8k（IBM DS8000），cmode（NetApp 存储），flasharray（Pure FlashArray），thinksystem_dm（联想DM存储），fusionStorFile（分布式文件存储），OceanStor9000（OceanStorN9000存储），fusionStorage（分布式存储），fusionStorageObs（分布式对象存储 ），fusionStorBlock（分布式块存储），OceanStorPacific（OceanStor Pacific存储），OceanStor100D（OceanStor 100D存储），scaleio（Dell EMC ScaleIO），micro（OceanDisk存储），CyberEngine（数据安全一体机），DataTurbo（DataTurbo系列），OceanStorA310（OceanStor A310 存储），OceanProtectE（OceanProtectE系列），unistor_cf（H3C存储），as5500（Inspur存储），macrosan（MacroSAN存储），OceanStorA800（A800存储）。<br/>|
+|az_names|否|List<string><br/>|无|所属可用分区名称列表。<br/>|
+|dc_id|否|string<br/>|无|数据中心ID。<br/>|
+|dc_name|否|string<br/>|无|数据中心名称。<br/>|
+|hci_id|否|string<br/>|无|所属超融合ID。<br/>|
+|sync_process|否|int32<br/>|无|同步进度。<br/>|
+|source|否|string<br/>|<br/>add<br/>record<br/><br/>|设备来源。取值范围：add（接入），record（录入）。<br/>|
+|online_time|否|int64<br/>|-62135798400000~9223372036854775807|上线时间，UTC时间戳（精确到毫秒）。<br/>|
+|alarm_num|否|number<br/>|无|告警数量。<br/>|
+|cpu_usage|否|number<br/>|无|CPU利用率（%）。<br/>|
+|response_time|否|number<br/>|无|平均I/O响应时间（ms）。<br/>|
+|throughput|否|number<br/>|无|IOPS（IO/S）<br/>|
+|file_ops|否|number<br/>|无|OPS（O/S）<br/>|
+|bandwidth|否|number<br/>|无|带宽（MB/s）<br/>|
+|is_sec_config_switch_status|否|string<br/>|<br/>enable<br/>disable<br/><br/>|安全配置核查开关状态。取值范围：enable（打开），disable（关闭）。<br/>|
+|tags|否|List<Tag><br/>|无|关联标签集合。<br/>|
+
+|参数|是否必选|类型|值域|说明|
+|--|--|--|--|--|
+|id|否|string<br/>|1~32个字符|标签的ID。<br/>|
+|tag_type_name|否|string<br/>|1~64个字符|标签类型名称。<br/>|
+|name|否|string<br/>|1~128个字符|标签名称。<br/>|
+
+**状态码**
+|状态码|说明|
+|--|--|
+|200|查询超融合下存储设备列表成功。<br/>|
