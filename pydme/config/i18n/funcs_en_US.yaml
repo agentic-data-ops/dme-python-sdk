@@ -32,6 +32,7 @@ aiops.alarm_list: |
             }, ...],
             total: total alarms (integer),
         }
+
 aiops.alarm_ack: |
     Acknowledge alarm
 
@@ -43,6 +44,7 @@ aiops.alarm_ack: |
 
     Returns:
         operation result
+
 aiops.alarm_unack: |
     Un-acknowledge alarm
 
@@ -54,6 +56,7 @@ aiops.alarm_unack: |
 
     Returns:
         operation result
+
 aiops.alarm_clear: |
     Clear alarm
 
@@ -65,6 +68,7 @@ aiops.alarm_clear: |
 
     Returns:
         operation result
+
 aiops.diagnose_task_create: |
     Create intelligent analysis task
 
@@ -110,6 +114,7 @@ aiops.diagnose_task_create: |
                     is_succeed: whether created successfully (boolean). valid values: true (created successfully), false (creation failed),
                  }, ...],
         }
+
 aiops.diagnose_task_status: |
     Query performance diagnosis task status
 
@@ -137,6 +142,7 @@ aiops.diagnose_task_status: |
             - event: event
         - total_step_count: total steps
         - finish_step_count: completed steps
+
 aiops.performance_create_collect_task: |
     Create performance file collection task
 
@@ -153,6 +159,7 @@ aiops.performance_create_collect_task: |
 
     Returns:
         task ID
+
 aiops.performance_download_collect_result: |
     Download performance file
 
@@ -163,6 +170,7 @@ aiops.performance_download_collect_result: |
 
     Returns:
         file content (bytes); also written to the local file when save_to is specified
+
 aiops.performance_query: |
     Query historical performance data
 
@@ -216,6 +224,7 @@ aiops.performance_query: |
                 avg: Average value of the historical data value sequence (Map<object, string>, 无),
             },
         }
+
 aiops.performance_show_indicators: |
     Show monitoring indicator details
 
@@ -244,6 +253,7 @@ aiops.performance_show_indicators: |
                 indicator_name: Indicator identifier (string, 最多128个字符),
             },
         }
+
 aiops.performance_list_indicators: |
     List monitoring indicators supported by the monitoring object type
 
@@ -260,6 +270,7 @@ aiops.performance_list_indicators: |
                 indicator_ids: Indicator ID list (List<int64>),
             },
         }
+
 aiops.performance_list_object_types: |
     Get all monitoring object types
 
@@ -283,6 +294,7 @@ aiops.performance_list_object_types: |
             }, ...],
         }
         resource_provider, en_us, zh_cn, group_en_us, group_zh_cn and other fields
+
 aiops.check_result_list: |
     Query check policy abnormal check result list
 
@@ -329,6 +341,7 @@ aiops.check_result_list: |
                     abnormal_reasons: abnormal reason list (List<string>, max array members: 100),
                  }, ...],
         }
+
 aiops.check_result_show: |
     Query check policy abnormal check result details
 
@@ -357,6 +370,7 @@ aiops.check_result_show: |
             location_info: location info (string, 0~3000 characters),
             abnormal_reasons: abnormal reason list (List<string>, max array members: 100),
         }
+
 aiops.check_policy_list: |
     Query check policy list
 
@@ -394,6 +408,7 @@ aiops.check_policy_list: |
                 alarm_type: alarm type (string). valid values: violation, alarm, event,
             }, ...],
         }
+
 aiops.check_policy_execute: |
     Execute check policy
 
@@ -407,6 +422,7 @@ aiops.check_policy_execute: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 aiops.check_policy_enable: |
     Enable check policy
 
@@ -420,6 +436,7 @@ aiops.check_policy_enable: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 aiops.check_policy_disable: |
     Disable check policy
 
@@ -433,6 +450,7 @@ aiops.check_policy_disable: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 aiops.check_policy_delete: |
     Delete check policy
 
@@ -446,6 +464,7 @@ aiops.check_policy_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 aiops.topology_query_san_path: |
     Query SAN path topology structure
 
@@ -620,6 +639,7 @@ aiops.topology_query_san_path: |
                 }, ...],
             },
         }
+
 aiops.topology_query_luns: |
     Query topology LUN list
 
@@ -656,6 +676,7 @@ aiops.topology_query_luns: |
                 storage_pool_id: Storage pool ID (string, 1~140 characters). Format is {storageId}STORAGE_POOL{poolId},
             }, ...],
         }
+
 aiops.topology_query_vms: |
     Query topology virtual machines and virtual disk list, or query BMS physical disk list
 
@@ -692,6 +713,7 @@ aiops.topology_query_vms: |
                 name: disk name (string, 1~768 characters),
             }, ...],
         }
+
 aiops.topology_query_graph_path: |
     Query topology graph info
 
@@ -723,6 +745,7 @@ aiops.topology_query_graph_path: |
                 edge_type: edge type (string). valid values: edge_k8s_node_to_k8s_pod, edge_storage_pool_to_storage_disk, edge_filesystem_to_storage_pool, edge_storage_disk_to_storage_device, edge_k8s_pvc_to_k8s_pv, edge_k8s_pod_to_k8s_pvc, edge_dtree_to_filesystem, edge_lun_storage_pool, edge_k8s_cluster_to_k8s_node, edge_k8s_pv_to_lun, edge_k8s_pv_to_dtree, edge_nas_client_to_logic_port, edge_logic_port_to_ethernet_port, edge_ethernet_port_to_controller, edge_controller_to_filesystem, edge_data_turbo_client_to_logic_port, edge_controller_to_ethernet_port, edge_data_turbo_client_to_service_network, edge_ethernet_port_to_eth_switch_port, edge_service_network_to_logic_port, edge_a800_enclosures_to_storage_zone, edge_controller_to_enclosures, edge_storage_zone_to_filesystem, edge_eth_switch_port_to_eth_switch_port, edge_enclosures_to_controller, edge_controller_to_storage_port, edge_eth_switch_to_eth_switch_port, edge_storage_port_to_eth_switch_port, edge_filesystem_to_hyper_scale_pool, edge_hyper_scale_pool_to_storage_pool, edge_eth_switch_port_to_eth_switch, edge_k8s_pod_to_k8s_node, edge_k8s_podgroup_to_k8s_pod, edge_k8s_vcjob_to_k8s_podgroup, edge_lun_to_controller, edge_host_to_service_network, edge_host_to_host_port, edge_host_port_to_service_network, edge_service_network_to_lun, edge_service_network_to_storage_port, edge_db_instance_to_db_node, edge_db_node_to_host,
             }, ...],
         }
+
 aiops.health_query_data: |
     Query health related data
 
@@ -741,6 +764,7 @@ aiops.health_query_data: |
         {
             data: query result data (dict), contains history/forecast etc.,
         }
+
 aiops.health_show_score: |
     Query object health score
 
@@ -766,6 +790,7 @@ aiops.health_show_score: |
             total: total count (int),
             objects: health object list (List),
         }
+
 aiops.health_show_detail: |
     Query deduction details of health dimensions
 
@@ -787,6 +812,7 @@ aiops.health_show_detail: |
         {
             indicators: indicator deduction list (List),
         }
+
 backup.cluster_list: |
     Query backup cluster list
 
@@ -804,6 +830,7 @@ backup.cluster_list: |
                 cluster_ip: IP address (string),
             }, ...],
         }
+
 backup.cluster_capacity: |
     Query backup cluster capacity
 
@@ -819,6 +846,7 @@ backup.cluster_capacity: |
             total_capacity: total capacity (double, GB),
             used_capacity: used capacity (double, GB),
         }
+
 backup.cluster_quota: |
     Query backup cluster tenant quota list
 
@@ -840,6 +868,7 @@ backup.cluster_quota: |
                 tenant_used_capacity: used backup quota capacity (double, GB),
             }, ...],
         }
+
 fcswitch.list: |
     Batch query switches
 
@@ -858,6 +887,7 @@ fcswitch.list: |
                 status: running status (string),
             }, ...],
         }
+
 fcswitch.sync: |
     Sync specified switch
 
@@ -869,6 +899,7 @@ fcswitch.sync: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 fcswitch.port_list: |
     Batch query switch ports
 
@@ -884,6 +915,7 @@ fcswitch.port_list: |
             total: total count (int),
             ports: switch port list (List),
         }
+
 fcswitch.controller_list: |
     Batch query switch control processors
 
@@ -898,6 +930,7 @@ fcswitch.controller_list: |
             total: total count (int),
             controllers: controller list (List),
         }
+
 fcswitch.fabric_list: |
     Batch query fabrics
 
@@ -912,6 +945,7 @@ fcswitch.fabric_list: |
             total: total count (int),
             fabrics: fabric list (List),
         }
+
 fcswitch.fabric_show_ports: |
     Query port list of specified fabric
 
@@ -926,6 +960,7 @@ fcswitch.fabric_show_ports: |
             total: total count (int),
             ports: port list (List),
         }
+
 fcswitch.fabric_backup: |
     Execute fabric configuration file backup
 
@@ -939,6 +974,7 @@ fcswitch.fabric_backup: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 fcswitch.vsan_list: |
     Query VSAN list
 
@@ -952,6 +988,7 @@ fcswitch.vsan_list: |
             total: total count (int),
             vsans: VSAN list (List),
         }
+
 fcswitch.zone_list: |
     Batch query zone
 
@@ -985,6 +1022,7 @@ fcswitch.zone_list: |
                 zone_type: zone type (string). valid values: regular, user_specified_peer_zone, target_driven_peer_zone,
             }, ...],
         }
+
 fcswitch.zone_create: |
     Create zone
     Create a zone instance in the fabric, must include one of WWN members, port members, or alias members. 
@@ -1013,6 +1051,7 @@ fcswitch.zone_create: |
             id: zone id (string, 1~64 characters),
             zone_name: zone name (string, 1~64 characters),
         }
+
 fcswitch.zone_modify: |
     Modify zone
     Modify zone name or change members. This operation modifies the zone name or changes members on the specified switch. 
@@ -1059,6 +1098,7 @@ fcswitch.zone_modify: |
 
     Returns:
         None. 
+
 fcswitch.zone_delete: |
     Delete zone
     This operation deletes the zone on the specified switch. 
@@ -1071,6 +1111,7 @@ fcswitch.zone_delete: |
 
     Returns:
         None. 
+
 fcswitch.zone_batch_create: |
     Batch create zones
 
@@ -1098,6 +1139,7 @@ fcswitch.zone_batch_create: |
 
     Returns:
         None. 
+
 fcswitch.zone_show_members: |
     Query zone members
     Query members in a zone, supports port members, WWN members, and alias members. 
@@ -1136,6 +1178,7 @@ fcswitch.zone_show_members: |
             }, ...],
             members: all members list (List, when type not specified),
         }
+
 fcswitch.alias_list: |
     Batch query aliases
 
@@ -1163,6 +1206,7 @@ fcswitch.alias_list: |
                 modifiable: whether the alias can be modified (boolean, true/false),
             }, ...],
         }
+
 fcswitch.alias_create: |
     Create alias
     This operation creates an alias on the specified switch. 
@@ -1189,6 +1233,7 @@ fcswitch.alias_create: |
         {
             id: alias id (string, 1~64 characters),
         }
+
 fcswitch.alias_modify: |
     Modify alias
     Modify alias members. Brocade switches support WWN member and port member modification; Cisco switches support PWWN, FWWN, port, FCID, and device alias member modification. 
@@ -1231,6 +1276,7 @@ fcswitch.alias_modify: |
 
     Returns:
         None. 
+
 fcswitch.alias_delete: |
     Delete alias
     This operation deletes the alias on the specified switch. 
@@ -1243,6 +1289,7 @@ fcswitch.alias_delete: |
 
     Returns:
         None. 
+
 fcswitch.alias_show_members: |
     Query alias members
     Query members in an Alias, supports querying port members and WWN members. 
@@ -1270,6 +1317,7 @@ fcswitch.alias_show_members: |
             }, ...],
             members: all members list (List, when type not specified),
         }
+
 gfs.dataspace_list: |
     Batch query Omni-Dataverse
 
@@ -1291,6 +1339,7 @@ gfs.dataspace_list: |
                 status: status (string),
             }, ...],
         }
+
 gfs.dataspace_show: |
     Query capacity statistics info of the specified Omni-Dataverse
 
@@ -1306,6 +1355,7 @@ gfs.dataspace_show: |
             available_capacity: available capacity (string),
             file_count: file count (int64),
         }
+
 gfs.dataspace_site_list: |
     Query Omni-Dataverse data service sites
 
@@ -1329,6 +1379,7 @@ gfs.dataspace_site_list: |
                 status: status (string),
             }, ...],
         }
+
 gfs.namespace_list: |
     Batch query global Namespace
 
@@ -1352,6 +1403,7 @@ gfs.namespace_list: |
                 status: status (string),
             }, ...],
         }
+
 gfs.namespace_show: |
     Query global Namespace details
 
@@ -1368,6 +1420,7 @@ gfs.namespace_show: |
             status: status (string),
             storage_id: storage device ID (string),
         }
+
 gfs.namespace_create: |
     Create global Namespace
 
@@ -1390,6 +1443,7 @@ gfs.namespace_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 gfs.namespace_modify: |
     Modify the specified global Namespace
 
@@ -1408,6 +1462,7 @@ gfs.namespace_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 gfs.namespace_delete: |
     Delete the specified global Namespace
 
@@ -1421,6 +1476,7 @@ gfs.namespace_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 gfs.migration_task_list: |
     Batch query Omni-Dataverse data migration tasks
 
@@ -1451,6 +1507,7 @@ gfs.migration_task_list: |
                 status: status (string),
             }, ...],
         }
+
 gfs.migration_task_show: |
     Query Omni-Dataverse data migration task details
 
@@ -1467,6 +1524,7 @@ gfs.migration_task_show: |
             source: source info (string),
             target: target info (string),
         }
+
 gfs.migration_task_create: |
     Create Omni-Dataverse data migration task
 
@@ -1520,6 +1578,7 @@ gfs.migration_task_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 gfs.migration_task_modify: |
     Modify Omni-Dataverse data migration task
 
@@ -1541,6 +1600,7 @@ gfs.migration_task_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 gfs.migration_task_delete: |
     Batch delete Omni-Dataverse data migration tasks
 
@@ -1552,6 +1612,7 @@ gfs.migration_task_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 gfs.migration_task_operate: |
     Batch pause or start Omni-Dataverse data migration tasks
 
@@ -1564,6 +1625,232 @@ gfs.migration_task_operate: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
+hci.list: |
+    Query HCI list
+
+    Query the list of hyper-converged infrastructure (HCI) devices managed by DME, supporting filtering by name, IP, sync status, model, version, and pagination and sorting.
+
+    Args:
+        client: DME API client
+        hci_id_list: HCI device ID list (max 100 items)
+        name: HCI name, supports fuzzy search
+        ip_address: HCI IP address, supports fuzzy search
+        sync_status: HCI sync status list. values: 1 (not synced), 2 (syncing), 3 (synced), 4 (partially synced), 5 (sync failed)
+        model: HCI model list
+        version: HCI version list
+        sort_dir: Sort direction (asc, desc), default desc
+        sort_key: Sort field (allocated_cpu, total_cpu, allocated_memory, total_memory, free_capacity, total_capacity, last_modified), default last_modified
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 1000
+        dc_id: Data center ID the HCI belongs to
+        is_support_market_place: Whether the app marketplace is supported (true/false)
+
+    Returns:
+        {
+            total: Total number of query results (integer),
+            cubes: HCI list (List<QueryCubeResponse>). parameter format: [{
+                id: HCI ID (string),
+                instance_id: Instance ID (string),
+                name: HCI system name (string),
+                ip_address: HCI IP address (string),
+                port: HCI port number (integer),
+                user_name: User name (string),
+                connection_status: Connection status (0 normal, 1 abnormal, 3 unknown) (string),
+                sync_status: Sync status (string),
+                model: Device model (string),
+                version: HCI software version (string),
+                allocated_cpu: Allocated CPU, in MHz (number),
+                total_cpu: Total CPU, in MHz (number),
+                allocated_memory: Allocated memory, in MB (number),
+                total_memory: Total memory, in MB (number),
+                free_capacity: Free capacity, in GB (number),
+                total_capacity: Total capacity, in GB (number),
+                dc_id: Data center ID (string),
+                dc_name: Data center name (string),
+                projects: Project list (string),
+            }, ...],
+        }
+
+hci.show: |
+    Query HCI detail
+
+    Query the detailed information of a specified HCI device, including connection status, sync status, capacity info, SNMP info and the associated server/switch/storage device lists.
+
+    Args:
+        client: DME API client
+        hci_id: HCI device ID (1~256 chars)
+
+    Returns:
+        {
+            id: HCI ID (string),
+            instance_id: Instance ID (string),
+            name: HCI system name (string),
+            ip_address: HCI IP address (string),
+            port: HCI port number (integer),
+            user_name: User name (string),
+            connection_status: DME-HCI connection status (0 normal, 1 abnormal, 3 unknown) (string),
+            sync_status: DME-HCI sync status (string),
+            model: Device model (string),
+            version: HCI software version (string),
+            allocated_cpu: Allocated CPU, in MHz (number),
+            total_cpu: Total CPU, in MHz (number),
+            allocated_memory: Allocated memory, in MB (number),
+            total_memory: Total memory, in MB (number),
+            free_capacity: Free capacity, in GB (number),
+            total_capacity: Total capacity, in GB (number),
+            snmp_info: SNMP system info (SNMPBasic object). attribute format: {
+                id: SNMP ID (string),
+                protocol_version: Protocol version (SNMPv3, SNMPv2C) (string),
+                user_name: User name (string),
+                auth_type: Auth protocol (SHA, SHA2-256) (string),
+                encrpt_type: Encryption protocol (AES-128, AES-256) (string),
+                read_community: Read community (string),
+                write_community: Write community (string),
+                port: Port number (integer),
+                timeout: Timeout in milliseconds (integer),
+            },
+            dc_id: Data center ID (string),
+            dc_name: Data center name (string),
+            virtual_site_id: Virtualization site ID (string),
+            server_ids: Server ID list (List<string>),
+            switch_ids: Ethernet switch ID list (List<string>),
+            storage_ids: Storage device ID list (List<string>),
+        }
+
+hci.cluster_list: |
+    Query a HCI's virtual cluster list
+
+    Query the virtual cluster list of a specified HCI device, supporting pagination and sorting.
+
+    Args:
+        client: DME API client
+        hci_id: HCI ID (1~64 chars, required)
+        sort_dir: Sort direction (asc, desc), default asc
+        sort_key: Sort field (name, host_num, vm_num, cpu_usage, memory_usage, site_ip)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
+
+    Returns:
+        {
+            total: Total number (integer),
+            clusters: Cluster list (List<Cluster>). parameter format: [{
+                id: Cluster ID (string),
+                pid: Data identifier for statistics query (string),
+                site_id: Site ID of the cluster (string),
+                site_ip: Site IP of the cluster (string),
+                name: Cluster name (string),
+                az_id: Availability zone ID, only for FusionCompute (string),
+                az_name: Availability zone name, only for FusionCompute (string),
+                description: Cluster description (string),
+                total_cpu: Total CPU, in MHz (integer),
+                free_cpu: Free CPU, in MHz (integer),
+                allocated_cpu: Allocated CPU, in MHz (integer),
+                cpu_usage: CPU reservation rate, in % (number),
+                total_memory: Total memory, in MB (integer),
+                allocated_memory: Allocated memory, in MB (integer),
+                free_memory: Free memory, in MB (integer),
+                memory_usage: Memory reservation rate, in % (number),
+                total_capacity: Cluster storage space, in GB, only for VMware (number),
+                free_capacity: Free storage space, in GB, only for VMware (number),
+                allocated_capacity: Allocated storage space, in GB, only for VMware (number),
+                capacity_usage: Storage allocation rate, in %, only for VMware (number),
+                datastore_num: Number of datastores (integer),
+                vm_num: Number of VMs (integer),
+                host_num: Number of hosts (integer),
+                arch: Architecture (x86, arm), not for HCS (string),
+                vr_type: Virtualization platform type (FUSIONCOMPUTE, VMWARE, HCS) (string),
+                datacenter_id: Data center ID of the cluster, only for VMware (string),
+            }, ...],
+        }
+
+hci.vswitch_list: |
+    Query a HCI's virtual switch list
+
+    Query the virtual distributed switch list of a specified HCI device, supporting pagination and sorting.
+
+    Args:
+        client: DME API client
+        hci_id: HCI ID (1~128 chars, required)
+        sort_dir: Sort direction (asc, desc), default asc
+        sort_key: Sort field (name, host_count, vm_count, create_time)
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
+
+    Returns:
+        {
+            total: Total number (integer),
+            dvSwitchesList: Distributed switch list (List<DvSwitch>). parameter format: [{
+                id: Distributed switch ID (string),
+                name: Distributed switch name (string),
+                description: Distributed switch description (string),
+                type: Distributed switch type (0 normal, 2 passthrough, 4 user-mode) (integer),
+                is_igmp_snooping: Whether IGMP Snooping is enabled (boolean),
+                mtu: Jumbo frame value, 1500~9000 (integer),
+                vm_num: Number of associated VMs (integer),
+                host_num: Number of associated hosts (integer),
+                site_ip: Site IP (string),
+                site_id: Site ID (string),
+                dc_id: Data center ID (string),
+                dc_name: Data center name (string),
+            }, ...],
+        }
+
+hci.storage_list: |
+    Query a HCI's storage device list
+
+    Query the storage device list of a specified HCI device, including capacity, status and network element type details.
+
+    Args:
+        client: DME API client
+        hci_id: HCI ID (1~64 chars, required)
+
+    Returns:
+        {
+            total: Total number of storage devices (integer),
+            datas: Storage device list (List<HCIStorageSummaryInfoV2>). parameter format: [{
+                id: Storage device ID (string),
+                name: Storage device name (string),
+                ip: IP address (string),
+                status: Status (OFFLINE, NORMAL, FAULT, DEGRADED, ABNORMAL) (string),
+                sync_status: Sync status (UNSYNC, SYNC, NORMAL, FAILED) (string),
+                sn: Device serial number (string),
+                vendor: Vendor (string),
+                model: Product model (string),
+                total_capacity: Total capacity (physical, in GB) (number),
+                total_pool_capacity: Available capacity (sum of storage pools, in GB) (number),
+                used_capacity: Used capacity, in GB (number),
+                consumed_capacity_percentage: Used capacity percentage (%) (number),
+                free_capacity: Free capacity, in GB (number),
+                subscription_capacity: Subscription capacity, in GB (number),
+                total_effective_capacity: Total effective capacity, in GB (number),
+                used_effective_capacity: Used effective capacity, in GB (number),
+                free_effective_capacity: Free effective capacity, in GB (number),
+                subscribed_capacity_percentage: Capacity subscription percentage (%) (number),
+                location: Device location info (string),
+                version: Version info (string),
+                patch_version: Patch version info (string),
+                maintenance_start: Maintenance start time, UTC timestamp (ms) (string),
+                maintenance_overtime: Maintenance overdue time, UTC timestamp (ms) (string),
+                add_time: Device onboarding time, UTC timestamp (ms) (string),
+                last_sync_time: Last sync time, UTC timestamp (ms) (string),
+                owning_ne_type: Network element type of the storage device (string),
+                az_names: Availability zone name list (List<string>),
+                dc_id: Data center ID (string),
+                dc_name: Data center name (string),
+                hci_id: HCI ID (string),
+                sync_process: Sync progress (integer),
+                source: Device source (add, record) (string),
+                online_time: Online time, UTC timestamp (ms) (integer),
+                alarm_num: Number of alarms (number),
+                cpu_usage: CPU utilization (%) (number),
+                response_time: Average I/O response time (ms) (number),
+                throughput: IOPS (IO/S) (number),
+                file_ops: OPS (O/S) (number),
+                bandwidth: Bandwidth (MB/s) (number),
+            }, ...],
+        }
+
 integrate.cmdb_system_list: |
     Query CMDB system list.
 
@@ -1582,6 +1869,7 @@ integrate.cmdb_system_list: |
                 ip: IP address (string),
             }, ...],
         }
+
 integrate.cmdb_host_list: |
     Query host list in CMDB system.
 
@@ -1602,6 +1890,7 @@ integrate.cmdb_host_list: |
                 ip: IP address (string),
             }, ...],
         }
+
 integrate.cmdb_host_show: |
     Query specified CMDB host details.
 
@@ -1615,6 +1904,7 @@ integrate.cmdb_host_show: |
             name: host name (string),
             ip: IP address (string),
         }
+
 integrate.cmdb_app_list: |
     Query application list in CMDB system.
 
@@ -1633,6 +1923,7 @@ integrate.cmdb_app_list: |
                 name: Application name (string),
             }, ...],
         }
+
 integrate.cmdb_host_query_by_initiators: |
     Query CMDB host list by initiator list.
 
@@ -1647,6 +1938,7 @@ integrate.cmdb_host_query_by_initiators: |
                 name: host name (string),
             }, ...],
         }
+
 ipswitch.list: |
     Query Ethernet switch list info
 
@@ -1665,6 +1957,7 @@ ipswitch.list: |
                 status: status (string),
             }, ...],
         }
+
 ipswitch.frame_list: |
     Query IP switch chassis list info
 
@@ -1679,6 +1972,7 @@ ipswitch.frame_list: |
             total: total count (int),
             frames: frame list (List),
         }
+
 ipswitch.board_list: |
     Query IP switch board list info
 
@@ -1693,6 +1987,7 @@ ipswitch.board_list: |
             total: total count (int),
             boards: board list (List),
         }
+
 ipswitch.subcard_list: |
     Query IP switch subcard list info
 
@@ -1707,6 +2002,7 @@ ipswitch.subcard_list: |
             total: total count (int),
             subcards: subcard list (List),
         }
+
 ipswitch.power_list: |
     Query IP switch power supply list info
 
@@ -1721,6 +2017,7 @@ ipswitch.power_list: |
             total: total count (int),
             powers: power supply list (List),
         }
+
 ipswitch.fan_list: |
     Query IP switch fan list info
 
@@ -1735,6 +2032,7 @@ ipswitch.fan_list: |
             total: total count (int),
             fans: fan list (List),
         }
+
 ipswitch.port_list: |
     Query IP switch port list info
 
@@ -1749,6 +2047,7 @@ ipswitch.port_list: |
             total: total count (int),
             ports: port list (List),
         }
+
 kube.cluster_list: |
     Query container cluster list
 
@@ -1767,6 +2066,7 @@ kube.cluster_list: |
                 status: status (string),
             }, ...],
         }
+
 kube.node_list: |
     Query container node list
 
@@ -1785,6 +2085,7 @@ kube.node_list: |
                 status: status (string),
             }, ...],
         }
+
 kube.pod_list: |
     Query container pod list
 
@@ -1806,6 +2107,7 @@ kube.pod_list: |
                 node: Node (string),
             }, ...],
         }
+
 kube.namespace_list: |
     Query container Namespace list
 
@@ -1820,6 +2122,7 @@ kube.namespace_list: |
         {
             namespaces: Namespace list (List<string>),
         }
+
 kube.pvc_list: |
     Query container persistent volume claim list
 
@@ -1839,6 +2142,7 @@ kube.pvc_list: |
                 capacity: capacity (string),
             }, ...],
         }
+
 kube.pv_list: |
     Query container persistent volume list
 
@@ -1859,6 +2163,7 @@ kube.pv_list: |
                 capacity: capacity (string),
             }, ...],
         }
+
 nas.account_dataturbo_admin_list: |
     Batch query DataTurbo administrators
 
@@ -1888,6 +2193,7 @@ nas.account_dataturbo_admin_list: |
                 type: Administrator type (string),
             }, ...],
         }
+
 nas.account_unix_user_create: |
     Create UNIX user
 
@@ -1906,6 +2212,7 @@ nas.account_unix_user_create: |
 
     Returns:
         Create result
+
 nas.account_unix_user_add_group: |
     Add UNIX user secondary group
 
@@ -1916,6 +2223,7 @@ nas.account_unix_user_add_group: |
 
     Returns:
         operation result
+
 nas.account_unix_user_list: |
     Query UNIX authentication user list
 
@@ -1945,6 +2253,7 @@ nas.account_unix_user_list: |
                 primary_group_name: primary group name (string),
             }, ...],
         }
+
 nas.account_unix_user_show: |
     Query UNIX authentication user details
 
@@ -1960,6 +2269,7 @@ nas.account_unix_user_show: |
             primary_group_name: primary group name (string),
             description: description (string),
         }
+
 nas.account_unix_user_remove_group: |
     Remove UNIX user secondary group
 
@@ -1970,6 +2280,7 @@ nas.account_unix_user_remove_group: |
 
     Returns:
         operation result
+
 nas.account_unix_user_modify: |
     Modify UNIX user
 
@@ -1984,6 +2295,7 @@ nas.account_unix_user_modify: |
 
     Returns:
         Modify result
+
 nas.account_unix_user_batch_delete: |
     Delete UNIX user
 
@@ -1993,6 +2305,7 @@ nas.account_unix_user_batch_delete: |
 
     Returns:
         operation result
+
 nas.account_unix_user_group_create: |
     Create UNIX user group
 
@@ -2007,6 +2320,7 @@ nas.account_unix_user_group_create: |
 
     Returns:
         Create result
+
 nas.account_unix_user_group_list: |
     Query UNIX authentication user group list
 
@@ -2033,6 +2347,7 @@ nas.account_unix_user_group_list: |
                 gid: Group GID (int32),
             }, ...],
         }
+
 nas.account_unix_user_group_show: |
     Query UNIX user group details
 
@@ -2047,6 +2362,7 @@ nas.account_unix_user_group_show: |
             gid: Group GID (int32),
             description: description (string),
         }
+
 nas.account_unix_user_group_modify: |
     Modify UNIX user group
 
@@ -2058,6 +2374,7 @@ nas.account_unix_user_group_modify: |
 
     Returns:
         Modify result
+
 nas.account_unix_user_group_batch_delete: |
     Delete UNIX user group
 
@@ -2067,6 +2384,7 @@ nas.account_unix_user_group_batch_delete: |
 
     Returns:
         operation result
+
 nas.dtree_list: |
     Query Dtree list
 
@@ -2103,6 +2421,7 @@ nas.dtree_list: |
                 fs_id: Filesystem ID (string),
             }, ...],
         }
+
 nas.dtree_show: |
     Query specified Dtree details
 
@@ -2117,6 +2436,7 @@ nas.dtree_show: |
             path: path (string),
             fs_id: Filesystem ID (string),
         }
+
 nas.dtree_create: |
     Create and share Dtree
 
@@ -2166,6 +2486,7 @@ nas.dtree_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.dtree_delete: |
     Batch delete Dtree
 
@@ -2178,6 +2499,7 @@ nas.dtree_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.dtree_modify: |
     Modify specified Dtree
 
@@ -2195,6 +2517,7 @@ nas.dtree_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.nfs_share_list: |
     Query NFS share list
 
@@ -2237,6 +2560,7 @@ nas.nfs_share_list: |
                 fs_id: Filesystem ID (string),
             }, ...],
         }
+
 nas.nfs_share_show: |
     Query specified NFS share details
 
@@ -2252,6 +2576,7 @@ nas.nfs_share_show: |
             fs_id: Filesystem ID (string),
             export_ip: export IP (string),
         }
+
 nas.nfs_share_create: |
     Create NFS share
 
@@ -2294,6 +2619,7 @@ nas.nfs_share_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.nfs_share_modify: |
     Modify specified NFS share
 
@@ -2349,6 +2675,7 @@ nas.nfs_share_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.nfs_share_delete: |
     Batch delete NFS shares
 
@@ -2361,6 +2688,7 @@ nas.nfs_share_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.nfs_share_show_clients: |
     Query client access list under NFS share
 
@@ -2389,6 +2717,7 @@ nas.nfs_share_show_clients: |
                 accesskrb5: Kerberos authentication (string),
             }, ...],
         }
+
 nas.cifs_share_list: |
     Batch query CIFS shares
 
@@ -2446,6 +2775,7 @@ nas.cifs_share_list: |
                 ca_enabled: Whether CA is enabled. valid values: true, false,
             }, ...],
         }
+
 nas.cifs_share_show: |
     Query specified CIFS share details
 
@@ -2474,6 +2804,7 @@ nas.cifs_share_show: |
             abe_enabled: Whether ABE is enabled. valid values: true, false,
             show_snapshot_enabled: Whether to show snapshot directory. valid values: true, false,
         }
+
 nas.cifs_share_create: |
     Create a single CIFS share
 
@@ -2524,6 +2855,7 @@ nas.cifs_share_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.cifs_share_modify: |
     Modify specified CIFS share
 
@@ -2578,6 +2910,7 @@ nas.cifs_share_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.cifs_share_delete: |
     Batch delete CIFS shares
 
@@ -2590,6 +2923,7 @@ nas.cifs_share_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.cifs_share_show_permissions: |
     Query permissions list of a single CIFS share
 
@@ -2634,6 +2968,7 @@ nas.cifs_share_show_permissions: |
                 rules: Rule list (List),
             }, ...],
         }
+
 nas.dataturbo_share_list: |
     Query DataTurbo share list
 
@@ -2675,6 +3010,7 @@ nas.dataturbo_share_list: |
                 charset: character set (string),
             }, ...],
         }
+
 nas.dataturbo_share_show: |
     Query specified DataTurbo share details
 
@@ -2702,6 +3038,7 @@ nas.dataturbo_share_show: |
             zone_ip: zone IP (string),
             scope: scope (string),
         }
+
 nas.dataturbo_share_create: |
     Create DataTurbo share
 
@@ -2721,6 +3058,7 @@ nas.dataturbo_share_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.dataturbo_share_modify: |
     Modify specified DataTurbo share
 
@@ -2739,6 +3077,7 @@ nas.dataturbo_share_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.dataturbo_share_delete: |
     Batch delete DataTurbo shares
 
@@ -2751,6 +3090,7 @@ nas.dataturbo_share_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.dataturbo_share_show_permissions: |
     Query DataTurbo share administrator permission list
 
@@ -2772,6 +3112,7 @@ nas.dataturbo_share_show_permissions: |
                 permission: permission (string),
             }, ...],
         }
+
 nas.quota_list: |
     Query quota list
 
@@ -2808,6 +3149,7 @@ nas.quota_list: |
                 file_hard_used: files used (string),
             }, ...],
         }
+
 nas.quota_show: |
     Query specified quota details
 
@@ -2827,6 +3169,7 @@ nas.quota_show: |
             file_hard_quota: file hard quota (string),
             file_hard_used: files used (string),
         }
+
 nas.quota_create: |
     Create quota
 
@@ -2855,6 +3198,7 @@ nas.quota_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.quota_modify: |
     Update specified quota
 
@@ -2875,6 +3219,7 @@ nas.quota_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.quota_delete: |
     Batch delete quotas
 
@@ -2887,6 +3232,7 @@ nas.quota_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.filesystem_list: |
     Batch query Filesystem
 
@@ -2961,6 +3307,7 @@ nas.filesystem_list: |
                 storage_ip: Storage device IP (string),
             }, ...],
         }
+
 nas.filesystem_show: |
     Query specified Filesystem details
 
@@ -2992,6 +3339,7 @@ nas.filesystem_show: |
             storage_ip: Storage device IP (string),
             storage_type: storage device type (string),
         }
+
 nas.filesystem_delete: |
     Batch delete Filesystem
 
@@ -3004,6 +3352,7 @@ nas.filesystem_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         } (async task)
+
 nas.filesystem_batch_modify: |
     Batch modify Filesystem
 
@@ -3021,6 +3370,7 @@ nas.filesystem_batch_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.filesystem_create: |
     Custom create Filesystem
 
@@ -3136,6 +3486,7 @@ nas.filesystem_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.filesystem_query_available: |
     Query available Filesystems
 
@@ -3161,6 +3512,7 @@ nas.filesystem_query_available: |
                 capacity: capacity (string),
             }, ...],
         }
+
 nas.filesystem_modify: |
     Modify specified Filesystem
 
@@ -3259,6 +3611,7 @@ nas.filesystem_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 nas.namespace_list: |
     Batch query Namespace
 
@@ -3287,6 +3640,7 @@ nas.namespace_list: |
         }, includes:
         - total: Namespace count
         - namespace_list: Namespace list, contains id, raw_id, name, storage_id, vstore_id and other info
+
 nas.namespace_show: |
     Query specified Namespace details
 
@@ -3318,6 +3672,7 @@ nas.namespace_show: |
         - qos_policy: QoS policy
         - worm: WORM parameters
         and other detailed info
+
 nas.namespace_create: |
     Batch create Namespace
 
@@ -3425,6 +3780,7 @@ nas.namespace_create: |
         {
             task_id: task ID (string, 1~64 characters),
         } (async task ID)
+
 nas.namespace_modify: |
     Modify specified Namespace
 
@@ -3509,6 +3865,7 @@ nas.namespace_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         } (async task ID)
+
 nas.namespace_delete: |
     Batch delete Namespace
 
@@ -3521,6 +3878,7 @@ nas.namespace_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         } (async task ID)
+
 nas.dpc_list: |
     Batch query DPC list
 
@@ -3550,6 +3908,7 @@ nas.dpc_list: |
                 mgmt_status: management status (string),
             }, ...],
         }
+
 nas.dpc_show: |
     Query DPC details
 
@@ -3565,6 +3924,7 @@ nas.dpc_show: |
             status: service status (string),
             mgmt_status: management status (string),
         }
+
 nas.dpc_client_list: |
     Batch query DPC clients
 
@@ -3599,6 +3959,7 @@ nas.dpc_client_list: |
                 dpc_mem: DPC client node memory (int64),
             }, ...],
         }
+
 nas.dpc_client_show: |
     Query DPC client details
 
@@ -3616,6 +3977,7 @@ nas.dpc_client_show: |
             version: DPC client version (string),
             status: DPC client status (string),
         }
+
 nas.kvcache_list: |
     Query KV Cache store
 
@@ -3647,6 +4009,7 @@ nas.kvcache_list: |
                 capacity: capacity (string),
             }, ...],
         }
+
 nas.kvcache_batch_create: |
     Batch create KV Cache store
 
@@ -3668,6 +4031,7 @@ nas.kvcache_batch_create: |
 
     Returns:
         Create result
+
 nas.kvcache_modify: |
     Modify KV Cache store
 
@@ -3681,6 +4045,7 @@ nas.kvcache_modify: |
 
     Returns:
         Modify result
+
 nas.kvcache_batch_delete: |
     Batch delete KV Cache store
 
@@ -3690,6 +4055,7 @@ nas.kvcache_batch_delete: |
 
     Returns:
         operation result
+
 protect.group_list: |
     Batch query protection groups
 
@@ -3737,6 +4103,7 @@ protect.group_list: |
                 vstore_name: tenant name (string),
             }, ...],
         }
+
 protect.group_create: |
     create protection group, supports creation based on LUN or LUN group
 
@@ -3752,6 +4119,7 @@ protect.group_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.group_modify: |
     modify protection group
 
@@ -3763,6 +4131,7 @@ protect.group_modify: |
 
     Returns:
         No return data. HTTP 200 indicates success.
+
 protect.group_delete: |
     Batch delete protection groups
 
@@ -3777,6 +4146,7 @@ protect.group_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.group_add_luns: |
     Add member LUNs to protection group
 
@@ -3816,6 +4186,7 @@ protect.group_add_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.group_remove_luns: |
     Remove member LUNs from protection group
 
@@ -3831,6 +4202,7 @@ protect.group_remove_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_list: |
     Batch query hypermetro consistency groups
 
@@ -3881,6 +4253,7 @@ protect.hypermetro_group_list: |
                 isolation_threshold_time: isolation threshold (int32, 10~30000ms),
             }, ...],
         }
+
 protect.hypermetro_group_create: |
     create hypermetro consistency group
 
@@ -3901,6 +4274,7 @@ protect.hypermetro_group_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_modify: |
     modify hypermetro consistency group
 
@@ -3919,6 +4293,7 @@ protect.hypermetro_group_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_delete: |
     Batch delete hypermetro consistency groups
 
@@ -3932,6 +4307,7 @@ protect.hypermetro_group_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_add_pairs: |
     Add member Pairs to hypermetro consistency group
 
@@ -3945,6 +4321,7 @@ protect.hypermetro_group_add_pairs: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_remove_pairs: |
     Remove member Pairs from hypermetro consistency group (async task interface)
 
@@ -3957,6 +4334,7 @@ protect.hypermetro_group_remove_pairs: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_pause: |
     Pause hypermetro consistency group
 
@@ -3969,6 +4347,7 @@ protect.hypermetro_group_pause: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_force_startup: |
     Force start hypermetro consistency group
 
@@ -3981,6 +4360,7 @@ protect.hypermetro_group_force_startup: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_switch_priority: |
     Switch priority site for hypermetro consistency group
 
@@ -3992,6 +4372,7 @@ protect.hypermetro_group_switch_priority: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_group_sync: |
     Sync hypermetro consistency group
 
@@ -4003,6 +4384,7 @@ protect.hypermetro_group_sync: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_pair_list: |
     Batch query LUN hypermetro Pairs
 
@@ -4063,6 +4445,7 @@ protect.hypermetro_pair_list: |
                 sync_left_time: remaining sync time (string),
             }, ...],
         }
+
 protect.hypermetro_pair_create: |
     create hypermetro Pair
 
@@ -4091,6 +4474,7 @@ protect.hypermetro_pair_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_pair_modify: |
     modify hypermetro Pair
 
@@ -4105,6 +4489,7 @@ protect.hypermetro_pair_modify: |
 
     Returns:
         No return data. HTTP 200 indicates that the modification is successful.
+
 protect.hypermetro_pair_delete: |
     Batch delete hypermetro Pairs
 
@@ -4118,6 +4503,7 @@ protect.hypermetro_pair_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_pair_sync: |
     Batch sync hypermetro Pairs
 
@@ -4129,6 +4515,7 @@ protect.hypermetro_pair_sync: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_pair_pause: |
     Pause hypermetro Pair
 
@@ -4141,6 +4528,7 @@ protect.hypermetro_pair_pause: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_pair_force_startup: |
     Force start hypermetro Pair
 
@@ -4153,6 +4541,7 @@ protect.hypermetro_pair_force_startup: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_pair_switch_priority: |
     Switch priority site for hypermetro Pair
 
@@ -4164,6 +4553,7 @@ protect.hypermetro_pair_switch_priority: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_domain_list: |
     Batch query hypermetro domains
 
@@ -4200,6 +4590,7 @@ protect.hypermetro_domain_list: |
                 config_role: configuration role. valid values: active_site, standby_site,
             }, ...],
         }
+
 protect.replication_group_create: |
     create remote replication consistency group
 
@@ -4246,6 +4637,7 @@ protect.replication_group_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_list: |
     Batch query replication consistency groups
 
@@ -4278,6 +4670,7 @@ protect.replication_group_list: |
                 protect_group_name: protection group name (string, 0~255 characters),
             }, ...],
         }
+
 protect.replication_group_modify: |
     modify remote replication consistency group
 
@@ -4306,6 +4699,7 @@ protect.replication_group_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_delete: |
     Batch delete remote replication consistency groups
 
@@ -4319,6 +4713,7 @@ protect.replication_group_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_add_pairs: |
     Add member Pairs to remote replication consistency group (Not supported below OceanStor Dorado V6 6.1.3, requires group health status normal and running status normal or split)
 
@@ -4331,6 +4726,7 @@ protect.replication_group_add_pairs: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_remove_pairs: |
     Remove member Pairs from remote replication consistency group
 
@@ -4343,6 +4739,7 @@ protect.replication_group_remove_pairs: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_sync: |
     Batch sync remote replication consistency groups
 
@@ -4357,6 +4754,7 @@ protect.replication_group_sync: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_split: |
     Batch split remote replication consistency groups
 
@@ -4371,6 +4769,7 @@ protect.replication_group_split: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_switch: |
     Batch primary-secondary switch for remote replication consistency groups
 
@@ -4385,6 +4784,7 @@ protect.replication_group_switch: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_group_switch_write_protection: |
     Switch write protection state for remote replication consistency group secondary resource
 
@@ -4397,6 +4797,7 @@ protect.replication_group_switch_write_protection: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_pair_list: |
     Batch query replication Pairs
 
@@ -4460,6 +4861,7 @@ protect.replication_pair_list: |
                 progress: sync progress (int32, -1~100),
             }, ...],
         }
+
 protect.replication_pair_create: |
     create remote replication Pair
 
@@ -4503,6 +4905,7 @@ protect.replication_pair_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_pair_modify: |
     modify replication Pair
 
@@ -4533,6 +4936,7 @@ protect.replication_pair_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_pair_delete: |
     Batch delete remote replication Pairs
 
@@ -4545,6 +4949,7 @@ protect.replication_pair_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_pair_sync: |
     Batch sync remote replication Pairs
 
@@ -4556,6 +4961,7 @@ protect.replication_pair_sync: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_pair_split: |
     Batch split remote replication Pairs
 
@@ -4567,6 +4973,7 @@ protect.replication_pair_split: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_pair_switch: |
     Batch primary-secondary switch for remote replication Pairs
 
@@ -4578,6 +4985,7 @@ protect.replication_pair_switch: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.replication_pair_switch_write_protection: |
     Switch write protection state for remote replication Pair secondary resource
 
@@ -4590,6 +4998,7 @@ protect.replication_pair_switch_write_protection: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.device_pair_list: |
     Query device Pairs
 
@@ -4622,6 +5031,7 @@ protect.device_pair_list: |
                 compress_algorithm: compression strategy. valid values: depth_compression, fast_compression, invalid, fault,
             }, ...],
         }
+
 protect.replication_link_list: |
     Query replication links
 
@@ -4645,6 +5055,7 @@ protect.replication_link_list: |
                 running_status: running status. valid values: link_up, link_down, disabled, connecting, air_gap_link_down,
             }, ...],
         }
+
 protect.snapshot_list: |
     Batch query LUN snapshots
 
@@ -4693,6 +5104,7 @@ protect.snapshot_list: |
                 storage_id: storage device ID (string, 1~64 characters),
             }, ...],
         }
+
 protect.snapshot_create: |
     Batch create LUN snapshots
 
@@ -4709,6 +5121,7 @@ protect.snapshot_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.snapshot_rollback: |
     Batch rollback LUN snapshots
 
@@ -4725,6 +5138,7 @@ protect.snapshot_rollback: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.snapshot_delete: |
     Batch delete LUN snapshots
 
@@ -4738,6 +5152,7 @@ protect.snapshot_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.snapshot_group_create: |
     create snapshot consistency group
 
@@ -4752,6 +5167,7 @@ protect.snapshot_group_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.snapshot_group_delete: |
     Batch delete snapshot consistency groups
 
@@ -4764,6 +5180,7 @@ protect.snapshot_group_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.snapshot_group_activate: |
     Activate snapshot consistency group
 
@@ -4781,6 +5198,7 @@ protect.snapshot_group_activate: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.snapshot_group_deactivate: |
     Batch deactivate snapshot consistency groups
 
@@ -4792,6 +5210,7 @@ protect.snapshot_group_deactivate: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.snapshot_group_rollback: |
     Rollback snapshot consistency group
 
@@ -4812,6 +5231,7 @@ protect.snapshot_group_rollback: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.clone_group_create: |
     create clone consistency group
 
@@ -4835,6 +5255,7 @@ protect.clone_group_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.clone_group_sync: |
     Sync clone consistency group
 
@@ -4854,6 +5275,7 @@ protect.clone_group_sync: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.clone_group_delete: |
     Batch delete clone consistency groups
 
@@ -4867,6 +5289,7 @@ protect.clone_group_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_hypermetro_pair_create: |
     create Filesystem hypermetro Pair. This API may directly or indirectly affect running services, please operate with caution. 
 
@@ -4884,6 +5307,7 @@ protect.fs_hypermetro_pair_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_hypermetro_pair_list: |
     Query Filesystem hypermetro Pair list. 
 
@@ -4937,6 +5361,7 @@ protect.fs_hypermetro_pair_list: |
                 vstore_pair_id: tenant Pair ID (string),
             }, ...],
         }
+
 protect.fs_hypermetro_pair_pause: |
     Batch pause Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
@@ -4948,6 +5373,7 @@ protect.fs_hypermetro_pair_pause: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_hypermetro_pair_sync: |
     Batch sync Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
@@ -4959,6 +5385,7 @@ protect.fs_hypermetro_pair_sync: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_hypermetro_pair_delete: |
     Batch delete Filesystem hypermetro Pairs. This API may directly or indirectly affect running services, please operate with caution. 
 
@@ -4972,6 +5399,7 @@ protect.fs_hypermetro_pair_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_snapshot_create: |
     create Filesystem snapshot. 
 
@@ -4984,6 +5412,7 @@ protect.fs_snapshot_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_snapshot_list: |
     Batch query Filesystem snapshots. 
 
@@ -5006,6 +5435,7 @@ protect.fs_snapshot_list: |
                 status: status (string),
             }, ...],
         }
+
 protect.fs_snapshot_delete: |
     Batch delete Filesystem snapshots. 
 
@@ -5017,6 +5447,7 @@ protect.fs_snapshot_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.vstore_pair_force_start: |
     Batch force start hypermetro tenant Pairs. 
 
@@ -5028,6 +5459,7 @@ protect.vstore_pair_force_start: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.vstore_pair_create: |
     create hypermetro tenant Pair. 
 
@@ -5043,6 +5475,7 @@ protect.vstore_pair_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.vstore_pair_list: |
     Query hypermetro tenant Pair list. 
 
@@ -5080,6 +5513,7 @@ protect.vstore_pair_list: |
                 active_status: activation state. valid values: active, passive,
             }, ...],
         }
+
 protect.vstore_pair_switch: |
     Batch primary-secondary switch for hypermetro tenant Pairs. 
 
@@ -5091,6 +5525,7 @@ protect.vstore_pair_switch: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.vstore_pair_delete: |
     Batch delete hypermetro tenant Pairs. 
 
@@ -5102,6 +5537,7 @@ protect.vstore_pair_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.vstore_pair_modify: |
     modify specified hypermetro tenant pair. 
 
@@ -5114,6 +5550,7 @@ protect.vstore_pair_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_domain_force_start: |
     Force start Filesystem hypermetro domain. 
 
@@ -5125,6 +5562,7 @@ protect.fs_domain_force_start: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_domain_switch_site: |
     Switch priority site for Filesystem hypermetro domain. 
 
@@ -5136,6 +5574,7 @@ protect.fs_domain_switch_site: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_domain_recover: |
     Recover Filesystem hypermetro domain. 
 
@@ -5147,6 +5586,7 @@ protect.fs_domain_recover: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_domain_split: |
     Split Filesystem hypermetro domain. 
 
@@ -5158,6 +5598,7 @@ protect.fs_domain_split: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.fs_domain_swap_role: |
     Swap primary-secondary role for Filesystem hypermetro domain. 
 
@@ -5169,6 +5610,7 @@ protect.fs_domain_swap_role: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 protect.hypermetro_pair_query_available_luns: |
     Query target LUNs available for creating hypermetro Pair. 
 
@@ -5184,6 +5626,7 @@ protect.hypermetro_pair_query_available_luns: |
                 capacity: capacity (integer),
             }, ...],
         }
+
 san.lun_list: |
     Batch query LUNs
 
@@ -5257,6 +5700,7 @@ san.lun_list: |
                 take_over_lun_wwn: takeover LUN WWN (string),
             }, ...],
         }
+
 san.lun_show: |
     Query a specific LUN
 
@@ -5280,6 +5724,7 @@ san.lun_show: |
                 volume_wwn: LUN WWN on the storage device (string, 1~64 characters),
             },
         }
+
 san.lun_create: |
     Custom create LUN
 
@@ -5347,6 +5792,7 @@ san.lun_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_delete: |
     Batch delete LUNs
 
@@ -5359,6 +5805,7 @@ san.lun_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_modify: |
     Modify a specific LUN
 
@@ -5389,6 +5836,7 @@ san.lun_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_modify_name: |
     Batch modify LUN names
 
@@ -5403,6 +5851,7 @@ san.lun_modify_name: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_expand: |
     Batch expand LUN capacity
 
@@ -5418,6 +5867,7 @@ san.lun_expand: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_connection: |
     Query connection info for specified LUN IDs
 
@@ -5432,6 +5882,7 @@ san.lun_connection: |
             iscsi_targets: iSCSI target list (List),
             fc_targets: FC target list (List),
         }
+
 san.lun_group_list: |
     Batch query LUN groups
 
@@ -5466,6 +5917,7 @@ san.lun_group_list: |
                 attached: Mapping status (boolean),
             }, ...],
         }
+
 san.lun_group_show: |
     Query details of a specific LUN group
 
@@ -5482,6 +5934,7 @@ san.lun_group_show: |
             lun_count: LUN count (integer),
             description: description (string),
         }
+
 san.lun_group_create: |
     Create LUN group
 
@@ -5550,6 +6003,7 @@ san.lun_group_create: |
         {
             id: LUN group ID (string, 1~64 characters),
         }
+
 san.lun_group_delete: |
     Batch delete LUN groups
 
@@ -5562,6 +6016,7 @@ san.lun_group_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_group_add_luns: |
     Add LUNs to a LUN group
 
@@ -5614,6 +6069,7 @@ san.lun_group_add_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_group_remove_luns: |
     Remove LUNs from a LUN group
 
@@ -5627,6 +6083,7 @@ san.lun_group_remove_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.lun_group_show_luns: |
     Query LUNs in a LUN group
 
@@ -5641,6 +6098,7 @@ san.lun_group_show_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes LUN list
+
 san.mapping_view_create: |
     Create mapping view
 
@@ -5674,6 +6132,7 @@ san.mapping_view_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.mapping_view_delete: |
     Batch delete mapping views
 
@@ -5685,6 +6144,7 @@ san.mapping_view_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.mapping_view_list: |
     Batch query mapping view list
 
@@ -5722,6 +6182,7 @@ san.mapping_view_list: |
                 storage_id: storage device ID (string),
             }, ...],
         }
+
 san.storage_host_create: |
     Create Storage host
 
@@ -5754,6 +6215,7 @@ san.storage_host_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.storage_host_batch_query: |
     Batch query storage hosts by storage host ID list
 
@@ -5796,6 +6258,7 @@ san.storage_host_batch_query: |
                 },
             }, ...],
         }
+
 san.storage_host_list: |
     Batch query storage hosts
 
@@ -5856,6 +6319,7 @@ san.storage_host_list: |
                 },
             }, ...],
         }
+
 san.storage_host_modify: |
     Modify Storage host
 
@@ -5884,6 +6348,7 @@ san.storage_host_modify: |
 
     Returns:
         modify result
+
 san.storage_host_delete: |
     Batch delete storage hosts
 
@@ -5895,6 +6360,7 @@ san.storage_host_delete: |
 
     Returns:
         delete result
+
 san.storage_host_show_paths: |
     Batch query storage host path info
 
@@ -5926,6 +6392,7 @@ san.storage_host_show_paths: |
                 vstore_raw_id: Tenant ID on the device (string),
             }, ...],
         }
+
 san.storage_host_show_luns: |
     Query LUN info list mapped to a Storage host
 
@@ -5944,6 +6411,7 @@ san.storage_host_show_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes total and lun_mapping_list
+
 san.storage_host_unmap_luns: |
     Unmap LUNs from storage host
 
@@ -5959,6 +6427,7 @@ san.storage_host_unmap_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.storage_host_group_create: |
     Create Storage host group
 
@@ -5992,6 +6461,7 @@ san.storage_host_group_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.storage_host_group_list: |
     Batch query storage host groups
 
@@ -6014,6 +6484,7 @@ san.storage_host_group_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes Storage host group list and total
+
 san.storage_host_group_add_hosts: |
     Add Storage hosts to a Storage host group
 
@@ -6046,6 +6517,7 @@ san.storage_host_group_add_hosts: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.storage_host_group_remove_hosts: |
     Remove hosts from a Storage host group
 
@@ -6061,6 +6533,7 @@ san.storage_host_group_remove_hosts: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.storage_host_group_delete: |
     Batch delete storage host groups
 
@@ -6073,6 +6546,7 @@ san.storage_host_group_delete: |
 
     Returns:
         delete result
+
 san.storage_host_group_show_luns: |
     Query LUN info list mapped to a Storage host group
 
@@ -6091,6 +6565,7 @@ san.storage_host_group_show_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes total and lun_mapping_list
+
 san.storage_host_group_unmap_luns: |
     Unmap LUNs from storage host group
 
@@ -6106,6 +6581,7 @@ san.storage_host_group_unmap_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.port_group_list: |
     Batch query port groups
 
@@ -6119,6 +6595,7 @@ san.port_group_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes port group list
+
 san.port_group_create: |
     Create port group
 
@@ -6135,6 +6612,7 @@ san.port_group_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.port_group_show_ports: |
     Batch query ports of a specified port group
 
@@ -6149,6 +6627,7 @@ san.port_group_show_ports: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes port list
+
 san.port_group_show_relations: |
     Batch query port group and port association relations
 
@@ -6161,6 +6640,7 @@ san.port_group_show_relations: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes association relation list
+
 san.physical_host_list: |
     Batch query physical hosts
 
@@ -6186,6 +6666,7 @@ san.physical_host_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes physical host list and total
+
 san.physical_host_show: |
     Query a specific physical host
 
@@ -6223,6 +6704,7 @@ san.physical_host_show: |
             }, ...],
             azs: Availability zone list (List<string>),
         }
+
 san.physical_host_create: |
     Onboard a physical host
 
@@ -6253,6 +6735,7 @@ san.physical_host_create: |
         {
             id: Physical host ID (string, 1~64 characters),
         }
+
 san.physical_host_modify: |
     Modify physical host basic info
 
@@ -6267,6 +6750,7 @@ san.physical_host_modify: |
 
     Returns:
         modify result
+
 san.physical_host_modify_access_info: |
     Modify physical host access info
 
@@ -6288,6 +6772,7 @@ san.physical_host_modify_access_info: |
 
     Returns:
         modify result
+
 san.physical_host_delete: |
     Remove a physical host
 
@@ -6301,6 +6786,7 @@ san.physical_host_delete: |
 
     Returns:
         delete result
+
 san.physical_host_add_initiators: |
     Add initiators to a physical host
 
@@ -6314,6 +6800,7 @@ san.physical_host_add_initiators: |
 
     Returns:
         add result
+
 san.physical_host_remove_initiators: |
     Remove initiators from a physical host
 
@@ -6324,6 +6811,7 @@ san.physical_host_remove_initiators: |
 
     Returns:
         remove result
+
 san.physical_host_show_initiators: |
     Query initiators of a specified physical host
 
@@ -6348,6 +6836,7 @@ san.physical_host_show_initiators: |
                 },
             }, ...],
         }
+
 san.physical_host_test: |
     Test connectivity between storage device and physical host
 
@@ -6362,6 +6851,7 @@ san.physical_host_test: |
 
     Returns:
         Connectivity test result
+
 san.physical_host_query_sshkey: |
     Query the SSH public key of a specified physical host
 
@@ -6372,6 +6862,7 @@ san.physical_host_query_sshkey: |
 
     Returns:
         SSH public key info
+
 san.physical_host_save_sshkey: |
     Save the SSH public key of a specified physical host
 
@@ -6385,6 +6876,7 @@ san.physical_host_save_sshkey: |
 
     Returns:
         save result
+
 san.physical_host_query_by_initiator: |
     Query associated physical host by initiator
 
@@ -6421,6 +6913,7 @@ san.physical_host_query_by_initiator: |
             failover_mode: Failover mode (string),
             special_mode_type: Special mode type (string),
         }
+
 san.physical_host_map_luns: |
     Map LUNs to a physical host
 
@@ -6451,6 +6944,7 @@ san.physical_host_map_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.physical_host_unmap_luns: |
     Unmap LUNs from host
 
@@ -6466,6 +6960,7 @@ san.physical_host_unmap_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.physical_host_show_mapping_views: |
     Query mapping relations associated with a physical host
 
@@ -6478,6 +6973,7 @@ san.physical_host_show_mapping_views: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes mapping view list
+
 san.physical_host_group_list: |
     Batch query physical host groups
 
@@ -6496,6 +6992,7 @@ san.physical_host_group_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes physical host group list and total
+
 san.physical_host_group_show_hosts: |
     Query physical hosts in a physical host group
 
@@ -6531,6 +7028,7 @@ san.physical_host_group_show_hosts: |
                 model: model (string),
             }, ...],
         }
+
 san.physical_host_group_show: |
     Query a specific physical host group
 
@@ -6554,6 +7052,7 @@ san.physical_host_group_show: |
             project_id: ID of the business group it belongs to (string, 1~64 characters),
             az_ids: Available zone list (List<string>),
         }
+
 san.physical_host_group_create: |
     Create a physical host group
 
@@ -6573,6 +7072,7 @@ san.physical_host_group_create: |
             name: Physical host group name (string, 1~255 characters),
             description: Physical host group description (string, 0~63 characters),
         }
+
 san.physical_host_group_modify: |
     Modify physical host group basic info
 
@@ -6586,6 +7086,7 @@ san.physical_host_group_modify: |
 
     Returns:
         modify result
+
 san.physical_host_group_delete: |
     Delete a specific physical host group
 
@@ -6596,6 +7097,7 @@ san.physical_host_group_delete: |
 
     Returns:
         delete result
+
 san.physical_host_group_add_hosts: |
     Add physical hosts to a physical host group
 
@@ -6607,6 +7109,7 @@ san.physical_host_group_add_hosts: |
 
     Returns:
         add result
+
 san.physical_host_group_remove_hosts: |
     Remove physical hosts from a physical host group
 
@@ -6620,6 +7123,7 @@ san.physical_host_group_remove_hosts: |
 
     Returns:
         remove result
+
 san.physical_host_group_map_luns: |
     Map LUNs to a physical host group
 
@@ -6650,6 +7154,7 @@ san.physical_host_group_map_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.physical_host_group_unmap_luns: |
     Unmap LUNs from host group
 
@@ -6665,6 +7170,7 @@ san.physical_host_group_unmap_luns: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 san.physical_host_group_show_mapping_views: |
     Query mapping relations associated with a physical host group
 
@@ -6678,6 +7184,7 @@ san.physical_host_group_show_mapping_views: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes mapping view list
+
 san.physical_host_group_show_related: |
     Query the Storage host group list associated with a physical host group
 
@@ -6694,6 +7201,7 @@ san.physical_host_group_show_related: |
                 host_group_id: Storage host group ID (string),
             }, ...],
         }
+
 san.mapping_view_query_host_to_lun: |
     Query Storage host and LUN mapping relations
 
@@ -6745,6 +7253,7 @@ san.mapping_view_query_host_to_lun: |
                 },
             }, ...],
         }
+
 server.list: |
     Query server list
 
@@ -6765,6 +7274,7 @@ server.list: |
                 status: status (string),
             }, ...],
         }
+
 server.show: |
     Query overview info of a specified server
 
@@ -6779,6 +7289,7 @@ server.show: |
             status: status (string),
             type: Server type (string),
         }
+
 server.cpu_list: |
     Query all CPU list on a server
 
@@ -6798,6 +7309,7 @@ server.cpu_list: |
                 frequency: Frequency (string),
             }, ...],
         }
+
 server.memory_list: |
     Query memory on a server
 
@@ -6816,6 +7328,7 @@ server.memory_list: |
                 capacity: capacity (string),
             }, ...],
         }
+
 server.disk_list: |
     Query disk collection on a server
 
@@ -6835,6 +7348,7 @@ server.disk_list: |
                 health_status: health status (string),
             }, ...],
         }
+
 server.nic_list: |
     Query NIC collection on a server
 
@@ -6854,6 +7368,7 @@ server.nic_list: |
                 speed: Speed (string),
             }, ...],
         }
+
 server.fan_list: |
     Query fans on a server
 
@@ -6873,6 +7388,7 @@ server.fan_list: |
                 health_status: health status (string),
             }, ...],
         }
+
 server.power_list: |
     Query power supplies on a server
 
@@ -6892,6 +7408,7 @@ server.power_list: |
                 health_status: health status (string),
             }, ...],
         }
+
 server.raid_card_list: |
     Query RAID card details on a server
 
@@ -6910,6 +7427,7 @@ server.raid_card_list: |
                 model: model (string),
             }, ...],
         }
+
 server.pcie_card_list: |
     Query PCIe card info on a server
 
@@ -6928,6 +7446,7 @@ server.pcie_card_list: |
                 type: type (string),
             }, ...],
         }
+
 storage.list: |
     Batch query Storage devices: supports paginated query and filtering.
 
@@ -6996,6 +7515,7 @@ storage.list: |
                 }, ...],
             }, ...],
         }
+
 storage.show: |
     Query the specified Storage device.
 
@@ -7013,6 +7533,7 @@ storage.show: |
             vendor: Vendor (string),
             model: Product model (string),
         }
+
 storage.add: |
     Add a Storage device (only supports recording offline Storage device info)
 
@@ -7044,6 +7565,7 @@ storage.add: |
         {
             id: storage device ID (string, 1~64 characters),
         }
+
 storage.remove: |
     Batch remove Storage devices.
 
@@ -7055,6 +7577,7 @@ storage.remove: |
         {
             task_id: Task Id (string, 1~64 characters),
         }
+
 storage.sync: |
     Sync Storage device info. This interface is an asynchronous message.
 
@@ -7064,6 +7587,7 @@ storage.sync: |
 
     Returns:
         None
+
 storage.modify: |
     Modify a Storage device (only supports modifying recorded offline Storage device info)
 
@@ -7089,6 +7613,7 @@ storage.modify: |
 
     Returns:
         None
+
 storage.bbu_list: |
     Query the BBU info list of a Storage device
 
@@ -7121,6 +7646,7 @@ storage.bbu_list: |
             }, ...],
             total: Count of BBUs (int32),
         }
+
 storage.get_passphrase: |
     Get the access token for a Storage device
 
@@ -7134,6 +7660,7 @@ storage.get_passphrase: |
             passphrase: Token to access the Storage device,
             port: Port to access the Storage device (int32),
         }
+
 storage.fan_list: |
     Query the fan info of a Storage device
 
@@ -7165,6 +7692,7 @@ storage.fan_list: |
                 zone_name: Zone name (1~255 characters), only supported by OceanStor A800 series storage,
             }, ...],
         }
+
 storage.disk_list: |
     Query the disk info list of a Storage device
 
@@ -7210,6 +7738,7 @@ storage.disk_list: |
                 sn: Disk serial number (string),
             }, ...],
         }
+
 storage.pool_list: |
     Query Storage device Storage pool list
 
@@ -7259,6 +7788,7 @@ storage.pool_list: |
                 media_type: Storage pool primary storage type. valid values: sas_disk (SAS disk), sata_disk (SATA disk), ssd_card (SSD card & NVMe SSD), ssd_disk (SSD disk). Only supported by OceanStor Pacific, OceanStor A310, OceanStor 100D devices,
             }, ...]
         }
+
 storage.hyperscale_pool_list: |
     Query HyperScale Storage pool list
 
@@ -7299,6 +7829,7 @@ storage.hyperscale_pool_list: |
                 redundancy_strategy: Redundancy strategy. valid values: disk (disk-level redundancy), distributed_ec (distributed EC),
             }, ...]
         }
+
 storage.node_list: |
     Query the node list of a Storage device
 
@@ -7343,6 +7874,7 @@ storage.node_list: |
                 }, ...],
             }, ...]
         }
+
 storage.psu_list: |
     Query Storage device power supply details info, only supported by OceanStor A800 storage.
 
@@ -7387,6 +7919,7 @@ storage.psu_list: |
                 storage_sn: Storage device serial number (1~64 characters),
             }, ...],
         }
+
 storage.query_power_data: |
     Query Storage device power data
 
@@ -7404,6 +7937,7 @@ storage.query_power_data: |
                 power: Storage power, unit kilowatt (number),
             }, ...],
         }
+
 storage.app_type_list: |
     Query the application types of a specified Storage device
 
@@ -7425,6 +7959,7 @@ storage.app_type_list: |
             }, ...],
         }
         Fields include: enable_compress, enable_dedup, create_type, etc.
+
 storage.controller_list: |
     Query the Controller info of a specified Storage device
 
@@ -7440,6 +7975,7 @@ storage.controller_list: |
         }, includes total and controllers fields
         - total: Controller total
         - controllers: Controller list, includes id, name, status, type and other info
+
 storage.disk_domain_list: |
     Batch query disk domains
 
@@ -7466,6 +8002,7 @@ storage.disk_domain_list: |
                     storage_id: storage device id (1~64 characters),
                  }, ...]
         }
+
 storage.disk_pool_list: |
     Batch query disk pools of distributed Storage devices. Only supported by OceanStor Pacific and OceanStor A310 storage.
 
@@ -7484,6 +8021,7 @@ storage.disk_pool_list: |
                 status: status (string),
             }, ...],
         }
+
 storage.enclosure_list: |
     Batch query enclosure info
 
@@ -7534,6 +8072,7 @@ storage.enclosure_list: |
                     temperature: Temperature, unit °C (0~128 characters),
                  }, ...]
         }
+
 storage.vstore_list: |
     Batch query Storage device tenant info.
 
@@ -7573,6 +8112,7 @@ storage.vstore_list: |
                 encrypt_option: Encryption option of the tenant (boolean, true,false),
             }, ...]
         }
+
 storage.vstore_show: |
     Query tenant details.
 
@@ -7589,6 +8129,7 @@ storage.vstore_show: |
             status: Tenant status (string). valid values: active, inactive,
             running_status: running status (string). valid values: normal, initializing,
         }
+
 storage.vstore_create: |
     Create tenant. OceanStor Dorado v3 devices do not support this feature.
 
@@ -7607,6 +8148,7 @@ storage.vstore_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.vstore_modify: |
     Modify the specified tenant. This operation will modify the specified tenant on the Storage device.
 
@@ -7624,6 +8166,7 @@ storage.vstore_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.vstore_delete: |
     Batch delete tenants. This operation will delete the specified tenants on the Storage device.
     This API may directly or indirectly affect current network operations, cause service interruption,
@@ -7637,6 +8180,7 @@ storage.vstore_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.initiator_list: |
     Batch query storage-side initiator objects
 
@@ -7667,6 +8211,7 @@ storage.initiator_list: |
                 status: status (string),
             }, ...],
         }
+
 storage.initiator_delete: |
     Batch delete initiator objects from a Storage device
 
@@ -7677,6 +8222,7 @@ storage.initiator_delete: |
 
     Returns:
         Task ID
+
 storage.initiator_modify: |
     Modify the storage-side initiator object
 
@@ -7696,6 +8242,7 @@ storage.initiator_modify: |
 
     Returns:
         Task ID
+
 storage.account_show_local_users: |
     Query the info of local authentication users on a specified Storage device
 
@@ -7716,6 +8263,7 @@ storage.account_show_local_users: |
                 type: User type (string),
             }, ...],
         }
+
 storage.account_create_local_user: |
     Create a local authentication user
 
@@ -7731,6 +8279,7 @@ storage.account_create_local_user: |
 
     Returns:
         create result
+
 storage.account_create_unix_user: |
     Create a UNIX authentication user on a specified Storage device
 
@@ -7747,6 +8296,7 @@ storage.account_create_unix_user: |
 
     Returns:
         create result
+
 storage.account_create_windows_user: |
     Create a Windows authentication user on a specified Storage device
 
@@ -7762,6 +8312,7 @@ storage.account_create_windows_user: |
 
     Returns:
         create result
+
 storage.account_show_unix_users: |
     Query the info of UNIX authentication users on a specified Storage device
 
@@ -7782,6 +8333,7 @@ storage.account_show_unix_users: |
                 uid: UID (int32),
             }, ...],
         }
+
 storage.account_show_windows_users: |
     Query the info of Windows authentication users on a specified Storage device
 
@@ -7801,6 +8353,7 @@ storage.account_show_windows_users: |
                 name: Username (string),
             }, ...],
         }
+
 storage.account_show_local_user_groups: |
     Query the info of local authentication user groups on a specified Storage device
 
@@ -7820,6 +8373,7 @@ storage.account_show_local_user_groups: |
                 name: User group name (string),
             }, ...],
         }
+
 storage.account_show_unix_user_groups: |
     Query the info of UNIX authentication user groups on a specified Storage device
 
@@ -7840,6 +8394,7 @@ storage.account_show_unix_user_groups: |
                 gid: GID (int32),
             }, ...],
         }
+
 storage.account_show_windows_user_groups: |
     Query the info of Windows authentication user groups on a specified Storage device
 
@@ -7859,6 +8414,7 @@ storage.account_show_windows_user_groups: |
                 name: User group name (string),
             }, ...],
         }
+
 storage.qos_list: |
     Batch query QoS policies
 
@@ -7891,6 +8447,7 @@ storage.qos_list: |
                 enable_status: Activation status. valid values: true, false,
             }, ...],
         }
+
 storage.qos_show: |
     Query the details of a specified QoS policy
 
@@ -7937,6 +8494,7 @@ storage.qos_show: |
             },
             resource_count: Number of controlled resources (int32, 1~512),
         }
+
 storage.qos_create: |
     Create a QoS policy
 
@@ -7981,6 +8539,7 @@ storage.qos_create: |
 
     Returns:
         Task ID.
+
 storage.qos_modify: |
     Modify a QoS policy
 
@@ -8015,6 +8574,7 @@ storage.qos_modify: |
 
     Returns:
         Task ID.
+
 storage.qos_delete: |
     Delete QoS policies
 
@@ -8026,6 +8586,7 @@ storage.qos_delete: |
 
     Returns:
         Task ID.
+
 storage.qos_activate: |
     Batch activate QoS policies
 
@@ -8037,6 +8598,7 @@ storage.qos_activate: |
 
     Returns:
         Task ID.
+
 storage.qos_deactivate: |
     Batch deactivate QoS policies
 
@@ -8048,6 +8610,7 @@ storage.qos_deactivate: |
 
     Returns:
         Task ID.
+
 storage.qos_associate: |
     Associate QoS policy with controlled resources
 
@@ -8061,6 +8624,7 @@ storage.qos_associate: |
 
     Returns:
         Task ID.
+
 storage.qos_unassociate: |
     Disassociate QoS policy from controlled resources
 
@@ -8074,6 +8638,7 @@ storage.qos_unassociate: |
 
     Returns:
         Task ID.
+
 storage.logic_port_list: |
     Query the Logic port list of a Storage device
 
@@ -8138,6 +8703,7 @@ storage.logic_port_list: |
                 storage_model: model (1~64 characters),
             }, ...]
         }
+
 storage.logic_port_show: |
     Query the Logic port details of a Storage device
 
@@ -8194,6 +8760,7 @@ storage.logic_port_show: |
             manufacturer: Manufacturer (1~32 characters),
             storage_model: model (1~64 characters),
         }
+
 storage.logic_port_create: |
     Create a Logic port on a Storage device (only supported by OceanStor A800 series storage)
 
@@ -8227,6 +8794,7 @@ storage.logic_port_create: |
         {
             task_id: Task Id (1~64 characters),
         }
+
 storage.logic_port_update: |
     Modify a Logic port on a Storage device (only supported by OceanStor A800 series storage)
 
@@ -8254,6 +8822,7 @@ storage.logic_port_update: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.logic_port_delete: |
     Delete Logic ports from a Storage device (only supported by OceanStor A800 series storage)
 
@@ -8265,6 +8834,7 @@ storage.logic_port_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.logic_port_failback: |
     Failback a Logic port on a Storage device (only supported by OceanStor A800 series storage)
 
@@ -8276,6 +8846,7 @@ storage.logic_port_failback: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.port_list: |
     Query Storage device port info, supports ETH, FC, IB, Bond, SAS five types
 
@@ -8295,6 +8866,7 @@ storage.port_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.port_show_bond_members: |
     Query the member list info of a specified bond port
 
@@ -8306,6 +8878,7 @@ storage.port_show_bond_members: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes total and eth_ports fields
+
 storage.vlan_list: |
     Batch query VLAN list
 
@@ -8320,6 +8893,7 @@ storage.vlan_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes VLAN list
+
 storage.vlan_create: |
     Create a VLAN
 
@@ -8336,6 +8910,7 @@ storage.vlan_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes the newly created VLAN ID
+
 storage.vlan_delete: |
     Delete a VLAN
 
@@ -8349,6 +8924,7 @@ storage.vlan_delete: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.vlan_modify: |
     Modify a VLAN
 
@@ -8364,6 +8940,7 @@ storage.vlan_modify: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 storage.failover_group_list: |
     Query failover group list
 
@@ -8388,6 +8965,7 @@ storage.failover_group_list: |
                 failover_group_service_type: Failover group service type. valid values: NAS (for failover groups associated with NFS, CIFS, NFS and OBJECT protocol type Logic ports), BGP (for failover groups associated with VIP type Logic ports), RDMA (for failover groups associated with NFS over RDMA, NFS, OBJECT protocol Logic ports), IB (for failover groups associated with NAS over IB protocol type Logic ports), KB (for failover groups associated with KnowledgeBase over TCP protocol type Logic ports),
             }, ...]
         }
+
 storage.failover_group_show_ports: |
     Query ports under a failover group (supports bond, eth, ib three types)
 
@@ -8400,6 +8978,7 @@ storage.failover_group_show_ports: |
         {
             task_id: task ID (string, 1~64 characters),
         }, consistent structure: {"total": x, "bond_ports": [], "eth_ports": [], "ib_ports": []}
+
 storage.failover_group_show_vlans: |
     Query VLANs under a failover group
 
@@ -8411,6 +8990,7 @@ storage.failover_group_show_vlans: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes vlans field
+
 storage.zone_list: |
     Query zone info in an OceanStor A800 cluster
 
@@ -8450,6 +9030,7 @@ storage.zone_list: |
                 is_core_zone: Whether it is the zone where the core control node is located (boolean). valid values: true, false,
             }, ...]
         }
+
 system.login: |
     Authenticate user login
 
@@ -8464,6 +9045,7 @@ system.login: |
         {
             accessSession: session token (string), used as X-Auth-Token header in subsequent requests,
         }
+
 system.logout: |
     Log out the currently logged-in third-party session or normal session.
 
@@ -8472,6 +9054,7 @@ system.logout: |
 
     Returns:
         None
+
 system.show: |
     Query product system information.
 
@@ -8483,6 +9066,7 @@ system.show: |
             version: DME product version info (string, max 128 characters),
             sn: DME product SN number (string, max 64 characters),
         }
+
 system.certificate: |
     Get DME certificate.
 
@@ -8494,6 +9078,7 @@ system.certificate: |
         {
             cert: Base64 encoded certificate file string (string),
         }
+
 system.reset_password: |
     Reset the password of the specified user by username. Resetting does not
     require the original password. Therefore, the third-party user role calling
@@ -8507,6 +9092,7 @@ system.reset_password: |
 
     Returns:
         None
+
 system.user_list: |
     Batch query user information.
 
@@ -8527,6 +9113,7 @@ system.user_list: |
                 roles: role ID list (List<integer>, max array members: 50),
             }, ...]
         }
+
 system.user_show: |
     Query the specified user information.
 
@@ -8542,6 +9129,7 @@ system.user_show: |
             description: description (string, max 127 characters),
             roles: user roles (List<integer>, max array members: 50),
         }
+
 system.user_create: |
     Create user.
 
@@ -8555,6 +9143,7 @@ system.user_create: |
 
     Returns:
         None
+
 system.user_delete: |
     Delete user. This API may directly or indirectly affect live network
     operations, causing service interruptions or critical data loss.
@@ -8566,6 +9155,7 @@ system.user_delete: |
 
     Returns:
         None
+
 system.role_list: |
     Batch query role information.
 
@@ -8584,6 +9174,7 @@ system.role_list: |
                 description: description (string, max 127 characters),
             }, ...]
         }
+
 system.backup_server_list: |
     Batch query backup servers.
 
@@ -8601,6 +9192,7 @@ system.backup_server_list: |
                 id: backup server id (string, 1~64 characters),
             }, ...]
         }
+
 system.todo_task_group_list: |
     Query todo task group list
 
@@ -8626,6 +9218,7 @@ system.todo_task_group_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, including todo task group list and total
+
 system.todo_task_group_execute: |
     Execute todo task group
 
@@ -8637,6 +9230,7 @@ system.todo_task_group_execute: |
 
     Returns:
         Execution result, including task_id
+
 system.todo_task_group_confirm: |
     Confirm execution of scheduled todo task group
 
@@ -8646,6 +9240,7 @@ system.todo_task_group_confirm: |
 
     Returns:
         Confirmation result
+
 system.todo_task_list: |
     Batch query todo task details
 
@@ -8667,6 +9262,7 @@ system.todo_task_list: |
                 context: todo task context body (string, 1~2097152 characters),
             }, ...],
         }
+
 system.todo_task_show: |
     Query todo item details info
 
@@ -8692,6 +9288,7 @@ system.todo_task_show: |
             close_reason: close reason (string),
             suggestion: review comment (string),
         }
+
 system.todo_task_execute: |
     Execute todo task
 
@@ -8703,6 +9300,7 @@ system.todo_task_execute: |
 
     Returns:
         Execution result, including task_id
+
 system.todo_task_audit: |
     Audit todo task
 
@@ -8716,6 +9314,7 @@ system.todo_task_audit: |
 
     Returns:
         Audit result
+
 system.todo_task_revoke: |
     Revoke audit for todo item
 
@@ -8727,6 +9326,7 @@ system.todo_task_revoke: |
 
     Returns:
         Revocation result
+
 system.todo_task_close: |
     Close todo task
 
@@ -8739,6 +9339,7 @@ system.todo_task_close: |
 
     Returns:
         Close result
+
 system.task_show: |
     Query specified task details
 
@@ -8775,6 +9376,7 @@ system.task_show: |
                 name: resource name (string),
             }, ...],
         }
+
 system.task_list: |
     Batch query tasks
 
@@ -8802,6 +9404,7 @@ system.task_list: |
                 end_time: end time (string),
             }, ...],
         }
+
 system.task_retry: |
     Retry task
 
@@ -8813,6 +9416,7 @@ system.task_retry: |
 
     Returns:
         Retry result
+
 system.task_wait: |
     Wait for task completion
 
@@ -8842,6 +9446,7 @@ system.task_wait: |
 
     Raises:
         Exception: Task query timeout (exceeded poll count without completion)
+
 system.tag_type_create: |
     Create tag type
 
@@ -8855,6 +9460,7 @@ system.tag_type_create: |
             id: tag type ID (string),
             name: tag type name (string),
         }
+
 system.tag_type_list: |
     Batch query tag types
 
@@ -8872,6 +9478,7 @@ system.tag_type_list: |
                 name: tag type name (string),
             }, ...],
         }
+
 system.tag_type_modify: |
     Modify tag type
 
@@ -8886,6 +9493,7 @@ system.tag_type_modify: |
             id: tag type ID (string),
             name: tag type name (string),
         }
+
 system.tag_type_delete: |
     Batch delete tag types
 
@@ -8895,6 +9503,7 @@ system.tag_type_delete: |
 
     Returns:
         Batch delete result
+
 system.tag_create: |
     Create tag
 
@@ -8910,6 +9519,7 @@ system.tag_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 system.tag_list: |
     Batch query tags
 
@@ -8929,6 +9539,7 @@ system.tag_list: |
                 tag_type_name: tag type name (string),
             }, ...],
         }
+
 system.tag_modify: |
     Modify tag
 
@@ -8944,6 +9555,7 @@ system.tag_modify: |
             id: tag ID (string),
             name: tag name (string),
         }
+
 system.tag_delete: |
     Batch delete tags
 
@@ -8953,6 +9565,7 @@ system.tag_delete: |
 
     Returns:
         Batch delete result
+
 system.tag_bind: |
     Associate resources with tag
 
@@ -8966,6 +9579,7 @@ system.tag_bind: |
 
     Returns:
         Asynchronous task created successfully, returns task ID.
+
 system.tag_unbind: |
     Disassociate resources from tag
 
@@ -8979,6 +9593,7 @@ system.tag_unbind: |
 
     Returns:
         Asynchronous task created successfully, returns task ID.
+
 system.az_list: |
     Batch query availability zones.
 
@@ -9001,6 +9616,7 @@ system.az_list: |
                 site_urn: site urn (string, 1~64 characters),
             }, ...]
         }
+
 system.dc_list: |
     Get data center list
 
@@ -9016,6 +9632,7 @@ system.dc_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes total and datacenters fields
+
 system.dc_show: |
     Get data center details
 
@@ -9044,6 +9661,7 @@ system.dc_show: |
             storage_total_usable_capacity: total usable storage capacity (int64),
             storage_total_used_capacity: used storage capacity (int64),
         }
+
 system.dc_show_devices: |
     Query device list info of the specified data center
 
@@ -9060,6 +9678,7 @@ system.dc_show_devices: |
         {
             task_id: task ID (string, 1~64 characters),
         }, includes device list
+
 system.region_list: |
     Batch query Regions.
 
@@ -9086,6 +9705,7 @@ system.region_list: |
                 sync_status: sync status (string),
             }, ...],
         }
+
 system.region_query: |
     Query child Region resource info.
 
@@ -9098,6 +9718,7 @@ system.region_query: |
 
     Returns:
         None
+
 tenant.tier_list: |
     Batch query service levels
 
@@ -9119,6 +9740,7 @@ tenant.tier_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, including service level list
+
 tenant.tier_show_projects: |
     Batch query business group and service level associations
 
@@ -9134,6 +9756,7 @@ tenant.tier_show_projects: |
         {
             task_id: task ID (string, 1~64 characters),
         }, including association list
+
 tenant.project_list: |
     Batch query business groups
 
@@ -9149,6 +9772,7 @@ tenant.project_list: |
         {
             task_id: task ID (string, 1~64 characters),
         }, including business group list
+
 tenant.project_show_tiers: |
     Batch query business group and service level associations
 
@@ -9164,6 +9788,7 @@ tenant.project_show_tiers: |
         {
             task_id: task ID (string, 1~64 characters),
         }, including association list
+
 tenant.lun_create: |
     Service-oriented batch create LUN
 
@@ -9194,6 +9819,7 @@ tenant.lun_create: |
         {
             task_id: task ID (string, 1~64 characters),
         }
+
 tenant.lun_change_tier: |
     Batch update LUN service level
 
@@ -9211,6 +9837,7 @@ tenant.lun_change_tier: |
         {
             task_id: task ID (string, 0~64 characters),
         }
+
 tenant.lun_bind_tier: |
     LUN associate service level
 
@@ -9224,6 +9851,7 @@ tenant.lun_bind_tier: |
         {
             task_id: task ID (string, 1~64 characters),
         } (async task)
+
 tenant.lun_unbind_tier: |
     Remove LUN from service level association
 
@@ -9235,6 +9863,7 @@ tenant.lun_unbind_tier: |
         {
             task_id: task ID (string, 1~64 characters),
         } (async task)
+
 tenant.lun_bind_project: |
     LUN associate business group
 
@@ -9247,6 +9876,7 @@ tenant.lun_bind_project: |
 
     Returns:
         No return data. HTTP 200 indicates association succeeded.
+
 tenant.lun_unbind_project: |
     Remove LUN from business group association
 
@@ -9259,6 +9889,7 @@ tenant.lun_unbind_project: |
 
     Returns:
         No return data. HTTP 200 indicates unbind succeeded.
+
 virt.vm_list: |
     Query virtual machine list
 
@@ -9298,6 +9929,7 @@ virt.vm_list: |
                 memory: Memory size (integer),
             }, ...],
         }
+
 virt.vm_show: |
     Query specified VM details
 
@@ -9329,6 +9961,7 @@ virt.vm_show: |
                 capacity: capacity (int64, GB),
             }, ...],
         }
+
 virt.datastore_list: |
     Query data store list
 
@@ -9358,6 +9991,7 @@ virt.datastore_list: |
             total: total count (int),
             datastores: datastore list (List),
         }
+
 virt.datastore_show: |
     Query specified data store details
 
@@ -9377,6 +10011,7 @@ virt.datastore_show: |
             free_capacity: free capacity (int64),
             status: status (string),
         }
+
 virt.host_list: |
     Query host list
 
@@ -9399,6 +10034,7 @@ virt.host_list: |
             total: total count (int),
             hosts: host list (List),
         }
+
 virt.host_show: |
     Query specified host details
 
@@ -9419,6 +10055,7 @@ virt.host_show: |
             memory: Memory size (int64, MB),
             os_type: OS type (string),
         }
+
 virt.host_adapter_list: |
     Query specified host storage adapter list
 
@@ -9438,6 +10075,7 @@ virt.host_adapter_list: |
                 wwn: WWN (string),
             }, ...],
         }
+
 virt.cluster_list: |
     Query cluster list
 
@@ -9455,6 +10093,7 @@ virt.cluster_list: |
             total: total count (int),
             clusters: cluster list (List),
         }
+
 virt.cluster_show: |
     Query specified cluster details
 
@@ -9473,6 +10112,7 @@ virt.cluster_show: |
             host_count: Host count (int32),
             status: status (string),
         }
+
 virt.site_list: |
     Query site list
 
@@ -9486,6 +10126,7 @@ virt.site_list: |
             total: total count (int),
             sites: site list (List),
         }
+
 virt.site_show: |
     Query specified site details
 
@@ -9501,6 +10142,7 @@ virt.site_show: |
             name: name (string),
             status: status (string),
         }
+
 virt.disk_list: |
     Query physical disk info
 
@@ -9526,6 +10168,7 @@ virt.disk_list: |
                 status: status (string),
             }, ...],
         }
+
 virt.vdisk_list: |
     Query virtual disk info list
 
@@ -9551,6 +10194,7 @@ virt.vdisk_list: |
                 status: status (string),
             }, ...],
         }
+
 virt.vdisk_show: |
     Query specified virtual disk info
 
@@ -9568,6 +10212,977 @@ virt.vdisk_show: |
             status: status (string),
             datastore_id: Data store ID (string),
         }
+
+virt.datastore_host_relations: |
+    Query datastore and host relations
+
+    Query the relations between datastores and hosts, filterable by datastore ID or host ID.
+
+    Args:
+        client: DME API client
+        ds_id: Datastore ID
+        host_id: Physical host ID
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
+
+    Returns:
+        {
+            total: Total number (integer),
+            dataStoreAndHostRelList: Datastore-host relation list (List<DataStoreAndHostRel>). parameter format: [{
+                id: Relation ID (string),
+                ds_id: Datastore ID (string),
+                ds_name: Datastore name (string),
+                host_id: Host ID (string),
+                host_name: Host name (string),
+            }, ...],
+        }
+
+virt.host_port_list: |
+    Query specified host ethernet port list
+
+    Query the physical ethernet port list of a specified host, filterable by aggregated port.
+
+    Args:
+        client: DME API client
+        host_id: Host ID (1~128 chars, required)
+        uplinkportaggrs_id: Aggregated port ID
+
+    Returns:
+        {
+            total: Total number of physical ports (integer),
+            nics: Physical port data set (List<PortsResponse>). parameter format: [{
+                id: Physical port ID (string),
+                res_id: Resource ID (string),
+                name: Physical port name (string),
+                speed: Speed, in Mb/s (string),
+                nic_speed: Spec speed, in Mb/s (string),
+                mac_address: MAC address (string),
+                enable_lldp: LLDP status (boolean),
+                nic_mode: Switch type (0 normal, 2 passthrough, 4 user-mode) (string),
+                driver_mode: Driver mode (dpdk, kernel) (string),
+                status: Status (linkup, linkdown) (string),
+                used_status: Used status (used, unused) (string),
+                numa_node: NUMA NODE info (string),
+                pci: PCI code (string),
+                workmode: Duplex mode (FULL, HAFL, UNKNOWN) (string),
+                nic_type: Port type (aggregation, normal) (string),
+            }, ...],
+        }
+
+virt.host_aggr_port_list: |
+    Query specified host aggregated port list
+
+    Query the aggregated (bonded) port list of a specified host.
+
+    Args:
+        client: DME API client
+        host_id: Host ID (1~128 chars, required)
+
+    Returns:
+        {
+            total: Total number (integer),
+            uplinkportaggrs: Aggregated port data set (List<UplinkportaggrsResponse>). parameter format: [{
+                id: Aggregated port ID (string),
+                name: Physical port name (string),
+                speed: Migration speed, in Mb/s (integer),
+                nic_speed: Spec speed, in Mb/s (integer),
+                strategy: Bonding mode (integer),
+                status: Status (linkup, linkdown) (string),
+            }, ...],
+        }
+
+virt.host_logic_port_list: |
+    Query specified host logical port list
+
+    Query the logical port (system interface) list of a specified host.
+
+    Args:
+        client: DME API client
+        host_id: Host ID (1~128 chars, required)
+
+    Returns:
+        {
+            total: Total number (integer),
+            systemintfs: Logical interface data set (List<SystemintfsResponse>). parameter format: [{
+                name: Logical interface name (string),
+                type: Type (0 management, 1 storage, 2 service management) (string),
+                ipv4: IPv4 address (string),
+                net_mask: IPv4 mask (integer),
+                ipv6: IPv6 address (string),
+                vlan_id: VLAN ID (string),
+                option: Service management interface switches (migrate, ha, dr, vims) (List<string>),
+                port_name: Port name (string),
+                port_id: Port ID (string),
+                systemintf_id: Logical interface ID (string),
+                description: Logical interface description (string),
+                switch_type: Switch mode (0 OVS, 1 Linux sub-interface) (integer),
+                route_info: Route info (List<routeInfoResponse>),
+                enable_roce: RoCE switch (1 on, 0 off) (integer),
+                mtu: Maximum transmission unit (integer),
+            }, ...],
+        }
+
+virt.vdisk_create_attach: |
+    Create a virtual disk and attach to a VM
+
+    Create a virtual disk on a specified datastore and attach it to a specified VM, supporting thin provisioning, disk mode and IO mode.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        datastore_id: Datastore ID (required)
+        capacity: Disk capacity in GB, 1~4294967295 (required)
+        share_type: Disk share type (normal, share, required)
+        pci_type: Bus type (IDE, SCSI, VIRTIO), default VIRTIO
+        scsi_command_passthrough: Whether SCSI commands are passed through (true/false), default false, only for SCSI bus
+        io_mode: Disk IO mode (threads, native, dataplane), default threads
+        name: Disk name
+        is_thin: Whether thin provisioning (true/false), default false
+        allocate_type: Disk allocation type (0 normal, 1 lazy-zeroed, 2 thin), default 0, invalid when is_thin is true
+        is_indep_disk: Disk mode (true independent, false dependent), default true
+        is_persistent_disk: Whether persistent disk (true/false), default true
+        metadata_preallocate: Metadata pre-allocation switch (true on, false off), supported on FusionCompute 8.10.0+
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vdisk_attach: |
+    Attach a virtual disk to a VM
+
+    Attach an existing virtual disk to a specified VM, with configurable bus type and IO mode.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        vdisk_id: Virtual disk ID (required)
+        pci_type: Bus type (IDE, SCSI, VIRTIO), default VIRTIO
+        scsi_command_passthrough: Whether SCSI commands are passed through (true/false), default true, only for SCSI bus
+        io_mode: Disk IO mode (threads, native, dataplane)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vdisk_detach: |
+    Detach a virtual disk from a VM
+
+    Detach a specified virtual disk from a specified VM.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        vdisk_id: Virtual disk ID (required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vdisk_modify: |
+    Modify a virtual disk
+
+    Modify the name, disk mode and persistence attributes of a specified virtual disk.
+
+    Args:
+        client: DME API client
+        virtual_disk_id: Virtual disk ID (1~128 chars, required)
+        name: Virtual disk name
+        is_indep_disk: Disk mode (true independent, false dependent), default true
+        is_persistent_disk: Whether persistent disk (true/false), default false
+
+    Returns:
+        no response fields (HTTP 200 means modification succeeded)
+
+virt.vdisk_expand: |
+    Expand a virtual disk
+
+    Expand the virtual disk of a specified VM. The total capacity after expansion must not be smaller than the original.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        vdisk_id: Virtual disk ID (required)
+        capacity: Total capacity after expansion in GB, 1~2147483647 (required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vdisk_delete: |
+    Delete a virtual disk
+
+    Delete a specified virtual disk. Data cannot be recovered after deletion.
+
+    Args:
+        client: DME API client
+        virtual_disk_id: Virtual disk ID (1~128 chars, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_create: |
+    Create an empty VM
+
+    Create an empty VM on a specified cluster or host, with configurable OS info and VM configuration (CPU, memory, disks, NICs, etc).
+
+    Args:
+        client: DME API client
+        name: VM name (1~256 chars, required)
+        location: URN of the cluster or host the VM belongs to (required). If it is a host URN, the VM starts on that host after creation
+        auto_boot: Whether to auto boot (true/false, required)
+        os_options: VM OS info (OsOptions object, required). attribute format: {
+            os_version: OS version number (string),
+            os_type: OS type (Windows, Linux, Other) (string),
+            guest_os_name: guestOS name, effective when os version is "other" (string),
+        }
+        vm_config: VM configuration (VmConfig object, required), including CPU/memory/disk/NIC resources; field definitions refer to the DME documentation
+        externalUuid: External VM UUID (1~36 chars, composed of -, lowercase letters and digits)
+        floppy_file: Floppy file (Windows only)
+        floppy_protocol: Floppy mounting mode (automatch, select, unMount), default unMount
+        description: VM description
+        is_binding_host: Whether to bind the host (true/false), default false, effective when location is a host URN
+        tag_ids: Tag ID list (max 10 items)
+        group_id: VM folder ID
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_clone: |
+    Clone VM or create VM from template
+
+    Clone a new VM from a specified VM, or create a VM from a VM template.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID or VM template ID (1~128 chars, required). VM ID when cloning, template ID when creating from template
+        name: VM name (1~256 chars, required)
+        location: Cluster or host the VM belongs to, value is cluster_id or host_id (required)
+        description: VM description
+        is_binding_host: Whether to bind the host (true/false), default false
+        vm_num: Number of VMs, 1~50, default 1
+        name_postfix_index: Starting suffix number of VM names, 0~99999, default 0, effective when vm_num > 1
+        is_auto_boot: Whether to auto boot (true/false), default false
+        os_options: OS info (OsOptions object)
+        guest_customization: Guest OS customization (GuestOSCustomization object)
+        guest_customizations: Guest OS customization list (max 50 items), supported on FusionCompute 8.6.0+
+        vm_config: VM configuration (VmSimpleConfig object)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_modify: |
+    Modify VM or VM template
+
+    Modify the name, description, CPU, memory and OS info of a specified VM or VM template.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID or VM template ID (1~128 chars, required)
+        name: VM or VM template name
+        description: VM or VM template description
+        cpu: CPU spec (VMCpu object). attribute format: {
+            core: CPU core count (integer),
+            reserved: Reserved CPU, in MHz (integer),
+            shares: CPU shares (integer),
+            max: CPU upper limit (integer),
+            min: CPU lower limit (integer),
+        }
+        memory: Memory spec (VMMemory object). attribute format: {
+            size: Memory size, in MB (integer),
+            reserved: Reserved memory, in MB (integer),
+            shares: Memory shares (integer),
+            max: Memory upper limit, in MB (integer),
+            min: Memory lower limit, in MB (integer),
+        }
+        os_options: OS info (OsOptions object)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_power_on: |
+    Batch power on VMs
+
+    Batch power on VMs, supporting up to 100 VMs.
+
+    Args:
+        client: DME API client
+        vm_ids: VM ID list (max 100 items, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_power_off: |
+    Batch power off VMs
+
+    Batch power off VMs, supporting safe or force stop.
+
+    Args:
+        client: DME API client
+        vm_ids: VM ID list (max 100 items, required)
+        mode: Stop mode (safe, force), default safe. Safe stop is supported when the VM is running and Tools is healthy
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_hibernate: |
+    Batch hibernate VMs
+
+    Batch hibernate VMs, supporting up to 100 VMs.
+
+    Args:
+        client: DME API client
+        vm_ids: VM ID list (max 100 items, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_reboot: |
+    Batch reboot VMs
+
+    Batch reboot VMs, supporting safe or force reboot.
+
+    Args:
+        client: DME API client
+        vm_ids: VM ID list (max 100 items, required)
+        mode: Reboot mode (safe, force). Safe reboot is supported when the VM is running and Tools is healthy
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_delete: |
+    Batch delete VMs
+
+    Batch delete VMs, supporting up to 100 VMs. Deleted VMs cannot be recovered.
+
+    Args:
+        client: DME API client
+        vm_ids: VM ID list (max 100 items, required)
+        hold_time: Retention period in hours, 0~1440 (0 means delete immediately, 1440 means deleted after 60 days), supported on FusionCompute 8.6.0+
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_vnc_info: |
+    Get the VNC connection information of a VM
+
+    Query the VNC connection info of a specified VM, including host IP, port and password.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+
+    Returns:
+        {
+            host_ip: Host IP address of the VM (string),
+            vnc_port: VNC port of the VM, -1 is an illegal value (integer),
+            vnc_user_name: VNC user name, ARM scenario only (string),
+            vnc_password: VNC password, updated hourly (string),
+            vnc_old_password: Current VNC password, valid when changing the VNC password (string),
+        }
+
+virt.vm_mount_tools: |
+    Mount VM Tools to a VM
+
+    Mount Tools (virtio driver) to a specified VM.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_umount_tools: |
+    Unmount VM Tools from a VM
+
+    Unmount Tools from a specified VM.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_migrate: |
+    Migrate VMs host and storage
+
+    Migrate a VM to a destination host, optionally migrating storage at the same time (cross-site or cross-cluster).
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        location: ID of the destination host (required)
+        speed: Migration speed (medium 30MB/S, fast 60MB/S, unlimited 12500MB/S, required)
+        disks: Disk list of the VM to migrate (max 128 items, required)
+        remote_site_urn: URN of the destination site
+        des_cluster_urn: URN of the destination cluster
+        is_binding_host: Whether to bind the destination host (true/false), default false
+        migrate_vm_time_out: Migration timeout in minutes, 0 or 5~35791394, default 0 means no timeout
+        is_frequency_reduce: Whether to enable frequency-reduced migration (true/false), default false
+        nics: NIC info of the VM to migrate (max 16 items). Required for cross-site migration, supported on FusionCompute 8.8.0+
+        migrate_transmit_policy: Hot-migration transport channel security policy (TLSv1_3, NONE), supported on FusionCompute 8.5.0+, default NONE
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_migrate_host: |
+    Migrate VMs host
+
+    Migrate only the host of a VM, without migrating storage.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        location: ID of the destination host (required)
+        is_binding_host: Whether to bind the destination host (true/false), default false
+        migrate_vm_time_out: Migration timeout in minutes, 0 or 5~35791394, default 0 means no timeout
+        is_frequency_reduce: Whether to enable frequency-reduced migration (true/false), default false
+        migrate_transmit_policy: Hot-migration transport channel security policy (TLSv1_3, NONE), supported on FusionCompute 8.5.0+, default NONE
+        nics: NIC info of the VM to migrate (max 16 items), supported on FusionCompute 8.9.0+
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_migrate_storage: |
+    Migrate VMs storage
+
+    Migrate only the datastore of a VM, without migrating the host.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        speed: Migration speed, 1~12500 MB/S (required)
+        disks: Disk info of the VM to migrate (max 128 items, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_import: |
+    Import VM template
+
+    Import a VM template from a shared directory, supporting batch import of one template to multiple sites.
+
+    Args:
+        client: DME API client
+        name: VM name (1~256 chars, required)
+        url: Template URL (required), e.g. //127.0.0.1/share/name
+        os_options: Template OS info (OsOptionsOfImport object, required)
+        res_config: Resource configuration list (1~30 items, required)
+        arch: Architecture (x86, arm), default x86
+        description: VM description
+        file_items: File info (max 60 items), only disk files supported
+        protocol: Protocol type (cifs, nfs), default cifs
+        username: User name of the shared directory
+        password: Password of the shared directory
+        guest_customization: Guest OS customization (GuestCustomizationOfImport object)
+        is_template: Import as template or VM (true template, false VM), default false
+        tag_ids: Tag ID list (max 10 items)
+        image_format: Image format (zvhd, qcow2, vmdk)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_nic_list: |
+    Query a VM's nic list
+
+    Query the virtual NIC list of a specified VM, including MAC, IP, port group and distributed switch associations.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+
+    Returns:
+        {
+            total: Total number (integer),
+            vm_nics: Virtual NIC data set (List<VmNicDetail>). parameter format: [{
+                id: Virtual NIC ID (string),
+                name: Virtual NIC name (string),
+                pid: Primary key ID for performance query (string),
+                type: Virtual NIC type (1 virtio, 2 e1000, 3 rtl8139, 4 vhost-user, 5 sriov) (integer),
+                vringbuf: IO ring size (integer),
+                queues: IO queue count of the NIC (integer),
+                vm_id: VM ID (string),
+                vm_name: VM name (string),
+                mac_address: MAC address (string),
+                ip_address: IP address (string),
+                port_group_id: Port group ID of the NIC (string),
+                port_group_name: Port group name of the NIC (string),
+                dvs_id: Distributed switch ID of the NIC (string),
+                dvs_name: Distributed switch name of the NIC (string),
+                dvs_type: Distributed switch type (VSWITCH, SRIOV, USERMODE) (string),
+                boot_order: NIC boot order, -1 means not set (integer),
+                site_id: Site ID of the VM (string),
+                vsp_id: Rate-limit config ID of the NIC (string),
+                enable_security_group: Whether security group is enabled (boolean),
+                security_group_id: Security group ID (integer),
+                security_group_name: Security group name (string),
+                nic_type: NIC hardware type (0 normal, 1 inic, 2 sriov) (integer),
+            }, ...],
+        }
+
+virt.vm_nic_modify: |
+    Modify a VM nic
+
+    Modify the MAC address, IO ring size and IO queue count of a specified VM NIC.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        nic_id: NIC ID (1~128 chars, required)
+        mac: MAC address, format 00-00-00-00-00-00, 17 chars
+        vringbuf: IO ring size (256, 512, 1024, 2048, 4096)
+        queues: IO queue count of the NIC, 1~8
+
+    Returns:
+        no response fields (HTTP 200 means modification succeeded)
+
+virt.vm_nic_change_portgroup: |
+    Change a VM nic's port group
+
+    Move a specified VM NIC to a new port group.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        nic_id: NIC ID (1~128 chars, required)
+        port_group_urn: Port group ID of the NIC (required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_nic_add: |
+    Add a nic to a VM
+
+    Add a virtual NIC to a specified VM, with configurable NIC type, IO queues, security group and link status.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        port_group_urn: Port group ID of the NIC (required)
+        type: (deprecated) Virtual NIC type (1 virtio, 2 e1000, 3 rtl8139, 4 vhost-user, 5 sriov)
+        virt_io: Virtual NIC type (1 virtio, 2 e1000, 3 rtl8139, 4 vhost-user), default 1
+        vringbuf: IO ring size (256, 512, 1024, 2048, 4096)
+        queues: IO queue count of the NIC, 1~8
+        enable_security_group: Whether to enable the security group (true/false), default false
+        security_group_id: Security group ID
+        connect_at_power_on: Connect when powering on (true/false), default true
+        link_status: Link status (connected, disconnected)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_nic_delete: |
+    Delete a nic from a VM
+
+    Delete a specified NIC from a specified VM.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        nic_id: NIC ID (1~128 chars, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_nic_change_linkstatus: |
+    Change a VM nic's link status
+
+    Batch configure the link status and power-on connection policy of a specified VM's NICs.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        nic_ids: NIC ID list (1~1000 items, required)
+        connect_at_power_on: Connect when powering on (true/false), default true
+        link_status: Link status (connected, disconnected)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_snapshot_list: |
+    Query a VM's snapshot list
+
+    Query the snapshot tree of a specified VM, including the current snapshot and snapshot nodes.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+
+    Returns:
+        {
+            current_snapshot: Current snapshot info (VmSnapshot object). attribute format: {
+                id: Snapshot ID (string),
+                name: Snapshot name (string),
+                description: Snapshot description (string),
+                create_time: Snapshot creation time (string),
+                type: Snapshot type (normal, backup, CBTbackup, secure) (string),
+                status: Snapshot status (creating, resuming, ready, deleting, failed) (string),
+                child_snapshots: Child snapshots (List<VmSnapshot>),
+            },
+            root_snapshots: Snapshot node info (List<VmSnapshot>),
+        }
+
+virt.vm_snapshot_show: |
+    Query a VM's snapshot details
+
+    Query the details of a specified snapshot of a specified VM, including snapshot capacity, memory snapshot and virtual disk snapshot info.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        snapshot_id: Snapshot ID (1~128 chars, required)
+        is_refresh: Whether to refresh the snapshot info in real time (true/false), default true
+
+    Returns:
+        {
+            id: Snapshot ID (string),
+            name: Snapshot name (string),
+            description: Snapshot description (string),
+            create_time: Snapshot creation time (string),
+            type: Snapshot type (normal, backup, CBTbackup, secure) (string),
+            status: Snapshot status (creating, resuming, ready, deleting, failed) (string),
+            snapshot_capacity: Space occupied by the snapshot, in MB (integer),
+            cpu_core_num: Total CPU core count of the VM (integer),
+            total_memory: Total memory of the VM, in MB (integer),
+            disk_total_capacity: Total disk size of the VM, in MB (integer),
+            including_memory_snapshot: Whether a memory snapshot is included (boolean),
+            enable_consistent: Whether it is a consistent snapshot (boolean),
+            volsnapshots: Virtual disk snapshot list (List<VolsnapshotInfo>). parameter format: [{
+                vdisk_id: Virtual disk ID (string),
+                storage_type: Storage type (string),
+                datastore_id: Datastore ID of the disk snapshot (string),
+                id: Disk snapshot ID (string),
+                name: Disk snapshot name (string),
+            }, ...],
+        }
+
+virt.vm_snapshot_create: |
+    Create a snapshot for a VM
+
+    Create a snapshot for a specified VM, with configurable snapshot type, memory snapshot, consistency and protection period.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        name: Snapshot name (1~256 chars, required)
+        description: Snapshot description
+        type: Snapshot type (normal, backup, CBTbackup, secure), default normal
+        need_memory_shot: Whether to make a memory snapshot (true/false), default false
+        is_consistent: Whether it is a consistent snapshot (true/false), default false
+        protect_period: Protection period of a secure snapshot in days, 1~7300, required when type is secure
+        is_support_auto_delete: Whether auto deletion is supported (true/false), effective when type is secure
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_snapshot_delete: |
+    Delete a VM's snapshot
+
+    Delete a specified snapshot of a specified VM, with a required deletion speed.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        snapshot_id: Snapshot ID (1~128 chars, required)
+        speed: Snapshot deletion speed in MB/s, 10~500 (required). Higher speed has a greater impact on the performance of running VMs on the storage
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vm_snapshot_recover: |
+    Recover a VM from snapshot
+
+    Restore a VM to the state when the snapshot was created using a specified snapshot. Changes after the snapshot will be lost.
+
+    Args:
+        client: DME API client
+        vm_id: VM ID (1~128 chars, required)
+        snapshot_id: Snapshot ID (1~128 chars, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vswitch_list: |
+    Query virtual switch list
+
+    Query the virtual distributed switch list, filterable by host, site, cluster and type.
+
+    Args:
+        client: DME API client
+        host_id: Host ID associated with the distributed switch
+        site_id: Site ID of the distributed switch
+        site_ip: Site IP of the distributed switch, supports fuzzy search
+        cluster_id: Cluster ID associated with the distributed switch
+        dc_id: Data center ID of the distributed switch
+        name: Distributed switch name, supports fuzzy search
+        type: Distributed switch type list (0 normal, 2 passthrough, 4 user-mode)
+        sort_dir: Sort direction (asc, desc), default asc
+        sort_key: Sort field (name, host_count, vm_count, create_time), default create_time
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
+
+    Returns:
+        {
+            total: Total number (integer),
+            dvSwitchesList: Distributed switch list (List<DvSwitch>). parameter format: [{
+                id: Distributed switch ID (string),
+                name: Distributed switch name (string),
+                description: Distributed switch description (string),
+                type: Distributed switch type (0 normal, 2 passthrough, 4 user-mode) (integer),
+                is_igmp_snooping: Whether IGMP Snooping is enabled (boolean),
+                mtu: Jumbo frame value, 1500~9000 (integer),
+                vm_num: Number of associated VMs (integer),
+                host_num: Number of associated hosts (integer),
+                site_ip: Site IP (string),
+                site_id: Site ID (string),
+                dc_id: Data center ID (string),
+                dc_name: Data center name (string),
+            }, ...],
+        }
+
+virt.vswitch_show: |
+    Query virtual switch details
+
+    Query the detailed information of a specified distributed switch, including VLAN pool and associated VM/host/port group/uplink counts.
+
+    Args:
+        client: DME API client
+        dvswitch_id: Distributed switch ID (1~128 chars, required)
+
+    Returns:
+        {
+            id: Distributed switch ID (string),
+            name: Distributed switch name (string),
+            type: Distributed switch type (0 normal, 2 passthrough, 4 user-mode) (integer),
+            description: Description (string),
+            is_igmp_snooping: Whether IGMP Snooping is enabled (string),
+            mtu: Jumbo frame value, 1500~9000 (integer),
+            site_ip: Site IP (string),
+            site_id: Site ID (string),
+            vlan: VLAN pool info (string),
+            vm_num: Number of associated VMs (integer),
+            host_num: Number of associated hosts (integer),
+            port_group_num: Number of associated port groups (integer),
+            uplink_port_num: Number of associated uplink groups (integer),
+        }
+
+virt.vswitch_portgroup_list: |
+    Query port group list of specified virtual switch
+
+    Query the port group list of a specified distributed switch, filterable by name and port type.
+
+    Args:
+        client: DME API client
+        dvswitch_id: Distributed switch ID (1~128 chars, required)
+        name: Port group name, supports fuzzy search
+        port_type: Port type list (0 normal port group, 1 trunk port group)
+        sort_dir: Sort direction (asc, desc), default asc
+        sort_key: Sort field (name), default name
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 1000
+
+    Returns:
+        {
+            total: Total number (integer),
+            portgroups: Port group list (List<PortGroup>). parameter format: [{
+                id: Port group ID (string),
+                name: Port group name (string),
+                port_type: Port type (0 normal, 1 trunk) (integer),
+                vlan_id: VLAN ID of the port group, 0 means no VLAN (integer),
+                vlan_range: VLAN range of a trunk port group (string),
+                description: Description (string),
+            }, ...],
+        }
+
+virt.vswitch_portgroup_create: |
+    Create port group
+
+    Create a port group on a specified distributed switch, with configurable VLAN, bandwidth control and network features.
+
+    Args:
+        client: DME API client
+        dvswitch_id: Distributed switch ID (1~128 chars, required)
+        name: Port group name (1~256 chars, required), must not contain & ; $ ` < > \ !
+        port_type: Port group type (0 normal, 1 trunk, required)
+        vlan_id: VLAN of a normal port group, 0~4094, required when port_type is 0
+        vlan_range: VLAN range of a trunk port group, required when port_type is 1
+        description: Port group description
+        is_ip_mac_bind: Whether to bind IP and MAC addresses (true/false), not supported for SRIOV/user-mode switches
+        is_dhcp_isolation: Whether to enable DHCP isolation (true/false), not supported for SRIOV switches
+        is_calc_tcp_check_sum: Whether to enable TCP checksum offload (true/false), not supported for SRIOV/user-mode switches
+        ip_bcst_suppress: Whether to enable broadcast suppression bandwidth (true/false), not supported for SRIOV switches
+        tx_limit: Average transmit bandwidth in Mbps, 1~100000
+        tx_peak_limit: Transmit bandwidth peak in Mbps, only selectable after tx_limit, defaults to tx_limit
+        tx_burst_size: Transmit burst size in Mbits, only selectable after tx_limit
+        priority: Transmit priority, 2~7, default 7
+        rx_limit: Average receive bandwidth in Mbps, 1~32000, not supported for SRIOV switches
+        rx_peak_limit: Receive bandwidth peak in Mbps, only selectable after rx_limit
+        rx_burst_size: Receive burst size in Mbits, only selectable after rx_limit
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vswitch_portgroup_modify: |
+    Modify port group
+
+    Modify the configuration of a port group on a specified distributed switch.
+
+    Args:
+        client: DME API client
+        dvswitch_id: Distributed switch ID (1~128 chars, required)
+        portgroup_id: Port group ID (1~128 chars, required)
+        name: Port group name (1~256 chars, required), must not contain & ; $ ` < > \ !
+        port_type: Port group type (0 normal, 1 trunk, required)
+        vlan_id: VLAN of a normal port group, 0~4094, required when port_type is 0
+        vlan_range: VLAN range of a trunk port group, required when port_type is 1
+        description: Port group description
+        is_ip_mac_bind: Whether to bind IP and MAC addresses (true/false), not supported for SRIOV/user-mode switches
+        is_dhcp_isolation: Whether to enable DHCP isolation (true/false), not supported for SRIOV switches
+        is_calc_tcp_check_sum: Whether to enable TCP checksum offload (true/false), not supported for SRIOV/user-mode switches
+        ip_bcst_suppress: Whether to enable broadcast suppression bandwidth (true/false), not supported for SRIOV switches
+        tx_limit: Average transmit bandwidth in Mbps, 1~100000
+        tx_peak_limit: Transmit bandwidth peak in Mbps, only selectable after tx_limit, defaults to tx_limit
+        tx_burst_size: Transmit burst size in Mbits, only selectable after tx_limit
+        priority: Transmit priority, 2~7, default 7
+        rx_limit: Average receive bandwidth in Mbps, 1~32000, not supported for SRIOV switches
+        rx_peak_limit: Receive bandwidth peak in Mbps, only selectable after rx_limit
+        rx_burst_size: Receive burst size in Mbits, only selectable after rx_limit
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.vswitch_portgroup_delete: |
+    Delete port group
+
+    Delete a port group on a specified distributed switch. Deleted port groups cannot be recovered.
+
+    Args:
+        client: DME API client
+        dvswitch_id: Distributed switch ID (1~128 chars, required)
+        portgroup_id: Port group ID (1~128 chars, required)
+
+    Returns:
+        {
+            task_id: Task ID (string),
+        }
+
+virt.secgroup_list: |
+    Query security group list
+
+    Query the security group list of a specified data center.
+
+    Args:
+        client: DME API client
+        dc_id: Data center ID (required)
+        page_size: items per page, 1~1000, default 20
+        page_no: Pagination start page, 1~1000, default 1
+
+    Returns:
+        {
+            total: Total number (integer),
+            security_groups: Security group list (List<SecGroups>). parameter format: [{
+                sg_id: Security group ID (integer),
+                site_sg_id: Site security group association ID (string),
+                sg_name: Security group name (string),
+                sg_desc: Security group description (string),
+                rules: Total number of rules in the security group (string),
+                vm_num: Number of VMs in the security group (string),
+                sg_type: Security group type (0 whitelist, 1 blacklist) (integer),
+                sg_ip_stack_type: IP stack type (0 IPv4, 1 IPv6, 2 dual-stack) (integer),
+                is_created_by_tenant: Whether created by a tenant (boolean),
+                dc_id: Data center ID (string),
+            }, ...],
+        }
+
+virt.gpu_list: |
+    Query host GPU list
+
+    Query the GPU list, filterable by site, vendor, model, host and VM.
+
+    Args:
+        client: DME API client
+        site_id: VRM site ID of the GPU
+        vendor_name: GPU vendor, supports fuzzy search
+        product_name: GPU model, supports fuzzy search
+        host_id: Host ID of the GPU
+        vm_id: VM ID bound to the GPU in passthrough mode
+        page_no: Pagination start page, default 1
+        page_size: items per page, 1~1000, default 20
+        sort_dir: Sort direction (asc, desc), default asc
+        sort_key: Sort field (pci_address, vendor_name, product_name, vm_name, host_name), default pci_address
+
+    Returns:
+        {
+            total: Total number of query results (integer),
+            gpus: GPU list (List<HostGpu>). parameter format: [{
+                id: ID (string),
+                urn: GPU URN (string),
+                pci_address: GPU PCI address (string),
+                product_name: Model (string),
+                vendor_name: Vendor (string),
+                vm_id: VM ID bound to the GPU in passthrough mode (string),
+                vm_name: VM name bound to the GPU in passthrough mode (string),
+                host_id: Host ID of the GPU (string),
+                host_name: Host name of the GPU (string),
+                site_id: VRM site ID of the GPU (string),
+                site_name: VRM site name of the GPU (string),
+                status: Usage status (idle, working) (string),
+            }, ...],
+        }
+
 workflow.template_list: |
     Paginated query template list
 
@@ -9590,6 +11205,7 @@ workflow.template_list: |
                 description: description (string),
             }, ...],
         }
+
 workflow.template_groups: |
     Query all template groups
 
@@ -9602,6 +11218,7 @@ workflow.template_groups: |
         {
             groups: template group list (List), containing name (template group name),
         }
+
 workflow.template_show: |
     Query template detailed info
 
@@ -9617,6 +11234,7 @@ workflow.template_show: |
             task_id: task ID (string, 1~64 characters),
         }, including:
         - template_version_id: Template version id
+
 workflow.instance_stop: |
     Stop instance
 
@@ -9628,6 +11246,7 @@ workflow.instance_stop: |
 
     Returns:
         operation result
+
 workflow.instance_show: |
     Query instance details
 
@@ -9651,6 +11270,7 @@ workflow.instance_show: |
         - end_time: Instance end time (milliseconds)
         - instance_type: Instance type (PRECHECK/EXECUTION)
         - template_version_id: Template version id of the instance
+
 workflow.instance_create: |
     Create and execute instance
 
@@ -9670,6 +11290,7 @@ workflow.instance_create: |
         {
             instance_id: instance ID (string),
         }
+
 workflow.instance_step_log: |
     Query step log
 

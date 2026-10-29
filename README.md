@@ -23,11 +23,12 @@
 │   │       ├── actions_en_US.yaml  # (same structure, English descriptions)
 │   │       ├── funcs_zh_CN.yaml    # Full function docstrings
 │   │       └── funcs_en_US.yaml    # (same structure, English docstrings)
-│   └── actions/            # Action modules (one file per topic, 427 actions)
+│   └── actions/            # Action modules (one file per topic, 476 actions)
 │       ├── aiops.py         # AIOps intelligent operations
 │       ├── backup.py         # Backup management
 │       ├── fcswitch.py       # FC switch management
 │       ├── gfs.py            # Global file system
+│       ├── hci.py            # Hyper-converged infrastructure (HCI)
 │       ├── integrate.py      # Third-party integration (CMDB)
 │       ├── ipswitch.py       # IP switch management
 │       ├── kube.py           # Kubernetes management
@@ -123,7 +124,7 @@ pydme storage list --limit 20
 pydme storage disk list --storage_id <id>
 ```
 
-Available topics (427 actions, 98.4% test coverage):
+Available topics (476 actions; E2E-tested 420/427, 49 new actions statically verified):
 
 | Topic | Description | Actions |
 |-------|-------------|:-------:|
@@ -135,7 +136,8 @@ Available topics (427 actions, 98.4% test coverage):
 | `aiops` | AIOps (alerts/performance/health/topology) | 26 |
 | `fcswitch` | FC switch management | 19 |
 | `gfs` | Global file system | 14 |
-| `virt` | Virtualization services (VMs/clusters/datastores) | 14 |
+| `hci` | Hyper-converged infrastructure (HCI) | 5 |
+| `virt` | Virtualization services (VMs/clusters/datastores/vswitches/GPU) | 58 |
 | `server` | Server management (CPU/memory/RAID) | 10 |
 | `tenant` | Tenant self-service (service LUNs/project groups) | 10 |
 | `ipswitch` | IP switch management | 7 |
@@ -201,7 +203,7 @@ You can edit this file to customize the risk policy:
 
 ### Covered Risk Actions
 
-Covers **10 topics, 122 high-risk actions**:
+Covers **11 topics, 141 high-risk actions**:
 
 | Topic | Risky Actions | Examples |
 |-------|---------------|----------|
@@ -215,6 +217,7 @@ Covers **10 topics, 122 high-risk actions**:
 | `tenant` | 3 | `lun_change_tier`, `lun_unbind_project` |
 | `aiops` | 1 | `alarm_clear` |
 | `workflow` | 1 | `instance_stop` |
+| `virt` | 21 | `vm_delete`, `vdisk_delete`, `vm_snapshot_recover`, `vm_reboot` |
 
 
 ### Using Action Modules
