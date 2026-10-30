@@ -622,9 +622,14 @@ def main():
             show_help = True
             i += 1
         elif unknown[i].startswith('--'):
-            param_name = unknown[i][2:]  # strip the leading --
-            if i + 1 < len(unknown) and not unknown[i + 1].startswith('--'):
-                action_params[param_name] = unknown[i + 1]
+            token = unknown[i][2:]  # strip the leading --
+            # Support the --name=value form (handles values that start with '--')
+            if '=' in token:
+                param_name, _, param_value = token.partition('=')
+                action_params[param_name] = param_value
+                i += 1
+            elif i + 1 < len(unknown) and not unknown[i + 1].startswith('--'):
+                action_params[token] = unknown[i + 1]
                 i += 2
             else:
                 # The value may have been swallowed by argparse as an action position argument
@@ -632,35 +637,17 @@ def main():
                 #   -> argparse puts XXX into args.action
                 #   -> unknown = ['--storage_id'] (value lost)
                 # In this case args.action holds the original swallowed value; use it as a placeholder
-                action_params[param_name] = True
+                action_params[token] = True
                 i += 1
         else:
             i += 1
 
-    # Fix: restore values swallowed by argparse for orphan --params
-    # Values may have been swallowed into args.action (2-level command) or args.action_args (3-level command)
-    # e.g. pydme storage show --storage_id X  -> args.action = "X"
-    # e.g. pydme system task list --limit 10  -> action_args = ["10"]
-    # Note: when there are multiple orphan params, restore them one by one from args.action_args and args.action
-    orphan_params = [p for p, v in action_params.items() if v is True]
-    if orphan_params:
-        # args.action is swallowed first (more upfront), action_args appended after it
-        stolen_values = []
-        if args.action:
-            stolen_values.append(args.action)
-            args.action = None
-        if args.action_args:
-            stolen_values.extend(args.action_args)
-        args.action_args = []
-        for i, pname in enumerate(orphan_params):
-            if i < len(stolen_values):
-                action_params[pname] = stolen_values[i]
+    # NOTE: orphan --param value restoration is deferred until after actions_info is
+    # available, so we can tell a real action name (e.g. 'list') apart from a swallowed
+    # parameter value. See the "Restore swallowed values" block below.
 
-    # Handle positional arguments (e.g. host_id)
-    if hasattr(args, 'action_args') and args.action_args:
-        # Use the first positional argument as host_id
-        if len(args.action_args) >= 1 and 'host_id' not in action_params:
-            action_params['host_id'] = args.action_args[0]
+    # Handle positional arguments (e.g. host_id) is also deferred; first we need
+    # actions_info to decide what args.action / args.action_args really mean.
 
     # Handle global options
     if args.list_topics:
@@ -706,13 +693,62 @@ def main():
         print(f"Error: topic '{args.topic}' not found")
         return
 
-    # Fix: argparse may swallow the value of a direct action parameter as an action position argument
-    # The value was already restored to action_params by the orphan detection in the unknown-args
-    # parsing stage; here only clear args.action to make the dispatch enter the 2-arg path
-    if args.action and args.subtopic in actions_info:
-        _direct_info = actions_info.get(args.subtopic, {})
-        if _direct_info.get('subtopic') is None:
-            args.action = None
+    # Fix: argparse may swallow the value of a direct action parameter as an action position argument.
+    # The restoration of swallowed values is done here, after actions_info is available, so a real
+    # action name (e.g. 'list') can be told apart from a swallowed parameter value.
+    #
+    # Command-structure detection (using actions_info):
+    #   - subtopic is a "direct action"  -> 2-level command (topic <action>); here args.action and
+    #     args.action_args are NOT command tokens, they are swallowed parameter values.
+    #   - otherwise (subtopic is a real subtopic)  -> 3-level command (topic <subtopic> <action>);
+    #     args.action is the real action name and must be kept; only args.action_args holds swallowed
+    #     parameter values.
+    _subtopic_is_direct_action = args.subtopic in actions_info and \
+        actions_info.get(args.subtopic, {}).get('subtopic') is None
+
+    def _is_real_action_name(name):
+        """Return True if `name` is a real action name under the current subtopic (3-level cmd)."""
+        if not name or not args.subtopic:
+            return False
+        if f"{args.subtopic}_{name}" in actions_info:
+            return True
+        if f"{args.subtopic} {name}" in actions_info:
+            return True
+        return False
+
+    orphan_params = [p for p, v in action_params.items() if v is True]
+    if orphan_params:
+        stolen_values = []
+        if _subtopic_is_direct_action:
+            # 2-level command: both args.action and args.action_args are swallowed values
+            if args.action and not _is_real_action_name(args.action):
+                stolen_values.append(args.action)
+                args.action = None
+            if args.action_args:
+                stolen_values.extend(args.action_args)
+                args.action_args = []
+        else:
+            # 3-level command: args.action is the real action name (keep it); only action_args
+            # holds swallowed values. Exception: if args.action is NOT a real action name, it was
+            # itself a swallowed value (e.g. a boolean flag orphan with no value swallowed action).
+            if args.action and not _is_real_action_name(args.action):
+                stolen_values.append(args.action)
+                args.action = None
+            if args.action_args:
+                stolen_values.extend(args.action_args)
+                args.action_args = []
+        for idx, pname in enumerate(orphan_params):
+            if idx < len(stolen_values):
+                action_params[pname] = stolen_values[idx]
+
+    # Clear args.action when subtopic is a direct action so dispatch enters the 2-arg path
+    if args.action and _subtopic_is_direct_action:
+        args.action = None
+
+    # Handle positional arguments (e.g. host_id): first remaining action_args token -> host_id
+    if hasattr(args, 'action_args') and args.action_args:
+        if len(args.action_args) >= 1 and 'host_id' not in action_params:
+            action_params['host_id'] = args.action_args[0]
 
     # 2. Only <topic> specified: show the topic help
     if not args.subtopic and not args.action:
