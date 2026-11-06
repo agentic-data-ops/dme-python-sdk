@@ -338,6 +338,59 @@ topics:
             func: storage_list
             params: [hci_id]
       subtopics:
+    - name: memstore
+      description: '记忆存储 (Memstore) 管理相关操作'
+      actions:
+          - name: add
+            description: '添加记忆存储'
+            func: add
+            params: [name, num_of_disks, disk_size]
+          - name: list
+            description: '查询记忆存储列表'
+            func: list
+            params: [name]
+          - name: delete
+            description: '删除指定记忆存储'
+            func: delete
+            params: [id]
+      subtopics:
+        - name: disk
+          description: '记忆存储盘管理'
+          actions:
+            - name: list
+              description: '查询记忆存储磁盘列表'
+              func: disk_list
+              params: []
+        - name: namespace
+          description: '记忆存储命名空间管理'
+          actions:
+            - name: create
+              description: '创建记忆存储命名空间'
+              func: namespace_create
+              params: [pool_id, name, space, eviction, retention, clients]
+            - name: list
+              description: '查询记忆存储命名空间列表'
+              func: namespace_list
+              params: [name, pool_id]
+            - name: delete
+              description: '删除指定记忆存储命名空间'
+              func: namespace_delete
+              params: [id]
+        - name: pool
+          description: '记忆存储池管理'
+          actions:
+            - name: create
+              description: '创建记忆存储池'
+              func: pool_create
+              params: [name, size, disks]
+            - name: list
+              description: '查询记忆存储池列表'
+              func: pool_list
+              params: [name]
+            - name: delete
+              description: '删除指定记忆存储池'
+              func: pool_delete
+              params: [id]
     - name: integrate
       description: '三方系统集成 (Integrate) 相关操作'
       actions:

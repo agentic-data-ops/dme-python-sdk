@@ -1843,6 +1843,224 @@ hci.storage_list: |
             }, ...],
         }
 
+memstore.add: |
+    添加记忆存储
+
+    在本地 mock 数据中新增一个记忆存储，按指定盘数量和盘大小分配磁盘，盘位置全局唯一（FRAME<0~47>.SLOT<0~11>）。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        name: 记忆存储名称 (string,长度 1~128)
+        num_of_disks: 盘数量 (integer,>=1,且不超过剩余可用位置数)
+        disk_size: 单盘大小 (integer,单位 GB),可选值：16384, 32768, 65536
+
+    Returns:
+        {
+            id: 记忆存储 ID (uuid),
+            name: 记忆存储名称 (string),
+            disks: 盘列表,参数格式如下：[{
+                id: 盘 ID (uuid),
+                location: 盘位置 (string),格式 FRAME<0~47>.SLOT<0~11>,
+                size: 盘大小 (integer,单位 GB),
+                pools: 盘上已分配的池空间列表,参数格式如下：[{
+                    pool: 池 ID (uuid),
+                    space: 该池在此盘上分配的空间 (integer,单位 GB),
+                }, ...],
+            }, ...],
+            pools: 存储池列表 (List<Pool>),创建时为空,
+        }
+
+memstore.list: |
+    查询记忆存储列表
+
+    查询本地 mock 数据中的记忆存储，支持按名称过滤（模糊匹配）。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        name: 记忆存储名称 (string,可选,模糊匹配)
+
+    Returns:
+        {
+            memstores: 记忆存储列表,参数格式如下：[{
+                id: 记忆存储 ID (uuid),
+                name: 记忆存储名称 (string),
+                disks: 盘列表,参数格式如下：[{
+                    id: 盘 ID (uuid),
+                    location: 盘位置 (string),格式 FRAME<0~47>.SLOT<0~11>,
+                    size: 盘大小 (integer,单位 GB),
+                    pools: 盘上已分配的池空间列表,参数格式如下：[{
+                        pool: 池 ID (uuid),
+                        space: 该池在此盘上分配的空间 (integer,单位 GB),
+                    }, ...],
+                }, ...],
+                pools: 存储池列表 (List<Pool>),
+            }, ...],
+        }
+
+memstore.delete: |
+    删除指定记忆存储
+
+    按 ID 删除记忆存储；若该记忆存储下仍存在存储池，则拒绝删除（需先删除其存储池）。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        id: 记忆存储 ID (uuid)
+
+    Returns:
+        {
+            success: 是否删除成功 (boolean),
+            id: 已删除的记忆存储 ID (uuid),
+            message: 操作结果描述 (string),
+        }
+
+memstore.disk_list: |
+    查询记忆存储磁盘列表
+
+    汇总所有记忆存储的磁盘，返回盘 ID、位置、大小与已分配空间。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+
+    Returns:
+        {
+            disks: 磁盘列表,参数格式如下：[{
+                id: 盘 ID (uuid),
+                location: 盘位置 (string),格式 FRAME<0~47>.SLOT<0~11>,
+                size: 盘大小 (integer,单位 GB),
+                allocated_size: 已分配给存储池的空间 (integer,单位 GB),为各池在该盘分配空间之和,
+            }, ...],
+        }
+
+memstore.pool_create: |
+    创建记忆存储池
+
+    在指定的盘（location 列表）上按剩余空间比例打散分配，创建一个总大小为 size 的存储池；池空间不得超出所选磁盘的剩余空间总和，所有盘必须属于同一个记忆存储。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        name: 存储池名称 (string,长度 1~128)
+        size: 池总大小 (integer,单位 GB,>=1,且不超过所选磁盘剩余空间总和)
+        disks: 盘位置列表 (List<string>),如 ["FRAME0.SLOT0","FRAME0.SLOT1"];CLI 可传 JSON 数组或逗号分隔字符串,所有盘必须属于同一个记忆存储
+
+    Returns:
+        {
+            id: 存储池 ID (uuid),
+            name: 存储池名称 (string),
+            disks: 池在盘上的空间分配列表,参数格式如下：[{
+                disk: 盘 ID (uuid),
+                space: 该盘为池分配的空间 (integer,单位 GB),
+            }, ...],
+            namespaces: 命名空间列表 (List<Namespace>),创建时为空,
+        }
+
+memstore.pool_list: |
+    查询记忆存储池列表
+
+    查询所有记忆存储中的存储池，支持按名称过滤（模糊匹配）。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        name: 存储池名称 (string,可选,模糊匹配)
+
+    Returns:
+        {
+            pools: 存储池列表,参数格式如下：[{
+                id: 存储池 ID (uuid),
+                name: 存储池名称 (string),
+                size: 池总大小 (integer,单位 GB),为池在各盘上分配空间之和,
+                allocated_size: 池已分配给命名空间的空间 (integer,单位 GB),为各命名空间空间之和,
+            }, ...],
+        }
+
+memstore.pool_delete: |
+    删除指定记忆存储池
+
+    按 ID 删除存储池并释放其在各盘上的空间分配；若该池下仍存在命名空间，则拒绝删除（需先删除其命名空间）。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        id: 存储池 ID (uuid)
+
+    Returns:
+        {
+            success: 是否删除成功 (boolean),
+            id: 已删除的存储池 ID (uuid),
+            message: 操作结果描述 (string),
+        }
+
+memstore.namespace_create: |
+    创建记忆存储命名空间
+
+    在指定存储池中创建一个命名空间，校验空间不超过池剩余空间、回收水位与保留时间取值合法，并登记允许访问的客户端。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        pool_id: 存储池 ID (uuid)
+        name: 命名空间名称 (string,长度 1~128)
+        space: 命名空间分配的空间 (integer,单位 GB,1~存储池剩余空间)
+        eviction: 回收水位 (integer,单位 %,1~99)
+        retention: 保留时间 (integer,单位 小时,>1)
+        clients: 允许访问该命名空间的客户端列表,参数格式如下：[{
+            ip: 客户端 IP (string),
+            type: 客户端类型 (string),可选值：ip（单个 IP）, ip_segment（IP 段）,
+        }, ...]
+
+    Returns:
+        {
+            id: 命名空间 ID (uuid),
+            name: 命名空间名称 (string),
+            space: 命名空间分配的空间 (integer,单位 GB),
+            eviction: 回收水位 (integer,单位 %),
+            retention: 保留时间 (integer,单位 小时),
+            clients: 允许访问的客户端列表,参数格式如下：[{
+                ip: 客户端 IP (string),
+                type: 客户端类型 (string),
+            }, ...],
+        }
+
+memstore.namespace_list: |
+    查询记忆存储命名空间列表
+
+    支持全局查询、按名称过滤、按存储池过滤（可组合使用）。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        name: 命名空间名称 (string,可选,模糊匹配)
+        pool_id: 存储池 ID (uuid,可选,按存储池过滤)
+
+    Returns:
+        {
+            namespaces: 命名空间列表,参数格式如下：[{
+                id: 命名空间 ID (uuid),
+                pool_id: 所属存储池 ID (uuid),
+                pool_name: 所属存储池名称 (string),
+                name: 命名空间名称 (string),
+                space: 命名空间分配的空间 (integer,单位 GB),
+                eviction: 回收水位 (integer,单位 %),
+                retention: 保留时间 (integer,单位 小时),
+                clients: 允许访问的客户端列表,参数格式如下：[{
+                    ip: 客户端 IP (string),
+                    type: 客户端类型 (string),
+                }, ...],
+            }, ...],
+        }
+
+memstore.namespace_delete: |
+    删除指定记忆存储命名空间
+
+    按 ID 删除命名空间，并释放其在存储池中占用的空间。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        id: 命名空间 ID (uuid)
+
+    Returns:
+        {
+            success: 是否删除成功 (boolean),
+            id: 已删除的命名空间 ID (uuid),
+            message: 操作结果描述 (string),
+        }
+
 integrate.cmdb_system_list: |
     查询CMDB系统列表。
 

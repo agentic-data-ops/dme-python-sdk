@@ -338,6 +338,59 @@ topics:
             func: storage_list
             params: [hci_id]
       subtopics:
+    - name: memstore
+      description: 'Memory storage (memstore) management related operations'
+      actions:
+          - name: add
+            description: 'Add a memory storage'
+            func: add
+            params: [name, num_of_disks, disk_size]
+          - name: list
+            description: 'List memory storages'
+            func: list
+            params: [name]
+          - name: delete
+            description: 'Delete the specified memory storage'
+            func: delete
+            params: [id]
+      subtopics:
+        - name: disk
+          description: 'Memory storage disk management'
+          actions:
+            - name: list
+              description: 'List memory storage disks'
+              func: disk_list
+              params: []
+        - name: namespace
+          description: 'Memory storage namespace management'
+          actions:
+            - name: create
+              description: 'Create a memory storage namespace'
+              func: namespace_create
+              params: [pool_id, name, space, eviction, retention, clients]
+            - name: list
+              description: 'List memory storage namespaces'
+              func: namespace_list
+              params: [name, pool_id]
+            - name: delete
+              description: 'Delete the specified memory storage namespace'
+              func: namespace_delete
+              params: [id]
+        - name: pool
+          description: 'Memory storage pool management'
+          actions:
+            - name: create
+              description: 'Create a memory storage pool'
+              func: pool_create
+              params: [name, size, disks]
+            - name: list
+              description: 'List memory storage pools'
+              func: pool_list
+              params: [name]
+            - name: delete
+              description: 'Delete the specified memory storage pool'
+              func: pool_delete
+              params: [id]
     - name: integrate
       description: 'Third-party system integration related operations'
       actions:

@@ -14,6 +14,11 @@
     "namespace_delete",
     "namespace_modify"
   ],
+  "memstore": [
+    "delete",
+    "pool_delete",
+    "namespace_delete"
+  ],
   "nas": [
     "account_unix_user_batch_delete",
     "account_unix_user_group_batch_delete",

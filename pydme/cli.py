@@ -72,6 +72,16 @@ def _accepts_risk(args) -> bool:
     return args.accept_risk or os.environ.get('DME_ACCEPT_RISK', '').lower() in ('true', '1', 'yes')
 
 
+# Topics served purely by local mock data: they never require a DME connection
+# (no endpoint/user/password validation, no login).
+MOCK_ONLY_TOPICS = ('memstore',)
+
+
+def _requires_dme_login(topic: str) -> bool:
+    """Return False for mock-only topics (memstore), True otherwise."""
+    return topic not in MOCK_ONLY_TOPICS
+
+
 def _check_risk(topic: str, action_key: str, args, *,
                 cmd_parts: list = None) -> None:
     """Refuse to execute if the action is blacklisted and the user has not confirmed the risk.
@@ -772,37 +782,41 @@ def main():
             _check_risk(args.topic, action_key, args,
                         cmd_parts=[args.topic, action_key])
 
-            endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
-            username = args.user or os.environ.get('DME_API_USERNAME')
-            password = args.password or os.environ.get('DME_API_PASSWORD')
-            auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
+            if _requires_dme_login(args.topic):
+                endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
+                username = args.user or os.environ.get('DME_API_USERNAME')
+                password = args.password or os.environ.get('DME_API_PASSWORD')
+                auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
-            if not auth_token and not (endpoint and username and password):
-                print("Error: endpoint, user and password arguments are required, or use --token to provide an auth token")
-                print("Set them via --endpoint, --user, --password, --token or environment variables")
-                parser.print_help()
-                sys.exit(1)
-
-            # Create the client (loads/saves the token cache internally)
-            client = DMEAPIClient(
-                endpoint=endpoint,
-                username=username,
-                password=password,
-                auth_token=auth_token,
-                timeout=args.timeout,
-                cache_token=args.cache_auth_token,
-            )
-
-            # Check whether the client already has a token; log in otherwise
-            if not client.headers.get("X-Auth-Token"):
-                print(f"Connecting to DME: {endpoint}")
-                try:
-                    client.login()
-                except Exception as e:
-                    print(f"Login failed: {e}")
+                if not auth_token and not (endpoint and username and password):
+                    print("Error: endpoint, user and password arguments are required, or use --token to provide an auth token")
+                    print("Set them via --endpoint, --user, --password, --token or environment variables")
+                    parser.print_help()
                     sys.exit(1)
 
-            cli.client = client
+                # Create the client (loads/saves the token cache internally)
+                client = DMEAPIClient(
+                    endpoint=endpoint,
+                    username=username,
+                    password=password,
+                    auth_token=auth_token,
+                    timeout=args.timeout,
+                    cache_token=args.cache_auth_token,
+                )
+
+                # Check whether the client already has a token; log in otherwise
+                if not client.headers.get("X-Auth-Token"):
+                    print(f"Connecting to DME: {endpoint}")
+                    try:
+                        client.login()
+                    except Exception as e:
+                        print(f"Login failed: {e}")
+                        sys.exit(1)
+
+                cli.client = client
+            else:
+                # mock-only topic (e.g. memstore): no DME connection/login needed
+                cli.client = None
 
             action_info = actions_info[action_key]
             func = action_info['func']
@@ -874,7 +888,7 @@ def main():
                 # Check whether the function requires the client parameter
                 sig_params = sig.parameters
                 if sig_params and 'client' in sig_params:
-                    result = func(client, **typed_params)
+                    result = func(cli.client, **typed_params)
                 else:
                     result = func(**typed_params)
                 import json
@@ -924,37 +938,41 @@ def main():
         _check_risk(args.topic, action_key, args,
                     cmd_parts=[args.topic, args.subtopic, args.action])
 
-        endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
-        username = args.user or os.environ.get('DME_API_USERNAME')
-        password = args.password or os.environ.get('DME_API_PASSWORD')
-        auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
+        if _requires_dme_login(args.topic):
+            endpoint = args.endpoint or os.environ.get('DME_API_ENDPOINT')
+            username = args.user or os.environ.get('DME_API_USERNAME')
+            password = args.password or os.environ.get('DME_API_PASSWORD')
+            auth_token = args.token or os.environ.get('DME_API_AUTH_TOKEN')
 
-        if not auth_token and not (endpoint and username and password):
-            print("Error: endpoint, user and password arguments are required, or use --token to provide an auth token")
-            print("Set them via --endpoint, --user, --password, --token or environment variables")
-            parser.print_help()
-            sys.exit(1)
-
-        # Create the client (loads/saves the token cache internally)
-        client = DMEAPIClient(
-            endpoint=endpoint,
-            username=username,
-            password=password,
-            auth_token=auth_token,
-            timeout=args.timeout,
-            cache_token=args.cache_auth_token,
-        )
-
-        # Check whether the client already has a token; log in otherwise
-        if not client.headers.get("X-Auth-Token"):
-            print(f"Connecting to DME: {endpoint}")
-            try:
-                client.login()
-            except Exception as e:
-                print(f"Login failed: {e}")
+            if not auth_token and not (endpoint and username and password):
+                print("Error: endpoint, user and password arguments are required, or use --token to provide an auth token")
+                print("Set them via --endpoint, --user, --password, --token or environment variables")
+                parser.print_help()
                 sys.exit(1)
 
-        cli.client = client
+            # Create the client (loads/saves the token cache internally)
+            client = DMEAPIClient(
+                endpoint=endpoint,
+                username=username,
+                password=password,
+                auth_token=auth_token,
+                timeout=args.timeout,
+                cache_token=args.cache_auth_token,
+            )
+
+            # Check whether the client already has a token; log in otherwise
+            if not client.headers.get("X-Auth-Token"):
+                print(f"Connecting to DME: {endpoint}")
+                try:
+                    client.login()
+                except Exception as e:
+                    print(f"Login failed: {e}")
+                    sys.exit(1)
+
+            cli.client = client
+        else:
+            # mock-only topic (e.g. memstore): no DME connection/login needed
+            cli.client = None
 
         action_info = actions_info[action_key]
         func = action_info['func']
@@ -1036,7 +1054,7 @@ def main():
 
                     typed_params[func_param_name] = param_value
 
-            result = func(client, **typed_params)
+            result = func(cli.client, **typed_params)
             import json
             if result:
                 print(json.dumps(result, indent=2, ensure_ascii=False))
