@@ -1966,6 +1966,8 @@ memstore.pool_create: |
         {
             id: Pool ID (uuid),
             name: Pool name (string),
+            storage_id: ID of the owning memory storage (uuid),
+            storage_name: Name of the owning memory storage (string),
             capacity: Capacity (integer, in GB), sum of the pool allocations on its disks,
             used_capacity: Used capacity (integer, in GB), 0 on creation,
             disks: Associated disk list, parameter format: [{
@@ -1989,6 +1991,8 @@ memstore.pool_show: |
         {
             id: Pool ID (uuid),
             name: Pool name (string),
+            storage_id: ID of the owning memory storage (uuid),
+            storage_name: Name of the owning memory storage (string),
             capacity: Capacity (integer, in GB), sum of the pool allocations on its disks,
             used_capacity: Used capacity (integer, in GB), sum of the namespace capacities,
             disks: Associated disk list, parameter format: [{
@@ -2019,6 +2023,8 @@ memstore.pool_list: |
             pools: Pool list, parameter format: [{
                 id: Pool ID (uuid),
                 name: Pool name (string),
+                storage_id: ID of the owning memory storage (uuid),
+                storage_name: Name of the owning memory storage (string),
                 capacity: Capacity (integer, in GB), sum of the pool allocations on its disks,
                 used_capacity: Used capacity (integer, in GB), sum of the namespace capacities,
             }, ...],

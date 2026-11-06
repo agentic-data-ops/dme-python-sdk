@@ -326,3 +326,13 @@ M1（mockdata.py + memstore.py + cli.py 跳过登录）→ M2（actions/funcs YA
 | `memstore pool create` | 响应字段与 `pool show` 保持一致（同一 `_pool_detail()` helper，创建时 `used_capacity`=0、`namespaces` 为空） |
 
 总数更新：18 topics / **488 actions**，memstore 12 个动作；验证脚本 59 项全 PASS（新增 pool show help 遍历、pool create 响应结构、pool show disks/namespaces 断言、pool not found 负例），README / README_zh / REASONIX 数字同步（487→488、11→12）。
+
+---
+
+## 后续修订（R5：pool list/show/create 增加 storage 归属字段）
+
+| 动作 | 变更 |
+|------|------|
+| `memstore pool list` / `pool show` / `pool create` | 响应增加 `storage_id`（所属记忆存储 ID）与 `storage_name`（所属记忆存储名称），三处共用同一 `_pool_detail()` / `pool_list` 逻辑 |
+
+动作数不变（488 / memstore 12）；验证脚本 59 项全 PASS（pool create/show/list 的 storage 字段断言），无 README 数字变更。

@@ -143,7 +143,9 @@ record('pool create split', rc == 0 and sum(d['allocated_capacity'] for d in poo
        and all('disk_id' in d and 'location' in d for d in pool['disks']))
 record('pool create response shape', rc == 0 and pool['capacity'] == 1000
        and pool['used_capacity'] == 0 and pool['namespaces'] == []
-       and set(pool) == {'id', 'name', 'capacity', 'used_capacity', 'disks', 'namespaces'})
+       and pool['storage_id'] == ms['id'] and pool['storage_name'] == 'ms01'
+       and set(pool) == {'id', 'name', 'storage_id', 'storage_name', 'capacity',
+                         'used_capacity', 'disks', 'namespaces'})
 disk_map = {d['id']: d for m in read_raw() for d in m['disks']}
 record('pool<->disk sync',
        all(any(e['pool'] == pool['id'] for e in disk_map[d['disk_id']]['pools'])
@@ -155,7 +157,8 @@ detail = payload(out)
 record('pool show', rc == 0 and detail['id'] == pool['id']
        and detail['name'] == 'pool02' and detail['capacity'] == 1000
        and detail['used_capacity'] == 0)
-record('pool show shape', set(detail) == {'id', 'name', 'capacity', 'used_capacity', 'disks', 'namespaces'})
+record('pool show shape', set(detail) == {'id', 'name', 'storage_id', 'storage_name',
+                                          'capacity', 'used_capacity', 'disks', 'namespaces'})
 rc, out, _ = run('memstore', 'pool', 'list', '--name', 'demo-pool')
 demo_pool_id = payload(out)['pools'][0]['id']
 rc, out, _ = run('memstore', 'pool', 'show', '--id', demo_pool_id)
@@ -173,7 +176,8 @@ rc, out, _ = run('memstore', 'pool', 'list', '--storage_id', ms['id'])
 pools = payload(out)['pools']
 record('pool list by storage', rc == 0 and len(pools) == 1
        and pools[0]['name'] == 'pool02' and pools[0]['capacity'] == 1000
-       and pools[0]['used_capacity'] == 0)
+       and pools[0]['used_capacity'] == 0
+       and pools[0]['storage_id'] == ms['id'] and pools[0]['storage_name'] == 'ms01')
 rc, out, _ = run('memstore', 'pool', 'list', '--name', 'demo-pool')
 record('pool list demo', rc == 0 and payload(out)['pools'][0]['capacity'] == 2048
        and payload(out)['pools'][0]['used_capacity'] == 512)

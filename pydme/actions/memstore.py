@@ -179,6 +179,8 @@ def _pool_detail(memstore, pool) -> dict:
     return {
         'id': pool.get('id'),
         'name': pool.get('name'),
+        'storage_id': memstore.get('id'),
+        'storage_name': memstore.get('name'),
         'capacity': mockdata.pool_capacity(pool),
         'used_capacity': mockdata.pool_used_capacity(pool),
         'disks': disks,
@@ -255,6 +257,8 @@ def pool_list(client: DMEAPIClient = None, storage_id: str = None,
             pools.append({
                 'id': pool.get('id'),
                 'name': pool.get('name'),
+                'storage_id': ms.get('id'),
+                'storage_name': ms.get('name'),
                 'capacity': mockdata.pool_capacity(pool),
                 'used_capacity': mockdata.pool_used_capacity(pool),
             })

@@ -1958,6 +1958,8 @@ memstore.pool_create: |
         {
             id: 存储池 ID (uuid),
             name: 存储池名称 (string),
+            storage_id: 所属记忆存储 ID (uuid),
+            storage_name: 所属记忆存储名称 (string),
             capacity: 容量 (integer,单位 GB),为池在各盘上分配容量之和,
             used_capacity: 已用容量 (integer,单位 GB),创建时为 0,
             disks: 关联的盘列表,参数格式如下：[{
@@ -1981,6 +1983,8 @@ memstore.pool_show: |
         {
             id: 存储池 ID (uuid),
             name: 存储池名称 (string),
+            storage_id: 所属记忆存储 ID (uuid),
+            storage_name: 所属记忆存储名称 (string),
             capacity: 容量 (integer,单位 GB),为池在各盘上分配容量之和,
             used_capacity: 已用容量 (integer,单位 GB),为各命名空间容量之和,
             disks: 关联的盘列表,参数格式如下：[{
@@ -2011,6 +2015,8 @@ memstore.pool_list: |
             pools: 存储池列表,参数格式如下：[{
                 id: 存储池 ID (uuid),
                 name: 存储池名称 (string),
+                storage_id: 所属记忆存储 ID (uuid),
+                storage_name: 所属记忆存储名称 (string),
                 capacity: 容量 (integer,单位 GB),为池在各盘上分配容量之和,
                 used_capacity: 已用容量 (integer,单位 GB),为各命名空间容量之和,
             }, ...],
