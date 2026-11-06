@@ -391,6 +391,10 @@ topics:
               description: '查询记忆存储池列表'
               func: pool_list
               params: [storage_id, name]
+            - name: show
+              description: '查询指定记忆存储池详情'
+              func: pool_show
+              params: [id]
             - name: delete
               description: '删除指定记忆存储池'
               func: pool_delete

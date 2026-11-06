@@ -315,3 +315,14 @@ M1（mockdata.py + memstore.py + cli.py 跳过登录）→ M2（actions/funcs YA
 | `memstore disk show`（新增） | 按盘 ID 查看详情（`--id`），响应在 disk list 字段基础上增加 `pools` 列表（`pool_id` / `pool_name` / `allocated_capacity`）；不在任何存储中时报错 |
 
 总数更新：18 topics / **487 actions**，memstore 11 个动作；验证脚本 53 项全 PASS（新增 disk show help 遍历、disk show 字段与 pools 断言、disk not found 负例），README / README_zh / REASONIX 数字同步（486→487、10→11）。
+
+---
+
+## 后续修订（R4：pool show 新增，pool create 响应对齐 show）
+
+| 动作 | 变更 |
+|------|------|
+| `memstore pool show`（新增） | 按存储池 ID 查看详情（`--id`），响应在 pool list 字段（id / name / capacity / used_capacity）基础上增加 `disks` 列表（`disk_id` / `location` / `allocated_capacity`）与 `namespaces` 列表（`id` / `name` / `capacity` / `used_capacity`）；池不存在时报错 |
+| `memstore pool create` | 响应字段与 `pool show` 保持一致（同一 `_pool_detail()` helper，创建时 `used_capacity`=0、`namespaces` 为空） |
+
+总数更新：18 topics / **488 actions**，memstore 12 个动作；验证脚本 59 项全 PASS（新增 pool show help 遍历、pool create 响应结构、pool show disks/namespaces 断言、pool not found 负例），README / README_zh / REASONIX 数字同步（487→488、11→12）。

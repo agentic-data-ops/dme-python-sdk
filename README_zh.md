@@ -23,7 +23,7 @@
 │   │       ├── actions_en_US.yaml  # 结构同上，英文描述
 │   │       ├── funcs_zh_CN.yaml    # 完整函数 docstring
 │   │       └── funcs_en_US.yaml    # 结构同上，英文 docstring
-│   └── actions/            # 动作模块（每个主题一个文件，487 个动作）
+│   └── actions/            # 动作模块（每个主题一个文件，488 个动作）
 │       ├── aiops.py         # AIOps 智能运维
 │       ├── backup.py         # 数据备份管理
 │       ├── fcswitch.py       # FC 光纤交换机
@@ -125,7 +125,7 @@ pydme storage list --limit 20
 pydme storage disk list --storage_id <id>
 ```
 
-可用主题（487 个动作；E2E 已测 420/427，新增 49 个动作静态验证通过，memstore 11 个 mock 动作经隔离 HOME 验证通过）：
+可用主题（488 个动作；E2E 已测 420/427，新增 49 个动作静态验证通过，memstore 12 个 mock 动作经隔离 HOME 验证通过）：
 
 | 主题 | 描述 | 动作数 |
 |------|------|:------:|
@@ -138,7 +138,7 @@ pydme storage disk list --storage_id <id>
 | `fcswitch` | FC 光纤交换机管理 | 19 |
 | `gfs` | 全局文件系统 | 14 |
 | `hci` | 超融合基础设施 (HCI) | 5 |
-| `memstore` | 记忆存储 (memstore)，基于 mock 实现 | 11 |
+| `memstore` | 记忆存储 (memstore)，基于 mock 实现 | 12 |
 | `virt` | 虚拟化服务（VM/集群/数据存储/分布式交换机/GPU） | 58 |
 | `server` | 服务器管理（CPU/内存/RAID） | 10 |
 | `tenant` | 租户自助服务（服务化LUN/业务群组） | 10 |

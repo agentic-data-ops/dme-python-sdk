@@ -157,6 +157,35 @@ def disk_show(client: DMEAPIClient = None, id: str = None) -> dict:
 # memstore pool subtopic
 # ---------------------------------------------------------------------------
 
+def _pool_detail(memstore, pool) -> dict:
+    """Pool detail response (pool list fields + disk allocations + namespaces)."""
+    disks_by_id = {d.get('id'): d for d in memstore.get('disks', [])}
+    disks = []
+    for entry in pool.get('disks', []):
+        disk = disks_by_id.get(entry.get('disk'))
+        disks.append({
+            'disk_id': entry.get('disk'),
+            'location': disk.get('location') if disk else None,
+            'allocated_capacity': entry.get('capacity'),
+        })
+    namespaces = []
+    for ns in pool.get('namespaces', []):
+        namespaces.append({
+            'id': ns.get('id'),
+            'name': ns.get('name'),
+            'capacity': ns.get('capacity'),
+            'used_capacity': ns.get('used_capacity', 0),
+        })
+    return {
+        'id': pool.get('id'),
+        'name': pool.get('name'),
+        'capacity': mockdata.pool_capacity(pool),
+        'used_capacity': mockdata.pool_used_capacity(pool),
+        'disks': disks,
+        'namespaces': namespaces,
+    }
+
+
 def pool_create(client: DMEAPIClient = None, storage_id: str = None,
                 name: str = None, capacity: int = None,
                 num_of_disks: int = None) -> dict:
@@ -201,7 +230,16 @@ def pool_create(client: DMEAPIClient = None, storage_id: str = None,
     }
     memstore.setdefault('pools', []).append(pool)
     mockdata.save_memstores(memstores)
-    return pool
+    return _pool_detail(memstore, pool)
+
+
+def pool_show(client: DMEAPIClient = None, id: str = None) -> dict:
+    pool_id = mockdata.require_id(id)
+    memstores = mockdata.ensure_memstore_mock()
+    memstore, pool = mockdata.find_pool(memstores, pool_id)
+    if pool is None:
+        raise ValueError(f'pool {pool_id} not found')
+    return _pool_detail(memstore, pool)
 
 
 def pool_list(client: DMEAPIClient = None, storage_id: str = None,

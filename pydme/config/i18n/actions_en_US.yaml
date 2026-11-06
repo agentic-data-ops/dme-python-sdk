@@ -391,6 +391,10 @@ topics:
               description: 'List memory storage pools'
               func: pool_list
               params: [storage_id, name]
+            - name: show
+              description: 'Show the specified memory storage pool detail'
+              func: pool_show
+              params: [id]
             - name: delete
               description: 'Delete the specified memory storage pool'
               func: pool_delete

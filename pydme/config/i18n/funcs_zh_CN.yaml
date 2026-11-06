@@ -1958,11 +1958,42 @@ memstore.pool_create: |
         {
             id: 存储池 ID (uuid),
             name: 存储池名称 (string),
-            disks: 池在盘上的容量分配列表,参数格式如下：[{
-                disk: 盘 ID (uuid),
-                capacity: 该盘为池分配的容量 (integer,单位 GB),
+            capacity: 容量 (integer,单位 GB),为池在各盘上分配容量之和,
+            used_capacity: 已用容量 (integer,单位 GB),创建时为 0,
+            disks: 关联的盘列表,参数格式如下：[{
+                disk_id: 盘 ID (uuid),
+                location: 盘位置 (string),格式 FRAME<0~47>.SLOT<0~11>,
+                allocated_capacity: 从该盘分配的容量 (integer,单位 GB),
             }, ...],
-            namespaces: 命名空间列表 (List<Namespace>),创建时为空,
+            namespaces: 关联的命名空间列表 (List<Namespace>),创建时为空,
+        }
+
+memstore.pool_show: |
+    查询指定记忆存储池详情
+
+    按存储池 ID 查询详情，在存储池列表字段基础上返回关联的盘列表与命名空间列表。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        id: 存储池 ID (uuid)
+
+    Returns:
+        {
+            id: 存储池 ID (uuid),
+            name: 存储池名称 (string),
+            capacity: 容量 (integer,单位 GB),为池在各盘上分配容量之和,
+            used_capacity: 已用容量 (integer,单位 GB),为各命名空间容量之和,
+            disks: 关联的盘列表,参数格式如下：[{
+                disk_id: 盘 ID (uuid),
+                location: 盘位置 (string),格式 FRAME<0~47>.SLOT<0~11>,
+                allocated_capacity: 从该盘分配的容量 (integer,单位 GB),
+            }, ...],
+            namespaces: 关联的命名空间列表,参数格式如下：[{
+                id: 命名空间 ID (uuid),
+                name: 命名空间名称 (string),
+                capacity: 命名空间容量 (integer,单位 GB),
+                used_capacity: 命名空间已用容量 (integer,单位 GB),
+            }, ...],
         }
 
 memstore.pool_list: |

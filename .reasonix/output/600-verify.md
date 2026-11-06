@@ -10,6 +10,8 @@ PASS [help] memstore disk show (zh_CN, risk=Low)
 PASS [help] memstore disk show (en_US, risk=Low)
 PASS [help] memstore pool create (zh_CN, risk=Low)
 PASS [help] memstore pool create (en_US, risk=Low)
+PASS [help] memstore pool show (zh_CN, risk=Low)
+PASS [help] memstore pool show (en_US, risk=Low)
 PASS [help] memstore pool list (zh_CN, risk=Low)
 PASS [help] memstore pool list (en_US, risk=Low)
 PASS [help] memstore pool delete (zh_CN, risk=High)
@@ -31,7 +33,11 @@ PASS [mock] disk list by storage
 PASS [mock] disk show fields
 PASS [mock] disk show pools
 PASS [mock] pool create split
+PASS [mock] pool create response shape
 PASS [mock] pool<->disk sync
+PASS [mock] pool show
+PASS [mock] pool show shape
+PASS [mock] pool show demo
 PASS [mock] pool list by storage
 PASS [mock] pool list demo
 PASS [mock] namespace create

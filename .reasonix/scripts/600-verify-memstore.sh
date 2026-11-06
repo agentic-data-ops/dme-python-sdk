@@ -44,6 +44,7 @@ delete|High
 disk list|Low
 disk show|Low
 pool create|Low
+pool show|Low
 pool list|Low
 pool delete|High
 namespace create|Low
@@ -132,16 +133,40 @@ record('disk show pools',
                             'pool_name': 'demo-pool',
                             'allocated_capacity': 1024}])
 
-# pool create: storage_id + capacity + num_of_disks，选分配容量低的盘均分
+# pool create: storage_id + capacity + num_of_disks，选分配容量低的盘均分；
+# 响应与 pool show 一致（含 disks/namespaces）
 rc, out, _ = run('memstore', 'pool', 'create', '--storage_id', ms['id'],
                  '--name', 'pool02', '--capacity', '1000', '--num_of_disks', '2')
 pool = payload(out)
-record('pool create split', rc == 0 and sum(d['capacity'] for d in pool['disks']) == 1000
-       and all(d['capacity'] == 500 for d in pool['disks']))
+record('pool create split', rc == 0 and sum(d['allocated_capacity'] for d in pool['disks']) == 1000
+       and all(d['allocated_capacity'] == 500 for d in pool['disks'])
+       and all('disk_id' in d and 'location' in d for d in pool['disks']))
+record('pool create response shape', rc == 0 and pool['capacity'] == 1000
+       and pool['used_capacity'] == 0 and pool['namespaces'] == []
+       and set(pool) == {'id', 'name', 'capacity', 'used_capacity', 'disks', 'namespaces'})
 disk_map = {d['id']: d for m in read_raw() for d in m['disks']}
 record('pool<->disk sync',
-       all(any(e['pool'] == pool['id'] for e in disk_map[d['disk']]['pools'])
+       all(any(e['pool'] == pool['id'] for e in disk_map[d['disk_id']]['pools'])
            for d in pool['disks']))
+
+# pool show: 指定池 ID 查详情，含 disks 与 namespaces
+rc, out, _ = run('memstore', 'pool', 'show', '--id', pool['id'])
+detail = payload(out)
+record('pool show', rc == 0 and detail['id'] == pool['id']
+       and detail['name'] == 'pool02' and detail['capacity'] == 1000
+       and detail['used_capacity'] == 0)
+record('pool show shape', set(detail) == {'id', 'name', 'capacity', 'used_capacity', 'disks', 'namespaces'})
+rc, out, _ = run('memstore', 'pool', 'list', '--name', 'demo-pool')
+demo_pool_id = payload(out)['pools'][0]['id']
+rc, out, _ = run('memstore', 'pool', 'show', '--id', demo_pool_id)
+demo_pool = payload(out)
+record('pool show demo',
+       demo_pool['capacity'] == 2048 and demo_pool['used_capacity'] == 512
+       and sorted(d['location'] for d in demo_pool['disks']) == ['FRAME0.SLOT0', 'FRAME0.SLOT1']
+       and all(d['allocated_capacity'] == 1024 for d in demo_pool['disks'])
+       and demo_pool['namespaces'] == [{'id': demo_pool['namespaces'][0]['id'],
+                                        'name': 'demo-ns', 'capacity': 512,
+                                        'used_capacity': 256}])
 
 # pool list: storage_id 过滤 + capacity/used_capacity
 rc, out, _ = run('memstore', 'pool', 'list', '--storage_id', ms['id'])
@@ -192,6 +217,7 @@ neg = [
     (('memstore', 'pool', 'delete', '--id', pool_id), 'pool delete with ns'),
     (('memstore', 'namespace', 'delete', '--id', 'nope'), 'ns not found'),
     (('memstore', 'disk', 'show', '--id', 'nope'), 'disk not found'),
+    (('memstore', 'pool', 'show', '--id', 'nope'), 'pool not found'),
     (('memstore', 'pool', 'create', '--storage_id', ms['id'], '--name', 'p',
       '--capacity', '99999', '--num_of_disks', '2'), 'free capacity'),
     (('memstore', 'pool', 'create', '--storage_id', ms['id'], '--name', 'p',

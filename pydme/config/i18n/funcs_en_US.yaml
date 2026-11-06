@@ -1966,11 +1966,42 @@ memstore.pool_create: |
         {
             id: Pool ID (uuid),
             name: Pool name (string),
-            disks: Pool capacity allocations on disks, parameter format: [{
-                disk: Disk ID (uuid),
-                capacity: Capacity allocated to the pool from this disk (integer, in GB),
+            capacity: Capacity (integer, in GB), sum of the pool allocations on its disks,
+            used_capacity: Used capacity (integer, in GB), 0 on creation,
+            disks: Associated disk list, parameter format: [{
+                disk_id: Disk ID (uuid),
+                location: Disk location (string), format FRAME<0~47>.SLOT<0~11>,
+                allocated_capacity: Capacity allocated from this disk (integer, in GB),
             }, ...],
-            namespaces: Namespace list (List<Namespace>), empty on creation,
+            namespaces: Associated namespace list (List<Namespace>), empty on creation,
+        }
+
+memstore.pool_show: |
+    Show the specified memory storage pool detail
+
+    Show the detail of a pool by ID, returning the associated disk list and namespace list in addition to the pool list fields.
+
+    Args:
+        client: DME API client (unused; memstore is mock-backed)
+        id: Pool ID (uuid)
+
+    Returns:
+        {
+            id: Pool ID (uuid),
+            name: Pool name (string),
+            capacity: Capacity (integer, in GB), sum of the pool allocations on its disks,
+            used_capacity: Used capacity (integer, in GB), sum of the namespace capacities,
+            disks: Associated disk list, parameter format: [{
+                disk_id: Disk ID (uuid),
+                location: Disk location (string), format FRAME<0~47>.SLOT<0~11>,
+                allocated_capacity: Capacity allocated from this disk (integer, in GB),
+            }, ...],
+            namespaces: Associated namespace list, parameter format: [{
+                id: Namespace ID (uuid),
+                name: Namespace name (string),
+                capacity: Namespace capacity (integer, in GB),
+                used_capacity: Namespace used capacity (integer, in GB),
+            }, ...],
         }
 
 memstore.pool_list: |
