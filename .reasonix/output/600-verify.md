@@ -40,9 +40,13 @@ PASS [mock] pool show shape
 PASS [mock] pool show demo
 PASS [mock] pool list by storage
 PASS [mock] pool list demo
-PASS [mock] namespace create
+PASS [mock] namespace create defaults
+PASS [mock] namespace create shape
+PASS [mock] namespace create explicit args
+PASS [mock] namespace create cleanup
 PASS [mock] pool used_capacity
 PASS [mock] ns list global
+PASS [mock] ns list storage fields
 PASS [mock] ns list by storage
 PASS [mock] ns list by storage filter
 PASS [mock] ns list by name

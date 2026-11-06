@@ -183,22 +183,41 @@ record('pool list demo', rc == 0 and payload(out)['pools'][0]['capacity'] == 204
        and payload(out)['pools'][0]['used_capacity'] == 512)
 pool_id = pools[0]['id']
 
-# namespace create: capacity 参数，used_capacity 初始 0
-clients = [{'ip': '192.168.1.10', 'type': 'ip'}, {'ip': '10.0.0.0/24', 'type': 'ip_segment'}]
-rc, out, _ = run('memstore', 'namespace', 'create', '--pool_id', pool_id, '--name', 'ns02',
-                 '--capacity', '300', '--eviction', '80', '--retention', '24',
-                 '--clients', json.dumps(clients))
+# namespace create: 仅传必填参数时 eviction/retention/clients 取默认值（80 / 72h / 空）；
+# 响应与 namespace list 一致（含 pool/storage 归属字段）
+rc, out, _ = run('memstore', 'namespace', 'create', '--pool_id', pool_id,
+                 '--name', 'ns02', '--capacity', '300')
 ns = payload(out)
-record('namespace create', rc == 0 and ns['name'] == 'ns02' and ns['capacity'] == 300
-       and ns['used_capacity'] == 0 and len(ns['clients']) == 2)
+record('namespace create defaults', rc == 0 and ns['name'] == 'ns02'
+       and ns['capacity'] == 300 and ns['used_capacity'] == 0
+       and ns['eviction'] == 80 and ns['retention'] == 72 and ns['clients'] == [])
+record('namespace create shape', set(ns) == {
+    'id', 'pool_id', 'pool_name', 'storage_id', 'storage_name', 'name',
+    'capacity', 'used_capacity', 'eviction', 'retention', 'clients'}
+    and ns['pool_id'] == pool_id and ns['pool_name'] == 'pool02'
+    and ns['storage_id'] == ms['id'] and ns['storage_name'] == 'ms01')
+
+# 显式传参生效（创建后立即删除，不影响后续计数）
+clients = [{'ip': '192.168.1.10', 'type': 'ip'}, {'ip': '10.0.0.0/24', 'type': 'ip_segment'}]
+rc, out, _ = run('memstore', 'namespace', 'create', '--pool_id', pool_id,
+                 '--name', 'ns03', '--capacity', '100', '--eviction', '90',
+                 '--retention', '24', '--clients', json.dumps(clients))
+ns3 = payload(out)
+record('namespace create explicit args', rc == 0 and ns3['eviction'] == 90
+       and ns3['retention'] == 24 and len(ns3['clients']) == 2)
+rc, out, _ = run('memstore', 'namespace', 'delete', '--id', ns3['id'])
+record('namespace create cleanup', rc == 0 and payload(out)['success'] is True)
 rc, out, _ = run('memstore', 'pool', 'list', '--storage_id', ms['id'])
 record('pool used_capacity', payload(out)['pools'][0]['used_capacity'] == 300)
 
-# namespace list: 全局 / storage_id / name / pool_id；capacity/used_capacity
+# namespace list: 全局 / storage_id / name / pool_id；storage 归属 + capacity/used_capacity
 rc, out, _ = run('memstore', 'namespace', 'list')
 all_ns = payload(out)['namespaces']
 record('ns list global', rc == 0 and len(all_ns) == 2
-       and all('capacity' in n and 'used_capacity' in n for n in all_ns))
+       and all('capacity' in n and 'used_capacity' in n
+               and 'storage_id' in n and 'storage_name' in n for n in all_ns))
+record('ns list storage fields', rc == 0
+       and {n['storage_name'] for n in all_ns} == {'demo-memstore', 'ms01'})
 record('ns list by storage', rc == 0 and len(payload(out)['namespaces']) == 2
        and all(n['pool_name'] in ('demo-pool', 'pool02') for n in all_ns))
 rc, out, _ = run('memstore', 'namespace', 'list', '--storage_id', ms['id'])

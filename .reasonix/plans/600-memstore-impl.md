@@ -336,3 +336,16 @@ M1（mockdata.py + memstore.py + cli.py 跳过登录）→ M2（actions/funcs YA
 | `memstore pool list` / `pool show` / `pool create` | 响应增加 `storage_id`（所属记忆存储 ID）与 `storage_name`（所属记忆存储名称），三处共用同一 `_pool_detail()` / `pool_list` 逻辑 |
 
 动作数不变（488 / memstore 12）；验证脚本 59 项全 PASS（pool create/show/list 的 storage 字段断言），无 README 数字变更。
+
+---
+
+## 后续修订（R6：namespace list 增加 storage 归属，namespace create 响应对齐与可选参数）
+
+| 动作 | 变更 |
+|------|------|
+| `memstore namespace list` | 响应增加 `storage_id`（所属记忆存储 ID）与 `storage_name`（所属记忆存储名称） |
+| `memstore namespace create` | 响应与 `namespace list` 保持一致（同一 `_namespace_detail()` helper，含 `pool_id` / `pool_name` / `storage_id` / `storage_name` 等全部字段）；参数 `eviction`（默认 80）、`retention`（默认 72 小时 = 3 天）、`clients`（默认空）修改为可选 |
+
+动作数不变（488 / memstore 12）；验证脚本 63 项全 PASS（新增默认值断言、create 响应结构断言、显式传参生效与清理、list storage 字段断言），无 README 数字变更。
+
+> 注：用户原文写作 "memstore namespace add"，按现有动作命名统一处理为 `namespace create`。

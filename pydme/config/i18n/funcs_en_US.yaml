@@ -2049,16 +2049,16 @@ memstore.pool_delete: |
 memstore.namespace_create: |
     Create a memory storage namespace
 
-    Create a namespace in the specified pool, validating that the capacity does not exceed the pool's free capacity and that the eviction watermark and retention time are valid, and registering the clients allowed to access it.
+    Create a namespace in the specified pool, validating that the capacity does not exceed the pool's free capacity and that the eviction watermark and retention time are valid, and registering the clients allowed to access it; the response matches the namespace list.
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
         pool_id: Pool ID (uuid)
         name: Namespace name (string, 1~128 characters)
         capacity: Namespace capacity (integer, in GB, 1~pool free capacity)
-        eviction: Eviction watermark (integer, in %, 1~99)
-        retention: Retention time (integer, in hours, >1)
-        clients: Client list allowed to access this namespace, parameter format: [{
+        eviction: Eviction watermark (integer, in %, 1~99, optional, default 80)
+        retention: Retention time (integer, in hours, >1, optional, default 72 (3 days))
+        clients: Client list allowed to access this namespace (optional, empty by default), parameter format: [{
             ip: Client IP (string),
             type: Client type (string). Options: ip (single IP), ip_segment (IP segment),
         }, ...]
@@ -2066,6 +2066,10 @@ memstore.namespace_create: |
     Returns:
         {
             id: Namespace ID (uuid),
+            pool_id: ID of the owning pool (uuid),
+            pool_name: Name of the owning pool (string),
+            storage_id: ID of the owning memory storage (uuid),
+            storage_name: Name of the owning memory storage (string),
             name: Namespace name (string),
             capacity: Namespace capacity (integer, in GB),
             used_capacity: Namespace used capacity (integer, in GB), 0 on creation,
@@ -2094,6 +2098,8 @@ memstore.namespace_list: |
                 id: Namespace ID (uuid),
                 pool_id: ID of the owning pool (uuid),
                 pool_name: Name of the owning pool (string),
+                storage_id: ID of the owning memory storage (uuid),
+                storage_name: Name of the owning memory storage (string),
                 name: Namespace name (string),
                 capacity: Namespace capacity (integer, in GB),
                 used_capacity: Namespace used capacity (integer, in GB),

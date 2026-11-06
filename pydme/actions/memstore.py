@@ -291,9 +291,26 @@ def pool_delete(client: DMEAPIClient = None, id: str = None) -> dict:
 # memstore namespace subtopic
 # ---------------------------------------------------------------------------
 
+def _namespace_detail(memstore, pool, ns) -> dict:
+    """Namespace detail response (shared by create and list)."""
+    return {
+        'id': ns.get('id'),
+        'pool_id': pool.get('id'),
+        'pool_name': pool.get('name'),
+        'storage_id': memstore.get('id'),
+        'storage_name': memstore.get('name'),
+        'name': ns.get('name'),
+        'capacity': ns.get('capacity'),
+        'used_capacity': ns.get('used_capacity', 0),
+        'eviction': ns.get('eviction'),
+        'retention': ns.get('retention'),
+        'clients': ns.get('clients', []),
+    }
+
+
 def namespace_create(client: DMEAPIClient = None, pool_id: str = None,
                      name: str = None, capacity: int = None,
-                     eviction: int = None, retention: int = None,
+                     eviction: int = 80, retention: int = 72,
                      clients: list = None) -> dict:
     pool_id = mockdata.require_id(pool_id, 'pool_id')
     name = mockdata.validate_name(name)
@@ -303,7 +320,7 @@ def namespace_create(client: DMEAPIClient = None, pool_id: str = None,
     clients = _normalize_clients(clients)
 
     memstores = mockdata.ensure_memstore_mock()
-    _, pool = mockdata.find_pool(memstores, pool_id)
+    memstore, pool = mockdata.find_pool(memstores, pool_id)
     if pool is None:
         raise ValueError(f'pool {pool_id} not found')
     free = mockdata.pool_free_capacity(pool)
@@ -322,7 +339,7 @@ def namespace_create(client: DMEAPIClient = None, pool_id: str = None,
     }
     pool.setdefault('namespaces', []).append(namespace)
     mockdata.save_memstores(memstores)
-    return namespace
+    return _namespace_detail(memstore, pool, namespace)
 
 
 def namespace_list(client: DMEAPIClient = None, storage_id: str = None,
@@ -338,17 +355,7 @@ def namespace_list(client: DMEAPIClient = None, storage_id: str = None,
             for ns in pool.get('namespaces', []):
                 if name is not None and str(name) not in str(ns.get('name', '')):
                     continue
-                namespaces.append({
-                    'id': ns.get('id'),
-                    'pool_id': pool.get('id'),
-                    'pool_name': pool.get('name'),
-                    'name': ns.get('name'),
-                    'capacity': ns.get('capacity'),
-                    'used_capacity': ns.get('used_capacity', 0),
-                    'eviction': ns.get('eviction'),
-                    'retention': ns.get('retention'),
-                    'clients': ns.get('clients', []),
-                })
+                namespaces.append(_namespace_detail(ms, pool, ns))
     return {'namespaces': namespaces}
 
 
