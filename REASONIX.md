@@ -50,6 +50,6 @@ Python package (`pydme`) for Huawei DME storage O&M — modular CLI + SDK over t
 - **`vm_import` 参数名与 URL 变量冲突**：函数签名含 `url` 参数，模块内 URL 变量命名为 `url_path` 避免遮蔽。
 - **`vm_nic_add` / `vm_snapshot_create` 的 `type` 参数**：函数签名用 `type`（遮蔽内置名），模块内无需内置 `type()` 时无碍。
 - **memstore 为 mock-only topic**：动作读写 `~/.config/pydme/mock/memstore.json`（首次访问自动写入示例数据）；`cli._requires_dme_login()` 对 `MOCK_ONLY_TOPICS`（当前仅 `memstore`）跳过 DME 参数校验与登录（`cli.client = None`），其他 topic 行为不变；新增 mock topic 时必须同时把 topic 名加入 `cli.MOCK_ONLY_TOPICS`。
-- **memstore 双向引用**：`pool.disks[].disk` ↔ `disk.pools[].pool` 必须同步维护（pool 创建/删除时两侧一起改），否则 `allocated_size` 失真；`disk.allocated_size` / `pool.size` / `pool.allocated_size` 均为派生值（读取时计算，不落盘）。
-- **memstore 约束**：disk location 全局唯一（`FRAME<0~47>.SLOT<0~11>`，共 576 槽，跨 memstore 去重）；`disk_size` ∈ {16384, 32768, 65536}；`eviction` 1~99、`retention` >1、`space` 1~池剩余空间；删除语义：memstore 有 pool / pool 有 namespace 时拒绝删除（需先清理子资源）。
+- **memstore 双向引用**：`pool.disks[].disk` ↔ `disk.pools[].pool` 必须同步维护（pool 创建/删除时两侧一起改），否则 `allocated_capacity` 失真；`disk.allocated_capacity` / `pool.capacity` / `pool.used_capacity` / `memstore.raw_capacity` / `memstore.pool_capacity` / `memstore.pool_used_capacity` 均为派生值（读取时计算，不落盘）。
+- **memstore 约束**：每个记忆存储的 FRAME 独立编号（`FRAME<0~47>.SLOT<0~11>`，每 FRAME 12 盘，跨 memstore 可重复、单存储内唯一）；`disk_size` ∈ {16384, 32768, 65536}；`eviction` 1~99、`retention` >1、namespace `capacity` 1~池剩余容量；`pool create` 必须指定 `storage_id`，自动选分配容量最低的盘并按池容量均分（超出所选盘剩余容量时报错）；删除语义：memstore 有 pool / pool 有 namespace 时拒绝删除（需先清理子资源）。
 - **memstore 模块内置名遮蔽**：`def list(...)` 遮蔽内置 `list`，模块内 `isinstance(x, list)` 必须改用 `builtins.list`（600 计划已踩坑，`TypeError: isinstance() arg 2 must be a type`）。

@@ -360,18 +360,18 @@ topics:
             - name: list
               description: '查询记忆存储磁盘列表'
               func: disk_list
-              params: []
+              params: [storage_id]
         - name: namespace
           description: '记忆存储命名空间管理'
           actions:
             - name: create
               description: '创建记忆存储命名空间'
               func: namespace_create
-              params: [pool_id, name, space, eviction, retention, clients]
+              params: [pool_id, name, capacity, eviction, retention, clients]
             - name: list
               description: '查询记忆存储命名空间列表'
               func: namespace_list
-              params: [name, pool_id]
+              params: [storage_id, name, pool_id]
             - name: delete
               description: '删除指定记忆存储命名空间'
               func: namespace_delete
@@ -382,11 +382,11 @@ topics:
             - name: create
               description: '创建记忆存储池'
               func: pool_create
-              params: [name, size, disks]
+              params: [storage_id, name, capacity, num_of_disks]
             - name: list
               description: '查询记忆存储池列表'
               func: pool_list
-              params: [name]
+              params: [storage_id, name]
             - name: delete
               description: '删除指定记忆存储池'
               func: pool_delete

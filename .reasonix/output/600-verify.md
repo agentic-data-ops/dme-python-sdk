@@ -19,17 +19,22 @@ PASS [help] memstore namespace list (en_US, risk=Low)
 PASS [help] memstore namespace delete (zh_CN, risk=High)
 PASS [help] memstore namespace delete (en_US, risk=High)
 PASS [mock] seed list
-PASS [mock] seed content
-PASS [mock] add
+PASS [mock] seed summary
+PASS [mock] add summary
+PASS [mock] add FRAME independent
 PASS [mock] list filter
-PASS [mock] disk list derived size
+PASS [mock] disk list fields
+PASS [mock] disk list pools
+PASS [mock] disk list by storage
 PASS [mock] pool create split
 PASS [mock] pool<->disk sync
-PASS [mock] pool list
-PASS [mock] pool list filter
+PASS [mock] pool list by storage
+PASS [mock] pool list demo
 PASS [mock] namespace create
-PASS [mock] pool allocated_size
+PASS [mock] pool used_capacity
 PASS [mock] ns list global
+PASS [mock] ns list by storage
+PASS [mock] ns list by storage filter
 PASS [mock] ns list by name
 PASS [mock] ns list by pool
 PASS [mock] ns pool_name
@@ -37,7 +42,7 @@ PASS [mock] negative cases rejected cleanly
 PASS [mock] mock file intact after negatives
 PASS [mock] ns delete
 PASS [mock] pool delete
-PASS [mock] disk space released
+PASS [mock] disk capacity released
 PASS [mock] memstore delete
 PASS [mock] mock file valid JSON
 PASS [regression] storage list without DME params still rejected

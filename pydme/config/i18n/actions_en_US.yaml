@@ -360,18 +360,18 @@ topics:
             - name: list
               description: 'List memory storage disks'
               func: disk_list
-              params: []
+              params: [storage_id]
         - name: namespace
           description: 'Memory storage namespace management'
           actions:
             - name: create
               description: 'Create a memory storage namespace'
               func: namespace_create
-              params: [pool_id, name, space, eviction, retention, clients]
+              params: [pool_id, name, capacity, eviction, retention, clients]
             - name: list
               description: 'List memory storage namespaces'
               func: namespace_list
-              params: [name, pool_id]
+              params: [storage_id, name, pool_id]
             - name: delete
               description: 'Delete the specified memory storage namespace'
               func: namespace_delete
@@ -382,11 +382,11 @@ topics:
             - name: create
               description: 'Create a memory storage pool'
               func: pool_create
-              params: [name, size, disks]
+              params: [storage_id, name, capacity, num_of_disks]
             - name: list
               description: 'List memory storage pools'
               func: pool_list
-              params: [name]
+              params: [storage_id, name]
             - name: delete
               description: 'Delete the specified memory storage pool'
               func: pool_delete

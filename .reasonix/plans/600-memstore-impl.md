@@ -285,3 +285,22 @@ M1（mockdata.py + memstore.py + cli.py 跳过登录）→ M2（actions/funcs YA
 | M6 | ✅ | REASONIX.md：18 topics / 486 actions / mockdata.py 与 `_requires_dme_login` 说明 / blacklist 144 / E2E 状态行；Watch out for 新增 4 条（mock-only topic 注册、双向引用、约束与删除语义、builtins.list 遮蔽） |
 
 **与计划的偏差（1 项）**：list 类动作实际返回 `{"memstores": [...]}` / `{"disks": [...]}` / `{"pools": [...]}` / `{"namespaces": [...]}` 包装对象，而非计划初稿的裸 JSON 数组——为使 `Returns:` 满足「下一行以 `{` 开头」的 docstring 渲染约定并与真实 API 响应风格一致；CLI 输出仍直观。
+
+---
+
+## 后续修订（R2：字段统一为"容量"）
+
+用户要求调整 memstore 实现，要点如下（代码/注册表/docstring/验证脚本/REASONIX 已同步，验证 49 项全 PASS，见 `.reasonix/output/600-verify.md`）：
+
+| 动作 | 变更 |
+|------|------|
+| `memstore list` / `add` | 响应仅返回摘要 `{id, name, raw_capacity（所有盘容量总和）, pool_capacity（所有池容量总和）, pool_used_capacity（所有池已用容量总和）}`，**不再返回盘列表与池列表** |
+| `memstore add` | 每个记忆存储 **FRAME 独立编号**（从 FRAME0 开始，每 FRAME 12 盘，跨存储位置可重复、单存储内唯一）——`mockdata.alloc_locations(used, count)` 改为按单存储已占用位置分配 |
+| `memstore delete` | `message` → `memstore deleted: <memstore_name>` |
+| `memstore pool create` | 必须指定 `storage_id`；**去掉 `disks`**，新增 `num_of_disks`（自动选分配容量最低的盘，池容量均分，超出所选盘剩余容量报错）；`size` → `capacity` |
+| `memstore pool list` | 新增 `storage_id` 过滤；`size` → `capacity`、`allocated_size` → `used_capacity` |
+| `memstore namespace create` | `space` → `capacity`（响应含 `used_capacity`，初始 0） |
+| `memstore namespace list` | 新增 `storage_id` 过滤；`space` → `capacity`、新增 `used_capacity`（命名空间已用容量，mock 数据中存储） |
+| `memstore namespace delete` | `message` → `namespace deleted: <namespace_name>` |
+| `memstore disk list` | 新增 `storage_id` 过滤；新增 `storage_id` / `storage_name` 字段；`size` → `capacity`、`allocated_size` → `allocated_capacity`；新增 `pools` 列表（`pool_id` / `pool_name` / `allocated_capacity`） |
+| mock 数据模型 | 所有空间/大小字段统一为容量：`disk.size`→`disk.capacity`、`disk.pools[].space`→`.capacity`、`pool.disks[].space`→`.capacity`、`namespace.space`→`namespace.capacity`，新增 `namespace.used_capacity`（示例数据 256）；派生值改名：`disk_allocated_capacity` / `pool_capacity` / `pool_used_capacity` / `memstore_raw_capacity` / `memstore_pool_capacity` / `memstore_pool_used_capacity` |

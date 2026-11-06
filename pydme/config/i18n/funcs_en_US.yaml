@@ -1854,28 +1854,21 @@ hci.storage_list: |
 memstore.add: |
     Add a memory storage
 
-    Add a memory storage to the local mock store, allocating the requested number of disks with the given disk size; disk locations are globally unique (FRAME<0~47>.SLOT<0~11>).
+    Add a memory storage to the local mock store, allocating the requested number of disks with the given disk size; each memory storage numbers its FRAMEs independently starting from FRAME0 (12 disks per FRAME).
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
         name: Memory storage name (string, 1~128 characters)
         num_of_disks: Number of disks (integer, >=1, no more than the remaining free slots)
-        disk_size: Single disk size (integer, in GB). Options: 16384, 32768, 65536
+        disk_size: Single disk capacity (integer, in GB). Options: 16384, 32768, 65536
 
     Returns:
         {
             id: Memory storage ID (uuid),
             name: Memory storage name (string),
-            disks: Disk list, parameter format: [{
-                id: Disk ID (uuid),
-                location: Disk location (string), format FRAME<0~47>.SLOT<0~11>,
-                size: Disk size (integer, in GB),
-                pools: Pool space allocations on this disk, parameter format: [{
-                    pool: Pool ID (uuid),
-                    space: Space allocated to the pool from this disk (integer, in GB),
-                }, ...],
-            }, ...],
-            pools: Pool list (List<Pool>), empty on creation,
+            raw_capacity: Raw (bare) capacity (integer, in GB), sum of all disk capacities,
+            pool_capacity: Pool capacity (integer, in GB), sum of all pool capacities,
+            pool_used_capacity: Pool used capacity (integer, in GB), sum of all pools' used capacities,
         }
 
 memstore.list: |
@@ -1892,16 +1885,9 @@ memstore.list: |
             memstores: Memory storage list, parameter format: [{
                 id: Memory storage ID (uuid),
                 name: Memory storage name (string),
-                disks: Disk list, parameter format: [{
-                    id: Disk ID (uuid),
-                    location: Disk location (string), format FRAME<0~47>.SLOT<0~11>,
-                    size: Disk size (integer, in GB),
-                    pools: Pool space allocations on this disk, parameter format: [{
-                        pool: Pool ID (uuid),
-                        space: Space allocated to the pool from this disk (integer, in GB),
-                    }, ...],
-                }, ...],
-                pools: Pool list (List<Pool>),
+                raw_capacity: Raw (bare) capacity (integer, in GB), sum of all disk capacities,
+                pool_capacity: Pool capacity (integer, in GB), sum of all pool capacities,
+                pool_used_capacity: Pool used capacity (integer, in GB), sum of all pools' used capacities,
             }, ...],
         }
 
@@ -1918,45 +1904,54 @@ memstore.delete: |
         {
             success: Whether the deletion succeeded (boolean),
             id: ID of the deleted memory storage (uuid),
-            message: Operation result description (string),
+            message: Operation result description (string), format: memstore deleted: <memstore_name>,
         }
 
 memstore.disk_list: |
     List memory storage disks
 
-    Aggregate disks of all memory storages, returning disk ID, location, size and allocated space.
+    Aggregate disks of the memory storages, returning disk ID, owning memory storage, location, capacity, allocated capacity and the associated pools; supports filtering by memory storage ID.
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
+        storage_id: Memory storage ID (uuid, optional, filter by memory storage)
 
     Returns:
         {
             disks: Disk list, parameter format: [{
                 id: Disk ID (uuid),
+                storage_id: ID of the owning memory storage (uuid),
+                storage_name: Name of the owning memory storage (string),
                 location: Disk location (string), format FRAME<0~47>.SLOT<0~11>,
-                size: Disk size (integer, in GB),
-                allocated_size: Space allocated to pools (integer, in GB), sum of the pool allocations on this disk,
+                capacity: Capacity (integer, in GB),
+                allocated_capacity: Allocated capacity (integer, in GB), sum of the pool allocations on this disk,
+                pools: Associated pool list, parameter format: [{
+                    pool_id: Pool ID (uuid),
+                    pool_name: Pool name (string),
+                    allocated_capacity: Capacity allocated from this disk (integer, in GB),
+                }, ...],
             }, ...],
         }
 
 memstore.pool_create: |
     Create a memory storage pool
 
-    Create a pool with a total size of `size` by spreading the allocation across the specified disks (location list) proportionally to their free space; the pool space must not exceed the total free space of the selected disks, and all disks must belong to the same memory storage.
+    A memory storage ID is required; the pool automatically picks the disks with the lowest allocated capacity and splits the pool capacity evenly across them.
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
+        storage_id: Memory storage ID (uuid)
         name: Pool name (string, 1~128 characters)
-        size: Pool total size (integer, in GB, >=1, no more than the total free space of the selected disks)
-        disks: Disk location list (List<string>), e.g. ["FRAME0.SLOT0","FRAME0.SLOT1"]; the CLI accepts a JSON array or a comma-separated string, all disks must belong to the same memory storage
+        capacity: Capacity (integer, in GB, >=1, no more than the total free capacity of the selected disks)
+        num_of_disks: Number of disks (integer, >=1, no more than the disk count of the memory storage); the disks with the lowest allocated capacity are picked automatically
 
     Returns:
         {
             id: Pool ID (uuid),
             name: Pool name (string),
-            disks: Pool space allocations on disks, parameter format: [{
+            disks: Pool capacity allocations on disks, parameter format: [{
                 disk: Disk ID (uuid),
-                space: Space allocated to the pool from this disk (integer, in GB),
+                capacity: Capacity allocated to the pool from this disk (integer, in GB),
             }, ...],
             namespaces: Namespace list (List<Namespace>), empty on creation,
         }
@@ -1964,10 +1959,11 @@ memstore.pool_create: |
 memstore.pool_list: |
     List memory storage pools
 
-    Query pools of all memory storages, supporting filtering by name (fuzzy match).
+    Query pools of the memory storages, supporting filtering by memory storage ID and by name (fuzzy match).
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
+        storage_id: Memory storage ID (uuid, optional, filter by memory storage)
         name: Pool name (string, optional, fuzzy match)
 
     Returns:
@@ -1975,15 +1971,15 @@ memstore.pool_list: |
             pools: Pool list, parameter format: [{
                 id: Pool ID (uuid),
                 name: Pool name (string),
-                size: Pool total size (integer, in GB), sum of the pool allocations on its disks,
-                allocated_size: Space allocated to namespaces (integer, in GB), sum of the namespace allocations,
+                capacity: Capacity (integer, in GB), sum of the pool allocations on its disks,
+                used_capacity: Used capacity (integer, in GB), sum of the namespace capacities,
             }, ...],
         }
 
 memstore.pool_delete: |
     Delete the specified memory storage pool
 
-    Delete a pool by ID and release its space allocations on the disks; deletion is rejected while the pool still has namespaces (delete them first).
+    Delete a pool by ID and release its capacity allocations on the disks; deletion is rejected while the pool still has namespaces (delete them first).
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
@@ -1999,13 +1995,13 @@ memstore.pool_delete: |
 memstore.namespace_create: |
     Create a memory storage namespace
 
-    Create a namespace in the specified pool, validating that the space does not exceed the pool's free space and that the eviction watermark and retention time are valid, and registering the clients allowed to access it.
+    Create a namespace in the specified pool, validating that the capacity does not exceed the pool's free capacity and that the eviction watermark and retention time are valid, and registering the clients allowed to access it.
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
         pool_id: Pool ID (uuid)
         name: Namespace name (string, 1~128 characters)
-        space: Space allocated to the namespace (integer, in GB, 1~pool free space)
+        capacity: Namespace capacity (integer, in GB, 1~pool free capacity)
         eviction: Eviction watermark (integer, in %, 1~99)
         retention: Retention time (integer, in hours, >1)
         clients: Client list allowed to access this namespace, parameter format: [{
@@ -2017,7 +2013,8 @@ memstore.namespace_create: |
         {
             id: Namespace ID (uuid),
             name: Namespace name (string),
-            space: Space allocated to the namespace (integer, in GB),
+            capacity: Namespace capacity (integer, in GB),
+            used_capacity: Namespace used capacity (integer, in GB), 0 on creation,
             eviction: Eviction watermark (integer, in %),
             retention: Retention time (integer, in hours),
             clients: Allowed client list, parameter format: [{
@@ -2029,10 +2026,11 @@ memstore.namespace_create: |
 memstore.namespace_list: |
     List memory storage namespaces
 
-    Supports global query, filtering by name, and filtering by pool (combinable).
+    Supports global query, filtering by memory storage, filtering by name, and filtering by pool (combinable).
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
+        storage_id: Memory storage ID (uuid, optional, filter by memory storage)
         name: Namespace name (string, optional, fuzzy match)
         pool_id: Pool ID (uuid, optional, filter by pool)
 
@@ -2043,7 +2041,8 @@ memstore.namespace_list: |
                 pool_id: ID of the owning pool (uuid),
                 pool_name: Name of the owning pool (string),
                 name: Namespace name (string),
-                space: Space allocated to the namespace (integer, in GB),
+                capacity: Namespace capacity (integer, in GB),
+                used_capacity: Namespace used capacity (integer, in GB),
                 eviction: Eviction watermark (integer, in %),
                 retention: Retention time (integer, in hours),
                 clients: Allowed client list, parameter format: [{
@@ -2056,7 +2055,7 @@ memstore.namespace_list: |
 memstore.namespace_delete: |
     Delete the specified memory storage namespace
 
-    Delete a namespace by ID and release the space it occupies in the pool.
+    Delete a namespace by ID and release the capacity it occupies in the pool.
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
@@ -2066,7 +2065,7 @@ memstore.namespace_delete: |
         {
             success: Whether the deletion succeeded (boolean),
             id: ID of the deleted namespace (uuid),
-            message: Operation result description (string),
+            message: Operation result description (string), format: namespace deleted: <namespace_name>,
         }
 
 integrate.cmdb_system_list: |

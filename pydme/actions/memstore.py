@@ -17,24 +17,6 @@ from pydme.client import DMEAPIClient
 # helpers
 # ---------------------------------------------------------------------------
 
-def _normalize_locations(disks) -> list:
-    """Accept a list of locations, a JSON array string or a comma-separated string."""
-    if disks is None:
-        raise ValueError('disks is required: a list of disk locations')
-    if isinstance(disks, str):
-        text = disks.strip()
-        if text.startswith('['):
-            try:
-                disks = json.loads(text)
-            except json.JSONDecodeError:
-                raise ValueError(f'invalid disks JSON: {text}')
-        else:
-            disks = [part.strip() for part in text.split(',') if part.strip()]
-    if not isinstance(disks, builtins.list) or not disks:
-        raise ValueError('disks must be a non-empty list of disk locations')
-    return [str(location) for location in disks]
-
-
 def _normalize_clients(clients) -> list:
     """Validate clients: a list of {ip, type} objects (type: ip | ip_segment)."""
     if clients is None:
@@ -58,25 +40,15 @@ def _normalize_clients(clients) -> list:
     return normalized
 
 
-def _split_space(size: int, free: list, locations: list) -> dict:
-    """Split `size` GB over disks proportional to their free space.
-
-    The returned mapping sums to `size` and never exceeds a disk's free space.
-    """
-    total = sum(free)
-    if total < size:
-        raise ValueError(f'not enough free space on the selected disks: '
-                         f'requested {size} GB, available {total} GB')
-    alloc = [int(size * f // total) for f in free]  # proportional, floor
-    remainder = size - sum(alloc)
-    while remainder > 0:
-        candidates = [i for i in range(len(free)) if free[i] - alloc[i] >= 1]
-        if not candidates:
-            raise ValueError(f'cannot distribute {size} GB over the selected disks')
-        idx = max(candidates, key=lambda i: free[i] - alloc[i])
-        alloc[idx] += 1
-        remainder -= 1
-    return {loc: a for loc, a in zip(locations, alloc) if a > 0}
+def _memstore_summary(ms) -> dict:
+    """Summary response of one memstore (no disk/pool lists)."""
+    return {
+        'id': ms.get('id'),
+        'name': ms.get('name'),
+        'raw_capacity': mockdata.memstore_raw_capacity(ms),
+        'pool_capacity': mockdata.memstore_pool_capacity(ms),
+        'pool_used_capacity': mockdata.memstore_pool_used_capacity(ms),
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -87,24 +59,25 @@ def add(client: DMEAPIClient = None, name: str = None,
         num_of_disks: int = None, disk_size: int = None) -> dict:
     name = mockdata.validate_name(name)
     num_of_disks = mockdata.validate_int_range(num_of_disks, 'num_of_disks', 1)
-    disk_size = mockdata.validate_disk_size(disk_size)
+    disk_size = mockdata.validate_disk_capacity(disk_size)
 
     memstores = mockdata.ensure_memstore_mock()
-    locations = mockdata.alloc_locations(memstores, num_of_disks)
+    # each memstore numbers its FRAMEs independently from FRAME0
+    locations = mockdata.alloc_locations(set(), num_of_disks)
 
     memstore = {
         'id': mockdata.new_uuid(),
         'name': name,
         'disks': [
             {'id': mockdata.new_uuid(), 'location': location,
-             'size': disk_size, 'pools': []}
+             'capacity': disk_size, 'pools': []}
             for location in locations
         ],
         'pools': [],
     }
     memstores.append(memstore)
     mockdata.save_memstores(memstores)
-    return memstore
+    return _memstore_summary(memstore)
 
 
 def list(client: DMEAPIClient = None, name: str = None) -> dict:
@@ -113,7 +86,7 @@ def list(client: DMEAPIClient = None, name: str = None) -> dict:
         keyword = str(name)
         memstores = [ms for ms in memstores
                      if keyword in str(ms.get('name', ''))]
-    return {'memstores': memstores}
+    return {'memstores': [_memstore_summary(ms) for ms in memstores]}
 
 
 def delete(client: DMEAPIClient = None, id: str = None) -> dict:
@@ -125,25 +98,41 @@ def delete(client: DMEAPIClient = None, id: str = None) -> dict:
     if memstore.get('pools'):
         raise ValueError(f'memstore {memstore_id} still has pools, '
                          f'delete them first')
+    memstore_name = memstore.get('name', '')
     memstores = [ms for ms in memstores if ms.get('id') != memstore_id]
     mockdata.save_memstores(memstores)
-    return {'success': True, 'id': memstore_id, 'message': 'memstore deleted'}
+    return {'success': True, 'id': memstore_id,
+            'message': f'memstore deleted: {memstore_name}'}
 
 
 # ---------------------------------------------------------------------------
 # memstore disk subtopic
 # ---------------------------------------------------------------------------
 
-def disk_list(client: DMEAPIClient = None) -> dict:
+def disk_list(client: DMEAPIClient = None, storage_id: str = None) -> dict:
     memstores = mockdata.ensure_memstore_mock()
     disks = []
     for ms in memstores:
+        if storage_id is not None and ms.get('id') != storage_id:
+            continue
+        pools_by_id = {p.get('id'): p for p in ms.get('pools', [])}
         for disk in ms.get('disks', []):
+            pools = []
+            for entry in disk.get('pools', []):
+                pool = pools_by_id.get(entry.get('pool'))
+                pools.append({
+                    'pool_id': entry.get('pool'),
+                    'pool_name': pool.get('name') if pool else None,
+                    'allocated_capacity': entry.get('capacity'),
+                })
             disks.append({
                 'id': disk.get('id'),
+                'storage_id': ms.get('id'),
+                'storage_name': ms.get('name'),
                 'location': disk.get('location'),
-                'size': disk.get('size'),
-                'allocated_size': mockdata.disk_allocated_size(disk),
+                'capacity': disk.get('capacity'),
+                'allocated_capacity': mockdata.disk_allocated_capacity(disk),
+                'pools': pools,
             })
     return {'disks': disks}
 
@@ -152,36 +141,41 @@ def disk_list(client: DMEAPIClient = None) -> dict:
 # memstore pool subtopic
 # ---------------------------------------------------------------------------
 
-def pool_create(client: DMEAPIClient = None, name: str = None,
-                size: int = None, disks: list = None) -> dict:
+def pool_create(client: DMEAPIClient = None, storage_id: str = None,
+                name: str = None, capacity: int = None,
+                num_of_disks: int = None) -> dict:
+    storage_id = mockdata.require_id(storage_id, 'storage_id')
     name = mockdata.validate_name(name)
-    size = mockdata.validate_int_range(size, 'size', 1)
-    locations = _normalize_locations(disks)
+    capacity = mockdata.validate_int_range(capacity, 'capacity', 1)
+    num_of_disks = mockdata.validate_int_range(num_of_disks, 'num_of_disks', 1)
 
     memstores = mockdata.ensure_memstore_mock()
-    targets = []  # [(memstore, disk)] aligned with locations
-    for location in locations:
-        ms, disk = mockdata.find_disk_by_location(memstores, location)
-        if disk is None:
-            raise ValueError(f'disk location {location} not found')
-        targets.append((ms, disk))
+    memstore = mockdata.find_memstore(memstores, storage_id)
+    if memstore is None:
+        raise ValueError(f'memstore {storage_id} not found')
+    disks = memstore.get('disks', [])
+    if num_of_disks > len(disks):
+        raise ValueError(f'not enough disks in memstore {storage_id}: '
+                         f'requested {num_of_disks}, available {len(disks)}')
 
-    owners = {ms.get('id') for ms, _ in targets}
-    if len(owners) > 1:
-        raise ValueError('all disks of a pool must belong to the same memstore')
-    memstore = targets[0][0]
-
-    free = [mockdata.disk_free_size(disk) for _, disk in targets]
-    allocations = _split_space(size, free, locations)
+    # pick the disks with the lowest allocated capacity, then split the pool
+    # capacity evenly across them
+    candidates = sorted(disks, key=lambda d: mockdata.disk_allocated_capacity(d))
+    candidates = candidates[:num_of_disks]
+    base, remainder = divmod(capacity, num_of_disks)
+    shares = [base + 1 if i < remainder else base
+              for i in range(num_of_disks)]
+    for disk, share in zip(candidates, shares):
+        free = mockdata.disk_free_capacity(disk)
+        if share > free:
+            raise ValueError(f'disk {disk.get("location")} has only {free} GB '
+                             f'free, cannot allocate {share} GB for the pool')
 
     pool_id = mockdata.new_uuid()
     pool_disks = []
-    for location, (_, disk) in zip(locations, targets):
-        space = allocations.get(location, 0)
-        if space <= 0:
-            continue
-        pool_disks.append({'disk': disk.get('id'), 'space': space})
-        disk.setdefault('pools', []).append({'pool': pool_id, 'space': space})
+    for disk, share in zip(candidates, shares):
+        pool_disks.append({'disk': disk.get('id'), 'capacity': share})
+        disk.setdefault('pools', []).append({'pool': pool_id, 'capacity': share})
 
     pool = {
         'id': pool_id,
@@ -194,18 +188,21 @@ def pool_create(client: DMEAPIClient = None, name: str = None,
     return pool
 
 
-def pool_list(client: DMEAPIClient = None, name: str = None) -> dict:
+def pool_list(client: DMEAPIClient = None, storage_id: str = None,
+              name: str = None) -> dict:
     memstores = mockdata.ensure_memstore_mock()
     pools = []
     for ms in memstores:
+        if storage_id is not None and ms.get('id') != storage_id:
+            continue
         for pool in ms.get('pools', []):
             if name is not None and str(name) not in str(pool.get('name', '')):
                 continue
             pools.append({
                 'id': pool.get('id'),
                 'name': pool.get('name'),
-                'size': mockdata.pool_size(pool),
-                'allocated_size': mockdata.pool_allocated_size(pool),
+                'capacity': mockdata.pool_capacity(pool),
+                'used_capacity': mockdata.pool_used_capacity(pool),
             })
     return {'pools': pools}
 
@@ -237,12 +234,12 @@ def pool_delete(client: DMEAPIClient = None, id: str = None) -> dict:
 # ---------------------------------------------------------------------------
 
 def namespace_create(client: DMEAPIClient = None, pool_id: str = None,
-                     name: str = None, space: int = None,
+                     name: str = None, capacity: int = None,
                      eviction: int = None, retention: int = None,
                      clients: list = None) -> dict:
     pool_id = mockdata.require_id(pool_id, 'pool_id')
     name = mockdata.validate_name(name)
-    space = mockdata.validate_int_range(space, 'space', 1)
+    capacity = mockdata.validate_int_range(capacity, 'capacity', 1)
     eviction = mockdata.validate_int_range(eviction, 'eviction', 1, 99)
     retention = mockdata.validate_int_range(retention, 'retention', 2)  # >1
     clients = _normalize_clients(clients)
@@ -251,15 +248,16 @@ def namespace_create(client: DMEAPIClient = None, pool_id: str = None,
     _, pool = mockdata.find_pool(memstores, pool_id)
     if pool is None:
         raise ValueError(f'pool {pool_id} not found')
-    free = mockdata.pool_free_size(pool)
-    if space > free:
-        raise ValueError(f'not enough free space in pool {pool_id}: '
-                         f'requested {space} GB, available {free} GB')
+    free = mockdata.pool_free_capacity(pool)
+    if capacity > free:
+        raise ValueError(f'not enough free capacity in pool {pool_id}: '
+                         f'requested {capacity} GB, available {free} GB')
 
     namespace = {
         'id': mockdata.new_uuid(),
         'name': name,
-        'space': space,
+        'capacity': capacity,
+        'used_capacity': 0,
         'eviction': eviction,
         'retention': retention,
         'clients': clients,
@@ -269,11 +267,13 @@ def namespace_create(client: DMEAPIClient = None, pool_id: str = None,
     return namespace
 
 
-def namespace_list(client: DMEAPIClient = None, name: str = None,
-                   pool_id: str = None) -> dict:
+def namespace_list(client: DMEAPIClient = None, storage_id: str = None,
+                   name: str = None, pool_id: str = None) -> dict:
     memstores = mockdata.ensure_memstore_mock()
     namespaces = []
     for ms in memstores:
+        if storage_id is not None and ms.get('id') != storage_id:
+            continue
         for pool in ms.get('pools', []):
             if pool_id is not None and pool.get('id') != pool_id:
                 continue
@@ -285,7 +285,8 @@ def namespace_list(client: DMEAPIClient = None, name: str = None,
                     'pool_id': pool.get('id'),
                     'pool_name': pool.get('name'),
                     'name': ns.get('name'),
-                    'space': ns.get('space'),
+                    'capacity': ns.get('capacity'),
+                    'used_capacity': ns.get('used_capacity', 0),
                     'eviction': ns.get('eviction'),
                     'retention': ns.get('retention'),
                     'clients': ns.get('clients', []),
@@ -299,7 +300,9 @@ def namespace_delete(client: DMEAPIClient = None, id: str = None) -> dict:
     _, pool, ns = mockdata.find_namespace(memstores, namespace_id)
     if ns is None:
         raise ValueError(f'namespace {namespace_id} not found')
+    namespace_name = ns.get('name', '')
     pool['namespaces'] = [n for n in pool.get('namespaces', [])
                           if n.get('id') != namespace_id]
     mockdata.save_memstores(memstores)
-    return {'success': True, 'id': namespace_id, 'message': 'namespace deleted'}
+    return {'success': True, 'id': namespace_id,
+            'message': f'namespace deleted: {namespace_name}'}
