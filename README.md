@@ -23,7 +23,7 @@
 │   │       ├── actions_en_US.yaml  # (same structure, English descriptions)
 │   │       ├── funcs_zh_CN.yaml    # Full function docstrings
 │   │       └── funcs_en_US.yaml    # (same structure, English docstrings)
-│   └── actions/            # Action modules (one file per topic, 486 actions)
+│   └── actions/            # Action modules (one file per topic, 487 actions)
 │       ├── aiops.py         # AIOps intelligent operations
 │       ├── backup.py         # Backup management
 │       ├── fcswitch.py       # FC switch management
@@ -125,7 +125,7 @@ pydme storage list --limit 20
 pydme storage disk list --storage_id <id>
 ```
 
-Available topics (486 actions; E2E-tested 420/427, 49 new actions statically verified, memstore 10 mock actions verified via isolated-HOME run):
+Available topics (487 actions; E2E-tested 420/427, 49 new actions statically verified, memstore 11 mock actions verified via isolated-HOME run):
 
 | Topic | Description | Actions |
 |-------|-------------|:-------:|
@@ -138,7 +138,7 @@ Available topics (486 actions; E2E-tested 420/427, 49 new actions statically ver
 | `fcswitch` | FC switch management | 19 |
 | `gfs` | Global file system | 14 |
 | `hci` | Hyper-converged infrastructure (HCI) | 5 |
-| `memstore` | Memory storage (memstore), mock-backed | 10 |
+| `memstore` | Memory storage (memstore), mock-backed | 11 |
 | `virt` | Virtualization services (VMs/clusters/datastores/vswitches/GPU) | 58 |
 | `server` | Server management (CPU/memory/RAID) | 10 |
 | `tenant` | Tenant self-service (service LUNs/project groups) | 10 |

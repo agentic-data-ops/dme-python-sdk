@@ -1910,7 +1910,7 @@ memstore.delete: |
 memstore.disk_list: |
     List memory storage disks
 
-    Aggregate disks of the memory storages, returning disk ID, owning memory storage, location, capacity, allocated capacity and the associated pools; supports filtering by memory storage ID.
+    Aggregate disks of the memory storages, returning disk ID, owning memory storage, location, capacity and allocated capacity; supports filtering by memory storage ID.
 
     Args:
         client: DME API client (unused; memstore is mock-backed)
@@ -1925,14 +1925,31 @@ memstore.disk_list: |
                 location: Disk location (string), format FRAME<0~47>.SLOT<0~11>,
                 capacity: Capacity (integer, in GB),
                 allocated_capacity: Allocated capacity (integer, in GB), sum of the pool allocations on this disk,
-                pools: Associated pool list, parameter format: [{
-                    pool_id: Pool ID (uuid),
-                    pool_name: Pool name (string),
-                    allocated_capacity: Capacity allocated from this disk (integer, in GB),
-                }, ...],
             }, ...],
         }
+memstore.disk_show: |
+    Show the specified memory storage disk detail
 
+    Show the detail of a disk by ID, returning the associated pool list in addition to the disk list fields.
+
+    Args:
+        client: DME API client (unused; memstore is mock-backed)
+        id: Disk ID (uuid)
+
+    Returns:
+        {
+            id: Disk ID (uuid),
+            storage_id: ID of the owning memory storage (uuid),
+            storage_name: Name of the owning memory storage (string),
+            location: Disk location (string), format FRAME<0~47>.SLOT<0~11>,
+            capacity: Capacity (integer, in GB),
+            allocated_capacity: Allocated capacity (integer, in GB), sum of the pool allocations on this disk,
+            pools: Associated pool list, parameter format: [{
+                pool_id: Pool ID (uuid),
+                pool_name: Pool name (string),
+                allocated_capacity: Capacity allocated from this disk (integer, in GB),
+            }, ...],
+        }
 memstore.pool_create: |
     Create a memory storage pool
 

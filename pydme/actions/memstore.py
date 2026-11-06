@@ -115,16 +115,7 @@ def disk_list(client: DMEAPIClient = None, storage_id: str = None) -> dict:
     for ms in memstores:
         if storage_id is not None and ms.get('id') != storage_id:
             continue
-        pools_by_id = {p.get('id'): p for p in ms.get('pools', [])}
         for disk in ms.get('disks', []):
-            pools = []
-            for entry in disk.get('pools', []):
-                pool = pools_by_id.get(entry.get('pool'))
-                pools.append({
-                    'pool_id': entry.get('pool'),
-                    'pool_name': pool.get('name') if pool else None,
-                    'allocated_capacity': entry.get('capacity'),
-                })
             disks.append({
                 'id': disk.get('id'),
                 'storage_id': ms.get('id'),
@@ -132,9 +123,34 @@ def disk_list(client: DMEAPIClient = None, storage_id: str = None) -> dict:
                 'location': disk.get('location'),
                 'capacity': disk.get('capacity'),
                 'allocated_capacity': mockdata.disk_allocated_capacity(disk),
-                'pools': pools,
             })
     return {'disks': disks}
+
+
+def disk_show(client: DMEAPIClient = None, id: str = None) -> dict:
+    disk_id = mockdata.require_id(id)
+    memstores = mockdata.ensure_memstore_mock()
+    memstore, disk = mockdata.find_disk(memstores, disk_id)
+    if disk is None:
+        raise ValueError(f'disk {disk_id} not found')
+    pools_by_id = {p.get('id'): p for p in memstore.get('pools', [])}
+    pools = []
+    for entry in disk.get('pools', []):
+        pool = pools_by_id.get(entry.get('pool'))
+        pools.append({
+            'pool_id': entry.get('pool'),
+            'pool_name': pool.get('name') if pool else None,
+            'allocated_capacity': entry.get('capacity'),
+        })
+    return {
+        'id': disk.get('id'),
+        'storage_id': memstore.get('id'),
+        'storage_name': memstore.get('name'),
+        'location': disk.get('location'),
+        'capacity': disk.get('capacity'),
+        'allocated_capacity': mockdata.disk_allocated_capacity(disk),
+        'pools': pools,
+    }
 
 
 # ---------------------------------------------------------------------------

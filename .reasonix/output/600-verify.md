@@ -6,6 +6,8 @@ PASS [help] memstore delete (zh_CN, risk=High)
 PASS [help] memstore delete (en_US, risk=High)
 PASS [help] memstore disk list (zh_CN, risk=Low)
 PASS [help] memstore disk list (en_US, risk=Low)
+PASS [help] memstore disk show (zh_CN, risk=Low)
+PASS [help] memstore disk show (en_US, risk=Low)
 PASS [help] memstore pool create (zh_CN, risk=Low)
 PASS [help] memstore pool create (en_US, risk=Low)
 PASS [help] memstore pool list (zh_CN, risk=Low)
@@ -24,8 +26,10 @@ PASS [mock] add summary
 PASS [mock] add FRAME independent
 PASS [mock] list filter
 PASS [mock] disk list fields
-PASS [mock] disk list pools
+PASS [mock] disk list values
 PASS [mock] disk list by storage
+PASS [mock] disk show fields
+PASS [mock] disk show pools
 PASS [mock] pool create split
 PASS [mock] pool<->disk sync
 PASS [mock] pool list by storage

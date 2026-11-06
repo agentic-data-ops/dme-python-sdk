@@ -361,6 +361,10 @@ topics:
               description: '查询记忆存储磁盘列表'
               func: disk_list
               params: [storage_id]
+            - name: show
+              description: '查询指定记忆存储磁盘详情'
+              func: disk_show
+              params: [id]
         - name: namespace
           description: '记忆存储命名空间管理'
           actions:

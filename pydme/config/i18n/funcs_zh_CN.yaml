@@ -1902,7 +1902,7 @@ memstore.delete: |
 memstore.disk_list: |
     查询记忆存储磁盘列表
 
-    汇总记忆存储的磁盘，返回盘 ID、所属记忆存储、位置、容量、已分配容量及关联的存储池，支持按记忆存储 ID 过滤。
+    汇总记忆存储的磁盘，返回盘 ID、所属记忆存储、位置、容量、已分配容量，支持按记忆存储 ID 过滤。
 
     Args:
         client: DME API 客户端（memstore 为 mock 实现，不使用）
@@ -1917,14 +1917,31 @@ memstore.disk_list: |
                 location: 盘位置 (string),格式 FRAME<0~47>.SLOT<0~11>,
                 capacity: 容量 (integer,单位 GB),
                 allocated_capacity: 已分配容量 (integer,单位 GB),为各池在该盘分配容量之和,
-                pools: 关联的存储池列表,参数格式如下：[{
-                    pool_id: 存储池 ID (uuid),
-                    pool_name: 存储池名称 (string),
-                    allocated_capacity: 从该盘分配的容量 (integer,单位 GB),
-                }, ...],
             }, ...],
         }
+memstore.disk_show: |
+    查询指定记忆存储磁盘详情
 
+    按盘 ID 查询磁盘详情，在磁盘列表字段基础上返回关联的存储池列表。
+
+    Args:
+        client: DME API 客户端（memstore 为 mock 实现，不使用）
+        id: 盘 ID (uuid)
+
+    Returns:
+        {
+            id: 盘 ID (uuid),
+            storage_id: 所属记忆存储 ID (uuid),
+            storage_name: 所属记忆存储名称 (string),
+            location: 盘位置 (string),格式 FRAME<0~47>.SLOT<0~11>,
+            capacity: 容量 (integer,单位 GB),
+            allocated_capacity: 已分配容量 (integer,单位 GB),为各池在该盘分配容量之和,
+            pools: 关联的存储池列表,参数格式如下：[{
+                pool_id: 存储池 ID (uuid),
+                pool_name: 存储池名称 (string),
+                allocated_capacity: 从该盘分配的容量 (integer,单位 GB),
+            }, ...],
+        }
 memstore.pool_create: |
     创建记忆存储池
 

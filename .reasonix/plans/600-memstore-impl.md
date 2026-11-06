@@ -304,3 +304,14 @@ M1（mockdata.py + memstore.py + cli.py 跳过登录）→ M2（actions/funcs YA
 | `memstore namespace delete` | `message` → `namespace deleted: <namespace_name>` |
 | `memstore disk list` | 新增 `storage_id` 过滤；新增 `storage_id` / `storage_name` 字段；`size` → `capacity`、`allocated_size` → `allocated_capacity`；新增 `pools` 列表（`pool_id` / `pool_name` / `allocated_capacity`） |
 | mock 数据模型 | 所有空间/大小字段统一为容量：`disk.size`→`disk.capacity`、`disk.pools[].space`→`.capacity`、`pool.disks[].space`→`.capacity`、`namespace.space`→`namespace.capacity`，新增 `namespace.used_capacity`（示例数据 256）；派生值改名：`disk_allocated_capacity` / `pool_capacity` / `pool_used_capacity` / `memstore_raw_capacity` / `memstore_pool_capacity` / `memstore_pool_used_capacity` |
+
+---
+
+## 后续修订（R3：disk show 新增，disk list 精简）
+
+| 动作 | 变更 |
+|------|------|
+| `memstore disk list` | 响应**去掉 `pools` 字段**（保留 id / storage_id / storage_name / location / capacity / allocated_capacity） |
+| `memstore disk show`（新增） | 按盘 ID 查看详情（`--id`），响应在 disk list 字段基础上增加 `pools` 列表（`pool_id` / `pool_name` / `allocated_capacity`）；不在任何存储中时报错 |
+
+总数更新：18 topics / **487 actions**，memstore 11 个动作；验证脚本 53 项全 PASS（新增 disk show help 遍历、disk show 字段与 pools 断言、disk not found 负例），README / README_zh / REASONIX 数字同步（486→487、10→11）。

@@ -361,6 +361,10 @@ topics:
               description: 'List memory storage disks'
               func: disk_list
               params: [storage_id]
+            - name: show
+              description: 'Show the specified memory storage disk detail'
+              func: disk_show
+              params: [id]
         - name: namespace
           description: 'Memory storage namespace management'
           actions:
