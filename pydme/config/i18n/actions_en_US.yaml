@@ -1240,7 +1240,7 @@ topics:
             - name: delete
               description: 'Batch delete mapping views'
               func: mapping_view_delete
-              params: [mapping_view_ids]
+              params: [mapping_view_ids, task_remarks]
             - name: list
               description: 'Batch query mapping view list'
               func: mapping_view_list

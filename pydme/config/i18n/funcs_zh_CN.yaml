@@ -6554,7 +6554,8 @@ san.mapping_view_delete: |
 
     Args:
         client: DME API 客户端
-        ids: 映射视图 ID 列表 (必选, List[string])
+        mapping_view_ids: 映射视图 ID 列表 (必选, List[string], 数组最大成员个数：100000)
+        task_remarks: 异步任务备注信息 (可选, 最多1024个字符)
 
     Returns:
         {
@@ -6593,9 +6594,27 @@ san.mapping_view_list: |
         {
             total: 映射视图总数 (integer),
             mapping_views: 映射视图列表 (List<MappingViewInfo>)。参数格式如下：[{
-                id: 映射视图ID (string),
-                name: 映射视图名称 (string),
-                storage_id: 存储设备ID (string),
+                mapping_view_raw_id: 映射视图在存储设备上的ID (string, 1~64个字符),
+                storage_id: 存储设备ID (string, 1~64个字符),
+                storage_name: 存储设备名称 (string, 0~255个字符),
+                storage_ip: 存储设备IP (string, 0~255个字符),
+                product_mode: 存储设备型号 (string, 0~255个字符),
+                storage_version: 存储设备版本号 (string, 0~255个字符),
+                mapping_view_id: 映射视图的唯一标识 (string, 1~64个字符),
+                mapping_view_name: 映射视图名称 (string, 1~255个字符),
+                storage_host_id: 存储主机的唯一标识 (string, 0~64个字符, 仅OceanStor Dorado v6和OceanProtect X系列设备支持),
+                storage_host_name: 存储主机名称 (string, 0~255个字符, 仅OceanStor Dorado v6和OceanProtect X系列设备支持),
+                storage_host_group_id: 存储主机组的唯一标识 (string, 0~64个字符),
+                storage_host_group_name: 存储主机组名称 (string, 0~255个字符),
+                storage_host_group_raw_id: 设备侧分配的存储主机组ID (string, 0~64个字符),
+                port_group_id: 端口组的唯一标识 (string, 0~64个字符),
+                port_group_name: 端口组名称 (string, 0~255个字符),
+                port_group_raw_id: 设备侧分配的端口组ID (string, 0~64个字符),
+                lun_group_id: LUN组的唯一标识 (string, 0~64个字符),
+                lun_group_name: LUN组名称 (string, 0~255个字符),
+                lun_group_raw_id: 设备侧分配的LUN组ID (string, 0~255个字符),
+                lun_id: LUN的唯一标识 (string, 0~64个字符, 仅OceanStor Dorado v6和OceanProtect X系列设备支持),
+                lun_name: LUN名称 (string, 0~255个字符, 仅OceanStor Dorado v6和OceanProtect X系列设备支持),
             }, ...],
         }
 
@@ -7645,6 +7664,7 @@ san.mapping_view_query_host_to_lun: |
         {
             total: 映射视图数量 (int32),
             mapping_views: 映射视图列表 (List<HostToLunMappingView>)。参数格式如下：[{
+                raw_id: 设备侧分配的映射视图ID (string),
                 id: 映射视图ID (string),
                 name: 映射视图名称 (string),
                 host_info: 存储主机信息 (HostInfoRespParam对象)。属性格式如下：{
