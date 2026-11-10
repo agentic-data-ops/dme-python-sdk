@@ -6138,7 +6138,8 @@ san.mapping_view_delete: |
 
     Args:
         client: DME API client
-        ids: Mapping view ID list (Required, List[string])
+        mapping_view_ids: Mapping view ID list (Required, List[string], max 100000 items)
+        task_remarks: Async task remarks (Optional, up to 1024 characters)
 
     Returns:
         {
@@ -6177,9 +6178,27 @@ san.mapping_view_list: |
         {
             total: Total mapping views (integer),
             mapping_views: Mapping view list (List<MappingViewInfo>). parameter format: [{
-                id: Mapping view ID (string),
-                name: Mapping view name (string),
-                storage_id: storage device ID (string),
+                mapping_view_raw_id: Mapping view ID on the storage device (string, 1~64 characters),
+                storage_id: Storage device ID (string, 1~64 characters),
+                storage_name: Storage device name (string, 0~255 characters),
+                storage_ip: Storage device IP (string, 0~255 characters),
+                product_mode: Storage device model (string, 0~255 characters),
+                storage_version: Storage device version (string, 0~255 characters),
+                mapping_view_id: Unique identifier of the mapping view (string, 1~64 characters),
+                mapping_view_name: Mapping view name (string, 1~255 characters),
+                storage_host_id: Unique identifier of the storage host (string, 0~64 characters, only OceanStor Dorado v6 and OceanProtect X series devices),
+                storage_host_name: Storage host name (string, 0~255 characters, only OceanStor Dorado v6 and OceanProtect X series devices),
+                storage_host_group_id: Unique identifier of the storage host group (string, 0~64 characters),
+                storage_host_group_name: Storage host group name (string, 0~255 characters),
+                storage_host_group_raw_id: Storage host group ID assigned on the device (string, 0~64 characters),
+                port_group_id: Unique identifier of the port group (string, 0~64 characters),
+                port_group_name: Port group name (string, 0~255 characters),
+                port_group_raw_id: Port group ID assigned on the device (string, 0~64 characters),
+                lun_group_id: Unique identifier of the LUN group (string, 0~64 characters),
+                lun_group_name: LUN group name (string, 0~255 characters),
+                lun_group_raw_id: LUN group ID assigned on the device (string, 0~255 characters),
+                lun_id: Unique identifier of the LUN (string, 0~64 characters, only OceanStor Dorado v6 and OceanProtect X series devices),
+                lun_name: LUN name (string, 0~255 characters, only OceanStor Dorado v6 and OceanProtect X series devices),
             }, ...],
         }
 
@@ -7232,6 +7251,7 @@ san.mapping_view_query_host_to_lun: |
         {
             total: Mapping view count (int32),
             mapping_views: Mapping view list (List<HostToLunMappingView>). parameter format: [{
+                raw_id: Mapping view ID allocated on the device side (string),
                 id: Mapping view ID (string),
                 name: Mapping view name (string),
                 host_info: Storage host info (HostInfoRespParam object). attribute format: {

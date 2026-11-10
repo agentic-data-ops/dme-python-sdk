@@ -460,15 +460,18 @@ def mapping_view_create(
     return response
 
 
-def mapping_view_delete(client: DMEAPIClient, ids: list) -> dict:
+def mapping_view_delete(client: DMEAPIClient, mapping_view_ids: list,
+                         task_remarks: str = None) -> dict:
     url = "/rest/blockservice/v1/mapping-views/batch-delete"
 
-    if not ids or len(ids) == 0:
-        raise ValueError("ids is required")
+    if not mapping_view_ids or len(mapping_view_ids) == 0:
+        raise ValueError("mapping_view_ids is required")
 
     body_params = {
-        'ids': ids
+        'mapping_view_ids': mapping_view_ids
     }
+    if task_remarks is not None:
+        body_params['task_remarks'] = task_remarks
 
     response = client.post(url, body=body_params)
     return response
