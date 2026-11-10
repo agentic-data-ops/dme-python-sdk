@@ -1179,7 +1179,7 @@ topics:
             - name: delete
               description: '批量删除映射视图。'
               func: mapping_view_delete
-              params: [mapping_view_ids]
+              params: [mapping_view_ids, task_remarks]
             - name: list
               description: '批量查询映射视图列表'
               func: mapping_view_list
